@@ -1,6 +1,6 @@
 // Todo o texto do site mora aqui. Componentes só exibem; nada de lógica neste arquivo.
-// Regras: só número com fonte pública ou do próprio código; nada de empregador atual,
-// e-mail ou telefone (o teste em conteudo.test.ts barra o build se algo escapar).
+// Regras: só número com fonte pública ou do próprio código; empregador atual só com a matéria pública (Sicoob),
+// nunca o formal; nada de e-mail ou telefone (o teste em conteudo.test.ts barra o build se algo escapar).
 
 /** Origem de um número ou case; com `url` vira link para a fonte pública. */
 export interface Fonte {
@@ -60,10 +60,9 @@ export interface LinkExterno {
 export const perfil = {
   nome: 'Vinicius Candido',
   titulo: 'Engenheiro de Software Sênior · 13 anos',
-  chamada:
-    'Chatbots de WhatsApp, automações, sites, sistemas e integrações para o seu negócio, com preço fechado na primeira conversa e entrega testada.',
+  chamada: 'Seu projeto feito por quem constrói IA no Sicoob e já construiu na Contabilizei.',
   resumo:
-    'Construo software há 13 anos: back-end em Java, Node.js e Python, front quando o projeto pede e IA aplicada em produção desde 2021. Liderei os projetos de chatbot Blip da Vertigo, parceira certificada da Blip, e trabalhei no Waizer, a plataforma de análise de conversas da Wiv.',
+    'Chatbots de WhatsApp, automações, sites, sistemas e integrações para o seu negócio, com preço fechado na primeira conversa e entrega testada. Hoje sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA do assistente de investimentos. Construo software há 13 anos: back-end em Java, Node.js e Python, front quando o projeto pede e IA aplicada em produção desde 2021. Liderei os projetos de chatbot Blip da Vertigo, parceira certificada da Blip, e trabalhei no Waizer, a plataforma de análise de conversas da Wiv.',
   notaTrabalho: 'Do seu lado, só preciso do acesso ao que já existe e de alguém para tirar dúvidas.',
   convite:
     'Me chame pelo 99Freelas ou pelo LinkedIn e conte o que você precisa. Respondo com o preço fechado e o prazo.',
@@ -116,6 +115,35 @@ export const numeros: Numero[] = [
 
 export const cases: Case[] = [
   {
+    slug: 'sicoob-investimentos',
+    tipo: 'publico',
+    titulo: 'Assistente de investimentos com IA · Sicoob',
+    contexto: 'As equipes das cooperativas precisavam de apoio rápido e confiável no atendimento consultivo de investimentos.',
+    feito:
+      'Sou engenheiro de IA sênior no Sicoob e lidero tecnicamente a frente de IA do assistente, que usa três agentes: um encaminha a pergunta, um responde sobre investimentos e um cuida das perguntas frequentes.',
+    metrica: 'Em uso pelas equipes das cooperativas, segundo a matéria publicada.',
+    fonte: { texto: 'MobileTime, 17/07/2026', url: 'https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/' },
+    stack: ['Python', 'agentes de IA', 'multiagente', 'RAG'],
+    temPrint: false,
+    alt: 'Ilustração do assistente de investimentos com três agentes de IA',
+  },
+  {
+    slug: 'concierge-contabilizei',
+    tipo: 'publico',
+    titulo: 'The Concierge · atendimento com IA na Contabilizei',
+    contexto: 'Clientes de contabilidade precisavam de respostas rápidas e certas sobre serviços contábeis e financeiros.',
+    feito:
+      'Fui arquiteto sênior de IA na Contabilizei (2025–2026) e trabalhei no The Concierge, o atendimento ao cliente com IA generativa construído em Vertex AI.',
+    metrica: 'Citado pelo Google Cloud entre 90 casos de IA da América Latina.',
+    fonte: {
+      texto: 'Google Cloud, 20/03/2025',
+      url: 'https://blog.google/intl/pt-br/produtos/nas-nuvens/google-cloud-90-casos-de-ia-na-america-latina-que-estao-moldando-o-futuro-da-inovacao/',
+    },
+    stack: ['Vertex AI', 'Vertex AI Search', 'Model Garden', 'IA generativa'],
+    temPrint: false,
+    alt: 'Ilustração do atendimento com IA da Contabilizei',
+  },
+  {
     slug: 'prefeitura-franca',
     tipo: 'publico',
     titulo: 'Chatbot da Saúde · Prefeitura de Franca (SP)',
@@ -160,12 +188,13 @@ export const cases: Case[] = [
   {
     slug: 'nexus-quant',
     tipo: 'proprio',
-    titulo: 'Bot de trading em cripto com market making',
-    contexto: 'Operar grid e market making 24 horas exige reconciliar ordens com a corretora sem erro.',
-    feito: 'Serviço em Python com reconciliação na corretora, modelo de ML que se recalibra e painel web próprio.',
-    metrica: '1.060 testes automáticos passando e quase mil commits entre as duas versões.',
+    titulo: 'Bot de trading em cripto (estudo)',
+    contexto: 'Operar 24 horas exige reconciliar ordens com a corretora sem erro.',
+    feito:
+      'Serviço em Python com reconciliação na corretora, filas Redis, monitoramento e painel web próprio. Hoje roda só em simulação.',
+    metrica: '1.060 testes automáticos passando; a vitrine mostra o que deu errado, inclusive as taxas.',
     fonte: { texto: 'vitrine no GitHub', url: 'https://github.com/vlfcandido/nexus-quant-showcase' },
-    stack: ['Python', 'FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Redis Streams', 'LightGBM', 'Next.js', 'Cloud Run'],
+    stack: ['Python', 'FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Redis Streams', 'Next.js', 'Cloud Run'],
     temPrint: true,
     alt: 'Painel do bot de trading com posições, ordens e métricas',
   },
@@ -174,9 +203,9 @@ export const cases: Case[] = [
     tipo: 'proprio',
     titulo: 'Agente que transforma notícia em vídeo curto',
     contexto: 'Produzir cortes para TikTok, Reels e Shorts sobre o assunto do momento toma horas por vídeo.',
-    feito: 'Agente que monitora X, YouTube e RSS, escolhe o tema e gera o corte com legenda e narração.',
-    metrica: 'Fluxo de ponta a ponta, da pauta ao vídeo pronto, sem edição manual.',
-    fonte: { texto: 'repositório no GitHub', url: 'https://github.com/vlfcandido/nexus-clips' },
+    feito: 'Protótipo de agente que acompanha X, YouTube e RSS, escolhe o tema e prepara o corte com legenda.',
+    metrica: 'Upload no YouTube funcionando; o fluxo de ponta a ponta ainda está em construção.',
+    fonte: { texto: 'projeto próprio (em construção)' },
     stack: ['LangGraph', 'Claude API', 'Whisper', 'TTS', 'FFmpeg', 'React'],
     temPrint: true,
     alt: 'Tela do agente de vídeo com a fila de cortes gerados',
@@ -199,7 +228,7 @@ export const cases: Case[] = [
     titulo: 'AprovaOS · SaaS de estudos com agente de IA',
     contexto: 'Concurseiro precisa de plano de estudo que se ajusta ao desempenho, não de lista fixa.',
     feito: 'SaaS com agente de IA, back-end em FastAPI e decisões de arquitetura registradas desde o início.',
-    metrica: 'Mais de 29 decisões de arquitetura documentadas e testes desde o primeiro dia.',
+    metrica: 'Mais de 1.600 testes automáticos e 53 decisões de arquitetura documentadas. MVP em desenvolvimento.',
     fonte: { texto: 'repositório no GitHub', url: 'https://github.com/vlfcandido/aprovaos' },
     stack: ['FastAPI', 'SQLAlchemy 2', 'Gemini', 'Google ADK', 'pydantic-ai', 'LiteLLM'],
     temPrint: true,
@@ -208,26 +237,14 @@ export const cases: Case[] = [
   {
     slug: 'bureau-credito',
     tipo: 'proprio',
-    titulo: 'Bureau de crédito · cliente em Angola',
-    contexto: 'O cliente precisava de um score de crédito auditável e de um app web para consultar.',
+    titulo: 'Bureau de crédito · prova de conceito',
+    contexto: 'Score de crédito auditável e um app web para consultar.',
     feito: 'Prova de conceito com score, app web instalável e deploy automatizado no Google Cloud.',
     metrica: 'Pipeline de CI/CD até o Google Cloud desde a primeira versão.',
-    fonte: { texto: 'projeto para cliente' },
+    fonte: { texto: 'projeto próprio (código privado)' },
     stack: ['FastAPI', 'PostgreSQL', 'Redis', 'Next.js', 'PWA', 'GCP'],
     temPrint: false,
     alt: 'Tela do app do bureau de crédito com a consulta de score',
-  },
-  {
-    slug: 'llm-local',
-    tipo: 'proprio',
-    titulo: 'IA local para cibersegurança',
-    contexto: 'Testar segurança com IA sem mandar dado sensível para serviço de terceiros.',
-    feito: 'Modelo focado em cyber rodando local, quantizado por mim, com agente de terminal em sandbox e aprovação manual.',
-    metrica: 'Roda num notebook de 8 GB, sem nuvem.',
-    fonte: { texto: 'laboratório próprio' },
-    stack: ['Ollama', 'llama.cpp', 'Qwen3', 'Python', 'sandbox'],
-    temPrint: true,
-    alt: 'Tela do chat local com o agente de cibersegurança',
   },
 ]
 
