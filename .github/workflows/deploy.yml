@@ -30,7 +30,7 @@ jobs:
       - run: npm run build
         env:
           # Site de projeto: https://<usuario>.github.io/<repo>/. Com domínio próprio, troque para "/".
-          BASE_PATH: /${{ github.event.repository.name }}/
+          BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '/' || format('/{0}/', github.event.repository.name) }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
