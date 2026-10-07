@@ -27,4 +27,17 @@ describe('conteúdo publicado', () => {
   it('cases públicos citam fonte com link', () =>
     conteudo.cases.filter((c) => c.tipo === 'publico').forEach((c) => expect(c.fonte.url).toBeTruthy()))
   it('quatro passos de trabalho', () => expect(conteudo.passos).toHaveLength(4))
+  it('Sicoob só aparece na chamada, no resumo e no case com a matéria pública', () => {
+    const c = conteudo.cases.find((x) => x.slug === 'sicoob-investimentos')
+    expect(c?.fonte.url).toBe('https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/')
+    const fora = JSON.stringify({
+      ...conteudo,
+      perfil: { ...conteudo.perfil, chamada: '', resumo: '' },
+      cases: conteudo.cases.filter((x) => x.slug !== 'sicoob-investimentos'),
+    }).toLowerCase()
+    expect(fora).not.toContain('sicoob')
+  })
+  it('projeto próprio nunca diz cliente nem lucro', () =>
+    conteudo.cases.filter((c) => c.tipo === 'proprio').forEach((c) =>
+      expect(JSON.stringify(c).toLowerCase()).not.toMatch(/cliente em|projeto para cliente|lucro|market making/)))
 })

@@ -1,6 +1,8 @@
-// Termos que nunca podem ir ao ar: empregador atual, assuntos privados e contato direto.
+// Termos que nunca podem ir ao ar: empregador formal, nomes internos, provas que o estudo de 07/10 derrubou,
+// assuntos privados e contato direto. Sicoob saiu da lista em 07/10/2026 (decisão dele, com a matéria pública).
+// O LinkedIn continua no site por decisão dele (07/10/2026), por isso não entra aqui.
 // A comparação das palavras é feita sem acento e em minúsculas.
-const PALAVRAS = ['sicoob', 'mirante', 'staff de ia', 'pensao', 'beatriz'] as const
+const PALAVRAS = ['mirante', 'sisbr', 'pensao', 'beatriz', 'angola', 'odds', 'todos rodando', 'llm-local'] as const
 
 const PADROES: ReadonlyArray<readonly [string, RegExp]> = [
   ['e-mail', /[\w.+-]+@[\w-]+\.[\w.]+/],
@@ -14,7 +16,7 @@ function normalizar(texto: string): string {
 
 /**
  * Procura no texto termos e padrões que nunca podem ser publicados
- * (empregador atual, assuntos privados, e-mail, telefone).
+ * (empregador formal, nomes internos, assuntos privados, e-mail, telefone).
  *
  * @param texto conteúdo a verificar (pode ser o JSON de todo o site).
  * @returns rótulos encontrados, sem repetição; lista vazia quando o texto está limpo.
