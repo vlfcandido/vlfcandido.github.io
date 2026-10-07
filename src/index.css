@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* Paleta sóbria: papel, tinta, cinzas e um único destaque (verde-petróleo). */
+:root {
+  color-scheme: light;
+  --papel: #f6f5f1;
+  --superficie: #ffffff;
+  --tinta: #1a1c1e;
+  --suave: #53575c;
+  --linha: #d9d7d0;
+  --destaque: #0b6b62;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --papel: #121416;
+    --superficie: #181b1e;
+    --tinta: #e8e6e1;
+    --suave: #a3a7ab;
+    --linha: #2c3034;
+    --destaque: #5bbfb2;
+  }
+}
+
+@theme inline {
+  --color-papel: var(--papel);
+  --color-superficie: var(--superficie);
+  --color-tinta: var(--tinta);
+  --color-suave: var(--suave);
+  --color-linha: var(--linha);
+  --color-destaque: var(--destaque);
+}
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  @apply bg-papel font-sans text-tinta antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}
