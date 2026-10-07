@@ -39,7 +39,7 @@ sem lógica); cada seção é um componente que recebe dados. Duas funções pur
 
 **Interfaces:** produz `caminhoPublico(base: string, relativo: string): string`.
 
-- [ ] **Passo 1: instalar**
+- [x] **Passo 1: instalar**
 ```bash
 npm init -y
 npm i react react-dom
@@ -47,7 +47,7 @@ npm i -D vite @vitejs/plugin-react typescript @types/react @types/react-dom @typ
 ```
 Scripts: `"dev": "vite"`, `"build": "tsc --noEmit && vite build"`, `"preview": "vite preview"`, `"test": "vitest run"`; `"type": "module"`.
 
-- [ ] **Passo 2: `vite.config.ts`**
+- [x] **Passo 2: `vite.config.ts`**
 ```ts
 /// <reference types="vitest/config" />
 import react from '@vitejs/plugin-react'
@@ -62,7 +62,7 @@ export default defineConfig({
 })
 ```
 
-- [ ] **Passo 3: teste que falha** — `src/lib/assets.test.ts`
+- [x] **Passo 3: teste que falha** — `src/lib/assets.test.ts`
 ```ts
 import { describe, expect, it } from 'vitest'
 import { caminhoPublico } from './assets'
@@ -77,7 +77,7 @@ describe('caminhoPublico', () => {
 ```
 Rodar `npm test` → FALHA (módulo não existe).
 
-- [ ] **Passo 4: implementação mínima** — `src/lib/assets.ts`
+- [x] **Passo 4: implementação mínima** — `src/lib/assets.ts`
 ```ts
 /**
  * Junta a base pública do site com um caminho relativo de `public/`, sem barra dupla.
@@ -91,11 +91,11 @@ export function caminhoPublico(base: string, relativo: string): string {
 ```
 Rodar `npm test` → PASSA.
 
-- [ ] **Passo 5: `index.html`, `src/main.tsx`, `src/index.css`** (fontes IBM Plex via Google Fonts,
+- [x] **Passo 5: `index.html`, `src/main.tsx`, `src/index.css`** (fontes IBM Plex via Google Fonts,
 tokens de cor em `:root` + `prefers-color-scheme: dark`, mapeados em `@theme inline` como
 `papel/superficie/tinta/suave/linha/destaque`). Código final está nos arquivos.
 
-- [ ] **Passo 6: commit** `feat: esqueleto Vite + Tailwind e caminhoPublico`
+- [x] **Passo 6: commit** `feat: esqueleto Vite + Tailwind e caminhoPublico`
 
 ### Task 2: `encontrarTermosProibidos` (TDD)
 
@@ -104,7 +104,7 @@ tokens de cor em `:root` + `prefers-color-scheme: dark`, mapeados em `@theme inl
 **Interfaces:** produz `encontrarTermosProibidos(texto: string): string[]` — rótulos achados, sem repetição,
 na ordem da lista (`sicoob`, `mirante`, `staff de ia`, `pensao`, `beatriz`, `e-mail`, `telefone`).
 
-- [ ] **Passo 1: teste que falha**
+- [x] **Passo 1: teste que falha**
 ```ts
 import { describe, expect, it } from 'vitest'
 import { encontrarTermosProibidos } from './termos-proibidos'
@@ -119,8 +119,8 @@ describe('encontrarTermosProibidos', () => {
   it('sem repetição', () => expect(encontrarTermosProibidos('sicoob sicoob')).toEqual(['sicoob']))
 })
 ```
-- [ ] **Passo 2:** `npm test` → FALHA.
-- [ ] **Passo 3: implementação**
+- [x] **Passo 2:** `npm test` → FALHA.
+- [x] **Passo 3: implementação**
 ```ts
 const PALAVRAS = ['sicoob', 'mirante', 'staff de ia', 'pensao', 'beatriz'] as const
 const PADROES: ReadonlyArray<[string, RegExp]> = [
@@ -145,7 +145,7 @@ export function encontrarTermosProibidos(texto: string): string[] {
   return achados
 }
 ```
-- [ ] **Passo 4:** `npm test` → PASSA. **Passo 5:** commit `feat: detector de termos proibidos`.
+- [x] **Passo 4:** `npm test` → PASSA. **Passo 5:** commit `feat: detector de termos proibidos`.
 
 ### Task 3: Conteúdo tipado + teste de guarda
 
@@ -161,7 +161,7 @@ export interface Case {
 }
 ```
 
-- [ ] **Passo 1: teste de guarda que falha**
+- [x] **Passo 1: teste de guarda que falha**
 ```ts
 import { describe, expect, it } from 'vitest'
 import * as conteudo from './conteudo'
@@ -187,14 +187,14 @@ describe('conteúdo publicado', () => {
   it('quatro passos de trabalho', () => expect(conteudo.passos).toHaveLength(4))
 })
 ```
-- [ ] **Passo 2:** `npm test` → FALHA (sem `conteudo.ts`).
-- [ ] **Passo 3:** escrever `src/conteudo.ts` com: perfil (nome, título, chamada da v4 FINAL, resumo,
+- [x] **Passo 2:** `npm test` → FALHA (sem `conteudo.ts`).
+- [x] **Passo 3:** escrever `src/conteudo.ts` com: perfil (nome, título, chamada da v4 FINAL, resumo,
 nota e convite), 4 ofertas da v4 FINAL, 4 números com fonte (13 anos; 4,6 no diretório Blip; 5 mil
 atendimentos/mês Franca; 355 testes no bot próprio), 9 cases (Franca, Araguaia, Waizer/Wiv, nexus-quant,
 nexus-clips, revisor-ia, AprovaOS, credit-bureau, llm-local — todos `temPrint: false`), 4 passos
 (preço fechado · versão de teste em 24–48 h · Ficha de Entrega · 7 dias de correção), stack em 6 camadas,
 3 links. Números sem fonte pública (80+ chatbots, 1.500 contatos/dia) **ficam fora**.
-- [ ] **Passo 4:** `npm test` → PASSA. **Passo 5:** commit `feat: conteúdo tipado com teste de guarda`.
+- [x] **Passo 4:** `npm test` → PASSA. **Passo 5:** commit `feat: conteúdo tipado com teste de guarda`.
 
 ### Task 4: Componentes e página
 
@@ -202,18 +202,18 @@ nexus-clips, revisor-ia, AprovaOS, credit-bureau, llm-local — todos `temPrint:
 
 **Interfaces:** consome tudo de `conteudo.ts` e `caminhoPublico`. Cada componente exporta uma função nomeada com TSDoc.
 
-- [ ] **Passo 1:** `Secao({id, numero, titulo, children})` — `<section aria-labelledby>` com rótulo mono `01`…`05` e grade 3/9.
-- [ ] **Passo 2:** `FonteLink({fonte})` — link `target=_blank rel="noopener noreferrer"` com "(abre em nova aba)" em `sr-only`; sem URL vira texto.
-- [ ] **Passo 3:** `CardCase({item})` — se `temPrint`, `<img src={caminhoPublico(import.meta.env.BASE_URL, 'prints/<slug>.png')} alt loading="lazy" width=1280 height=800>`; senão `<div role="img" aria-label="Espaço reservado…">` com "print em breve" e o caminho esperado em mono.
-- [ ] **Passo 4:** `Sobre` (h1, chamada, oferta em `dl` 2 colunas, faixa de números com fonte), `Cases`, `ComoTrabalho` (`ol`), `Stack` (`table` com `th scope=row`), `Contato` (lista de links), `Cabecalho` (sticky, nav por âncora), `Rodape`.
-- [ ] **Passo 5:** `App` com link "Pular para o conteúdo", `<main id="conteudo">`.
-- [ ] **Passo 6:** `npm test && npm run build` → ambos passam. Commit `feat: página do portfólio`.
+- [x] **Passo 1:** `Secao({id, numero, titulo, children})` — `<section aria-labelledby>` com rótulo mono `01`…`05` e grade 3/9.
+- [x] **Passo 2:** `FonteLink({fonte})` — link `target=_blank rel="noopener noreferrer"` com "(abre em nova aba)" em `sr-only`; sem URL vira texto.
+- [x] **Passo 3:** `CardCase({item})` — se `temPrint`, `<img src={caminhoPublico(import.meta.env.BASE_URL, 'prints/<slug>.png')} alt loading="lazy" width=1280 height=800>`; senão `<div role="img" aria-label="Espaço reservado…">` com "print em breve" e o caminho esperado em mono.
+- [x] **Passo 4:** `Sobre` (h1, chamada, oferta em `dl` 2 colunas, faixa de números com fonte), `Cases`, `ComoTrabalho` (`ol`), `Stack` (`table` com `th scope=row`), `Contato` (lista de links), `Cabecalho` (sticky, nav por âncora), `Rodape`.
+- [x] **Passo 5:** `App` com link "Pular para o conteúdo", `<main id="conteudo">`.
+- [x] **Passo 6:** `npm test && npm run build` → ambos passam. Commit `feat: página do portfólio`.
 
 ### Task 5: Deploy, README e verificação
 
 **Arquivos:** `.github/workflows/deploy.yml`, `README.md`, `public/favicon.svg`, `public/prints/LEIA.md`.
 
-- [ ] **Passo 1: workflow**
+- [x] **Passo 1: workflow**
 ```yaml
 name: Deploy no GitHub Pages
 on:
@@ -243,7 +243,7 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 ```
-- [ ] **Passo 2:** README com: rodar local, onde pôr prints (`public/prints/<slug>.png`, 1280×800, depois `temPrint: true`), publicar (criar repo, Settings → Pages → Source: GitHub Actions, push em `main`), domínio próprio (`BASE_PATH=/`).
-- [ ] **Passo 3:** `BASE_PATH=/portfolio-site/ npm run build` e conferir que `dist/index.html` referencia `/portfolio-site/assets/…`.
-- [ ] **Passo 4:** `npm run preview` e conferir a 360 px e a 1280 px (sem rolagem horizontal, foco visível, placeholder no lugar do print).
-- [ ] **Passo 5:** commit `chore: workflow do Pages e README`.
+- [x] **Passo 2:** README com: rodar local, onde pôr prints (`public/prints/<slug>.png`, 1280×800, depois `temPrint: true`), publicar (criar repo, Settings → Pages → Source: GitHub Actions, push em `main`), domínio próprio (`BASE_PATH=/`).
+- [x] **Passo 3:** `BASE_PATH=/portfolio-site/ npm run build` e conferir que `dist/index.html` referencia `/portfolio-site/assets/…`.
+- [x] **Passo 4:** `npm run preview` e conferir a 360 px e a 1280 px (sem rolagem horizontal, foco visível, placeholder no lugar do print).
+- [x] **Passo 5:** commit `chore: workflow do Pages e README`.
