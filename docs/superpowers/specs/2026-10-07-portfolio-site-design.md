@@ -25,7 +25,7 @@ conversa com ele: as perguntas que eu faria estão registradas abaixo com a resp
 | 1 | Público: cliente de freela ou recrutador? | **cliente de freela** — decidido por default | a oferta e o "como trabalho" são de venda de projeto |
 | 2 | Idioma: só pt-BR ou PT+EN? | **só pt-BR** — decidido por default | YAGNI; EN entra depois se for usar em Upwork |
 | 3 | Canal de contato sem e-mail/telefone? | **LinkedIn e GitHub** + texto "me chame no 99Freelas" — decidido por default | regra de privacidade; o 99 é onde ele fecha |
-| 4 | Quais cases entram? | **públicos**: Vertigo/Blip (Franca, Araguaia), Waizer/Wiv; **próprios**: nexus-quant, nexus-clips, revisor-ia, AprovaOS, llm-local, credit-bureau, bet-scanner — decidido por default | prova pública primeiro; Sicoob fora |
+| 4 | Quais cases entram? | **públicos**: Vertigo/Blip (Franca, Araguaia), Waizer/Wiv; **próprios**: nexus-quant, nexus-clips, revisor-ia, AprovaOS, llm-local, credit-bureau (bet-scanner fica fora: aposta não ajuda a vender) — decidido por default | prova pública primeiro; Sicoob fora |
 | 5 | Números do currículo sem fonte pública (80+ chatbots, 1.500 contatos/dia)? | **fora do site** — decidido por default | site é público e permanente; só número com fonte ou do próprio código |
 | 6 | Clientes da Vertigo/Wiv (logos)? | **fora** — decidido por default | regra "1 a 3 nomes onde fizer sentido" é para proposta; no site vira lista de logos que ele não fez |
 | 7 | Tema escuro? | **segue o sistema** (prefers-color-scheme), sem botão — decidido por default | barato com tokens; botão é YAGNI |
@@ -38,7 +38,7 @@ conversa com ele: as perguntas que eu faria estão registradas abaixo com a resp
 1. **SPA de uma página, conteúdo em módulo TS tipado** (recomendada) — um arquivo `conteudo.ts` com
    todos os textos e cases, componentes burros por seção. Trocar texto não exige mexer em JSX; um
    teste varre o conteúdo atrás de termos proibidos.
-2. Markdown/MDX por case — mais flexível, mas adiciona pipeline (MDX) para 7 cards. YAGNI.
+2. Markdown/MDX por case — mais flexível, mas adiciona pipeline (MDX) para 9 cards. YAGNI.
 3. HTML estático puro — mais leve, mas foge da stack pedida e perde o teste de conteúdo tipado.
 
 ## 4. Design
