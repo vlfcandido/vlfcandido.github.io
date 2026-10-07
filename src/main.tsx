@@ -1,0 +1,14 @@
+// Ponto de entrada: único módulo que executa algo ao carregar (monta o React na página).
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { App } from './App'
+import './index.css'
+
+const raiz = document.getElementById('root')
+if (raiz) {
+  createRoot(raiz).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+}
