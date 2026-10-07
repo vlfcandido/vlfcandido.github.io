@@ -108,9 +108,9 @@ export const numeros: Numero[] = [
     },
   },
   {
-    valor: '355',
-    rotulo: 'testes automáticos no meu bot de trading, com mais de 86% de cobertura',
-    fonte: { texto: 'repositório próprio' },
+    valor: '1.060',
+    rotulo: 'testes automáticos passando no meu bot de trading',
+    fonte: { texto: 'vitrine no GitHub', url: 'https://github.com/vlfcandido/nexus-quant-showcase' },
   },
 ]
 
@@ -163,10 +163,10 @@ export const cases: Case[] = [
     titulo: 'Bot de trading em cripto com market making',
     contexto: 'Operar grid e market making 24 horas exige reconciliar ordens com a corretora sem erro.',
     feito: 'Serviço em Python com reconciliação na corretora, modelo de ML que se recalibra e painel web próprio.',
-    metrica: '355 testes automáticos e mais de 86% de cobertura.',
-    fonte: { texto: 'repositório próprio' },
+    metrica: '1.060 testes automáticos passando e quase mil commits entre as duas versões.',
+    fonte: { texto: 'vitrine no GitHub', url: 'https://github.com/vlfcandido/nexus-quant-showcase' },
     stack: ['Python', 'FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Redis Streams', 'LightGBM', 'Next.js', 'Cloud Run'],
-    temPrint: false,
+    temPrint: true,
     alt: 'Painel do bot de trading com posições, ordens e métricas',
   },
   {
