@@ -178,7 +178,7 @@ export const cases: Case[] = [
     metrica: 'Fluxo de ponta a ponta, da pauta ao vídeo pronto, sem edição manual.',
     fonte: { texto: 'repositório próprio' },
     stack: ['LangGraph', 'Claude API', 'Whisper', 'TTS', 'FFmpeg', 'React'],
-    temPrint: false,
+    temPrint: true,
     alt: 'Tela do agente de vídeo com a fila de cortes gerados',
   },
   {
@@ -202,7 +202,7 @@ export const cases: Case[] = [
     metrica: 'Mais de 29 decisões de arquitetura documentadas e testes desde o primeiro dia.',
     fonte: { texto: 'repositório próprio' },
     stack: ['FastAPI', 'SQLAlchemy 2', 'Gemini', 'Google ADK', 'pydantic-ai', 'LiteLLM'],
-    temPrint: false,
+    temPrint: true,
     alt: 'Tela do AprovaOS com o plano de estudos gerado pelo agente',
   },
   {
@@ -226,7 +226,7 @@ export const cases: Case[] = [
     metrica: 'Roda num notebook de 8 GB, sem nuvem.',
     fonte: { texto: 'laboratório próprio' },
     stack: ['Ollama', 'llama.cpp', 'Qwen3', 'Python', 'sandbox'],
-    temPrint: false,
+    temPrint: true,
     alt: 'Tela do chat local com o agente de cibersegurança',
   },
 ]
