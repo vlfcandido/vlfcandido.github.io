@@ -478,6 +478,18 @@ export const cenaDoRamo: Record<string, CenaDemo['id']> = {
   industria: 'integracao',
 }
 
+/**
+ * Estado em que a página abre (M5, 08/10/2026): ramo Clínica (a legenda continua Unimed, OdontoPrev e
+ * Bradesco Dental), mas na cena "Venda no CRM" e com a oferta de integração ativa, para a 1ª tela não ler
+ * só "chatbot". Quem clica em Clínica depois vê a cena do ramo (`cenaDoRamo.clinica`, atendimento).
+ * Antes: ramo `ramosDemo[0]`, com a cena e a oferta desse ramo (atendimento e WhatsApp).
+ */
+export const inicioDemo: { ramo: string; cena: CenaDemo['id']; oferta: Oferta['id'] } = {
+  ramo: 'clinica',
+  cena: 'integracao',
+  oferta: 'integracao',
+}
+
 /** Cena da demonstração do topo que cada oferta mostra quando é sondada na carta. */
 export const cenaDaOferta: Record<Oferta['id'], CenaDemo['id']> = {
   integracao: 'integracao',

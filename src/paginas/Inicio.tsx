@@ -5,7 +5,7 @@ import { ComoFunciona } from '../components/ComoFunciona'
 import { Contato } from '../components/Contato'
 import { Prova } from '../components/Prova'
 import { Resolvo } from '../components/Resolvo'
-import { cenaDaOferta, cenaDoRamo, oferta, ramosDemo, type CenaDemo, type Oferta } from '../conteudo'
+import { cenaDaOferta, cenaDoRamo, inicioDemo, oferta, type CenaDemo, type Oferta } from '../conteudo'
 
 /** Oferta sugerida para um ramo do seletor (a primeira, se o ramo não tiver sugestão). */
 function ofertaDoRamo(ramo: string): Oferta['id'] {
@@ -23,9 +23,10 @@ function ofertaDoRamo(ramo: string): Oferta['id'] {
  * leva a demonstração para a cena que combina.
  */
 export function PaginaInicio() {
-  const [ramo, setRamo] = useState(ramosDemo[0].id)
-  const [ofertaAtiva, setOfertaAtiva] = useState<Oferta['id']>(() => ofertaDoRamo(ramosDemo[0].id))
-  const [cena, setCena] = useState<CenaDemo['id']>(cenaDoRamo[ramosDemo[0].id] ?? 'atendimento')
+  // Abre em Clínica, mas na cena "Venda no CRM" e com a oferta de integração (M5, `inicioDemo`).
+  const [ramo, setRamo] = useState(inicioDemo.ramo)
+  const [ofertaAtiva, setOfertaAtiva] = useState<Oferta['id']>(inicioDemo.oferta)
+  const [cena, setCena] = useState<CenaDemo['id']>(inicioDemo.cena)
 
   function escolherRamo(id: string) {
     setRamo(id)
