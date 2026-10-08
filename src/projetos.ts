@@ -3,7 +3,7 @@
 // só para os testes garantirem que nenhum texto de projeto próprio afirma produção, cliente ou lucro.
 // Os textos vêm de conteudo.ts e clientes.ts; aqui só entra o que a galeria precisa a mais. Os números
 // dos projetos próprios saem do banco de provas (medidos em 07/10/2026). Nada de projeto que o banco
-// de provas manda não citar (ex.: o bot de pedidos, que não sobe), nem de lucro em trading.
+// de provas manda não citar (ex.: o bot de pedidos, que não sobe), nem de lucro em operação de mercado.
 
 import { empresasDiretas, type EmpresaDireta } from './clientes'
 import { cases, type Case, type Fonte } from './conteudo'
@@ -14,7 +14,7 @@ export type TipoProjeto = 'chatbot' | 'agentes' | 'sistemas' | 'frontend' | 'int
 
 /** Rótulo de cada tipo, na ordem dos chips. */
 // Ordem e nome do último trocados em 08/10/2026 (M15). Antes: chatbot, agentes, sistemas, frontend,
-// integracoes, dados ("Dados e trading").
+// integracoes, dados (rótulo antigo trocado por "Dados e tempo real").
 export const tiposProjeto: Record<TipoProjeto, string> = {
   integracoes: 'Integrações e automação',
   sistemas: 'Sistemas e SaaS',
@@ -121,7 +121,7 @@ export function listarProjetos(): ItemProjeto[] {
     {
       slug: 'nexus-quant',
       origem: 'proprio',
-      // Renomeado em 08/10/2026 (M13): antes o nome era o de um bot de trading de cripto, com o resultado "Confere cada ordem
+      // Renomeado em 08/10/2026 (M13): antes o nome era o de um robô de cripto, com o resultado "Confere cada ordem
       // com a corretora, 24 horas, sem erro de conta.". O status honesto fica à vista no card.
       nome: 'Sistema de ordens em tempo real',
       resultado: 'Confere cada ordem com a corretora, 24 horas. Cripto, só em simulação, sem lucro.',

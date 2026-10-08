@@ -15,7 +15,7 @@ export type Diagrama = IdDesenho
 /** Prints de cada caso, pelo slug de conteudo.ts. O primeiro é o principal. */
 export const printsDosCasos: Record<string, Print[]> = {
   'nexus-quant': [
-    { arquivo: 'prints/nexus-quant.webp', alt: 'Painel do bot de trading em simulação com pares, livro de ofertas, curva de patrimônio e trades' },
+    { arquivo: 'prints/nexus-quant.webp', alt: 'Painel do sistema de ordens em tempo real, em simulação, com os pares, o livro de ofertas e as ordens' },
     { arquivo: 'prints/nexus-quant-backtest.webp', alt: 'Tela de ciclos do bot em simulação com o resultado por par' },
   ],
   aprovaos: [

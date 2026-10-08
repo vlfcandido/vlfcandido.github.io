@@ -26,6 +26,11 @@ describe('o que não pode aparecer no site', () => {
       expect(texto, a).not.toContain('google-cloud-90-casos-de-ia')
     })
   })
+  // Pedido dele, 08/10/2026: o sistema de ordens não se chama mais "bot de trading" em lugar nenhum.
+  it('nenhum "bot de trading" nem "trading" no texto do site', () => {
+    const raiz = resolve(__dirname, '..')
+    arquivosDoSite(resolve(raiz, 'src')).forEach((a) => expect(readFileSync(a, 'utf8'), a).not.toMatch(/trading/i))
+  })
 })
 
 // Reorganização de 08/10/2026 (plano do juiz, site-reorg/04-juiz.md).
