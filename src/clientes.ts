@@ -79,13 +79,11 @@ export const empresasDiretas: EmpresaDireta[] = [
     nome: 'Contabilizei',
     segmento: 'servicos',
     logo: 'logos/contabilizei.svg',
-    papel: 'Arquiteto sênior de IA',
-    feito: 'Fiz o The Concierge, assistente de IA do atendimento com Vertex AI, e os agentes de IA de vendas.',
-    historia: {
-      texto: 'Blog do Google, 20/03/2025',
-      url: 'https://blog.google/intl/pt-br/produtos/nas-nuvens/google-cloud-90-casos-de-ia-na-america-latina-que-estao-moldando-o-futuro-da-inovacao/',
-    },
-    ligadoA: 'contabilizei-concierge',
+    // Corrigido em 08/10/2026 (ele): o atendimento com IA citado pelo Google Cloud não foi trabalho dele.
+    // Antes: papel "Arquiteto sênior de IA", com a matéria do Google como história.
+    papel: 'Agentes de IA de vendas (SDR)',
+    feito: 'Fiz os agentes de IA de vendas (SDR).',
+    ligadoA: 'contabilizei-vendas',
   },
   {
     slug: 'serasa-experian',

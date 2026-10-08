@@ -35,7 +35,11 @@ export interface Oferta {
 export interface Case {
   /** Também é o nome do print: `public/prints/<slug>.png`. */
   slug: string
-  tipo: 'publico' | 'proprio'
+  /**
+   * `publico`: case com matéria pública (fonte com link) · `empresa`: trabalho em empresa sem matéria
+   * pública (sem número) · `proprio`: projeto meu.
+   */
+  tipo: 'publico' | 'empresa' | 'proprio'
   titulo: string
   contexto: string
   feito: string
@@ -151,7 +155,8 @@ export interface Destaque {
   titulo: string
   texto: string
   resultado: string
-  fonte: Fonte & { url: string }
+  /** Matéria pública; sem ela (ex.: Contabilizei), o card não leva número nem link. */
+  fonte?: Fonte & { url: string }
 }
 
 export const destaques: Destaque[] = [
@@ -174,16 +179,14 @@ export const destaques: Destaque[] = [
     resultado: 'Em uso pelas equipes das cooperativas.',
     fonte: { texto: 'Ler a matéria', url: 'https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/' },
   },
+  // Corrigido em 08/10/2026 (ele): o atendimento com IA da Contabilizei citado pelo Google Cloud NÃO foi
+  // trabalho dele; o dele lá são os agentes de IA de vendas (SDR). Sem fonte pública, sem número.
   {
-    slug: 'concierge-contabilizei',
+    slug: 'contabilizei-vendas',
     empresa: 'contabilizei',
     titulo: 'Contabilizei',
-    texto: 'The Concierge, o atendimento ao cliente com IA generativa. Fui o arquiteto sênior de IA que fez o projeto.',
-    resultado: 'Citado pelo Google Cloud entre 90 casos de IA da América Latina.',
-    fonte: {
-      texto: 'Ler a matéria',
-      url: 'https://blog.google/intl/pt-br/produtos/nas-nuvens/google-cloud-90-casos-de-ia-na-america-latina-que-estao-moldando-o-futuro-da-inovacao/',
-    },
+    texto: 'Construí os agentes de IA de vendas (SDR) da Contabilizei.',
+    resultado: 'Agentes de IA de vendas (SDR).',
   },
 ]
 
@@ -227,21 +230,19 @@ export const cases: Case[] = [
     temPrint: false,
     alt: 'Ilustração do assistente de investimentos com três agentes de IA',
   },
+  // Corrigido em 08/10/2026 (ele): este case era o atendimento com IA citado pelo Google Cloud, que não foi
+  // trabalho dele. Agora só os agentes de IA de vendas (SDR), sem número (o volume não tem fonte pública).
   {
-    slug: 'concierge-contabilizei',
-    tipo: 'publico',
-    titulo: 'The Concierge, atendimento com IA na Contabilizei',
-    contexto: 'Clientes de contabilidade precisavam de respostas rápidas e certas sobre serviços contábeis e financeiros.',
-    feito:
-      'Fui arquiteto sênior de IA na Contabilizei (2025–2026) e fiz o The Concierge, o atendimento ao cliente com IA generativa construído em Vertex AI.',
-    metrica: 'Citado pelo Google Cloud entre 90 casos de IA da América Latina.',
-    fonte: {
-      texto: 'Google Cloud, 20/03/2025',
-      url: 'https://blog.google/intl/pt-br/produtos/nas-nuvens/google-cloud-90-casos-de-ia-na-america-latina-que-estao-moldando-o-futuro-da-inovacao/',
-    },
-    stack: ['Vertex AI', 'Vertex AI Search', 'Model Garden', 'IA generativa'],
+    slug: 'contabilizei-vendas',
+    tipo: 'empresa',
+    titulo: 'Agentes de IA de vendas (SDR) na Contabilizei',
+    contexto: 'O time de vendas precisava de ajuda no primeiro contato e na qualificação de quem chegava interessado.',
+    feito: 'Construí os agentes de IA de vendas (SDR) da Contabilizei, de 2025 a mar/2026.',
+    metrica: '',
+    fonte: { texto: 'Contabilizei, 2025 a mar/2026' },
+    stack: ['agentes de IA', 'multiagente'],
     temPrint: false,
-    alt: 'Ilustração do atendimento com IA da Contabilizei',
+    alt: 'Ilustração dos agentes de IA de vendas da Contabilizei',
   },
   {
     slug: 'prefeitura-franca',

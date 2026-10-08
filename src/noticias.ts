@@ -52,16 +52,8 @@ export const noticias: Noticia[] = [
     empresa: 'wiv',
     ilustracao: 'chatbot',
   },
-  {
-    id: 'contabilizei-concierge',
-    veiculo: 'Blog do Google',
-    data: '2025-03-20',
-    titulo: 'Google Cloud destaca o The Concierge, IA de atendimento da Contabilizei',
-    papel: 'Como arquiteto sênior de IA, fiz o The Concierge com Vertex AI.',
-    url: 'https://blog.google/intl/pt-br/produtos/nas-nuvens/google-cloud-90-casos-de-ia-na-america-latina-que-estao-moldando-o-futuro-da-inovacao/',
-    empresa: 'contabilizei',
-    ilustracao: 'atendimento',
-  },
+  // Removida em 08/10/2026 (ele): a matéria do Google Cloud sobre o atendimento com IA da Contabilizei
+  // não é trabalho dele.
   {
     id: 'vertigo-take-blip',
     veiculo: 'Vertigo',

@@ -84,7 +84,7 @@ export function listarProjetos(): ItemProjeto[] {
   const aprova = caso('aprovaos')
   const revisor = caso('revisor-ia')
   const sicoob = caso('sicoob-investimentos')
-  const concierge = caso('concierge-contabilizei')
+  const vendas = caso('contabilizei-vendas')
   const franca = caso('prefeitura-franca')
   const araguaia = caso('araguaia')
   const waizer = caso('waizer-wiv')
@@ -318,17 +318,17 @@ export function listarProjetos(): ItemProjeto[] {
       slug: 'contabilizei',
       origem: 'empresa',
       nome: 'Contabilizei',
-      resultado: 'Atendimento com IA citado pelo Google Cloud entre 90 casos da América Latina.',
-      tipos: ['chatbot', 'agentes'],
+      // Corrigido em 08/10/2026 (ele): antes era o atendimento com IA citado pelo Google Cloud, que não foi dele.
+      resultado: 'Agentes de IA de vendas (SDR).',
+      tipos: ['agentes'],
       status: 'producao',
-      etiquetas: ['Vertex AI', 'IA generativa'],
-      stack: concierge.stack,
-      problema: concierge.contexto,
-      feito: concierge.feito,
-      numeros: [concierge.metrica],
+      etiquetas: ['agentes de IA', 'vendas'],
+      stack: vendas.stack,
+      problema: vendas.contexto,
+      feito: vendas.feito,
+      numeros: [],
       papel: empresa('contabilizei').papel,
       empresa: 'contabilizei',
-      fonte: concierge.fonte,
     },
     {
       slug: 'prefeitura-franca',

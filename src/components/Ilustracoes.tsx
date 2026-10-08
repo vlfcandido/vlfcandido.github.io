@@ -56,7 +56,7 @@ function Atendimento() {
       <rect x={70} y={20} width={260} height={180} rx={16} fill={F} stroke={T} strokeWidth={2} />
       <Balao x={92} y={42} l={150} a={44} />
       <Balao x={160} y={110} l={150} a={44} cor={A} lado="d" preenchido />
-      {/* sineta de concierge */}
+      {/* sineta de atendimento */}
       <path d="M150 232 a50 34 0 0 1 100 0 z" fill={M} stroke={T} strokeWidth={2} />
       <path d="M140 232 h120" stroke={T} strokeWidth={3} strokeLinecap="round" />
       <path d="M200 198 v-8 M192 190 h16" stroke={T} strokeWidth={3} strokeLinecap="round" />

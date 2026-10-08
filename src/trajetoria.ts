@@ -42,9 +42,11 @@ export const empregos: Emprego[] = [
     slug: 'contabilizei',
     empresa: 'Contabilizei',
     logo: 'logos/contabilizei.svg',
-    cargo: 'Arquiteto sênior de IA',
+    // Corrigido em 08/10/2026 (ele): o atendimento com IA citado pelo Google Cloud não foi trabalho dele.
+    // Antes: cargo "Arquiteto sênior de IA" e o resultado falando desse atendimento.
+    cargo: 'Agentes de IA de vendas',
     periodo: '2025 a mar/2026',
-    resultado: 'Arquitetura do The Concierge, atendimento com IA citado pelo Google Cloud entre 90 casos de IA da América Latina.',
+    resultado: 'Construí os agentes de IA de vendas (SDR).',
   },
   {
     slug: 'serasa-experian',
