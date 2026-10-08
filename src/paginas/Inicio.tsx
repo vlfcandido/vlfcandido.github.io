@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { Abertura } from '../components/Abertura'
 import { Carreira } from '../components/Carreira'
 import { ComoFunciona } from '../components/ComoFunciona'
+import { ComoEntrega } from '../components/ComoEntrega'
 import { Contato } from '../components/Contato'
+import { Pacotes } from '../components/Pacotes'
 import { Prova } from '../components/Prova'
 import { Resolvo } from '../components/Resolvo'
 import { cenaDaOferta, cenaDoRamo, inicioDemo, oferta, type CenaDemo, type Oferta } from '../conteudo'
@@ -45,6 +47,8 @@ export function PaginaInicio() {
       <Resolvo ramo={ramo} ativa={ofertaAtiva} aoSondar={sondarOferta} />
       <Prova />
       <ComoFunciona />
+      <ComoEntrega />
+      <Pacotes />
       <Carreira />
       <Contato />
     </>
