@@ -825,3 +825,433 @@ a:focus-visible .logo-mono {
     transition: none;
   }
 }
+
+/* Página principal enxuta (08/10/2026): divulgação progressiva. Uma composição por tamanho de tela:
+   no celular, abas em linha rolável, stepper compacto e "ver mais"; no computador, grade densa com
+   painel ao lado. Os componentes trocam de forma pelo breakpoint, sem HTML duplicado. */
+.secao {
+  padding-block: 2rem;
+}
+@media (min-width: 640px) {
+  .secao {
+    padding-block: 3.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  .secao {
+    padding-block: 3.5rem;
+  }
+}
+.titulo-secao {
+  font-size: 1.75rem;
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: 0.004em;
+  text-wrap: balance;
+}
+@media (min-width: 640px) {
+  .titulo-secao {
+    font-size: 2.2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .titulo-secao {
+    font-size: 2.4rem;
+  }
+}
+/* No celular o cabeçalho tem a fileira de chips: a âncora para um pouco mais abaixo. */
+@media (max-width: 1023px) {
+  main [id].scroll-mt-24 {
+    scroll-margin-top: 7rem;
+  }
+}
+
+/* Linha rolável sem barra (abas, chips, faixa de logos, carrossel). */
+.rolagem-lateral {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.rolagem-lateral::-webkit-scrollbar {
+  display: none;
+}
+
+/* Abas das ofertas e das peças: chip no celular. */
+.oferta-aba {
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+  border-color: var(--linha);
+  background: var(--folha);
+  color: var(--tinta);
+  font-size: 0.98rem;
+  white-space: nowrap;
+}
+.oferta-aba .oferta-icone {
+  color: var(--grafite);
+}
+.oferta-aba.is-ativa {
+  border-color: var(--cobalto);
+  background: var(--cobalto);
+  color: var(--nevoa);
+}
+.oferta-aba.is-ativa .oferta-icone {
+  color: var(--nevoa);
+}
+/* Computador: as peças de interface viram uma lista com trilho à esquerda. */
+@media (min-width: 1024px) {
+  .pecas-lista .oferta-aba {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-width: 0 0 0 3px;
+    border-radius: 0 12px 12px 0;
+    background: transparent;
+    font-size: 1.02rem;
+    white-space: normal;
+  }
+  .pecas-lista .oferta-aba:hover {
+    color: var(--cobalto);
+  }
+  .pecas-lista .oferta-aba.is-ativa {
+    border-color: var(--pitanga);
+    background: var(--folha);
+    color: var(--cobalto);
+  }
+}
+
+/* Stepper do "Como funciona": o traço liga cada número ao próximo e se preenche até o passo ativo. */
+.etapa {
+  --numero: 2.25rem;
+  --vao: 0.5rem;
+}
+@media (min-width: 1024px) {
+  .etapa {
+    --numero: 2.5rem;
+    --vao: 1.5rem;
+  }
+}
+.etapa:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--numero) / 2 - 1px);
+  left: calc(var(--numero) + 4px);
+  right: calc(-1 * var(--vao) + 4px);
+  height: 2px;
+  background: var(--linha);
+  transition: background-color 0.3s ease;
+}
+.etapa:has(~ .etapa.is-ativa)::after {
+  background: var(--cobalto);
+}
+.etapa-numero {
+  border: 2px solid var(--cobalto);
+  background: var(--nevoa);
+  color: var(--cobalto);
+  transition: background-color 0.25s, color 0.25s, box-shadow 0.25s;
+}
+.etapa:has(~ .etapa.is-ativa) .etapa-numero {
+  background: var(--cobalto);
+  color: var(--nevoa);
+}
+.etapa.is-ativa .etapa-numero {
+  border-color: var(--pitanga);
+  background: var(--pitanga);
+  color: var(--on-sol);
+  box-shadow: 0 0 0 3px var(--nevoa), 0 0 0 5px var(--pitanga);
+}
+.etapa-titulo {
+  color: var(--grafite);
+  transition: color 0.25s;
+}
+.etapa.is-ativa .etapa-titulo {
+  color: var(--cobalto);
+}
+
+/* Abas das cenas da demonstração: sublinhado coral na escolhida. */
+.cena-aba {
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.cena-aba.is-ativa {
+  color: var(--cobalto);
+  border-bottom-color: var(--pitanga);
+}
+.barra-demo {
+  height: var(--altura);
+  transition: height 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .etapa::after,
+  .etapa-numero,
+  .etapa-titulo,
+  .cena-aba,
+  .barra-demo,
+  .oferta-aba {
+    transition: none;
+  }
+}
+
+/* Terra da carta: areia rala no claro, ainda mais rala no escuro (senão vira um bloco oliva). */
+.carta-terra {
+  fill-opacity: 0.3;
+}
+:root[data-tema="escuro"] .carta-terra {
+  fill-opacity: 0.12;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .carta-terra {
+    fill-opacity: 0.12;
+  }
+}
+
+/* Carta das ofertas (Sondagem): no celular, uma régua deslizável de boias ligadas pela linha de
+   sondagem tracejada; no computador, as boias ficam sobre o desenho da carta, cada uma na sua
+   posição (--x, --y). */
+.carta-ofertas {
+  position: relative;
+}
+.carta-desenho {
+  display: none;
+}
+.boias {
+  display: flex;
+  overflow-x: auto;
+  margin-inline: -1rem;
+  padding: 0.25rem 1rem 0.5rem;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 1rem;
+}
+.boia {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  width: 7.25rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.25rem;
+  border-radius: 10px;
+  text-align: center;
+  scroll-snap-align: start;
+}
+.boia::before {
+  content: "";
+  position: absolute;
+  top: calc(0.45rem + 8px);
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--linha) 0 4px, transparent 4px 9px);
+}
+.boia:first-child::before {
+  left: 50%;
+}
+.boia:last-child::before {
+  right: 50%;
+}
+.boia-marca {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--mar);
+  border-radius: 999px;
+  background: var(--papel);
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.boia:hover .boia-marca {
+  border-color: var(--coral);
+}
+.boia.is-ativa .boia-marca {
+  border-color: var(--coral);
+  background: var(--coral);
+  box-shadow: 0 0 0 4px var(--papel), 0 0 0 6px var(--coral);
+}
+.boia-rotulo {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--fundo-suave);
+}
+.boia.is-ativa .boia-rotulo {
+  color: var(--fundo);
+  font-weight: 600;
+}
+@media (min-width: 1024px) {
+  .carta-ofertas {
+    aspect-ratio: 40 / 17;
+  }
+  .carta-desenho {
+    display: block;
+  }
+  .boias {
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
+  .boia {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: auto;
+    transform: translate(-50%, calc(-0.45rem - 9px));
+  }
+  .boia::before {
+    display: none;
+  }
+  .boia-rotulo {
+    padding: 0 0.35rem;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--papel) 85%, transparent);
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .boia-marca {
+    transition: none;
+  }
+}
+
+/* Régua de profundidade (Sondagem): cotas de 0 m a 40 m. No celular, a fileira fina sob o
+   cabeçalho; em tela larga, fixa na margem esquerda, com o trecho percorrido em mar. */
+.regua-chip {
+  display: inline-block;
+  padding: 0.3rem 0 0.25rem;
+  border-bottom: 2px solid transparent;
+  color: var(--fundo-suave);
+  font-size: 0.92rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.regua-chip[aria-current] {
+  border-bottom-color: var(--coral);
+  color: var(--fundo);
+  font-weight: 600;
+}
+.regua-cota {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--fundo-suave);
+}
+.regua-chip .regua-cota {
+  font-size: 0.85rem;
+}
+.regua-progresso {
+  transition: transform 0.1s linear;
+}
+.regua-lateral {
+  display: none;
+}
+@media (min-width: 1400px) {
+  .regua-lateral {
+    position: fixed;
+    top: 50%;
+    left: 1.1rem;
+    z-index: 15;
+    display: block;
+    height: 19rem;
+    transform: translateY(-50%);
+  }
+  .regua-lateral ol {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .regua-trilho {
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 4px;
+    width: 2px;
+    background: var(--linha);
+  }
+  .regua-percorrido {
+    position: absolute;
+    inset: 0;
+    background: var(--mar);
+    transform-origin: top;
+    transition: transform 0.1s linear;
+  }
+  .regua-marca {
+    position: relative;
+    display: grid;
+    grid-template-columns: 10px auto;
+    column-gap: 0.55rem;
+    align-items: center;
+    padding: 0.15rem 0.25rem 0.15rem 0;
+    border-radius: 6px;
+  }
+  .regua-marca::before {
+    content: "";
+    grid-row: 1 / span 2;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--mar);
+    border-radius: 999px;
+    background: var(--papel);
+  }
+  .regua-marca[aria-current]::before {
+    border-color: var(--coral);
+    background: var(--coral);
+    box-shadow: 0 0 0 3px var(--papel), 0 0 0 4.5px var(--coral);
+  }
+  .regua-marca .regua-cota {
+    font-size: 0.85rem;
+  }
+  .regua-marca[aria-current] .regua-cota {
+    color: var(--fundo);
+  }
+  .regua-nome {
+    max-width: 4.6rem;
+    color: var(--fundo);
+    font-size: 0.74rem;
+    font-weight: 600;
+    line-height: 1.15;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .regua-marca[aria-current] .regua-nome,
+  .regua-marca:hover .regua-nome,
+  .regua-marca:focus-visible .regua-nome {
+    opacity: 1;
+  }
+}
+
+/* "Descer": o prumo afunda um pouco no hover e a isóbata se desenha quando o bloco abre. */
+.descer-prumo {
+  transition: transform 0.2s ease;
+}
+.descer-botao:hover .descer-prumo,
+.descer-botao[aria-expanded="true"] .descer-prumo {
+  transform: translateY(2px);
+}
+.isobata-descer path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.expansivel[data-aberto="true"] .isobata-descer path {
+  stroke-dashoffset: 0;
+}
+/* Logos: a legenda flutuante (só no hover) saiu; a linha de sondagem embaixo da faixa vale para todos. */
+.grade-logos .dica {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .regua-progresso,
+  .regua-percorrido,
+  .regua-nome,
+  .descer-prumo,
+  .isobata-descer path {
+    transition: none;
+  }
+}

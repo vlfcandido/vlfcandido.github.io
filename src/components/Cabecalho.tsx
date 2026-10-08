@@ -1,89 +1,171 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { perfil } from '../conteudo'
 import { HASH_PROJETOS, type Rota } from '../lib/rota'
 import { LINKEDIN } from '../visuais'
 import { BotaoTema } from './BotaoTema'
 import { LinkExterno } from './LinkExterno'
 
-const SECOES = [
-  { href: '#o-que-eu-resolvo', rotulo: 'O que eu resolvo' },
-  { href: '#como-funciona', rotulo: 'Como funciona' },
-  { href: '#resultados', rotulo: 'Resultados' },
-  { href: '#trajetoria', rotulo: 'Onde trabalhei' },
-  { href: HASH_PROJETOS, rotulo: 'Projetos' },
+/** Os níveis da principal, da superfície ao fundo, com a cota que a régua mostra. */
+const NIVEIS = [
+  { href: '#inicio', cota: 0, rotulo: 'Abertura' },
+  { href: '#o-que-eu-resolvo', cota: 10, rotulo: 'O que eu resolvo' },
+  { href: '#como-funciona', cota: 20, rotulo: 'Como funciona' },
+  { href: '#resultados', cota: 30, rotulo: 'Provas' },
+  { href: '#carreira', cota: 40, rotulo: 'Carreira' },
 ] as const
 
-/** Cabeçalho fixo: nome, seções (menu no celular), tema e o LinkedIn sempre à vista. */
-export function Cabecalho({ rota }: { rota: Rota }) {
-  const [menu, setMenu] = useState(false)
-  // As seções da principal ficam no menu nas duas páginas: o App renderiza a principal e rola até a seção.
-  const itens = rota === 'projetos' ? [{ href: '#/', rotulo: 'Início' }, ...SECOES] : SECOES
-  const atual = (href: string) => (href === HASH_PROJETOS && rota === 'projetos' ? 'page' : undefined)
+/** Seções que não têm marca própria na régua e contam como o nível de cima. */
+const MESMO_NIVEL: Record<string, string> = { interfaces: '#resultados', contato: '#carreira', trajetoria: '#carreira', imprensa: '#carreira' }
 
+/**
+ * Acompanha, na principal, o nível que está na faixa de cima da tela e quanto da página já foi
+ * rolado (0 a 1). Fora da principal, não observa nada.
+ */
+function useProfundidade(ativo: boolean): { nivel: string | null; fracao: number } {
+  const [nivel, setNivel] = useState<string | null>(null)
+  const [fracao, setFracao] = useState(0)
   useEffect(() => {
-    if (!menu) return
-    const fechar = (e: KeyboardEvent) => e.key === 'Escape' && setMenu(false)
-    window.addEventListener('keydown', fechar)
-    return () => window.removeEventListener('keydown', fechar)
-  }, [menu])
+    if (!ativo) {
+      setNivel(null)
+      return
+    }
+    let quadro = 0
+    const medir = () => {
+      cancelAnimationFrame(quadro)
+      quadro = requestAnimationFrame(() => {
+        const max = document.documentElement.scrollHeight - window.innerHeight
+        setFracao(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0)
+      })
+    }
+    medir()
+    window.addEventListener('scroll', medir, { passive: true })
+    window.addEventListener('resize', medir)
+
+    let obs: IntersectionObserver | null = null
+    if (typeof IntersectionObserver !== 'undefined') {
+      const ids = [...NIVEIS.map((n) => n.href.slice(1)), ...Object.keys(MESMO_NIVEL)]
+      obs = new IntersectionObserver(
+        (entradas) => {
+          for (const e of entradas) if (e.isIntersecting) setNivel(MESMO_NIVEL[e.target.id] ?? `#${e.target.id}`)
+        },
+        { rootMargin: '-30% 0px -65% 0px' },
+      )
+      ids.map((id) => document.getElementById(id)).forEach((el) => el && obs?.observe(el))
+    }
+    return () => {
+      cancelAnimationFrame(quadro)
+      window.removeEventListener('scroll', medir)
+      window.removeEventListener('resize', medir)
+      obs?.disconnect()
+    }
+  }, [ativo])
+  return { nivel, fracao }
+}
+
+/**
+ * Régua de profundidade fixa na margem esquerda, só em telas largas (onde a margem comporta): uma
+ * linha vertical com as cotas de 0 m a 40 m; a parte já percorrida fica em mar e o nível à vista
+ * ganha a boia coral e o nome. Cada cota leva ao seu nível.
+ */
+function ReguaLateral({ nivel, fracao }: { nivel: string | null; fracao: number }) {
+  return (
+    <nav aria-label="Profundidade da página" className="regua-lateral">
+      <span aria-hidden="true" className="regua-trilho">
+        <span className="regua-percorrido" style={{ transform: `scaleY(${fracao})` }} />
+      </span>
+      <ol>
+        {NIVEIS.map((n) => {
+          const aqui = n.href === nivel
+          return (
+            <li key={n.href}>
+              <a href={n.href} aria-current={aqui ? 'location' : undefined} className="regua-marca">
+                <span className="regua-cota">{n.cota} m</span>
+                <span className="regua-nome">{n.rotulo}</span>
+              </a>
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
+  )
+}
+
+/**
+ * Cabeçalho fixo: nome, tema e o LinkedIn sempre à vista. No computador, os níveis ficam na linha
+ * do nome (e, em tela larga, também na régua lateral); no celular, viram a régua fina embaixo dela:
+ * uma fileira rolável com as cotas e uma linha que se enche conforme a pessoa desce.
+ */
+export function Cabecalho({ rota }: { rota: Rota }) {
+  const principal = rota !== 'projetos'
+  const { nivel, fracao } = useProfundidade(principal)
+  const fileira = useRef<HTMLOListElement>(null)
+  const naProjetos = rota === 'projetos'
+
+  // Mantém o nível marcado à vista na fileira rolável do celular.
+  useEffect(() => {
+    const caixa = fileira.current
+    const el = caixa?.querySelector<HTMLElement>('[aria-current]')
+    if (!caixa || !el) return
+    const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    caixa.scrollTo({ left: el.offsetLeft - 16, behavior: suave ? 'smooth' : 'auto' })
+  }, [nivel, rota])
 
   return (
-    <header className="sticky top-0 z-20 border-b border-linha/70 bg-nevoa/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:gap-5 sm:px-8">
-        <a href="#/" className="mr-auto inline-flex items-baseline gap-[0.15em] text-[1.05rem] font-bold tracking-[0.004em]">
-          {perfil.nome}
-          <span aria-hidden="true" className="ponto" />
-        </a>
-        <nav aria-label="Seções" className="hidden lg:block">
-          <ul className="flex gap-6 text-[0.95rem] text-grafite">
-            {itens.map((s) => (
-              <li key={s.href}>
-                <a className="sublinha leve hover:text-tinta aria-[current=page]:text-tinta" href={s.href} aria-current={atual(s.href)}>
-                  {s.rotulo}
+    <>
+      <header className="sticky top-0 z-20 border-b border-linha/70 bg-nevoa/90 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5 sm:gap-5 sm:px-8 lg:py-3">
+          <a href="#/" className="mr-auto inline-flex items-baseline gap-[0.15em] text-[1.05rem] font-bold tracking-[0.004em]">
+            {perfil.nome}
+            <span aria-hidden="true" className="ponto" />
+          </a>
+          <nav aria-label="Seções" className="hidden lg:block">
+            <ul className="flex gap-6 text-[0.95rem] text-grafite">
+              {NIVEIS.slice(1).map((n) => (
+                <li key={n.href}>
+                  <a className="sublinha leve hover:text-tinta aria-[current]:text-tinta" href={n.href} aria-current={n.href === nivel ? 'location' : undefined}>
+                    {n.rotulo}
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a className="sublinha leve hover:text-tinta aria-[current]:text-tinta" href={HASH_PROJETOS} aria-current={naProjetos ? 'page' : undefined}>
+                  Projetos
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <BotaoTema />
+          <LinkExterno
+            href={LINKEDIN}
+            className="botao-acao hidden rounded-full bg-cobalto px-4 py-2 text-[0.95rem] font-semibold whitespace-nowrap text-nevoa hover:bg-cobalto-forte sm:inline-block"
+          >
+            Falar comigo no LinkedIn
+          </LinkExterno>
+        </div>
+        {/* Celular: a régua fina. */}
+        <nav aria-label="Profundidade da página" className="lg:hidden">
+          <ol ref={fileira} className="rolagem-lateral mx-auto flex max-w-7xl items-baseline gap-5 overflow-x-auto px-4 pb-2 sm:px-8">
+            {NIVEIS.map((n) => (
+              <li key={n.href} className="shrink-0">
+                <a href={n.href} aria-current={n.href === nivel ? 'location' : undefined} className="regua-chip">
+                  <span className="regua-cota">{n.cota} m</span> {n.rotulo}
                 </a>
               </li>
             ))}
-          </ul>
+            <li className="shrink-0">
+              <a href={HASH_PROJETOS} aria-current={naProjetos ? 'page' : undefined} className="regua-chip">
+                Projetos
+              </a>
+            </li>
+          </ol>
+          {principal && (
+            <span aria-hidden="true" className="block h-[2px] bg-linha/60">
+              <span className="regua-progresso block h-full origin-left bg-cobalto" style={{ transform: `scaleX(${fracao})` }} />
+            </span>
+          )}
         </nav>
-        <BotaoTema />
-        <LinkExterno
-          href={LINKEDIN}
-          className="botao-acao hidden rounded-full bg-cobalto px-4 py-2 text-[0.95rem] font-semibold whitespace-nowrap text-nevoa hover:bg-cobalto-forte sm:inline-block"
-        >
-          Falar comigo no LinkedIn
-        </LinkExterno>
-        <button
-          type="button"
-          onClick={() => setMenu((v) => !v)}
-          aria-expanded={menu}
-          aria-controls="menu-celular"
-          className="grid size-10 place-items-center rounded-full border border-linha text-tinta lg:hidden"
-        >
-          <span className="sr-only">{menu ? 'Fechar menu' : 'Abrir menu'}</span>
-          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
-            <path
-              d={menu ? 'M5 5l10 10M15 5L5 15' : 'M3 6h14M3 10h14M3 14h14'}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
-      </div>
-      {menu && (
-        <nav id="menu-celular" aria-label="Seções" className="border-t border-linha lg:hidden">
-          <ul className="mx-auto max-w-7xl px-4 py-2 sm:px-8">
-            {itens.map((s) => (
-              <li key={s.href}>
-                <a href={s.href} aria-current={atual(s.href)} onClick={() => setMenu(false)} className="block py-3 text-[1.1rem] font-medium hover:text-cobalto">
-                  {s.rotulo}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
-    </header>
+      </header>
+      {principal && <ReguaLateral nivel={nivel} fracao={fracao} />}
+    </>
   )
 }

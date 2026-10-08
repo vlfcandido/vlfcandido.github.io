@@ -1,7 +1,9 @@
 // Dados da seção "Interfaces que eu construo": os componentes vivos usam dados de exemplo
 // (pedidos de uma loja fictícia) e a pilha de frontend diz, item a item, onde aquilo foi usado.
-// Regra (08/10/2026): só entra tecnologia que o currículo ou um repositório prova. Angular fica
-// fora até haver prova; Vue.js vem do currículo (Sovis, 2019 a 2021).
+// Regra (08/10/2026): só entra tecnologia que o currículo ou um repositório prova. Vue.js vem do
+// currículo (Sovis, 2019 a 2021).
+// Corrigido em 08/10/2026: Angular ficava fora "até haver prova"; ele confirmou que cuida do front
+// e cria dashboards no Sicoob com Angular, então entra, citando só o Sicoob.
 
 /** Um dia do gráfico de pedidos (exemplo). */
 export interface DiaPedidos {
@@ -107,6 +109,7 @@ export const camadasFront: CamadaFront[] = [
     titulo: 'A tela',
     papel: 'O que a pessoa vê e clica.',
     itens: [
+      { nome: 'Angular', onde: 'O front e os dashboards que eu cuido hoje no Sicoob.' },
       { nome: 'React', onde: 'Este site e o painel do agente de vídeo, com 10 telas.' },
       { nome: 'Next.js', onde: 'O painel do bot de trading e o app de score de crédito.' },
       { nome: 'Vue.js', onde: 'Front-end de produto na Sovis, de 2019 a 2021.' },

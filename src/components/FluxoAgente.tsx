@@ -74,9 +74,9 @@ export function FluxoAgente() {
   const mensagens = atual.etapas.slice(0, etapa + 1).flatMap((e) => (e.mensagem ? [e.mensagem] : []))
 
   return (
-    <figure aria-labelledby="fluxo-titulo" className="mt-20 border-t border-linha pt-10 lg:grid lg:grid-cols-[17rem_1fr] lg:gap-12">
+    <figure aria-labelledby="fluxo-titulo" className="lg:grid lg:grid-cols-[17rem_1fr] lg:gap-12">
       <figcaption>
-        <h3 id="fluxo-titulo" className="text-[1.45rem] leading-[1.25] font-semibold">
+        <h3 id="fluxo-titulo" className="text-[1.25rem] leading-[1.25] font-semibold lg:text-[1.45rem]">
           Como eu ligo um agente ao que a sua empresa já usa
         </h3>
         <p className="prosa mt-3 text-[1.03rem] text-grafite">

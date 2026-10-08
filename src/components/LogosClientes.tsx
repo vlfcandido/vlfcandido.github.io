@@ -1,6 +1,7 @@
 import { useRef, useState, type CSSProperties, type FocusEvent, type PointerEvent } from 'react'
 import { flushSync } from 'react-dom'
 import { empresasDiretas, gruposClientes, segmentos, selecaoLogos, type Cliente, type Segmento } from '../clientes'
+import { Descer } from './Descer'
 import { Logo, logoClara } from './Logo'
 
 const TODOS: Cliente[] = gruposClientes.flatMap((g) => g.clientes)
@@ -46,8 +47,8 @@ interface GradeProps {
   lista: Cliente[]
   ativo: string | null
   definirAtivo: (slug: string | null) => void
-  /** No celular, quantas aparecem antes de expandir (0 = todas). */
-  curtaNoCelular?: number
+  /** `true` para a faixa fechada: uma linha rolável no celular, grade de seis no computador. */
+  faixa?: boolean
   /** Dá nome de transição às logos, para a grade se reorganizar animada ao filtrar. */
   comTransicao?: boolean
 }
@@ -56,21 +57,20 @@ interface GradeProps {
  * Grade de logos em que cada uma é um botão: hover, foco por teclado ou toque destacam a logo
  * (cor original sobre uma placa, leve elevação) e mostram a legenda com o ramo e a empresa.
  */
-function Grade({ lista, ativo, definirAtivo, curtaNoCelular = 0, comTransicao = true }: GradeProps) {
+function Grade({ lista, ativo, definirAtivo, faixa = false, comTransicao = true }: GradeProps) {
   // Guarda o tipo do último ponteiro, para o clique do mouse não desfazer o destaque do hover.
   const ponteiro = useRef<string>('')
+  const classe = faixa
+    ? 'grade-logos rolagem-lateral -mx-4 flex snap-x gap-x-4 overflow-x-auto px-4 py-2 sm:mx-0 sm:grid sm:grid-cols-6 sm:gap-x-8 sm:gap-y-4 xl:grid-cols-12 xl:gap-x-5 sm:overflow-visible sm:px-0 sm:py-0'
+    : 'grade-logos grid grid-cols-3 items-center gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-x-8 lg:grid-cols-6'
 
   return (
-    <ul className="grade-logos grid grid-cols-3 items-center gap-x-6 gap-y-6 sm:grid-cols-4 sm:gap-x-8 lg:grid-cols-6">
-      {lista.map((c, i) => {
+    <ul className={classe}>
+      {lista.map((c) => {
         const esta = ativo === c.slug
         const estilo = comTransicao ? ({ viewTransitionName: `logo-${c.slug}` } as CSSProperties) : undefined
         return (
-          <li
-            key={c.slug}
-            style={estilo}
-            className={`h-16 items-center ${curtaNoCelular && i >= curtaNoCelular ? 'hidden sm:flex' : 'flex'}`}
-          >
+          <li key={c.slug} style={estilo} className={`flex h-14 items-center ${faixa ? 'w-[5.25rem] shrink-0 snap-start sm:w-auto' : ''}`}>
             <button
               type="button"
               data-ativo={esta}
@@ -103,7 +103,9 @@ function Grade({ lista, ativo, definirAtivo, curtaNoCelular = 0, comTransicao = 
 }
 
 /**
- * Logos dos clientes com filtro por ramo: os chips reorganizam a grade com transição
+ * Logos dos clientes: à vista, uma faixa com a seleção (linha rolável no celular, duas linhas de
+ * seis no computador) e a linha de sondagem da logo escolhida; "Descer" abre as outras empresas
+ * com filtro por ramo (com um ramo escolhido, a grade mostra todas as dele). Os chips reorganizam a grade com transição
  * (View Transitions, quando o navegador tem e a pessoa não pediu menos movimento).
  */
 export function LogosClientes() {
@@ -133,47 +135,11 @@ export function LogosClientes() {
   const filtrada = filtro === 'todos' ? null : TODOS.filter((c) => c.segmento === filtro)
 
   return (
-    <div className="mt-12">
-      <div role="group" aria-label="Filtrar por ramo" className="-mx-4 flex gap-2 overflow-x-auto px-4 pt-1 pb-2 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
-        {[{ segmento: 'todos' as Filtro, rotulo: 'Todos', total: TOTAL }, ...FILTROS].map((f) => {
-          const marcado = filtro === f.segmento
-          return (
-            <button
-              key={f.segmento}
-              type="button"
-              aria-pressed={marcado}
-              onClick={() => escolher(f.segmento)}
-              className={`chip inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[0.95rem] font-medium whitespace-nowrap ${
-                marcado ? 'border-cobalto bg-cobalto text-nevoa' : 'border-linha bg-folha text-tinta hover:border-cobalto hover:text-cobalto'
-              }`}
-            >
-              {marcado && <span aria-hidden="true" className="ponto ponto-anel" />}
-              <span>
-                {f.rotulo} <span className={marcado ? 'opacity-80' : 'text-grafite'}>{f.total}</span>
-              </span>
-            </button>
-          )
-        })}
-      </div>
+    <div className="mt-6 lg:mt-8">
+      <Grade lista={SELECAO} ativo={ativo} definirAtivo={setAtivo} faixa />
 
-      <div className="mt-10">
-        {filtrada ? (
-          <Grade lista={filtrada} ativo={ativo} definirAtivo={setAtivo} />
-        ) : (
-          <>
-            <Grade lista={SELECAO} ativo={ativo} definirAtivo={setAtivo} curtaNoCelular={aberto ? 0 : 12} />
-            <div id="mais-logos" className="expansivel" data-aberto={aberto} inert={!aberto}>
-              <div>
-                <div className="pt-6">
-                  <Grade lista={RESTO} ativo={ativo} definirAtivo={setAtivo} comTransicao={aberto} />
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
-      <p aria-live="polite" className="prosa mt-6 min-h-[3.4em] text-[1rem] text-grafite sm:hidden">
+      {/* Linha de sondagem: o que a logo tocada, clicada ou focada diz. Vale para toque e mouse. */}
+      <p aria-live="polite" className="prosa mt-3 min-h-[1.6em] text-[1rem] text-grafite">
         {ativoCliente ? (
           <>
             <strong className="font-semibold text-tinta">{ativoCliente.nome}</strong>: {legendaDe(ativoCliente)}
@@ -183,26 +149,30 @@ export function LogosClientes() {
         )}
       </p>
 
-      {!filtrada && (
-        <button
-          type="button"
-          onClick={() => setAberto((v) => !v)}
-          aria-expanded={aberto}
-          aria-controls="mais-logos"
-          className="botao-acao mt-6 inline-flex items-center gap-2 rounded-full border border-linha px-5 py-2.5 font-medium hover:border-cobalto hover:text-cobalto sm:mt-10"
-        >
-          {aberto ? 'Mostrar menos' : `Ver todas as ${TOTAL} empresas`}
-          <svg
-            viewBox="0 0 16 16"
-            width="14"
-            height="14"
-            aria-hidden="true"
-            className={`transition-transform motion-reduce:transition-none ${aberto ? 'rotate-180' : ''}`}
-          >
-            <path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-        </button>
-      )}
+      <Descer id="todas-logos" aberto={aberto} aoAlternar={() => comTransicao(() => { setAberto((v) => !v); setFiltro('todos'); setAtivo(null) })} oQue={`as ${TOTAL} empresas, por ramo`} className="mt-2">
+        <div role="group" aria-label="Filtrar por ramo" className="rolagem-lateral -mx-4 mt-4 mb-5 flex gap-2 overflow-x-auto px-4 pt-1 pb-2 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+          {[{ segmento: 'todos' as Filtro, rotulo: 'Todos', total: TOTAL }, ...FILTROS].map((f) => {
+            const marcado = filtro === f.segmento
+            return (
+              <button
+                key={f.segmento}
+                type="button"
+                aria-pressed={marcado}
+                onClick={() => escolher(f.segmento)}
+                className={`chip inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[0.95rem] font-medium whitespace-nowrap ${
+                  marcado ? 'border-cobalto bg-cobalto text-nevoa' : 'border-linha bg-folha text-tinta hover:border-cobalto hover:text-cobalto'
+                }`}
+              >
+                {marcado && <span aria-hidden="true" className="ponto ponto-anel" />}
+                <span>
+                  {f.rotulo} <span className={marcado ? 'opacity-80' : 'text-grafite'}>{f.total}</span>
+                </span>
+              </button>
+            )
+          })}
+        </div>
+        <Grade lista={filtrada ?? RESTO} ativo={ativo} definirAtivo={setAtivo} comTransicao={aberto} />
+      </Descer>
     </div>
   )
 }

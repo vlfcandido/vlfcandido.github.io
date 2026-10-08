@@ -16,9 +16,9 @@ describe('interfaces que eu construo', () => {
     expect(etapasPedido[0]).toBe('Recebido')
     expect(etapasPedido.at(-1)).toBe('Entregue')
   })
-  it('pilha só cita o que tem prova: sem Angular, e todo item diz onde foi usado', () => {
-    const tudo = JSON.stringify(camadasFront)
-    expect(tudo.toLowerCase()).not.toContain('angular')
+  it('pilha só cita o que tem prova: Angular vem do Sicoob, e todo item diz onde foi usado', () => {
+    const angular = camadasFront.flatMap((c) => c.itens).find((i) => i.nome === 'Angular')
+    expect(angular?.onde).toContain('Sicoob')
     camadasFront.flatMap((c) => c.itens).forEach((i) => expect(i.onde.length, i.nome).toBeGreaterThan(15))
   })
   it('sem termo proibido nem cara de IA', () => {
