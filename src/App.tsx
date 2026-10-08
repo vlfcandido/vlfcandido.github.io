@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Cabecalho } from './components/Cabecalho'
-import { DefsDiagramas } from './components/Diagramas'
 import { LinkedinFixo } from './components/LinkedinFixo'
 import { Rodape } from './components/Rodape'
 import { HASH_PROJETOS, hashAtual, projetoDoHash, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
@@ -65,7 +64,6 @@ export function App() {
       >
         Pular para o conteúdo
       </a>
-      <DefsDiagramas />
       <Cabecalho rota={rota} />
       <main id="conteudo" className="mx-auto max-w-7xl px-4 sm:px-8">
         {rota === 'projetos' ? <PaginaProjetos hash={hash} /> : <PaginaInicio />}

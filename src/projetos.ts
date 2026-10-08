@@ -102,6 +102,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: ['Mais de 1.600 testes automáticos', '53 decisões de arquitetura documentadas', 'MVP em desenvolvimento, sem usuário pagante'],
       print: prints('aprovaos')[0],
       printExtra: prints('aprovaos')[1],
+      diagrama: diagramasDosCasos.aprovaos,
       repositorio: 'https://github.com/vlfcandido/aprovaos',
     },
     {
@@ -149,6 +150,7 @@ export function listarProjetos(): ItemProjeto[] {
       feito: revisor.feito,
       numeros: [revisor.metrica],
       print: prints('revisor-ia')[0],
+      diagrama: diagramasDosCasos['revisor-ia'],
       repositorio: 'https://github.com/vlfcandido/revisor-ia',
     },
     {
@@ -163,6 +165,7 @@ export function listarProjetos(): ItemProjeto[] {
       feito: 'Busca de passagens integrada à API da Amadeus, com controle de cota, cache e limite de chamadas, que prioriza a duração da viagem.',
       numeros: ['109 testes automáticos', 'MVP de uso pessoal'],
       print: { arquivo: 'prints/varredura-voos.webp', alt: 'Terminal com o resultado da varredura de voos ordenado por duração' },
+      diagrama: diagramasDosCasos['varredura-voos'],
       repositorio: 'https://github.com/vlfcandido/varredura-voos',
     },
     {
@@ -177,6 +180,7 @@ export function listarProjetos(): ItemProjeto[] {
       feito: 'O mesmo agente em Pydantic puro, LangGraph e Google ADK, mais versões multiagente com defesa contra prompt injection, rodando offline.',
       numeros: ['24 testes de fumaça'],
       print: { arquivo: 'prints/engenharia-de-agentes.webp', alt: 'Comparação do mesmo agente em três frameworks' },
+      diagrama: diagramasDosCasos['engenharia-de-agentes'],
       repositorio: 'https://github.com/vlfcandido/engenharia-de-agentes',
     },
     {
@@ -235,7 +239,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [sicoob.metrica],
       papel: empresa('sicoob').papel,
       empresa: 'sicoob',
-      diagrama: 'sicoob',
+      diagrama: diagramasDosCasos.sicoob,
       fonte: sicoob.fonte,
     },
     {
@@ -301,6 +305,41 @@ export function listarProjetos(): ItemProjeto[] {
       papel: empresa('wiv').papel,
       empresa: 'wiv',
       fonte: waizer.fonte,
+    },
+    {
+      slug: 'ecovita',
+      origem: 'empresa',
+      nome: 'Roleta de corretores',
+      resultado: 'Lead parado há mais de uma hora passa sozinho para o próximo corretor.',
+      tipos: ['integracoes', 'chatbot'],
+      // Situação de hoje não conferida: fica como MVP (o status não aparece no site).
+      status: 'mvp',
+      etiquetas: ['.NET', 'Hangfire', 'API do Blip'],
+      stack: ['.NET', 'Hangfire', 'SQL Server', 'API do Blip', 'API do CRM', 'Azure Blob'],
+      problema: 'Na Ecovita, lead de imóvel sem resposta de um corretor precisava mudar de mãos sem ninguém fazer isso à mão.',
+      feito:
+        'Um job agendado lê a fila, confere no CRM e no Blip Desk onde cada lead está e, se ninguém respondeu em uma hora, passa o atendimento para o próximo corretor da mesma fila, atualizando o ticket no Blip, o responsável no CRM e o analytics.',
+      numeros: [],
+      papel: 'Projeto que liderei para a Ecovita',
+      diagrama: diagramasDosCasos.ecovita,
+    },
+    {
+      slug: 'minu',
+      origem: 'empresa',
+      nome: 'Rastreio de campanhas no WhatsApp',
+      resultado: 'Mostra quantas mensagens de cada campanha chegaram, foram lidas ou falharam.',
+      tipos: ['integracoes', 'chatbot'],
+      // Situação de hoje não conferida: fica como MVP (o status não aparece no site).
+      status: 'mvp',
+      etiquetas: ['Firebase Functions', 'Hono', 'TypeScript'],
+      stack: ['Firebase Functions', 'Hono', 'TypeScript', 'Zod', 'Cloud Scheduler', 'API do Blip', 'API do Braze'],
+      problema: 'A Minu precisava saber o que acontecia com cada mensagem das campanhas de WhatsApp depois do envio.',
+      feito:
+        'Uma função agendada a cada minuto busca as campanhas e a audiência no Blip, lê o status de cada mensagem, junta o perfil do usuário no Braze e registra um evento por status no analytics.',
+      numeros: [],
+      papel: 'Projeto que liderei para a Minu',
+      empresa: 'minu',
+      diagrama: diagramasDosCasos.minu,
     },
     {
       slug: 'serasa-experian',

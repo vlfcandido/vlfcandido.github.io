@@ -1,7 +1,7 @@
 import { useEffect, useRef, type MouseEvent, type ReactNode, type SyntheticEvent } from 'react'
-import { empresasDiretas } from '../clientes'
+import { empresasDiretas, gruposClientes } from '../clientes'
 import type { ItemProjeto } from '../projetos'
-import { DiagramaArquitetura } from './Diagramas'
+import { DiagramaMare } from './DiagramaMare'
 import { FonteLink } from './FonteLink'
 import { LinkExterno } from './LinkExterno'
 import { Logo } from './Logo'
@@ -30,7 +30,9 @@ function Bloco({ titulo, children }: { titulo: string; children: ReactNode }) {
  */
 export function PainelProjeto({ item, aoFechar }: PainelProps) {
   const ref = useRef<HTMLDialogElement>(null)
-  const empresa = item?.empresa ? empresasDiretas.find((e) => e.slug === item.empresa) : undefined
+  const empresa = item?.empresa
+    ? [...empresasDiretas, ...gruposClientes.flatMap((g) => g.clientes)].find((e) => e.slug === item.empresa)
+    : undefined
 
   useEffect(() => {
     const dlg = ref.current
@@ -157,8 +159,8 @@ export function PainelProjeto({ item, aoFechar }: PainelProps) {
           {item.diagrama && (
             <div className="mt-10">
               <Bloco titulo="Como as peças conversam">
-                <div className="mt-2 rounded-lg border border-linha bg-nevoa p-1.5 sm:p-6">
-                  <DiagramaArquitetura id={item.diagrama} />
+                <div className="mt-2 rounded-lg border border-linha bg-nevoa px-1 py-3 sm:p-6">
+                  <DiagramaMare id={item.diagrama} />
                 </div>
               </Bloco>
             </div>
