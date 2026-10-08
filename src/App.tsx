@@ -3,28 +3,55 @@ import { Cabecalho } from './components/Cabecalho'
 import { DefsDiagramas } from './components/Diagramas'
 import { LinkedinFixo } from './components/LinkedinFixo'
 import { Rodape } from './components/Rodape'
-import { rotaDoHash, type Rota } from './lib/rota'
+import { hashAtual, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
 import { PaginaInicio } from './paginas/Inicio'
 import { PaginaProjetos } from './paginas/Projetos'
 
-/** Lê a rota do hash atual e acompanha as mudanças; ao trocar de página, volta ao topo. */
-function useRota(): Rota {
-  const [rota, setRota] = useState<Rota>(() => rotaDoHash(window.location.hash))
+/** Troca um hash de versão antiga pelo atual sem criar entrada nova no histórico. */
+function normalizarHash(): string {
+  const novo = hashAtual(window.location.hash)
+  if (novo) history.replaceState(null, '', novo)
+  return window.location.hash
+}
+
+/** Lê o hash atual (já traduzido das versões antigas) e acompanha as mudanças. */
+function useHash(): string {
+  const [hash, setHash] = useState(normalizarHash)
   useEffect(() => {
-    function aoMudar() {
-      // Âncora da própria página (#como-funciona) o navegador rola sozinho; troca de página volta ao topo.
-      if (!/^#[^/]/.test(window.location.hash)) window.scrollTo({ top: 0 })
-      setRota(rotaDoHash(window.location.hash))
-    }
+    const aoMudar = () => setHash(normalizarHash())
     window.addEventListener('hashchange', aoMudar)
     return () => window.removeEventListener('hashchange', aoMudar)
   }, [])
-  return rota
+  return hash
+}
+
+/**
+ * Depois de cada render da rota, leva a pessoa ao destino: a seção da âncora ou o título da página.
+ * O foco vai junto (tabindex -1) para leitor de tela e teclado continuarem dali, e a rolagem é
+ * suave salvo quando o sistema pede menos movimento.
+ */
+function useDestino(hash: string, rota: Rota) {
+  useEffect(() => {
+    const id = secaoDoHash(hash)
+    const alvo = id ? document.getElementById(id) : rota === 'projetos' ? document.querySelector('main h1') : null
+    const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!alvo) {
+      window.scrollTo({ top: 0 })
+      return
+    }
+    if (!(alvo instanceof HTMLElement)) return
+    if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1')
+    alvo.focus({ preventScroll: true })
+    if (id) alvo.scrollIntoView({ behavior: suave ? 'smooth' : 'auto', block: 'start' })
+    else window.scrollTo({ top: 0 })
+  }, [hash, rota])
 }
 
 /** Site com duas páginas: a principal, comercial, e a de projetos, com o detalhe técnico. */
 export function App() {
-  const rota = useRota()
+  const hash = useHash()
+  const rota = rotaDoHash(hash)
+  useDestino(hash, rota)
   return (
     <>
       <a

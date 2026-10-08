@@ -15,7 +15,9 @@ const SECOES = [
 /** Cabeçalho fixo: nome, seções (menu no celular), tema e o LinkedIn sempre à vista. */
 export function Cabecalho({ rota }: { rota: Rota }) {
   const [menu, setMenu] = useState(false)
-  const itens = rota === 'projetos' ? [{ href: '#/', rotulo: 'Início' }, ...SECOES.slice(3)] : SECOES
+  // As seções da principal ficam no menu nas duas páginas: o App renderiza a principal e rola até a seção.
+  const itens = rota === 'projetos' ? [{ href: '#/', rotulo: 'Início' }, ...SECOES] : SECOES
+  const atual = (href: string) => (href === HASH_PROJETOS && rota === 'projetos' ? 'page' : undefined)
 
   useEffect(() => {
     if (!menu) return
@@ -34,7 +36,7 @@ export function Cabecalho({ rota }: { rota: Rota }) {
           <ul className="flex gap-6 text-[0.95rem] text-grafite">
             {itens.map((s) => (
               <li key={s.href}>
-                <a className="hover:text-tinta" href={s.href}>
+                <a className="hover:text-tinta" href={s.href} aria-current={atual(s.href)}>
                   {s.rotulo}
                 </a>
               </li>
@@ -72,7 +74,7 @@ export function Cabecalho({ rota }: { rota: Rota }) {
           <ul className="mx-auto max-w-7xl px-4 py-2 sm:px-8">
             {itens.map((s) => (
               <li key={s.href}>
-                <a href={s.href} onClick={() => setMenu(false)} className="block py-3 text-[1.1rem] font-medium hover:text-cobalto">
+                <a href={s.href} aria-current={atual(s.href)} onClick={() => setMenu(false)} className="block py-3 text-[1.1rem] font-medium hover:text-cobalto">
                   {s.rotulo}
                 </a>
               </li>
