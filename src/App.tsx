@@ -38,7 +38,7 @@ function useDestino(hash: string, rota: Rota) {
     const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
     // Case de projeto (página inteira desde 08/10/2026): abre no topo, com o foco no título do case.
     if (projetoDoHash(hash)) {
-      window.scrollTo({ top: 0 })
+      window.scrollTo({ top: 0, behavior: 'instant' })
       document.getElementById('case-titulo')?.focus({ preventScroll: true })
       return
     }
@@ -47,7 +47,7 @@ function useDestino(hash: string, rota: Rota) {
     const card = deCase ? document.getElementById(`card-${deCase}`) : null
     if (card) {
       card.focus({ preventScroll: true })
-      card.scrollIntoView({ block: 'center' })
+      card.scrollIntoView({ block: 'center', behavior: 'instant' })
       return
     }
     const id = secaoDoHash(hash)
