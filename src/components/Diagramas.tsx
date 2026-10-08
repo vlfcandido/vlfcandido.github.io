@@ -163,21 +163,25 @@ const DESENHOS: Record<Diagrama, { titulo: string; altura: number; corpo: () => 
   sicoob: { titulo: 'Assistente de investimentos com três agentes de IA', altura: 320, corpo: Sicoob },
 }
 
-/** Desenha o diagrama pedido; no celular rola na horizontal para manter o texto legível. */
+/**
+ * Desenha o diagrama pedido. O SVG ocupa a largura do contêiner (viewBox responsivo), sem barra de
+ * rolagem; no celular o desenho encolhe junto e continua inteiro na tela.
+ */
 export function DiagramaArquitetura({ id }: { id: Diagrama }) {
   const d = DESENHOS[id]
   const Corpo = d.corpo
   return (
-    <figure className="max-w-full overflow-x-auto rounded-sm">
+    <figure className="w-full">
       <svg
         role="img"
         aria-label={d.titulo}
         viewBox={`0 0 800 ${d.altura}`}
-        className="block w-full min-w-[640px] font-titulo"
+        width="100%"
+        preserveAspectRatio="xMidYMid meet"
+        className="block h-auto w-full max-w-full font-titulo"
       >
         <Corpo />
       </svg>
-      <figcaption className="mt-2 text-[0.9rem] text-grafite sm:hidden">Arraste para o lado para ver o desenho inteiro.</figcaption>
     </figure>
   )
 }

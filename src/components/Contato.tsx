@@ -21,11 +21,11 @@ export function Contato() {
       </div>
       <p className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-grafite">
         {noventaENove && (
-          <LinkExterno href={noventaENove.url} className="underline decoration-linha underline-offset-4 hover:text-tinta">
+          <LinkExterno href={noventaENove.url} className="sublinha hover:text-tinta">
             99Freelas
           </LinkExterno>
         )}
-        <LinkExterno href={GITHUB} className="underline decoration-linha underline-offset-4 hover:text-tinta">
+        <LinkExterno href={GITHUB} className="sublinha hover:text-tinta">
           GitHub
         </LinkExterno>
       </p>

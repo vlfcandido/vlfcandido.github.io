@@ -49,3 +49,25 @@ export function hashAtual(hash: string): string | null {
 export function secaoDoHash(hash: string): string | null {
   return /^#[^/]/.test(hash) ? decodeURIComponent(hash.slice(1)) : null
 }
+
+/**
+ * Extrai o projeto aberto no painel a partir do hash.
+ *
+ * @param hash valor de `location.hash` (ex.: `#/projetos/aprovaos`).
+ * @returns o slug (`aprovaos`) ou `null` quando nenhum projeto está aberto.
+ */
+export function projetoDoHash(hash: string): string | null {
+  if (!hash.startsWith(`${HASH_PROJETOS}/`)) return null
+  const slug = decodeURIComponent(hash.slice(HASH_PROJETOS.length + 1))
+  return /^[a-z0-9-]+$/.test(slug) ? slug : null
+}
+
+/**
+ * Hash compartilhável que abre o painel de um projeto.
+ *
+ * @param slug slug do projeto em `projetos.ts`.
+ * @returns o hash (ex.: `#/projetos/aprovaos`).
+ */
+export function hashDoProjeto(slug: string): string {
+  return `${HASH_PROJETOS}/${slug}`
+}

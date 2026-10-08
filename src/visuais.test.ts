@@ -9,7 +9,7 @@ const PUBLICO = join(__dirname, '..', 'public')
 describe('imagens do site', () => {
   it('não tem termo proibido', () => expect(encontrarTermosProibidos(JSON.stringify(visuais))).toEqual([]))
   it('todo print referenciado existe', () => {
-    const prints = [...Object.values(visuais.printsDosCasos).flat(), ...visuais.repositorios.map((r) => r.print)]
+    const prints = Object.values(visuais.printsDosCasos).flat()
     prints.forEach((p) => expect(existsSync(join(PUBLICO, p.arquivo)), p.arquivo).toBe(true))
   })
   it('todo print tem alt descritivo', () =>

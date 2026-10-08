@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ANCORAS_ANTIGAS, hashAtual, rotaDoHash, secaoDoHash } from './rota'
+import { ANCORAS_ANTIGAS, hashAtual, hashDoProjeto, projetoDoHash, rotaDoHash, secaoDoHash } from './rota'
 
 describe('rotaDoHash', () => {
   it('vazio é início', () => expect(rotaDoHash('')).toBe('inicio'))
@@ -24,4 +24,12 @@ describe('secaoDoHash', () => {
   it('âncora vira id', () => expect(secaoDoHash('#resultados')).toBe('resultados'))
   it('rota não é seção', () => expect(secaoDoHash('#/projetos')).toBeNull())
   it('vazio não é seção', () => expect(secaoDoHash('')).toBeNull())
+})
+
+describe('projetoDoHash', () => {
+  it('lê o slug do painel', () => expect(projetoDoHash('#/projetos/aprovaos')).toBe('aprovaos'))
+  it('lista sem painel', () => expect(projetoDoHash('#/projetos')).toBeNull())
+  it('ignora slug inválido', () => expect(projetoDoHash('#/projetos/<x>')).toBeNull())
+  it('ida e volta', () => expect(projetoDoHash(hashDoProjeto('nexus-quant'))).toBe('nexus-quant'))
+  it('âncora da principal não é painel', () => expect(projetoDoHash('#resultados')).toBeNull())
 })

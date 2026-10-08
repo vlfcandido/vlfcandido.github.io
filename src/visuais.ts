@@ -10,14 +10,6 @@ export interface Print {
 /** Diagramas de arquitetura desenhados em SVG para os projetos com mais peças. */
 export type Diagrama = 'nexus-quant' | 'nexus-clips' | 'sicoob'
 
-/** Repositório público que não tem caso próprio em conteudo.ts, exibido na galeria. */
-export interface Repositorio {
-  nome: string
-  descricao: string
-  url: string
-  print: Print
-}
-
 /** Prints de cada caso, pelo slug de conteudo.ts. O primeiro é o principal. */
 export const printsDosCasos: Record<string, Print[]> = {
   'nexus-quant': [
@@ -41,46 +33,6 @@ export const diagramasDosCasos: Record<string, Diagrama> = {
   'nexus-quant': 'nexus-quant',
   'nexus-clips': 'nexus-clips',
 }
-
-/** Outros repositórios públicos, cada um com o print da sua melhor tela. */
-export const repositorios: Repositorio[] = [
-  {
-    nome: 'bot-pedidos-whatsapp-llm',
-    descricao: 'Bot de pedidos por WhatsApp com roteador LLM, agentes com tools Pydantic e transbordo humano.',
-    url: 'https://github.com/vlfcandido/bot-pedidos-whatsapp-llm',
-    print: { arquivo: 'prints/bot-pedidos-whatsapp-llm.webp', alt: 'Conversa de pedido no WhatsApp atendida pelo bot' },
-  },
-  {
-    nome: 'engenharia-de-agentes',
-    descricao: 'O mesmo agente em Pydantic puro, LangGraph e Google ADK, mais versões multiagente, rodando offline.',
-    url: 'https://github.com/vlfcandido/engenharia-de-agentes',
-    print: { arquivo: 'prints/engenharia-de-agentes.webp', alt: 'Comparação do mesmo agente em três frameworks' },
-  },
-  {
-    nome: 'benchmark-litellm-sdk-proxy',
-    descricao: 'Latência, tempo até o primeiro token, erros e custo: LiteLLM SDK contra LiteLLM Proxy.',
-    url: 'https://github.com/vlfcandido/benchmark-litellm-sdk-proxy',
-    print: { arquivo: 'prints/benchmark-litellm-sdk-proxy.webp', alt: 'Painel do benchmark com gráficos de latência e custo' },
-  },
-  {
-    nome: 'varredura-voos',
-    descricao: 'Busca de passagens que prioriza a duração da viagem, não só o preço.',
-    url: 'https://github.com/vlfcandido/varredura-voos',
-    print: { arquivo: 'prints/varredura-voos.webp', alt: 'Terminal com o resultado da varredura de voos ordenado por duração' },
-  },
-  {
-    nome: 'previsao-tempo-chatbot',
-    descricao: 'Microsserviço que entrega a previsão de 3 dias num JSON enxuto para chatbots.',
-    url: 'https://github.com/vlfcandido/previsao-tempo-chatbot',
-    print: { arquivo: 'prints/previsao-tempo-chatbot.webp', alt: 'Conversa de chatbot respondendo a previsão do tempo' },
-  },
-  {
-    nome: 'api-intervalo-premios-filmes',
-    descricao: 'API REST em Node.js que calcula o menor e o maior intervalo entre prêmios de produtores.',
-    url: 'https://github.com/vlfcandido/api-intervalo-premios-filmes',
-    print: { arquivo: 'prints/api-intervalo-premios-filmes.webp', alt: 'Documentação da API com a resposta de intervalos entre prêmios' },
-  },
-]
 
 /** Endereço do perfil no LinkedIn: a porta de entrada do site, num único lugar. */
 export const LINKEDIN = 'https://www.linkedin.com/in/viniciusf-candido'

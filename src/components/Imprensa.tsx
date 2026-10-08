@@ -29,7 +29,7 @@ export function Imprensa() {
                 <span className="block text-[0.9rem] font-normal">{dataBr(n.data)}</span>
               </span>
               <span>
-                <span className="block text-[1.15rem] leading-[1.35] font-medium underline decoration-transparent decoration-2 underline-offset-4 group-hover:decoration-cobalto">
+                <span className="block text-[1.15rem] leading-[1.35] font-medium underline decoration-transparent decoration-2 underline-offset-4 group-hover:decoration-pitanga group-focus-visible:decoration-pitanga">
                   {n.titulo}
                 </span>
                 <span className="revela">
