@@ -18,6 +18,12 @@
   --coral-texto: #c4213f;
   --sol: #ffd34d;
   --on-sol: #0f2a33;
+  /* Movimento (tokens.motion): só transform e opacity, de 150 a 400 ms, uma curva só. */
+  --mov-toque: 150ms;
+  --mov-padrao: 250ms;
+  --mov-lento: 400ms;
+  --mov-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --mov-deslocamento: 14px;
 }
 
 @media (prefers-color-scheme: dark) {
