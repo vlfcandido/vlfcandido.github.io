@@ -189,7 +189,8 @@ export const destaques: Destaque[] = [
     // Antes: texto 'Construí os agentes de IA de vendas (SDR) da Contabilizei.' e resultado 'Agentes de IA de vendas (SDR).'
     texto:
       'Vendedor de IA no WhatsApp para uma contabilidade digital: um orquestrador e 8 agentes especializados que qualificam o lead, apresentam planos, simulam taxas e geram a cobrança.',
-    resultado: 'Trabalhei no backend, na passagem automática para o time humano e nas integrações com WhatsApp e CRM.',
+    // Cargo incluído em 08/10/2026 (decisão dele). Antes: 'Trabalhei no backend, na passagem automática (...)'.
+    resultado: 'Como Arquiteto Sênior de IA, trabalhei no backend, na passagem automática para o time humano e nas integrações com WhatsApp e CRM.',
   },
 ]
 
@@ -243,7 +244,7 @@ export const cases: Case[] = [
     // Texto aprovado por ele em 08/10/2026. Antes: 'Construí os agentes de IA de vendas (SDR) da Contabilizei,
     // de 2025 a mar/2026.' e stack ['agentes de IA', 'multiagente'].
     feito:
-      'Vendedor de IA no WhatsApp para uma contabilidade digital: um orquestrador e 8 agentes especializados (Google ADK + Gemini no Vertex AI) que qualificam o lead, apresentam planos, simulam taxas e geram a cobrança. Trabalhei no backend em Python, no handoff automático para o time humano e nas integrações com WhatsApp e CRM.',
+      'Vendedor de IA no WhatsApp para uma contabilidade digital: um orquestrador e 8 agentes especializados (Google ADK + Gemini no Vertex AI) que qualificam o lead, apresentam planos, simulam taxas e geram a cobrança. Como Arquiteto Sênior de IA, trabalhei no backend em Python, no handoff automático para o time humano e nas integrações com WhatsApp e CRM.',
     metrica: '',
     fonte: { texto: 'Contabilizei, 2025 a mar/2026' },
     stack: ['Python', 'Google ADK', 'LangGraph', 'Gemini no Vertex AI', 'Postgres', 'Redis', 'Cloud Run', 'WhatsApp', 'CRM'],

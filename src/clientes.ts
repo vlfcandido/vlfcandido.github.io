@@ -81,7 +81,8 @@ export const empresasDiretas: EmpresaDireta[] = [
     logo: 'logos/contabilizei.svg',
     // Corrigido em 08/10/2026 (ele): o atendimento com IA citado pelo Google Cloud não foi trabalho dele.
     // Antes: papel "Arquiteto sênior de IA", com a matéria do Google como história.
-    papel: 'Agentes de IA de vendas (SDR)',
+    // Cargo devolvido em 08/10/2026 (decisão dele). Antes desta correção: 'Agentes de IA de vendas (SDR)'.
+    papel: 'Arquiteto Sênior de IA, agentes de IA de vendas',
     // Atualizado em 08/10/2026 com o texto aprovado. Antes: 'Fiz os agentes de IA de vendas (SDR).'
     feito: 'Vendedor de IA no WhatsApp com um orquestrador e 8 agentes; trabalhei no backend, na passagem para o time humano e nas integrações.',
     ligadoA: 'contabilizei-vendas',
