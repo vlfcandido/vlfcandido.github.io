@@ -16,7 +16,7 @@ export function Abertura() {
           </p>
           <h1
             id="inicio-titulo"
-            className="mt-4 text-[2.3rem] leading-[1.05] font-[680] tracking-[-0.025em] text-balance sm:text-[3.2rem] xl:text-[3.9rem]"
+            className="mt-4 text-[2.3rem] leading-[1.1] font-[660] tracking-[0em] text-balance sm:text-[3.2rem] xl:text-[3.9rem]"
           >
             {perfil.chamada}
           </h1>

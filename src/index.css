@@ -71,10 +71,21 @@ html {
   }
 }
 
+/* Tipografia (revisão de 07/10/2026): o site parecia "apertado" porque os títulos usavam
+   tracking negativo (-0,025em), entrelinha 1 a 1,05 e o corte óptico de display da Bricolage
+   (opsz 96), que já vem com espaçamento justo. Agora: corpo com entrelinha 1,55 e espaço de
+   letra neutro; títulos com corte óptico intermediário e entrelinha 1,1 a 1,2. */
 body {
   @apply bg-nevoa font-titulo text-tinta antialiased;
   font-optical-sizing: auto;
+  line-height: 1.55;
+  letter-spacing: 0.004em;
   overflow-x: hidden;
+}
+
+h1,
+h2 {
+  font-variation-settings: "opsz" 36;
 }
 
 :focus-visible {
@@ -102,7 +113,8 @@ body {
 /* Texto corrido em serifada, com entrelinha maior que a da grotesca. */
 .prosa {
   font-family: var(--font-texto);
-  line-height: 1.6;
+  line-height: 1.68;
+  letter-spacing: 0;
 }
 
 /* Logos: silhueta numa tinta só (como nos sites de referência); a cor original volta no
@@ -191,12 +203,204 @@ a:focus-visible .logo-mono {
   }
 }
 
-/* Botões principais respondem ao toque. */
+/* Botões principais: no hover sobem e ganham a sombra dura da conversa de exemplo; no clique,
+   afundam até o lugar (sensação de tecla). */
 .botao-acao {
-  transition: background-color 0.15s, transform 0.15s;
+  transition: background-color 0.15s, transform 0.15s, box-shadow 0.15s, border-color 0.15s, color 0.15s;
+}
+@media (hover: hover) {
+  .botao-acao:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 3px 3px 0 var(--tinta);
+  }
 }
 .botao-acao:active {
-  transform: translateY(1px) scale(0.98);
+  transform: translate(0, 0) scale(0.98);
+  box-shadow: 0 0 0 var(--tinta);
+}
+
+/* Chips de filtro das logos: mesmo afundar no clique. */
+.chip {
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
+}
+.chip:active {
+  transform: scale(0.96);
+}
+
+/* Logos clicáveis: a ativa ganha placa clara, cor original e sobe um pouco; a legenda flutua
+   acima (no celular a legenda vai para a linha abaixo da grade). */
+.logo-botao {
+  position: relative;
+  isolation: isolate;
+  transition: transform 0.2s ease;
+}
+.logo-botao::before {
+  content: "";
+  position: absolute;
+  inset: -4px -8px;
+  z-index: -1;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--linha);
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.logo-botao[data-ativo="true"] {
+  z-index: 5;
+  transform: translateY(-4px);
+}
+.logo-botao[data-ativo="true"]::before {
+  opacity: 1;
+  transform: none;
+}
+:root .logo-botao[data-ativo="true"] .logo-mono {
+  filter: none;
+  opacity: 1;
+}
+.dica {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: -8px;
+  z-index: 10;
+  display: none;
+  width: max-content;
+  max-width: 15rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: var(--tinta);
+  color: var(--nevoa);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+@media (min-width: 640px) {
+  .dica {
+    display: block;
+  }
+  .grade-logos > li:nth-child(4n) .dica {
+    left: auto;
+    right: -8px;
+  }
+}
+@media (min-width: 1024px) {
+  .grade-logos > li:nth-child(4n) .dica {
+    left: -8px;
+    right: auto;
+  }
+  .grade-logos > li:nth-child(6n) .dica,
+  .grade-logos > li:nth-child(6n + 5) .dica {
+    left: auto;
+    right: -8px;
+  }
+}
+.logo-botao[data-ativo="true"] .dica {
+  opacity: 1;
+  transform: none;
+}
+::view-transition-group(*) {
+  animation-duration: 0.42s;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Case que abre: borda cobalto quando aberto. */
+.cartao-caso {
+  transition: border-color 0.2s ease;
+}
+.cartao-caso[data-aberto="true"] {
+  border-color: var(--cobalto);
+}
+
+/* Como funciona: cada passo liga ao próximo por um traço que se preenche quando o passo
+   já ficou para trás (vertical no celular, horizontal no computador). */
+.passo:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: calc(1.3rem - 1px);
+  top: 2.6rem;
+  width: 2px;
+  height: calc(100% + 2.5rem - 2.6rem);
+  background: linear-gradient(var(--cobalto), var(--cobalto)) top / 100% 0% no-repeat, var(--linha);
+  transition: background-size 0.35s ease;
+}
+.passo[data-estado="feito"]::after {
+  background-size: 100% 100%, auto;
+}
+@media (min-width: 1024px) {
+  .passo:not(:last-child)::after {
+    left: 2.6rem;
+    top: calc(1.3rem - 1px);
+    width: calc(100% + 2.5rem - 2.6rem);
+    height: 2px;
+    background-position: left;
+    background-size: 0% 100%, auto;
+  }
+  .passo[data-estado="feito"]::after {
+    background-size: 100% 100%, auto;
+  }
+}
+.passo-numero {
+  position: relative;
+  border: 2px solid var(--cobalto);
+  background: var(--nevoa);
+  color: var(--cobalto);
+  transition: background-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.passo[data-estado="feito"] .passo-numero,
+.passo[data-estado="ativo"] .passo-numero {
+  background: var(--cobalto);
+  color: var(--nevoa);
+}
+.passo[data-estado="ativo"] .passo-numero {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--cobalto) 18%, transparent);
+}
+.passo-titulo {
+  transition: color 0.25s;
+}
+.passo[data-estado="ativo"] .passo-titulo {
+  color: var(--cobalto);
+}
+
+/* Imprensa: a linha se destaca e revela o que eu fiz; em tela de toque já vem aberta. */
+.faixa-noticia {
+  transition: background-color 0.2s ease;
+}
+.revela {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
+}
+.revela > span {
+  overflow: hidden;
+}
+.seta-noticia {
+  opacity: 0.35;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.faixa-noticia:hover,
+.faixa-noticia:focus-visible {
+  background: var(--folha);
+}
+.faixa-noticia:hover .revela,
+.faixa-noticia:focus-visible .revela {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.faixa-noticia:hover .seta-noticia,
+.faixa-noticia:focus-visible .seta-noticia {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+@media (hover: none) {
+  .revela {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
 }
 
 /* "Ver todas as empresas": a grade cresce até a altura nova. */
@@ -221,10 +425,30 @@ a:focus-visible .logo-mono {
     opacity: 0.6;
   }
   .botao-acao,
-  .expansivel {
+  .expansivel,
+  .chip,
+  .logo-botao,
+  .logo-botao::before,
+  .dica,
+  .cartao-caso,
+  .passo::after,
+  .passo-numero,
+  .passo-titulo,
+  .faixa-noticia,
+  .revela,
+  .seta-noticia {
     transition: none;
   }
-  .botao-acao:active {
+  .botao-acao:active,
+  .botao-acao:hover,
+  .chip:active,
+  .logo-botao[data-ativo="true"],
+  .faixa-noticia:hover .seta-noticia {
     transform: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
   }
 }

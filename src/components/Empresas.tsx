@@ -37,7 +37,7 @@ function Destaque({ empresa, invertido }: { empresa: EmpresaDireta; invertido?: 
     <article className="grid items-center gap-8 py-12 lg:grid-cols-12 lg:gap-12">
       <div className={`lg:col-span-5 ${invertido ? 'lg:order-2 lg:col-start-8' : ''}`}>
         <LogoComLink empresa={empresa} />
-        <h3 className="mt-6 text-[1.6rem] leading-tight font-bold tracking-tight sm:text-[1.9rem]">
+        <h3 className="mt-6 text-[1.6rem] leading-[1.2] font-bold tracking-[0.004em] sm:text-[1.9rem]">
           {caso?.titulo ?? empresa.nome}
         </h3>
         <p className="mt-2 font-semibold text-cobalto">{empresa.papel}</p>
@@ -101,7 +101,7 @@ export function Empresas() {
   return (
     <section id="empresas" aria-labelledby="empresas-titulo" className="scroll-mt-24 border-t border-linha pt-16 pb-8">
       <div className="grid gap-4 lg:grid-cols-12">
-        <h2 id="empresas-titulo" className="text-[2.2rem] leading-none font-bold tracking-tight sm:text-[3rem] lg:col-span-6">
+        <h2 id="empresas-titulo" className="text-[2.2rem] leading-[1.12] font-bold tracking-[0.004em] sm:text-[3rem] lg:col-span-6">
           Onde construí IA e chatbots
         </h2>
         <p className="prosa max-w-[52ch] text-[1.15rem] text-grafite lg:col-span-5 lg:col-start-8">

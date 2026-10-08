@@ -12,7 +12,7 @@ const comPrint = cases.filter((c) => printsDosCasos[c.slug]?.length)
 function TextoCaso({ item }: { item: Case }) {
   return (
     <div className="max-w-[46ch]">
-      <h3 id={`caso-${item.slug}`} className="text-[1.6rem] leading-tight font-bold tracking-tight sm:text-[1.9rem]">{item.titulo}</h3>
+      <h3 id={`caso-${item.slug}`} className="text-[1.6rem] leading-[1.2] font-bold tracking-[0.004em] sm:text-[1.9rem]">{item.titulo}</h3>
       <p className="prosa mt-4 text-[1.1rem] text-grafite">{item.contexto}</p>
       <p className="prosa mt-3 text-[1.1rem]">{item.feito}</p>
       <p className="mt-4 text-[1.05rem] font-semibold">
@@ -69,7 +69,7 @@ export function Projetos() {
   return (
     <section id="projetos" aria-labelledby="projetos-titulo" className="scroll-mt-24 border-t border-linha pt-16">
       <div className="grid gap-4 lg:grid-cols-12">
-        <h2 id="projetos-titulo" className="text-[2.2rem] leading-none font-bold tracking-tight sm:text-[3rem] lg:col-span-5">
+        <h2 id="projetos-titulo" className="text-[2.2rem] leading-[1.12] font-bold tracking-[0.004em] sm:text-[3rem] lg:col-span-5">
           Projetos, com a tela de verdade
         </h2>
         <p className="prosa max-w-[56ch] text-[1.15rem] text-grafite lg:col-span-6 lg:col-start-7">
@@ -85,7 +85,7 @@ export function Projetos() {
       </div>
 
       <div className="border-t border-linha pt-14 pb-6">
-        <h3 className="text-[1.6rem] font-bold tracking-tight">Mais código aberto</h3>
+        <h3 className="text-[1.6rem] font-bold tracking-[0.004em]">Mais código aberto</h3>
         <p className="prosa mt-2 max-w-[60ch] text-grafite">
           Repositórios menores, cada um resolvendo um problema só. Todos com testes e README.
         </p>
