@@ -45,7 +45,8 @@ describe('conteúdo publicado', () => {
     }
   })
   it('sem cara de IA: nada de " · " nem "→" nos textos', () => {
-    const tudo = JSON.stringify(conteudo)
+    // Exceção única (08/10/2026, M7 do juiz): o rótulo do topo usa o ponto médio como separador de etiqueta.
+    const tudo = JSON.stringify({ ...conteudo, perfil: { ...conteudo.perfil, titulo: '' } })
     expect(tudo).not.toContain(' · ')
     expect(tudo).not.toContain('→')
   })
@@ -84,4 +85,8 @@ describe('conteúdo publicado', () => {
     expect(nos('equipe')).toContain('equipe')
   })
   it('um "o que você recebe" para cada passo', () => expect(conteudo.recebe).toHaveLength(conteudo.passos.length))
+  it('rótulo do topo cabe em uma linha e não esconde a senioridade (M7)', () => {
+    expect(conteudo.perfil.titulo).toBe('Engenheiro de software sênior · 13 anos')
+    expect(conteudo.perfil.titulo.length).toBeLessThanOrEqual(40)
+  })
 })
