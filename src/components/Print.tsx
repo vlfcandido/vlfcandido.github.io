@@ -10,13 +10,13 @@ interface PrintProps {
 }
 
 /**
- * Selo "dados fictícios", colado no canto de uma imagem de tela. Aparece em toda tela e capa que mostra
+ * Selo "dados fictícios", colado no canto inferior esquerdo de uma imagem (o superior costuma cobrir o título da capa) de tela. Aparece em toda tela e capa que mostra
  * dado inventado. O pai precisa ser `position: relative`.
  */
-export function SeloFicticio({ className = '' }: { className?: string }) {
+export function SeloFicticio({ className = '', topo }: { className?: string; topo?: boolean }) {
   return (
     <span
-      className={`selo-ficticio pointer-events-none absolute top-2 left-2 z-10 rounded-full border border-linha bg-folha/95 px-2.5 py-1 text-[0.78rem] leading-none font-semibold tracking-[0.02em] text-grafite ${className}`}
+      className={`selo-ficticio pointer-events-none absolute ${topo ? 'top-2' : 'bottom-2'} left-2 z-10 rounded-full border border-linha bg-folha/95 px-2.5 py-1 text-[0.74rem] leading-none font-semibold tracking-[0.02em] text-grafite ${className}`}
     >
       dados fictícios
     </span>
