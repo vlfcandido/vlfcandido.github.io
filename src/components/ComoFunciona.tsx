@@ -1,5 +1,10 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { useState } from 'react'
 import { passos, recebe } from '../conteudo'
+import { Abas, idAba, idPainel } from './Abas'
+import { FluxoAgente } from './FluxoAgente'
+
+/** Nome curto de cada passo, para caber na linha do stepper no celular. */
+const CURTOS = ['Preço fechado', 'Teste em 48 h', 'Entrega testada', '7 dias de correção']
 
 /** Barrinha que faz as vezes de texto nas miniaturas. */
 function Barra({ l, forte }: { l: string; forte?: boolean }) {
@@ -88,114 +93,104 @@ function Miniatura({ i }: { i: number }) {
 }
 
 /**
- * Como funciona: os quatro passos numa linha do tempo. No computador, clicar num passo (ou usar as
- * setas) mostra embaixo o que a pessoa recebe naquele momento; no celular, a rolagem avança o passo
- * ativo e cada passo já traz a sua miniatura.
+ * Os quatro passos num stepper horizontal (também no celular): cada passo é uma aba, e o painel
+ * embaixo mostra o passo escolhido, o que a pessoa recebe nele e a miniatura.
  */
-export function ComoFunciona() {
+function Passos() {
   const [ativo, setAtivo] = useState(0)
-  const itens = useRef<(HTMLLIElement | null)[]>([])
-  const botoes = useRef<(HTMLButtonElement | null)[]>([])
-
-  useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') return
-    const celular = window.matchMedia('(max-width: 1023px)')
-    let obs: IntersectionObserver | null = null
-    function ligar() {
-      obs?.disconnect()
-      obs = null
-      if (!celular.matches) return
-      // Faixa no meio da tela: o passo que passa por ela vira o ativo.
-      obs = new IntersectionObserver(
-        (entradas) => {
-          for (const e of entradas) {
-            if (e.isIntersecting) setAtivo(Number((e.target as HTMLElement).dataset.indice))
-          }
-        },
-        { rootMargin: '-45% 0px -50% 0px' },
-      )
-      itens.current.forEach((el) => el && obs?.observe(el))
-    }
-    ligar()
-    celular.addEventListener('change', ligar)
-    return () => {
-      celular.removeEventListener('change', ligar)
-      obs?.disconnect()
-    }
-  }, [])
-
-  /** Setas andam entre os passos, levando o foco junto. */
-  function teclas(e: KeyboardEvent<HTMLButtonElement>, i: number) {
-    const delta = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0
-    if (!delta) return
-    e.preventDefault()
-    const novo = (i + delta + passos.length) % passos.length
-    setAtivo(novo)
-    botoes.current[novo]?.focus()
-  }
-
   const ultimo = ativo === passos.length - 1
+  const p = passos[ativo]
   return (
-    <section id="como-funciona" aria-labelledby="como-titulo" className="scroll-mt-24 border-t border-linha py-20 sm:py-28">
-      <h2 id="como-titulo" className="text-[2rem] leading-[1.12] font-bold tracking-[0.004em] sm:text-[2.6rem]">
-        Como funciona
-      </h2>
-      <p className="prosa mt-3 max-w-[52ch] text-[1.08rem] text-grafite">Do primeiro contato à semana depois da entrega.</p>
-      <ol className="mt-12 grid gap-y-10 lg:grid-cols-4 lg:gap-x-10">
-        {passos.map((p, i) => {
-          const estado = i === ativo ? 'ativo' : i < ativo ? 'feito' : 'depois'
-          return (
-            <li
-              key={p.titulo}
-              ref={(el) => {
-                itens.current[i] = el
-              }}
-              data-indice={i}
-              data-estado={estado}
-              aria-current={i === ativo ? 'step' : undefined}
-              className="passo relative"
-            >
-              <button
-                type="button"
-                ref={(el) => {
-                  botoes.current[i] = el
-                }}
-                aria-controls="como-recebe"
-                onClick={() => setAtivo(i)}
-                onKeyDown={(e) => teclas(e, i)}
-                className="grid w-full grid-cols-[2.6rem_1fr] gap-4 rounded-lg text-left lg:block"
-              >
-                <span className="passo-numero grid size-[2.6rem] place-items-center rounded-full text-[1.1rem] font-bold">{i + 1}</span>
-                <span className="block lg:mt-6">
-                  <span className="passo-titulo block text-[1.2rem] leading-[1.3] font-semibold">{p.titulo}</span>
-                  <span className="prosa mt-2 block max-w-[34ch] text-[1.05rem] text-grafite">{p.descricao}</span>
-                </span>
-              </button>
-              {/* Celular: o que a pessoa recebe fica junto do passo. */}
-              <div className="mt-5 ml-[3.6rem] max-w-[22rem] lg:hidden">
-                <p className="mb-3 text-[0.95rem] font-semibold text-grafite">Você recebe</p>
-                <p className="sr-only">{recebe[i]}</p>
-                <Miniatura i={i} />
-              </div>
-            </li>
-          )
-        })}
-      </ol>
-
-      {/* Computador: o que a pessoa recebe no passo ativo, num painel embaixo da linha. */}
-      <div id="como-recebe" aria-live="polite" className="mt-14 hidden grid-cols-[1fr_20rem] items-center gap-12 rounded-2xl border border-linha bg-folha/50 p-10 lg:grid">
+    <div>
+      <Abas
+        base="passo"
+        rotulo="Passos, do contato à entrega"
+        ativa={String(ativo)}
+        aoTrocar={(id) => setAtivo(Number(id))}
+        abas={passos.map((x, i) => ({
+          id: String(i),
+          nome: `Passo ${i + 1}: ${x.titulo}`,
+          rotulo: (
+            <>
+              <span aria-hidden="true" className="etapa-numero grid size-9 place-items-center rounded-full text-[1rem] font-bold lg:size-10">
+                {i + 1}
+              </span>
+              <span className="etapa-titulo mt-2 block text-[0.88rem] leading-tight font-semibold sm:text-[0.98rem] lg:text-[1.05rem]">
+                <span className="lg:hidden">{CURTOS[i] ?? x.titulo}</span>
+                <span className="hidden lg:inline">{x.titulo}</span>
+              </span>
+            </>
+          ),
+        }))}
+        className="grid grid-cols-4 gap-2 lg:gap-6"
+        classeAba={(marcada) => `etapa relative flex flex-col items-start rounded-lg pb-1 text-left ${marcada ? 'is-ativa' : ''}`}
+      />
+      {/* O traço preenchido até o passo ativo fica fora das abas, só como desenho. */}
+      <div
+        role="tabpanel"
+        id={idPainel('passo', String(ativo))}
+        aria-labelledby={idAba('passo', String(ativo))}
+        className="mt-4 grid gap-5 rounded-2xl border border-linha bg-folha/60 p-4 sm:grid-cols-[1fr_15rem] sm:items-center sm:p-6 lg:grid-cols-[1fr_17rem] lg:gap-10 lg:p-7"
+      >
         <div key={ativo} className="troca">
-          <p className="text-[1rem] font-semibold text-pitanga-texto">
-            Passo {ativo + 1} de {passos.length}: o que você recebe
+          <p className="text-[0.92rem] font-semibold text-pitanga-texto">
+            Passo {ativo + 1} de {passos.length}
           </p>
-          <p className="mt-3 max-w-[34ch] text-[1.6rem] leading-[1.3] font-semibold">{recebe[ativo]}</p>
-          <button type="button" onClick={() => setAtivo(ultimo ? 0 : ativo + 1)} className="sublinha mt-6 font-medium text-cobalto">
+          <h3 className="mt-1 text-[1.25rem] leading-snug font-semibold lg:text-[1.45rem]">{p.titulo}</h3>
+          <p className="prosa mt-2 text-[1.03rem] text-grafite">{p.descricao}</p>
+          <p className="mt-3 text-[1.03rem]">
+            <span className="font-semibold">Você recebe: </span>
+            {recebe[ativo]}
+          </p>
+          <button type="button" onClick={() => setAtivo(ultimo ? 0 : ativo + 1)} className="sublinha mt-3 font-medium text-cobalto">
             {ultimo ? 'Voltar ao primeiro passo' : 'Próximo passo'}
           </button>
         </div>
-        <div key={`m${ativo}`} className="troca">
+        <div key={`m${ativo}`} className="troca hidden max-w-[18rem] sm:block">
           <Miniatura i={ativo} />
         </div>
+      </div>
+    </div>
+  )
+}
+
+const VISTAS = [
+  { id: 'passos', rotulo: 'O processo' },
+  { id: 'agente', rotulo: 'Por dentro do agente' },
+]
+
+/**
+ * Como funciona: duas vistas em abas, o processo (quatro passos, do primeiro contato à semana
+ * depois da entrega) e o desenho de como um agente se liga ao que a empresa já usa.
+ */
+export function ComoFunciona() {
+  const [vista, setVista] = useState('passos')
+  return (
+    <section id="como-funciona" aria-labelledby="como-titulo" className="secao scroll-mt-24 border-t border-linha">
+      <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
+        <div>
+          <h2 id="como-titulo" className="titulo-secao">
+            Como funciona
+          </h2>
+          <p className="prosa mt-1.5 max-w-[52ch] text-[1.02rem] text-grafite">Do primeiro contato à semana depois da entrega.</p>
+        </div>
+        <Abas
+          base="como"
+          rotulo="Vistas de como funciona"
+          ativa={vista}
+          aoTrocar={setVista}
+          abas={VISTAS}
+          className="inline-flex rounded-full border border-linha bg-folha p-1"
+          classeAba={(marcada) =>
+            `chip rounded-full px-4 py-2 text-[0.95rem] font-medium ${marcada ? 'bg-cobalto text-nevoa' : 'text-tinta hover:text-cobalto'}`
+          }
+        />
+      </div>
+      <div role="tabpanel" id={idPainel('como', 'passos')} aria-labelledby={idAba('como', 'passos')} hidden={vista !== 'passos'} className="mt-7 lg:mt-10">
+        <Passos />
+      </div>
+      <div role="tabpanel" id={idPainel('como', 'agente')} aria-labelledby={idAba('como', 'agente')} hidden={vista !== 'agente'} className="mt-7 lg:mt-10">
+        <FluxoAgente />
       </div>
     </section>
   )

@@ -18,7 +18,9 @@ export interface Numero {
 /** Linha da oferta: o que eu faço, em uma frase, com um exemplo ilustrativo de antes e depois. */
 export interface Oferta {
   /** Identificador estável, usado no ícone e no destaque por ramo. */
-  id: 'whatsapp' | 'repetido' | 'site' | 'integracao'
+  id: 'integracao' | 'repetido' | 'resgate' | 'sob-medida' | 'site' | 'whatsapp'
+  /** Nome curto da aba no celular (duas palavras no máximo); sem ele, a aba usa o título. */
+  curto?: string
   titulo: string
   descricao: string
   /** Como costuma ser hoje (exemplo ilustrativo, não é número de cliente). */
@@ -68,8 +70,11 @@ export interface LinkExterno {
 export const perfil = {
   nome: 'Vinicius Candido',
   titulo: 'Engenheiro de software há 13 anos',
-  chamada: 'Seu projeto feito por quem constrói IA no Sicoob e já construiu na Contabilizei.',
-  linha: 'Atendimento no WhatsApp, automações, sites e sistemas para o seu negócio. Preço fechado antes de começar e entrega testada.',
+  // Trocadas em 08/10/2026 (posicionamento amplo). Antes: chamada "Seu projeto feito por quem constrói IA
+  // no Sicoob e já construiu na Contabilizei." e linha "Atendimento no WhatsApp, automações, sites e
+  // sistemas para o seu negócio. Preço fechado antes de começar e entrega testada."
+  chamada: 'O problema de software do seu negócio nas mãos de quem constrói IA no Sicoob.',
+  linha: 'Integro sistemas e CRM, crio APIs, automatizo o trabalho repetido e conserto o que travou. Preço fechado antes de começar.',
   resumo:
     'Chatbots de WhatsApp, automações, sites, sistemas e integrações para o seu negócio, com preço fechado na primeira conversa e entrega testada. Hoje sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA de investimentos. Construo software há 13 anos: back-end em Java, Node.js e Python, front quando o projeto pede e IA aplicada em produção desde 2021. Liderei os projetos de chatbot Blip da Vertigo, parceira certificada da Blip, e trabalhei no Waizer, a plataforma de análise de conversas da Wiv.',
   notaTrabalho: 'Do seu lado, só preciso do acesso ao que já existe e de alguém para tirar dúvidas.',
@@ -77,39 +82,63 @@ export const perfil = {
 } as const
 
 /** O que eu resolvo, escrito como resultado para quem contrata. */
+// Ofertas ampliadas em 08/10/2026 (posicionamento amplo, textos aprovados pelo adversarial).
+// Antes eram 4, com o WhatsApp na frente: whatsapp, repetido, site ("Painéis, dashboards e sistemas
+// web") e integracao. Agora são 6, com integração na frente e a IA por último (ela já está na frase).
 export const oferta: Oferta[] = [
   {
-    id: 'whatsapp',
-    titulo: 'Atendimento no WhatsApp que responde e agenda sozinho',
-    descricao: 'Seu cliente tira a dúvida e marca o horário a qualquer hora, sem alguém da equipe preso no celular.',
-    antes: '40 mensagens esperando a recepção abrir.',
-    depois: 'Horário marcado em 30 segundos, às 23h.',
-    ramos: ['clinica'],
+    id: 'integracao',
+    curto: 'Integrações e CRM',
+    titulo: 'Seus sistemas e o CRM falando a mesma língua',
+    descricao: 'Venda, cliente e pagamento passam de um sistema para o outro sozinhos, sem ninguém digitar duas vezes.',
+    antes: 'O vendedor fecha no WhatsApp e digita tudo de novo no CRM.',
+    depois: 'O contato entra no CRM com a conversa junto, na hora.',
+    ramos: ['industria'],
   },
   {
     id: 'repetido',
-    titulo: 'Menos trabalho repetido',
-    descricao: 'O que hoje alguém faz copiando e colando passa a acontecer sozinho: cadastro, planilha, aviso, cobrança.',
+    curto: 'Automação',
+    titulo: 'Menos trabalho repetido na sua equipe',
+    descricao: 'Cadastro, planilha, aviso e cobrança que hoje alguém faz na mão passam a acontecer sozinhos.',
     antes: 'Alguém copia cada pedido para a planilha no fim do dia.',
-    depois: 'O pedido entra na planilha sozinho, na hora em que chega.',
+    depois: 'O pedido entra na planilha na hora em que chega.',
     ramos: ['escritorio'],
   },
   {
+    id: 'resgate',
+    curto: 'Sistema travado',
+    titulo: 'O sistema que travou ou que ninguém entende',
+    descricao: 'Acho a causa, corrijo sem quebrar o que funciona, fecho brechas de segurança e deixo tudo documentado.',
+    antes: 'O dev saiu, o sistema caiu na sexta e ninguém sabe onde mexer.',
+    depois: 'No ar de novo, com a causa explicada e um mapa do código.',
+    ramos: [],
+  },
+  {
+    id: 'sob-medida',
+    curto: 'Sistema e API sob medida',
+    titulo: 'O sistema ou a API que nenhum app pronto faz',
+    descricao: 'Quando nada pronto serve, construo o seu, com login, as regras do seu negócio e testes automáticos.',
+    antes: 'Três ferramentas pagas e nenhuma faz o que o processo pede.',
+    depois: 'Um sistema só, do jeito que a operação funciona.',
+    ramos: [],
+  },
+  {
     id: 'site',
-    titulo: 'Painéis, dashboards e sistemas web',
-    descricao:
-      'Telas claras e rápidas de usar: o painel que sua equipe abre todo dia, o sistema com login, a página que vende. Pensadas para quem usa, no computador e no celular.',
-    antes: 'Pedido anotado no caderno e os números do mês espalhados em três planilhas.',
-    depois: 'Um painel mostra os pedidos de hoje, o que está atrasado e quanto entrou, até no celular.',
+    curto: 'Painéis e sites',
+    titulo: 'Painéis, sistemas web e sites',
+    descricao: 'Os números do dia numa tela só e a página que traz cliente, no computador e no celular.',
+    antes: 'Pedido no caderno e o mês espalhado em três planilhas.',
+    depois: 'Um painel mostra os pedidos de hoje, o atrasado e quanto entrou.',
     ramos: ['loja'],
   },
   {
-    id: 'integracao',
-    titulo: 'Suas ferramentas conversando entre si',
-    descricao: 'Agenda, planilha, sistema de vendas e pagamento trocando dados, sem ninguém digitar duas vezes.',
-    antes: 'A venda é digitada no sistema, depois na planilha, depois no estoque.',
-    depois: 'Pagou, e o sistema, a planilha e o estoque já sabem.',
-    ramos: ['industria'],
+    id: 'whatsapp',
+    curto: 'IA no WhatsApp',
+    titulo: 'Atendimento com IA no WhatsApp, sem fila',
+    descricao: 'Seu cliente tira a dúvida e marca o horário sozinho, sem alguém da equipe preso no celular.',
+    antes: '40 mensagens esperando a recepção abrir.',
+    depois: 'Horário marcado às 23h.',
+    ramos: ['clinica'],
   },
 ]
 
@@ -349,7 +378,7 @@ export const stack: CamadaStack[] = [
   { camada: 'Back-end', itens: ['Python', 'FastAPI', 'Java', 'Spring Boot', 'Node.js', 'TypeScript', 'REST', 'webhooks'] },
   { camada: 'IA', itens: ['agentes', 'multiagente', 'RAG', 'LangGraph', 'Google ADK', 'OpenAI', 'Gemini', 'Claude', 'Vertex AI', 'avaliação de LLM'] },
   { camada: 'Chatbots', itens: ['WhatsApp API oficial', 'Blip', 'Telegram'] },
-  { camada: 'Front e mobile', itens: ['React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind', 'design system', 'Flutter'] },
+  { camada: 'Front e mobile', itens: ['Angular', 'React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind', 'design system', 'Flutter'] },
   { camada: 'Dados', itens: ['PostgreSQL', 'Redis', 'BigQuery', 'Firestore'] },
   { camada: 'Nuvem e qualidade', itens: ['GCP', 'AWS', 'Docker', 'Kubernetes', 'CI/CD', 'TDD', 'pytest'] },
 ]
@@ -422,6 +451,64 @@ export const ramosDemo: RamoDemo[] = [
     clientes: ['petrobras', 'scania', 'yara'],
   },
 ]
+
+/** Cena da demonstração do topo: o que acontece na tela (exemplo ilustrativo, dados fictícios). */
+export interface CenaDemo {
+  id: 'integracao' | 'painel' | 'atendimento'
+  /** Texto do botão que escolhe a cena. */
+  rotulo: string
+  /** Legenda curta embaixo da janela. */
+  legenda: string
+}
+
+// Três cenas para o topo não ler só como "chatbot" (08/10/2026): a venda que entra no CRM, os números
+// do dia num painel e o atendimento com IA (as conversas por ramo, em `ramosDemo`).
+export const cenasDemo: CenaDemo[] = [
+  { id: 'integracao', rotulo: 'Venda no CRM', legenda: 'A venda fechada no WhatsApp entra no CRM sozinha, com a conversa junto.' },
+  { id: 'painel', rotulo: 'Painel do dia', legenda: 'Os números do dia numa tela só, no computador e no celular.' },
+  { id: 'atendimento', rotulo: 'Atendimento com IA', legenda: 'O cliente tira a dúvida e marca o horário sozinho.' },
+]
+
+/** Cena que abre quando a pessoa escolhe cada ramo no "Qual é o seu negócio?". */
+export const cenaDoRamo: Record<string, CenaDemo['id']> = {
+  clinica: 'atendimento',
+  loja: 'painel',
+  escritorio: 'integracao',
+  industria: 'integracao',
+}
+
+/** Cena da demonstração do topo que cada oferta mostra quando é sondada na carta. */
+export const cenaDaOferta: Record<Oferta['id'], CenaDemo['id']> = {
+  integracao: 'integracao',
+  repetido: 'integracao',
+  resgate: 'painel',
+  'sob-medida': 'painel',
+  site: 'painel',
+  whatsapp: 'atendimento',
+}
+
+/** A venda de exemplo da cena de integração: a mensagem e os campos que chegam ao CRM. */
+export const vendaDemo = {
+  mensagem: 'Fechado! Pode mandar o boleto das 3 caixas.',
+  cliente: 'Mercado Bom Preço',
+  campos: [
+    { rotulo: 'Cliente', valor: 'Mercado Bom Preço' },
+    { rotulo: 'Pedido', valor: '3 caixas, R$ 1.240' },
+    { rotulo: 'Etapa', valor: 'Venda ganha' },
+    { rotulo: 'Conversa', valor: 'anexada' },
+  ],
+} as const
+
+/** Os números do dia da cena de painel (fictícios). */
+export const painelDemo = {
+  numeros: [
+    { rotulo: 'Pedidos hoje', valor: '42' },
+    { rotulo: 'Atrasados', valor: '3' },
+    { rotulo: 'Entrou hoje', valor: 'R$ 6.180' },
+  ],
+  /** Pedidos por hora, das 8h às 18h, para as barrinhas. */
+  porHora: [2, 3, 5, 4, 6, 3, 4, 6, 5, 3, 1],
+} as const
 
 /** Ponto do fluxo do agente: onde a conversa está. */
 export type NoFluxo = 'whatsapp' | 'agente' | 'sistemas' | 'equipe'

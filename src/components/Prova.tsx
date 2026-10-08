@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useRef, useState, type RefObject } from 'react'
 import { empresasDiretas, gruposClientes, type Cliente } from '../clientes'
 import { cases, destaques, type Destaque } from '../conteudo'
 import { HASH_PROJETOS } from '../lib/rota'
+import { Abas, idAba, idPainel } from './Abas'
+import { Interfaces } from './Interfaces'
 import { LinkExterno } from './LinkExterno'
 import { Logo } from './Logo'
 import { LogosClientes } from './LogosClientes'
@@ -22,31 +24,39 @@ function CartaoCaso({ d }: { d: Destaque }) {
   return (
     <li
       data-aberto={aberto}
-      className="cartao-caso relative flex w-[84%] shrink-0 snap-start flex-col rounded-xl border border-transparent bg-folha p-6 sm:w-[60%] sm:p-7 md:w-auto"
+      className="cartao-caso relative flex w-[86%] shrink-0 snap-start flex-col rounded-xl border border-transparent bg-folha p-5 sm:w-[60%] sm:p-6 md:w-auto"
     >
-      <div className="flex h-12 items-center">{empresa && <Logo cliente={empresa} className="max-h-10 max-w-[150px]" />}</div>
-      <h4 className="mt-5 text-[1.2rem] leading-[1.3] font-semibold">{d.titulo}</h4>
-      <p className="mt-3 text-[1.15rem] leading-[1.4] font-semibold">
+      <div className="flex h-10 items-center">{empresa && <Logo cliente={empresa} className="max-h-9 max-w-[140px]" />}</div>
+      <h4 className="mt-3 text-[1.1rem] leading-[1.3] font-semibold">{d.titulo}</h4>
+      <p className="mt-2 text-[1.1rem] leading-[1.4] font-semibold">
         <span className="grifo">{d.resultado}</span>
       </p>
-      <button
-        type="button"
-        aria-expanded={aberto}
-        aria-controls={idCorpo}
-        onClick={() => setAberto((v) => !v)}
-        className="mt-5 inline-flex items-center gap-2 self-start rounded-full py-1 font-medium text-cobalto"
-      >
-        {aberto ? 'Fechar' : 'Como foi'}
-        <svg
-          viewBox="0 0 16 16"
-          width="13"
-          height="13"
-          aria-hidden="true"
-          className={`transition-transform duration-300 motion-reduce:transition-none ${aberto ? 'rotate-45' : ''}`}
+      <div className="mt-auto flex items-center justify-between gap-4 pt-3">
+        <button
+          type="button"
+          aria-expanded={aberto}
+          aria-controls={idCorpo}
+          onClick={() => setAberto((v) => !v)}
+          className="inline-flex items-center gap-2 rounded-full py-1 font-medium text-cobalto"
         >
-          <path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        </svg>
-      </button>
+          {aberto ? 'Fechar' : 'Como foi'}
+          <svg
+            viewBox="0 0 16 16"
+            width="13"
+            height="13"
+            aria-hidden="true"
+            className={`transition-transform duration-300 motion-reduce:transition-none ${aberto ? 'rotate-45' : ''}`}
+          >
+            <path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+        </button>
+        <LinkExterno
+          href={d.fonte.url}
+          className="sublinha text-[0.98rem] text-grafite hover:text-tinta"
+        >
+          {d.fonte.texto}
+        </LinkExterno>
+      </div>
       <div id={idCorpo} className="expansivel" data-aberto={aberto} inert={!aberto}>
         <div>
           {antes && (
@@ -58,27 +68,83 @@ function CartaoCaso({ d }: { d: Destaque }) {
           <p className="prosa mt-3 text-[1.05rem]">{d.texto}</p>
         </div>
       </div>
-      <p className="mt-auto pt-5">
-        <LinkExterno
-          href={d.fonte.url}
-          className="sublinha text-[0.98rem] text-grafite hover:text-tinta"
-        >
-          {d.fonte.texto}
-        </LinkExterno>
-      </p>
     </li>
   )
 }
 
-/** Logos de clientes (seleção com "ver todas") e três resultados curtos com fonte pública. */
-export function Prova() {
+/**
+ * Pontos que mostram qual case está à vista no carrossel do celular; tocar num ponto rola até ele.
+ * Ficam fora do leitor de tela (a lista já diz quantos são).
+ */
+function Indicador({ lista, atual }: { lista: RefObject<HTMLUListElement | null>; atual: number }) {
   return (
-    <section id="resultados" aria-labelledby="prova-titulo" className="scroll-mt-24 border-t border-linha py-20 sm:py-28">
-      <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
-        <h2 id="prova-titulo" className="max-w-[22ch] text-[2rem] leading-[1.1] font-bold tracking-[0.004em] sm:text-[2.6rem]">
+    <div aria-hidden="true" className="mt-3 flex justify-center gap-2 md:hidden">
+      {destaques.map((d, i) => (
+        <button
+          key={d.slug}
+          type="button"
+          tabIndex={-1}
+          onClick={() => {
+            const el = lista.current?.children[i] as HTMLElement | undefined
+            el?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+          }}
+          className={`h-2 rounded-full transition-all motion-reduce:transition-none ${i === atual ? 'w-6 bg-cobalto' : 'w-2 bg-linha'}`}
+        />
+      ))}
+    </div>
+  )
+}
+
+/**
+ * Provas: as logos de clientes (faixa com "Descer") e, em duas abas, os três resultados curtos com
+ * fonte pública (carrossel com indicador no celular, três colunas no computador) e as interfaces
+ * que eu construo, com as peças vivas. Assim a prova inteira cabe em pouco mais de uma tela.
+ */
+export function Prova() {
+  const lista = useRef<HTMLUListElement>(null)
+  const [atual, setAtual] = useState(0)
+  const [aba, setAba] = useState('resultados')
+
+  /** Acompanha qual cartão está mais à esquerda na rolagem lateral. */
+  function aoRolar() {
+    const el = lista.current
+    if (!el || !el.children.length) return
+    const largura = (el.children[0] as HTMLElement).offsetWidth + 16
+    setAtual(Math.min(destaques.length - 1, Math.round(el.scrollLeft / largura)))
+  }
+
+  const resultados = (
+    <>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+        <h3 className="sr-only">Alguns resultados</h3>
+        <a
+          href={HASH_PROJETOS}
+          className="text-[0.98rem] text-grafite underline decoration-linha decoration-2 underline-offset-4 hover:text-tinta hover:decoration-cobalto"
+        >
+          Ver projetos em detalhe
+        </a>
+      </div>
+      <ul
+        ref={lista}
+        onScroll={aoRolar}
+        aria-label="Resultados"
+        className="rolagem-lateral relative -mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-1 md:mx-0 md:grid md:snap-none md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0"
+      >
+        {destaques.map((d) => (
+          <CartaoCaso key={d.slug} d={d} />
+        ))}
+      </ul>
+      <Indicador lista={lista} atual={atual} />
+    </>
+  )
+
+  return (
+    <section id="resultados" aria-labelledby="prova-titulo" className="secao scroll-mt-24 border-t border-linha">
+      <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-2">
+        <h2 id="prova-titulo" className="titulo-secao max-w-[24ch]">
           Empresas atendidas nos projetos que liderei
         </h2>
-        <p className="prosa max-w-[40ch] text-[1.08rem] text-grafite">
+        <p className="prosa max-w-[40ch] text-[1.02rem] text-grafite">
           Na{' '}
           <LinkExterno href={gruposClientes[0].fonte.url} className="sublinha hover:text-tinta">
             Vertigo
@@ -93,21 +159,28 @@ export function Prova() {
 
       <LogosClientes />
 
-      <h3 className="mt-20 text-[1.6rem] font-bold tracking-[0.004em] sm:text-[1.9rem]">Alguns resultados</h3>
-      <p className="mt-1 text-[0.95rem] text-grafite md:hidden">Arraste para o lado para ver os três.</p>
-      <ul className="relative -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-3 md:mx-0 md:grid md:snap-none md:grid-cols-3 md:gap-8 md:overflow-visible md:px-0 md:pb-0">
-        {destaques.map((d) => (
-          <CartaoCaso key={d.slug} d={d} />
-        ))}
-      </ul>
-      <p className="mt-10">
-        <a
-          href={HASH_PROJETOS}
-          className="text-grafite underline decoration-linha decoration-2 underline-offset-4 hover:text-tinta hover:decoration-cobalto"
-        >
-          Ver projetos em detalhe
-        </a>
-      </p>
+        <div className="mt-6 lg:mt-10">
+          <Abas
+            base="prova"
+            rotulo="Provas"
+            ativa={aba}
+            aoTrocar={setAba}
+            abas={[
+              { id: 'resultados', rotulo: 'Resultados' },
+              { id: 'interfaces', rotulo: 'Interfaces', nome: 'Interfaces que eu construo' },
+            ]}
+            className="flex rounded-full border border-linha bg-folha p-1 sm:inline-flex"
+            classeAba={(marcada) =>
+              `chip flex-1 rounded-full px-3 py-2 text-[0.92rem] font-medium sm:flex-none sm:px-5 sm:text-[0.98rem] ${marcada ? 'bg-cobalto text-nevoa' : 'text-tinta'}`
+            }
+          />
+          <div role="tabpanel" id={idPainel('prova', 'resultados')} aria-labelledby={idAba('prova', 'resultados')} hidden={aba !== 'resultados'} className="mt-5">
+            {resultados}
+          </div>
+          <div role="tabpanel" id={idPainel('prova', 'interfaces')} aria-labelledby={idAba('prova', 'interfaces')} hidden={aba !== 'interfaces'} className="mt-5">
+            <Interfaces embutida />
+          </div>
+        </div>
     </section>
   )
 }

@@ -58,11 +58,35 @@ function Integracao() {
   )
 }
 
+/** Chaves de código com um encaixe no meio: o sistema ou a API feitos sob medida. */
+function SobMedida() {
+  return (
+    <>
+      <path d="M14 8c-4 0-5 2-5 5v5c0 3-2 5-5 6c3 1 5 3 5 6v5c0 3 1 5 5 5" />
+      <path d="M34 8c4 0 5 2 5 5v5c0 3 2 5 5 6c-3 1-5 3-5 6v5c0 3-1 5-5 5" />
+      <path d="M20 22h8v6a4 4 0 0 1-8 0z" stroke={CORAL} />
+      <path d="M22 18v4M26 18v4M24 32v4" stroke={CORAL} />
+    </>
+  )
+}
+
+/** Escudo com o visto: o sistema que voltou ao ar, corrigido e sem brecha. */
+function Resgate() {
+  return (
+    <>
+      <path d="M24 5l16 6v11c0 10-7 18-16 21C15 40 8 32 8 22V11z" />
+      <path d="M17 24l5 5l9-10" stroke={CORAL} />
+    </>
+  )
+}
+
 const DESENHOS: Record<Oferta['id'], () => JSX.Element> = {
-  whatsapp: Whatsapp,
-  repetido: Repetido,
-  site: Site,
   integracao: Integracao,
+  repetido: Repetido,
+  resgate: Resgate,
+  'sob-medida': SobMedida,
+  site: Site,
+  whatsapp: Whatsapp,
 }
 
 /**
@@ -72,7 +96,8 @@ const DESENHOS: Record<Oferta['id'], () => JSX.Element> = {
  * @param className tamanho e cor (o traço segue `currentColor`).
  */
 export function IconeOferta({ id, className = 'size-12' }: { id: Oferta['id']; className?: string }) {
-  const Desenho = DESENHOS[id]
+  // Oferta sem desenho próprio usa a janela do navegador, para trocar o texto sem quebrar.
+  const Desenho = DESENHOS[id] ?? Site
   return (
     <svg
       viewBox="0 0 48 48"

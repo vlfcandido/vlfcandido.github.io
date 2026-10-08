@@ -39,7 +39,8 @@ describe('conteúdo publicado', () => {
       destaques: conteudo.destaques,
       passos: conteudo.passos,
     }).toLowerCase()
-    for (const termo of ['langgraph', 'rag', 'redis', 'hexagonal', 'api ', 'llm', 'fastapi', 'vertex']) {
+    // "api " saiu da lista em 08/10/2026: "crio APIs" virou oferta aprovada por ele (posicionamento amplo).
+    for (const termo of ['langgraph', 'rag', 'redis', 'hexagonal', 'llm', 'fastapi', 'vertex']) {
       expect(principal, termo).not.toContain(termo)
     }
   })
@@ -70,6 +71,12 @@ describe('conteúdo publicado', () => {
       expect(o.antes.length).toBeGreaterThan(10)
       expect(o.depois.length).toBeGreaterThan(10)
     })
+  })
+  it('seis ofertas, integração na frente e IA por último, e o seletor aponta a oferta certa de cada ramo', () => {
+    expect(conteudo.oferta.map((o) => o.id)).toEqual(['integracao', 'repetido', 'resgate', 'sob-medida', 'site', 'whatsapp'])
+    const de = (ramo: string) => conteudo.oferta.find((o) => o.ramos.includes(ramo))?.id
+    expect([de('clinica'), de('loja'), de('escritorio'), de('industria')]).toEqual(['whatsapp', 'site', 'repetido', 'integracao'])
+    conteudo.oferta.forEach((o) => expect(o.curto, o.id).toBeTruthy())
   })
   it('o fluxo do agente tem o caminho que resolve e o desvio para a equipe', () => {
     const nos = (id: string) => conteudo.caminhosFluxo.find((c) => c.id === id)?.etapas.map((e) => e.no)

@@ -12,9 +12,9 @@ export function Rodape() {
         sizes="(min-width: 640px) 50vw, 100vw"
         className="carta-faixa pointer-events-none absolute top-0 right-0 -z-10 h-full w-full sm:w-[55%]"
       />
-      <div className="mx-auto flex max-w-7xl items-end gap-5 px-4 py-10 sm:px-8 sm:py-12">
+      <div className="mx-auto flex max-w-7xl items-end gap-4 px-4 py-6 sm:gap-5 sm:px-8 sm:py-12">
         <Ilustracao nome="gaivota" className="size-12 shrink-0 text-mar" />
-        <p className="max-w-[60ch] text-[0.9rem] text-grafite">
+        <p className="max-w-[60ch] text-[0.85rem] text-grafite sm:text-[0.9rem]">
           {perfil.nome}, {new Date().getFullYear()}. Marcas e logos pertencem às respectivas empresas. Os prints de projetos
           usam dados fictícios. Ilustrações geradas com IA e editadas por Vinicius Candido.
         </p>

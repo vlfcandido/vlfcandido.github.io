@@ -12,6 +12,7 @@ import {
 } from '../interfaces'
 import { HASH_PROJETOS } from '../lib/rota'
 import { comTransicao } from '../lib/transicao'
+import { Abas, idAba, idPainel } from './Abas'
 
 /** Rótulo do selo de cada pedido (o chip usa o plural). */
 const SITUACAO_SINGULAR: Record<SituacaoPedido, string> = { pago: 'Pago', aguardando: 'Aguardando', atrasado: 'Atrasado' }
@@ -22,14 +23,14 @@ const reais = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', curr
 function Peca({ titulo, dica, children, className = '' }: { titulo: string; dica: string; children: ReactNode; className?: string }) {
   const id = useId()
   return (
-    <figure aria-labelledby={id} className={`peca flex flex-col rounded-2xl border border-linha bg-folha p-5 sm:p-7 ${className}`}>
+    <figure aria-labelledby={id} className={`peca flex flex-col rounded-2xl border border-linha bg-folha p-4 sm:p-6 ${className}`}>
       <figcaption>
         <p id={id} className="text-[1.08rem] leading-snug font-semibold">
           {titulo}
         </p>
         <p className="mt-1 text-[0.95rem] text-grafite">{dica}</p>
       </figcaption>
-      <div className="mt-5 flex flex-1 flex-col">{children}</div>
+      <div className="mt-4 flex flex-1 flex-col">{children}</div>
     </figure>
   )
 }
@@ -71,7 +72,7 @@ function GraficoPedidos() {
   }
 
   return (
-    <Peca titulo="Pedidos por dia" dica="Passe o dedo ou o mouse nas barras, ou use as setas do teclado." className="lg:col-span-7">
+    <Peca titulo="Pedidos por dia" dica="Passe o dedo ou o mouse nas barras, ou use as setas do teclado.">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <p aria-hidden="true" className="leading-none">
           <span className="block font-display text-[2.6rem] font-semibold tabular-nums sm:text-[3rem]">{atual.pedidos}</span>
@@ -105,7 +106,7 @@ function GraficoPedidos() {
         onKeyDown={pelaTecla}
         onPointerDown={peloPonteiro}
         onPointerMove={peloPonteiro}
-        className="grafico mt-6 flex h-44 cursor-crosshair touch-pan-y items-end gap-[3px] rounded-lg sm:h-52 sm:gap-1.5"
+        className="grafico mt-4 flex h-28 cursor-crosshair touch-pan-y items-end gap-[3px] rounded-lg sm:h-48 sm:gap-1.5"
       >
         {serie.map((d, n) => (
           <div key={`${periodo}-${n}`} className="flex h-full flex-1 flex-col justify-end">
@@ -136,7 +137,7 @@ function StatusPedido() {
   const [etapa, setEtapa] = useState(1)
   const ultima = etapa === etapasPedido.length - 1
   return (
-    <Peca titulo="Pedido 1048, de Marina Costa" dica="Avance o pedido e veja a linha acompanhar." className="lg:col-span-5">
+    <Peca titulo="Pedido 1048, de Marina Costa" dica="Avance o pedido e veja a linha acompanhar.">
       <ol className="status-linha" aria-label="Etapas do pedido">
         {etapasPedido.map((nome, n) => {
           const estado = n < etapa ? 'feito' : n === etapa ? 'ativo' : 'depois'
@@ -186,7 +187,7 @@ function FiltroPedidos() {
     })),
   ]
   return (
-    <Peca titulo="Pedidos da semana" dica="Filtre pela situação; a lista se reorganiza." className="lg:col-span-7">
+    <Peca titulo="Pedidos da semana" dica="Filtre pela situação; a lista se reorganiza.">
       <div role="group" aria-label="Filtrar pedidos" className="flex flex-wrap gap-2">
         {chips.map((c) => {
           const marcado = filtro === c.valor
@@ -235,7 +236,7 @@ function FiltroPedidos() {
 function PilhaFront() {
   const [escolhido, setEscolhido] = useState<ItemFront>(camadasFront[0].itens[0])
   return (
-    <Peca titulo="Com o que eu construo" dica="Toque num item para ver onde ele foi usado." className="lg:col-span-5">
+    <Peca titulo="Com o que eu construo" dica="Toque num item para ver onde ele foi usado.">
       <ol className="pilha flex flex-col gap-1.5">
         {camadasFront.map((c, n) => (
           <li key={c.id} className="pilha-camada rounded-lg px-4 py-3" style={{ '--fundura': n } as CSSProperties}>
@@ -272,33 +273,65 @@ function PilhaFront() {
   )
 }
 
+/** As quatro peças, na ordem das abas: nome curto da aba e o componente. */
+const PECAS = [
+  { id: 'grafico', rotulo: 'Gráfico', Peca: GraficoPedidos },
+  { id: 'status', rotulo: 'Status do pedido', Peca: StatusPedido },
+  { id: 'lista', rotulo: 'Lista com filtro', Peca: FiltroPedidos },
+  { id: 'pilha', rotulo: 'Com o que eu construo', Peca: PilhaFront },
+] as const
+
 /**
  * Interfaces que eu construo: quatro peças vivas, feitas neste site, para mostrar a experiência
- * em vez de descrevê-la. Os dados são de exemplo; a pilha cita só o que tem prova.
+ * em vez de descrevê-la. Uma peça por vez, em abas (linha rolável no celular, coluna ao lado no
+ * computador). Os dados são de exemplo; a pilha cita só o que tem prova.
+ *
+ * @param embutida `true` quando vive dentro de uma aba das provas (celular): sem a seção própria,
+ *   com o título um nível abaixo.
  */
-export function Interfaces() {
+export function Interfaces({ embutida = false }: { embutida?: boolean }) {
+  const [ativa, setAtiva] = useState<string>(PECAS[0].id)
+  const Titulo = embutida ? 'h3' : 'h2'
+  const Caixa = embutida ? 'div' : 'section'
   return (
-    <section id="interfaces" aria-labelledby="interfaces-titulo" className="scroll-mt-24 border-t border-linha py-20 sm:py-28">
-      <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
-        <div>
-          <h2 id="interfaces-titulo" className="text-[2rem] leading-[1.12] font-bold tracking-[0.004em] sm:text-[2.6rem]">
+    <Caixa
+      id={embutida ? undefined : 'interfaces'}
+      aria-labelledby="interfaces-titulo"
+      className={embutida ? '' : 'secao scroll-mt-24 border-t border-linha'}
+    >
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12">
+        <div className="min-w-0 lg:col-span-4">
+          <Titulo id="interfaces-titulo" className={embutida ? 'sr-only' : 'titulo-secao'}>
             Interfaces que eu construo
-          </h2>
-          <p className="prosa mt-3 max-w-[56ch] text-[1.08rem] text-grafite">
-            Painel bom é o que a equipe entende sem treinamento. As peças abaixo funcionam: mexa nelas. Foram feitas aqui em
-            React; em cada projeto eu uso o que o seu sistema já tem, seja React, Next.js ou Vue.js.
+          </Titulo>
+          <p className={`prosa max-w-[48ch] text-[1.05rem] text-grafite ${embutida ? '' : 'mt-2'}`}>
+            Painel bom é o que a equipe entende sem treinamento. Mexa nas peças: em cada projeto uso o que o seu sistema já
+            tem, seja Angular, React, Next.js ou Vue.js.
           </p>
+          <Abas
+            base="peca"
+            rotulo="Peças de interface"
+            ativa={ativa}
+            aoTrocar={setAtiva}
+            abas={PECAS.map(({ id, rotulo }) => ({ id, rotulo }))}
+            className="pecas-lista rolagem-lateral -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 py-1 lg:mx-0 lg:mt-7 lg:flex-col lg:overflow-visible lg:px-0"
+            classeAba={(marcada) => `oferta-aba chip inline-flex shrink-0 items-center border text-left font-medium ${marcada ? 'is-ativa' : ''}`}
+          />
+          <a href={`${HASH_PROJETOS}/tipo/frontend`} className="sublinha mt-6 hidden text-[1.02rem] font-semibold text-cobalto lg:inline-block">
+            Ver os painéis que já fiz
+          </a>
         </div>
-        <a href={`${HASH_PROJETOS}/tipo/frontend`} className="sublinha text-[1.02rem] font-semibold text-cobalto">
-          Ver os painéis que já fiz
-        </a>
+        <div className="min-w-0 lg:col-span-8">
+          {PECAS.map(({ id, Peca }) => (
+            <div key={id} role="tabpanel" id={idPainel('peca', id)} aria-labelledby={idAba('peca', id)} hidden={id !== ativa} className="troca">
+              <Peca />
+            </div>
+          ))}
+          <a href={`${HASH_PROJETOS}/tipo/frontend`} className="sublinha mt-5 inline-block text-[1.02rem] font-semibold text-cobalto lg:hidden">
+            Ver os painéis que já fiz
+          </a>
+        </div>
       </div>
-      <div className="mt-10 grid gap-5 lg:grid-cols-12">
-        <GraficoPedidos />
-        <StatusPedido />
-        <FiltroPedidos />
-        <PilhaFront />
-      </div>
-    </section>
+    </Caixa>
   )
 }
