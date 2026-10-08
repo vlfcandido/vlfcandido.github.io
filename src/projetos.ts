@@ -13,13 +13,15 @@ import { capasDosProjetos, diagramasDosCasos, printsDosCasos, type Capa, type Di
 export type TipoProjeto = 'chatbot' | 'agentes' | 'sistemas' | 'frontend' | 'integracoes' | 'dados'
 
 /** Rótulo de cada tipo, na ordem dos chips. */
+// Ordem e nome do último trocados em 08/10/2026 (M15). Antes: chatbot, agentes, sistemas, frontend,
+// integracoes, dados ("Dados e trading").
 export const tiposProjeto: Record<TipoProjeto, string> = {
-  chatbot: 'Chatbot e atendimento',
-  agentes: 'Agentes de IA',
+  integracoes: 'Integrações e automação',
   sistemas: 'Sistemas e SaaS',
   frontend: 'Frontend e dashboards',
-  integracoes: 'Integrações e automação',
-  dados: 'Dados e trading',
+  chatbot: 'Chatbot e atendimento',
+  agentes: 'Agentes de IA',
+  dados: 'Dados e tempo real',
 }
 
 /** Situação real do projeto hoje. */
@@ -31,6 +33,11 @@ export interface ItemProjeto {
   slug: string
   /** `proprio` vai para a galeria; `empresa`, para a faixa "Em empresas". */
   origem: 'proprio' | 'empresa'
+  /**
+   * `true` quando ele só participou do projeto, sem liderar (decisão dele, 08/10/2026: Ecovita e Minu).
+   * Vai para "Outros projetos em empresas", no fim da página, sem destaque.
+   */
+  participacao?: boolean
   nome: string
   /** Uma linha de resultado, em linguagem de negócio. */
   resultado: string
@@ -87,9 +94,13 @@ export function listarProjetos(): ItemProjeto[] {
   const franca = caso('prefeitura-franca')
   const araguaia = caso('araguaia')
   const waizer = caso('waizer-wiv')
-  const serasa = empresa('serasa-experian')
 
   return [
+    // Ordem de 08/10/2026 (M13 e M12 do juiz). Próprios por prova medida > aderência às ofertas > estágio;
+    // casos de empresa com fonte primeiro. Ordem anterior: aprovaos, nexus-quant, ia-local, app-score, este-site,
+    // design-system-mare, revisor-ia, varredura-voos, engenharia-de-agentes, benchmark-litellm; sicoob, contabilizei,
+    // prefeitura-franca, araguaia, wiv, ecovita, minu, serasa-experian. Serasa saiu da galeria por decisão dele
+    // (08/10/2026): fica na seção Carreira. Ecovita e Minu: só participação, em "Outros projetos em empresas".
     {
       slug: 'aprovaos',
       origem: 'proprio',
@@ -110,8 +121,10 @@ export function listarProjetos(): ItemProjeto[] {
     {
       slug: 'nexus-quant',
       origem: 'proprio',
-      nome: 'Bot de trading em cripto',
-      resultado: 'Confere cada ordem com a corretora, 24 horas, sem erro de conta.',
+      // Renomeado em 08/10/2026 (M13): antes o nome era o de um bot de trading de cripto, com o resultado "Confere cada ordem
+      // com a corretora, 24 horas, sem erro de conta.". O status honesto fica à vista no card.
+      nome: 'Sistema de ordens em tempo real',
+      resultado: 'Confere cada ordem com a corretora, 24 horas. Cripto, só em simulação, sem lucro.',
       tipos: ['dados', 'integracoes', 'frontend'],
       status: 'estudo',
       etiquetas: ['Python', 'Redis Streams', 'Next.js'],
@@ -123,6 +136,67 @@ export function listarProjetos(): ItemProjeto[] {
       printExtra: prints('nexus-quant')[1],
       diagrama: diagramasDosCasos['nexus-quant'],
       repositorio: 'https://github.com/vlfcandido/nexus-quant-showcase',
+    },
+    {
+      slug: 'varredura-voos',
+      origem: 'proprio',
+      nome: 'Varredura de voos',
+      resultado: 'Acha a passagem mais curta, não só a mais barata.',
+      tipos: ['integracoes'],
+      status: 'mvp',
+      etiquetas: ['Python', 'API Amadeus', 'cache'],
+      stack: ['Python', 'API Amadeus', 'cache', 'controle de cota', 'rate limit'],
+      feito: 'Busca de passagens integrada à API da Amadeus, com controle de cota, cache e limite de chamadas, que prioriza a duração da viagem.',
+      numeros: ['109 testes automáticos', 'MVP de uso pessoal'],
+      print: { arquivo: 'prints/varredura-voos.webp', alt: 'Terminal com o resultado da varredura de voos ordenado por duração' },
+      diagrama: diagramasDosCasos['varredura-voos'],
+      repositorio: 'https://github.com/vlfcandido/varredura-voos',
+    },
+    {
+      slug: 'app-score',
+      origem: 'proprio',
+      nome: 'App de score de crédito',
+      resultado: 'O lojista vê a nota do cliente e entende como ela foi calculada.',
+      tipos: ['frontend', 'sistemas'],
+      status: 'prototipo',
+      etiquetas: ['Next.js', 'TypeScript', 'Tailwind'],
+      stack: ['Next.js 14', 'React', 'TypeScript', 'Tailwind', 'PWA', 'FastAPI', 'PostgreSQL'],
+      problema: 'Quem vende a prazo precisa decidir na hora, no balcão, se aquele cliente costuma pagar em dia.',
+      feito:
+        'App web que abre no celular como aplicativo: o lojista consulta o cliente, vê a nota num medidor e abre "como esta pontuação foi calculada", com o peso de cada pagamento, atraso e quitação. Rotas protegidas por login e tipos iguais aos do servidor.',
+      numeros: ['41 testes no cálculo da nota', 'Prova de conceito, sem cliente', 'Print com dados fictícios'],
+      print: { arquivo: 'prints/app-score.webp', alt: 'App de score com o medidor em arco marcando 742 de 1000 e a explicação do cálculo, com dados fictícios' },
+    },
+    {
+      slug: 'engenharia-de-agentes',
+      origem: 'proprio',
+      nome: 'Engenharia de agentes',
+      resultado: 'O mesmo agente em três frameworks, lado a lado, para escolher com base.',
+      tipos: ['agentes'],
+      status: 'estudo',
+      etiquetas: ['Pydantic', 'LangGraph', 'Google ADK'],
+      stack: ['Pydantic', 'LangGraph', 'Google ADK', 'multiagente'],
+      feito: 'O mesmo agente em Pydantic puro, LangGraph e Google ADK, mais versões multiagente com defesa contra prompt injection, rodando offline.',
+      numeros: ['24 testes de fumaça'],
+      print: { arquivo: 'prints/engenharia-de-agentes.webp', alt: 'Comparação do mesmo agente em três frameworks' },
+      diagrama: diagramasDosCasos['engenharia-de-agentes'],
+      repositorio: 'https://github.com/vlfcandido/engenharia-de-agentes',
+    },
+    {
+      slug: 'revisor-ia',
+      origem: 'proprio',
+      nome: 'Revisor de código com IA',
+      resultado: 'Revisão automática em que a resposta da IA é medida, não só gerada.',
+      tipos: ['agentes'],
+      status: 'estudo',
+      etiquetas: ['LangGraph', 'RAG', 'MCP'],
+      stack: revisor.stack,
+      problema: revisor.contexto,
+      feito: revisor.feito,
+      numeros: [revisor.metrica],
+      print: prints('revisor-ia')[0],
+      diagrama: diagramasDosCasos['revisor-ia'],
+      repositorio: 'https://github.com/vlfcandido/revisor-ia',
     },
     // nexus-clips removido em 08/10/2026 (M14): o print mostrava números de visualização fictícios num
     // protótipo. Volta quando o README estiver limpo e houver testes.
@@ -149,21 +223,6 @@ export function listarProjetos(): ItemProjeto[] {
       ],
       capa: capasDosProjetos['ia-local'],
       diagrama: diagramasDosCasos['ia-local'],
-    },
-    {
-      slug: 'app-score',
-      origem: 'proprio',
-      nome: 'App de score de crédito',
-      resultado: 'O lojista vê a nota do cliente e entende como ela foi calculada.',
-      tipos: ['frontend', 'sistemas'],
-      status: 'prototipo',
-      etiquetas: ['Next.js', 'TypeScript', 'Tailwind'],
-      stack: ['Next.js 14', 'React', 'TypeScript', 'Tailwind', 'PWA', 'FastAPI', 'PostgreSQL'],
-      problema: 'Quem vende a prazo precisa decidir na hora, no balcão, se aquele cliente costuma pagar em dia.',
-      feito:
-        'App web que abre no celular como aplicativo: o lojista consulta o cliente, vê a nota num medidor e abre "como esta pontuação foi calculada", com o peso de cada pagamento, atraso e quitação. Rotas protegidas por login e tipos iguais aos do servidor.',
-      numeros: ['41 testes no cálculo da nota', 'Prova de conceito, sem cliente', 'Print com dados fictícios'],
-      print: { arquivo: 'prints/app-score.webp', alt: 'App de score com o medidor em arco marcando 742 de 1000 e a explicação do cálculo, com dados fictícios' },
     },
     {
       slug: 'este-site',
@@ -194,52 +253,6 @@ export function listarProjetos(): ItemProjeto[] {
         'A identidade deste site virou um design system: cada cor existe no tema claro e no escuro, com o uso escrito ao lado ("fundo, nunca texto"), e um teste confere que o CSS e o arquivo de tokens não divergem. No AprovaOS, fiz o mesmo com regras de componente e uma página de estilo viva.',
       numeros: ['Tema claro e escuro em todos os tokens', 'Teste que trava o contrato de cores'],
       print: { arquivo: 'prints/design-system-mare.webp', alt: 'Folha de cores do design system Maré, com cada cor no tema claro e no escuro e o seu uso' },
-    },
-    {
-      slug: 'revisor-ia',
-      origem: 'proprio',
-      nome: 'Revisor de código com IA',
-      resultado: 'Revisão automática em que a resposta da IA é medida, não só gerada.',
-      tipos: ['agentes'],
-      status: 'estudo',
-      etiquetas: ['LangGraph', 'RAG', 'MCP'],
-      stack: revisor.stack,
-      problema: revisor.contexto,
-      feito: revisor.feito,
-      numeros: [revisor.metrica],
-      print: prints('revisor-ia')[0],
-      diagrama: diagramasDosCasos['revisor-ia'],
-      repositorio: 'https://github.com/vlfcandido/revisor-ia',
-    },
-    {
-      slug: 'varredura-voos',
-      origem: 'proprio',
-      nome: 'Varredura de voos',
-      resultado: 'Acha a passagem mais curta, não só a mais barata.',
-      tipos: ['integracoes'],
-      status: 'mvp',
-      etiquetas: ['Python', 'API Amadeus', 'cache'],
-      stack: ['Python', 'API Amadeus', 'cache', 'controle de cota', 'rate limit'],
-      feito: 'Busca de passagens integrada à API da Amadeus, com controle de cota, cache e limite de chamadas, que prioriza a duração da viagem.',
-      numeros: ['109 testes automáticos', 'MVP de uso pessoal'],
-      print: { arquivo: 'prints/varredura-voos.webp', alt: 'Terminal com o resultado da varredura de voos ordenado por duração' },
-      diagrama: diagramasDosCasos['varredura-voos'],
-      repositorio: 'https://github.com/vlfcandido/varredura-voos',
-    },
-    {
-      slug: 'engenharia-de-agentes',
-      origem: 'proprio',
-      nome: 'Engenharia de agentes',
-      resultado: 'O mesmo agente em três frameworks, lado a lado, para escolher com base.',
-      tipos: ['agentes'],
-      status: 'estudo',
-      etiquetas: ['Pydantic', 'LangGraph', 'Google ADK'],
-      stack: ['Pydantic', 'LangGraph', 'Google ADK', 'multiagente'],
-      feito: 'O mesmo agente em Pydantic puro, LangGraph e Google ADK, mais versões multiagente com defesa contra prompt injection, rodando offline.',
-      numeros: ['24 testes de fumaça'],
-      print: { arquivo: 'prints/engenharia-de-agentes.webp', alt: 'Comparação do mesmo agente em três frameworks' },
-      diagrama: diagramasDosCasos['engenharia-de-agentes'],
-      repositorio: 'https://github.com/vlfcandido/engenharia-de-agentes',
     },
     {
       slug: 'benchmark-litellm',
@@ -307,22 +320,6 @@ export function listarProjetos(): ItemProjeto[] {
       fonte: franca.fonte,
     },
     {
-      slug: 'araguaia',
-      origem: 'empresa',
-      nome: 'Araguaia',
-      resultado: 'Mais contatos qualificados chegando ao time comercial.',
-      tipos: ['chatbot'],
-      status: 'producao',
-      etiquetas: ['Blip', 'WhatsApp', 'CRM'],
-      stack: araguaia.stack,
-      problema: araguaia.contexto,
-      feito: araguaia.feito,
-      numeros: [araguaia.metrica],
-      papel: 'Tech lead dos projetos Blip na Vertigo',
-      empresa: 'araguaia',
-      fonte: araguaia.fonte,
-    },
-    {
       slug: 'wiv',
       origem: 'empresa',
       nome: 'Wiv',
@@ -339,6 +336,22 @@ export function listarProjetos(): ItemProjeto[] {
       fonte: waizer.fonte,
     },
     {
+      slug: 'araguaia',
+      origem: 'empresa',
+      nome: 'Araguaia',
+      resultado: 'Mais contatos qualificados chegando ao time comercial.',
+      tipos: ['chatbot'],
+      status: 'producao',
+      etiquetas: ['Blip', 'WhatsApp', 'CRM'],
+      stack: araguaia.stack,
+      problema: araguaia.contexto,
+      feito: araguaia.feito,
+      numeros: [araguaia.metrica],
+      papel: 'Tech lead dos projetos Blip na Vertigo',
+      empresa: 'araguaia',
+      fonte: araguaia.fonte,
+    },
+    {
       slug: 'ecovita',
       origem: 'empresa',
       nome: 'Roleta de corretores',
@@ -352,7 +365,9 @@ export function listarProjetos(): ItemProjeto[] {
       feito:
         'Um job agendado lê a fila, confere no CRM e no Blip Desk onde cada lead está e, se ninguém respondeu em uma hora, passa o atendimento para o próximo corretor da mesma fila, atualizando o ticket no Blip, o responsável no CRM e o analytics.',
       numeros: [],
-      papel: 'Projeto que liderei para a Ecovita',
+      // Antes: 'Projeto que liderei para a Ecovita' (corrigido por ele em 08/10/2026: só participou).
+      papel: 'Projeto de que participei na Ecovita',
+      participacao: true,
       diagrama: diagramasDosCasos.ecovita,
       capa: capasDosProjetos.ecovita,
     },
@@ -370,25 +385,36 @@ export function listarProjetos(): ItemProjeto[] {
       feito:
         'Uma função agendada a cada minuto busca as campanhas e a audiência no Blip, lê o status de cada mensagem, junta o perfil do usuário no Braze e registra um evento por status no analytics.',
       numeros: [],
-      papel: 'Projeto que liderei para a Minu',
+      // Antes: 'Projeto que liderei para a Minu' (corrigido por ele em 08/10/2026: só participou).
+      papel: 'Projeto de que participei na Minu',
+      participacao: true,
       empresa: 'minu',
       diagrama: diagramasDosCasos.minu,
     },
-    {
-      slug: 'serasa-experian',
-      origem: 'empresa',
-      nome: 'Serasa Experian',
-      resultado: 'Segurança e modernização de aplicações em grande escala.',
-      tipos: ['sistemas'],
-      status: 'producao',
-      etiquetas: ['segurança', 'modernização'],
-      stack: ['segurança de aplicações', 'modernização'],
-      feito: serasa.feito,
-      numeros: [],
-      papel: serasa.papel,
-      empresa: 'serasa-experian',
-    },
   ]
+}
+
+/** As três seções da galeria, na ordem da página. */
+export interface SecoesGaleria {
+  /** Casos de empresa que liderei ou fiz: sobem para o topo (M11, 08/10/2026). */
+  emEmpresas: ItemProjeto[]
+  proprios: ItemProjeto[]
+  /** Casos em que só participei (Ecovita, Minu): no fim, sem destaque. */
+  outros: ItemProjeto[]
+}
+
+/**
+ * Separa a lista (já filtrada) nas três seções da galeria, mantendo a ordem de `listarProjetos`.
+ *
+ * @param itens projetos a exibir.
+ * @returns "Em empresas", "Projetos próprios" e "Outros projetos em empresas".
+ */
+export function separarGaleria(itens: ItemProjeto[]): SecoesGaleria {
+  return {
+    emEmpresas: itens.filter((i) => i.origem === 'empresa' && !i.participacao),
+    proprios: itens.filter((i) => i.origem === 'proprio'),
+    outros: itens.filter((i) => i.origem === 'empresa' && i.participacao),
+  }
 }
 
 /**

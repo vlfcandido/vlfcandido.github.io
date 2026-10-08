@@ -289,7 +289,8 @@ export const cases: Case[] = [
   {
     slug: 'nexus-quant',
     tipo: 'proprio',
-    titulo: 'Bot de trading em cripto (estudo)',
+    // Renomeado em 08/10/2026 (M13); antes o título falava em bot de trading de cripto.
+    titulo: 'Sistema de ordens em tempo real (estudo)',
     contexto: 'Operar 24 horas exige reconciliar ordens com a corretora sem erro.',
     feito:
       'Serviço em Python com reconciliação na corretora, filas Redis, monitoramento e painel web próprio. Hoje roda só em simulação.',

@@ -1,6 +1,6 @@
 import { useMemo, useState, type CSSProperties } from 'react'
 import { empresasDiretas, gruposClientes } from '../clientes'
-import { filtrarProjetos, listarProjetos, tiposProjeto, type ItemProjeto, type TipoProjeto } from '../projetos'
+import { filtrarProjetos, listarProjetos, separarGaleria, tiposProjeto, type ItemProjeto, type TipoProjeto } from '../projetos'
 import { CapaProjeto } from './CapaProjeto'
 import { DiagramaMare } from './DiagramaMare'
 import { Logo } from './Logo'
@@ -100,15 +100,14 @@ function Grade({ itens, aoAbrir }: { itens: ItemProjeto[]; aoAbrir: (slug: strin
 }
 
 /**
- * Galeria da página de projetos: chips de filtro por tipo, os projetos próprios e a faixa
- * "Em empresas", no mesmo padrão de card. O clique abre o painel (quem chama cuida do hash).
+ * Galeria da página de projetos: chips de filtro por tipo e três seções no mesmo padrão de card:
+ * "Em empresas", "Projetos próprios" e, no fim, "Outros projetos em empresas" (só participação). O clique abre o painel (quem chama cuida do hash).
  */
 export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: string) => void; filtroInicial?: TipoProjeto }) {
   const todos = useMemo(listarProjetos, [])
   const [filtro, setFiltro] = useState<Filtro>(filtroInicial ?? 'todos')
   const lista = filtrarProjetos(todos, filtro)
-  const proprios = lista.filter((p) => p.origem === 'proprio')
-  const deEmpresa = lista.filter((p) => p.origem === 'empresa')
+  const { emEmpresas, proprios, outros } = separarGaleria(lista)
   const chips: { valor: Filtro; rotulo: string; total: number }[] = [
     { valor: 'todos', rotulo: 'Todos', total: todos.length },
     ...(Object.keys(tiposProjeto) as TipoProjeto[]).map((t) => ({
@@ -149,15 +148,10 @@ export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: st
         {lista.length} projetos
       </p>
 
-      <section aria-labelledby="proprios-titulo" className="mt-12">
-        <h2 id="proprios-titulo" className="sr-only">
-          Projetos próprios
-        </h2>
-        <Grade itens={proprios} aoAbrir={aoAbrir} />
-      </section>
-
-      {deEmpresa.length > 0 && (
-        <section aria-labelledby="empresas-titulo" className="mt-24 border-t border-linha pt-14">
+      {/* Ordem trocada em 08/10/2026 (M11): "Em empresas" sobe e ganha o lugar de primeira seção; os próprios
+          descem com título visível; Ecovita e Minu (só participação) ficam no fim, sem destaque. */}
+      {emEmpresas.length > 0 && (
+        <section aria-labelledby="empresas-titulo" className="mt-12">
           <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2">
             <h2 id="empresas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
               Em empresas
@@ -165,7 +159,32 @@ export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: st
             <p className="prosa max-w-[44ch] text-[1.08rem] text-grafite">Projetos que fiz ou liderei como contratado. O desenho mostra como as peças conversam.</p>
           </div>
           <div className="mt-10">
-            <Grade itens={deEmpresa} aoAbrir={aoAbrir} />
+            <Grade itens={emEmpresas} aoAbrir={aoAbrir} />
+          </div>
+        </section>
+      )}
+
+      {proprios.length > 0 && (
+        <section aria-labelledby="proprios-titulo" className={emEmpresas.length > 0 ? 'mt-24 border-t border-linha pt-14' : 'mt-12'}>
+          <h2 id="proprios-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
+            Projetos próprios
+          </h2>
+          <div className="mt-10">
+            <Grade itens={proprios} aoAbrir={aoAbrir} />
+          </div>
+        </section>
+      )}
+
+      {outros.length > 0 && (
+        <section aria-labelledby="outros-titulo" className="mt-20 border-t border-linha pt-10">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2">
+            <h2 id="outros-titulo" className="text-[1.35rem] leading-[1.2] font-semibold sm:text-[1.5rem]">
+              Outros projetos em empresas
+            </h2>
+            <p className="prosa max-w-[44ch] text-[1rem] text-grafite">Projetos de que participei, sem liderar.</p>
+          </div>
+          <div className="mt-8">
+            <Grade itens={outros} aoAbrir={aoAbrir} />
           </div>
         </section>
       )}
