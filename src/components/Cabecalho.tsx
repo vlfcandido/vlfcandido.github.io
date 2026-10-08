@@ -136,7 +136,7 @@ export function Cabecalho({ rota }: { rota: Rota }) {
             direita, fora da rolagem. Entre sm e lg, a régua de antes. */}
         <nav aria-label="Profundidade da página" className="lg:hidden">
           <div className="mx-auto flex max-w-7xl items-baseline">
-            <ol ref={fileira} className="rolagem-lateral flex min-w-0 flex-1 items-baseline gap-5 overflow-x-auto px-4 pb-2 sm:px-8">
+            <ol ref={fileira} className="rolagem-lateral flex min-w-0 flex-1 items-baseline gap-5 overflow-x-auto px-4 pb-2 max-sm:pr-3 sm:px-8">
               {NIVEIS.map((n) => (
                 <li key={n.href} className={`shrink-0 ${NIVEIS_CELULAR.includes(n) ? '' : 'max-sm:hidden'}`}>
                   <a href={n.href} aria-current={n.href === nivel ? 'location' : undefined} className="regua-chip">
@@ -152,9 +152,11 @@ export function Cabecalho({ rota }: { rota: Rota }) {
                 </a>
               </li>
             </ol>
-            <a href={HASH_PROJETOS} aria-current={naProjetos ? 'page' : undefined} className="regua-chip shrink-0 border-l border-linha/70 px-4 pb-2 sm:hidden">
-              Projetos
-            </a>
+            <div className="shrink-0 border-l border-linha/70 pr-4 pb-2 pl-3 sm:hidden">
+              <a href={HASH_PROJETOS} aria-current={naProjetos ? 'page' : undefined} className="regua-chip">
+                Projetos
+              </a>
+            </div>
           </div>
           {principal && (
             <span aria-hidden="true" className="block h-[2px] bg-linha/60">
