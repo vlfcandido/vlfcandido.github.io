@@ -17,9 +17,9 @@ export function ComoEntrega() {
         Como é uma entrega
       </h2>
       <p className="prosa mt-1.5 max-w-[52ch] text-[1.02rem] text-grafite">
-        Oito etapas, da primeira conversa à manutenção opcional. Toque numa etapa para ver o que você recebe nela.
+        Oito etapas, do escopo à manutenção. Toque numa para ver o que você recebe.
       </p>
-      <ol className="entrega-trilho mt-8 max-w-[46rem]" style={{ ['--passo' as string]: `${(aberta / (total - 1)) * 100}%` }}>
+      <ol className="entrega-trilho mt-6 max-w-[46rem]" style={{ ['--passo' as string]: `${(aberta / (total - 1)) * 100}%` }}>
         {etapasEntrega.map((e, i) => {
           const ativa = i === aberta
           const feita = i < aberta
