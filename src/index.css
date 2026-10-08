@@ -366,8 +366,8 @@ a:focus-visible .logo-mono {
   transform: none;
 }
 ::view-transition-group(*) {
-  animation-duration: 0.42s;
-  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation-duration: var(--mov-lento);
+  animation-timing-function: var(--mov-ease);
 }
 
 /* Card de projeto: no hover/foco a moldura sobe e a sombra dura vira pitanga. */
@@ -493,12 +493,12 @@ a:focus-visible .logo-mono {
 }
 /* Troca de conteúdo (exemplo, etapa): um esmaecer curto mostra o que mudou. */
 .troca {
-  animation: entra-troca 0.3s ease both;
+  animation: entra-troca var(--mov-padrao) var(--mov-ease) both;
 }
 @keyframes entra-troca {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(8px);
   }
 }
 
@@ -1295,9 +1295,12 @@ a:focus-visible .logo-mono {
   background: var(--linha);
 }
 .entrega-trilho::after {
-  height: calc((100% - 2.8rem) * var(--passo, 0%) / 100%);
+  height: calc(100% - 2.8rem);
   background: var(--mar);
-  transition: height 0.35s ease;
+  /* O trilho enche por escala (compositor), não por altura. --passo vai de 0 a 1. */
+  transform: translateX(-1px) scaleY(var(--passo, 0));
+  transform-origin: top;
+  transition: transform var(--mov-padrao) var(--mov-ease);
 }
 .entrega-etapa {
   position: relative;
@@ -1330,5 +1333,208 @@ a:focus-visible .logo-mono {
 @media (prefers-reduced-motion: reduce) {
   .entrega-trilho::after {
     transition: none;
+  }
+}
+
+/* ==========================================================================================
+   Movimento (09/10/2026). Tudo aqui anima só transform e opacity, de 150 a 400 ms, na curva
+   única --mov-ease (tokens em mare.css). O bloco final desliga tudo com prefers-reduced-motion.
+   ========================================================================================== */
+
+/* Troca de página: View Transition no <html> (o tipo vem em data-vt). O fundo some e o novo entra;
+   no case a página desliza de lado, no sentido de quem avança ou volta. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--mov-padrao);
+  animation-timing-function: var(--mov-ease);
+}
+::view-transition-old(root) {
+  animation-name: vt-sai;
+}
+::view-transition-new(root) {
+  animation-name: vt-entra;
+}
+:root[data-vt="avancar"]::view-transition-new(root) {
+  animation-name: vt-entra-direita;
+  animation-duration: var(--mov-lento);
+}
+:root[data-vt="voltar"]::view-transition-new(root) {
+  animation-name: vt-entra-esquerda;
+  animation-duration: var(--mov-lento);
+}
+/* Tema: esmaecer puro, sem deslocamento. */
+:root[data-vt="tema"]::view-transition-old(root) {
+  animation: none;
+  opacity: 1;
+}
+:root[data-vt="tema"]::view-transition-new(root) {
+  animation-name: vt-esmaece;
+}
+@keyframes vt-sai {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-entra {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes vt-entra-direita {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+@keyframes vt-entra-esquerda {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+}
+@keyframes vt-esmaece {
+  from {
+    opacity: 0;
+  }
+}
+/* O cabeçalho fixo não pisca na troca. */
+header.sticky {
+  view-transition-name: cabecalho;
+}
+::view-transition-group(cabecalho) {
+  animation-duration: var(--mov-padrao);
+}
+
+/* Fallback sem View Transition: depois da primeira navegação, a página nova entra com um fade curto.
+   Na primeira carga nada anima (não atrasa o LCP). */
+html[data-navegou] .pagina-troca {
+  animation: entra-pagina var(--mov-padrao) var(--mov-ease) both;
+}
+@supports (view-transition-name: x) {
+  html[data-navegou] .pagina-troca {
+    animation: none;
+  }
+}
+@keyframes entra-pagina {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Seções e cartões entrando ao rolar (lib/revelar.ts põe e tira estas classes). */
+.vai-entrar {
+  opacity: 0;
+  transform: translateY(var(--mov-deslocamento));
+}
+
+/* Cartões: sobem no hover (só com mouse) e afundam no clique. */
+.pacote,
+.cartao-caso {
+  transition: transform var(--mov-toque) var(--mov-ease), border-color var(--mov-toque);
+}
+@media (hover: hover) {
+  .pacote:hover,
+  .cartao-caso:hover {
+    transform: translateY(-3px);
+  }
+}
+.pacote:active,
+.cartao-caso:active,
+.cartao-projeto:active {
+  transform: scale(0.985);
+}
+.cartao-projeto {
+  transition: transform var(--mov-toque) var(--mov-ease);
+}
+.botao-acao,
+.chip {
+  transition-duration: var(--mov-toque);
+  transition-timing-function: var(--mov-ease);
+}
+/* Vem depois dos cartões de propósito: durante a entrada, esta transição vence a do hover. */
+.entrando {
+  transition: opacity var(--mov-lento) var(--mov-ease) var(--atraso-entrada, 0ms), transform var(--mov-lento) var(--mov-ease)
+    var(--atraso-entrada, 0ms);
+}
+
+/* Ampliação do print: a miniatura dá um leve zoom; a tela cheia entra de escala e some de volta
+   (allow-discrete deixa o fechamento animar; sem suporte, só abre e fecha seco). */
+.print-miniatura img {
+  transition: transform var(--mov-padrao) var(--mov-ease);
+}
+@media (hover: hover) {
+  .print-miniatura:hover img {
+    transform: scale(1.025);
+  }
+}
+.print-miniatura:active img {
+  transform: scale(0.99);
+}
+.print-ampliado {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity var(--mov-padrao) var(--mov-ease), transform var(--mov-padrao) var(--mov-ease),
+    overlay var(--mov-padrao) allow-discrete, display var(--mov-padrao) allow-discrete;
+}
+.print-ampliado[open] {
+  opacity: 1;
+  transform: none;
+}
+.print-ampliado::backdrop {
+  opacity: 0;
+  transition: opacity var(--mov-padrao) var(--mov-ease), overlay var(--mov-padrao) allow-discrete,
+    display var(--mov-padrao) allow-discrete;
+}
+.print-ampliado[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .print-ampliado[open] {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  .print-ampliado[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* Carrossel de pacotes, cases e projetos no celular: rolagem nativa com inércia, o encaixe só
+   assenta no fim (proximity) e o gesto não vaza para a página. */
+.rolagem-lateral {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-snap-stop: normal;
+}
+
+/* Menos movimento: nada se desloca, nada esmaece, nada fica escondido esperando entrar. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .vai-entrar {
+    opacity: 1;
+    transform: none;
+  }
+  .pacote:hover,
+  .cartao-caso:hover,
+  .pacote:active,
+  .cartao-caso:active,
+  .cartao-projeto:active,
+  .print-miniatura:hover img,
+  .print-miniatura:active img {
+    transform: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

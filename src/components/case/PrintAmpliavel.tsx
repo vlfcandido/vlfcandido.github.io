@@ -26,7 +26,7 @@ export function PrintAmpliavel({ print, legenda, className = '' }: Props) {
       <button
         type="button"
         onClick={() => ref.current?.showModal()}
-        className="group relative block w-full overflow-hidden rounded-md border border-linha bg-folha text-left shadow-[6px_6px_0_var(--linha)]"
+        className="print-miniatura group relative block w-full overflow-hidden rounded-md border border-linha bg-folha text-left shadow-[6px_6px_0_var(--linha)]"
       >
         <ImagemPrint
           print={print}

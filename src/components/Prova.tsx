@@ -130,7 +130,7 @@ export function Prova() {
         ref={lista}
         onScroll={aoRolar}
         aria-label="Resultados"
-        className="rolagem-lateral relative -mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-1 md:mx-0 md:grid md:snap-none md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0"
+        className="rolagem-lateral relative -mx-4 mt-4 flex snap-x snap-proximity gap-4 overflow-x-auto scroll-px-4 px-4 pb-1 md:mx-0 md:grid md:snap-none md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0"
       >
         {destaques.map((d) => (
           <CartaoCaso key={d.slug} d={d} />
