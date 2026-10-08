@@ -1,6 +1,6 @@
 # Worker do assistente do portfólio. Guia para ligar: README.md desta pasta.
-# Segredos (NUNCA neste arquivo): ANTHROPIC_API_KEY, TURNSTILE_SECRET, CHAVE_ASSINATURA, METRICAS_TOKEN.
-#   npx wrangler secret put ANTHROPIC_API_KEY
+# Segredos (NUNCA neste arquivo): GROQ_API_KEY (ou ANTHROPIC_API_KEY), TURNSTILE_SECRET, CHAVE_ASSINATURA, METRICAS_TOKEN.
+#   npx wrangler secret put GROQ_API_KEY
 name = "assistente-portfolio"
 main = "src/index.ts"
 compatibility_date = "2026-09-01"
@@ -11,8 +11,10 @@ compatibility_flags = ["nodejs_compat"]
 enabled = false
 
 [vars]
-# "simulado": respostas determinísticas, sem chave e sem custo. "real": usa a ANTHROPIC_API_KEY.
+# "simulado": respostas determinísticas, sem chave e sem custo. "real": usa a chave do PROVEDOR.
 MODO = "simulado"
+# Provedor da IA: "groq" (padrão, GROQ_API_KEY) ou "anthropic" (ANTHROPIC_API_KEY).
+PROVEDOR = "groq"
 # Conta em reais (decisão dele, 08/10/2026): teto ~R$ 50/mês. O câmbio é premissa, ajuste quando quiser.
 CAMBIO_BRL_POR_USD = "5.50"
 TETO_DIA_BRL = "3.00"

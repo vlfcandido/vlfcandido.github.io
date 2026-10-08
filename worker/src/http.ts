@@ -92,7 +92,7 @@ export function criarApp(deps: DependenciasHttp): (request: Request) => Promise<
     if (request.method === 'GET' && url.pathname === '/estado') {
       let modo: EstadoAssistente['modo'] = 'roteiro'
       if (config.modo === 'simulado') modo = 'simulado'
-      else if (deps.modelo && deps.turnstile && (await controle.cabeNoOrcamento(reservaPorTurnoBrl(config.cambio)))) modo = 'ia'
+      else if (deps.modelo && deps.turnstile && (await controle.cabeNoOrcamento(reservaPorTurnoBrl(config.cambio, config.provedor)))) modo = 'ia'
       const estado: EstadoAssistente = { modo, turnstile: deps.turnstile ? config.turnstileSite : null }
       return json(estado, 200, cabecalhos)
     }
