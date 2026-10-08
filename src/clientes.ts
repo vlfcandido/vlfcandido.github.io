@@ -108,8 +108,9 @@ export const empresasDiretas: EmpresaDireta[] = [
     nome: 'Wiv',
     segmento: 'tecnologia',
     logo: 'logos/wiv.png',
-    papel: 'Engenheiro no Waizer',
-    feito: 'Trabalhei no Waizer, a plataforma da Wiv que analisa as conversas dos chatbots e aponta onde travam.',
+    // Atualizado em 08/10/2026 (ele confirmou). Antes: papel 'Engenheiro no Waizer' e feito 'Trabalhei no Waizer, ...'.
+    papel: 'Backend e IA do Waizer',
+    feito: 'Construí o backend da análise de conversas e a camada de IA que classifica intenção, abandono e qualidade do robô no Waizer, a plataforma da Wiv.',
     historia: { texto: 'MobileTime, 12/06/2026', url: 'https://www.mobiletime.com.br/noticias/12/06/2026/wiv-5-milhoes/' },
     ligadoA: 'wiv-5-milhoes',
   },

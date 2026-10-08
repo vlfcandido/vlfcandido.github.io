@@ -167,7 +167,9 @@ export function listarCasos(): CaseDetalhe[] {
         { valor: '300+', rotulo: 'robôs de atendimento monitorados', origem: 'MobileTime, 12/06/2026', url: MATERIA_WIV },
       ],
       papel: {
-        meu: 'Trabalhei no Waizer, a ferramenta de análise de conversas da Wiv, e liderei projetos de chatbot para clientes da plataforma.',
+        // Atualizado em 08/10/2026 (ele confirmou as duas partes). Antes: 'Trabalhei no Waizer, a ferramenta de
+        // análise de conversas da Wiv, e liderei projetos de chatbot para clientes da plataforma.'
+        meu: 'No Waizer, construí o backend da análise de conversas (APIs e processamento em Python que leem as conversas e montam os indicadores) e a camada de IA que classifica intenção, abandono e qualidade do robô. Também liderei projetos de chatbot para clientes da plataforma.',
         resto: 'A plataforma e os números são da Wiv.',
       },
       historia: [

@@ -279,13 +279,16 @@ export const cases: Case[] = [
     tipo: 'publico',
     titulo: 'Waizer, análise de conversas de chatbot (Wiv)',
     contexto: 'Empresas com vários robôs de atendimento não sabiam onde as conversas travavam.',
-    feito: 'Trabalhei no Waizer e em chatbots da Wiv, plataforma que analisa as conversas e aponta o que melhorar.',
+    // Atualizado em 08/10/2026 (ele confirmou). Antes: 'Trabalhei no Waizer e em chatbots da Wiv, plataforma que
+    // analisa as conversas e aponta o que melhorar.'
+    feito:
+      'Construí o backend da análise de conversas do Waizer (APIs e processamento em Python que montam os indicadores) e a camada de IA que classifica intenção, abandono e qualidade do robô.',
     metrica: 'A plataforma passou de 5 milhões de conversas analisadas e monitora mais de 300 robôs.',
     fonte: {
       texto: 'MobileTime, 12/06/2026',
       url: 'https://www.mobiletime.com.br/noticias/12/06/2026/wiv-5-milhoes/',
     },
-    stack: ['IA conversacional', 'análise de conversas', 'chatbots'],
+    stack: ['Python', 'IA conversacional', 'análise de conversas', 'chatbots'],
     temPrint: false,
     alt: 'Painel do Waizer com indicadores de conversas de chatbot',
   },
