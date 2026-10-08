@@ -1,6 +1,6 @@
 // Contrato entre o widget do site e o Worker do assistente (pasta worker/). Os dois lados importam daqui,
 // para um campo renomeado quebrar o build dos dois, e não a conversa em produção.
-// Só tipos e constantes: nada executa ao importar.
+// Só tipos, constantes e funções puras: nada executa ao importar.
 
 import type { EscopoPronto } from './escopo'
 
@@ -93,4 +93,30 @@ export interface EstadoAssistente {
   modo: ModoAssistente
   /** Chave pública do Turnstile; `null` quando o Worker roda sem Turnstile (só no modo simulado). */
   turnstile: string | null
+}
+
+/**
+ * Texto de uma fala do assistente como ele volta no histórico: a resposta e, quando houver, o escopo ou a
+ * aderência em texto, para a IA lembrar o que já entregou. É este texto exato que o Worker assina.
+ *
+ * @param resposta resposta do assistente (sem a assinatura).
+ * @returns o texto da fala.
+ */
+export function textoDaFala(resposta: Pick<RespostaAssistente, 'texto' | 'escopo' | 'aderencia'>): string {
+  const partes = [resposta.texto]
+  if (resposta.escopo) partes.push(resposta.escopo.textoCopiavel)
+  if (resposta.aderencia) {
+    const a = resposta.aderencia
+    partes.push(
+      [
+        'Com prova:',
+        ...a.comProva.map((l) => `- ${l.requisito}: ${l.prova}`),
+        'Sem prova no site:',
+        ...a.semProva.map((l) => `- ${l}`),
+        'Perguntar na entrevista:',
+        ...a.perguntar.map((l) => `- ${l}`),
+      ].join('\n'),
+    )
+  }
+  return partes.join('\n\n')
 }

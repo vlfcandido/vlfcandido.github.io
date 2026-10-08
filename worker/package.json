@@ -1,0 +1,25 @@
+{
+  "name": "assistente-worker",
+  "version": "0.1.0",
+  "description": "Proxy do assistente do portfólio (Cloudflare Worker): guarda a chave, limita o uso e filtra entrada e saída",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "eval": "vitest run eval",
+    "eval:real": "ASSISTENTE_EVAL_REAL=1 vitest run eval"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.132.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261008.1",
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3",
+    "wrangler": "^4.148.0"
+  }
+}

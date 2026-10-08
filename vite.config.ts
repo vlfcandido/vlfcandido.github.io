@@ -8,5 +8,6 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   base: process.env.BASE_PATH ?? '/',
   plugins: [react(), tailwindcss()],
-  test: { environment: 'node' },
+  // worker/ tem os próprios testes (npm test dentro da pasta), com outras dependências.
+  test: { environment: 'node', exclude: ['**/node_modules/**', 'worker/**'] },
 })

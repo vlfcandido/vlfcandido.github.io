@@ -98,7 +98,7 @@ export const FORA_SEMPRE: string[] = [
 
 /** Minúsculas e sem acento, para comparar palavras-chave de forma estável. */
 export function normalizar(texto: string): string {
-  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+  return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
 }
 
 /** Tipo de pedido que o Vinicius não pega (invariante 6), com a razão genérica que o assistente diz. */
