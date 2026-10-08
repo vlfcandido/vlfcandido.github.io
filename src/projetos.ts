@@ -7,7 +7,7 @@
 
 import { empresasDiretas, type EmpresaDireta } from './clientes'
 import { cases, type Case, type Fonte } from './conteudo'
-import { diagramasDosCasos, printsDosCasos, type Diagrama, type Print } from './visuais'
+import { capasDosProjetos, diagramasDosCasos, printsDosCasos, type Capa, type Diagrama, type Print } from './visuais'
 
 /** Tipo de projeto, usado pelos chips de filtro. */
 export type TipoProjeto = 'chatbot' | 'agentes' | 'sistemas' | 'integracoes' | 'dados'
@@ -50,6 +50,8 @@ export interface ItemProjeto {
   /** Slug da empresa em `clientes.ts`, para a logo dos casos de empresa. */
   empresa?: string
   diagrama?: Diagrama
+  /** Ilustração de capa, para projeto sem tela própria: vira a frente do card e o topo do painel. */
+  capa?: Capa
   /** Repositório público, quando há. */
   repositorio?: string
   /** Matéria ou material público que conta a história. */
@@ -272,6 +274,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [franca.metrica],
       papel: 'Tech lead dos projetos Blip na Vertigo',
       empresa: 'prefeitura-franca',
+      capa: capasDosProjetos['prefeitura-franca'],
       fonte: franca.fonte,
     },
     {
@@ -322,6 +325,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [],
       papel: 'Projeto que liderei para a Ecovita',
       diagrama: diagramasDosCasos.ecovita,
+      capa: capasDosProjetos.ecovita,
     },
     {
       slug: 'minu',

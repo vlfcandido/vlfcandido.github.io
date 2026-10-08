@@ -30,6 +30,35 @@ export const printsDosCasos: Record<string, Print[]> = {
   ],
 }
 
+/**
+ * Ilustração de capa de um card (gerada com IA por ele e editada), em `public/img/<nome>-<largura>.<ext>`.
+ * O papel foi clareado até o branco, como nas cartas náuticas, para o mesmo tratamento no tema escuro.
+ */
+export interface Capa {
+  nome: string
+  /** Larguras geradas em AVIF, WebP e JPEG, da menor para a maior. */
+  larguras: number[]
+  /** Proporção largura/altura do original. */
+  razao: number
+  alt: string
+}
+
+/** Capas por slug da galeria de projetos. */
+export const capasDosProjetos: Record<string, Capa> = {
+  ecovita: {
+    nome: 'roleta',
+    larguras: [640, 1040, 1312],
+    razao: 1312 / 816,
+    alt: 'Ilustração isométrica: contatos chegando por vários celulares a uma roleta central que distribui cada um para um corretor na sua mesa, com um painel de acompanhamento ao fundo',
+  },
+  'prefeitura-franca': {
+    nome: 'farol',
+    larguras: [640, 1040, 1312],
+    razao: 1312 / 816,
+    alt: 'Ilustração em traço: um farol aponta para dois balões de conversa sobre as curvas de profundidade de uma carta náutica',
+  },
+}
+
 /** Diagrama por caso, quando existe. */
 export const diagramasDosCasos: Record<string, Diagrama> = {
   'nexus-quant': 'nexus-quant',

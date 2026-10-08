@@ -381,6 +381,11 @@ a:focus-visible .logo-mono {
   transform: translate(-3px, -3px);
   box-shadow: 9px 9px 0 var(--pitanga);
 }
+/* Logo e capa ilustrada sobem junto com a moldura; a imagem dentro dela não se move sozinha. */
+.cartao-projeto .moldura-logo img {
+  transform: none !important;
+  box-shadow: none !important;
+}
 .cartao-projeto:has(:focus-visible) {
   outline: 2px solid var(--cobalto);
   outline-offset: 8px;

@@ -2,6 +2,7 @@ import { useMemo, useState, type CSSProperties } from 'react'
 import { flushSync } from 'react-dom'
 import { empresasDiretas, gruposClientes } from '../clientes'
 import { filtrarProjetos, listarProjetos, tiposProjeto, type ItemProjeto, type TipoProjeto } from '../projetos'
+import { CapaProjeto } from './CapaProjeto'
 import { DiagramaMare } from './DiagramaMare'
 import { Logo } from './Logo'
 import { Print } from './Print'
@@ -39,31 +40,41 @@ const logoDe = (slug?: string) =>
  */
 function Cartao({ item, aoAbrir }: CartaoProps) {
   const empresa = logoDe(item.empresa)
-  const temFrente = Boolean(item.print || empresa)
-  const [desenho, setDesenho] = useState(!temFrente)
-  const mostraDesenho = Boolean(item.diagrama) && desenho
+  // Frente: capa ilustrada, senão a tela, senão a logo. Verso: o diagrama; sem ele, a tela/logo atrás da capa.
+  const temTelaOuLogo = Boolean(item.print || empresa)
+  const temFrente = Boolean(item.capa) || temTelaOuLogo
+  const verso: 'diagrama' | 'tela' | null = item.diagrama ? 'diagrama' : item.capa && temTelaOuLogo ? 'tela' : null
+  const [noVerso, setNoVerso] = useState(!temFrente)
+  const mostra = noVerso && verso ? verso : item.capa ? 'capa' : 'tela'
+  const rotuloFrente = item.capa ? 'Ver a ilustração' : item.print ? 'Ver a tela' : 'Ver a logo'
+  const rotuloVerso = verso === 'diagrama' ? 'Ver o desenho' : item.print ? 'Ver a tela' : 'Ver a logo'
+  const moldura = 'moldura-logo overflow-hidden rounded-md border border-linha bg-folha shadow-[6px_6px_0_var(--linha)]'
   return (
     <article className="cartao-projeto group relative flex h-full flex-col">
       <div className="relative">
-        {mostraDesenho && item.diagrama ? (
-          <div className="moldura-logo flex aspect-[16/10] items-center overflow-hidden rounded-md border border-linha bg-folha px-2 shadow-[6px_6px_0_var(--linha)]">
+        {mostra === 'diagrama' && item.diagrama ? (
+          <div className={`${moldura} flex aspect-[16/10] items-center px-2`}>
             <DiagramaMare id={item.diagrama} modo="largo" className="w-full" />
+          </div>
+        ) : mostra === 'capa' && item.capa ? (
+          <div className={`${moldura} aspect-[16/10]`}>
+            <CapaProjeto capa={item.capa} sizes="(min-width: 1024px) 400px, (min-width: 640px) 46vw, 92vw" className="h-full" />
           </div>
         ) : item.print ? (
           <Print print={item.print} />
         ) : (
-          <div className="moldura-logo flex aspect-[16/7] items-center justify-center rounded-md border border-linha bg-folha px-8 shadow-[6px_6px_0_var(--linha)]">
+          <div className={`${moldura} flex ${item.capa ? 'aspect-[16/10]' : 'aspect-[16/7]'} items-center justify-center px-8`}>
             {empresa && <Logo cliente={empresa} className="max-h-11 max-w-[170px]" />}
           </div>
         )}
-        {item.diagrama && temFrente && (
+        {verso && temFrente && (
           <button
             type="button"
-            aria-pressed={desenho}
-            onClick={() => setDesenho((v) => !v)}
+            aria-pressed={noVerso}
+            onClick={() => setNoVerso((v) => !v)}
             className="absolute right-2 bottom-2 z-10 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta hover:border-cobalto hover:text-cobalto"
           >
-            {desenho ? (item.print ? 'Ver a tela' : 'Ver a logo') : 'Ver o desenho'}
+            {noVerso ? rotuloFrente : rotuloVerso}
           </button>
         )}
       </div>
