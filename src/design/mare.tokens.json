@@ -1,0 +1,356 @@
+{
+  "name": "Maré",
+  "version": 1,
+  "color": {
+    "themes": [
+      {
+        "id": "light",
+        "name": "Claro"
+      },
+      {
+        "id": "dark",
+        "name": "Escuro"
+      }
+    ],
+    "tokens": [
+      {
+        "name": "papel",
+        "value": {
+          "light": "#f2f5f3",
+          "dark": "#0b1e25"
+        },
+        "usage": "Fundo da página: o branco frio da carta náutica (claro) e o mar à noite (escuro). Nunca creme."
+      },
+      {
+        "name": "papel-alto",
+        "value": {
+          "light": "#ffffff",
+          "dark": "#112a33"
+        },
+        "usage": "Superfícies elevadas: cartões, balões, painéis sobre `papel`."
+      },
+      {
+        "name": "raso",
+        "value": {
+          "light": "#dcebec",
+          "dark": "#163843"
+        },
+        "usage": "Tinta de água rasa: faixas de destaque, fundo de etiqueta e de chip ativo suave. Fundo, nunca texto."
+      },
+      {
+        "name": "linha",
+        "value": {
+          "light": "#bccdce",
+          "dark": "#2c4b55"
+        },
+        "usage": "Fios, bordas e as isóbatas do motivo. Decorativo; a borda de controle usa `fundo-suave`."
+      },
+      {
+        "name": "fundo",
+        "value": {
+          "light": "#0f2a33",
+          "dark": "#e3eeec"
+        },
+        "usage": "Texto principal sobre `papel`, `papel-alto` e `raso` (tinta de profundidade)."
+      },
+      {
+        "name": "fundo-suave",
+        "value": {
+          "light": "#486169",
+          "dark": "#97b2b5"
+        },
+        "usage": "Texto secundário, metadados e borda de controles, sobre `papel`, `papel-alto` e `raso`."
+      },
+      {
+        "name": "mar",
+        "value": {
+          "light": "#0d5f73",
+          "dark": "#6cc6d6"
+        },
+        "usage": "Cor da marca e da ação principal: botão, link, item ativo. Como texto, sobre `papel`, `papel-alto` e `raso`."
+      },
+      {
+        "name": "mar-forte",
+        "value": {
+          "light": "#08475a",
+          "dark": "#a3dde7"
+        },
+        "usage": "Hover e pressionado de `mar`."
+      },
+      {
+        "name": "on-mar",
+        "value": {
+          "light": "#ffffff",
+          "dark": "#0b1e25"
+        },
+        "usage": "Texto e ícone sobre preenchimento `mar` ou `mar-forte`."
+      },
+      {
+        "name": "mata",
+        "value": {
+          "light": "#2e5b43",
+          "dark": "#8cc7a1"
+        },
+        "usage": "Natureza e estado vivo: \"em produção\", sucesso. Como texto, sobre `papel`, `papel-alto` e `raso`; sempre com palavra junto."
+      },
+      {
+        "name": "areia",
+        "value": {
+          "light": "#e3cf9f",
+          "dark": "#c9b07a"
+        },
+        "usage": "Terra da carta náutica: blocos grandes, preenchimento do motivo, placa de ilustração. Nunca texto, nunca fundo de texto longo."
+      },
+      {
+        "name": "coral",
+        "value": {
+          "light": "#e8445f",
+          "dark": "#ff7a90"
+        },
+        "usage": "Acento quente secundário, só em traço e ponto: sublinhado que se desenha, ponto de status, sombra dura do botão, marca de profundidade. 3:1 sobre os fundos; não é cor de texto."
+      },
+      {
+        "name": "coral-texto",
+        "value": {
+          "light": "#c4213f",
+          "dark": "#ff8fa2"
+        },
+        "usage": "Quando o coral precisa ser texto (seta de link, número de sondagem): sobre `papel` e `papel-alto`."
+      },
+      {
+        "name": "sol",
+        "value": {
+          "light": "#ffd34d",
+          "dark": "#e9b949"
+        },
+        "usage": "Marca-texto: só atrás de número que tem fonte. Texto por cima em `on-sol`."
+      },
+      {
+        "name": "on-sol",
+        "value": {
+          "light": "#0f2a33",
+          "dark": "#0b1e25"
+        },
+        "usage": "Texto sobre `sol`."
+      },
+      {
+        "name": "foco",
+        "value": {
+          "light": "{mar}",
+          "dark": "{mar}"
+        },
+        "usage": "Anel de foco do teclado: 2px sólido em `mar` com 3px de afastamento; 3:1 ou mais em todos os fundos."
+      }
+    ]
+  },
+  "type": {
+    "fonts": [],
+    "families": {
+      "display": "\"Brygada 1918\", Georgia, \"Times New Roman\", serif",
+      "sans": "\"Hanken Grotesk\", ui-sans-serif, system-ui, sans-serif"
+    },
+    "groups": [
+      {
+        "name": "Carta",
+        "family": "display",
+        "note": "Serifada de guia de campo: títulos e prosa. Entrelinha folgada, tracking neutro.",
+        "styles": [
+          {
+            "name": "display-xl",
+            "fontSize": "60px",
+            "lineHeight": "66px",
+            "fontWeight": 600,
+            "letterSpacing": "-0.01em",
+            "sample": "Chatbot que atende, sistema que não para",
+            "usage": "Só a frase da abertura, uma vez por página."
+          },
+          {
+            "name": "display",
+            "fontSize": "44px",
+            "lineHeight": "52px",
+            "fontWeight": 600,
+            "sample": "Projetos em produção",
+            "usage": "Título de página e de seção principal."
+          },
+          {
+            "name": "titulo",
+            "fontSize": "30px",
+            "lineHeight": "38px",
+            "fontWeight": 600,
+            "sample": "Como funciona",
+            "usage": "Título de seção."
+          },
+          {
+            "name": "subtitulo",
+            "fontSize": "22px",
+            "lineHeight": "30px",
+            "fontWeight": 500,
+            "sample": "Atendimento de pedidos no WhatsApp",
+            "usage": "Título de cartão e de case."
+          },
+          {
+            "name": "prosa",
+            "fontSize": "19px",
+            "lineHeight": "32px",
+            "fontWeight": 400,
+            "sample": "Você me conta o problema, eu devolvo um escopo de uma página com preço fechado.",
+            "usage": "Texto corrido de apresentação e de case, até 68 caracteres por linha."
+          },
+          {
+            "name": "sondagem",
+            "fontSize": "13px",
+            "lineHeight": "16px",
+            "fontWeight": 400,
+            "fontStyle": "italic",
+            "sample": "12  18  25",
+            "usage": "Números do motivo (profundidades em itálico, como nas cartas). Só decorativo, com aria-hidden."
+          }
+        ]
+      },
+      {
+        "name": "Interface",
+        "family": "sans",
+        "note": "Grotesca legível para tudo que se clica ou se escaneia.",
+        "styles": [
+          {
+            "name": "corpo",
+            "fontSize": "17px",
+            "lineHeight": "27px",
+            "fontWeight": 400,
+            "sample": "Preço fechado, entrega testada e código seu.",
+            "usage": "Texto de interface, listas e descrições curtas."
+          },
+          {
+            "name": "botao",
+            "fontSize": "17px",
+            "lineHeight": "24px",
+            "fontWeight": 600,
+            "sample": "Falar comigo no LinkedIn",
+            "usage": "Rótulo de botão e de link de ação."
+          },
+          {
+            "name": "apoio",
+            "fontSize": "15px",
+            "lineHeight": "22px",
+            "fontWeight": 400,
+            "sample": "Python, FastAPI e WhatsApp Cloud API",
+            "usage": "Metadados, legendas de cartão, rodapé."
+          },
+          {
+            "name": "etiqueta",
+            "fontSize": "13px",
+            "lineHeight": "18px",
+            "fontWeight": 600,
+            "letterSpacing": "0.01em",
+            "sample": "Em produção",
+            "usage": "Etiquetas e chips. Em caixa de frase, nunca caixa alta."
+          }
+        ]
+      }
+    ]
+  },
+  "spacing": {
+    "note": "Base 4px; seções respiram em 64–112px.",
+    "tokens": [
+      {
+        "name": "space-1",
+        "value": "4px",
+        "usage": "Ícone e rótulo."
+      },
+      {
+        "name": "space-2",
+        "value": "8px",
+        "usage": "Dentro de etiquetas e chips."
+      },
+      {
+        "name": "space-3",
+        "value": "12px",
+        "usage": "Entre linhas relacionadas."
+      },
+      {
+        "name": "space-4",
+        "value": "16px",
+        "usage": "Margem lateral no celular; respiro de cartão pequeno."
+      },
+      {
+        "name": "space-6",
+        "value": "24px",
+        "usage": "Respiro de cartão e de balão."
+      },
+      {
+        "name": "space-8",
+        "value": "32px",
+        "usage": "Margem lateral no computador; entre blocos de uma seção."
+      },
+      {
+        "name": "space-12",
+        "value": "48px",
+        "usage": "Entre título de seção e conteúdo grande."
+      },
+      {
+        "name": "space-16",
+        "value": "64px",
+        "usage": "Entre seções no celular."
+      },
+      {
+        "name": "space-28",
+        "value": "112px",
+        "usage": "Entre seções no computador."
+      }
+    ]
+  },
+  "radius": {
+    "note": "Seixo, não pílula: cantos médios; pílula só em botão e chip.",
+    "tokens": [
+      {
+        "name": "radius-sm",
+        "value": "6px",
+        "usage": "Etiquetas e placas de logo."
+      },
+      {
+        "name": "radius-md",
+        "value": "12px",
+        "usage": "Cartões de projeto, painéis."
+      },
+      {
+        "name": "radius-lg",
+        "value": "20px",
+        "usage": "Balões de conversa e a moldura da demonstração."
+      },
+      {
+        "name": "radius-full",
+        "value": "9999px",
+        "usage": "Botões e chips."
+      }
+    ]
+  },
+  "shadow": {
+    "note": "Sombra dura deslocada (como um selo carimbado), nunca o borrão cinza.",
+    "tokens": [
+      {
+        "name": "shadow-carimbo",
+        "value": {
+          "light": "3px 3px 0 #e8445f",
+          "dark": "3px 3px 0 #ff7a90"
+        },
+        "usage": "Hover do botão principal: sobe 2px e deixa o carimbo coral."
+      },
+      {
+        "name": "shadow-placa",
+        "value": {
+          "light": "4px 4px 0 #bccdce",
+          "dark": "4px 4px 0 #2c4b55"
+        },
+        "usage": "Cartão ou logo em destaque; a placa que sai do papel."
+      },
+      {
+        "name": "shadow-flutua",
+        "value": {
+          "light": "0 10px 30px -12px #0f2a3340",
+          "dark": "0 12px 32px -10px #000000b3"
+        },
+        "usage": "Só o que flutua: botão fixo do LinkedIn, dica sobre a logo."
+      }
+    ]
+  }
+}

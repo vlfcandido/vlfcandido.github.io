@@ -6,7 +6,6 @@ import { FonteLink } from './FonteLink'
 import { LinkExterno } from './LinkExterno'
 import { Logo } from './Logo'
 import { Print } from './Print'
-import { SeloStatus } from './SeloStatus'
 
 interface PainelProps {
   /** Projeto aberto, ou `null` com o painel fechado. */
@@ -72,11 +71,10 @@ export function PainelProjeto({ item, aoFechar }: PainelProps) {
         <div className="px-5 pt-5 pb-8 sm:px-10 sm:pt-8 sm:pb-12">
           <div className="sticky top-0 z-10 -mx-5 -mt-5 flex items-start gap-4 border-b border-linha bg-folha/95 px-5 pt-5 pb-4 backdrop-blur sm:-mx-10 sm:-mt-8 sm:px-10 sm:pt-8">
             <div className="min-w-0 flex-1">
-              <SeloStatus status={item.status} />
               <h2
                 id="painel-titulo"
                 tabIndex={-1}
-                className="mt-2 text-[1.5rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.2rem]"
+                className="text-[1.5rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.2rem]"
               >
                 {item.nome}
               </h2>

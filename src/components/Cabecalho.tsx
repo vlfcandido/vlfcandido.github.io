@@ -8,6 +8,7 @@ import { LinkExterno } from './LinkExterno'
 const SECOES = [
   { href: '#o-que-eu-resolvo', rotulo: 'O que eu resolvo' },
   { href: '#resultados', rotulo: 'Resultados' },
+  { href: '#trajetoria', rotulo: 'Onde trabalhei' },
   { href: '#como-funciona', rotulo: 'Como funciona' },
   { href: HASH_PROJETOS, rotulo: 'Projetos' },
 ] as const

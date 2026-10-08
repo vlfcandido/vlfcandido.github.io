@@ -1,4 +1,6 @@
 // Galeria da página de projetos: um item por card, com o tipo (para o filtro) e o status honesto.
+// O status não aparece no site desde 07/10/2026 (pedido dele: sem selo de MVP, estudo etc.); fica aqui
+// só para os testes garantirem que nenhum texto de projeto próprio afirma produção, cliente ou lucro.
 // Os textos vêm de conteudo.ts e clientes.ts; aqui só entra o que a galeria precisa a mais. Os números
 // dos projetos próprios saem do banco de provas (medidos em 07/10/2026). Nada de projeto que o banco
 // de provas manda não citar (ex.: o bot de pedidos, que não sobe), nem de lucro em trading.
@@ -21,14 +23,6 @@ export const tiposProjeto: Record<TipoProjeto, string> = {
 
 /** Situação real do projeto hoje. */
 export type StatusProjeto = 'producao' | 'mvp' | 'prototipo' | 'estudo'
-
-/** Rótulo de cada status, como aparece no card. */
-export const statusProjeto: Record<StatusProjeto, string> = {
-  producao: 'Em produção',
-  mvp: 'MVP',
-  prototipo: 'Protótipo',
-  estudo: 'Estudo',
-}
 
 /** Um card da galeria e o conteúdo do painel que ele abre. */
 export interface ItemProjeto {
@@ -121,7 +115,7 @@ export function listarProjetos(): ItemProjeto[] {
       stack: quant.stack,
       problema: quant.contexto,
       feito: quant.feito,
-      numeros: ['1.060 testes automáticos passando', 'Roda só em simulação, sem lucro', 'A vitrine mostra o que deu errado, inclusive as taxas'],
+      numeros: ['1.060 testes automáticos passando', 'Roda só em simulação, sem dinheiro de verdade', 'A vitrine mostra o que deu errado, inclusive as taxas'],
       print: prints('nexus-quant')[0],
       printExtra: prints('nexus-quant')[1],
       diagrama: diagramasDosCasos['nexus-quant'],

@@ -2,13 +2,15 @@ import { links, perfil } from '../conteudo'
 import { LINKEDIN } from '../visuais'
 import { Demonstracao } from './Demonstracao'
 import { LinkExterno } from './LinkExterno'
+import { Isobatas } from './Mare'
 
 const NOVENTA_E_NOVE = links.find((l) => l.rotulo === '99Freelas')
 
 /** Abertura: a frase de posicionamento, o que eu entrego e o botão do LinkedIn. */
 export function Abertura() {
   return (
-    <section id="inicio" aria-labelledby="inicio-titulo" className="scroll-mt-24 pt-12 pb-20 sm:pt-20 lg:pb-28">
+    <section id="inicio" aria-labelledby="inicio-titulo" className="relative isolate overflow-x-clip scroll-mt-24 pt-12 pb-20 sm:pt-20 lg:pb-28">
+      <Isobatas className="pointer-events-none absolute -right-24 bottom-[26rem] -z-10 h-[280px] w-[520px] lg:top-0 lg:bottom-auto lg:-right-28 lg:h-[420px] lg:w-[620px]" />
       <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-7">
           <p className="text-[1.05rem] text-grafite">
