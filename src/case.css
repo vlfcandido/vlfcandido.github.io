@@ -122,6 +122,14 @@
 /* ---------- terminal ---------- */
 .terminal-texto {
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  /* 08/10/2026: no celular a linha longa quebra e continua alinhada na coluna do valor (16 caracteres),
+     em vez de rolar o terminal para o lado. Antes: overflow-x: auto e white-space: pre. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.terminal-texto > span {
+  padding-left: 16ch;
+  text-indent: -16ch;
 }
 .terminal-comando {
   color: var(--mar);
@@ -182,7 +190,19 @@
 .diff-linha {
   display: block;
   padding-right: 1rem;
-  white-space: pre;
+  /* 08/10/2026: a linha de código quebra e continua depois do número e do sinal (recuo de 3,8rem),
+     em vez de rolar o diff para o lado no celular. Antes: white-space: pre. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding-left: 3.8rem;
+  text-indent: -3.8rem;
+}
+.diff-linha > span {
+  text-indent: 0;
+}
+.folha-codigo {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 .diff-num {
   display: inline-block;

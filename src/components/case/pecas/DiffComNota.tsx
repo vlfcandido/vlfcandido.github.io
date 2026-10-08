@@ -31,7 +31,7 @@ export function DiffComNota(_: PecaProps) {
     <div className="diff grid gap-6 lg:grid-cols-[1.25fr_1fr]">
       <div className="overflow-hidden rounded-lg border border-linha bg-folha">
         <p className="border-b border-linha bg-nevoa px-4 py-2 text-[0.88rem] text-grafite">pedidos/servico.py</p>
-        <pre className="diff-codigo overflow-x-auto py-2 text-[0.8rem] leading-[1.75] sm:text-[0.86rem]">
+        <pre className="diff-codigo py-2 text-[0.8rem] leading-[1.75] sm:text-[0.86rem]">
           {DIFF.map((l) => (
             <span key={l.n} className={`diff-linha diff-${l.s === '+' ? 'mais' : l.s === '-' ? 'menos' : 'ctx'} ${foco === 'relevancia' && l.s === '+' ? 'diff-acesa' : ''}`}>
               <span className="diff-num" aria-hidden="true">

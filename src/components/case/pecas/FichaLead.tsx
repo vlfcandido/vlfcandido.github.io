@@ -29,7 +29,7 @@ export function FichaLead(_: PecaProps) {
   const fim = feitas >= ETAPAS.length
   return (
     <div className="ficha grid gap-6 lg:grid-cols-[14rem_1fr]">
-      <ol className="ficha-trilho flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:gap-0 lg:overflow-visible" aria-label="Etapas">
+      <ol className="ficha-trilho flex flex-wrap gap-x-4 gap-y-2 pb-1 lg:flex-col lg:flex-nowrap lg:gap-0 lg:overflow-visible" aria-label="Etapas">
         {ETAPAS.map((e, i) => {
           const estado = i < feitas - 1 ? 'feita' : i === feitas - 1 ? 'agora' : 'depois'
           return (

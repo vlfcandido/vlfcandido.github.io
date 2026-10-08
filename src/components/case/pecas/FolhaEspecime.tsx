@@ -85,7 +85,7 @@ export function FolhaEspecime(_: PecaProps) {
 
       <figure className="mt-8 rounded-lg border border-linha bg-folha p-4">
         <figcaption className="text-[0.92rem] text-grafite">O teste que trava a folha, resumido (src/design/mare.test.ts)</figcaption>
-        <pre className="mt-2 overflow-x-auto text-[0.8rem] leading-[1.7]">
+        <pre className="folha-codigo mt-2 text-[0.8rem] leading-[1.7]">
           <code>{`it.each(cores)('%s', (nome, claro, escuro) => {
   expect(variaveis(cssClaro)[nome]).toBe(claro)
   expect(variaveis(cssEscuro)[nome]).toBe(escuro)

@@ -24,10 +24,12 @@ const LINHAS: Linha[] = [
   { texto: 'limite da API   esperando a janela de 1 s', tipo: 'espera', gasto: 8 },
   { texto: 'pronto          24 chamadas gastas, cota em 334 de 1.000', tipo: 'ok', gasto: 8 },
   { texto: '', tipo: 'branco' },
-  { texto: 'duração  escalas  saída         rota', tipo: 'cabecalho' },
-  { texto: '11h40    1        05/11 22:10   CWB GRU LIS', tipo: 'tabela' },
-  { texto: '13h05    1        07/11 19:30   CWB VCP LIS', tipo: 'tabela' },
-  { texto: '16h50    2        05/11 06:00   CWB GIG MAD LIS', tipo: 'tabela' },
+  // Tabela com colunas estreitas (08/10/2026) para caber em 390 px sem rolar para o lado.
+  // Antes: 'duração  escalas  saída         rota' (47 colunas na linha mais longa).
+  { texto: 'duração esc. saída       rota', tipo: 'cabecalho' },
+  { texto: '11h40   1    05/11 22:10 CWB GRU LIS', tipo: 'tabela' },
+  { texto: '13h05   1    07/11 19:30 CWB VCP LIS', tipo: 'tabela' },
+  { texto: '16h50   2    05/11 06:00 CWB GIG MAD LIS', tipo: 'tabela' },
 ]
 
 /**
@@ -69,7 +71,7 @@ export function TerminalCota(_: PecaProps) {
             Rodar de novo
           </button>
         </div>
-        <pre className="terminal-texto overflow-x-auto px-4 py-4 text-[0.74rem] leading-[1.7] sm:text-[0.9rem]" aria-live="off">
+        <pre className="terminal-texto px-4 py-4 text-[0.74rem] leading-[1.7] sm:text-[0.9rem]" aria-live="off">
           {LINHAS.slice(0, visiveis).map((l, i) => (
             <span key={i} className={`block min-h-[1.7em] terminal-${l.tipo}`}>
               {l.texto}
