@@ -16,7 +16,7 @@ export type Diagrama = IdDesenho
 export const printsDosCasos: Record<string, Print[]> = {
   'nexus-quant': [
     { arquivo: 'prints/nexus-quant.webp', alt: 'Painel do sistema de ordens em tempo real, em simulação, com os pares, o livro de ofertas e as ordens' },
-    { arquivo: 'prints/nexus-quant-backtest.webp', alt: 'Tela de ciclos do bot em simulação com o resultado por par' },
+    { arquivo: 'prints/nexus-quant-backtest.webp', alt: 'Tela de ciclos do sistema em simulação, com o resultado por par' },
   ],
   aprovaos: [
     { arquivo: 'prints/aprovaos.webp', alt: 'Diagnóstico adaptativo do AprovaOS com a questão, o motivo da escolha e a margem de erro por matéria' },
