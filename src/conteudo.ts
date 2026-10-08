@@ -96,10 +96,11 @@ export const oferta: Oferta[] = [
   },
   {
     id: 'site',
-    titulo: 'Site ou sistema pronto para usar',
-    descricao: 'Página de vendas, painel ou sistema com login, entregue funcionando e testado.',
-    antes: 'Pedido anotado no caderno e confirmado por mensagem, um a um.',
-    depois: 'O cliente pede pelo site e você acompanha tudo num painel.',
+    titulo: 'Painéis, dashboards e sistemas web',
+    descricao:
+      'Telas claras e rápidas de usar: o painel que sua equipe abre todo dia, o sistema com login, a página que vende. Pensadas para quem usa, no computador e no celular.',
+    antes: 'Pedido anotado no caderno e os números do mês espalhados em três planilhas.',
+    depois: 'Um painel mostra os pedidos de hoje, o que está atrasado e quanto entrou, até no celular.',
     ramos: ['loja'],
   },
   {
@@ -348,7 +349,7 @@ export const stack: CamadaStack[] = [
   { camada: 'Back-end', itens: ['Python', 'FastAPI', 'Java', 'Spring Boot', 'Node.js', 'TypeScript', 'REST', 'webhooks'] },
   { camada: 'IA', itens: ['agentes', 'multiagente', 'RAG', 'LangGraph', 'Google ADK', 'OpenAI', 'Gemini', 'Claude', 'Vertex AI', 'avaliação de LLM'] },
   { camada: 'Chatbots', itens: ['WhatsApp API oficial', 'Blip', 'Telegram'] },
-  { camada: 'Front e mobile', itens: ['React', 'Next.js', 'Vue.js', 'Flutter'] },
+  { camada: 'Front e mobile', itens: ['React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind', 'design system', 'Flutter'] },
   { camada: 'Dados', itens: ['PostgreSQL', 'Redis', 'BigQuery', 'Firestore'] },
   { camada: 'Nuvem e qualidade', itens: ['GCP', 'AWS', 'Docker', 'Kubernetes', 'CI/CD', 'TDD', 'pytest'] },
 ]

@@ -4,8 +4,8 @@ import { CartaNautica } from '../components/CartaNautica'
 import { Contato } from '../components/Contato'
 import { GaleriaProjetos } from '../components/GaleriaProjetos'
 import { PainelProjeto } from '../components/PainelProjeto'
-import { HASH_PROJETOS, hashDoProjeto, projetoDoHash } from '../lib/rota'
-import { listarProjetos } from '../projetos'
+import { HASH_PROJETOS, filtroDoHash, hashDoProjeto, projetoDoHash } from '../lib/rota'
+import { listarProjetos, tiposProjeto, type TipoProjeto } from '../projetos'
 
 /**
  * Página de projetos: abertura curta, galeria filtrável e a chamada do LinkedIn. O projeto aberto
@@ -15,6 +15,9 @@ export function PaginaProjetos({ hash }: { hash: string }) {
   const itens = useMemo(listarProjetos, [])
   const slug = projetoDoHash(hash)
   const aberto = slug ? (itens.find((i) => i.slug === slug) ?? null) : null
+  // `#/projetos/tipo/frontend` abre a galeria já filtrada (link da seção "Interfaces que eu construo").
+  const pedido = filtroDoHash(hash)
+  const filtroInicial = pedido && pedido in tiposProjeto ? (pedido as TipoProjeto) : undefined
   // `true` quando o painel foi aberto por clique aqui: fechar volta no histórico em vez de empilhar.
   const abertoPorClique = useRef(false)
 
@@ -53,7 +56,7 @@ export function PaginaProjetos({ hash }: { hash: string }) {
           A tela de cada produto e o que ele resolve. Toque em um para ver como foi feito.
         </p>
       </section>
-      <GaleriaProjetos aoAbrir={abrir} />
+      <GaleriaProjetos aoAbrir={abrir} filtroInicial={filtroInicial} />
       <ComoMontoAgentes />
       <div className="mt-24">
         <Contato />

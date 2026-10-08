@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ANCORAS_ANTIGAS, hashAtual, hashDoProjeto, projetoDoHash, rotaDoHash, secaoDoHash } from './rota'
+import { ANCORAS_ANTIGAS, filtroDoHash, hashAtual, hashDoProjeto, projetoDoHash, rotaDoHash, secaoDoHash } from './rota'
 
 describe('rotaDoHash', () => {
   it('vazio é início', () => expect(rotaDoHash('')).toBe('inicio'))
@@ -32,4 +32,16 @@ describe('projetoDoHash', () => {
   it('ignora slug inválido', () => expect(projetoDoHash('#/projetos/<x>')).toBeNull())
   it('ida e volta', () => expect(projetoDoHash(hashDoProjeto('nexus-quant'))).toBe('nexus-quant'))
   it('âncora da principal não é painel', () => expect(projetoDoHash('#resultados')).toBeNull())
+})
+
+describe('filtroDoHash', () => {
+  it('lê o tipo pedido no link e ignora o resto', () => {
+    expect(filtroDoHash('#/projetos/tipo/frontend')).toBe('frontend')
+    expect(filtroDoHash('#/projetos/aprovaos')).toBeNull()
+    expect(filtroDoHash('#/projetos')).toBeNull()
+  })
+  it('link filtrado continua na página de projetos, sem abrir painel', () => {
+    expect(rotaDoHash('#/projetos/tipo/frontend')).toBe('projetos')
+    expect(projetoDoHash('#/projetos/tipo/frontend')).toBeNull()
+  })
 })

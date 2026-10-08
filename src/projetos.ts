@@ -10,13 +10,14 @@ import { cases, type Case, type Fonte } from './conteudo'
 import { capasDosProjetos, diagramasDosCasos, printsDosCasos, type Capa, type Diagrama, type Print } from './visuais'
 
 /** Tipo de projeto, usado pelos chips de filtro. */
-export type TipoProjeto = 'chatbot' | 'agentes' | 'sistemas' | 'integracoes' | 'dados'
+export type TipoProjeto = 'chatbot' | 'agentes' | 'sistemas' | 'frontend' | 'integracoes' | 'dados'
 
 /** Rótulo de cada tipo, na ordem dos chips. */
 export const tiposProjeto: Record<TipoProjeto, string> = {
   chatbot: 'Chatbot e atendimento',
   agentes: 'Agentes de IA',
   sistemas: 'Sistemas e SaaS',
+  frontend: 'Frontend e dashboards',
   integracoes: 'Integrações e automação',
   dados: 'Dados e trading',
 }
@@ -95,7 +96,7 @@ export function listarProjetos(): ItemProjeto[] {
       origem: 'proprio',
       nome: 'AprovaOS',
       resultado: 'Plano de estudo que se ajusta ao desempenho de cada aluno.',
-      tipos: ['sistemas', 'agentes'],
+      tipos: ['sistemas', 'agentes', 'frontend'],
       status: 'mvp',
       etiquetas: ['FastAPI', 'Google ADK', 'Gemini'],
       stack: aprova.stack,
@@ -112,7 +113,7 @@ export function listarProjetos(): ItemProjeto[] {
       origem: 'proprio',
       nome: 'Bot de trading em cripto',
       resultado: 'Confere cada ordem com a corretora, 24 horas, sem erro de conta.',
-      tipos: ['dados', 'integracoes'],
+      tipos: ['dados', 'integracoes', 'frontend'],
       status: 'estudo',
       etiquetas: ['Python', 'Redis Streams', 'Next.js'],
       stack: quant.stack,
@@ -129,7 +130,7 @@ export function listarProjetos(): ItemProjeto[] {
       origem: 'proprio',
       nome: 'Agente de vídeo curto',
       resultado: 'Da notícia do momento ao corte com legenda, sem editar à mão.',
-      tipos: ['agentes', 'integracoes'],
+      tipos: ['agentes', 'integracoes', 'frontend'],
       status: 'prototipo',
       etiquetas: ['LangGraph', 'Claude API', 'FFmpeg'],
       stack: clips.stack,
@@ -138,6 +139,51 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: ['Upload no YouTube funcionando', 'O fluxo de ponta a ponta ainda está em construção'],
       print: prints('nexus-clips')[0],
       diagrama: diagramasDosCasos['nexus-clips'],
+    },
+    {
+      slug: 'app-score',
+      origem: 'proprio',
+      nome: 'App de score de crédito',
+      resultado: 'O lojista vê a nota do cliente e entende como ela foi calculada.',
+      tipos: ['frontend', 'sistemas'],
+      status: 'prototipo',
+      etiquetas: ['Next.js', 'TypeScript', 'Tailwind'],
+      stack: ['Next.js 14', 'React', 'TypeScript', 'Tailwind', 'PWA', 'FastAPI', 'PostgreSQL'],
+      problema: 'Quem vende a prazo precisa decidir na hora, no balcão, se aquele cliente costuma pagar em dia.',
+      feito:
+        'App web que abre no celular como aplicativo: o lojista consulta o cliente, vê a nota num medidor e abre "como esta pontuação foi calculada", com o peso de cada pagamento, atraso e quitação. Rotas protegidas por login e tipos iguais aos do servidor.',
+      numeros: ['41 testes no cálculo da nota', 'Prova de conceito, sem cliente', 'Print com dados fictícios'],
+      print: { arquivo: 'prints/app-score.webp', alt: 'App de score com o medidor em arco marcando 742 de 1000 e a explicação do cálculo, com dados fictícios' },
+    },
+    {
+      slug: 'este-site',
+      origem: 'proprio',
+      nome: 'Este site',
+      resultado: 'Galeria filtrável, demonstração ao vivo e tema claro e escuro.',
+      tipos: ['frontend'],
+      status: 'producao',
+      etiquetas: ['React', 'TypeScript', 'Tailwind'],
+      stack: ['React 19', 'TypeScript', 'Vite', 'Tailwind 4', 'Vitest', 'SVG'],
+      feito:
+        'Feito do zero, sem tema pronto: a galeria de projetos com link compartilhável, a demonstração de atendimento, os diagramas desenhados por um motor próprio em SVG e o tema claro e escuro. Funciona no teclado e com leitor de tela, e respeita quem pede menos movimento no sistema.',
+      numeros: ['Testes automáticos travam o conteúdo publicado', 'No ar em vlfcandido.github.io'],
+      print: { arquivo: 'prints/este-site.webp', alt: 'Seção Interfaces que eu construo deste site, com o gráfico de pedidos, o status do pedido e a lista filtrável' },
+      repositorio: 'https://github.com/vlfcandido/vlfcandido.github.io',
+    },
+    {
+      slug: 'design-system-mare',
+      origem: 'proprio',
+      nome: 'Design system Maré',
+      resultado: 'Cores, tipos e regras de uso escritos uma vez e conferidos por teste.',
+      tipos: ['frontend'],
+      status: 'producao',
+      etiquetas: ['design system', 'tokens', 'acessibilidade'],
+      stack: ['tokens em JSON', 'CSS', 'Tailwind', 'Vitest'],
+      problema: 'Sem regra escrita, cada tela nova escolhe a cor e o espaço de novo, e o produto perde a cara.',
+      feito:
+        'A identidade deste site virou um design system: cada cor existe no tema claro e no escuro, com o uso escrito ao lado ("fundo, nunca texto"), e um teste confere que o CSS e o arquivo de tokens não divergem. No AprovaOS, fiz o mesmo com regras de componente e uma página de estilo viva.',
+      numeros: ['Tema claro e escuro em todos os tokens', 'Teste que trava o contrato de cores'],
+      print: { arquivo: 'prints/design-system-mare.webp', alt: 'Folha de cores do design system Maré, com cada cor no tema claro e no escuro e o seu uso' },
     },
     {
       slug: 'revisor-ia',

@@ -728,3 +728,100 @@ a:focus-visible .logo-mono {
   -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
   mask-image: linear-gradient(to right, transparent, #000 45%);
 }
+
+/* Interfaces que eu construo (08/10/2026): peças vivas com dados de exemplo. */
+.grafico:focus-visible {
+  outline-offset: 6px;
+}
+.barra {
+  height: var(--altura);
+  background: color-mix(in srgb, var(--cobalto) 28%, var(--raso));
+  transition: height 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.15s;
+}
+.barra[data-ativo="true"] {
+  background: var(--cobalto);
+}
+
+/* Linha de status: pontos ligados por um traço que se preenche até a etapa atual. */
+.status-linha {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.status-etapa {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  text-align: center;
+}
+.status-etapa:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0.45rem;
+  left: calc(50% + 0.7rem);
+  right: calc(-50% + 0.7rem);
+  height: 2px;
+  background: var(--linha);
+  transition: background-color 0.3s ease;
+}
+.status-etapa[data-estado="feito"]::after {
+  background: var(--cobalto);
+}
+.status-ponto {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+  border: 2px solid var(--linha);
+  background: var(--folha);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.status-etapa[data-estado="feito"] .status-ponto {
+  border-color: var(--cobalto);
+  background: var(--cobalto);
+}
+.status-etapa[data-estado="ativo"] .status-ponto {
+  border-color: var(--pitanga);
+  background: var(--pitanga);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--pitanga) 22%, transparent);
+}
+.status-nome {
+  font-size: 0.82rem;
+  color: var(--grafite);
+}
+.status-etapa[data-estado="ativo"] .status-nome {
+  color: var(--tinta);
+  font-weight: 600;
+}
+@media (min-width: 640px) {
+  .status-nome {
+    font-size: 0.9rem;
+  }
+}
+
+/* Selos de situação: a cor reforça, o texto diz. */
+.selo[data-situacao="pago"] {
+  background: color-mix(in srgb, var(--mata) 16%, transparent);
+  color: var(--mata);
+}
+.selo[data-situacao="aguardando"] {
+  background: color-mix(in srgb, var(--sol) 32%, transparent);
+  color: var(--tinta);
+}
+.selo[data-situacao="atrasado"] {
+  background: color-mix(in srgb, var(--coral) 14%, transparent);
+  color: var(--coral-texto);
+}
+
+/* Pilha em camadas: cada camada mais funda leva mais tinta de água, como na carta náutica. */
+.pilha-camada {
+  background: color-mix(in srgb, var(--cobalto) calc(4% + var(--fundura) * 7%), var(--folha));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barra,
+  .status-etapa::after,
+  .status-ponto {
+    transition: none;
+  }
+}

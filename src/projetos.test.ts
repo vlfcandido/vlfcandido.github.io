@@ -42,7 +42,7 @@ describe('galeria de projetos', () => {
     (Object.keys(tiposProjeto) as (keyof typeof tiposProjeto)[]).forEach((t) =>
       expect(filtrarProjetos(itens, t).some((i) => i.origem === 'proprio'), t).toBe(true)))
   it('repositório só no GitHub do perfil', () =>
-    itens.filter((i) => i.repositorio).forEach((i) => expect(i.repositorio).toMatch(/^https:\/\/github\.com\/vlfcandido\/[a-z0-9-]+$/)))
+    itens.filter((i) => i.repositorio).forEach((i) => expect(i.repositorio).toMatch(/^https:\/\/github\.com\/vlfcandido\/[a-z0-9.-]+$/)))
 
   // Status honesto, conforme o banco de provas (07/10/2026). Não aparece no site, mas trava os textos.
   it('bot de trading é estudo, diz que roda em simulação e não fala em lucro', () => {
@@ -56,8 +56,22 @@ describe('galeria de projetos', () => {
     expect(porSlug('nexus-clips')?.repositorio).toBeUndefined()
   })
   it('AprovaOS é MVP', () => expect(porSlug('aprovaos')?.status).toBe('mvp'))
-  it('projeto próprio nunca é "em produção"', () =>
-    itens.filter((i) => i.origem === 'proprio').forEach((i) => expect(i.status, i.slug).not.toBe('producao')))
+  // Exceção (08/10/2026): o próprio site e o design system dele estão no ar de verdade.
+  it('projeto próprio nunca é "em produção", salvo o site e o design system dele', () =>
+    itens
+      .filter((i) => i.origem === 'proprio' && !['este-site', 'design-system-mare'].includes(i.slug))
+      .forEach((i) => expect(i.status, i.slug).not.toBe('producao')))
+  it('filtro de frontend reúne os projetos com tela', () => {
+    const slugs = filtrarProjetos(itens, 'frontend').map((i) => i.slug)
+    for (const s of ['nexus-clips', 'nexus-quant', 'app-score', 'aprovaos', 'este-site', 'design-system-mare']) expect(slugs, s).toContain(s)
+    expect(filtrarProjetos(itens, 'frontend').every((i) => i.origem === 'proprio')).toBe(true)
+  })
+  it('app de score: prova de conceito, sem link de código e sem citar país do cliente', () => {
+    const a = porSlug('app-score')!
+    expect(a.status).toBe('prototipo')
+    expect(a.repositorio).toBeUndefined()
+    expect(JSON.stringify(a).toLowerCase()).not.toMatch(/angola|luanda|kwanza|cliente em/)
+  })
   it('fora: bot de pedidos e IA local', () => {
     const tudo = JSON.stringify(itens).toLowerCase()
     expect(tudo).not.toContain('bot-pedidos')
