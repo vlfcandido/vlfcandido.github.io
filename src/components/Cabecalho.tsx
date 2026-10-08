@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { perfil } from '../conteudo'
-import { MESMO_NIVEL, NIVEIS } from '../lib/niveis'
+import { MESMO_NIVEL, NIVEIS, NIVEIS_CELULAR } from '../lib/niveis'
 import { HASH_PROJETOS, type Rota } from '../lib/rota'
 import { LINKEDIN } from '../visuais'
 import { BotaoTema } from './BotaoTema'
@@ -132,21 +132,30 @@ export function Cabecalho({ rota }: { rota: Rota }) {
           </LinkExterno>
         </div>
         {/* Celular: a régua fina. */}
+        {/* Abaixo de sm (M17, 08/10/2026): sem a Abertura, sem cotas, rótulos curtos e "Projetos" fixo à
+            direita, fora da rolagem. Entre sm e lg, a régua de antes. */}
         <nav aria-label="Profundidade da página" className="lg:hidden">
-          <ol ref={fileira} className="rolagem-lateral mx-auto flex max-w-7xl items-baseline gap-5 overflow-x-auto px-4 pb-2 sm:px-8">
-            {NIVEIS.map((n) => (
-              <li key={n.href} className="shrink-0">
-                <a href={n.href} aria-current={n.href === nivel ? 'location' : undefined} className="regua-chip">
-                  <span className="regua-cota">{n.cota} m</span> {n.rotulo}
+          <div className="mx-auto flex max-w-7xl items-baseline">
+            <ol ref={fileira} className="rolagem-lateral flex min-w-0 flex-1 items-baseline gap-5 overflow-x-auto px-4 pb-2 sm:px-8">
+              {NIVEIS.map((n) => (
+                <li key={n.href} className={`shrink-0 ${NIVEIS_CELULAR.includes(n) ? '' : 'max-sm:hidden'}`}>
+                  <a href={n.href} aria-current={n.href === nivel ? 'location' : undefined} className="regua-chip">
+                    <span className="regua-cota max-sm:hidden">{n.cota} m </span>
+                    <span className="sm:hidden">{n.curto}</span>
+                    <span className="max-sm:hidden">{n.rotulo}</span>
+                  </a>
+                </li>
+              ))}
+              <li className="shrink-0 max-sm:hidden">
+                <a href={HASH_PROJETOS} aria-current={naProjetos ? 'page' : undefined} className="regua-chip">
+                  Projetos
                 </a>
               </li>
-            ))}
-            <li className="shrink-0">
-              <a href={HASH_PROJETOS} aria-current={naProjetos ? 'page' : undefined} className="regua-chip">
-                Projetos
-              </a>
-            </li>
-          </ol>
+            </ol>
+            <a href={HASH_PROJETOS} aria-current={naProjetos ? 'page' : undefined} className="regua-chip shrink-0 border-l border-linha/70 px-4 pb-2 sm:hidden">
+              Projetos
+            </a>
+          </div>
           {principal && (
             <span aria-hidden="true" className="block h-[2px] bg-linha/60">
               <span className="regua-progresso block h-full origin-left bg-cobalto" style={{ transform: `scaleX(${fracao})` }} />

@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { MESMO_NIVEL, NIVEIS } from './niveis'
+import { MESMO_NIVEL, NIVEIS, NIVEIS_CELULAR } from './niveis'
 
 describe('níveis da régua (M8, 08/10/2026)', () => {
   it('Provas na cota 20, antes de Como funciona na cota 30', () =>
@@ -22,4 +22,8 @@ describe('níveis da régua (M8, 08/10/2026)', () => {
     expect(MESMO_NIVEL.interfaces).toBe('#resultados')
     Object.values(MESMO_NIVEL).forEach((alvo) => expect(NIVEIS.some((n) => n.href === alvo)).toBe(true))
   })
+  it('régua do celular: sem Abertura, rótulos curtos na ordem da M8 (M17)', () =>
+    expect(NIVEIS_CELULAR.map((n) => n.curto)).toEqual(['Serviços', 'Provas', 'Como funciona', 'Carreira']))
+  it('régua do computador mantém os rótulos longos', () =>
+    expect(NIVEIS.map((n) => n.rotulo)).toEqual(['Abertura', 'O que eu resolvo', 'Provas', 'Como funciona', 'Carreira']))
 })
