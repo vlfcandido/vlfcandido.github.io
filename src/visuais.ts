@@ -1,4 +1,4 @@
-// Imagens do site: prints de produto, diagramas desenhados à mão e fotos livres.
+// Imagens do site: prints de produto e diagramas desenhados à mão.
 // Os textos dos casos ficam em conteudo.ts; aqui só o que é visual, ligado pelo `slug`.
 
 /** Print de uma tela real (ou redesenho fiel) de um projeto, em `public/prints/`. */
@@ -9,16 +9,6 @@ export interface Print {
 
 /** Diagramas de arquitetura desenhados em SVG para os projetos com mais peças. */
 export type Diagrama = 'nexus-quant' | 'nexus-clips' | 'sicoob'
-
-/** Foto de banco livre, baixada para `public/img/`, com crédito obrigatório no rodapé. */
-export interface Foto {
-  arquivo: string
-  alt: string
-  autor: string
-  origem: string
-  licenca: string
-  url: string
-}
 
 /** Repositório público que não tem caso próprio em conteudo.ts, exibido na galeria. */
 export interface Repositorio {
@@ -91,18 +81,6 @@ export const repositorios: Repositorio[] = [
     print: { arquivo: 'prints/api-intervalo-premios-filmes.webp', alt: 'Documentação da API com a resposta de intervalos entre prêmios' },
   },
 ]
-
-/** Fotos livres usadas no site. */
-export const fotos = {
-  quadro: {
-    arquivo: 'img/quadro-branco.jpg',
-    alt: 'Mão desenhando um fluxograma de telas num quadro branco',
-    autor: 'Christina Morillo',
-    origem: 'StockSnap',
-    licenca: 'CC0',
-    url: 'https://stocksnap.io/photo/whiteboard-webdesign-NUEH6AWK1X',
-  },
-} satisfies Record<string, Foto>
 
 /** Endereço do perfil no LinkedIn: a porta de entrada do site, num único lugar. */
 export const LINKEDIN = 'https://www.linkedin.com/in/viniciusf-candido'
