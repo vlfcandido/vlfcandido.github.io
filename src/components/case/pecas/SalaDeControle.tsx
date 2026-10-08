@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { PecaProps } from './tipos'
 
 /** Estado de uma lâmpada do painel e de um cartão de risco. */
@@ -70,6 +71,9 @@ function Lampada({ nome, estado }: { nome: string; estado: Estado }) {
  * cartão de incidente para cada risco, no formato sintoma, o que fiz e como está hoje.
  */
 export function SalaDeControle(_: PecaProps) {
+  // No celular a sala mostra um risco por vez, escolhido nos botões; no computador, todos em grade.
+  // Antes (até 08/10/2026) os cinco cartões empilhavam no celular e a peça passava de 2.500 px de altura.
+  const [ativo, setAtivo] = useState(0)
   return (
     <div className="zona-escura sala rounded-xl border border-linha bg-nevoa p-4 text-tinta sm:p-6">
       <ul className="grid gap-2 sm:grid-cols-3" aria-label="Estado agora">
@@ -77,9 +81,30 @@ export function SalaDeControle(_: PecaProps) {
         <Lampada nome="Reconciliação" estado="ligado" />
         <Lampada nome="Market making" estado="desligado" />
       </ul>
-      <ol className="mt-5 grid gap-4 md:grid-cols-2">
+      <div className="mt-5 md:hidden">
+        <p className="text-[0.85rem] font-semibold text-grafite">Escolha um risco</p>
+        <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Riscos">
+          {RISCOS.map((r, i) => (
+            <button
+              key={r.titulo}
+              type="button"
+              onClick={() => setAtivo(i)}
+              aria-pressed={ativo === i}
+              aria-label={`Risco ${i + 1}: ${r.titulo}`}
+              className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-[0.9rem] font-semibold ${ativo === i ? 'border-mar bg-raso text-tinta' : 'border-linha text-grafite'}`}
+            >
+              <span aria-hidden="true" className={`lampada lampada-${r.hoje}`} />
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      </div>
+      <ol className="mt-4 grid gap-4 md:mt-5 md:grid-cols-2">
         {RISCOS.map((r, i) => (
-          <li key={r.titulo} className={`incidente rounded-lg border border-linha bg-folha p-4 sm:p-5 ${i === 0 ? 'md:col-span-2' : ''}`}>
+          <li
+            key={r.titulo}
+            className={`incidente rounded-lg border border-linha bg-folha p-4 sm:p-5 ${i === 0 ? 'md:col-span-2' : ''} ${i === ativo ? '' : 'max-md:hidden'}`}
+          >
             <div className="flex items-baseline justify-between gap-3">
               <h3 className="text-[1.15rem] leading-snug font-semibold">{r.titulo}</h3>
               <span className="shrink-0 text-[0.85rem] text-grafite">Risco {i + 1} de {RISCOS.length}</span>
