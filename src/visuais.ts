@@ -49,43 +49,67 @@ function tela(base: string, alt: string): Print {
 }
 
 /**
+ * Tela principal de cada caso (aprovada em 08/10/2026), gerada por `scripts/otimizar-imagens.sh`.
+ * Desktop em 960 e 1440 (original 1440x900); celular em 390 e 780. O nome de produto que aparece na tela é
+ * fictício, e o `alt` diz isso; o título do caso continua o do site.
+ *
+ * @param slug slug do projeto, ex.: `nexus-quant`.
+ * @param alt descrição da tela para leitor de tela.
+ * @param movel `true` para a tela de celular (app-score).
+ */
+function telaPrincipal(slug: string, alt: string, movel = false): Print {
+  const base = `prints/${slug}-principal-${movel ? 'm' : 'd'}`
+  const larguras = movel ? [390, 780] : [960, 1440]
+  const [largura, altura] = movel ? [780, 1688] : [1440, 900]
+  return { arquivo: `${base}-${larguras[1]}.webp`, alt, variantes: { base, larguras, largura, altura }, ficticio: true, movel }
+}
+
+/**
  * Telas de cada caso, pelo slug de conteudo.ts, recriadas em 08/10/2026 com dados fictícios (substituem os
  * prints antigos). A primeira é a principal.
  */
 export const printsDosCasos: Record<string, Print[]> = {
   aprovaos: [
+    telaPrincipal('aprovaos', 'Tela principal do projeto, com dados fictícios (o nome Fio na tela é fictício): plano de estudo do dia com o motivo de cada bloco'),
     tela('aprovaos-questao-d', 'AprovaOS: questão de licitações com o motivo da escolha e a margem de erro por matéria'),
     tela('aprovaos-painel-d', 'AprovaOS: painel da curva de aprovação, com o desempenho por matéria'),
     tela('aprovaos-hoje-d', 'AprovaOS: plano do dia, 2h10 em 5 blocos, com o porquê de cada escolha'),
     tela('aprovaos-hoje-m', 'AprovaOS no celular: plano do dia em blocos de estudo'),
   ],
   'nexus-quant': [
+    telaPrincipal('nexus-quant', 'Tela principal do sistema de ordens em tempo real, com dados fictícios (o nome Contraprova na tela é fictício): sala de controle em simulação, com ordens, fila e conferência com a corretora'),
     tela('nexus-quant-controle-d', 'Sistema de ordens em simulação: sala de controle com os pares, as ordens e o estado do sistema'),
     tela('nexus-quant-ciclos-d', 'Sistema de ordens em simulação: ciclos, com o resultado por par'),
     tela('nexus-quant-reconciliacao-d', 'Sistema de ordens em simulação: reconciliação de cada ordem com a corretora'),
   ],
   'varredura-voos': [
+    telaPrincipal('varredura-voos', 'Tela principal da varredura de voos, com dados fictícios (o nome Janela na tela é fictício): resultado ordenado por preço e cota da API'),
     tela('varredura-voos-varredura-d', 'Terminal com o resultado da varredura de voos ordenado por preço, com a cota da API ao lado'),
     tela('varredura-voos-simular-d', 'Terminal com a simulação da cota de chamadas da API antes da busca'),
   ],
   'app-score': [
+    telaPrincipal('app-score', 'Tela principal do app de score, com dados fictícios (o nome Confia na tela é fictício): consulta do cliente com a nota de 0 a 1000 no celular', true),
     tela('app-score-consultar-m', 'App de score no celular: consulta do cliente, com o medidor marcando 742 de 1000'),
     tela('app-score-calculo-m', 'App de score no celular: tela "como foi calculado", com o peso de cada evento'),
     tela('app-score-reportar-m', 'App de score no celular: tela para reportar um evento de pagamento'),
   ],
   'engenharia-de-agentes': [
+    telaPrincipal('engenharia-de-agentes', 'Tela principal da bancada de agentes, com dados fictícios (o nome Paralelo na tela é fictício): o mesmo agente em três frameworks'),
     tela('engenharia-de-agentes-comparar-d', 'Bancada de agentes: o mesmo agente em três frameworks, lado a lado'),
     tela('engenharia-de-agentes-injecao-d', 'Bancada de agentes: teste de defesa contra prompt injection'),
   ],
   'revisor-ia': [
+    telaPrincipal('revisor-ia', 'Tela principal do revisor de código com IA, com dados fictícios (o nome Ressalva na tela é fictício): revisão de um pedido de mudança'),
     tela('revisor-ia-revisao-d', 'Revisor de código com IA: a revisão de um pedido de mudança, com os comentários'),
     tela('revisor-ia-avaliacao-d', 'Revisor de código com IA: avaliação das revisões geradas'),
   ],
   'ia-local': [
+    telaPrincipal('ia-local', 'Tela principal da IA local, com dados fictícios (o nome Guarita na tela é fictício): janela de aprovação humana antes de executar o comando'),
     tela('ia-local-aprovacao-d', 'IA local: janela de aprovação humana que mostra o comando completo antes de executar'),
     tela('ia-local-auditoria-d', 'IA local: log de auditoria com horário, comando e código de saída'),
   ],
   'benchmark-litellm': [
+    telaPrincipal('benchmark-litellm', 'Tela principal do benchmark de gateway de IA, com dados fictícios (o nome Bifurca na tela é fictício): latência, erros e custo'),
     tela('benchmark-litellm-resultado-d', 'Bancada LiteLLM: resultado do cenário com streaming, latência e custo'),
     tela('benchmark-litellm-execucao-d', 'Bancada LiteLLM: execução do benchmark em andamento'),
   ],
