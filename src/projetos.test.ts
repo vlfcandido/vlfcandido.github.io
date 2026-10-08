@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { empresasDiretas, gruposClientes } from './clientes'
 import { encontrarTermosProibidos } from './lib/termos-proibidos'
-import { filtrarProjetos, listarProjetos, tiposProjeto } from './projetos'
+import { filtrarProjetos, listarProjetos, separarGaleria, tiposProjeto } from './projetos'
 
 const PUBLICO = join(__dirname, '..', 'public')
 // O Sicoob pode aparecer (decisão dele, 07/10/2026); o resto da guarda vale.
@@ -48,10 +48,13 @@ describe('galeria de projetos', () => {
     itens.filter((i) => i.repositorio).forEach((i) => expect(i.repositorio).toMatch(/^https:\/\/github\.com\/vlfcandido\/[a-z0-9.-]+$/)))
 
   // Status honesto, conforme o banco de provas (07/10/2026). Não aparece no site, mas trava os textos.
-  it('bot de trading é estudo, diz que roda em simulação e não fala em lucro', () => {
+  // 08/10/2026 (M13): única menção a lucro permitida é a negativa "sem lucro", que o juiz mandou deixar à vista.
+  it('sistema de ordens é estudo, diz que roda em simulação e só fala em lucro para dizer que não há', () => {
     const q = porSlug('nexus-quant')!
     expect(q.status).toBe('estudo')
-    expect(JSON.stringify(q).toLowerCase()).not.toMatch(/lucro|rendimento|ganho|market making/)
+    expect(q.nome).toBe('Sistema de ordens em tempo real')
+    expect(q.resultado).toContain('Cripto, só em simulação, sem lucro.')
+    expect(JSON.stringify(q).toLowerCase().replaceAll('sem lucro', '')).not.toMatch(/lucro|rendimento|ganho|market making/)
     expect(q.numeros.join(' ')).toContain('simulação')
   })
   // Reorganização de 08/10/2026 (M14, M16): agente de vídeo e dois estudos pequenos saem do site.
@@ -92,5 +95,30 @@ describe('galeria de projetos', () => {
     const tudo = JSON.stringify(itens).toLowerCase()
     expect(tudo).not.toContain('bot-pedidos')
     expect(tudo).not.toContain('llm-local')
+  })
+
+  // Reorganização de 08/10/2026 (M11, M12, M13, M15) e decisões dele no mesmo dia.
+  describe('ordem e seções da galeria', () => {
+    const secoes = separarGaleria(itens)
+    it('Em empresas: Sicoob, Contabilizei, Franca, Wiv, Araguaia (Serasa foi para a Carreira)', () =>
+      expect(secoes.emEmpresas.map((i) => i.slug)).toEqual(['sicoob', 'contabilizei', 'prefeitura-franca', 'wiv', 'araguaia']))
+    it('próprios na ordem do juiz', () =>
+      expect(secoes.proprios.map((i) => i.slug)).toEqual([
+        'aprovaos', 'nexus-quant', 'varredura-voos', 'app-score', 'engenharia-de-agentes',
+        'revisor-ia', 'ia-local', 'este-site', 'design-system-mare', 'benchmark-litellm',
+      ]))
+    it('Ecovita e Minu: só participação, no fim, sem "liderei"', () => {
+      expect(secoes.outros.map((i) => i.slug)).toEqual(['ecovita', 'minu'])
+      expect(itens.slice(-2).map((i) => i.slug)).toEqual(['ecovita', 'minu'])
+      secoes.outros.forEach((i) => expect(JSON.stringify(i).toLowerCase(), i.slug).not.toMatch(/lider/))
+    })
+    it('Serasa não é card de projeto', () => expect(porSlug('serasa-experian')).toBeUndefined())
+    it('as três seções somam a galeria inteira', () =>
+      expect(secoes.emEmpresas.length + secoes.proprios.length + secoes.outros.length).toBe(itens.length))
+    it('chips na ordem do juiz e sem "trading"', () => {
+      expect(Object.keys(tiposProjeto)).toEqual(['integracoes', 'sistemas', 'frontend', 'chatbot', 'agentes', 'dados'])
+      expect(tiposProjeto.dados).toBe('Dados e tempo real')
+      Object.values(tiposProjeto).forEach((r) => expect(r.toLowerCase()).not.toContain('trading'))
+    })
   })
 })
