@@ -50,12 +50,14 @@ function CartaoCaso({ d }: { d: Destaque }) {
             <path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </button>
-        <LinkExterno
-          href={d.fonte.url}
-          className="sublinha text-[0.98rem] text-grafite hover:text-tinta"
-        >
-          {d.fonte.texto}
-        </LinkExterno>
+        {d.fonte && (
+          <LinkExterno
+            href={d.fonte.url}
+            className="sublinha text-[0.98rem] text-grafite hover:text-tinta"
+          >
+            {d.fonte.texto}
+          </LinkExterno>
+        )}
       </div>
       <div id={idCorpo} className="expansivel" data-aberto={aberto} inert={!aberto}>
         <div>
@@ -96,8 +98,8 @@ function Indicador({ lista, atual }: { lista: RefObject<HTMLUListElement | null>
 }
 
 /**
- * Provas: as logos de clientes (faixa com "Descer") e, em duas abas, os três resultados curtos com
- * fonte pública (carrossel com indicador no celular, três colunas no computador) e as interfaces
+ * Provas: as logos de clientes (faixa com "Descer") e, em duas abas, os três resultados curtos (com
+ * fonte pública quando há) (carrossel com indicador no celular, três colunas no computador) e as interfaces
  * que eu construo, com as peças vivas. Assim a prova inteira cabe em pouco mais de uma tela.
  */
 export function Prova() {

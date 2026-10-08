@@ -1,9 +1,32 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 /** Lê um arquivo do projeto como texto (guarda de texto fixo que vive fora de `conteudo.ts`). */
 const ler = (caminho: string) => readFileSync(resolve(__dirname, '..', caminho), 'utf8')
+
+/** Lista os arquivos de código e texto do site (sem os testes, que citam o termo para barrá-lo). */
+function arquivosDoSite(pasta: string): string[] {
+  return readdirSync(pasta).flatMap((nome) => {
+    const caminho = resolve(pasta, nome)
+    if (statSync(caminho).isDirectory()) return arquivosDoSite(caminho)
+    return /\.(ts|tsx|css|html)$/.test(nome) && !/\.test\.ts$/.test(nome) ? [caminho] : []
+  })
+}
+
+describe('o que não pode aparecer no site', () => {
+  // Correção dele, 08/10/2026: o atendimento com IA da Contabilizei citado pelo Google Cloud não foi trabalho dele.
+  it('nenhuma menção ao Concierge, nem à matéria do Google Cloud sobre ele', () => {
+    const raiz = resolve(__dirname, '..')
+    const arquivos = [...arquivosDoSite(resolve(raiz, 'src')), resolve(raiz, 'index.html')]
+    expect(arquivos.length).toBeGreaterThan(20)
+    arquivos.forEach((a) => {
+      const texto = readFileSync(a, 'utf8')
+      expect(texto, a).not.toMatch(/concierge/i)
+      expect(texto, a).not.toContain('google-cloud-90-casos-de-ia')
+    })
+  })
+})
 
 // Reorganização de 08/10/2026 (plano do juiz, site-reorg/04-juiz.md).
 describe('textos fixos das telas', () => {

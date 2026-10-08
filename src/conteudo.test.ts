@@ -27,9 +27,20 @@ describe('conteúdo publicado', () => {
   it('cases públicos citam fonte com link', () =>
     conteudo.cases.filter((c) => c.tipo === 'publico').forEach((c) => expect(c.fonte.url).toBeTruthy()))
   it('quatro passos de trabalho', () => expect(conteudo.passos).toHaveLength(4))
-  it('três cases curtos na principal, cada um com fonte https', () => {
+  it('três cases curtos na principal; fonte, quando há, é https; sem fonte, sem número', () => {
     expect(conteudo.destaques).toHaveLength(3)
-    conteudo.destaques.forEach((d) => expect(d.fonte.url).toMatch(/^https:\/\//))
+    conteudo.destaques.forEach((d) =>
+      d.fonte ? expect(d.fonte.url).toMatch(/^https:\/\//) : expect(d.resultado + d.texto, d.slug).not.toMatch(/\d/))
+  })
+  it('case de empresa sem matéria pública não tem número (Contabilizei, 08/10/2026)', () =>
+    conteudo.cases.filter((c) => c.tipo === 'empresa').forEach((c) => {
+      expect(c.metrica, c.slug).toBe('')
+      expect(c.fonte.url, c.slug).toBeUndefined()
+    }))
+  it('Contabilizei só como agentes de IA de vendas (SDR)', () => {
+    const d = conteudo.destaques.find((x) => x.empresa === 'contabilizei')
+    expect(d?.resultado).toBe('Agentes de IA de vendas (SDR).')
+    expect(d?.fonte).toBeUndefined()
   })
   it('principal sem jargão técnico', () => {
     const principal = JSON.stringify({
@@ -52,7 +63,7 @@ describe('conteúdo publicado', () => {
   })
   it('Sicoob só aparece na chamada, no resumo e nos cases com a matéria pública', () => {
     const d = conteudo.destaques.find((x) => x.empresa === 'sicoob')
-    expect(d?.fonte.url).toBe('https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/')
+    expect(d?.fonte?.url).toBe('https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/')
     const c = conteudo.cases.find((x) => x.slug === 'sicoob-investimentos')
     expect(c?.fonte.url).toBe('https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/')
     const fora = JSON.stringify({
