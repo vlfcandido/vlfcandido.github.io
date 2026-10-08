@@ -63,6 +63,17 @@ export function projetoDoHash(hash: string): string | null {
 }
 
 /**
+ * Extrai o filtro da galeria pedido no hash, para um link abrir a página já filtrada.
+ *
+ * @param hash valor de `location.hash` (ex.: `#/projetos/tipo/frontend`).
+ * @returns o tipo (`frontend`) ou `null` quando o hash não pede filtro.
+ */
+export function filtroDoHash(hash: string): string | null {
+  const m = /^#\/projetos\/tipo\/([a-z]+)$/.exec(hash)
+  return m ? m[1] : null
+}
+
+/**
  * Hash compartilhável que abre o painel de um projeto.
  *
  * @param slug slug do projeto em `projetos.ts`.

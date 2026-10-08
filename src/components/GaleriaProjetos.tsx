@@ -1,28 +1,13 @@
 import { useMemo, useState, type CSSProperties } from 'react'
-import { flushSync } from 'react-dom'
 import { empresasDiretas, gruposClientes } from '../clientes'
 import { filtrarProjetos, listarProjetos, tiposProjeto, type ItemProjeto, type TipoProjeto } from '../projetos'
 import { CapaProjeto } from './CapaProjeto'
 import { DiagramaMare } from './DiagramaMare'
 import { Logo } from './Logo'
 import { Print } from './Print'
+import { comTransicao } from '../lib/transicao'
 
 type Filtro = TipoProjeto | 'todos'
-
-/** `true` quando a pessoa pediu menos movimento no sistema. */
-function poucoMovimento(): boolean {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
-/** Troca o estado dentro de uma View Transition, quando o navegador tem e a pessoa aceita movimento. */
-function comTransicao(mudar: () => void) {
-  const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown }
-  if (!doc.startViewTransition || poucoMovimento()) {
-    mudar()
-    return
-  }
-  doc.startViewTransition(() => flushSync(mudar))
-}
 
 interface CartaoProps {
   item: ItemProjeto
@@ -118,9 +103,9 @@ function Grade({ itens, aoAbrir }: { itens: ItemProjeto[]; aoAbrir: (slug: strin
  * Galeria da página de projetos: chips de filtro por tipo, os projetos próprios e a faixa
  * "Em empresas", no mesmo padrão de card. O clique abre o painel (quem chama cuida do hash).
  */
-export function GaleriaProjetos({ aoAbrir }: { aoAbrir: (slug: string) => void }) {
+export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: string) => void; filtroInicial?: TipoProjeto }) {
   const todos = useMemo(listarProjetos, [])
-  const [filtro, setFiltro] = useState<Filtro>('todos')
+  const [filtro, setFiltro] = useState<Filtro>(filtroInicial ?? 'todos')
   const lista = filtrarProjetos(todos, filtro)
   const proprios = lista.filter((p) => p.origem === 'proprio')
   const deEmpresa = lista.filter((p) => p.origem === 'empresa')

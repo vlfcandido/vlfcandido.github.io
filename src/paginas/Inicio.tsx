@@ -3,6 +3,7 @@ import { Abertura } from '../components/Abertura'
 import { ComoFunciona } from '../components/ComoFunciona'
 import { Contato } from '../components/Contato'
 import { Imprensa } from '../components/Imprensa'
+import { Interfaces } from '../components/Interfaces'
 import { SeparadorMare } from '../components/Mare'
 import { Prova } from '../components/Prova'
 import { Resolvo } from '../components/Resolvo'
@@ -23,6 +24,7 @@ export function PaginaInicio() {
       <ComoFunciona />
       <SeparadorMare />
       <Prova />
+      <Interfaces />
       <div className="grid gap-16 border-t border-linha py-20 sm:py-28 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-14">
         <Trajetoria />
         <Imprensa />
