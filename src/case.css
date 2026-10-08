@@ -1,0 +1,417 @@
+/* Página de case (08/10/2026): moldura comum e o acabamento de cada peça principal.
+   Só tokens Maré; cada peça tem um material próprio (caderno pautado, terminal, recorte de jornal,
+   papel quadriculado...) para nenhuma tela parecer o mesmo molde. */
+
+/* ---------- moldura ---------- */
+.pagina-case h1:focus {
+  outline: none;
+}
+.case-vizinho {
+  transition: border-color 0.15s;
+}
+
+/* ---------- zona escura: a sala de controle e o terminal ficam escuros nos dois temas ---------- */
+.zona-escura {
+  color-scheme: dark;
+  --papel: #0b1e25;
+  --papel-alto: #112a33;
+  --raso: #163843;
+  --linha: #2c4b55;
+  --fundo: #e3eeec;
+  --fundo-suave: #97b2b5;
+  --mar: #6cc6d6;
+  --mar-forte: #a3dde7;
+  --on-mar: #0b1e25;
+  --mata: #8cc7a1;
+  --coral: #ff7a90;
+  --coral-texto: #ff8fa2;
+  --sol: #e9b949;
+  /* Os apelidos são resolvidos no :root; aqui precisam ser declarados de novo para seguirem a zona. */
+  --nevoa: var(--papel);
+  --folha: var(--papel-alto);
+  --tinta: var(--fundo);
+  --grafite: var(--fundo-suave);
+  --cobalto: var(--mar);
+  --cobalto-forte: var(--mar-forte);
+  --pitanga: var(--coral);
+  --pitanga-texto: var(--coral-texto);
+}
+/* No tema escuro a zona ganha uma borda mais clara, para não sumir no fundo da página. */
+:root[data-tema="escuro"] .zona-escura {
+  border-color: #3d6470;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .zona-escura {
+    border-color: #3d6470;
+  }
+}
+
+/* ---------- moldura de celular ---------- */
+.bezel {
+  border-color: var(--fundo);
+  background: var(--fundo);
+}
+.bezel-alto {
+  background: var(--fundo-suave);
+}
+:root[data-tema="escuro"] .bezel {
+  border-color: #2c4b55;
+  background: #2c4b55;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .bezel {
+    border-color: #2c4b55;
+    background: #2c4b55;
+  }
+}
+
+/* ---------- AprovaOS: caderno pautado com margem ---------- */
+.caderno-folha {
+  background-color: var(--papel-alto);
+  background-image: linear-gradient(90deg, transparent 2.55rem, var(--coral) 2.55rem, var(--coral) calc(2.55rem + 1.5px), transparent calc(2.55rem + 1.5px));
+  border-top: 4px double var(--linha);
+  padding: 0.4rem 0;
+}
+.caderno-linha + .caderno-linha {
+  border-top: 1px solid color-mix(in srgb, var(--linha) 75%, transparent);
+}
+.caderno-botao {
+  border-radius: 6px;
+}
+.caderno-botao:hover .caderno-num,
+.caderno-botao[aria-pressed="true"] .caderno-num {
+  color: var(--coral-texto);
+}
+.caderno-botao[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--sol) 20%, transparent);
+}
+.caderno-num {
+  padding-top: 0.55rem;
+  text-align: center;
+  font-size: 1.3rem;
+  color: var(--fundo-suave);
+}
+
+/* ---------- sistema de ordens: lâmpadas ---------- */
+.lampada {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  flex: none;
+}
+.lampada-ligado {
+  background: var(--mata);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mata) 25%, transparent);
+}
+.lampada-simulacao {
+  background: var(--sol);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sol) 25%, transparent);
+}
+.lampada-desligado {
+  background: transparent;
+  border: 2px solid var(--fundo-suave);
+}
+.incidente {
+  border-left: 3px solid var(--linha);
+}
+.incidente:first-child {
+  border-left-color: var(--mata);
+}
+
+/* ---------- terminal ---------- */
+.terminal-texto {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.terminal-comando {
+  color: var(--mar);
+  font-weight: 600;
+}
+.terminal-info {
+  color: var(--fundo);
+}
+.terminal-espera {
+  color: var(--fundo-suave);
+}
+.terminal-ok {
+  color: var(--mata);
+}
+.terminal-cabecalho {
+  color: var(--fundo-suave);
+}
+.terminal-tabela {
+  color: var(--fundo);
+}
+.cota-agua {
+  transition: height 0.35s ease;
+  background-image: repeating-linear-gradient(-45deg, transparent 0 6px, color-mix(in srgb, var(--mar) 18%, transparent) 6px 8px);
+}
+
+/* ---------- app de score: extrato com borda picotada ---------- */
+.extrato {
+  --dente: 9px;
+  -webkit-mask:
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(var(--dente) * 2) var(--dente) repeat-x,
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--dente)) no-repeat;
+  mask:
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(var(--dente) * 2) var(--dente) repeat-x,
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--dente)) no-repeat;
+  border-top: 4px solid var(--fundo);
+  font-variant-numeric: tabular-nums;
+}
+.medidor-arco {
+  transition: stroke-dasharray 0.4s ease;
+}
+
+/* ---------- engenharia de agentes: a ordem escondida ---------- */
+.injecao {
+  background: color-mix(in srgb, var(--coral) 16%, transparent);
+  color: inherit;
+  text-decoration: underline wavy var(--coral);
+  text-underline-offset: 3px;
+  padding: 0 0.1em;
+}
+.envelope-codigo {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* ---------- revisor: diff ---------- */
+.diff-codigo {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.diff-linha {
+  display: block;
+  padding-right: 1rem;
+  white-space: pre;
+}
+.diff-num {
+  display: inline-block;
+  width: 2.6rem;
+  padding-right: 0.6rem;
+  text-align: right;
+  color: var(--fundo-suave);
+  user-select: none;
+}
+.diff-sinal {
+  display: inline-block;
+  width: 1.2rem;
+  font-weight: 700;
+}
+.diff-mais {
+  background: color-mix(in srgb, var(--mata) 14%, transparent);
+}
+.diff-mais .diff-sinal {
+  color: var(--mata);
+}
+.diff-menos {
+  background: color-mix(in srgb, var(--coral) 12%, transparent);
+}
+.diff-menos .diff-sinal {
+  color: var(--coral-texto);
+}
+.diff-acesa {
+  box-shadow: inset 3px 0 0 var(--coral);
+}
+.diff-acesa-texto {
+  background: color-mix(in srgb, var(--sol) 45%, transparent);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ---------- IA local: linha nova do log ---------- */
+.log-nova {
+  animation: log-entra 1.2s ease-out;
+}
+@keyframes log-entra {
+  from {
+    background: color-mix(in srgb, var(--sol) 45%, transparent);
+  }
+  to {
+    background: transparent;
+  }
+}
+
+/* ---------- este site: raio-X ---------- */
+.raio-x main *:not(svg *) {
+  outline: 1px dashed color-mix(in srgb, var(--coral) 75%, transparent);
+  outline-offset: -1px;
+}
+.interruptor {
+  position: relative;
+  width: 2.6rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--raso);
+  border: 1px solid var(--fundo-suave);
+  transition: background 0.2s;
+}
+.interruptor::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: var(--fundo);
+  transition: transform 0.2s;
+}
+.interruptor-ligado {
+  background: var(--coral);
+}
+.interruptor-ligado::after {
+  transform: translateX(1.1rem);
+}
+.tecla {
+  display: inline-block;
+  min-width: 3.2rem;
+  border: 1px solid var(--fundo-suave);
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  padding: 0.1rem 0.5rem;
+  text-align: center;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ---------- benchmark: papel quadriculado e carimbo ---------- */
+.laboratorio {
+  background-color: var(--papel-alto);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--mar) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--mar) 9%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.laboratorio-vazio {
+  font-style: italic;
+}
+.carimbo {
+  display: inline-block;
+  transform: rotate(-4deg);
+  border: 3px double var(--coral-texto);
+  border-radius: 6px;
+  padding: 0.35rem 0.9rem;
+  color: var(--coral-texto);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  background: color-mix(in srgb, var(--papel-alto) 85%, transparent);
+}
+
+/* ---------- Sicoob: recorte de jornal e notas a lápis ---------- */
+.recorte {
+  transform: rotate(-0.8deg);
+  box-shadow: 6px 6px 0 var(--linha);
+  --rasgo: polygon(0 1.2%, 4% 0, 9% 1%, 15% 0.2%, 22% 1.3%, 30% 0, 37% 0.9%, 45% 0.1%, 53% 1.1%, 61% 0.2%, 68% 1.2%, 76% 0, 84% 1%, 91% 0.3%, 100% 1.1%, 100% 98.8%, 95% 100%, 88% 99%, 80% 99.9%, 72% 98.9%, 64% 100%, 56% 99.1%, 48% 99.9%, 40% 98.8%, 32% 99.8%, 24% 98.9%, 16% 100%, 8% 99%, 0 99.8%);
+  clip-path: var(--rasgo);
+}
+.nota-lapis {
+  color: var(--fundo-suave);
+  border: 1.5px dashed color-mix(in srgb, var(--fundo-suave) 70%, transparent);
+  background: color-mix(in srgb, var(--sol) 14%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .recorte {
+    transform: none;
+  }
+}
+
+/* ---------- Franca: balões ---------- */
+.zap {
+  background-color: var(--papel);
+  background-image: radial-gradient(color-mix(in srgb, var(--linha) 55%, transparent) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+.zap-pessoa {
+  background: color-mix(in srgb, var(--mata) 22%, var(--papel-alto));
+}
+.zap-robo {
+  background: var(--papel-alto);
+  border: 1px solid var(--linha);
+}
+
+/* ---------- Wiv: árvore ---------- */
+.arvore-no:focus-visible {
+  outline: none;
+}
+.arvore-no:focus-visible rect {
+  stroke: var(--mar);
+  stroke-width: 3;
+}
+
+/* ---------- Araguaia: degraus do funil ---------- */
+.funil-degrau {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 14px 100%);
+}
+
+/* ---------- Contabilizei: trilho de etapas ---------- */
+.ficha-marco {
+  border-color: var(--linha);
+  color: var(--fundo-suave);
+  background: var(--papel-alto);
+}
+.ficha-feita .ficha-marco {
+  border-color: var(--mata);
+  color: var(--on-mar);
+  background: var(--mata);
+}
+.ficha-agora .ficha-marco {
+  border-color: var(--mar);
+  color: var(--mar);
+}
+@media (min-width: 1024px) {
+  .ficha-passo {
+    position: relative;
+  }
+  .ficha-passo:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 0.82rem;
+    top: calc(50% + 0.9rem);
+    height: calc(100% - 1.8rem);
+    width: 2px;
+    background: var(--linha);
+  }
+}
+.ficha-preenchido {
+  animation: ficha-entra 0.5s ease-out;
+}
+@keyframes ficha-entra {
+  from {
+    background: color-mix(in srgb, var(--sol) 40%, transparent);
+  }
+  to {
+    background: transparent;
+  }
+}
+
+/* ---------- roleta: régua de tempo ---------- */
+.relogio-regua {
+  accent-color: var(--mar);
+  height: 2rem;
+}
+
+/* ---------- Minu: ponto da leitura agendada ---------- */
+.relogio-ponto {
+  animation: pulsa 2s ease-in-out infinite;
+}
+@keyframes pulsa {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .log-nova,
+  .ficha-preenchido,
+  .relogio-ponto {
+    animation: none;
+  }
+  .cota-agua,
+  .medidor-arco,
+  .interruptor,
+  .interruptor::after {
+    transition: none;
+  }
+}

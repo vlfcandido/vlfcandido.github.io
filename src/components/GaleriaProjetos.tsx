@@ -68,7 +68,6 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
           type="button"
           id={`card-${item.slug}`}
           onClick={() => aoAbrir(item.slug)}
-          aria-haspopup="dialog"
           className="text-left group-hover:text-cobalto after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none"
         >
           {item.nome}
@@ -101,7 +100,7 @@ function Grade({ itens, aoAbrir }: { itens: ItemProjeto[]; aoAbrir: (slug: strin
 
 /**
  * Galeria da página de projetos: chips de filtro por tipo e três seções no mesmo padrão de card:
- * "Em empresas", "Projetos próprios" e, no fim, "Outros projetos em empresas" (só participação). O clique abre o painel (quem chama cuida do hash).
+ * "Em empresas", "Projetos próprios" e, no fim, "Outros projetos em empresas" (só participação). O clique abre o case do projeto (quem chama cuida do hash).
  */
 export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: string) => void; filtroInicial?: TipoProjeto }) {
   const todos = useMemo(listarProjetos, [])

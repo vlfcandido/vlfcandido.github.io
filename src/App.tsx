@@ -27,18 +27,31 @@ function useHash(): string {
 /**
  * Depois de cada render da rota, leva a pessoa ao destino: a seção da âncora ou o título da página.
  * O foco vai junto (tabindex -1) para leitor de tela e teclado continuarem dali, e a rolagem é
- * suave salvo quando o sistema pede menos movimento. Abrir e fechar o painel de projeto não conta.
+ * suave salvo quando o sistema pede menos movimento. O case de projeto abre no topo; ao voltar dele,
+ * o foco volta ao card do projeto.
  */
 function useDestino(hash: string, rota: Rota) {
   const anterior = useRef<string | null>(null)
   useEffect(() => {
     const antes = anterior.current
     anterior.current = hash
-    // Abrir ou fechar o painel de um projeto não mexe na rolagem nem no foco: o painel cuida disso.
-    if (projetoDoHash(hash) || (hash === HASH_PROJETOS && antes && projetoDoHash(antes))) return
+    const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // Case de projeto (página inteira desde 08/10/2026): abre no topo, com o foco no título do case.
+    if (projetoDoHash(hash)) {
+      window.scrollTo({ top: 0 })
+      document.getElementById('case-titulo')?.focus({ preventScroll: true })
+      return
+    }
+    // Voltar de um case para a galeria: foco e rolagem no card de onde a pessoa saiu.
+    const deCase = hash === HASH_PROJETOS && antes ? projetoDoHash(antes) : null
+    const card = deCase ? document.getElementById(`card-${deCase}`) : null
+    if (card) {
+      card.focus({ preventScroll: true })
+      card.scrollIntoView({ block: 'center' })
+      return
+    }
     const id = secaoDoHash(hash)
     const alvo = id ? document.getElementById(id) : rota === 'projetos' ? document.querySelector('main h1') : null
-    const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!alvo) {
       window.scrollTo({ top: 0 })
       return
