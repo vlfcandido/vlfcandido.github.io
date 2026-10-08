@@ -237,10 +237,13 @@ export const cases: Case[] = [
     tipo: 'empresa',
     titulo: 'Agentes de IA de vendas (SDR) na Contabilizei',
     contexto: 'O time de vendas precisava de ajuda no primeiro contato e na qualificação de quem chegava interessado.',
-    feito: 'Construí os agentes de IA de vendas (SDR) da Contabilizei, de 2025 a mar/2026.',
+    // Texto aprovado por ele em 08/10/2026. Antes: 'Construí os agentes de IA de vendas (SDR) da Contabilizei,
+    // de 2025 a mar/2026.' e stack ['agentes de IA', 'multiagente'].
+    feito:
+      'Vendedor de IA no WhatsApp para uma contabilidade digital: um orquestrador e 8 agentes especializados (Google ADK + Gemini no Vertex AI) que qualificam o lead, apresentam planos, simulam taxas e geram a cobrança. Trabalhei no backend em Python, no handoff automático para o time humano e nas integrações com WhatsApp e CRM.',
     metrica: '',
     fonte: { texto: 'Contabilizei, 2025 a mar/2026' },
-    stack: ['agentes de IA', 'multiagente'],
+    stack: ['Python', 'Google ADK', 'LangGraph', 'Gemini no Vertex AI', 'Postgres', 'Redis', 'Cloud Run', 'WhatsApp', 'CRM'],
     temPrint: false,
     alt: 'Ilustração dos agentes de IA de vendas da Contabilizei',
   },
