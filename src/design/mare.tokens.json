@@ -352,5 +352,35 @@
         "usage": "Só o que flutua: botão fixo do LinkedIn, dica sobre a logo."
       }
     ]
+  },
+  "motion": {
+    "note": "Movimento curto e contido: só transform e opacity. Tudo desliga com prefers-reduced-motion.",
+    "tokens": [
+      {
+        "name": "mov-toque",
+        "value": "150ms",
+        "usage": "Hover, press e troca de cor de botão, chip e cartão."
+      },
+      {
+        "name": "mov-padrao",
+        "value": "250ms",
+        "usage": "Acordeão, ampliação de print, troca de tema e de conteúdo."
+      },
+      {
+        "name": "mov-lento",
+        "value": "400ms",
+        "usage": "Entrada de seção ao rolar e troca de página. O teto do site."
+      },
+      {
+        "name": "mov-ease",
+        "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
+        "usage": "Curva única: sai rápido e assenta devagar, como maré enchendo."
+      },
+      {
+        "name": "mov-deslocamento",
+        "value": "14px",
+        "usage": "Quanto uma peça sobe ao entrar. Pouco, para ser sentido e não visto."
+      }
+    ]
   }
 }

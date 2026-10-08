@@ -21,3 +21,20 @@ describe('Maré: mare.css segue o tokens.json', () => {
     expect(variaveis(escuroForcado)[nome]).toBe(escuroEsperado)
   })
 })
+
+describe('Maré: tokens de movimento', () => {
+  const [claro] = css.split('@media (prefers-color-scheme: dark)')
+  const vars = variaveis(claro)
+
+  it.each(tokens.motion.tokens.map((m) => [m.name, m.value] as const))('%s', (nome, valor) => {
+    expect(vars[nome]).toBe(valor)
+  })
+
+  it('durações ficam entre 150 e 400 ms', () => {
+    for (const m of tokens.motion.tokens.filter((t) => t.value.endsWith('ms'))) {
+      const ms = Number.parseInt(m.value, 10)
+      expect(ms).toBeGreaterThanOrEqual(150)
+      expect(ms).toBeLessThanOrEqual(400)
+    }
+  })
+})
