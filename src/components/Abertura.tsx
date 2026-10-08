@@ -7,7 +7,7 @@ import { CartaNautica } from './CartaNautica'
 const NOVENTA_E_NOVE = links.find((l) => l.rotulo === '99Freelas')
 
 /** Abertura: a frase de posicionamento, o que eu entrego e o botão do LinkedIn. */
-export function Abertura() {
+export function Abertura({ ramo, aoEscolherRamo }: { ramo: string; aoEscolherRamo: (id: string) => void }) {
   return (
     <section id="inicio" aria-labelledby="inicio-titulo" className="relative isolate overflow-x-clip bg-nevoa scroll-mt-24 pt-12 pb-20 sm:pt-20 lg:pb-28">
       <CartaNautica
@@ -46,7 +46,7 @@ export function Abertura() {
           </div>
         </div>
         <div className="lg:col-span-5">
-          <Demonstracao />
+          <Demonstracao ramo={ramo} aoEscolher={aoEscolherRamo} />
         </div>
       </div>
     </section>

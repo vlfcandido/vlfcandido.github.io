@@ -460,6 +460,9 @@ a:focus-visible .logo-mono {
   color: var(--nevoa);
 }
 .passo[data-estado="ativo"] .passo-numero {
+  border-color: var(--pitanga);
+  background: var(--pitanga);
+  color: var(--on-sol);
   transform: scale(1.12);
   box-shadow: 0 0 0 4px var(--nevoa), 0 0 0 6px var(--pitanga);
 }
@@ -468,6 +471,104 @@ a:focus-visible .logo-mono {
 }
 .passo[data-estado="ativo"] .passo-titulo {
   color: var(--cobalto);
+}
+
+/* O que eu resolvo: a oferta ativa ganha o trilho coral e o fundo de folha. */
+.oferta {
+  border-color: var(--linha);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.oferta[data-ativo="true"] {
+  border-color: var(--pitanga);
+  background: var(--folha);
+}
+.oferta-icone {
+  color: var(--grafite);
+  transition: color 0.2s ease;
+}
+.oferta[data-ativo="true"] .oferta-icone,
+.oferta[data-ativo="true"] .oferta-titulo {
+  color: var(--cobalto);
+}
+/* Troca de conteúdo (exemplo, etapa): um esmaecer curto mostra o que mudou. */
+.troca {
+  animation: entra-troca 0.3s ease both;
+}
+@keyframes entra-troca {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+/* Fluxo do agente: os pontos numa grade com traços entre eles. No celular, em coluna com os
+   dois desvios lado a lado; no computador, em linha com a pessoa da equipe embaixo do agente. */
+.fluxo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1.75rem auto 1.75rem auto;
+  grid-template-areas: "w w" "te te" "a a" "ts tq" "s e";
+  column-gap: 0.75rem;
+}
+.fluxo-no[data-no="whatsapp"] { grid-area: w; }
+.fluxo-no[data-no="agente"] { grid-area: a; }
+.fluxo-no[data-no="sistemas"] { grid-area: s; }
+.fluxo-no[data-no="equipe"] { grid-area: e; }
+.fluxo-traco[data-t="entrada"] { grid-area: te; }
+.fluxo-traco[data-t="sistemas"] { grid-area: ts; }
+.fluxo-traco[data-t="equipe"] { grid-area: tq; }
+.fluxo-traco {
+  justify-self: center;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(var(--pitanga), var(--pitanga)) top / 100% 0% no-repeat, var(--linha);
+  transition: background-size 0.45s ease;
+}
+.fluxo-traco[data-feito="true"] {
+  background-size: 100% 100%, auto;
+}
+@media (min-width: 1024px) {
+  .fluxo {
+    grid-template-columns: 1fr 2.5rem 1fr 2.5rem 1fr;
+    grid-template-rows: auto 2.25rem auto;
+    grid-template-areas: "w te a ts s" ". . tq . ." ". . e . .";
+    column-gap: 0;
+    align-items: stretch;
+  }
+  .fluxo-traco[data-t="entrada"],
+  .fluxo-traco[data-t="sistemas"] {
+    align-self: center;
+    justify-self: stretch;
+    width: auto;
+    height: 2px;
+    background-position: left;
+    background-size: 0% 100%, auto;
+  }
+  .fluxo-traco[data-t="entrada"][data-feito="true"],
+  .fluxo-traco[data-t="sistemas"][data-feito="true"] {
+    background-size: 100% 100%, auto;
+  }
+}
+.fluxo-no {
+  border-color: var(--linha);
+  background: var(--folha);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.fluxo-no:hover {
+  border-color: var(--cobalto);
+}
+.fluxo-no[data-fora="true"] {
+  opacity: 0.6;
+}
+.fluxo-no[data-aqui="true"] {
+  border-color: var(--pitanga);
+  box-shadow: 4px 4px 0 var(--pitanga);
+  opacity: 1;
+}
+
+/* Como funciona: o que a pessoa recebe em cada passo, numa miniatura de papel. */
+.recebe {
+  box-shadow: 8px 8px 0 var(--linha);
 }
 
 /* Imprensa: a linha se destaca e revela o que eu fiz; em tela de toque já vem aberta. */
@@ -553,8 +654,15 @@ a:focus-visible .logo-mono {
   .cartao-projeto .moldura-logo,
   .faixa-noticia,
   .revela,
-  .seta-noticia {
+  .seta-noticia,
+  .oferta,
+  .oferta-icone,
+  .fluxo-traco,
+  .fluxo-no {
     transition: none;
+  }
+  .troca {
+    animation: none;
   }
   .botao-acao:active,
   .botao-acao:hover,

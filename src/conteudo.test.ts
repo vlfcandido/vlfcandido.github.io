@@ -64,4 +64,17 @@ describe('conteúdo publicado', () => {
   it('projeto próprio nunca diz cliente nem lucro', () =>
     conteudo.cases.filter((c) => c.tipo === 'proprio').forEach((c) =>
       expect(JSON.stringify(c).toLowerCase()).not.toMatch(/cliente em|projeto para cliente|lucro|market making/)))
+  it('cada ramo do seletor sugere exatamente uma oferta, e toda oferta tem antes e depois', () => {
+    conteudo.ramosDemo.forEach((r) => expect(conteudo.oferta.filter((o) => o.ramos.includes(r.id)), r.id).toHaveLength(1))
+    conteudo.oferta.forEach((o) => {
+      expect(o.antes.length).toBeGreaterThan(10)
+      expect(o.depois.length).toBeGreaterThan(10)
+    })
+  })
+  it('o fluxo do agente tem o caminho que resolve e o desvio para a equipe', () => {
+    const nos = (id: string) => conteudo.caminhosFluxo.find((c) => c.id === id)?.etapas.map((e) => e.no)
+    expect(nos('resolve')).toContain('sistemas')
+    expect(nos('equipe')).toContain('equipe')
+  })
+  it('um "o que você recebe" para cada passo', () => expect(conteudo.recebe).toHaveLength(conteudo.passos.length))
 })

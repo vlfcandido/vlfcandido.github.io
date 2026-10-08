@@ -15,10 +15,18 @@ export interface Numero {
   fonte: Fonte
 }
 
-/** Linha da oferta: o que eu faço, em uma frase. */
+/** Linha da oferta: o que eu faço, em uma frase, com um exemplo ilustrativo de antes e depois. */
 export interface Oferta {
+  /** Identificador estável, usado no ícone e no destaque por ramo. */
+  id: 'whatsapp' | 'repetido' | 'site' | 'integracao'
   titulo: string
   descricao: string
+  /** Como costuma ser hoje (exemplo ilustrativo, não é número de cliente). */
+  antes: string
+  /** Como fica depois (exemplo ilustrativo). */
+  depois: string
+  /** Ids de `ramosDemo` em que esta oferta é a sugestão de começo. */
+  ramos: string[]
 }
 
 /** Case público ou projeto próprio exibido em card. */
@@ -71,20 +79,36 @@ export const perfil = {
 /** O que eu resolvo, escrito como resultado para quem contrata. */
 export const oferta: Oferta[] = [
   {
+    id: 'whatsapp',
     titulo: 'Atendimento no WhatsApp que responde e agenda sozinho',
     descricao: 'Seu cliente tira a dúvida e marca o horário a qualquer hora, sem alguém da equipe preso no celular.',
+    antes: '40 mensagens esperando a recepção abrir.',
+    depois: 'Horário marcado em 30 segundos, às 23h.',
+    ramos: ['clinica'],
   },
   {
+    id: 'repetido',
     titulo: 'Menos trabalho repetido',
     descricao: 'O que hoje alguém faz copiando e colando passa a acontecer sozinho: cadastro, planilha, aviso, cobrança.',
+    antes: 'Alguém copia cada pedido para a planilha no fim do dia.',
+    depois: 'O pedido entra na planilha sozinho, na hora em que chega.',
+    ramos: ['escritorio'],
   },
   {
+    id: 'site',
     titulo: 'Site ou sistema pronto para usar',
     descricao: 'Página de vendas, painel ou sistema com login, entregue funcionando e testado.',
+    antes: 'Pedido anotado no caderno e confirmado por mensagem, um a um.',
+    depois: 'O cliente pede pelo site e você acompanha tudo num painel.',
+    ramos: ['loja'],
   },
   {
+    id: 'integracao',
     titulo: 'Suas ferramentas conversando entre si',
     descricao: 'Agenda, planilha, sistema de vendas e pagamento trocando dados, sem ninguém digitar duas vezes.',
+    antes: 'A venda é digitada no sistema, depois na planilha, depois no estoque.',
+    depois: 'Pagou, e o sistema, a planilha e o estoque já sabem.',
+    ramos: ['industria'],
   },
 ]
 
@@ -293,6 +317,14 @@ export const cases: Case[] = [
   },
 ]
 
+/** O que a pessoa recebe em cada passo, para a miniatura da linha do tempo. */
+export const recebe: string[] = [
+  'Uma proposta de uma página: o que entra, o prazo e o valor fechado.',
+  'Um link para testar e uma notícia a cada 12 horas.',
+  'A ficha de entrega: o que foi feito, como usar e os testes.',
+  'Sete dias em que qualquer falha do que foi entregue é corrigida sem custo.',
+]
+
 export const passos: Passo[] = [
   {
     titulo: 'Preço fechado na primeira conversa',
@@ -387,5 +419,48 @@ export const ramosDemo: RamoDemo[] = [
       { de: 'robo', texto: 'Já passei para o time comercial. Eles respondem ainda hoje.' },
     ],
     clientes: ['petrobras', 'scania', 'yara'],
+  },
+]
+
+/** Ponto do fluxo do agente: onde a conversa está. */
+export type NoFluxo = 'whatsapp' | 'agente' | 'sistemas' | 'equipe'
+
+/** Uma etapa da conversa de exemplo passando pelo fluxo. */
+export interface EtapaFluxo {
+  no: NoFluxo
+  /** O que acontece ali, em uma frase. */
+  texto: string
+  /** Mensagem que aparece nessa etapa, quando há. */
+  mensagem?: { de: 'cliente' | 'robo' | 'equipe'; texto: string }
+}
+
+/** Caminho da conversa: resolvido pelo agente ou passado para alguém da equipe. */
+export interface CaminhoFluxo {
+  id: 'resolve' | 'equipe'
+  rotulo: string
+  etapas: EtapaFluxo[]
+}
+
+// Conversas ilustrativas do diagrama "como eu ligo um agente": mostram o caminho, não um cliente real.
+export const caminhosFluxo: CaminhoFluxo[] = [
+  {
+    id: 'resolve',
+    rotulo: 'O agente resolve',
+    etapas: [
+      { no: 'whatsapp', texto: 'A mensagem chega a qualquer hora, inclusive de madrugada.', mensagem: { de: 'cliente', texto: 'Tem horário quinta à tarde?' } },
+      { no: 'agente', texto: 'Entende que é um pedido de horário e decide olhar a agenda.' },
+      { no: 'sistemas', texto: 'Vê que quinta às 15h está livre, reserva e anota o cliente no CRM.' },
+      { no: 'whatsapp', texto: 'A confirmação volta na mesma conversa.', mensagem: { de: 'robo', texto: 'Marcado: quinta às 15h. Te lembro na véspera.' } },
+    ],
+  },
+  {
+    id: 'equipe',
+    rotulo: 'Vai para a equipe',
+    etapas: [
+      { no: 'whatsapp', texto: 'A mensagem chega como qualquer outra.', mensagem: { de: 'cliente', texto: 'Cobraram um valor diferente do combinado.' } },
+      { no: 'agente', texto: 'Percebe que é reclamação de cobrança e não tenta resolver sozinho.' },
+      { no: 'equipe', texto: 'Alguém da equipe recebe a conversa com o resumo do caso e responde dali.' },
+      { no: 'whatsapp', texto: 'O cliente segue na mesma conversa, agora com uma pessoa, sem repetir nada.', mensagem: { de: 'equipe', texto: 'Oi, aqui é do financeiro. Já estou vendo o seu caso.' } },
+    ],
   },
 ]

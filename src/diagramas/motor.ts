@@ -154,7 +154,10 @@ function alturaNo(no: No, l: number): number {
 
 /** Linhas de texto (`<text>` com `<tspan>`), alinhadas à esquerda. */
 function textoLinhas(linhas: string[], x: number, y: number, lh: number, attrs: string): string {
-  const spans = linhas.map((l, i) => `<tspan x="${x}" dy="${i === 0 ? 0 : lh}">${esc(l)}</tspan>`).join('')
+  // O espaço no fim de cada linha (menos a última) mantém as palavras separadas ao copiar o texto.
+  const spans = linhas
+    .map((l, i) => `<tspan x="${x}" dy="${i === 0 ? 0 : lh}">${esc(l)}${i < linhas.length - 1 ? ' ' : ''}</tspan>`)
+    .join('')
   return `<text x="${x}" y="${y}" ${attrs}>${spans}</text>`
 }
 
@@ -275,15 +278,16 @@ function etiquetas(tags: string[], x: number, y: number, largura: number, p: Pal
   return { svg: partes.join(''), h: cy - y + alt }
 }
 
-/** Isóbatas: três curvas de profundidade num canto, com uma sondagem. Decorativo e discreto. */
+/** Isóbatas: três curvas de profundidade num canto. Decorativo e discreto. */
 function isobatas(cx: number, cy: number, escala: number, p: Paleta): string {
   const curvas = [1, 0.68, 0.38].map((k) => {
     const r = 120 * k * escala
     return `<path d="M${cx - r} ${cy}C${cx - r} ${cy - r * 0.7} ${cx - r * 0.35} ${cy - r * 0.95} ${cx + r * 0.1} ${cy - r * 0.9}C${cx + r * 0.6} ${cy - r * 0.85} ${cx + r} ${cy - r * 0.45} ${cx + r} ${cy}" fill="none" stroke="${p.linha}" stroke-width="1.2" opacity="0.8"/>`
   })
   return (
-    `<g aria-hidden="true">${curvas.join('')}` +
-    `<text x="${cx - 6 * escala}" y="${cy - 14 * escala}" font-family="${SERIF}" font-style="italic" font-size="13" fill="${p.fundoSuave}" opacity="0.8">18</text></g>`
+    // Antes havia aqui uma sondagem de profundidade ("18") em texto: ao copiar ou ler o desenho
+    // aparecia um número solto no meio das etapas. Ficaram só as curvas.
+    `<g aria-hidden="true">${curvas.join('')}</g>`
   )
 }
 
