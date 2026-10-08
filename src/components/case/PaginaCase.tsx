@@ -53,7 +53,7 @@ export function PaginaCase({ item, itens, aoVoltar }: Props) {
   const prints = item.telas ?? [item.print, item.printExtra].filter((p) => p !== undefined)
 
   return (
-    <article aria-labelledby="case-titulo" className={`pagina-case pagina-case-${caso.peca} pt-8 pb-6 sm:pt-12`}>
+    <article aria-labelledby="case-titulo" className={`pagina-case pagina-troca pagina-case-${caso.peca} pt-8 pb-6 sm:pt-12`}>
       <Voltar aoVoltar={aoVoltar} />
       <div className="mt-8">
         <CabecalhoCase item={item} caso={caso} empresa={empresa} />
