@@ -1,6 +1,6 @@
 // Os desenhos do site, como dado. Só arquitetura real: cada um saiu do código ou do README do
 // projeto (estudo de 07/10/2026 e leitura de 08/10/2026), e o do Sicoob só do que a matéria pública
-// diz. Nada de nome interno, modelo, banco vetorial ou plataforma de empresa. Lucro de trading nunca.
+// diz. Nada de nome interno, modelo, banco vetorial ou plataforma de empresa. Lucro de operação de mercado nunca.
 // Este arquivo só exporta funções e tipos: nada roda no import.
 
 import type { Desenho } from './motor'
@@ -72,7 +72,7 @@ export function listarDesenhos(): Record<IdDesenho, Desenho> {
 
     'nexus-quant': {
       id: 'nexus-quant',
-      titulo: 'Bot de trading que confere tudo com a corretora',
+      titulo: 'Sistema de ordens em tempo real que confere tudo com a corretora',
       descricao:
         'A corretora, hoje em simulação, manda o preço; um coletor publica cada leitura numa fila Redis Streams; o cérebro ativo decide enquanto um cérebro em teste decide em paralelo sem operar; guardas de risco filtram a decisão; e a ordem volta à corretora com identificador único, para que um reinício nunca duplique ordem. Uma reconciliação compara a corretora com o banco a cada minuto e a corretora sempre vence. Cada decisão vira evento, que alimenta o painel e os alertas.',
       etapas: [

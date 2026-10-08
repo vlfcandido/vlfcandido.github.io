@@ -211,7 +211,7 @@ export const numeros: Numero[] = [
   },
   {
     valor: '1.060',
-    rotulo: 'testes automáticos passando no meu bot de trading',
+    rotulo: 'testes automáticos passando no meu sistema de ordens em tempo real',
     fonte: { texto: 'vitrine no GitHub', url: 'https://github.com/vlfcandido/nexus-quant-showcase' },
   },
 ]
@@ -289,7 +289,7 @@ export const cases: Case[] = [
   {
     slug: 'nexus-quant',
     tipo: 'proprio',
-    // Renomeado em 08/10/2026 (M13); antes o título falava em bot de trading de cripto.
+    // Renomeado em 08/10/2026 (M13); antes o título falava em robô de cripto.
     titulo: 'Sistema de ordens em tempo real (estudo)',
     contexto: 'Operar 24 horas exige reconciliar ordens com a corretora sem erro.',
     feito:
@@ -298,7 +298,7 @@ export const cases: Case[] = [
     fonte: { texto: 'vitrine no GitHub', url: 'https://github.com/vlfcandido/nexus-quant-showcase' },
     stack: ['Python', 'FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Redis Streams', 'Next.js', 'Cloud Run'],
     temPrint: true,
-    alt: 'Painel do bot de trading com posições, ordens e métricas',
+    alt: 'Painel do sistema de ordens em tempo real com posições, ordens e métricas',
   },
   // nexus-clips removido em 08/10/2026 (M14).
   {

@@ -111,7 +111,7 @@ export const camadasFront: CamadaFront[] = [
     itens: [
       { nome: 'Angular', onde: 'O front e os dashboards que eu cuido hoje no Sicoob.' },
       { nome: 'React', onde: 'Este site e o painel do agente de vídeo, com 10 telas.' },
-      { nome: 'Next.js', onde: 'O painel do bot de trading e o app de score de crédito.' },
+      { nome: 'Next.js', onde: 'O painel do sistema de ordens em tempo real e o app de score de crédito.' },
       { nome: 'Vue.js', onde: 'Front-end de produto na Sovis, de 2019 a 2021.' },
       { nome: 'HTMX', onde: 'As telas do AprovaOS, que atualizam só o pedaço que mudou.' },
     ],
@@ -121,7 +121,7 @@ export const camadasFront: CamadaFront[] = [
     titulo: 'O visual',
     papel: 'O que deixa tudo consistente de uma tela para a outra.',
     itens: [
-      { nome: 'Tailwind', onde: 'Este site, o painel do bot de trading e o app de score.' },
+      { nome: 'Tailwind', onde: 'Este site, o painel do sistema de ordens em tempo real e o app de score.' },
       { nome: 'Design system próprio', onde: 'A Maré, deste site, e o sistema de componentes do AprovaOS.' },
       { nome: 'Gráficos', onde: 'Recharts no painel de vídeo; SVG feito à mão no medidor de score e aqui.' },
     ],
@@ -131,8 +131,8 @@ export const camadasFront: CamadaFront[] = [
     titulo: 'A garantia',
     papel: 'O que faz a tela continuar funcionando depois da entrega.',
     itens: [
-      { nome: 'TypeScript', onde: 'Este site, o painel do bot de trading e o app de score.' },
-      { nome: 'Testes no navegador', onde: 'Playwright no painel do bot de trading; Vitest neste site.' },
+      { nome: 'TypeScript', onde: 'Este site, o painel do sistema de ordens em tempo real e o app de score.' },
+      { nome: 'Testes no navegador', onde: 'Playwright no painel do sistema de ordens em tempo real; Vitest neste site.' },
       { nome: 'Acessibilidade', onde: 'Teclado, leitor de tela e menos movimento, aqui mesmo: tente usar esta seção só com o Tab.' },
     ],
   },
