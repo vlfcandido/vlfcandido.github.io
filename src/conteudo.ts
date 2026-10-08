@@ -69,7 +69,8 @@ export interface LinkExterno {
 
 export const perfil = {
   nome: 'Vinicius Candido',
-  titulo: 'Engenheiro de software há 13 anos',
+  // Trocado em 08/10/2026 (M7). Antes: 'Engenheiro de software há 13 anos'.
+  titulo: 'Engenheiro de software sênior · 13 anos',
   // Trocadas em 08/10/2026 (posicionamento amplo). Antes: chamada "Seu projeto feito por quem constrói IA
   // no Sicoob e já construiu na Contabilizei." e linha "Atendimento no WhatsApp, automações, sites e
   // sistemas para o seu negócio. Preço fechado antes de começar e entrega testada."

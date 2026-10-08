@@ -144,6 +144,7 @@ export function Prova() {
         <h2 id="prova-titulo" className="titulo-secao max-w-[24ch]">
           Empresas atendidas nos projetos que liderei
         </h2>
+        {/* Trocado em 08/10/2026 (M9). Antes, o fim da frase falava de chatbot e de análise das conversas. */}
         <p className="prosa max-w-[40ch] text-[1.02rem] text-grafite">
           Na{' '}
           <LinkExterno href={gruposClientes[0].fonte.url} className="sublinha hover:text-tinta">
@@ -153,7 +154,7 @@ export function Prova() {
           <LinkExterno href={gruposClientes[1].fonte.url} className="sublinha hover:text-tinta">
             Wiv
           </LinkExterno>
-          , com chatbots e análise de conversas.
+          , de órgãos públicos a grandes marcas.
         </p>
       </div>
 
