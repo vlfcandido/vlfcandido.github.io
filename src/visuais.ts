@@ -41,9 +41,6 @@ export const printsDosCasos: Record<string, Print[]> = {
     { arquivo: 'prints/aprovaos.webp', alt: 'Diagnóstico adaptativo do AprovaOS com a questão, o motivo da escolha e a margem de erro por matéria' },
     { arquivo: 'prints/aprovaos-plano.webp', alt: 'Plano do dia do AprovaOS com os blocos de estudo e o porquê de cada escolha' },
   ],
-  'bureau-credito': [
-    { arquivo: 'prints/bureau-credito.webp', alt: 'Consulta de score no app do bureau de crédito com a auditoria do cálculo aberta, dados fictícios' },
-  ],
   'revisor-ia': [
     { arquivo: 'prints/revisor-ia.webp', alt: 'Relatório do revisor de código com os comentários e a nota da avaliação' },
   ],
