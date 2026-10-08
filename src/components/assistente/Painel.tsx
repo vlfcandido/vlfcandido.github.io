@@ -126,7 +126,8 @@ export function Painel({ urlWorker, aoFechar }: { urlWorker: string; aoFechar: (
       : modoVaga
         ? TEXTOS.placeholderVaga
         : TEXTOS.placeholderTrabalho
-  const terminou = estado.itens.some((i) => i.tipo === 'escopo' || (porta === 'escopo' && i.tipo === 'recusa'))
+  // Só o escopo pronto encerra a porta; depois de uma recusa o visitante pode descrever outro projeto.
+  const terminou = estado.itens.some((i) => i.tipo === 'escopo')
   const semMensagens = estado.restantes === 0
 
   async function mandar() {
