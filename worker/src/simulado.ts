@@ -9,7 +9,7 @@ import type { Modelo, PedidoModelo, RespostaBruta, SaidaModelo } from './modelo'
 /** Resposta da porta Trabalho por assunto: o padrão (texto normalizado) e a resposta, em terceira pessoa. */
 const RESPOSTAS_TRABALHO: ReadonlyArray<readonly [RegExp, string]> = [
   [
-    /sicoob.*(modelo|llm|gpt|time|equipe|pessoas|vetorial|ferramenta|plataforma|quant|colega|igual)|(modelo|llm|time|equipe|vetorial|ferramenta|plataforma|quant|colega|igual).*sicoob/,
+    /sicoob.*(modelo|llm|gpt|time|equipe|pessoas|vetorial|ferramenta|plataforma|quant|colega|igual|empresa|consultoria|contrat|cnpj|vinculo|salario)|(modelo|llm|time|equipe|vetorial|ferramenta|plataforma|quant|colega|igual|consultoria|contrat).*sicoob/,
     'Sobre o Sicoob, só posso falar o que a matéria pública diz: o Vinicius lidera tecnicamente a frente de IA do assistente de investimentos usado pelas equipes das cooperativas, com três agentes (um encaminha a pergunta, um responde sobre investimentos e um cuida das perguntas frequentes). Fonte: MobileTime, 17/07/2026.',
   ],
   [
@@ -25,7 +25,7 @@ const RESPOSTAS_TRABALHO: ReadonlyArray<readonly [RegExp, string]> = [
     'O chatbot da Saúde da Prefeitura de Franca foi feito na Blip pela Vertigo, no time de projetos Blip que o Vinicius liderava, e automatiza 5 mil atendimentos por mês. Fonte: case publicado pela Vertigo.',
   ],
   [
-    /blip|vertigo/,
+    /blip|vertigo|chatbot|robos? de atendimento/,
     'Na Vertigo, parceira certificada da Blip, o Vinicius foi tech lead de IA conversacional e liderou os projetos de chatbot Blip, de 2021 a 2025. Fonte: diretório de parceiros da Blip e cases publicados pela Vertigo.',
   ],
   [
@@ -184,12 +184,20 @@ export class ModeloSimulado implements Modelo {
       }
     }
 
+    // Pedido de contato ou de preço no meio do escopo: responde a regra e segue o roteiro.
+    const pedidoN = normalizar(pedido.texto)
+    const desvio = /\b(contato|whatsapp dele|e-?mail dele|telefone dele|fora do 99|direto com ele|fechar direto)\b/.test(pedidoN)
+      ? 'Este assistente não passa contato: a saída é copiar o escopo e colar na conversa que você já tem com ele.'
+      : /\b(quanto (vai )?custa|preco|valor|em reais|orcamento)\b/.test(pedidoN)
+        ? 'Este assistente não dá preço: o preço fechado vem do Vinicius, depois de ler o escopo.'
+        : null
+
     const respostas = [...pedido.historico.filter((f) => f.papel === 'visitante').map((f) => f.texto), pedido.texto]
     const razao = foraDoQuePega(respostas.join('\n'))
     if (razao) return { tipo: 'recusa', texto: razao, ...vazio }
     const pediuParaMontar = /\b(pode montar|monta (o )?escopo|ja (e|da) isso|so isso|fecha o escopo|gera (o )?escopo)\b/.test(normalizar(pedido.texto))
     if (respostas.length < PERGUNTAS_ESCOPO.length && !(pediuParaMontar && respostas.length >= 2)) {
-      return { tipo: 'pergunta', texto: `Anotado. ${PERGUNTAS_ESCOPO[respostas.length].texto}`, ...vazio }
+      return { tipo: 'pergunta', texto: `${desvio ?? 'Anotado.'} ${PERGUNTAS_ESCOPO[respostas.length].texto}`, ...vazio }
     }
     const r = montarEscopo(respostas)
     if (r.tipo === 'recusa') return { tipo: 'recusa', texto: r.texto, ...vazio }
