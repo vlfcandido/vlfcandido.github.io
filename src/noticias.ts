@@ -27,7 +27,7 @@ export const noticias: Noticia[] = [
     veiculo: 'MobileTime',
     data: '2026-07-17',
     titulo: 'Sicoob põe IA generativa para apoiar decisões de investimento',
-    papel: 'Lidero a equipe de IA que construiu o serviço, com três agentes especializados.',
+    papel: 'Lidero tecnicamente a frente de IA do serviço, com três agentes especializados.',
     url: 'https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/',
     empresa: 'sicoob',
     ilustracao: 'agentes',
