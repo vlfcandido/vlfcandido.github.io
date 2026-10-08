@@ -1,0 +1,61 @@
+/* Maré: valores das cores do design system, copiados de src/design/mare.tokens.json.
+   Fonte única: mude o JSON e este arquivo juntos (o teste mare.test.ts confere os dois).
+   O tema segue o sistema, salvo quando a pessoa escolhe no botão (data-tema). */
+:root {
+  color-scheme: light;
+  --papel: #f2f5f3;
+  --papel-alto: #ffffff;
+  --raso: #dcebec;
+  --linha: #bccdce;
+  --fundo: #0f2a33;
+  --fundo-suave: #486169;
+  --mar: #0d5f73;
+  --mar-forte: #08475a;
+  --on-mar: #ffffff;
+  --mata: #2e5b43;
+  --areia: #e3cf9f;
+  --coral: #e8445f;
+  --coral-texto: #c4213f;
+  --sol: #ffd34d;
+  --on-sol: #0f2a33;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    color-scheme: dark;
+    --papel: #0b1e25;
+    --papel-alto: #112a33;
+    --raso: #163843;
+    --linha: #2c4b55;
+    --fundo: #e3eeec;
+    --fundo-suave: #97b2b5;
+    --mar: #6cc6d6;
+    --mar-forte: #a3dde7;
+    --on-mar: #0b1e25;
+    --mata: #8cc7a1;
+    --areia: #c9b07a;
+    --coral: #ff7a90;
+    --coral-texto: #ff8fa2;
+    --sol: #e9b949;
+    --on-sol: #0b1e25;
+  }
+}
+
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --papel: #0b1e25;
+  --papel-alto: #112a33;
+  --raso: #163843;
+  --linha: #2c4b55;
+  --fundo: #e3eeec;
+  --fundo-suave: #97b2b5;
+  --mar: #6cc6d6;
+  --mar-forte: #a3dde7;
+  --on-mar: #0b1e25;
+  --mata: #8cc7a1;
+  --areia: #c9b07a;
+  --coral: #ff7a90;
+  --coral-texto: #ff8fa2;
+  --sol: #e9b949;
+  --on-sol: #0b1e25;
+}

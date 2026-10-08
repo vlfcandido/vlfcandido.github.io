@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { empresasDiretas } from './clientes'
 import { encontrarTermosProibidos } from './lib/termos-proibidos'
-import { filtrarProjetos, listarProjetos, statusProjeto, tiposProjeto } from './projetos'
+import { filtrarProjetos, listarProjetos, tiposProjeto } from './projetos'
 
 const PUBLICO = join(__dirname, '..', 'public')
 // O Sicoob pode aparecer (decisão dele, 07/10/2026); o resto da guarda vale.
@@ -33,23 +33,19 @@ describe('galeria de projetos', () => {
       expect(i.etiquetas.length, i.slug).toBeLessThanOrEqual(4)
       expect(i.resultado.length, i.slug).toBeLessThanOrEqual(90)
     }))
-  it('tipos e status conhecidos', () =>
-    itens.forEach((i) => {
-      expect(statusProjeto[i.status]).toBeTruthy()
-      i.tipos.forEach((t) => expect(tiposProjeto[t]).toBeTruthy())
-    }))
+  it('tipos conhecidos', () => itens.forEach((i) => i.tipos.forEach((t) => expect(tiposProjeto[t]).toBeTruthy())))
   it('todo filtro mostra ao menos um projeto próprio', () =>
     (Object.keys(tiposProjeto) as (keyof typeof tiposProjeto)[]).forEach((t) =>
       expect(filtrarProjetos(itens, t).some((i) => i.origem === 'proprio'), t).toBe(true)))
   it('repositório só no GitHub do perfil', () =>
     itens.filter((i) => i.repositorio).forEach((i) => expect(i.repositorio).toMatch(/^https:\/\/github\.com\/vlfcandido\/[a-z0-9-]+$/)))
 
-  // Status honesto, conforme o banco de provas (07/10/2026).
-  it('bot de trading é estudo, em simulação e sem lucro prometido', () => {
+  // Status honesto, conforme o banco de provas (07/10/2026). Não aparece no site, mas trava os textos.
+  it('bot de trading é estudo, diz que roda em simulação e não fala em lucro', () => {
     const q = porSlug('nexus-quant')!
     expect(q.status).toBe('estudo')
-    expect(JSON.stringify(q).toLowerCase().replaceAll('sem lucro', '')).not.toMatch(/lucro|rendimento|ganho|market making/)
-    expect(q.numeros.join(' ')).toContain('sem lucro')
+    expect(JSON.stringify(q).toLowerCase()).not.toMatch(/lucro|rendimento|ganho|market making/)
+    expect(q.numeros.join(' ')).toContain('simulação')
   })
   it('agente de vídeo é protótipo e sem link de repositório', () => {
     expect(porSlug('nexus-clips')?.status).toBe('prototipo')

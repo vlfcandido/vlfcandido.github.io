@@ -4,7 +4,6 @@ import { empresasDiretas } from '../clientes'
 import { filtrarProjetos, listarProjetos, tiposProjeto, type ItemProjeto, type TipoProjeto } from '../projetos'
 import { Logo } from './Logo'
 import { Print } from './Print'
-import { SeloStatus } from './SeloStatus'
 
 type Filtro = TipoProjeto | 'todos'
 
@@ -44,7 +43,6 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
             {empresa && <Logo cliente={empresa} className="max-h-11 max-w-[170px]" />}
           </div>
         )}
-        <SeloStatus status={item.status} className="absolute top-3 left-3 shadow-[2px_2px_0_var(--linha)]" />
       </div>
       <h3 className="mt-5 text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]">
         <button

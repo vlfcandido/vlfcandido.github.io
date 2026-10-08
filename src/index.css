@@ -1,55 +1,23 @@
 @import "tailwindcss";
 
-/* Tema "névoa e cobalto": fundo frio, tinta azul-marinho, cobalto para ação e
-   marca-texto amarelo só para números com fonte. Escuro em azul-noite, escolhido par a par. */
+@import "./mare.css";
+
+/* Identidade Maré (07/10/2026): carta náutica, tábua de maré e guia de campo. As cores vêm do
+   design system em mare.css; os nomes antigos do site (névoa, folha, tinta, cobalto...) viram
+   apelidos dos tokens Maré, para os componentes não precisarem mudar de classe.
+   Antes: tema "névoa e cobalto" (#eef1f5, #13233f, #2448c8), Bricolage Grotesque + Newsreader. */
 :root {
-  color-scheme: light;
-  --nevoa: #eef1f5;
-  --folha: #ffffff;
-  --tinta: #13233f;
-  --grafite: #56627a;
-  --linha: #cdd5e1;
-  --cobalto: #2448c8;
-  --cobalto-forte: #1a3699;
-  --marca: #ffd34d;
-  --marca-tinta: #13233f;
-  /* Pitanga (07/10/2026): acento quente e secundário, complemento do cobalto e longe do amarelo do
-     grifo. Só em detalhe: hover, sublinhado, marcador ativo, seleção. Nunca em bloco grande.
-     --pitanga é para traço e ponto (3,4:1 no fundo); --pitanga-texto passa AA em texto (5,1:1). */
-  --pitanga: #e8445f;
-  --pitanga-texto: #c4213f;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-tema="claro"]) {
-    color-scheme: dark;
-    --nevoa: #0f1b2d;
-    --folha: #16263d;
-    --tinta: #e6ecf5;
-    --grafite: #9aa7bd;
-    --linha: #2a3d58;
-    --cobalto: #8da6ff;
-    --cobalto-forte: #b4c4ff;
-    --marca: #e9b949;
-    --marca-tinta: #0f1b2d;
-    --pitanga: #ff7a90;
-    --pitanga-texto: #ff8fa2;
-  }
-}
-
-:root[data-tema="escuro"] {
-  color-scheme: dark;
-  --nevoa: #0f1b2d;
-  --folha: #16263d;
-  --tinta: #e6ecf5;
-  --grafite: #9aa7bd;
-  --linha: #2a3d58;
-  --cobalto: #8da6ff;
-  --cobalto-forte: #b4c4ff;
-  --marca: #e9b949;
-  --marca-tinta: #0f1b2d;
-  --pitanga: #ff7a90;
-  --pitanga-texto: #ff8fa2;
+  --nevoa: var(--papel);
+  --folha: var(--papel-alto);
+  --tinta: var(--fundo);
+  --grafite: var(--fundo-suave);
+  --cobalto: var(--mar);
+  --cobalto-forte: var(--mar-forte);
+  --marca: var(--sol);
+  --marca-tinta: var(--on-sol);
+  /* Pitanga = o coral da Maré: acento quente secundário, só em traço e ponto. */
+  --pitanga: var(--coral);
+  --pitanga-texto: var(--coral-texto);
 }
 
 @theme inline {
@@ -64,11 +32,27 @@
   --color-marca-tinta: var(--marca-tinta);
   --color-pitanga: var(--pitanga);
   --color-pitanga-texto: var(--pitanga-texto);
+  --color-papel: var(--papel);
+  --color-papel-alto: var(--papel-alto);
+  --color-raso: var(--raso);
+  --color-fundo: var(--fundo);
+  --color-fundo-suave: var(--fundo-suave);
+  --color-mar: var(--mar);
+  --color-mar-forte: var(--mar-forte);
+  --color-on-mar: var(--on-mar);
+  --color-mata: var(--mata);
+  --color-areia: var(--areia);
+  --color-coral: var(--coral);
+  --color-coral-texto: var(--coral-texto);
 }
 
+/* Tipografia Maré: Hanken Grotesk para a interface (o que se clica e se escaneia) e Brygada 1918,
+   serifada de guia de campo, para títulos e prosa. `font-titulo` segue sendo a família da interface
+   (o corpo usa ela) e `font-texto` a serifada. */
 @theme {
-  --font-titulo: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
-  --font-texto: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-titulo: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-texto: "Brygada 1918", Georgia, "Times New Roman", serif;
+  --font-display: "Brygada 1918", Georgia, "Times New Roman", serif;
 }
 
 html {
@@ -99,9 +83,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Títulos na serifada de guia de campo; peso 600 é o mais forte que ela tem com boa textura. */
 h1,
-h2 {
-  font-variation-settings: "opsz" 36;
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.005em;
 }
 
 :focus-visible {
@@ -315,7 +302,7 @@ a:focus-visible .logo-mono {
 /* Logos claras (brancas ou cinza-claro no original) sumiam na placa branca: ganham placa azul-marinho
    fixa, a mesma nos dois temas, com borda para destacar do fundo escuro. */
 .logo-botao[data-clara="true"]::before {
-  background: #13233f;
+  background: #0f2a33;
   box-shadow: 4px 4px 0 var(--linha), inset 0 0 0 1px rgb(255 255 255 / 0.18);
 }
 /* Sem arquivo de logo, o nome em texto vai sobre a placa branca: tinta fixa, legível nos dois temas. */

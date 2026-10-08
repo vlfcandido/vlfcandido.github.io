@@ -37,7 +37,7 @@ export function ComoFunciona() {
   }, [])
 
   return (
-    <section id="como-funciona" aria-labelledby="como-titulo" className="scroll-mt-24 border-t border-linha py-20 sm:py-28">
+    <section id="como-funciona" aria-labelledby="como-titulo" className="scroll-mt-24 py-20 sm:py-28">
       <h2 id="como-titulo" className="text-[2rem] leading-[1.12] font-bold tracking-[0.004em] sm:text-[2.6rem]">
         Como funciona
       </h2>
