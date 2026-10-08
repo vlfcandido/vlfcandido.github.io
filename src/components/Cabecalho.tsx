@@ -1,21 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { perfil } from '../conteudo'
+import { MESMO_NIVEL, NIVEIS } from '../lib/niveis'
 import { HASH_PROJETOS, type Rota } from '../lib/rota'
 import { LINKEDIN } from '../visuais'
 import { BotaoTema } from './BotaoTema'
 import { LinkExterno } from './LinkExterno'
-
-/** Os níveis da principal, da superfície ao fundo, com a cota que a régua mostra. */
-const NIVEIS = [
-  { href: '#inicio', cota: 0, rotulo: 'Abertura' },
-  { href: '#o-que-eu-resolvo', cota: 10, rotulo: 'O que eu resolvo' },
-  { href: '#como-funciona', cota: 20, rotulo: 'Como funciona' },
-  { href: '#resultados', cota: 30, rotulo: 'Provas' },
-  { href: '#carreira', cota: 40, rotulo: 'Carreira' },
-] as const
-
-/** Seções que não têm marca própria na régua e contam como o nível de cima. */
-const MESMO_NIVEL: Record<string, string> = { interfaces: '#resultados', contato: '#carreira', trajetoria: '#carreira', imprensa: '#carreira' }
 
 /**
  * Acompanha, na principal, o nível que está na faixa de cima da tela e quanto da página já foi

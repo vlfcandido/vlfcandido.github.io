@@ -14,8 +14,8 @@ function ofertaDoRamo(ramo: string): Oferta['id'] {
 
 /**
  * Página principal, curta e comercial, contando a história em 30 segundos, da superfície para o
- * fundo (a régua de profundidade marca cada nível): abertura, o que eu resolvo, como funciona,
- * provas, carreira e o contato. A profundidade fica a um toque (sondar, abas, "Descer"), nunca
+ * fundo (a régua de profundidade marca cada nível): abertura, o que eu resolvo, provas, como
+ * funciona, carreira e o contato. (Provas subiu para antes de Como funciona em 08/10/2026, M8.) A profundidade fica a um toque (sondar, abas, "Descer"), nunca
  * empilhada.
  *
  * A página guarda três escolhas ligadas: o ramo do "Qual é o seu negócio?", a oferta sondada na
@@ -43,8 +43,8 @@ export function PaginaInicio() {
     <>
       <Abertura ramo={ramo} aoEscolherRamo={escolherRamo} cena={cena} aoTrocarCena={setCena} />
       <Resolvo ramo={ramo} ativa={ofertaAtiva} aoSondar={sondarOferta} />
-      <ComoFunciona />
       <Prova />
+      <ComoFunciona />
       <Carreira />
       <Contato />
     </>
