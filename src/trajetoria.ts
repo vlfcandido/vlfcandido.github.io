@@ -98,5 +98,7 @@ export const freelance = {
   empresa: 'Wiv',
   logo: 'logos/wiv.png',
   papel: 'Projetos freelance',
-  resultado: 'Trabalhei no Waizer, a plataforma que analisa as conversas dos chatbots e aponta onde travam, e liderei projetos de clientes da Wiv.',
+  // Atualizado em 08/10/2026 (ele confirmou). Antes: 'Trabalhei no Waizer, a plataforma que analisa as conversas
+  // dos chatbots e aponta onde travam, e liderei projetos de clientes da Wiv.'
+  resultado: 'No Waizer, a plataforma que analisa as conversas dos chatbots, construí o backend da análise e a camada de IA que classifica intenção, abandono e qualidade do robô. Também liderei projetos de clientes da Wiv.',
 } as const
