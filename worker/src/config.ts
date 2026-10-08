@@ -4,7 +4,9 @@
 /** Variáveis e segredos que o Worker recebe da Cloudflare. */
 export interface Ambiente {
   MODO?: string
+  PROVEDOR?: string
   ANTHROPIC_API_KEY?: string
+  GROQ_API_KEY?: string
   TURNSTILE_SECRET?: string
   TURNSTILE_SITE_KEY?: string
   CHAVE_ASSINATURA?: string
@@ -15,23 +17,50 @@ export interface Ambiente {
   ORIGENS?: string
 }
 
-/** Modelo e preços oficiais por milhão de tokens (Claude Haiku 5.5, prompts até 100 mil tokens). */
+/** Provedores de IA suportados. */
+export type Provedor = 'groq' | 'anthropic'
+
+/** Modelo, preços oficiais (US$ por milhão de tokens) e limites de um provedor. */
+export interface TabelaModelo {
+  id: string
+  entradaUsd: number
+  saidaUsd: number
+  cacheEscritaUsd: number
+  cacheLeituraUsd: number
+  maxTokens: number
+}
+
+/** Claude Haiku 5.5 (Anthropic), prompts até 100 mil tokens. Escrita no cache = 1,25x a entrada; leitura = 0,1x. */
 export const MODELO = {
   id: 'claude-haiku-5-5',
-  /** US$ por milhão de tokens de entrada. */
   entradaUsd: 0.1,
-  /** US$ por milhão de tokens de saída (o raciocínio é cobrado como saída). */
   saidaUsd: 0.5,
-  /** Escrita no cache (TTL de 5 minutos) custa 1,25x a entrada. */
   cacheEscritaUsd: 0.125,
-  /** Leitura do cache custa 0,1x a entrada. */
   cacheLeituraUsd: 0.01,
   maxTokens: 900,
   esforco: 'low' as const,
 } as const
 
+/**
+ * GPT-OSS 120B no Groq (modelo de produção; preços da página do modelo em console.groq.com, conferidos em
+ * 08/10/2026). O raciocínio é cobrado como saída, por isso o teto de saída é maior que o do Claude. Sem
+ * cobrança de escrita no cache.
+ */
+export const MODELO_GROQ = {
+  id: 'openai/gpt-oss-120b',
+  entradaUsd: 0.15,
+  saidaUsd: 0.6,
+  cacheEscritaUsd: 0.15,
+  cacheLeituraUsd: 0.075,
+  maxTokens: 2000,
+  esforco: 'low' as const,
+} as const
+
+/** Tabela de preços e limites de cada provedor. */
+export const TABELAS: Record<Provedor, TabelaModelo> = { anthropic: MODELO, groq: MODELO_GROQ }
+
 /** Pior caso de um turno, para reservar o orçamento antes de chamar a API (tokens). */
-export const PIOR_TURNO = { entrada: 14_000, saida: MODELO.maxTokens }
+export const PIOR_TURNO = { entrada: 14_000 }
 
 /** Chave de assinatura só para o modo simulado sem segredo configurado (desenvolvimento local). */
 const CHAVE_DEV = 'chave-de-desenvolvimento-do-modo-simulado'
@@ -39,6 +68,8 @@ const CHAVE_DEV = 'chave-de-desenvolvimento-do-modo-simulado'
 /** Configuração já lida e validada. */
 export interface Config {
   modo: 'simulado' | 'real'
+  provedor: Provedor
+  /** Chave do provedor escolhido. */
   chaveApi: string | null
   turnstileSecreto: string | null
   turnstileSite: string | null
@@ -63,12 +94,14 @@ function numero(valor: string | undefined, padrao: number): number {
  * @returns a configuração; no modo real sem `CHAVE_ASSINATURA`, lança erro (sem ela o histórico pode ser forjado).
  */
 export function lerConfig(env: Ambiente): Config {
+  const provedor: Provedor = env.PROVEDOR === 'anthropic' ? 'anthropic' : 'groq'
   const modo = env.MODO === 'real' ? 'real' : 'simulado'
   const chaveAssinatura = env.CHAVE_ASSINATURA || (modo === 'simulado' ? CHAVE_DEV : '')
   if (!chaveAssinatura) throw new Error('CHAVE_ASSINATURA ausente no modo real')
   return {
     modo,
-    chaveApi: env.ANTHROPIC_API_KEY || null,
+    provedor,
+    chaveApi: (provedor === 'groq' ? env.GROQ_API_KEY : env.ANTHROPIC_API_KEY) || null,
     turnstileSecreto: env.TURNSTILE_SECRET || null,
     turnstileSite: env.TURNSTILE_SITE_KEY || null,
     chaveAssinatura,
@@ -96,9 +129,11 @@ export interface Uso {
  *
  * @param uso campo `usage` da resposta.
  * @param cambio reais por dólar.
+ * @param provedor de quem são os preços (padrão: anthropic).
  * @returns custo do turno em R$.
  */
-export function custoBrl(uso: Uso, cambio: number): number {
+export function custoBrl(uso: Uso, cambio: number, provedor: Provedor = 'anthropic'): number {
+  const MODELO = TABELAS[provedor]
   const usd =
     (uso.input_tokens * MODELO.entradaUsd +
       uso.output_tokens * MODELO.saidaUsd +
@@ -112,8 +147,9 @@ export function custoBrl(uso: Uso, cambio: number): number {
  * Custo do pior turno em reais, reservado antes de cada chamada.
  *
  * @param cambio reais por dólar.
+ * @param provedor de quem são os preços (padrão: anthropic).
  * @returns R$ do pior caso.
  */
-export function reservaPorTurnoBrl(cambio: number): number {
-  return custoBrl({ input_tokens: PIOR_TURNO.entrada, output_tokens: PIOR_TURNO.saida }, cambio)
+export function reservaPorTurnoBrl(cambio: number, provedor: Provedor = 'anthropic'): number {
+  return custoBrl({ input_tokens: PIOR_TURNO.entrada, output_tokens: TABELAS[provedor].maxTokens }, cambio, provedor)
 }

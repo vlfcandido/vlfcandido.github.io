@@ -211,7 +211,7 @@ export async function processarMensagem(deps: DependenciasNucleo, corpo: unknown
   }
 
   const usaIa = deps.modelo.tipo === 'ia'
-  const autorizacao = await deps.controle.autorizarTurno(pedido.conversa, ip, usaIa ? reservaPorTurnoBrl(deps.config.cambio) : 0)
+  const autorizacao = await deps.controle.autorizarTurno(pedido.conversa, ip, usaIa ? reservaPorTurnoBrl(deps.config.cambio, deps.config.provedor) : 0)
   if (!autorizacao.ok) {
     if (autorizacao.motivo !== 'conversa_invalida') await deps.controle.somarMetrica('fallbacks')
     return recusa(autorizacao.motivo, autorizacao.motivo !== 'conversa_invalida')
@@ -226,7 +226,7 @@ export async function processarMensagem(deps: DependenciasNucleo, corpo: unknown
 
   const { falas } = await conferirHistorico(pedido, deps.config.chaveAssinatura)
   const saida = await deps.modelo.responder({ porta: pedido.porta, historico: falas, texto: entrada.texto })
-  if (saida.uso) await deps.controle.registrarGasto(custoBrl(saida.uso, deps.config.cambio))
+  if (saida.uso) await deps.controle.registrarGasto(custoBrl(saida.uso, deps.config.cambio, deps.config.provedor))
   if (!saida.ok) {
     await deps.controle.somarMetrica('fallbacks')
     return recusa('indisponivel', true)

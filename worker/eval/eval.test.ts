@@ -1,21 +1,44 @@
 // Eval dos 30 casos. Sempre roda contra o modo simulado (npm test). Contra a IA real:
-//   ANTHROPIC_API_KEY=... npm run eval:real
-// Custo do eval real: 30 casos, até ~6 turnos cada, no Haiku 5.5 ≈ centavos de real (o relatório imprime o gasto).
+//   npm run eval:real   (Groq: lê GROQ_API_KEY do ambiente ou de ~/.config/patrimonio/groq.env; a chave não é impressa)
+//   ASSISTENTE_EVAL_PROVEDOR=anthropic ANTHROPIC_API_KEY=... npm run eval:real
+// Custo do eval real: 30 casos, até ~6 turnos cada, ≈ centavos de real (o relatório imprime o gasto).
 // Invariantes (preço, contato, termos proibidos, links, rótulo de rascunho) são duros: um só falha o eval.
 // Qualidade (tipo final, oferta, tamanho, conteúdo esperado) tem nota mínima: 100% no simulado, 80% no real.
 
-import { writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { homedir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { textoDaFala, type RespostaMensagem } from '../../src/chatbot/protocolo'
 import { encontrarTermosProibidos } from '../../src/lib/termos-proibidos'
 import { filtrarSaida } from '../src/filtros'
-import { ModeloClaude } from '../src/modelo'
+import { ModeloClaude, ModeloGroq } from '../src/modelo'
 import { ConversaTeste, criarAppTeste } from '../test/apoio'
 import { CASOS, COMPLEMENTOS, type CasoEval } from './casos'
 
 const REAL = process.env.ASSISTENTE_EVAL_REAL === '1'
-const CHAVE = process.env.ANTHROPIC_API_KEY ?? ''
+const PROVEDOR = process.env.ASSISTENTE_EVAL_PROVEDOR === 'anthropic' ? 'anthropic' : 'groq'
+
+/** Lê uma variável do ambiente ou do arquivo `NOME=valor` de ~/.config/patrimonio (sem imprimir nem gravar). */
+function lerChave(nome: string, arquivo: string): string {
+  if (process.env[nome]) return process.env[nome]!
+  const caminho = `${homedir()}/.config/patrimonio/${arquivo}`
+  if (!existsSync(caminho)) return ''
+  const linha = readFileSync(caminho, 'utf8').split('\n').find((l) => l.startsWith(`${nome}=`))
+  return linha ? linha.slice(nome.length + 1).trim().replace(/^["']|["']$/g, '') : ''
+}
+
+const CHAVE = REAL ? (PROVEDOR === 'groq' ? lerChave('GROQ_API_KEY', 'groq.env') : lerChave('ANTHROPIC_API_KEY', 'claude.env')) : ''
+
+/** `fetch` com espera e nova tentativa em 429 (o plano gratuito limita tokens por minuto). */
+async function buscarComEspera(url: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  for (let t = 0; ; t++) {
+    const r = await fetch(url, init)
+    if (r.status !== 429 || t >= 5) return r
+    const espera = Number(r.headers.get('retry-after')) || 10
+    await new Promise((ok) => setTimeout(ok, Math.min(espera, 60) * 1000))
+  }
+}
 
 /** Resultado de um caso. */
 interface Resultado {
@@ -72,7 +95,7 @@ async function rodar(caso: CasoEval, app: ReturnType<typeof criarAppTeste>, ip: 
   return resultado
 }
 
-describe.skipIf(REAL && !CHAVE)(`eval de 30 casos (${REAL ? 'IA real' : 'simulado'})`, () => {
+describe.skipIf(REAL && !CHAVE)(`eval de 30 casos (${REAL ? `IA real, ${PROVEDOR}` : 'simulado'})`, () => {
   it('30 casos: 15 de triagem, 10 de recrutador, 5 ataques', () => {
     expect(CASOS).toHaveLength(30)
     expect(CASOS.filter((c) => c.grupo === 'triagem')).toHaveLength(15)
@@ -84,8 +107,8 @@ describe.skipIf(REAL && !CHAVE)(`eval de 30 casos (${REAL ? 'IA real' : 'simulad
     const app = criarAppTeste(
       REAL
         ? {
-            modelo: new ModeloClaude(CHAVE),
-            env: { MODO: 'real', CHAVE_ASSINATURA: 'eval', ANTHROPIC_API_KEY: CHAVE, TETO_DIA_BRL: '5', TETO_MES_BRL: '50' },
+            modelo: PROVEDOR === 'groq' ? new ModeloGroq(CHAVE, buscarComEspera) : new ModeloClaude(CHAVE),
+            env: { MODO: 'real', PROVEDOR, CHAVE_ASSINATURA: 'eval', TETO_DIA_BRL: '5', TETO_MES_BRL: '50' },
             turnstile: async () => true,
             limites: { mensagensPorIpDia: 1000 },
           }

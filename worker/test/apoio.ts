@@ -27,7 +27,7 @@ export interface OpcoesApp {
  * @returns o `fetch` do app e o controle, para conferir contadores.
  */
 export function criarAppTeste(opcoes: OpcoesApp = {}) {
-  const env: Ambiente = { MODO: 'simulado', ...opcoes.env }
+  const env: Ambiente = { MODO: 'simulado', PROVEDOR: process.env.PROVEDOR_TESTE, ...opcoes.env }
   const config = lerConfig(env)
   const controle = new Controle(new ArmazemMemoria(), { ...LIMITES_PADRAO, tetoDiaBrl: config.tetoDiaBrl, tetoMesBrl: config.tetoMesBrl, ...opcoes.limites })
   const modelo = opcoes.modelo === undefined ? new ModeloSimulado() : opcoes.modelo

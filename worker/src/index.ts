@@ -4,7 +4,7 @@
 import { lerConfig, type Ambiente } from './config'
 import type { ControleDO } from './do'
 import { criarApp } from './http'
-import { ModeloClaude, type Modelo } from './modelo'
+import { ModeloClaude, ModeloGroq, type Modelo } from './modelo'
 import { ModeloSimulado } from './simulado'
 import { criarVerificador } from './turnstile'
 
@@ -28,7 +28,7 @@ export default {
     const controle = env.CONTROLE.get(env.CONTROLE.idFromName('global'))
     let modelo: Modelo | null = null
     if (config.modo === 'simulado') modelo = new ModeloSimulado()
-    else if (config.chaveApi) modelo = new ModeloClaude(config.chaveApi)
+    else if (config.chaveApi) modelo = config.provedor === 'groq' ? new ModeloGroq(config.chaveApi) : new ModeloClaude(config.chaveApi)
     const turnstile = config.turnstileSecreto ? criarVerificador(config.turnstileSecreto) : null
     return criarApp({ config, controle, modelo, turnstile })(request)
   },

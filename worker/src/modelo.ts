@@ -4,7 +4,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import type { Escopo } from '../../src/chatbot/escopo'
 import type { Porta } from '../../src/chatbot/protocolo'
-import { MODELO, type Uso } from './config'
+import { MODELO, MODELO_GROQ, type Uso } from './config'
 import { envelopar, ESQUEMA_RESPOSTA, sistemaFixo, sistemaPorta } from './prompt'
 
 /** Fala do histórico já conferida pelo núcleo (as do assistente com assinatura válida). */
@@ -109,6 +109,98 @@ export class ModeloClaude implements Modelo {
       }
     } catch {
       // Qualquer erro da API (limite, servidor, rede) vira "indisponível"; o detalhe não vai para o visitante.
+      return { ok: false, motivo: 'erro', uso: null }
+    }
+  }
+}
+
+/** Endereço da API do Groq (compatível com a da OpenAI). */
+export const URL_GROQ = 'https://api.groq.com/openai/v1/chat/completions'
+
+/** Parte da resposta do Groq que o adaptador lê. */
+interface RespostaGroq {
+  choices?: Array<{ finish_reason?: string; message?: { content?: string | null } }>
+  usage?: { prompt_tokens?: number; completion_tokens?: number; prompt_tokens_details?: { cached_tokens?: number } | null }
+}
+
+/**
+ * Converte o `usage` do Groq no formato interno. Os tokens em cache saem da entrada (são cobrados a metade).
+ *
+ * @param usage campo `usage` da resposta.
+ * @returns o uso, ou `null` quando a resposta não trouxe contagem.
+ */
+export function usoDoGroq(usage: RespostaGroq['usage']): Uso | null {
+  if (!usage || typeof usage.prompt_tokens !== 'number') return null
+  const cache = usage.prompt_tokens_details?.cached_tokens ?? 0
+  return {
+    input_tokens: Math.max(0, usage.prompt_tokens - cache),
+    output_tokens: usage.completion_tokens ?? 0,
+    cache_read_input_tokens: cache,
+  }
+}
+
+/** GPT-OSS 120B pela API do Groq, com saída em JSON Schema (e `json_object` como plano B). */
+export class ModeloGroq implements Modelo {
+  readonly tipo = 'ia' as const
+  private readonly fixo = sistemaFixo()
+
+  /**
+   * @param chaveApi chave dedicada ao site (segredo do Worker).
+   * @param buscar `fetch` a usar; injetável para teste.
+   */
+  constructor(
+    private readonly chaveApi: string,
+    private readonly buscar: typeof fetch = (...a) => fetch(...a),
+  ) {}
+
+  /** Uma chamada ao Groq com o formato de resposta pedido. */
+  private async chamar(pedido: PedidoModelo, formato: 'schema' | 'objeto'): Promise<Response> {
+    const response_format =
+      formato === 'schema'
+        ? { type: 'json_schema', json_schema: { name: 'resposta_assistente', strict: false, schema: ESQUEMA_RESPOSTA } }
+        : { type: 'json_object' }
+    // No modo json_object o Groq exige a palavra JSON no prompt e não conhece o esquema: ele vai escrito.
+    const extra = formato === 'objeto' ? `\n\nResponda somente com um objeto JSON neste esquema: ${JSON.stringify(ESQUEMA_RESPOSTA)}` : ''
+    return this.buscar(URL_GROQ, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: `Bearer ${this.chaveApi}` },
+      body: JSON.stringify({
+        model: MODELO_GROQ.id,
+        max_completion_tokens: MODELO_GROQ.maxTokens,
+        reasoning_effort: MODELO_GROQ.esforco,
+        temperature: 0.3,
+        response_format,
+        messages: [
+          { role: 'system', content: `${this.fixo}\n\n${sistemaPorta(pedido.porta)}${extra}` },
+          ...montarMensagens(pedido),
+        ],
+      }),
+      signal: AbortSignal.timeout(25_000),
+    })
+  }
+
+  /**
+   * Pede uma resposta ao Groq. Se o JSON Schema for recusado (HTTP 400), tenta uma vez em `json_object`;
+   * o núcleo valida o formato de qualquer jeito, e qualquer falha vira "indisponível" (roteiro fixo).
+   *
+   * @param pedido porta, histórico e mensagem.
+   * @returns o JSON da resposta e o uso, ou o motivo da falha.
+   */
+  async responder(pedido: PedidoModelo): Promise<SaidaModelo> {
+    try {
+      let r = await this.chamar(pedido, 'schema')
+      if (r.status === 400) r = await this.chamar(pedido, 'objeto')
+      if (!r.ok) return { ok: false, motivo: 'erro', uso: null }
+      const corpo = (await r.json()) as RespostaGroq
+      const uso = usoDoGroq(corpo.usage)
+      const escolha = corpo.choices?.[0]
+      if (escolha?.finish_reason === 'length') return { ok: false, motivo: 'incompleta', uso }
+      try {
+        return { ok: true, resposta: JSON.parse(escolha?.message?.content ?? ''), uso }
+      } catch {
+        return { ok: false, motivo: 'incompleta', uso }
+      }
+    } catch {
       return { ok: false, motivo: 'erro', uso: null }
     }
   }
