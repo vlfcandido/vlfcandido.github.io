@@ -133,7 +133,7 @@ export const cases: Case[] = [
     titulo: 'The Concierge · atendimento com IA na Contabilizei',
     contexto: 'Clientes de contabilidade precisavam de respostas rápidas e certas sobre serviços contábeis e financeiros.',
     feito:
-      'Fui arquiteto sênior de IA na Contabilizei (2025–2026) e trabalhei no The Concierge, o atendimento ao cliente com IA generativa construído em Vertex AI.',
+      'Fui arquiteto sênior de IA na Contabilizei (2025–2026) e fiz o The Concierge, o atendimento ao cliente com IA generativa construído em Vertex AI.',
     metrica: 'Citado pelo Google Cloud entre 90 casos de IA da América Latina.',
     fonte: {
       texto: 'Google Cloud, 20/03/2025',
