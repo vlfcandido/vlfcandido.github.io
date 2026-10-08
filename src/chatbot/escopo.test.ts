@@ -18,7 +18,8 @@ describe('questionário fixo do escopo', () => {
   })
 
   it('sugere a oferta pelo que o visitante descreve', () => {
-    expect(sugerirOferta('copio cada pedido do whatsapp para a planilha')).toBe('whatsapp')
+    expect(sugerirOferta('copio cada pedido do whatsapp para a planilha')).toBe('repetido')
+    expect(sugerirOferta('quero atendimento automático no whatsapp')).toBe('whatsapp')
     expect(sugerirOferta('copio cada pedido para a planilha no fim do dia')).toBe('repetido')
     expect(sugerirOferta('quero ligar o Bling no meu CRM')).toBe('integracao')
     expect(sugerirOferta('o sistema caiu e ninguém entende o código')).toBe('resgate')

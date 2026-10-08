@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Assistente } from './components/assistente/Assistente'
 import { Cabecalho } from './components/Cabecalho'
 import { LinkedinFixo } from './components/LinkedinFixo'
 import { Rodape } from './components/Rodape'
@@ -83,6 +84,7 @@ export function App() {
       </main>
       <Rodape />
       <LinkedinFixo rota={rota} />
+      <Assistente />
     </>
   )
 }
