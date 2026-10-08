@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs'
+import { existsSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { encontrarTermosProibidos } from './lib/termos-proibidos'
@@ -16,4 +16,15 @@ describe('imagens do site', () => {
     Object.values(visuais.printsDosCasos)
       .flat()
       .forEach((p) => expect(p.alt.length).toBeGreaterThan(20)))
+  it('toda capa tem os três formatos em cada largura, até 150 KB, e alt descritivo', () =>
+    Object.values(visuais.capasDosProjetos).forEach((c) => {
+      expect(c.alt.length).toBeGreaterThan(40)
+      c.larguras.forEach((w) =>
+        ['avif', 'webp', 'jpg'].forEach((ext) => {
+          const arq = join(PUBLICO, 'img', `${c.nome}-${w}.${ext}`)
+          expect(existsSync(arq), arq).toBe(true)
+          expect(statSync(arq).size, arq).toBeLessThanOrEqual(150 * 1024)
+        }),
+      )
+    }))
 })

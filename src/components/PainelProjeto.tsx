@@ -1,6 +1,7 @@
 import { useEffect, useRef, type MouseEvent, type ReactNode, type SyntheticEvent } from 'react'
 import { empresasDiretas, gruposClientes } from '../clientes'
 import type { ItemProjeto } from '../projetos'
+import { CapaProjeto } from './CapaProjeto'
 import { DiagramaMare } from './DiagramaMare'
 import { FonteLink } from './FonteLink'
 import { LinkExterno } from './LinkExterno'
@@ -95,6 +96,12 @@ export function PainelProjeto({ item, aoFechar }: PainelProps) {
           </div>
 
           <p className="prosa mt-6 max-w-[58ch] text-[1.25rem] leading-[1.5]">{item.resultado}</p>
+
+          {item.capa && (
+            <div className="mt-8 overflow-hidden rounded-lg border border-linha bg-folha">
+              <CapaProjeto capa={item.capa} sizes="(min-width: 1024px) 880px, 92vw" prioridade />
+            </div>
+          )}
 
           {item.print ? (
             <div className="mt-8 grid gap-4 sm:grid-cols-[2fr_1fr] sm:items-start">
