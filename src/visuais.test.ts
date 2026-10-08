@@ -19,12 +19,15 @@ describe('imagens do site', () => {
   it('toda capa tem os três formatos em cada largura, até 150 KB, e alt descritivo', () =>
     Object.values(visuais.capasDosProjetos).forEach((c) => {
       expect(c.alt.length).toBeGreaterThan(40)
-      c.larguras.forEach((w) =>
-        ['avif', 'webp', 'jpg'].forEach((ext) => {
-          const arq = join(PUBLICO, 'img', `${c.nome}-${w}.${ext}`)
-          expect(existsSync(arq), arq).toBe(true)
-          expect(statSync(arq).size, arq).toBeLessThanOrEqual(150 * 1024)
-        }),
+      // A versão do tema escuro, quando existe, segue as mesmas regras.
+      ;[c.nome, ...(c.escuro ? [c.escuro] : [])].forEach((nome) =>
+        c.larguras.forEach((w) =>
+          ['avif', 'webp', 'jpg'].forEach((ext) => {
+            const arq = join(PUBLICO, 'img', `${nome}-${w}.${ext}`)
+            expect(existsSync(arq), arq).toBe(true)
+            expect(statSync(arq).size, arq).toBeLessThanOrEqual(150 * 1024)
+          }),
+        ),
       )
     }))
 })

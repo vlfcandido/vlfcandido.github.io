@@ -698,6 +698,24 @@ a:focus-visible .logo-mono {
     mix-blend-mode: screen;
   }
 }
+/* Capa com versão escura desenhada (ex.: IA local): troca o arquivo pelo tema, sem filtro. */
+.capa-escura {
+  display: none !important;
+}
+:root[data-tema="escuro"] .capa-clara {
+  display: none !important;
+}
+:root[data-tema="escuro"] .capa-escura {
+  display: block !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .capa-clara {
+    display: none !important;
+  }
+  :root:not([data-tema="claro"]) .capa-escura {
+    display: block !important;
+  }
+}
 /* Abertura: a carta é textura, não figura; some nas bordas para não pesar sobre o texto. */
 .carta-abertura {
   opacity: 0.32;

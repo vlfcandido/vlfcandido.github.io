@@ -141,6 +141,30 @@ export function listarProjetos(): ItemProjeto[] {
       diagrama: diagramasDosCasos['nexus-clips'],
     },
     {
+      // Case de 08/10/2026: só o texto e as ilustrações. O código não é público e não ganha link; o
+      // ângulo é privacidade na máquina, aprovação humana de cada ação e log de auditoria.
+      slug: 'ia-local',
+      origem: 'proprio',
+      nome: 'IA local com humano no circuito',
+      resultado: 'Assistente que roda na sua máquina: o dado não sai e nada executa sem o seu ok.',
+      tipos: ['agentes'],
+      status: 'prototipo',
+      etiquetas: ['Ollama', 'llama.cpp', 'Python'],
+      stack: ['Ollama', 'llama.cpp (GGUF Q4)', 'qwen3 4B quantizado', 'Python, só biblioteca padrão', 'HTML e JavaScript puros', 'Playwright'],
+      problema:
+        'Quem não pode mandar dado para fora da empresa fica sem IA na nuvem. E um agente que executa sozinho não deixa claro quem decidiu o quê.',
+      feito:
+        'Um laboratório de IA que roda inteiro na máquina, sem nuvem: o conteúdo da conversa e dos arquivos não sai do aparelho. Sobre ele, um modo agente com uma regra fixa: o modelo nunca age sozinho. Ele propõe um comando ou a gravação de um arquivo, e um modal mostra o texto completo para aprovar, editar ou negar. Nada roda antes. O que é aprovado executa, a saída volta para a conversa e vai para um log de auditoria com horário, comando e código de saída. A gravação fica restrita a pastas de trabalho e o backend exige token. O limite de memória virou o eixo do projeto: num MacBook Air M1 de 8 GB, só modelos de 3B a 4B quantizados em Q4 cabem sem esgotar a memória.',
+      numeros: [
+        'Roda num MacBook Air M1 de 8 GB, sem nuvem',
+        'Modelos de 3B a 4B em Q4, um por vez',
+        'Cada ação passa pela aprovação e fica no log',
+        'Laboratório pessoal, sem cliente',
+      ],
+      capa: capasDosProjetos['ia-local'],
+      diagrama: diagramasDosCasos['ia-local'],
+    },
+    {
       slug: 'app-score',
       origem: 'proprio',
       nome: 'App de score de crédito',

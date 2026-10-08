@@ -19,6 +19,7 @@ export type IdDesenho =
   | 'agente-grafo'
   | 'agente-ferramentas'
   | 'agente-rag'
+  | 'ia-local'
 
 /**
  * Todos os desenhos, pelo id.
@@ -284,6 +285,26 @@ export function listarDesenhos(): Record<IdDesenho, Desenho> {
       retorno: { de: 4, para: 3, rotulo: 'nota abaixo de 7: escreve de novo' },
       porLinha: 3,
       etiquetas: ['LangGraph', 'RAG', 'pgvector', 'MCP', 'LLM-as-judge'],
+    },
+    // Fluxo do agente da IA local (case de 08/10/2026): a trava real é a aprovação humana, e só ela é prometida.
+    'ia-local': {
+      id: 'ia-local',
+      titulo: 'Nada roda sem o seu ok',
+      descricao:
+        'Você pede em linguagem natural. O modelo, rodando na própria máquina, propõe um comando ou a gravação de um arquivo. Um modal mostra o texto completo para aprovar, editar ou negar; negado, o modelo tenta outro caminho. Aprovado, executa na máquina, a saída volta para a conversa e tudo fica num log de auditoria.',
+      etapas: [
+        { legenda: 'você pede', nos: [{ titulo: 'Pedido', sub: 'em linguagem natural', forma: 'pilula' }] },
+        { legenda: 'propõe', nos: [{ titulo: 'Modelo local', sub: 'propõe um comando ou um arquivo' }] },
+        { legenda: 'você decide', nos: [{ titulo: 'Aprovação humana', sub: 'aprovar, editar ou negar', destaque: true }] },
+        {
+          legenda: 'executa',
+          nos: [{ titulo: 'Execução local', sub: 'a saída volta para a conversa' }],
+          lateral: { no: { titulo: 'Log de auditoria', sub: 'horário, comando e saída', forma: 'cilindro' }, rotulo: 'tudo fica registrado' },
+        },
+      ],
+      retorno: { de: 2, para: 1, rotulo: 'negado: o modelo tenta outro caminho' },
+      porLinha: 4,
+      etiquetas: ['Ollama', 'llama.cpp', 'Python', 'GGUF Q4'],
     },
   }
 }
