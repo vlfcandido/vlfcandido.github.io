@@ -1,0 +1,32 @@
+# Worker do assistente do portfólio. Guia para ligar: README.md desta pasta.
+# Segredos (NUNCA neste arquivo): ANTHROPIC_API_KEY, TURNSTILE_SECRET, CHAVE_ASSINATURA, METRICAS_TOKEN.
+#   npx wrangler secret put ANTHROPIC_API_KEY
+name = "assistente-portfolio"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Sem log de conteúdo: o Worker só registra contadores agregados no Durable Object.
+[observability]
+enabled = false
+
+[vars]
+# "simulado": respostas determinísticas, sem chave e sem custo. "real": usa a ANTHROPIC_API_KEY.
+MODO = "simulado"
+# Conta em reais (decisão dele, 08/10/2026): teto ~R$ 50/mês. O câmbio é premissa, ajuste quando quiser.
+CAMBIO_BRL_POR_USD = "5.50"
+TETO_DIA_BRL = "3.00"
+TETO_MES_BRL = "50.00"
+# Origens que podem chamar o Worker (separadas por vírgula).
+ORIGENS = "https://vlfcandido.github.io"
+# Chave PÚBLICA do Turnstile (a secreta vai em `wrangler secret put TURNSTILE_SECRET`).
+# Vazia: o Worker só aceita rodar sem Turnstile no modo simulado.
+TURNSTILE_SITE_KEY = ""
+
+[[durable_objects.bindings]]
+name = "CONTROLE"
+class_name = "ControleDO"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ControleDO"]
