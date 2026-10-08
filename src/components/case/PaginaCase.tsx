@@ -50,7 +50,7 @@ export function PaginaCase({ item, itens, aoVoltar }: Props) {
 
   if (!caso) return null
   const Peca = PECAS[caso.peca]
-  const prints = [item.print, item.printExtra].filter((p) => p !== undefined)
+  const prints = item.telas ?? [item.print, item.printExtra].filter((p) => p !== undefined)
 
   return (
     <article aria-labelledby="case-titulo" className={`pagina-case pagina-case-${caso.peca} pt-8 pb-6 sm:pt-12`}>
@@ -105,7 +105,7 @@ export function PaginaCase({ item, itens, aoVoltar }: Props) {
       {caso.comPrints && prints.length > 0 && (
         <section aria-labelledby="case-telas" className="mt-16">
           <h2 id="case-telas" className="text-[1.35rem] font-semibold">
-            As telas de verdade
+            As telas, com dados fictícios
           </h2>
           <div className={`mt-5 grid gap-6 ${prints.length > 1 ? 'md:grid-cols-2' : 'md:max-w-[44rem]'}`}>
             {prints.map((p) => (

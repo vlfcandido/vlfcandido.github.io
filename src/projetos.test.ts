@@ -83,7 +83,7 @@ describe('galeria de projetos', () => {
     const l = porSlug('ia-local')!
     expect(l.status).toBe('prototipo')
     expect(l.repositorio).toBeUndefined()
-    expect(l.capa?.escuro).toBeTruthy()
+    expect(l.capa?.colorida).toBe(true)
     expect(l.diagrama).toBe('ia-local')
     const t = JSON.stringify(l).toLowerCase()
     for (const x of ['pentest', 'invas', 'arsenal', 'ofensiv', 'recusa', 'abliterat', 'sandbox', 'white wall', 'wiv', 'serasa', 'phishing', 'exploit', 'sem trava'])
