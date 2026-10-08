@@ -137,11 +137,12 @@ export function foraDoQuePega(texto: string): string | null {
 /** Palavras que puxam cada oferta, da mais específica para a mais geral. */
 const SINAIS_OFERTA: ReadonlyArray<readonly [IdOferta, RegExp]> = [
   ['resgate', /\b(travou|trava|caiu|fora do ar|bug|erro|quebrad|parou de funcionar|ninguem entende|legado|lento|brecha|invadid)/],
-  ['integracao', /\b(crm|erp|integr|bling|tiny|omie|hubspot|pipedrive|rd station|conta azul|webhook|sincroniz|api d[aoe])/],
+  ['integracao', /\b(crm|erp|integr|bling|tiny|omie|hubspot|pipedrive|rd station|conta azul|webhook|sincroniz|api\b)|\bentr\w* (nele|no sistema|direto)/],
   ['whatsapp', /\b(whatsapp|atendimento|agendar|agendamento|marcar horario|duvidas? dos? clientes|chatbot|robo de atendimento)/],
+  // Construir um sistema vem antes de painel e planilha: "um sistema onde o líder marca a presença" é sob medida.
+  ['sob-medida', /\b(sistema|plataforma|saas|login|cadastro de usuarios|controle de)/],
   ['site', /\b(painel|dashboard|relatorio|indicador|site|landing|pagina)/],
   ['repetido', /\b(planilha|excel|manual|na mao|copi|repetid|todo dia|cobranca|aviso|lembrete|cadastro|automat)/],
-  ['sob-medida', /\b(sistema|plataforma|saas|login|cadastro de usuarios|controle de)/],
 ]
 
 /**
@@ -169,6 +170,7 @@ const SISTEMAS: ReadonlyArray<readonly [string, RegExp]> = [
   ['banco de dados', /banco de dados|postgres|mysql|sql\b/],
   ['Telegram', /telegram/],
   ['Instagram', /instagram/],
+  ['API de outro sistema', /\bapi\b/],
 ]
 
 /**
@@ -197,6 +199,8 @@ export function estimarTamanho(texto: string): Tamanho {
   if (/\bia\b|inteligencia artificial|agente|chatgpt|gpt|claude|gemini/.test(t)) pontos += 1
   if (/varias (lojas|filiais|equipes|unidades)|multi|marketplace|centenas|milhares/.test(t)) pontos += 1
   if (/aplicativo|\bapp\b/.test(t)) pontos += 1
+  // Construir um sistema (e não só ligar os que existem) já pesa um ponto.
+  if (/\b(sistema|plataforma|saas)\b/.test(t)) pontos += 1
   if (pontos <= 1) return 'P'
   if (pontos <= 3) return 'M'
   return 'G'
