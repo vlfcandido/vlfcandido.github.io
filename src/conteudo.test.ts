@@ -89,4 +89,12 @@ describe('conteúdo publicado', () => {
     expect(conteudo.perfil.titulo).toBe('Engenheiro de software sênior · 13 anos')
     expect(conteudo.perfil.titulo.length).toBeLessThanOrEqual(40)
   })
+  it('a página abre em Clínica, na cena "Venda no CRM", com a oferta de integração (M5)', () => {
+    expect(conteudo.inicioDemo).toEqual({ ramo: 'clinica', cena: 'integracao', oferta: 'integracao' })
+    expect(conteudo.ramosDemo.some((r) => r.id === conteudo.inicioDemo.ramo)).toBe(true)
+    expect(conteudo.cenasDemo.find((c) => c.id === conteudo.inicioDemo.cena)?.rotulo).toBe('Venda no CRM')
+    expect(conteudo.ramosDemo.find((r) => r.id === 'clinica')?.clientes).toEqual(['unimed', 'odontoprev', 'bradesco-dental'])
+    // Quem clica em Clínica depois continua vendo o atendimento.
+    expect(conteudo.cenaDoRamo.clinica).toBe('atendimento')
+  })
 })

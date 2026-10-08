@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { empresasDiretas, gruposClientes, type Cliente } from '../clientes'
-import { cenasDemo, painelDemo, ramosDemo, vendaDemo, type CenaDemo, type RamoDemo } from '../conteudo'
+import { cenaDoRamo, cenasDemo, painelDemo, ramosDemo, vendaDemo, type CenaDemo, type RamoDemo } from '../conteudo'
 import { poucoMovimento } from '../lib/transicao'
 import { Abas, idAba, idPainel } from './Abas'
 
@@ -179,7 +179,9 @@ export function Demonstracao({ ramo: idRamo, aoEscolher, cena, aoTrocarCena }: P
               key={r.id}
               type="button"
               aria-pressed={i === indice}
-              onClick={() => (i === indice ? setRodada((n) => n + 1) : aoEscolher(r.id))}
+              // Ramo já ativo e na cena dele: repete a animação. Ativo em outra cena (a página abre em
+              // Clínica na cena de integração): leva à cena do ramo.
+              onClick={() => (i === indice && cena === (cenaDoRamo[r.id] ?? 'atendimento') ? setRodada((n) => n + 1) : aoEscolher(r.id))}
               className={`chip inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[0.95rem] font-medium sm:gap-2 sm:px-3.5 sm:text-[0.98rem] ${
                 i === indice ? 'border-cobalto bg-cobalto text-nevoa' : 'border-linha bg-folha text-tinta hover:border-cobalto hover:text-cobalto'
               }`}
