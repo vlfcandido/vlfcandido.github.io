@@ -24,6 +24,8 @@ export const NIVEIS_CELULAR: ReadonlyArray<(typeof NIVEIS)[number]> = NIVEIS.fil
  */
 export const MESMO_NIVEL: Readonly<Record<string, string>> = {
   interfaces: '#resultados',
+  'como-entrega': '#como-funciona',
+  pacotes: '#como-funciona',
   contato: '#carreira',
   trajetoria: '#carreira',
   imprensa: '#carreira',

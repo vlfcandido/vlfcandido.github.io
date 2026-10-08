@@ -14,7 +14,7 @@ describe('níveis da régua (M8, 08/10/2026)', () => {
     ]))
   it('a página monta as seções na mesma ordem da régua', () => {
     const inicio = readFileSync(resolve(__dirname, '../paginas/Inicio.tsx'), 'utf8')
-    const ordem = ['<Abertura', '<Resolvo', '<Prova ', '<ComoFunciona', '<Carreira', '<Contato'].map((t) => inicio.indexOf(t))
+    const ordem = ['<Abertura', '<Resolvo', '<Prova ', '<ComoFunciona', '<ComoEntrega', '<Pacotes', '<Carreira', '<Contato'].map((t) => inicio.indexOf(t))
     ordem.forEach((pos) => expect(pos).toBeGreaterThan(-1))
     expect([...ordem].sort((a, b) => a - b)).toEqual(ordem)
   })

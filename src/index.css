@@ -1274,3 +1274,61 @@ a:focus-visible .logo-mono {
     transition: none;
   }
 }
+
+/* Como é uma entrega (08/10/2026): trilho vertical que enche até a etapa aberta; nós numerados em cota. */
+.entrega-trilho {
+  position: relative;
+  list-style: none;
+  padding: 0;
+}
+.entrega-trilho::before,
+.entrega-trilho::after {
+  content: "";
+  position: absolute;
+  left: 1.2rem;
+  top: 1.4rem;
+  width: 2px;
+  transform: translateX(-1px);
+}
+.entrega-trilho::before {
+  bottom: 1.4rem;
+  background: var(--linha);
+}
+.entrega-trilho::after {
+  height: calc((100% - 2.8rem) * var(--passo, 0%) / 100%);
+  background: var(--mar);
+  transition: height 0.35s ease;
+}
+.entrega-etapa {
+  position: relative;
+}
+.entrega-no {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-top: 0.1rem;
+  border-radius: 999px;
+  border: 2px solid var(--linha);
+  background: var(--nevoa);
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 1;
+}
+.entrega-etapa.is-feita .entrega-no {
+  border-color: var(--mar);
+  color: var(--mar);
+}
+.entrega-etapa.is-ativa .entrega-no {
+  border-color: var(--mar);
+  background: var(--mar);
+  color: var(--on-mar);
+}
+.entrega-botao:hover .entrega-no {
+  border-color: var(--mar);
+}
+@media (prefers-reduced-motion: reduce) {
+  .entrega-trilho::after {
+    transition: none;
+  }
+}
