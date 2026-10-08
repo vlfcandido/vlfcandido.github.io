@@ -1275,48 +1275,51 @@ a:focus-visible .logo-mono {
   }
 }
 
-/* Como é uma entrega (08/10/2026): trilho vertical que enche até a etapa aberta; nós numerados em cota. */
-.entrega-trilho {
+/* Como é uma entrega (08/10/2026, compacta): no celular, lista de uma linha por etapa; a partir de 1024px,
+   faixa horizontal de oito colunas com trilho que enche por escala e popover de uma frase. */
+.entrega-secao {
+  padding-block: 1.75rem;
+}
+.entrega-faixa {
   position: relative;
   list-style: none;
   padding: 0;
-}
-.entrega-trilho::before,
-.entrega-trilho::after {
-  content: "";
-  position: absolute;
-  left: 1.2rem;
-  top: 1.4rem;
-  width: 2px;
-  transform: translateX(-1px);
-}
-.entrega-trilho::before {
-  bottom: 1.4rem;
-  background: var(--linha);
-}
-.entrega-trilho::after {
-  height: calc(100% - 2.8rem);
-  background: var(--mar);
-  /* O trilho enche por escala (compositor), não por altura. --passo vai de 0 a 1. */
-  transform: translateX(-1px) scaleY(var(--passo, 0));
-  transform-origin: top;
-  transition: transform var(--mov-padrao) var(--mov-ease);
+  margin-left: 0;
 }
 .entrega-etapa {
   position: relative;
+  border-top: 1px solid var(--linha);
+}
+.entrega-botao {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  align-items: center;
+  column-gap: 0.75rem;
+  width: 100%;
+  min-height: 2.75rem;
+  text-align: left;
 }
 .entrega-no {
   display: grid;
   place-items: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  margin-top: 0.1rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 999px;
   border: 2px solid var(--linha);
   background: var(--nevoa);
-  font-size: 1.1rem;
+  font-size: 1rem;
   position: relative;
   z-index: 1;
+  transition: background-color var(--mov-toque) var(--mov-ease), border-color var(--mov-toque) var(--mov-ease);
+}
+.entrega-rotulo {
+  font-weight: 600;
+  font-size: 1rem;
+}
+.entrega-quando {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--pitanga-texto, inherit);
 }
 .entrega-etapa.is-feita .entrega-no {
   border-color: var(--mar);
@@ -1327,12 +1330,100 @@ a:focus-visible .logo-mono {
   background: var(--mar);
   color: var(--on-mar);
 }
-.entrega-botao:hover .entrega-no {
-  border-color: var(--mar);
+.entrega-detalhe {
+  padding: 0 0 0.7rem 2.75rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--grafite);
+}
+.entrega-detalhe[hidden] {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .entrega-secao {
+    padding-block: 2rem;
+  }
+  .entrega-faixa {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    margin-top: 1.25rem;
+  }
+  .entrega-faixa::before,
+  .entrega-faixa::after {
+    content: "";
+    position: absolute;
+    left: 6.25%;
+    right: 6.25%;
+    top: 1rem;
+    height: 2px;
+    transform: translateY(-1px);
+  }
+  .entrega-faixa::before {
+    background: var(--linha);
+  }
+  .entrega-faixa::after {
+    background: var(--mar);
+    right: 6.25%;
+    transform: translateY(-1px) scaleX(var(--passo, 0));
+    transform-origin: left;
+    transition: transform var(--mov-padrao) var(--mov-ease);
+  }
+  .entrega-etapa {
+    border-top: 0;
+  }
+  .entrega-botao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 0.4rem;
+    text-align: center;
+    padding: 0 0.25rem;
+    min-height: 5.5rem;
+    border-radius: 0.5rem;
+  }
+  .entrega-rotulo {
+    font-size: 0.98rem;
+    line-height: 1.15;
+  }
+  .entrega-quando {
+    line-height: 1.15;
+  }
+  .entrega-detalhe {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + 0.25rem);
+    left: 50%;
+    width: 15rem;
+    padding: 0.7rem 0.85rem;
+    transform: translateX(-50%);
+    border: 1px solid var(--linha);
+    border-radius: 0.6rem;
+    background: var(--folha);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+    animation: entrega-surge var(--mov-toque) var(--mov-ease);
+  }
+  .entrega-etapa.is-inicio .entrega-detalhe {
+    left: 0;
+    transform: none;
+  }
+  .entrega-etapa.is-fim .entrega-detalhe {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+}
+@keyframes entrega-surge {
+  from {
+    opacity: 0;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .entrega-trilho::after {
+  .entrega-faixa::after,
+  .entrega-no {
     transition: none;
+  }
+  .entrega-detalhe {
+    animation: none;
   }
 }
 
