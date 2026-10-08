@@ -4,7 +4,7 @@ import { filtrarProjetos, listarProjetos, separarGaleria, tiposProjeto, type Ite
 import { CapaProjeto } from './CapaProjeto'
 import { DiagramaMare } from './DiagramaMare'
 import { Logo } from './Logo'
-import { Print } from './Print'
+import { Print, SeloFicticio } from './Print'
 import { comTransicao } from '../lib/transicao'
 
 type Filtro = TipoProjeto | 'todos'
@@ -42,8 +42,9 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
             <DiagramaMare id={item.diagrama} modo="largo" className="w-full" />
           </div>
         ) : mostra === 'capa' && item.capa ? (
-          <div className={`${moldura} aspect-[16/10]`}>
+          <div className={`${moldura} relative aspect-[16/10]`}>
             <CapaProjeto capa={item.capa} sizes="(min-width: 1024px) 400px, (min-width: 640px) 46vw, 92vw" className="h-full" />
+            {item.capa.ficticio && <SeloFicticio />}
           </div>
         ) : item.print ? (
           <Print print={item.print} />

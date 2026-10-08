@@ -55,6 +55,8 @@ export interface ItemProjeto {
   print?: Print
   /** Segundo print, mostrado só no painel. */
   printExtra?: Print
+  /** Todas as telas do projeto (08/10/2026), na ordem; a primeira é `print`. */
+  telas?: Print[]
   /** Slug da empresa em `clientes.ts`, para a logo dos casos de empresa. */
   empresa?: string
   diagrama?: Diagrama
@@ -115,6 +117,8 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: ['Mais de 1.600 testes automáticos', '53 decisões de arquitetura documentadas', 'MVP em desenvolvimento, sem usuário pagante'],
       print: prints('aprovaos')[0],
       printExtra: prints('aprovaos')[1],
+      telas: prints('aprovaos'),
+      capa: capasDosProjetos.aprovaos,
       diagrama: diagramasDosCasos.aprovaos,
       repositorio: 'https://github.com/vlfcandido/aprovaos',
     },
@@ -134,6 +138,8 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: ['1.060 testes automáticos passando', 'Roda só em simulação, sem dinheiro de verdade', 'A vitrine mostra o que deu errado, inclusive as taxas'],
       print: prints('nexus-quant')[0],
       printExtra: prints('nexus-quant')[1],
+      telas: prints('nexus-quant'),
+      capa: capasDosProjetos['nexus-quant'],
       diagrama: diagramasDosCasos['nexus-quant'],
       repositorio: 'https://github.com/vlfcandido/nexus-quant-showcase',
     },
@@ -141,14 +147,19 @@ export function listarProjetos(): ItemProjeto[] {
       slug: 'varredura-voos',
       origem: 'proprio',
       nome: 'Varredura de voos',
-      resultado: 'Acha a passagem mais curta, não só a mais barata.',
+      // Corrigido em 08/10/2026: o ranking é por PREÇO (como no código), dentro de um teto de duração por perna.
+      // Antes: 'Acha a passagem mais curta, não só a mais barata.' e "prioriza a duração da viagem".
+      resultado: 'Acha a passagem mais barata dentro de um teto de duração, sem estourar a cota da API.',
       tipos: ['integracoes'],
       status: 'mvp',
       etiquetas: ['Python', 'API Amadeus', 'cache'],
       stack: ['Python', 'API Amadeus', 'cache', 'controle de cota', 'rate limit'],
-      feito: 'Busca de passagens integrada à API da Amadeus, com controle de cota, cache e limite de chamadas, que prioriza a duração da viagem.',
+      feito: 'Busca de passagens integrada à API da Amadeus, com controle de cota, cache e limite de chamadas, que ordena o resultado por preço e descarta o que passa do teto de duração de cada perna.',
       numeros: ['109 testes automáticos', 'MVP de uso pessoal'],
-      print: { arquivo: 'prints/varredura-voos.webp', alt: 'Terminal com o resultado da varredura de voos ordenado por duração' },
+      print: prints('varredura-voos')[0],
+      printExtra: prints('varredura-voos')[1],
+      telas: prints('varredura-voos'),
+      capa: capasDosProjetos['varredura-voos'],
       diagrama: diagramasDosCasos['varredura-voos'],
       repositorio: 'https://github.com/vlfcandido/varredura-voos',
     },
@@ -165,7 +176,10 @@ export function listarProjetos(): ItemProjeto[] {
       feito:
         'App web que abre no celular como aplicativo: o lojista consulta o cliente, vê a nota num medidor e abre "como esta pontuação foi calculada", com o peso de cada pagamento, atraso e quitação. Rotas protegidas por login e tipos iguais aos do servidor.',
       numeros: ['41 testes no cálculo da nota', 'Prova de conceito, sem cliente', 'Print com dados fictícios'],
-      print: { arquivo: 'prints/app-score.webp', alt: 'App de score com o medidor em arco marcando 742 de 1000 e a explicação do cálculo, com dados fictícios' },
+      print: prints('app-score')[0],
+      printExtra: prints('app-score')[1],
+      telas: prints('app-score'),
+      capa: capasDosProjetos['app-score'],
     },
     {
       slug: 'engenharia-de-agentes',
@@ -178,7 +192,10 @@ export function listarProjetos(): ItemProjeto[] {
       stack: ['Pydantic', 'LangGraph', 'Google ADK', 'multiagente'],
       feito: 'O mesmo agente em Pydantic puro, LangGraph e Google ADK, mais versões multiagente com defesa contra prompt injection, rodando offline.',
       numeros: ['24 testes de fumaça'],
-      print: { arquivo: 'prints/engenharia-de-agentes.webp', alt: 'Comparação do mesmo agente em três frameworks' },
+      print: prints('engenharia-de-agentes')[0],
+      printExtra: prints('engenharia-de-agentes')[1],
+      telas: prints('engenharia-de-agentes'),
+      capa: capasDosProjetos['engenharia-de-agentes'],
       diagrama: diagramasDosCasos['engenharia-de-agentes'],
       repositorio: 'https://github.com/vlfcandido/engenharia-de-agentes',
     },
@@ -195,6 +212,9 @@ export function listarProjetos(): ItemProjeto[] {
       feito: revisor.feito,
       numeros: [revisor.metrica],
       print: prints('revisor-ia')[0],
+      printExtra: prints('revisor-ia')[1],
+      telas: prints('revisor-ia'),
+      capa: capasDosProjetos['revisor-ia'],
       diagrama: diagramasDosCasos['revisor-ia'],
       repositorio: 'https://github.com/vlfcandido/revisor-ia',
     },
@@ -222,6 +242,9 @@ export function listarProjetos(): ItemProjeto[] {
         'Laboratório pessoal, sem cliente',
       ],
       capa: capasDosProjetos['ia-local'],
+      print: prints('ia-local')[0],
+      printExtra: prints('ia-local')[1],
+      telas: prints('ia-local'),
       diagrama: diagramasDosCasos['ia-local'],
     },
     {
@@ -236,7 +259,7 @@ export function listarProjetos(): ItemProjeto[] {
       feito:
         'Feito do zero, sem tema pronto: a galeria de projetos com link compartilhável, a demonstração de atendimento, os diagramas desenhados por um motor próprio em SVG e o tema claro e escuro. Funciona no teclado e com leitor de tela, e respeita quem pede menos movimento no sistema.',
       numeros: ['Testes automáticos travam o conteúdo publicado', 'No ar em vlfcandido.github.io'],
-      print: { arquivo: 'prints/este-site.webp', alt: 'Seção Interfaces que eu construo deste site, com o gráfico de pedidos, o status do pedido e a lista filtrável' },
+      print: { arquivo: 'prints/este-site.webp', alt: 'Seção Interfaces que eu construo deste site, com o gráfico de pedidos, o status do pedido e a lista filtrável', ficticio: true },
       repositorio: 'https://github.com/vlfcandido/vlfcandido.github.io',
     },
     {
@@ -265,7 +288,10 @@ export function listarProjetos(): ItemProjeto[] {
       stack: ['LiteLLM SDK', 'LiteLLM Proxy', 'Python'],
       feito: 'Latência, tempo até o primeiro token, erros e custo: LiteLLM SDK contra LiteLLM Proxy.',
       numeros: [],
-      print: { arquivo: 'prints/benchmark-litellm-sdk-proxy.webp', alt: 'Painel do benchmark com gráficos de latência e custo' },
+      print: prints('benchmark-litellm')[0],
+      printExtra: prints('benchmark-litellm')[1],
+      telas: prints('benchmark-litellm'),
+      capa: capasDosProjetos['benchmark-litellm'],
       repositorio: 'https://github.com/vlfcandido/benchmark-litellm-sdk-proxy',
     },
     // previsao-tempo-chatbot e api-premios-filmes removidos em 08/10/2026 (M16): estudos pequenos.

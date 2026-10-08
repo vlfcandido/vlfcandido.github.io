@@ -13,7 +13,7 @@ const COTA = 1000
 const USADO_ANTES = 310
 
 // Saída ilustrativa (rotulada na página): o mecanismo é o do projeto (cota, cache, limite de chamadas,
-// ordenação por duração); comando, rotas, datas e números são exemplo.
+// ordenação por preço, dentro de um teto de duração por perna); comando, rotas, datas e números são exemplo.
 const LINHAS: Linha[] = [
   { texto: '$ varredura CWB LIS --mes 2026-11', tipo: 'comando' },
   { texto: 'cota do mês     310 de 1.000 chamadas usadas', tipo: 'info' },
@@ -26,10 +26,12 @@ const LINHAS: Linha[] = [
   { texto: '', tipo: 'branco' },
   // Tabela com colunas estreitas (08/10/2026) para caber em 390 px sem rolar para o lado.
   // Antes: 'duração  escalas  saída         rota' (47 colunas na linha mais longa).
-  { texto: 'duração esc. saída       rota', tipo: 'cabecalho' },
-  { texto: '11h40   1    05/11 22:10 CWB GRU LIS', tipo: 'tabela' },
-  { texto: '13h05   1    07/11 19:30 CWB VCP LIS', tipo: 'tabela' },
-  { texto: '16h50   2    05/11 06:00 CWB GIG MAD LIS', tipo: 'tabela' },
+  // Corrigido em 08/10/2026: a ordem é por PREÇO (como no código), com a duração só como teto. Antes a
+  // coluna da frente era a duração e a legenda dizia que o resultado era ordenado por ela.
+  { texto: 'preço   esc. saída       rota', tipo: 'cabecalho' },
+  { texto: 'R$ 389  1    05/11 22:10 CWB GRU LIS', tipo: 'tabela' },
+  { texto: 'R$ 412  1    07/11 19:30 CWB VCP LIS', tipo: 'tabela' },
+  { texto: 'R$ 438  2    05/11 06:00 CWB GIG MAD LIS', tipo: 'tabela' },
 ]
 
 /**

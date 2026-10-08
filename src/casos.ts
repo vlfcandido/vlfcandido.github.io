@@ -214,6 +214,7 @@ export function listarCasos(): CaseDetalhe[] {
       tituloPeca: 'Caderno de decisões',
       legendaPeca: 'Toque numa decisão para ver a tela em que ela aparece.',
       status: { texto: 'MVP em desenvolvimento, sem usuário pagante.', tom: 'atencao' },
+      comPrints: true,
       regua: [
         { valor: '1.603', rotulo: 'testes automáticos passando, com CI verde', origem: 'rodados em 07/10/2026', url: 'https://github.com/vlfcandido/aprovaos' },
         { valor: '53', rotulo: 'decisões de arquitetura registradas', origem: 'repositório público', url: 'https://github.com/vlfcandido/aprovaos' },
@@ -271,8 +272,9 @@ export function listarCasos(): CaseDetalhe[] {
       peca: 'terminal-cota',
       tituloPeca: 'Uma busca, da cota ao resultado',
       legendaPeca: 'Antes de chamar a API, o programa sabe quanto a busca custa e o que já está no cache.',
-      ficticio: 'Saída ilustrativa: comando, rotas, cota e horários são exemplo.',
+      ficticio: 'Saída ilustrativa: comando, rotas, preços, cota e horários são exemplo. O ranking é por preço.',
       status: { texto: 'MVP de uso pessoal.', tom: 'atencao' },
+      comPrints: true,
       regua: [
         { valor: '109', rotulo: 'testes automáticos', origem: 'repositório público, contados em 07/10/2026', url: 'https://github.com/vlfcandido/varredura-voos' },
       ],
@@ -285,7 +287,7 @@ export function listarCasos(): CaseDetalhe[] {
         {
           titulo: 'O que foi feito',
           texto:
-            'Uma busca de passagens integrada à API da Amadeus, com controle de cota, cache e limite de chamadas, que ordena o resultado pela duração da viagem e não só pelo preço.',
+            'Uma busca de passagens integrada à API da Amadeus, com controle de cota, cache e limite de chamadas, que ordena o resultado por preço e descarta o que passa do teto de duração de cada perna.',
         },
       ],
       falta: ['É de uso pessoal: não virou produto nem tem usuário além de mim.'],
@@ -298,6 +300,7 @@ export function listarCasos(): CaseDetalhe[] {
       legendaPeca: 'O lojista não recebe só um número: recebe a soma linha por linha.',
       ficticio: 'Dados fictícios: cliente, pagamentos e pesos são exemplo.',
       status: { texto: 'Prova de conceito, sem cliente. Código privado.', tom: 'atencao' },
+      comPrints: true,
       regua: [{ valor: '41', rotulo: 'testes no cálculo da nota', origem: 'código privado, contados em 07/10/2026' }],
       papel: { meu: 'Projeto meu: regra de cálculo, app e deploy.' },
       historia: [
@@ -342,6 +345,7 @@ export function listarCasos(): CaseDetalhe[] {
       legendaPeca: 'A revisão só vale se dá para medir se ela está certa.',
       ficticio: 'Código e comentário ilustrativos.',
       status: { texto: 'Estudo, com código aberto.', tom: 'neutro' },
+      comPrints: true,
       regua: [],
       papel: { meu: 'Estudo meu.' },
       historia: [
@@ -365,6 +369,7 @@ export function listarCasos(): CaseDetalhe[] {
       legendaPeca: 'Aprove, edite ou negue o comando e veja a linha entrar no log de auditoria.',
       ficticio: 'Comando, pasta e horários são exemplo.',
       status: { texto: 'Laboratório pessoal, sem cliente. Código não publicado.', tom: 'atencao' },
+      comPrints: true,
       regua: [
         { valor: '8 GB', rotulo: 'de memória: roda num MacBook Air M1, sem nuvem', origem: 'a máquina do laboratório' },
         { valor: '3B a 4B', rotulo: 'parâmetros, em Q4, um modelo por vez', origem: 'o que coube nos 8 GB' },

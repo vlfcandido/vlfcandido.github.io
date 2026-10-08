@@ -1,5 +1,5 @@
 import { useRef, type MouseEvent } from 'react'
-import { caminhoPublico } from '../../lib/assets'
+import { ImagemPrint, SeloFicticio } from '../Print'
 import type { Print } from '../../visuais'
 
 interface Props {
@@ -15,7 +15,6 @@ interface Props {
  */
 export function PrintAmpliavel({ print, legenda, className = '' }: Props) {
   const ref = useRef<HTMLDialogElement>(null)
-  const src = caminhoPublico(import.meta.env.BASE_URL, print.arquivo)
 
   /** Clique no fundo (fora da imagem) fecha. */
   function aoClicar(e: MouseEvent<HTMLDialogElement>) {
@@ -29,15 +28,12 @@ export function PrintAmpliavel({ print, legenda, className = '' }: Props) {
         onClick={() => ref.current?.showModal()}
         className="group relative block w-full overflow-hidden rounded-md border border-linha bg-folha text-left shadow-[6px_6px_0_var(--linha)]"
       >
-        <img
-          src={src}
-          alt={print.alt}
-          width={1600}
-          height={1000}
-          loading="lazy"
-          decoding="async"
-          className="block aspect-[16/10] w-full object-cover object-top"
+        <ImagemPrint
+          print={print}
+          sizes={print.movel ? '(min-width: 768px) 320px, 70vw' : '(min-width: 1024px) 560px, (min-width: 768px) 46vw, 92vw'}
+          className={`block w-full ${print.movel ? 'mx-auto aspect-[16/10] object-contain py-2' : 'aspect-[16/10] object-cover object-top'}`}
         />
+        {print.ficticio && <SeloFicticio />}
         <span className="absolute right-2 bottom-2 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta group-hover:border-cobalto group-hover:text-cobalto">
           Ampliar a tela
         </span>
@@ -51,7 +47,7 @@ export function PrintAmpliavel({ print, legenda, className = '' }: Props) {
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between gap-4 px-4 py-3 text-nevoa">
-            <p className="min-w-0 truncate text-[0.95rem]">{legenda ?? 'Tela real do projeto'}</p>
+            <p className="min-w-0 truncate text-[0.95rem]">{legenda ?? 'Tela do projeto'}{print.ficticio ? ' · dados fictícios' : ''}</p>
             <button
               type="button"
               onClick={() => ref.current?.close()}
@@ -61,7 +57,11 @@ export function PrintAmpliavel({ print, legenda, className = '' }: Props) {
             </button>
           </div>
           <div className="min-h-0 flex-1 overflow-auto overscroll-contain px-4 pb-6">
-            <img src={src} alt={print.alt} width={1600} height={1000} className="block h-auto w-[1400px] max-w-none rounded-md lg:mx-auto lg:w-full lg:max-w-[1400px]" />
+            <ImagemPrint
+              print={print}
+              sizes={print.movel ? '390px' : '(min-width: 1024px) 1400px, 1400px'}
+              className={`block h-auto max-w-none rounded-md ${print.movel ? 'mx-auto w-[390px]' : 'w-[1400px] lg:mx-auto lg:w-full lg:max-w-[1400px]'}`}
+            />
           </div>
         </div>
       </dialog>

@@ -50,6 +50,7 @@ function Imagem({ nome, capa, sizes, prioridade, className }: ImagemProps) {
  * ou outra conforme o tema (classes `.capa-clara` e `.capa-escura`), sem filtro.
  */
 export function CapaProjeto({ capa, sizes, prioridade, className = '' }: Props) {
+  if (capa.colorida) return <Imagem nome={capa.nome} capa={capa} sizes={sizes} prioridade={prioridade} className={className} />
   if (!capa.escuro) return <Imagem nome={capa.nome} capa={capa} sizes={sizes} prioridade={prioridade} className={`carta ${className}`} />
   return (
     <>
