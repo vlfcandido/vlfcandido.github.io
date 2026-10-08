@@ -30,16 +30,19 @@ describe('conteúdo publicado', () => {
   it('três cases curtos na principal; fonte, quando há, é https; sem fonte, sem número', () => {
     expect(conteudo.destaques).toHaveLength(3)
     conteudo.destaques.forEach((d) =>
-      d.fonte ? expect(d.fonte.url).toMatch(/^https:\/\//) : expect(d.resultado + d.texto, d.slug).not.toMatch(/\d/))
+      // Sem fonte, o resultado não leva número. O texto pode dizer a arquitetura ("8 agentes", aprovado por ele
+      // em 08/10/2026), que não é métrica de volume; antes a regra valia para resultado + texto.
+      d.fonte ? expect(d.fonte.url).toMatch(/^https:\/\//) : expect(d.resultado, d.slug).not.toMatch(/\d/))
   })
   it('case de empresa sem matéria pública não tem número (Contabilizei, 08/10/2026)', () =>
     conteudo.cases.filter((c) => c.tipo === 'empresa').forEach((c) => {
       expect(c.metrica, c.slug).toBe('')
       expect(c.fonte.url, c.slug).toBeUndefined()
     }))
-  it('Contabilizei só como agentes de IA de vendas (SDR)', () => {
+  it('Contabilizei com o texto aprovado (orquestrador e 8 agentes), sem volume nem fonte', () => {
     const d = conteudo.destaques.find((x) => x.empresa === 'contabilizei')
-    expect(d?.resultado).toBe('Agentes de IA de vendas (SDR).')
+    expect(d?.texto).toContain('um orquestrador e 8 agentes especializados')
+    expect(d?.texto + (d?.resultado ?? '')).not.toMatch(/concierge|atendimento ao cliente|contatos/i)
     expect(d?.fonte).toBeUndefined()
   })
   it('principal sem jargão técnico', () => {
