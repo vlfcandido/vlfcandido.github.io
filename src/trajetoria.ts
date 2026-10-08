@@ -46,7 +46,8 @@ export const empregos: Emprego[] = [
     // Antes: cargo "Arquiteto sênior de IA" e o resultado falando desse atendimento.
     cargo: 'Agentes de IA de vendas',
     periodo: '2025 a mar/2026',
-    resultado: 'Construí os agentes de IA de vendas (SDR).',
+    // Atualizado em 08/10/2026 com o texto aprovado. Antes: 'Construí os agentes de IA de vendas (SDR).'
+    resultado: 'Vendedor de IA no WhatsApp com um orquestrador e 8 agentes. Trabalhei no backend, na passagem automática para o time humano e nas integrações com WhatsApp e CRM.',
   },
   {
     slug: 'serasa-experian',

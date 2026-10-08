@@ -185,8 +185,11 @@ export const destaques: Destaque[] = [
     slug: 'contabilizei-vendas',
     empresa: 'contabilizei',
     titulo: 'Contabilizei',
-    texto: 'Construí os agentes de IA de vendas (SDR) da Contabilizei.',
-    resultado: 'Agentes de IA de vendas (SDR).',
+    // Atualizado em 08/10/2026 com o texto aprovado por ele, sem os nomes técnicos (a principal fica sem jargão).
+    // Antes: texto 'Construí os agentes de IA de vendas (SDR) da Contabilizei.' e resultado 'Agentes de IA de vendas (SDR).'
+    texto:
+      'Vendedor de IA no WhatsApp para uma contabilidade digital: um orquestrador e 8 agentes especializados que qualificam o lead, apresentam planos, simulam taxas e geram a cobrança.',
+    resultado: 'Trabalhei no backend, na passagem automática para o time humano e nas integrações com WhatsApp e CRM.',
   },
 ]
 

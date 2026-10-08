@@ -82,7 +82,8 @@ export const empresasDiretas: EmpresaDireta[] = [
     // Corrigido em 08/10/2026 (ele): o atendimento com IA citado pelo Google Cloud não foi trabalho dele.
     // Antes: papel "Arquiteto sênior de IA", com a matéria do Google como história.
     papel: 'Agentes de IA de vendas (SDR)',
-    feito: 'Fiz os agentes de IA de vendas (SDR).',
+    // Atualizado em 08/10/2026 com o texto aprovado. Antes: 'Fiz os agentes de IA de vendas (SDR).'
+    feito: 'Vendedor de IA no WhatsApp com um orquestrador e 8 agentes; trabalhei no backend, na passagem para o time humano e nas integrações.',
     ligadoA: 'contabilizei-vendas',
   },
   {
