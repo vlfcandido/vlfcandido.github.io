@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ANCORAS_ANTIGAS, filtroDoHash, hashAtual, hashDoProjeto, projetoDoHash, rotaDoHash, secaoDoHash } from './rota'
+import { ANCORAS_ANTIGAS, filtroDoHash, hashAtual, hashDoProjeto, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash } from './rota'
 
 describe('rotaDoHash', () => {
   it('vazio é início', () => expect(rotaDoHash('')).toBe('inicio'))
@@ -43,5 +43,22 @@ describe('filtroDoHash', () => {
   it('link filtrado continua na página de projetos, sem abrir painel', () => {
     expect(rotaDoHash('#/projetos/tipo/frontend')).toBe('projetos')
     expect(projetoDoHash('#/projetos/tipo/frontend')).toBeNull()
+  })
+})
+
+describe('movimentoDaTroca', () => {
+  it('âncora e filtro na mesma página não movem', () => {
+    expect(movimentoDaTroca('#/', '#pacotes')).toBeNull()
+    expect(movimentoDaTroca('#/projetos', '#/projetos/tipo/frontend')).toBeNull()
+  })
+  it('entrar e sair de um case', () => {
+    expect(movimentoDaTroca('#/projetos', '#/projetos/aprovaos')).toBe('avancar')
+    expect(movimentoDaTroca('#/projetos/aprovaos', '#/projetos')).toBe('voltar')
+    expect(movimentoDaTroca('#/projetos/aprovaos', '#/projetos/outro')).toBe('avancar')
+  })
+  it('início e projetos', () => {
+    expect(movimentoDaTroca('#/', '#/projetos')).toBe('pagina')
+    expect(movimentoDaTroca('#/projetos', '#/')).toBe('pagina')
+    expect(movimentoDaTroca('#/projetos/aprovaos', '#/')).toBe('pagina')
   })
 })

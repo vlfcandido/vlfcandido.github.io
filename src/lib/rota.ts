@@ -82,3 +82,31 @@ export function filtroDoHash(hash: string): string | null {
 export function hashDoProjeto(slug: string): string {
   return `${HASH_PROJETOS}/${slug}`
 }
+
+/**
+ * Identifica "a página" de um hash para decidir se houve troca de página ou só rolagem dentro dela.
+ *
+ * @param hash valor de `location.hash`.
+ * @returns `inicio`, `projetos` ou `projetos/<slug>` (o case). Âncoras e filtros ficam na mesma página.
+ */
+export function chaveDaPagina(hash: string): string {
+  const slug = projetoDoHash(hash)
+  return slug ? `projetos/${slug}` : rotaDoHash(hash)
+}
+
+/**
+ * Diz como a troca de hash deve se mover: entrar num case, voltar dele ou trocar de página.
+ *
+ * @param antes hash anterior.
+ * @param depois hash novo.
+ * @returns `avancar` (galeria para case), `voltar` (case para galeria), `pagina` (início e projetos)
+ *   ou `null` quando a página é a mesma (âncora, filtro) e não deve haver transição.
+ */
+export function movimentoDaTroca(antes: string, depois: string): 'avancar' | 'voltar' | 'pagina' | null {
+  const a = chaveDaPagina(antes)
+  const d = chaveDaPagina(depois)
+  if (a === d) return null
+  if (a.startsWith('projetos/') && !d.startsWith('projetos/')) return d === 'projetos' ? 'voltar' : 'pagina'
+  if (d.startsWith('projetos/')) return 'avancar'
+  return 'pagina'
+}

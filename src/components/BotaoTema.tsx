@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { comTransicao } from '../lib/transicao'
 
 type Tema = 'claro' | 'escuro'
 
@@ -17,13 +18,16 @@ export function BotaoTema() {
 
   function alternar() {
     const novo: Tema = tema === 'escuro' ? 'claro' : 'escuro'
-    document.documentElement.dataset.tema = novo
+    // Troca de tema como um esmaecer do site inteiro (View Transition); sem suporte, troca direta.
+    comTransicao(() => {
+      document.documentElement.dataset.tema = novo
+      setTema(novo)
+    }, 'tema')
     try {
       localStorage.setItem('tema', novo)
     } catch {
       // Sem armazenamento (aba privada): o tema vale só até recarregar.
     }
-    setTema(novo)
   }
 
   const rotulo = tema === 'escuro' ? 'Usar tema claro' : 'Usar tema escuro'
