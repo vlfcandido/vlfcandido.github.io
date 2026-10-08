@@ -27,7 +27,7 @@ export function Cabecalho({ rota }: { rota: Rota }) {
   return (
     <header className="sticky top-0 z-20 border-b border-linha/70 bg-nevoa/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:gap-5 sm:px-8">
-        <a href="#/" className="mr-auto text-[1.05rem] font-bold tracking-tight">
+        <a href="#/" className="mr-auto text-[1.05rem] font-bold tracking-[0.004em]">
           {perfil.nome}
         </a>
         <nav aria-label="Seções" className="hidden lg:block">

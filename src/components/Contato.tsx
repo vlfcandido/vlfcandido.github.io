@@ -8,7 +8,7 @@ export function Contato() {
   return (
     <section id="contato" aria-labelledby="contato-titulo" className="scroll-mt-24 pt-4 pb-16 sm:pb-24">
       <div className="rounded-2xl bg-cobalto px-6 py-12 text-nevoa sm:px-14 sm:py-16">
-        <h2 id="contato-titulo" className="max-w-[18ch] text-[2.2rem] leading-[1.05] font-bold tracking-tight sm:text-[3.2rem]">
+        <h2 id="contato-titulo" className="max-w-[18ch] text-[2.2rem] leading-[1.1] font-bold tracking-[0.004em] sm:text-[3.2rem]">
           Conte o que você precisa.
         </h2>
         <p className="prosa mt-5 max-w-[48ch] text-[1.2rem] opacity-90">{perfil.convite}</p>

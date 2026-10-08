@@ -1,41 +1,81 @@
 import { useState } from 'react'
-import { empresasDiretas, gruposClientes, selecaoLogos, type Cliente } from '../clientes'
-import { destaques } from '../conteudo'
+import { empresasDiretas, gruposClientes, type Cliente } from '../clientes'
+import { cases, destaques, type Destaque } from '../conteudo'
 import { HASH_PROJETOS } from '../lib/rota'
 import { LinkExterno } from './LinkExterno'
 import { Logo } from './Logo'
+import { LogosClientes } from './LogosClientes'
 
-const TODOS: Cliente[] = gruposClientes.flatMap((g) => g.clientes)
-const POR_SLUG = new Map<string, Cliente>([...TODOS, ...empresasDiretas].map((c) => [c.slug, c]))
-const SELECAO = selecaoLogos.map((s) => POR_SLUG.get(s)).filter((c): c is Cliente => Boolean(c))
-const TOTAL = TODOS.length
-const NA_SELECAO = new Set(selecaoLogos)
-const RESTO = TODOS.filter((c) => !NA_SELECAO.has(c.slug))
+const POR_SLUG = new Map<string, Cliente>(
+  [...gruposClientes.flatMap((g) => g.clientes), ...empresasDiretas].map((c) => [c.slug, c]),
+)
 
-/** Grade de logos em tinta única; no celular, `curtaNoCelular` limita quantas aparecem antes de expandir. */
-function GradeLogos({ lista, curtaNoCelular = 0 }: { lista: Cliente[]; curtaNoCelular?: number }) {
+/**
+ * Case curto que abre ao clicar: o resultado fica sempre à vista; "Como foi" mostra o problema
+ * de antes e o que eu fiz, sem sair do carrossel.
+ */
+function CartaoCaso({ d }: { d: Destaque }) {
+  const [aberto, setAberto] = useState(false)
+  const empresa = POR_SLUG.get(d.empresa)
+  const antes = cases.find((c) => c.slug === d.slug)?.contexto
+  const idCorpo = `caso-corpo-${d.slug}`
   return (
-    <ul className="grid grid-cols-3 items-center gap-x-8 gap-y-8 sm:grid-cols-4 lg:grid-cols-6">
-      {lista.map((c, i) => (
-        <li
-          key={c.slug}
-          className={`h-12 items-center ${curtaNoCelular && i >= curtaNoCelular ? 'hidden sm:flex' : 'flex'}`}
-          title={c.nome}
+    <li
+      data-aberto={aberto}
+      className="cartao-caso relative flex w-[84%] shrink-0 snap-start flex-col rounded-xl border border-transparent bg-folha p-6 sm:w-[60%] sm:p-7 md:w-auto"
+    >
+      <div className="flex h-12 items-center">{empresa && <Logo cliente={empresa} className="max-h-10 max-w-[150px]" />}</div>
+      <h4 className="mt-5 text-[1.2rem] leading-[1.3] font-semibold">{d.titulo}</h4>
+      <p className="mt-3 text-[1.15rem] leading-[1.4] font-semibold">
+        <span className="grifo">{d.resultado}</span>
+      </p>
+      <button
+        type="button"
+        aria-expanded={aberto}
+        aria-controls={idCorpo}
+        onClick={() => setAberto((v) => !v)}
+        className="mt-5 inline-flex items-center gap-2 self-start rounded-full py-1 font-medium text-cobalto"
+      >
+        {aberto ? 'Fechar' : 'Como foi'}
+        <svg
+          viewBox="0 0 16 16"
+          width="13"
+          height="13"
+          aria-hidden="true"
+          className={`transition-transform duration-300 motion-reduce:transition-none ${aberto ? 'rotate-45' : ''}`}
         >
-          <Logo cliente={c} className="max-h-9 max-w-[86%]" />
-        </li>
-      ))}
-    </ul>
+          <path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
+      </button>
+      <div id={idCorpo} className="expansivel" data-aberto={aberto} inert={!aberto}>
+        <div>
+          {antes && (
+            <p className="prosa pt-3 text-[1.05rem] text-grafite">
+              <span className="font-titulo font-semibold text-tinta">Antes: </span>
+              {antes}
+            </p>
+          )}
+          <p className="prosa mt-3 text-[1.05rem]">{d.texto}</p>
+        </div>
+      </div>
+      <p className="mt-auto pt-5">
+        <LinkExterno
+          href={d.fonte.url}
+          className="text-[0.98rem] text-grafite underline decoration-linha decoration-2 underline-offset-4 hover:text-tinta hover:decoration-cobalto"
+        >
+          {d.fonte.texto}
+        </LinkExterno>
+      </p>
+    </li>
   )
 }
 
 /** Logos de clientes (seleção com "ver todas") e três resultados curtos com fonte pública. */
 export function Prova() {
-  const [aberto, setAberto] = useState(false)
   return (
-    <section id="resultados" aria-labelledby="prova-titulo" className="scroll-mt-24 border-t border-linha py-16 sm:py-20">
+    <section id="resultados" aria-labelledby="prova-titulo" className="scroll-mt-24 border-t border-linha py-20 sm:py-28">
       <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
-        <h2 id="prova-titulo" className="max-w-[20ch] text-[2rem] leading-[1.05] font-bold tracking-tight sm:text-[2.6rem]">
+        <h2 id="prova-titulo" className="max-w-[22ch] text-[2rem] leading-[1.1] font-bold tracking-[0.004em] sm:text-[2.6rem]">
           Empresas atendidas nos projetos que liderei
         </h2>
         <p className="prosa max-w-[40ch] text-[1.08rem] text-grafite">
@@ -51,59 +91,14 @@ export function Prova() {
         </p>
       </div>
 
-      <div className="mt-12">
-        <GradeLogos lista={SELECAO} curtaNoCelular={aberto ? 0 : 12} />
-        <div id="mais-logos" className="expansivel" data-aberto={aberto} inert={!aberto}>
-          <div>
-            <div className="pt-8">
-              <GradeLogos lista={RESTO} />
-            </div>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={() => setAberto((v) => !v)}
-          aria-expanded={aberto}
-          aria-controls="mais-logos"
-          className="botao-acao mt-10 inline-flex items-center gap-2 rounded-full border border-linha px-5 py-2.5 font-medium hover:border-cobalto hover:text-cobalto"
-        >
-          {aberto ? 'Mostrar menos' : `Ver todas as ${TOTAL} empresas`}
-          <svg
-            viewBox="0 0 16 16"
-            width="14"
-            height="14"
-            aria-hidden="true"
-            className={`transition-transform motion-reduce:transition-none ${aberto ? 'rotate-180' : ''}`}
-          >
-            <path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-        </button>
-      </div>
+      <LogosClientes />
 
-      <h3 className="mt-20 text-[1.6rem] font-bold tracking-tight sm:text-[1.9rem]">Alguns resultados</h3>
+      <h3 className="mt-20 text-[1.6rem] font-bold tracking-[0.004em] sm:text-[1.9rem]">Alguns resultados</h3>
       <p className="mt-1 text-[0.95rem] text-grafite md:hidden">Arraste para o lado para ver os três.</p>
       <ul className="relative -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-3 md:mx-0 md:grid md:snap-none md:grid-cols-3 md:gap-8 md:overflow-visible md:px-0 md:pb-0">
-        {destaques.map((d) => {
-          const empresa = POR_SLUG.get(d.empresa)
-          return (
-            <li key={d.slug} className="relative flex w-[84%] shrink-0 snap-start flex-col rounded-xl bg-folha p-6 sm:w-[60%] sm:p-7 md:w-auto">
-              <div className="flex h-12 items-center">{empresa && <Logo cliente={empresa} className="max-h-10 max-w-[150px]" />}</div>
-              <h4 className="mt-5 text-[1.2rem] font-semibold">{d.titulo}</h4>
-              <p className="prosa mt-2 text-[1.05rem] text-grafite">{d.texto}</p>
-              <p className="mt-4 text-[1.1rem] leading-snug font-semibold">
-                <span className="grifo">{d.resultado}</span>
-              </p>
-              <p className="mt-auto pt-5">
-                <LinkExterno
-                  href={d.fonte.url}
-                  className="font-medium text-cobalto underline decoration-linha decoration-2 underline-offset-4 hover:decoration-cobalto"
-                >
-                  {d.fonte.texto}
-                </LinkExterno>
-              </p>
-            </li>
-          )
-        })}
+        {destaques.map((d) => (
+          <CartaoCaso key={d.slug} d={d} />
+        ))}
       </ul>
       <p className="mt-10">
         <a

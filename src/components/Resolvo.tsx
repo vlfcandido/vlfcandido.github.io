@@ -3,8 +3,8 @@ import { oferta } from '../conteudo'
 /** O que eu resolvo: quatro ofertas escritas como resultado para quem contrata. */
 export function Resolvo() {
   return (
-    <section id="o-que-eu-resolvo" aria-labelledby="resolvo-titulo" className="scroll-mt-24 border-t border-linha py-16 sm:py-20">
-      <h2 id="resolvo-titulo" className="text-[2rem] leading-none font-bold tracking-tight sm:text-[2.6rem]">
+    <section id="o-que-eu-resolvo" aria-labelledby="resolvo-titulo" className="scroll-mt-24 border-t border-linha py-20 sm:py-28">
+      <h2 id="resolvo-titulo" className="text-[2rem] leading-[1.12] font-bold tracking-[0.004em] sm:text-[2.6rem]">
         O que eu resolvo
       </h2>
       <ul className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">

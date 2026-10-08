@@ -4,10 +4,10 @@ import { FonteLink } from './FonteLink'
 /** Números com fonte e as ferramentas do dia a dia, para quem quer o detalhe técnico. */
 export function Ferramentas() {
   return (
-    <section id="ferramentas" aria-labelledby="ferramentas-titulo" className="scroll-mt-24 border-t border-linha py-16 sm:py-20">
+    <section id="ferramentas" aria-labelledby="ferramentas-titulo" className="scroll-mt-24 border-t border-linha py-20 sm:py-28">
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <h2 id="ferramentas-titulo" className="text-[1.8rem] font-bold tracking-tight">
+          <h2 id="ferramentas-titulo" className="text-[1.8rem] font-bold tracking-[0.004em]">
             Números que dá para conferir
           </h2>
           <ul className="mt-6 space-y-5">
@@ -22,7 +22,7 @@ export function Ferramentas() {
           </ul>
         </div>
         <div className="lg:col-span-6 lg:col-start-7">
-          <h2 className="text-[1.8rem] font-bold tracking-tight">Ferramentas do dia a dia</h2>
+          <h2 className="text-[1.8rem] font-bold tracking-[0.004em]">Ferramentas do dia a dia</h2>
           <dl className="mt-6 grid gap-x-10 gap-y-6 sm:grid-cols-2">
             {stack.map((c) => (
               <div key={c.camada}>
