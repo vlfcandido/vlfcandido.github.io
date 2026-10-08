@@ -44,7 +44,9 @@ export const empregos: Emprego[] = [
     logo: 'logos/contabilizei.svg',
     // Corrigido em 08/10/2026 (ele): o atendimento com IA citado pelo Google Cloud não foi trabalho dele.
     // Antes: cargo "Arquiteto sênior de IA" e o resultado falando desse atendimento.
-    cargo: 'Agentes de IA de vendas',
+    // Cargo devolvido em 08/10/2026 (decisão dele): o cargo real era Arquiteto Sênior de IA; só o atendimento
+    // do Google Cloud é que não era dele. Antes desta correção: 'Agentes de IA de vendas'.
+    cargo: 'Arquiteto Sênior de IA',
     periodo: '2025 a mar/2026',
     // Atualizado em 08/10/2026 com o texto aprovado. Antes: 'Construí os agentes de IA de vendas (SDR).'
     resultado: 'Vendedor de IA no WhatsApp com um orquestrador e 8 agentes. Trabalhei no backend, na passagem automática para o time humano e nas integrações com WhatsApp e CRM.',

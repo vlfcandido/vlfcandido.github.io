@@ -113,7 +113,8 @@ export function listarCasos(): CaseDetalhe[] {
       periodo: '2025 a mar/2026',
       regua: [],
       papel: {
-        meu: 'Trabalhei no backend em Python, no handoff automático para o time humano e nas integrações com WhatsApp e CRM.',
+        // Cargo incluído em 08/10/2026 (decisão dele). Antes: 'Trabalhei no backend em Python, no handoff (...)'.
+        meu: 'Como Arquiteto Sênior de IA, trabalhei no backend em Python, no handoff automático para o time humano e nas integrações com WhatsApp e CRM.',
         resto: 'Volume, prompts, telas e dados de clientes são da empresa e não saem daqui.',
       },
       historia: [

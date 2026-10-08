@@ -10,6 +10,12 @@ describe('trajetória', () => {
     expect(empregos[0].atual).toBe(true)
   })
   it('o atual aparece como Sicoob', () => expect(empregos[0].empresa).toBe('Sicoob'))
+  // Decisão dele, 08/10/2026: o cargo real na Contabilizei volta ao site, sem o Concierge.
+  it('Contabilizei com o cargo real, Arquiteto Sênior de IA, e sem Concierge', () => {
+    const c = empregos.find((e) => e.slug === 'contabilizei')
+    expect(c?.cargo).toBe('Arquiteto Sênior de IA')
+    expect(JSON.stringify(c)).not.toMatch(/concierge/i)
+  })
   it('a Wiv não está entre os empregos', () => expect(empregos.some((e) => /wiv/i.test(e.empresa))).toBe(false))
   it('toda logo citada existe em public/', () =>
     [...empregos.map((e) => e.logo), freelance.logo]
