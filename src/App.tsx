@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { Cabecalho } from './components/Cabecalho'
 import { LinkedinFixo } from './components/LinkedinFixo'
 import { Rodape } from './components/Rodape'
-import { HASH_PROJETOS, hashAtual, projetoDoHash, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
+import { HASH_PROJETOS, hashAtual, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
+import { iniciarRevelacao } from './lib/revelar'
+import { comTransicao } from './lib/transicao'
 import { PaginaInicio } from './paginas/Inicio'
 import { PaginaProjetos } from './paginas/Projetos'
 
@@ -13,11 +15,23 @@ function normalizarHash(): string {
   return window.location.hash
 }
 
-/** Lê o hash atual (já traduzido das versões antigas) e acompanha as mudanças. */
+/**
+ * Lê o hash atual (já traduzido das versões antigas) e acompanha as mudanças. Quando a troca muda de
+ * página (início, projetos, case), ela roda dentro de uma View Transition; âncora e filtro, não.
+ * Sem suporte (ou com menos movimento), a troca é direta e o CSS cuida do fallback.
+ */
 function useHash(): string {
   const [hash, setHash] = useState(normalizarHash)
+  const atual = useRef(hash)
   useEffect(() => {
-    const aoMudar = () => setHash(normalizarHash())
+    const aoMudar = () => {
+      const novo = normalizarHash()
+      const tipo = movimentoDaTroca(atual.current, novo)
+      atual.current = novo
+      document.documentElement.dataset.navegou = '1'
+      if (tipo) comTransicao(() => setHash(novo), tipo)
+      else setHash(novo)
+    }
     window.addEventListener('hashchange', aoMudar)
     return () => window.removeEventListener('hashchange', aoMudar)
   }, [])
@@ -69,6 +83,9 @@ export function App() {
   const hash = useHash()
   const rota = rotaDoHash(hash)
   useDestino(hash, rota)
+  // Entrada das seções ao rolar: refaz a lista a cada página ou case (o DOM novo ainda não foi observado).
+  const pagina = projetoDoHash(hash) ?? rota
+  useEffect(() => iniciarRevelacao(document.getElementById('conteudo') ?? document), [pagina])
   return (
     <>
       <a
@@ -79,7 +96,10 @@ export function App() {
       </a>
       <Cabecalho rota={rota} />
       <main id="conteudo" className="mx-auto max-w-7xl px-4 sm:px-8">
-        {rota === 'projetos' ? <PaginaProjetos hash={hash} /> : <PaginaInicio />}
+        {/* Fallback sem View Transition: a página nova entra com um fade curto (ver `.pagina-troca`). */}
+        <div key={rota} className="pagina-troca">
+          {rota === 'projetos' ? <PaginaProjetos hash={hash} /> : <PaginaInicio />}
+        </div>
       </main>
       <Rodape />
       <LinkedinFixo rota={rota} />

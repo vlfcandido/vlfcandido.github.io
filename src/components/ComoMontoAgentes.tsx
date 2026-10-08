@@ -49,7 +49,7 @@ export function ComoMontoAgentes() {
         </h2>
         <p className="prosa mt-2 max-w-[44ch] text-[1.08rem] text-grafite">Os padrões que uso nos projetos. Toque num desenho para ampliar.</p>
       </div>
-      <ul className="-mx-4 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-px-4 px-4 pb-3 md:mx-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-12 md:overflow-visible md:px-0 md:pb-0">
+      <ul className="-mx-4 mt-10 flex snap-x snap-proximity gap-5 overflow-x-auto scroll-px-4 px-4 pb-3 md:mx-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-12 md:overflow-visible md:px-0 md:pb-0">
         {padroes.map((p) => (
           <li key={p.id} className="cartao-projeto group relative w-[86%] shrink-0 snap-start md:w-auto">
             <div className="moldura-logo flex aspect-[16/10] items-center overflow-hidden rounded-md border border-linha bg-folha px-2 shadow-[6px_6px_0_var(--linha)]">

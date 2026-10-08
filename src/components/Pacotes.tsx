@@ -39,7 +39,7 @@ export function Pacotes() {
       <p className="prosa mt-1.5 max-w-[60ch] text-[1.02rem] text-grafite">
         Projeto novo sai com preço fechado, pelo escopo de uma página. Depois, o banco de horas mensal mantém e evolui o que foi entregue.
       </p>
-      <ul className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0" aria-label="Pacotes mensais">
+      <ul className="-mx-4 mt-6 rolagem-lateral flex snap-x snap-proximity gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0" aria-label="Pacotes mensais">
         {pacotes.map((p) => (
           <Cartao key={p.id} p={p} destaque={p.id === 'evolucao'} />
         ))}
