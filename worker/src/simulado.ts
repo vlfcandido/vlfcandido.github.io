@@ -125,7 +125,7 @@ function nomesForaDaBase(texto: string, base: string): string[] {
 /** Parece a descrição de uma vaga colada? */
 function pareceVaga(texto: string): boolean {
   const n = normalizar(texto)
-  return texto.length > 160 && /\b(vaga|requisitos|desejavel|diferencial|responsabilidades|experiencia com|buscamos)\b/.test(n)
+  return texto.length > 80 && /\b(vaga|requisitos|desejavel|diferencial|responsabilidades|experiencia com|buscamos)\b/.test(n)
 }
 
 /** Aderência determinística: o que a base prova, o que não prova e o que perguntar. */
@@ -147,7 +147,7 @@ function aderencia(vaga: string): RespostaBruta {
       perguntar: [
         'Qual dos projetos citados é mais parecido com o desafio do time?',
         'Como ele mede a qualidade das respostas de IA antes de ir para produção?',
-        'Que parte do trabalho no Sicoob ele pode detalhar além da matéria pública?',
+        'Como ele divide um projeto grande em entregas pequenas?',
       ],
     },
   }
