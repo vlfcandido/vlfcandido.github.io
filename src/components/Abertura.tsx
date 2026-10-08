@@ -1,73 +1,45 @@
-import { numeros, oferta, perfil } from '../conteudo'
-import { GITHUB, LINKEDIN, printsDosCasos } from '../visuais'
-import { FonteLink } from './FonteLink'
+import { links, perfil } from '../conteudo'
+import { LINKEDIN } from '../visuais'
+import { Demonstracao } from './Demonstracao'
 import { LinkExterno } from './LinkExterno'
-import { Print } from './Print'
 
-const PILHA = [printsDosCasos['nexus-quant'][0], printsDosCasos['aprovaos'][0], printsDosCasos['nexus-clips'][0]]
+const NOVENTA_E_NOVE = links.find((l) => l.rotulo === '99Freelas')
 
-/** Abertura: a chamada em tipo grande ao lado de três produtos reais empilhados. */
+/** Abertura: a frase de posicionamento, o que eu entrego e o botão do LinkedIn. */
 export function Abertura() {
   return (
-    <section id="inicio" aria-labelledby="inicio-titulo" className="scroll-mt-24 pt-10 pb-16 sm:pt-16 lg:pb-24">
-      <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+    <section id="inicio" aria-labelledby="inicio-titulo" className="scroll-mt-24 pt-12 pb-20 sm:pt-20 lg:pb-28">
+      <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-7">
-          <p className="text-[1.05rem] text-grafite">{perfil.titulo}</p>
+          <p className="text-[1.05rem] text-grafite">
+            {perfil.nome}, {perfil.titulo.toLowerCase()}
+          </p>
           <h1
             id="inicio-titulo"
-            className="mt-4 text-[2.15rem] leading-[1.06] font-[680] tracking-[-0.02em] text-balance sm:text-[3rem] xl:text-[3.6rem]"
+            className="mt-4 text-[2.3rem] leading-[1.05] font-[680] tracking-[-0.025em] text-balance sm:text-[3.2rem] xl:text-[3.9rem]"
           >
             {perfil.chamada}
           </h1>
-          <p className="prosa mt-6 max-w-[62ch] text-[1.15rem] text-grafite">{perfil.resumo}</p>
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <p className="prosa mt-6 max-w-[46ch] text-[1.25rem] text-grafite sm:text-[1.35rem]">{perfil.linha}</p>
+          <div id="cta-principal" className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
             <LinkExterno
               href={LINKEDIN}
-              className="rounded-full bg-cobalto px-6 py-3.5 text-[1.05rem] font-semibold text-nevoa hover:bg-cobalto-forte"
+              className="botao-acao rounded-full bg-cobalto px-7 py-4 text-[1.1rem] font-semibold text-nevoa hover:bg-cobalto-forte"
             >
               Falar comigo no LinkedIn
             </LinkExterno>
-            <LinkExterno href={GITHUB} className="font-medium underline decoration-linha decoration-2 underline-offset-4 hover:decoration-cobalto">
-              Ver o código no GitHub
-            </LinkExterno>
-          </div>
-          <p className="prosa mt-4 max-w-[52ch] text-grafite italic">{perfil.notaTrabalho}</p>
-        </div>
-
-        <div className="relative lg:col-span-5" aria-label="Três produtos que construí">
-          <div className="relative mx-auto aspect-[10/9] max-w-[580px] lg:mt-4">
-            <Print print={PILHA[2]} prioridade className="absolute! top-0 right-0 w-[74%]!" />
-            <Print print={PILHA[1]} prioridade className="absolute! top-[22%] left-0 w-[74%]!" />
-            <Print print={PILHA[0]} prioridade className="absolute! bottom-0 right-[3%] w-[84%]!" />
+            {NOVENTA_E_NOVE && (
+              <LinkExterno
+                href={NOVENTA_E_NOVE.url}
+                className="font-medium underline decoration-linha decoration-2 underline-offset-4 hover:decoration-cobalto"
+              >
+                Contratar pelo 99Freelas
+              </LinkExterno>
+            )}
           </div>
         </div>
-      </div>
-
-      <div className="mt-16 grid gap-x-10 gap-y-8 border-t border-linha pt-10 md:grid-cols-2 lg:mt-24 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <h2 className="text-2xl font-bold tracking-tight">O que eu faço</h2>
-          <dl className="mt-6 space-y-5">
-            {oferta.map((o) => (
-              <div key={o.titulo}>
-                <dt className="text-[1.1rem] font-semibold">{o.titulo}</dt>
-                <dd className="prosa mt-1 text-grafite">{o.descricao}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-        <div className="lg:col-span-6 lg:col-start-7">
-          <h2 className="text-2xl font-bold tracking-tight">Números que dá para conferir</h2>
-          <ul className="mt-6 space-y-5">
-            {numeros.map((n) => (
-              <li key={n.valor} className="prosa text-[1.15rem]">
-                <strong className="grifo font-titulo text-[1.5rem] font-bold whitespace-nowrap">{n.valor}</strong>{' '}
-                {n.rotulo}.{' '}
-                <span className="text-[0.95rem] text-grafite">
-                  Fonte: <FonteLink fonte={n.fonte} />
-                </span>
-              </li>
-            ))}
-          </ul>
+          <Demonstracao />
         </div>
       </div>
     </section>

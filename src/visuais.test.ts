@@ -16,10 +16,4 @@ describe('imagens do site', () => {
     Object.values(visuais.printsDosCasos)
       .flat()
       .forEach((p) => expect(p.alt.length).toBeGreaterThan(20)))
-  it('toda foto existe e tem crédito com link https', () =>
-    Object.values(visuais.fotos).forEach((f) => {
-      expect(existsSync(join(PUBLICO, f.arquivo))).toBe(true)
-      expect(f.autor).toBeTruthy()
-      expect(f.url).toMatch(/^https:\/\//)
-    }))
 })

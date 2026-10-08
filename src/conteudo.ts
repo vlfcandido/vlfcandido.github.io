@@ -59,31 +59,76 @@ export interface LinkExterno {
 
 export const perfil = {
   nome: 'Vinicius Candido',
-  titulo: 'Engenheiro de Software Sênior · 13 anos',
+  titulo: 'Engenheiro de software há 13 anos',
   chamada: 'Seu projeto feito por quem constrói IA no Sicoob e já construiu na Contabilizei.',
+  linha: 'Atendimento no WhatsApp, automações, sites e sistemas para o seu negócio. Preço fechado antes de começar e entrega testada.',
   resumo:
-    'Chatbots de WhatsApp, automações, sites, sistemas e integrações para o seu negócio, com preço fechado na primeira conversa e entrega testada. Hoje sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA do assistente de investimentos. Construo software há 13 anos: back-end em Java, Node.js e Python, front quando o projeto pede e IA aplicada em produção desde 2021. Liderei os projetos de chatbot Blip da Vertigo, parceira certificada da Blip, e trabalhei no Waizer, a plataforma de análise de conversas da Wiv.',
+    'Chatbots de WhatsApp, automações, sites, sistemas e integrações para o seu negócio, com preço fechado na primeira conversa e entrega testada. Hoje sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA de investimentos. Construo software há 13 anos: back-end em Java, Node.js e Python, front quando o projeto pede e IA aplicada em produção desde 2021. Liderei os projetos de chatbot Blip da Vertigo, parceira certificada da Blip, e trabalhei no Waizer, a plataforma de análise de conversas da Wiv.',
   notaTrabalho: 'Do seu lado, só preciso do acesso ao que já existe e de alguém para tirar dúvidas.',
-  convite:
-    'Me chame pelo 99Freelas ou pelo LinkedIn e conte o que você precisa. Respondo com o preço fechado e o prazo.',
+  convite: 'Me chame no LinkedIn ou no 99Freelas e conte o que você precisa. Respondo com o preço fechado e o prazo.',
 } as const
 
+/** O que eu resolvo, escrito como resultado para quem contrata. */
 export const oferta: Oferta[] = [
   {
-    titulo: 'Chatbots e agentes de IA no WhatsApp',
-    descricao: 'Pela API oficial, que atendem, vendem e agendam, com o custo de mensagens explicado antes.',
+    titulo: 'Atendimento no WhatsApp que responde e agenda sozinho',
+    descricao: 'Seu cliente tira a dúvida e marca o horário a qualquer hora, sem alguém da equipe preso no celular.',
   },
   {
-    titulo: 'Automações e integrações',
-    descricao: 'CRM, ERP, agenda, planilhas e pagamentos conversando entre si, sem copiar e colar.',
+    titulo: 'Menos trabalho repetido',
+    descricao: 'O que hoje alguém faz copiando e colando passa a acontecer sozinho: cadastro, planilha, aviso, cobrança.',
   },
   {
-    titulo: 'Sites e sistemas',
-    descricao: 'Landing pages rápidas, painéis e SaaS com login e pagamento, prontos para uso real.',
+    titulo: 'Site ou sistema pronto para usar',
+    descricao: 'Página de vendas, painel ou sistema com login, entregue funcionando e testado.',
   },
   {
-    titulo: 'Ajustes, segurança e testes',
-    descricao: 'Correções em sistemas que já existem sem quebrar o que funciona, e testes de aplicações e de IA.',
+    titulo: 'Suas ferramentas conversando entre si',
+    descricao: 'Agenda, planilha, sistema de vendas e pagamento trocando dados, sem ninguém digitar duas vezes.',
+  },
+]
+
+/** Case curto da página principal: duas linhas e o resultado, com a fonte pública. */
+export interface Destaque {
+  slug: string
+  /** Slug da empresa em `clientes.ts`, para a logo. */
+  empresa: string
+  titulo: string
+  texto: string
+  resultado: string
+  fonte: Fonte & { url: string }
+}
+
+export const destaques: Destaque[] = [
+  {
+    slug: 'prefeitura-franca',
+    empresa: 'prefeitura-franca',
+    titulo: 'Prefeitura de Franca (SP)',
+    texto: 'Chatbot da Secretaria de Saúde para as dúvidas repetidas da população. Feito no time de projetos Blip que eu liderava na Vertigo.',
+    resultado: '5 mil atendimentos por mês sem ninguém digitar.',
+    fonte: {
+      texto: 'Ler o case',
+      url: 'https://materiais.vertigo.com.br/case-chatbot-prefeitura-de-franca-estado-de-sao-paulo',
+    },
+  },
+  {
+    slug: 'sicoob-investimentos',
+    empresa: 'sicoob',
+    titulo: 'Sicoob',
+    texto: 'Assistente de IA que apoia o atendimento de investimentos. Sou engenheiro de IA sênior no Sicoob e lidero tecnicamente a frente de IA de investimentos.',
+    resultado: 'Em uso pelas equipes das cooperativas.',
+    fonte: { texto: 'Ler a matéria', url: 'https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/' },
+  },
+  {
+    slug: 'concierge-contabilizei',
+    empresa: 'contabilizei',
+    titulo: 'Contabilizei',
+    texto: 'The Concierge, o atendimento ao cliente com IA generativa. Fui o arquiteto sênior de IA que fez o projeto.',
+    resultado: 'Citado pelo Google Cloud entre 90 casos de IA da América Latina.',
+    fonte: {
+      texto: 'Ler a matéria',
+      url: 'https://blog.google/intl/pt-br/produtos/nas-nuvens/google-cloud-90-casos-de-ia-na-america-latina-que-estao-moldando-o-futuro-da-inovacao/',
+    },
   },
 ]
 
@@ -117,7 +162,7 @@ export const cases: Case[] = [
   {
     slug: 'sicoob-investimentos',
     tipo: 'publico',
-    titulo: 'Assistente de investimentos com IA · Sicoob',
+    titulo: 'Assistente de investimentos com IA no Sicoob',
     contexto: 'As equipes das cooperativas precisavam de apoio rápido e confiável no atendimento consultivo de investimentos.',
     feito:
       'Sou engenheiro de IA sênior no Sicoob e lidero tecnicamente a frente de IA do assistente, que usa três agentes: um encaminha a pergunta, um responde sobre investimentos e um cuida das perguntas frequentes.',
@@ -130,7 +175,7 @@ export const cases: Case[] = [
   {
     slug: 'concierge-contabilizei',
     tipo: 'publico',
-    titulo: 'The Concierge · atendimento com IA na Contabilizei',
+    titulo: 'The Concierge, atendimento com IA na Contabilizei',
     contexto: 'Clientes de contabilidade precisavam de respostas rápidas e certas sobre serviços contábeis e financeiros.',
     feito:
       'Fui arquiteto sênior de IA na Contabilizei (2025–2026) e fiz o The Concierge, o atendimento ao cliente com IA generativa construído em Vertex AI.',
@@ -146,7 +191,7 @@ export const cases: Case[] = [
   {
     slug: 'prefeitura-franca',
     tipo: 'publico',
-    titulo: 'Chatbot da Saúde · Prefeitura de Franca (SP)',
+    titulo: 'Chatbot da Saúde da Prefeitura de Franca (SP)',
     contexto: 'A Secretaria de Saúde respondia à mão um volume alto de dúvidas repetidas da população.',
     feito: 'Chatbot na plataforma Blip, entregue pela Vertigo no time de projetos Blip que eu liderava.',
     metrica: '5 mil atendimentos por mês automatizados.',
@@ -161,7 +206,7 @@ export const cases: Case[] = [
   {
     slug: 'araguaia',
     tipo: 'publico',
-    titulo: 'Chatbot de captação · Araguaia (fertilizantes)',
+    titulo: 'Chatbot de captação da Araguaia (fertilizantes)',
     contexto: 'O time comercial precisava de mais contatos qualificados chegando pelo atendimento digital.',
     feito: 'Chatbot de atendimento e captação na Blip, entregue pela Vertigo no time de projetos Blip que eu liderava.',
     metrica: 'Mais leads com o chatbot, segundo o case publicado.',
@@ -173,7 +218,7 @@ export const cases: Case[] = [
   {
     slug: 'waizer-wiv',
     tipo: 'publico',
-    titulo: 'Waizer · análise de conversas de chatbot (Wiv)',
+    titulo: 'Waizer, análise de conversas de chatbot (Wiv)',
     contexto: 'Empresas com vários robôs de atendimento não sabiam onde as conversas travavam.',
     feito: 'Trabalhei no Waizer e em chatbots da Wiv, plataforma que analisa as conversas e aponta o que melhorar.',
     metrica: 'A plataforma passou de 5 milhões de conversas analisadas e monitora mais de 300 robôs.',
@@ -225,7 +270,7 @@ export const cases: Case[] = [
   {
     slug: 'aprovaos',
     tipo: 'proprio',
-    titulo: 'AprovaOS · SaaS de estudos com agente de IA',
+    titulo: 'AprovaOS, SaaS de estudos com agente de IA',
     contexto: 'Concurseiro precisa de plano de estudo que se ajusta ao desempenho, não de lista fixa.',
     feito: 'SaaS com agente de IA, back-end em FastAPI e decisões de arquitetura registradas desde o início.',
     metrica: 'Mais de 1.600 testes automáticos e 53 decisões de arquitetura documentadas. MVP em desenvolvimento.',
@@ -237,7 +282,7 @@ export const cases: Case[] = [
   {
     slug: 'bureau-credito',
     tipo: 'proprio',
-    titulo: 'Bureau de crédito · prova de conceito',
+    titulo: 'Bureau de crédito (prova de conceito)',
     contexto: 'Score de crédito auditável e um app web para consultar.',
     feito: 'Prova de conceito com score, app web instalável e deploy automatizado no Google Cloud.',
     metrica: 'Pipeline de CI/CD até o Google Cloud desde a primeira versão.',
@@ -250,20 +295,20 @@ export const cases: Case[] = [
 
 export const passos: Passo[] = [
   {
-    titulo: 'Preço fechado na primeira mensagem',
-    descricao: 'Com o que entra e o que não entra. Nada começa sem o seu ok.',
+    titulo: 'Preço fechado na primeira conversa',
+    descricao: 'Você sabe o que entra, o prazo e o valor antes de qualquer coisa começar.',
   },
   {
-    titulo: 'Versão de teste em 24 a 48 horas',
-    descricao: 'Você acompanha por um link desde cedo e recebe notícia a cada 12 horas.',
+    titulo: 'Versão para testar em 24 a 48 horas',
+    descricao: 'Você testa por um link e recebe notícia a cada 12 horas.',
   },
   {
-    titulo: 'Entrega com Ficha de Entrega',
-    descricao: 'O que foi feito, como testar, resultado dos testes e o próximo passo já orçado.',
+    titulo: 'Entrega com ficha e testes',
+    descricao: 'Uma ficha diz o que foi feito, como usar e o resultado dos testes.',
   },
   {
     titulo: '7 dias de correção sem custo',
-    descricao: 'Apareceu algo no que foi entregue, eu corrijo.',
+    descricao: 'Se algo do que foi entregue falhar, eu corrijo.',
   },
 ]
 
@@ -280,4 +325,67 @@ export const links: LinkExterno[] = [
   { rotulo: 'GitHub', url: 'https://github.com/vlfcandido', descricao: 'código e projetos' },
   { rotulo: 'LinkedIn', url: 'https://www.linkedin.com/in/viniciusf-candido', descricao: 'carreira' },
   { rotulo: '99Freelas', url: 'https://www.99freelas.com.br/user/vinicius-candido-ia', descricao: 'contratar um projeto' },
+]
+
+/** Mensagem da conversa de exemplo: quem fala e o texto. */
+export interface MensagemDemo {
+  de: 'cliente' | 'robo'
+  texto: string
+}
+
+/** Ramo do seletor "qual é o seu negócio?": conversa de exemplo e clientes do mesmo ramo. */
+export interface RamoDemo {
+  id: string
+  rotulo: string
+  conversa: MensagemDemo[]
+  /** Slugs de `clientes.ts`, de projetos que liderei nesse ramo (forma de citar do banco de provas). */
+  clientes: string[]
+}
+
+// Conversas ilustrativas: mostram o tipo de atendimento, não um cliente real.
+export const ramosDemo: RamoDemo[] = [
+  {
+    id: 'clinica',
+    rotulo: 'Clínica',
+    conversa: [
+      { de: 'cliente', texto: 'Oi, tem horário com dentista essa semana?' },
+      { de: 'robo', texto: 'Tenho quinta às 14h ou sexta às 10h. Qual fica melhor?' },
+      { de: 'cliente', texto: 'Sexta às 10h.' },
+      { de: 'robo', texto: 'Marcado para sexta às 10h. Mando um lembrete na véspera.' },
+    ],
+    clientes: ['unimed', 'odontoprev', 'bradesco-dental'],
+  },
+  {
+    id: 'loja',
+    rotulo: 'Loja',
+    conversa: [
+      { de: 'cliente', texto: 'Vocês têm esse tênis no 40?' },
+      { de: 'robo', texto: 'Tenho no 40, preto ou branco. Quer o link para pagar?' },
+      { de: 'cliente', texto: 'Quero o preto.' },
+      { de: 'robo', texto: 'Aqui está o link. Quando o pagamento cair, aviso o prazo de entrega.' },
+    ],
+    clientes: ['vivara', 'olx', 'gpa'],
+  },
+  {
+    id: 'escritorio',
+    rotulo: 'Escritório',
+    conversa: [
+      { de: 'cliente', texto: 'Preciso da segunda via do boleto de outubro.' },
+      { de: 'robo', texto: 'Encontrei. Posso mandar o PDF aqui mesmo?' },
+      { de: 'cliente', texto: 'Pode.' },
+      { de: 'robo', texto: 'Pronto, segue o boleto. Ele vence no dia 10.' },
+    ],
+    clientes: ['conta-azul', 'itau', 'icatu'],
+  },
+  {
+    id: 'industria',
+    rotulo: 'Indústria',
+    conversa: [
+      { de: 'cliente', texto: 'Qual o prazo do pedido 4521?' },
+      { de: 'robo', texto: 'Ele sai da fábrica amanhã e chega em 3 dias úteis.' },
+      { de: 'cliente', texto: 'Dá para adiantar?' },
+      { de: 'robo', texto: 'Já passei para o time comercial. Eles respondem ainda hoje.' },
+    ],
+    clientes: ['petrobras', 'scania', 'yara'],
+  },
 ]

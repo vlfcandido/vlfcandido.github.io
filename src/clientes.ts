@@ -244,3 +244,28 @@ export const gruposClientes: GrupoClientes[] = [
     ],
   },
 ]
+
+/**
+ * Seleção de logos da página principal, na ordem em que aparecem: nomes que o dono de um negócio
+ * reconhece de cara, de setores diferentes. Todas saem dos grupos acima; o "ver todas" mostra o resto.
+ */
+export const selecaoLogos: string[] = [
+  'itau',
+  'banco-do-brasil',
+  'petrobras',
+  'unimed',
+  'amazon',
+  'tim',
+  'b3',
+  'olx',
+  'sulamerica',
+  'vivara',
+  'ipiranga',
+  'scania',
+  'gpa',
+  'conta-azul',
+  'neon',
+  'prefeitura-rio',
+  'odontoprev',
+  'comgas',
+]

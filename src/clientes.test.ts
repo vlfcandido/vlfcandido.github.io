@@ -1,7 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { empresasDiretas, gruposClientes, segmentos, type Cliente } from './clientes'
+import { empresasDiretas, gruposClientes, segmentos, selecaoLogos, type Cliente } from './clientes'
+import { ramosDemo } from './conteudo'
 import { encontrarTermosProibidos } from './lib/termos-proibidos'
 
 // O Sicoob pode aparecer (decisão dele, 07/10/2026); o resto da guarda vale.
@@ -37,4 +38,15 @@ describe('clientes', () => {
   })
   it('grupos dizem que os projetos foram meus', () =>
     gruposClientes.forEach((g) => expect(g.legenda).toMatch(/^Projetos que liderei na /)))
+  it('seleção da principal: 12 a 18 logos que existem, sem repetir', () => {
+    const slugs = new Set(todos.filter((c) => c.logo).map((c) => c.slug))
+    expect(selecaoLogos.length).toBeGreaterThanOrEqual(12)
+    expect(selecaoLogos.length).toBeLessThanOrEqual(18)
+    expect(new Set(selecaoLogos).size).toBe(selecaoLogos.length)
+    selecaoLogos.forEach((s) => expect(slugs.has(s), s).toBe(true))
+  })
+  it('clientes de cada ramo da demonstração existem', () => {
+    const slugs = new Set(todos.map((c) => c.slug))
+    ramosDemo.forEach((r) => r.clientes.forEach((s) => expect(slugs.has(s), s).toBe(true)))
+  })
 })
