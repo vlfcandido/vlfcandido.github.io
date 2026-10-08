@@ -11,7 +11,6 @@ export type IdDesenho =
   | 'sicoob'
   | 'nexus-quant'
   | 'aprovaos'
-  | 'nexus-clips'
   | 'varredura-voos'
   | 'ecovita'
   | 'minu'
@@ -126,26 +125,7 @@ export function listarDesenhos(): Record<IdDesenho, Desenho> {
       etiquetas: ['FastAPI', 'Google ADK', 'Gemini', 'PostgreSQL'],
     },
 
-    'nexus-clips': {
-      id: 'nexus-clips',
-      titulo: 'Da notícia do momento ao vídeo curto',
-      descricao:
-        'Fontes como X, YouTube e RSS entram por uma fila. Um grafo LangGraph classifica o conteúdo e, numa aresta condicional, descarta o que é pouco relevante ou repetido. O que passa ganha uma estratégia; legenda, crescimento e escolha de canais rodam em paralelo; depois o vídeo é gerado e salvo. O upload no YouTube já funciona; o fluxo de ponta a ponta ainda está em construção.',
-      etapas: [
-        { legenda: 'acompanha', nos: [{ titulo: 'Fontes', sub: 'X, YouTube e RSS, numa fila', forma: 'pilula' }] },
-        {
-          legenda: 'classifica',
-          nos: [{ titulo: 'Classificar', sub: 'tema, relevância e confiança', destaque: true }],
-          lateral: { no: { titulo: 'Descarta', sub: 'pouco relevante ou repetido' }, rotulo: 'aresta condicional' },
-        },
-        { legenda: 'planeja', nos: [{ titulo: 'Estratégia', sub: 'o ângulo do corte' }] },
-        { legenda: 'em paralelo', grupo: 'três nós ao mesmo tempo', nos: [{ titulo: 'Legenda' }, { titulo: 'Crescimento' }, { titulo: 'Canais' }] },
-        { legenda: 'gera', nos: [{ titulo: 'Vídeo', sub: 'narração, FFmpeg e Whisper' }] },
-        { legenda: 'guarda', nos: [{ titulo: 'Fila de publicação', sub: 'upload no YouTube já funciona', forma: 'cilindro' }] },
-      ],
-      porLinha: 3,
-      etiquetas: ['LangGraph', 'LangChain', 'Claude API', 'FFmpeg'],
-    },
+    // 'nexus-clips' removido em 08/10/2026 (M14), junto com o card.
 
     'varredura-voos': {
       id: 'varredura-voos',

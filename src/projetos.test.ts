@@ -39,9 +39,11 @@ describe('galeria de projetos', () => {
       expect(i.resultado.length, i.slug).toBeLessThanOrEqual(90)
     }))
   it('tipos conhecidos', () => itens.forEach((i) => i.tipos.forEach((t) => expect(tiposProjeto[t]).toBeTruthy())))
-  it('todo filtro mostra ao menos um projeto próprio', () =>
+  // Até 08/10/2026 exigia um projeto próprio em cada filtro; com a saída do estudo de previsão do tempo (M16),
+  // "Chatbot e atendimento" fica só com casos de empresa. A regra do juiz (M15) é nenhum chip vazio.
+  it('nenhum filtro fica vazio', () =>
     (Object.keys(tiposProjeto) as (keyof typeof tiposProjeto)[]).forEach((t) =>
-      expect(filtrarProjetos(itens, t).some((i) => i.origem === 'proprio'), t).toBe(true)))
+      expect(filtrarProjetos(itens, t).length, t).toBeGreaterThan(0)))
   it('repositório só no GitHub do perfil', () =>
     itens.filter((i) => i.repositorio).forEach((i) => expect(i.repositorio).toMatch(/^https:\/\/github\.com\/vlfcandido\/[a-z0-9.-]+$/)))
 
@@ -52,9 +54,10 @@ describe('galeria de projetos', () => {
     expect(JSON.stringify(q).toLowerCase()).not.toMatch(/lucro|rendimento|ganho|market making/)
     expect(q.numeros.join(' ')).toContain('simulação')
   })
-  it('agente de vídeo é protótipo e sem link de repositório', () => {
-    expect(porSlug('nexus-clips')?.status).toBe('prototipo')
-    expect(porSlug('nexus-clips')?.repositorio).toBeUndefined()
+  // Reorganização de 08/10/2026 (M14, M16): agente de vídeo e dois estudos pequenos saem do site.
+  it('fora: agente de vídeo (nexus-clips) e os estudos de previsão do tempo e de prêmios de filmes', () => {
+    for (const s of ['nexus-clips', 'previsao-tempo-chatbot', 'api-premios-filmes']) expect(porSlug(s), s).toBeUndefined()
+    expect(porSlug('benchmark-litellm')).toBeTruthy()
   })
   it('AprovaOS é MVP', () => expect(porSlug('aprovaos')?.status).toBe('mvp'))
   // Exceção (08/10/2026): o próprio site e o design system dele estão no ar de verdade.
@@ -64,7 +67,7 @@ describe('galeria de projetos', () => {
       .forEach((i) => expect(i.status, i.slug).not.toBe('producao')))
   it('filtro de frontend reúne os projetos com tela', () => {
     const slugs = filtrarProjetos(itens, 'frontend').map((i) => i.slug)
-    for (const s of ['nexus-clips', 'nexus-quant', 'app-score', 'aprovaos', 'este-site', 'design-system-mare']) expect(slugs, s).toContain(s)
+    for (const s of ['nexus-quant', 'app-score', 'aprovaos', 'este-site', 'design-system-mare']) expect(slugs, s).toContain(s)
     expect(filtrarProjetos(itens, 'frontend').every((i) => i.origem === 'proprio')).toBe(true)
   })
   it('app de score: prova de conceito, sem link de código e sem citar país do cliente', () => {

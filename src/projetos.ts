@@ -80,7 +80,6 @@ const prints = (slug: string) => printsDosCasos[slug] ?? []
  */
 export function listarProjetos(): ItemProjeto[] {
   const quant = caso('nexus-quant')
-  const clips = caso('nexus-clips')
   const aprova = caso('aprovaos')
   const revisor = caso('revisor-ia')
   const sicoob = caso('sicoob-investimentos')
@@ -125,21 +124,8 @@ export function listarProjetos(): ItemProjeto[] {
       diagrama: diagramasDosCasos['nexus-quant'],
       repositorio: 'https://github.com/vlfcandido/nexus-quant-showcase',
     },
-    {
-      slug: 'nexus-clips',
-      origem: 'proprio',
-      nome: 'Agente de vídeo curto',
-      resultado: 'Da notícia do momento ao corte com legenda, sem editar à mão.',
-      tipos: ['agentes', 'integracoes', 'frontend'],
-      status: 'prototipo',
-      etiquetas: ['LangGraph', 'Claude API', 'FFmpeg'],
-      stack: clips.stack,
-      problema: clips.contexto,
-      feito: clips.feito,
-      numeros: ['Upload no YouTube funcionando', 'O fluxo de ponta a ponta ainda está em construção'],
-      print: prints('nexus-clips')[0],
-      diagrama: diagramasDosCasos['nexus-clips'],
-    },
+    // nexus-clips removido em 08/10/2026 (M14): o print mostrava números de visualização fictícios num
+    // protótipo. Volta quando o README estiver limpo e houver testes.
     {
       // Case de 08/10/2026: só o texto e as ilustrações. O código não é público e não ganha link; o
       // ângulo é privacidade na máquina, aprovação humana de cada ação e log de auditoria.
@@ -269,34 +255,7 @@ export function listarProjetos(): ItemProjeto[] {
       print: { arquivo: 'prints/benchmark-litellm-sdk-proxy.webp', alt: 'Painel do benchmark com gráficos de latência e custo' },
       repositorio: 'https://github.com/vlfcandido/benchmark-litellm-sdk-proxy',
     },
-    {
-      slug: 'previsao-tempo-chatbot',
-      origem: 'proprio',
-      nome: 'Previsão do tempo para chatbot',
-      resultado: 'O robô responde a previsão de 3 dias numa mensagem curta.',
-      tipos: ['chatbot', 'integracoes'],
-      status: 'estudo',
-      etiquetas: ['microsserviço', 'JSON'],
-      stack: ['microsserviço', 'API REST', 'JSON'],
-      feito: 'Microsserviço que entrega a previsão de 3 dias num JSON enxuto para chatbots.',
-      numeros: [],
-      print: { arquivo: 'prints/previsao-tempo-chatbot.webp', alt: 'Conversa de chatbot respondendo a previsão do tempo' },
-      repositorio: 'https://github.com/vlfcandido/previsao-tempo-chatbot',
-    },
-    {
-      slug: 'api-premios-filmes',
-      origem: 'proprio',
-      nome: 'API de prêmios de filmes',
-      resultado: 'Calcula o menor e o maior intervalo entre prêmios de cada produtor.',
-      tipos: ['sistemas'],
-      status: 'estudo',
-      etiquetas: ['Node.js', 'API REST'],
-      stack: ['Node.js', 'API REST'],
-      feito: 'API REST em Node.js que calcula o menor e o maior intervalo entre prêmios de produtores.',
-      numeros: [],
-      print: { arquivo: 'prints/api-intervalo-premios-filmes.webp', alt: 'Documentação da API com a resposta de intervalos entre prêmios' },
-      repositorio: 'https://github.com/vlfcandido/api-intervalo-premios-filmes',
-    },
+    // previsao-tempo-chatbot e api-premios-filmes removidos em 08/10/2026 (M16): estudos pequenos.
     {
       slug: 'sicoob',
       origem: 'empresa',
