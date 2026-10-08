@@ -16,4 +16,6 @@ describe('trajetória', () => {
       .filter(Boolean)
       .forEach((l) => expect(existsSync(new URL(`../public/${l}`, import.meta.url))).toBe(true)))
   it('slugs únicos', () => expect(new Set(empregos.map((e) => e.slug)).size).toBe(empregos.length))
+  it('sem o "80+ chatbots" (relato sem fonte, nunca no site; banco de provas)', () =>
+    expect(JSON.stringify({ empregos, freelance })).not.toMatch(/80\s*(\+|chatbots)/))
 })

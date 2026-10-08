@@ -64,7 +64,9 @@ export const empregos: Emprego[] = [
     logo: 'logos/vertigo.png',
     cargo: 'Tech lead de IA conversacional',
     periodo: 'set/2021 a jan/2025',
-    resultado: 'Liderei a entrega de mais de 80 chatbots e a certificação da empresa como parceira oficial Blip.',
+    // Corrigido em 08/10/2026: o banco de provas diz que o "80+ chatbots" não tem fonte e nunca vai no site.
+    // Antes: 'Liderei a entrega de mais de 80 chatbots e a certificação da empresa como parceira oficial Blip.'
+    resultado: 'Liderei a entrega de chatbots em modelo de consultoria e a certificação da empresa como parceira oficial Blip.',
   },
   {
     slug: 'sovis',
