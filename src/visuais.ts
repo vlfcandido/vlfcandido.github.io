@@ -41,6 +41,11 @@ export interface Capa {
   /** Proporção largura/altura do original. */
   razao: number
   alt: string
+  /**
+   * Nome da versão desenhada para o tema escuro, nas mesmas larguras e formatos. Com ela, a capa troca
+   * de arquivo conforme o tema em vez de inverter as cores pelo filtro das cartas náuticas.
+   */
+  escuro?: string
 }
 
 /** Capas por slug da galeria de projetos. */
@@ -57,6 +62,14 @@ export const capasDosProjetos: Record<string, Capa> = {
     razao: 1312 / 816,
     alt: 'Ilustração em traço: um farol aponta para dois balões de conversa sobre as curvas de profundidade de uma carta náutica',
   },
+  // Desenhada em SVG nas duas versões (claro e escuro) e rasterizada com o Chromium do Playwright.
+  'ia-local': {
+    nome: 'ia-local',
+    escuro: 'ia-local-escuro',
+    larguras: [640, 1040, 1312],
+    razao: 800 / 500,
+    alt: 'Ilustração em traço de carta náutica: um farol protege o porto e, na base, o fluxo pedido, aprovação humana, execução local e auditoria',
+  },
 }
 
 /** Diagrama por caso, quando existe. */
@@ -70,6 +83,7 @@ export const diagramasDosCasos: Record<string, Diagrama> = {
   sicoob: 'sicoob',
   ecovita: 'ecovita',
   minu: 'minu',
+  'ia-local': 'ia-local',
 }
 
 /** Endereço do perfil no LinkedIn: a porta de entrada do site, num único lugar. */

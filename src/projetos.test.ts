@@ -17,10 +17,11 @@ describe('galeria de projetos', () => {
     itens.forEach((i) => expect(i.slug).toMatch(/^[a-z0-9-]+$/))
     expect(new Set(itens.map((i) => i.slug)).size).toBe(itens.length)
   })
-  it('todo projeto próprio tem print que existe', () =>
+  // Projeto sem tela que possa ir a público (a IA local) entra com capa ilustrada no lugar do print.
+  it('todo projeto próprio tem print que existe, ou capa', () =>
     itens.filter((i) => i.origem === 'proprio').forEach((i) => {
-      expect(i.print, i.slug).toBeTruthy()
-      expect(existsSync(join(PUBLICO, i.print!.arquivo)), i.print!.arquivo).toBe(true)
+      expect(Boolean(i.print || i.capa), i.slug).toBe(true)
+      if (i.print) expect(existsSync(join(PUBLICO, i.print.arquivo)), i.print.arquivo).toBe(true)
       if (i.printExtra) expect(existsSync(join(PUBLICO, i.printExtra.arquivo))).toBe(true)
     }))
   it('todo caso de empresa tem logo conhecida ou desenho', () => {
@@ -72,7 +73,19 @@ describe('galeria de projetos', () => {
     expect(a.repositorio).toBeUndefined()
     expect(JSON.stringify(a).toLowerCase()).not.toMatch(/angola|luanda|kwanza|cliente em/)
   })
-  it('fora: bot de pedidos e IA local', () => {
+  it('IA local: ângulo de privacidade e aprovação humana, sem código publicado e sem promessa que não cumpre', () => {
+    const l = porSlug('ia-local')!
+    expect(l.status).toBe('prototipo')
+    expect(l.repositorio).toBeUndefined()
+    expect(l.capa?.escuro).toBeTruthy()
+    expect(l.diagrama).toBe('ia-local')
+    const t = JSON.stringify(l).toLowerCase()
+    for (const x of ['pentest', 'invas', 'arsenal', 'ofensiv', 'recusa', 'abliterat', 'sandbox', 'white wall', 'wiv', 'serasa', 'phishing', 'exploit', 'sem trava'])
+      expect(t, x).not.toContain(x)
+    expect(t).toContain('aprova')
+    expect(t).toContain('log de auditoria')
+  })
+  it('fora: bot de pedidos e o repositório da IA local', () => {
     const tudo = JSON.stringify(itens).toLowerCase()
     expect(tudo).not.toContain('bot-pedidos')
     expect(tudo).not.toContain('llm-local')
