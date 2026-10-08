@@ -49,7 +49,6 @@ export const empregos: Emprego[] = [
   {
     slug: 'serasa-experian',
     empresa: 'Serasa Experian',
-    local: 'alocado pela NTT DATA',
     logo: 'logos/serasa-experian.webp',
     cargo: 'Engenheiro de IA sênior',
     periodo: 'fev/2025 a ago/2025',
