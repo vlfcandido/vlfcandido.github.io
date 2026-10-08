@@ -1,14 +1,27 @@
 import { useRef, useState, type CSSProperties, type FocusEvent, type PointerEvent } from 'react'
 import { flushSync } from 'react-dom'
-import { empresasDiretas, gruposClientes, segmentos, selecaoLogos, type Cliente, type Segmento } from '../clientes'
+import {
+  empresasDiretas,
+  faixaProvas,
+  gruposClientes,
+  ordenarGrade,
+  rotuloCurtoRamo,
+  segmentos,
+  selecaoLogos,
+  soParticipei,
+  type Cliente,
+  type Segmento,
+} from '../clientes'
 import { Descer } from './Descer'
 import { Logo, logoClara } from './Logo'
 
 const TODOS: Cliente[] = gruposClientes.flatMap((g) => g.clientes)
 const POR_SLUG = new Map<string, Cliente>([...TODOS, ...empresasDiretas].map((c) => [c.slug, c]))
-const SELECAO = selecaoLogos.map((s) => POR_SLUG.get(s)).filter((c): c is Cliente => Boolean(c))
+// A faixa de Provas começa na 7ª logo e termina com as 6 da abertura (rotação, M4 de 08/10/2026).
+const SELECAO = faixaProvas.map((s) => POR_SLUG.get(s)).filter((c): c is Cliente => Boolean(c))
 const NA_SELECAO = new Set(selecaoLogos)
-const RESTO = TODOS.filter((c) => !NA_SELECAO.has(c.slug))
+// Siglas setoriais vão para o fim da grade (M2 de 08/10/2026).
+const RESTO = ordenarGrade(TODOS.filter((c) => !NA_SELECAO.has(c.slug)))
 const TOTAL = TODOS.length
 
 /** Empresa em que liderei o projeto de cada cliente (Vertigo ou Wiv). */
@@ -16,19 +29,9 @@ const ORIGEM = new Map<string, string>(
   gruposClientes.flatMap((g) => g.clientes.map((c) => [c.slug, g.empresa === 'vertigo' ? 'Vertigo' : 'Wiv'] as const)),
 )
 
-/** Rótulo curto de cada filtro; segmentos com menos de três empresas ficam só em "Todos". */
-const ROTULO_CURTO: Partial<Record<Segmento, string>> = {
-  financeiro: 'Finanças',
-  industria: 'Indústria e agro',
-  publico: 'Setor público',
-  saude: 'Saúde',
-  varejo: 'Varejo',
-  energia: 'Energia',
-  servicos: 'Serviços',
-}
-
-const FILTROS = (Object.keys(ROTULO_CURTO) as Segmento[])
-  .map((s) => ({ segmento: s, rotulo: ROTULO_CURTO[s] ?? s, total: TODOS.filter((c) => c.segmento === s).length }))
+// Ordem dos chips de ramo em `rotuloCurtoRamo` (clientes.ts, M3 de 08/10/2026).
+const FILTROS = (Object.keys(rotuloCurtoRamo) as Segmento[])
+  .map((s) => ({ segmento: s, rotulo: rotuloCurtoRamo[s] ?? s, total: TODOS.filter((c) => c.segmento === s).length }))
   .filter((f) => f.total >= 3)
 
 type Filtro = 'todos' | Segmento
@@ -38,9 +41,12 @@ function poucoMovimento(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
-/** Frase da legenda de uma logo: nome, ramo e onde o projeto foi liderado. */
+/** Frase da legenda de uma logo: nome, ramo e onde o projeto foi liderado (ou em que só participei). */
 function legendaDe(c: Cliente): string {
-  return `${segmentos[c.segmento]}. Projeto liderado na ${ORIGEM.get(c.slug) ?? 'Vertigo'}.`
+  const onde = ORIGEM.get(c.slug) ?? 'Vertigo'
+  // Minu: ele só participou (decisão dele, 08/10/2026); antes a legenda dizia "Projeto liderado".
+  if (soParticipei.has(c.slug)) return `${segmentos[c.segmento]}. Participei do projeto na ${onde}.`
+  return `${segmentos[c.segmento]}. Projeto liderado na ${onde}.`
 }
 
 interface GradeProps {
