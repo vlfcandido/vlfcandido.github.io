@@ -31,6 +31,9 @@ jobs:
         env:
           # Site de projeto: https://<usuario>.github.io/<repo>/. Com domínio próprio, troque para "/".
           BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '/' || format('/{0}/', github.event.repository.name) }}
+          # Assistente do site: escondido até as variáveis do repositório serem criadas (worker/README.md, passo 7).
+          VITE_ASSISTENTE: ${{ vars.VITE_ASSISTENTE }}
+          VITE_ASSISTENTE_URL: ${{ vars.VITE_ASSISTENTE_URL }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
