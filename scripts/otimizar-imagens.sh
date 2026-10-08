@@ -4,7 +4,7 @@
 set -euo pipefail
 ORIGEM="${ORIGEM:-$HOME/PycharmProjects/vitrine-portfolio/prints-v2}"
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-SLUGS="aprovaos nexus-quant varredura-voos app-score engenharia-de-agentes revisor-ia ia-local benchmark-litellm"
+SLUGS="${SLUGS:-aprovaos nexus-quant varredura-voos app-score engenharia-de-agentes revisor-ia ia-local benchmark-litellm}"
 
 # redimensiona (Lanczos) e grava no formato pedido; $1 origem, $2 largura, $3 destino, $4 qualidade
 gerar() {
