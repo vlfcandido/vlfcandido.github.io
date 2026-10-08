@@ -299,18 +299,7 @@ export const cases: Case[] = [
     temPrint: true,
     alt: 'Painel do bot de trading com posições, ordens e métricas',
   },
-  {
-    slug: 'nexus-clips',
-    tipo: 'proprio',
-    titulo: 'Agente que transforma notícia em vídeo curto',
-    contexto: 'Produzir cortes para TikTok, Reels e Shorts sobre o assunto do momento toma horas por vídeo.',
-    feito: 'Protótipo de agente que acompanha X, YouTube e RSS, escolhe o tema e prepara o corte com legenda.',
-    metrica: 'Upload no YouTube funcionando; o fluxo de ponta a ponta ainda está em construção.',
-    fonte: { texto: 'projeto próprio (em construção)' },
-    stack: ['LangGraph', 'Claude API', 'Whisper', 'TTS', 'FFmpeg', 'React'],
-    temPrint: true,
-    alt: 'Tela do agente de vídeo com a fila de cortes gerados',
-  },
+  // nexus-clips removido em 08/10/2026 (M14).
   {
     slug: 'revisor-ia',
     tipo: 'proprio',

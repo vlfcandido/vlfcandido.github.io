@@ -18,9 +18,6 @@ export const printsDosCasos: Record<string, Print[]> = {
     { arquivo: 'prints/nexus-quant.webp', alt: 'Painel do bot de trading em simulação com pares, livro de ofertas, curva de patrimônio e trades' },
     { arquivo: 'prints/nexus-quant-backtest.webp', alt: 'Tela de ciclos do bot em simulação com o resultado por par' },
   ],
-  'nexus-clips': [
-    { arquivo: 'prints/nexus-clips.webp', alt: 'Painel do agente de vídeos com totais, vídeos por dia, atividade por hora e contas conectadas' },
-  ],
   aprovaos: [
     { arquivo: 'prints/aprovaos.webp', alt: 'Diagnóstico adaptativo do AprovaOS com a questão, o motivo da escolha e a margem de erro por matéria' },
     { arquivo: 'prints/aprovaos-plano.webp', alt: 'Plano do dia do AprovaOS com os blocos de estudo e o porquê de cada escolha' },
@@ -75,7 +72,6 @@ export const capasDosProjetos: Record<string, Capa> = {
 /** Diagrama por caso, quando existe. */
 export const diagramasDosCasos: Record<string, Diagrama> = {
   'nexus-quant': 'nexus-quant',
-  'nexus-clips': 'nexus-clips',
   aprovaos: 'aprovaos',
   'varredura-voos': 'varredura-voos',
   'revisor-ia': 'agente-rag',
