@@ -74,26 +74,26 @@ function agrupar(lista: Emprego[]): Emprego[][] {
 
 /**
  * Trajetória: os empregos do atual para o primeiro numa linha do tempo compacta, com o começo de
- * carreira recolhido, e o trabalho freelance separado logo abaixo.
+ * carreira recolhido, e o trabalho freelance separado logo abaixo. Fica na coluna larga, ao lado
+ * da imprensa (a página principal monta as duas lado a lado).
  */
 export function Trajetoria() {
   const [aberto, setAberto] = useState(false)
   const recentes = agrupar(empregos.filter((e) => !e.inicio))
   const inicio = empregos.filter((e) => e.inicio)
   return (
-    <section id="trajetoria" aria-labelledby="trajetoria-titulo" className="scroll-mt-24 border-t border-linha py-20 sm:py-28">
-      <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:sticky lg:top-28 lg:col-span-4 lg:self-start">
-          <Ilustracao nome="rosa-dos-ventos" className="size-14 text-mar" />
-          <h2 id="trajetoria-titulo" className="mt-5 text-[2.1rem] leading-[1.15] font-semibold sm:text-[2.6rem]">
-            Onde trabalhei
-          </h2>
-          <p className="prosa mt-4 max-w-[36ch] text-[1.15rem] text-grafite">
-            Treze anos de software, os últimos cinco em IA aplicada. Hoje sou engenheiro de IA sênior no Sicoob.
-          </p>
-        </div>
-
-        <div className="lg:col-span-8">
+    <section id="trajetoria" aria-labelledby="trajetoria-titulo" className="scroll-mt-24 min-w-0">
+      <div className="flex items-end gap-5">
+        <Ilustracao nome="rosa-dos-ventos" className="size-14 shrink-0 text-mar" />
+        <h2 id="trajetoria-titulo" className="text-[2.1rem] leading-[1.15] font-semibold sm:text-[2.6rem]">
+          Onde trabalhei
+        </h2>
+      </div>
+      <p className="prosa mt-4 max-w-[52ch] text-[1.15rem] text-grafite">
+        Treze anos de software, os últimos cinco em IA aplicada. Hoje sou engenheiro de IA sênior no Sicoob.
+      </p>
+      <div className="mt-10">
+        <div>
           <ol className="relative ml-[5px] border-l-2 border-linha">
             {recentes.map((grupo) => {
               const atual = grupo.some((e) => e.atual)
@@ -111,7 +111,7 @@ export function Trajetoria() {
                   ) : grupo.length > 1 ? (
                     <div className="rounded-xl border border-linha p-5 sm:p-6">
                       <p className="mb-4 text-[0.92rem] font-semibold text-grafite">2025: dois trabalhos em paralelo</p>
-                      <div className="grid gap-7 xl:grid-cols-2 xl:gap-6">
+                      <div className="grid gap-7 2xl:grid-cols-2 2xl:gap-6">
                         {grupo.map((e) => (
                           <Item key={e.slug} e={e} empilhado />
                         ))}

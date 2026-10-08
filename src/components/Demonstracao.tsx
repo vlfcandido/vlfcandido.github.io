@@ -18,10 +18,10 @@ function poucoMovimento(): boolean {
 
 /**
  * Demonstração interativa: a pessoa escolhe o ramo e a conversa de exemplo acontece na tela,
- * mensagem a mensagem. Com movimento reduzido, a conversa aparece inteira de uma vez.
+ * mensagem a mensagem. O ramo vive na página, porque "O que eu resolvo" destaca a oferta dele. Com movimento reduzido, a conversa aparece inteira de uma vez.
  */
-export function Demonstracao() {
-  const [indice, setIndice] = useState(0)
+export function Demonstracao({ ramo: idRamo, aoEscolher }: { ramo: string; aoEscolher: (id: string) => void }) {
+  const indice = Math.max(0, ramosDemo.findIndex((r) => r.id === idRamo))
   const [visiveis, setVisiveis] = useState(0)
   const [rodada, setRodada] = useState(0)
   const timers = useRef<number[]>([])
@@ -57,7 +57,7 @@ export function Demonstracao() {
               key={r.id}
               type="button"
               aria-pressed={i === indice}
-              onClick={() => (i === indice ? setRodada((n) => n + 1) : setIndice(i))}
+              onClick={() => (i === indice ? setRodada((n) => n + 1) : aoEscolher(r.id))}
               className={`chip inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[0.98rem] font-medium ${
                 i === indice
                   ? 'border-cobalto bg-cobalto text-nevoa'

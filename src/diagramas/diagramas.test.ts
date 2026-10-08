@@ -44,4 +44,13 @@ describe('ilustrações-diagrama', () => {
     const b = desenharSvg(desenhos[0], 'largo', paletaDoTema(), { prefixo: 'b' })
     expect(a.match(/id="([^"]+)-pm"/)?.[1]).not.toBe(b.match(/id="([^"]+)-pm"/)?.[1])
   })
+  it('texto copiado do desenho não gruda palavras nem traz número solto', () => {
+    const d = listarDesenhos()['como-eu-integro']
+    for (const m of ['largo', 'estreito'] as const) {
+      const svg = desenharSvg(d, m, paletaDoTema())
+      const texto = [...svg.matchAll(/<tspan[^>]*>([^<]*)<\/tspan>/g)].map((x) => x[1]).join('')
+      expect(texto).not.toMatch(/aqualquer|opróximo|nãoresolve/)
+      expect(svg).not.toMatch(/>18</)
+    }
+  })
 })
