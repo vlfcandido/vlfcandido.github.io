@@ -43,6 +43,13 @@ describe('como é uma entrega', () => {
     expect(t).toMatch(/7 dias de correção sem custo/)
     expect(t).not.toMatch(/6 em 6|a cada 6/)
   })
-  it('toda peça é de exemplo, com dado fictício', () => etapasEntrega.forEach((e) => expect(e.peca.titulo, e.id).toMatch(/exemplo/)))
-  it('o componente rotula a peça como dados fictícios', () => expect(ler('components/ComoEntrega.tsx')).toMatch(/SeloFicticio/))
+  it('faixa compacta: rótulo de até 4 palavras e uma frase só por etapa', () =>
+    etapasEntrega.forEach((e) => {
+      expect(e.rotulo.split(/\s+/).length, e.id).toBeLessThanOrEqual(4)
+      expect(e.frase.match(/[.!?](\s|$)/g)?.length, e.id).toBe(1)
+    }))
+  it('a demonstração diz que os dados são fictícios e não há cartão de exemplo aberto', () => {
+    expect(etapasEntrega.find((e) => e.id === 'demo')?.quando).toMatch(/fictícios/)
+    expect(ler('components/ComoEntrega.tsx')).not.toMatch(/SeloFicticio|peca/)
+  })
 })
