@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @import "./mare.css";
+@import "./case.css";
 
 /* Identidade Maré (07/10/2026): carta náutica, tábua de maré e guia de campo. As cores vêm do
    design system em mare.css; os nomes antigos do site (névoa, folha, tinta, cobalto...) viram
