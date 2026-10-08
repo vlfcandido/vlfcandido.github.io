@@ -136,6 +136,9 @@ export function foraDoQuePega(texto: string): string | null {
 
 /** Palavras que puxam cada oferta, da mais específica para a mais geral. */
 const SINAIS_OFERTA: ReadonlyArray<readonly [IdOferta, RegExp]> = [
+  // Copiar ou digitar de um lugar para outro é trabalho repetido, mesmo quando a origem é o WhatsApp
+  // (o exemplo do próprio site: "Alguém copia cada pedido para a planilha no fim do dia").
+  ['repetido', /\b(copi|digit|redigit|lanc|transcrev|passo)\w*\b.{0,60}\b(planilha|excel|sistema|crm|erp)/],
   ['resgate', /\b(travou|trava|caiu|fora do ar|bug|erro|quebrad|parou de funcionar|ninguem entende|legado|lento|brecha|invadid)/],
   ['integracao', /\b(crm|erp|integr|bling|tiny|omie|hubspot|pipedrive|rd station|conta azul|webhook|sincroniz|api\b)|\bentr\w* (nele|no sistema|direto)/],
   ['whatsapp', /\b(whatsapp|atendimento|agendar|agendamento|marcar horario|duvidas? dos? clientes|chatbot|robo de atendimento)/],
