@@ -248,24 +248,92 @@ export const gruposClientes: GrupoClientes[] = [
 /**
  * Seleção de logos da página principal, na ordem em que aparecem: nomes que o dono de um negócio
  * reconhece de cara, de setores diferentes. Todas saem dos grupos acima; o "ver todas" mostra o resto.
+ *
+ * Regras (08/10/2026, plano do juiz, M1): as 6 primeiras são de 6 ramos diferentes, nenhum banco nelas,
+ * e nunca dois do segmento `financeiro` seguidos. As 6 primeiras vão para a abertura (`logosAbertura`).
+ * Ordem anterior: itau, banco-do-brasil, petrobras, unimed, amazon, tim, b3, olx, sulamerica, vivara,
+ * ipiranga, scania, gpa, conta-azul, neon, prefeitura-rio, odontoprev, comgas.
+ * Comgás saiu e Bradesco Dental entrou (é citada na legenda da demo). A Prefeitura do Rio saiu da faixa
+ * por decisão dele (08/10/2026) e ficou só na grade; para não juntar dois bancos no fim, Itaú e GPA
+ * trocaram de lugar (11º e 12º) em relação à ordem do juiz.
  */
 export const selecaoLogos: string[] = [
-  'itau',
-  'banco-do-brasil',
-  'petrobras',
-  'unimed',
   'amazon',
-  'tim',
-  'b3',
-  'olx',
-  'sulamerica',
-  'vivara',
-  'ipiranga',
-  'scania',
-  'gpa',
+  'unimed',
   'conta-azul',
-  'neon',
-  'prefeitura-rio',
+  'scania',
+  'petrobras',
+  'tim',
+  'olx',
   'odontoprev',
-  'comgas',
+  'vivara',
+  'bradesco-dental',
+  'itau',
+  'gpa',
+  'neon',
+  'sulamerica',
+  'banco-do-brasil',
+  'ipiranga',
+  'b3',
 ]
+
+/** Quantas logos da seleção sobem para a abertura (M4). */
+export const QTD_ABERTURA = 6
+
+/** As logos da abertura: as primeiras da seleção. */
+export const logosAbertura: string[] = selecaoLogos.slice(0, QTD_ABERTURA)
+
+/**
+ * Linha-âncora abaixo das logos da abertura, calculada a partir do total (nunca um número fixo).
+ *
+ * @param total quantas empresas há nos grupos (Vertigo + Wiv).
+ * @returns por exemplo "e mais 66 empresas" para 72.
+ */
+export function textoMaisEmpresas(total: number): string {
+  return `e mais ${total - QTD_ABERTURA} empresas`
+}
+
+/**
+ * Ordem da faixa da seção de Provas: começa na 7ª logo da seleção e põe as da abertura no fim
+ * (rotação), para a pessoa não ver as mesmas logos duas vezes seguidas. Nenhuma logo some.
+ */
+export const faixaProvas: string[] = [...selecaoLogos.slice(QTD_ABERTURA), ...logosAbertura]
+
+/**
+ * Siglas setoriais que vão para o fim da grade "Todas" (M2): sem elas no começo, quem abre a grade vê
+ * marcas antes de cinco siglas de justiça em sequência. O resto segue a ordem de declaração.
+ */
+export const fimDaGrade: string[] = ['mprj', 'mpsp', 'tjpr', 'tjrj', 'tjrr', 'semad-mg', 'rnp', 'adasa', 'tbg']
+
+/**
+ * Devolve a lista com os clientes de `fimDaGrade` no fim, na ordem dessa lista; os outros mantêm a ordem.
+ *
+ * @param lista clientes na ordem de declaração.
+ * @returns nova lista, sem alterar a original.
+ */
+export function ordenarGrade<T extends { slug: string }>(lista: T[]): T[] {
+  const fim = new Set(fimDaGrade)
+  const fimOrdenado = fimDaGrade.flatMap((s) => lista.filter((c) => c.slug === s))
+  return [...lista.filter((c) => !fim.has(c.slug)), ...fimOrdenado]
+}
+
+/**
+ * Rótulo curto de cada filtro de ramo, na ordem dos chips (M3: a ordem dos ramos que mais pedem no 99).
+ * Ordem anterior: Finanças, Indústria e agro, Setor público, Saúde, Varejo, Energia, Serviços.
+ * Segmentos com menos de três empresas ficam só em "Todos".
+ */
+export const rotuloCurtoRamo: Partial<Record<Segmento, string>> = {
+  saude: 'Saúde',
+  varejo: 'Varejo',
+  servicos: 'Serviços',
+  industria: 'Indústria e agro',
+  financeiro: 'Finanças',
+  energia: 'Energia',
+  publico: 'Setor público',
+}
+
+/**
+ * Clientes em cujo projeto ele só participou, sem liderar (decisão dele, 08/10/2026). A legenda da logo
+ * diz "participei", nunca "liderei".
+ */
+export const soParticipei: ReadonlySet<string> = new Set(['minu'])
