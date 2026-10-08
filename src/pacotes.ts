@@ -1,46 +1,42 @@
-// Pacotes "a partir de" (08/10/2026). Preços e contas: patrimonio/config/privado/carreira/site-reorg/07-pacotes.md,
-// derivados de scripts/estimador99.py (piso R$ 150, tarifa por hora, fator de entrada) e do estudo de manutenção.
-// Regra do site: todo valor em reais aparece como "a partir de R$ X" (o fechado sai do escopo de uma página).
+// Pacotes de sustentação e evolução por banco de horas mensal (decisão do dono, 08/10/2026).
+// Versão anterior (pacotes de projeto com preço inicial e manutenção 150/260/520) retirada:
+// ver patrimonio/config/privado/carreira/site-reorg/07-pacotes.md. Projeto sai com preço fechado pelo escopo de 1 página.
 // Sem contato direto: a ação é o 99Freelas e o LinkedIn, como no resto do site.
 
-/** Um pacote de projeto ou de manutenção mensal. */
+/** Um pacote mensal de horas. */
 export interface Pacote {
   id: string
   nome: string
-  /** Para que tipo de pedido serve. */
-  para: string
-  /** Valor inicial em reais (inteiro); o texto sempre sai de `precoInicial`. */
+  /** Horas por mês no banco. */
+  horas: number
+  /** Valor mensal em reais (inteiro). */
   valor: number
-  /** O que normalmente entra, em linguagem de negócio. */
-  inclui: string[]
-  /** Custo mensal de terceiros, quando há, com a fonte. */
-  terceiros?: { texto: string; fonte: { texto: string; url: string } }
+  /** O que cabe nele, em uma linha. */
+  cabe: string
 }
 
-/** Texto padrão de preço: sempre com "a partir de". */
-export function precoInicial(valor: number, por?: 'mês'): string {
-  return `a partir de R$ ${valor.toLocaleString('pt-BR')}${por ? ` por ${por}` : ''}`
+/** Hora extra, avisada antes de ser feita. */
+export const HORA_EXTRA = 70
+
+/** Valor da hora dentro do pacote (inteiro, por construção dos preços). */
+export function valorHora(p: Pacote): number {
+  return p.valor / p.horas
 }
 
-const META = {
-  texto:
-    'Cobrado pela Meta, na conta de quem contrata, por mensagem de modelo entregue (não mais por conversa), conforme a tabela oficial em reais. Respostas dentro da janela de atendimento não são modelo e não são cobradas.',
+/** Formata um valor em reais: "R$ 260". */
+export function reais(valor: number): string {
+  return `R$ ${valor.toLocaleString('pt-BR')}`
+}
+
+/** Custo de terceiros (ex.: API do WhatsApp), sem valor: só a fonte oficial. */
+export const terceiros = {
+  texto: 'Serviços de terceiros, como a API do WhatsApp, são cobrados por eles, na sua conta. Os valores estão na tabela oficial:',
   fonte: { texto: 'Preços da API do WhatsApp (Meta)', url: 'https://developers.facebook.com/docs/whatsapp/pricing/' },
 }
 
-/** Pacotes de projeto, do menor ao maior esforço. */
-export const pacotesProjeto: Pacote[] = [
-  { id: 'ajuste', nome: 'Ajuste ou correção', para: 'Algo que já existe e precisa funcionar direito.', valor: 150, inclui: ['Diagnóstico do problema', 'Correção testada', 'Aviso do que foi mexido'] },
-  { id: 'site', nome: 'Site ou landing page', para: 'Uma página clara que apresenta o negócio e recebe contatos.', valor: 210, inclui: ['Página responsiva, no celular e no computador', 'Formulário de contato', 'Publicação no ar'] },
-  { id: 'integracao', nome: 'Integração por API', para: 'Dois sistemas que hoje não se falam.', valor: 250, inclui: ['Ligação entre os sistemas', 'Tratamento de erro e nova tentativa', 'Registro do que foi enviado'] },
-  { id: 'agente', nome: 'Agente de IA', para: 'Um assistente que responde ou executa tarefas com as regras da empresa.', valor: 290, inclui: ['Regras e limites combinados por escrito', 'Testes dos cenários principais', 'Passagem para uma pessoa quando não sabe'] },
-  { id: 'whatsapp', nome: 'Chatbot de WhatsApp', para: 'Atendimento que tira as dúvidas repetidas e passa o resto para a equipe.', valor: 360, inclui: ['Fluxo de atendimento combinado', 'Passagem para a equipe', 'Testes dos cenários de conversa'], terceiros: META },
-  { id: 'sistema', nome: 'Sistema com painel', para: 'Um painel ou sistema web para trabalhar no dia a dia.', valor: 440, inclui: ['Cadastro, consulta e relatório do essencial', 'Acesso por login', 'Testes automáticos'] },
-]
-
-/** Manutenção mensal, opcional, depois dos 7 dias de correção. */
-export const pacotesManutencao: Pacote[] = [
-  { id: 'essencial', nome: 'Essencial', para: 'Landing page e site estático.', valor: 150, inclui: ['Monitor de disponibilidade', 'Backup mensal', 'Atualização de dependências', '1 h de ajustes'] },
-  { id: 'padrao', nome: 'Padrão', para: 'Site com formulário, agendamento ou WordPress.', valor: 260, inclui: ['Tudo do Essencial', '2,5 h de ajustes', 'Relatório mensal de 5 linhas'] },
-  { id: 'sistema-mensal', nome: 'Sistema', para: 'Chatbot, painel ou integração.', valor: 520, inclui: ['Tudo do Padrão', 'Correção de problemas médios sem limite de quantidade, dentro das horas', 'Revisão de segurança mensal'] },
+/** Pacotes mensais, do menor ao maior banco de horas. */
+export const pacotes: Pacote[] = [
+  { id: 'sustentacao', nome: 'Sustentação', horas: 4, valor: 260, cabe: 'Correções, monitoramento e pequenos ajustes.' },
+  { id: 'evolucao', nome: 'Evolução', horas: 8, valor: 480, cabe: 'Melhorias e funcionalidades novas, além da sustentação.' },
+  { id: 'evolucao-mais', nome: 'Evolução+', horas: 16, valor: 880, cabe: 'Evolução em ritmo maior, para sistema em crescimento.' },
 ]

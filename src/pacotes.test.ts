@@ -2,35 +2,31 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { etapasEntrega } from './entrega'
-import { pacotesManutencao, pacotesProjeto, precoInicial } from './pacotes'
+import { HORA_EXTRA, pacotes, terceiros, valorHora } from './pacotes'
 import { encontrarTermosProibidos } from './lib/termos-proibidos'
 
 const ler = (c: string) => readFileSync(resolve(__dirname, c), 'utf8')
 
-describe('pacotes "a partir de" (08/10/2026)', () => {
-  it('preços batem com o estimador e o estudo (07-pacotes.md)', () => {
-    expect(pacotesProjeto.map((p) => [p.id, p.valor])).toEqual([
-      ['ajuste', 150], ['site', 210], ['integracao', 250], ['agente', 290], ['whatsapp', 360], ['sistema', 440],
-    ])
-    expect(pacotesManutencao.map((p) => p.valor)).toEqual([150, 260, 520])
+describe('pacotes de sustentação e evolução (08/10/2026)', () => {
+  it('três bancos de horas com a tabela decidida', () =>
+    expect(pacotes.map((p) => [p.id, p.horas, p.valor])).toEqual([['sustentacao', 4, 260], ['evolucao', 8, 480], ['evolucao-mais', 16, 880]]))
+  it('preço por hora coerente: inteiro e cai quanto maior o banco (65, 60, 55); hora extra 70', () => {
+    expect(pacotes.map(valorHora)).toEqual([65, 60, 55])
+    expect(HORA_EXTRA).toBe(70)
+    expect(HORA_EXTRA).toBeGreaterThan(valorHora(pacotes[0]))
   })
-  it('nenhum preço abaixo do piso de R$ 150', () => [...pacotesProjeto, ...pacotesManutencao].forEach((p) => expect(p.valor).toBeGreaterThanOrEqual(150)))
-  it('todo preço exibido leva "a partir de"', () => {
-    [...pacotesProjeto, ...pacotesManutencao].forEach((p) => expect(precoInicial(p.valor)).toMatch(/^a partir de R\$ /))
-    expect(precoInicial(150, 'mês')).toBe('a partir de R$ 150 por mês')
+  it('nenhum preço de projeto no site (sem "a partir de R$" nem valores antigos)', () => {
+    const t = [ler('pacotes.ts'), ler('components/Pacotes.tsx'), ler('components/ComoEntrega.tsx'), JSON.stringify(etapasEntrega)].join('\n')
+    expect(t).not.toMatch(/a partir de R\$/)
+    expect(t).not.toMatch(/R\$\s?(150|210|250|290|360|440)\b/)
+    expect(JSON.stringify(etapasEntrega)).not.toMatch(/R\$/)
   })
-  it('todo "R$" nos textos e componentes das seções vem depois de "a partir de"', () => {
-    const textos = [JSON.stringify({ pacotesProjeto, pacotesManutencao, etapasEntrega }), ler('components/Pacotes.tsx'), ler('components/ComoEntrega.tsx')]
-    textos.forEach((t) => [...t.matchAll(/R\$/g)].forEach((m) => expect(t.slice(Math.max(0, m.index! - 12), m.index!), t.slice(m.index! - 12, m.index! + 8)).toMatch(/a partir de $/)))
-  })
-  it('a Meta: por mensagem de modelo entregue, com link oficial e sem valor inventado', () => {
-    const w = pacotesProjeto.find((p) => p.id === 'whatsapp')!
-    expect(w.terceiros?.texto).toMatch(/por mensagem de modelo entregue/)
-    expect(w.terceiros?.fonte.url).toBe('https://developers.facebook.com/docs/whatsapp/pricing/')
-    expect(w.terceiros?.texto).not.toMatch(/\d/)
+  it('a Meta: só nota com link oficial, sem valor', () => {
+    expect(terceiros.fonte.url).toBe('https://developers.facebook.com/docs/whatsapp/pricing/')
+    expect(terceiros.texto).not.toMatch(/\d|R\$/)
   })
   it('sem contato direto e sem termo proibido', () => {
-    const t = JSON.stringify({ pacotesProjeto, pacotesManutencao, etapasEntrega })
+    const t = JSON.stringify({ pacotes, terceiros, etapasEntrega })
     expect(encontrarTermosProibidos(t)).toEqual([])
     expect(t).not.toMatch(/whatsapp\.com|wa\.me|mailto|tel:/i)
     expect(ler('components/Pacotes.tsx')).toMatch(/99Freelas/)
