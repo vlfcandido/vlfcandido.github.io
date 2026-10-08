@@ -13,3 +13,39 @@ export const HASH_PROJETOS = '#/projetos'
 export function rotaDoHash(hash: string): Rota {
   return hash === HASH_PROJETOS || hash.startsWith(`${HASH_PROJETOS}/`) ? 'projetos' : 'inicio'
 }
+
+/**
+ * Âncoras de versões anteriores do site (links salvos, perfis e propostas antigas) e para onde
+ * cada uma leva hoje. Sem este mapa, um link velho abria a principal parada no topo, sem a seção.
+ */
+export const ANCORAS_ANTIGAS: Readonly<Record<string, string>> = {
+  '#inicio': '#/',
+  '#sobre': '#/',
+  '#cases': HASH_PROJETOS,
+  '#projetos': HASH_PROJETOS,
+  '#empresas': HASH_PROJETOS,
+  '#stack': HASH_PROJETOS,
+  '#ferramentas': HASH_PROJETOS,
+  '#clientes': '#resultados',
+  '#como-trabalho': '#como-funciona',
+}
+
+/**
+ * Traduz um hash de versão antiga para o equivalente atual.
+ *
+ * @param hash valor de `location.hash`.
+ * @returns o hash atual correspondente, ou `null` quando o hash já é atual.
+ */
+export function hashAtual(hash: string): string | null {
+  return ANCORAS_ANTIGAS[hash] ?? null
+}
+
+/**
+ * Extrai o id da seção a que um hash aponta na principal.
+ *
+ * @param hash valor de `location.hash` (ex.: `#resultados`).
+ * @returns o id (`resultados`) ou `null` para rotas (`#/...`) e hash vazio.
+ */
+export function secaoDoHash(hash: string): string | null {
+  return /^#[^/]/.test(hash) ? decodeURIComponent(hash.slice(1)) : null
+}

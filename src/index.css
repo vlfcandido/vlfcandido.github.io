@@ -71,6 +71,11 @@ html {
   }
 }
 
+/* Destino do menu recebe foco (tabindex -1) para leitor de tela; o anel só aparece no teclado. */
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Tipografia (revisão de 07/10/2026): o site parecia "apertado" porque os títulos usavam
    tracking negativo (-0,025em), entrelinha 1 a 1,05 e o corte óptico de display da Bricolage
    (opsz 96), que já vem com espaçamento justo. Agora: corpo com entrelinha 1,55 e espaço de
