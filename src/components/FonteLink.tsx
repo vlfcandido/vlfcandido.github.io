@@ -7,7 +7,7 @@ export function FonteLink({ fonte }: { fonte: Fonte }) {
   return (
     <LinkExterno
       href={fonte.url}
-      className="underline decoration-linha underline-offset-2 hover:text-destaque hover:decoration-destaque"
+      className="sublinha hover:text-tinta"
     >
       {fonte.texto}
     </LinkExterno>

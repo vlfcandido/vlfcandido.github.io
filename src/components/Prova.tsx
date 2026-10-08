@@ -61,7 +61,7 @@ function CartaoCaso({ d }: { d: Destaque }) {
       <p className="mt-auto pt-5">
         <LinkExterno
           href={d.fonte.url}
-          className="text-[0.98rem] text-grafite underline decoration-linha decoration-2 underline-offset-4 hover:text-tinta hover:decoration-cobalto"
+          className="sublinha text-[0.98rem] text-grafite hover:text-tinta"
         >
           {d.fonte.texto}
         </LinkExterno>
@@ -80,11 +80,11 @@ export function Prova() {
         </h2>
         <p className="prosa max-w-[40ch] text-[1.08rem] text-grafite">
           Na{' '}
-          <LinkExterno href={gruposClientes[0].fonte.url} className="underline decoration-linha underline-offset-2 hover:text-tinta">
+          <LinkExterno href={gruposClientes[0].fonte.url} className="sublinha hover:text-tinta">
             Vertigo
           </LinkExterno>{' '}
           e na{' '}
-          <LinkExterno href={gruposClientes[1].fonte.url} className="underline decoration-linha underline-offset-2 hover:text-tinta">
+          <LinkExterno href={gruposClientes[1].fonte.url} className="sublinha hover:text-tinta">
             Wiv
           </LinkExterno>
           , com chatbots e análise de conversas.

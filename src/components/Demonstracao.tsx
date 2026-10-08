@@ -58,12 +58,13 @@ export function Demonstracao() {
               type="button"
               aria-pressed={i === indice}
               onClick={() => (i === indice ? setRodada((n) => n + 1) : setIndice(i))}
-              className={`rounded-full border px-4 py-2 text-[0.98rem] font-medium transition-colors motion-reduce:transition-none ${
+              className={`chip inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[0.98rem] font-medium ${
                 i === indice
                   ? 'border-cobalto bg-cobalto text-nevoa'
                   : 'border-linha bg-folha text-tinta hover:border-cobalto hover:text-cobalto'
               }`}
             >
+              {i === indice && <span aria-hidden="true" className="ponto ponto-anel" />}
               {r.rotulo}
             </button>
           ))}
@@ -109,7 +110,7 @@ export function Demonstracao() {
             type="button"
             onClick={() => setRodada((n) => n + 1)}
             disabled={digitando}
-            className="rounded-full px-3 py-1.5 text-[0.92rem] font-medium text-cobalto underline decoration-linha underline-offset-4 hover:decoration-cobalto disabled:invisible"
+            className="rounded-full px-3 py-1.5 text-[0.92rem] font-medium text-cobalto underline decoration-linha decoration-2 underline-offset-4 hover:decoration-pitanga disabled:invisible"
           >
             Ver de novo
           </button>

@@ -1,7 +1,7 @@
 import { useRef, useState, type CSSProperties, type FocusEvent, type PointerEvent } from 'react'
 import { flushSync } from 'react-dom'
 import { empresasDiretas, gruposClientes, segmentos, selecaoLogos, type Cliente, type Segmento } from '../clientes'
-import { Logo } from './Logo'
+import { Logo, logoClara } from './Logo'
 
 const TODOS: Cliente[] = gruposClientes.flatMap((g) => g.clientes)
 const POR_SLUG = new Map<string, Cliente>([...TODOS, ...empresasDiretas].map((c) => [c.slug, c]))
@@ -74,6 +74,7 @@ function Grade({ lista, ativo, definirAtivo, curtaNoCelular = 0, comTransicao = 
             <button
               type="button"
               data-ativo={esta}
+              data-clara={logoClara(c.slug)}
               aria-describedby={`dica-${c.slug}`}
               onPointerDown={(e: PointerEvent) => (ponteiro.current = e.pointerType)}
               onPointerEnter={(e: PointerEvent) => e.pointerType === 'mouse' && definirAtivo(c.slug)}
@@ -133,7 +134,7 @@ export function LogosClientes() {
 
   return (
     <div className="mt-12">
-      <div role="group" aria-label="Filtrar por ramo" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+      <div role="group" aria-label="Filtrar por ramo" className="-mx-4 flex gap-2 overflow-x-auto px-4 pt-1 pb-2 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
         {[{ segmento: 'todos' as Filtro, rotulo: 'Todos', total: TOTAL }, ...FILTROS].map((f) => {
           const marcado = filtro === f.segmento
           return (
@@ -142,11 +143,14 @@ export function LogosClientes() {
               type="button"
               aria-pressed={marcado}
               onClick={() => escolher(f.segmento)}
-              className={`chip shrink-0 rounded-full border px-4 py-2 text-[0.95rem] font-medium whitespace-nowrap ${
+              className={`chip inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[0.95rem] font-medium whitespace-nowrap ${
                 marcado ? 'border-cobalto bg-cobalto text-nevoa' : 'border-linha bg-folha text-tinta hover:border-cobalto hover:text-cobalto'
               }`}
             >
-              {f.rotulo} <span className={marcado ? 'opacity-80' : 'text-grafite'}>{f.total}</span>
+              {marcado && <span aria-hidden="true" className="ponto ponto-anel" />}
+              <span>
+                {f.rotulo} <span className={marcado ? 'opacity-80' : 'text-grafite'}>{f.total}</span>
+              </span>
             </button>
           )
         })}

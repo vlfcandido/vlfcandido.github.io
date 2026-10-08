@@ -13,6 +13,11 @@
   --cobalto-forte: #1a3699;
   --marca: #ffd34d;
   --marca-tinta: #13233f;
+  /* Pitanga (07/10/2026): acento quente e secundário, complemento do cobalto e longe do amarelo do
+     grifo. Só em detalhe: hover, sublinhado, marcador ativo, seleção. Nunca em bloco grande.
+     --pitanga é para traço e ponto (3,4:1 no fundo); --pitanga-texto passa AA em texto (5,1:1). */
+  --pitanga: #e8445f;
+  --pitanga-texto: #c4213f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +32,8 @@
     --cobalto-forte: #b4c4ff;
     --marca: #e9b949;
     --marca-tinta: #0f1b2d;
+    --pitanga: #ff7a90;
+    --pitanga-texto: #ff8fa2;
   }
 }
 
@@ -41,6 +48,8 @@
   --cobalto-forte: #b4c4ff;
   --marca: #e9b949;
   --marca-tinta: #0f1b2d;
+  --pitanga: #ff7a90;
+  --pitanga-texto: #ff8fa2;
 }
 
 @theme inline {
@@ -53,6 +62,8 @@
   --color-cobalto-forte: var(--cobalto-forte);
   --color-marca: var(--marca);
   --color-marca-tinta: var(--marca-tinta);
+  --color-pitanga: var(--pitanga);
+  --color-pitanga-texto: var(--pitanga-texto);
 }
 
 @theme {
@@ -72,7 +83,7 @@ html {
 }
 
 /* Destino do menu recebe foco (tabindex -1) para leitor de tela; o anel só aparece no teclado. */
-[tabindex="-1"]:focus:not(:focus-visible) {
+[tabindex="-1"]:focus {
   outline: none;
 }
 
@@ -97,6 +108,45 @@ h2 {
   outline: 2px solid var(--cobalto);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* Seleção de texto na cor de acento, clara o bastante para a tinta continuar legível. */
+::selection {
+  background: color-mix(in srgb, var(--pitanga) 30%, transparent);
+  color: var(--tinta);
+}
+
+/* Sublinhado que se desenha da esquerda para a direita no hover/foco, em pitanga. */
+.sublinha {
+  text-decoration: none;
+  background: linear-gradient(var(--linha), var(--linha)) left bottom / 100% 2px no-repeat,
+    linear-gradient(var(--pitanga), var(--pitanga)) left bottom / 0% 2px no-repeat;
+  padding-bottom: 2px;
+  transition: background-size 0.25s ease, color 0.15s;
+}
+.sublinha:hover,
+.sublinha:focus-visible,
+.sublinha[aria-current="page"] {
+  background-size: 100% 2px, 100% 2px;
+}
+/* Variante do menu: sem o traço de base, só o pitanga que se desenha. */
+.sublinha.leve {
+  background-image: linear-gradient(transparent, transparent), linear-gradient(var(--pitanga), var(--pitanga));
+}
+
+/* Ponto de acento: marca o chip ativo, o status "em produção" e o fim do nome no cabeçalho. */
+.ponto {
+  display: inline-block;
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: 999px;
+  background: var(--pitanga);
+  flex: none;
+}
+
+/* No chip ativo (fundo cobalto) o ponto ganha um anel claro para não se perder no azul. */
+.ponto-anel {
+  box-shadow: 0 0 0 2px var(--nevoa);
 }
 
 /* Grifo de marca-texto: só em número com fonte. */
@@ -152,6 +202,17 @@ a:hover .logo-mono,
 a:focus-visible .logo-mono {
   opacity: 1;
 }
+/* Logo clara fora da placa: fica na silhueta, senão some no fundo claro. */
+:root[data-tema="claro"] a:hover .logo-mono.clara,
+:root[data-tema="claro"] a:focus-visible .logo-mono.clara {
+  filter: brightness(0);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-tema="escuro"]) a:hover .logo-mono.clara,
+  :root:not([data-tema="escuro"]) a:focus-visible .logo-mono.clara {
+    filter: brightness(0);
+  }
+}
 :root[data-tema="claro"] a:hover .logo-mono,
 :root[data-tema="claro"] a:focus-visible .logo-mono {
   filter: none;
@@ -188,7 +249,7 @@ a:focus-visible .logo-mono {
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: var(--cobalto);
+  background: var(--pitanga);
   animation: pisca 1s infinite ease-in-out;
 }
 .pontinhos i:nth-child(2) {
@@ -216,12 +277,12 @@ a:focus-visible .logo-mono {
 @media (hover: hover) {
   .botao-acao:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 3px 3px 0 var(--tinta);
+    box-shadow: 3px 3px 0 var(--pitanga);
   }
 }
 .botao-acao:active {
   transform: translate(0, 0) scale(0.98);
-  box-shadow: 0 0 0 var(--tinta);
+  box-shadow: 0 0 0 var(--pitanga);
 }
 
 /* Chips de filtro das logos: mesmo afundar no clique. */
@@ -250,6 +311,16 @@ a:focus-visible .logo-mono {
   opacity: 0;
   transform: scale(0.94);
   transition: opacity 0.18s ease, transform 0.18s ease;
+}
+/* Logos claras (brancas ou cinza-claro no original) sumiam na placa branca: ganham placa azul-marinho
+   fixa, a mesma nos dois temas, com borda para destacar do fundo escuro. */
+.logo-botao[data-clara="true"]::before {
+  background: #13233f;
+  box-shadow: 4px 4px 0 var(--linha), inset 0 0 0 1px rgb(255 255 255 / 0.18);
+}
+/* Sem arquivo de logo, o nome em texto vai sobre a placa branca: tinta fixa, legível nos dois temas. */
+.logo-botao[data-ativo="true"] .nome-logo {
+  color: #13233f;
 }
 .logo-botao[data-ativo="true"] {
   z-index: 5;
@@ -311,6 +382,43 @@ a:focus-visible .logo-mono {
   animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
+/* Card de projeto: no hover/foco a moldura sobe e a sombra dura vira pitanga. */
+.cartao-projeto img,
+.cartao-projeto .moldura-logo {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cartao-projeto:hover img,
+.cartao-projeto:hover .moldura-logo,
+.cartao-projeto:has(:focus-visible) img,
+.cartao-projeto:has(:focus-visible) .moldura-logo {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--pitanga);
+}
+.cartao-projeto:has(:focus-visible) {
+  outline: 2px solid var(--cobalto);
+  outline-offset: 8px;
+  border-radius: 8px;
+}
+
+/* Painel de projeto: entra subindo de leve; o fundo escurece junto. */
+.painel-projeto[open] {
+  animation: entra-painel 0.24s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.painel-projeto[open]::backdrop {
+  animation: entra-fundo 0.24s ease-out;
+}
+@keyframes entra-painel {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+@keyframes entra-fundo {
+  from {
+    opacity: 0;
+  }
+}
+
 /* Case que abre: borda cobalto quando aberto. */
 .cartao-caso {
   transition: border-color 0.2s ease;
@@ -361,7 +469,7 @@ a:focus-visible .logo-mono {
 }
 .passo[data-estado="ativo"] .passo-numero {
   transform: scale(1.12);
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--cobalto) 18%, transparent);
+  box-shadow: 0 0 0 4px var(--nevoa), 0 0 0 6px var(--pitanga);
 }
 .passo-titulo {
   transition: color 0.25s;
@@ -399,6 +507,7 @@ a:focus-visible .logo-mono {
 .faixa-noticia:hover .seta-noticia,
 .faixa-noticia:focus-visible .seta-noticia {
   opacity: 1;
+  color: var(--pitanga-texto);
   transform: translate(2px, -2px);
 }
 @media (hover: none) {
@@ -423,8 +532,16 @@ a:focus-visible .logo-mono {
 
 @media (prefers-reduced-motion: reduce) {
   .balao,
-  .pontinhos i {
+  .pontinhos i,
+  .painel-projeto[open],
+  .painel-projeto[open]::backdrop {
     animation: none;
+  }
+  .cartao-projeto:hover img,
+  .cartao-projeto:hover .moldura-logo,
+  .cartao-projeto:has(:focus-visible) img,
+  .cartao-projeto:has(:focus-visible) .moldura-logo {
+    transform: none;
   }
   .pontinhos i {
     opacity: 0.6;
@@ -439,6 +556,9 @@ a:focus-visible .logo-mono {
   .passo::after,
   .passo-numero,
   .passo-titulo,
+  .sublinha,
+  .cartao-projeto img,
+  .cartao-projeto .moldura-logo,
   .faixa-noticia,
   .revela,
   .seta-noticia {

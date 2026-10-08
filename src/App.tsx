@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Cabecalho } from './components/Cabecalho'
 import { DefsDiagramas } from './components/Diagramas'
 import { LinkedinFixo } from './components/LinkedinFixo'
 import { Rodape } from './components/Rodape'
-import { hashAtual, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
+import { HASH_PROJETOS, hashAtual, projetoDoHash, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
 import { PaginaInicio } from './paginas/Inicio'
 import { PaginaProjetos } from './paginas/Projetos'
 
@@ -28,10 +28,15 @@ function useHash(): string {
 /**
  * Depois de cada render da rota, leva a pessoa ao destino: a seção da âncora ou o título da página.
  * O foco vai junto (tabindex -1) para leitor de tela e teclado continuarem dali, e a rolagem é
- * suave salvo quando o sistema pede menos movimento.
+ * suave salvo quando o sistema pede menos movimento. Abrir e fechar o painel de projeto não conta.
  */
 function useDestino(hash: string, rota: Rota) {
+  const anterior = useRef<string | null>(null)
   useEffect(() => {
+    const antes = anterior.current
+    anterior.current = hash
+    // Abrir ou fechar o painel de um projeto não mexe na rolagem nem no foco: o painel cuida disso.
+    if (projetoDoHash(hash) || (hash === HASH_PROJETOS && antes && projetoDoHash(antes))) return
     const id = secaoDoHash(hash)
     const alvo = id ? document.getElementById(id) : rota === 'projetos' ? document.querySelector('main h1') : null
     const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -63,7 +68,7 @@ export function App() {
       <DefsDiagramas />
       <Cabecalho rota={rota} />
       <main id="conteudo" className="mx-auto max-w-7xl px-4 sm:px-8">
-        {rota === 'projetos' ? <PaginaProjetos /> : <PaginaInicio />}
+        {rota === 'projetos' ? <PaginaProjetos hash={hash} /> : <PaginaInicio />}
       </main>
       <Rodape />
       <LinkedinFixo rota={rota} />

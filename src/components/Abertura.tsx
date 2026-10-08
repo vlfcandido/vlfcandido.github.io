@@ -31,7 +31,7 @@ export function Abertura() {
             {NOVENTA_E_NOVE && (
               <LinkExterno
                 href={NOVENTA_E_NOVE.url}
-                className="font-medium underline decoration-linha decoration-2 underline-offset-4 hover:decoration-cobalto"
+                className="sublinha font-medium"
               >
                 Contratar pelo 99Freelas
               </LinkExterno>

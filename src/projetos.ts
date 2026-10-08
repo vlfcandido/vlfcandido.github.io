@@ -1,0 +1,337 @@
+// Galeria da página de projetos: um item por card, com o tipo (para o filtro) e o status honesto.
+// Os textos vêm de conteudo.ts e clientes.ts; aqui só entra o que a galeria precisa a mais. Os números
+// dos projetos próprios saem do banco de provas (medidos em 07/10/2026). Nada de projeto que o banco
+// de provas manda não citar (ex.: o bot de pedidos, que não sobe), nem de lucro em trading.
+
+import { empresasDiretas, type EmpresaDireta } from './clientes'
+import { cases, type Case, type Fonte } from './conteudo'
+import { diagramasDosCasos, printsDosCasos, type Diagrama, type Print } from './visuais'
+
+/** Tipo de projeto, usado pelos chips de filtro. */
+export type TipoProjeto = 'chatbot' | 'agentes' | 'sistemas' | 'integracoes' | 'dados'
+
+/** Rótulo de cada tipo, na ordem dos chips. */
+export const tiposProjeto: Record<TipoProjeto, string> = {
+  chatbot: 'Chatbot e atendimento',
+  agentes: 'Agentes de IA',
+  sistemas: 'Sistemas e SaaS',
+  integracoes: 'Integrações e automação',
+  dados: 'Dados e trading',
+}
+
+/** Situação real do projeto hoje. */
+export type StatusProjeto = 'producao' | 'mvp' | 'prototipo' | 'estudo'
+
+/** Rótulo de cada status, como aparece no card. */
+export const statusProjeto: Record<StatusProjeto, string> = {
+  producao: 'Em produção',
+  mvp: 'MVP',
+  prototipo: 'Protótipo',
+  estudo: 'Estudo',
+}
+
+/** Um card da galeria e o conteúdo do painel que ele abre. */
+export interface ItemProjeto {
+  /** Também é o fim da rota compartilhável: `#/projetos/<slug>`. */
+  slug: string
+  /** `proprio` vai para a galeria; `empresa`, para a faixa "Em empresas". */
+  origem: 'proprio' | 'empresa'
+  nome: string
+  /** Uma linha de resultado, em linguagem de negócio. */
+  resultado: string
+  tipos: TipoProjeto[]
+  status: StatusProjeto
+  /** Duas a quatro etiquetas de tecnologia para o card; a lista completa vai no painel. */
+  etiquetas: string[]
+  stack: string[]
+  problema?: string
+  feito: string
+  /** Números que dá para conferir (testes, volume), um por linha. */
+  numeros: string[]
+  /** Papel na empresa, nos casos de empresa. */
+  papel?: string
+  print?: Print
+  /** Segundo print, mostrado só no painel. */
+  printExtra?: Print
+  /** Slug da empresa em `clientes.ts`, para a logo dos casos de empresa. */
+  empresa?: string
+  diagrama?: Diagrama
+  /** Repositório público, quando há. */
+  repositorio?: string
+  /** Matéria ou material público que conta a história. */
+  fonte?: Fonte
+}
+
+const caso = (slug: string): Case => {
+  const c = cases.find((x) => x.slug === slug)
+  if (!c) throw new Error(`caso ausente em conteudo.ts: ${slug}`)
+  return c
+}
+
+const empresa = (slug: string): EmpresaDireta => {
+  const e = empresasDiretas.find((x) => x.slug === slug)
+  if (!e) throw new Error(`empresa ausente em clientes.ts: ${slug}`)
+  return e
+}
+
+const prints = (slug: string) => printsDosCasos[slug] ?? []
+
+/**
+ * Monta a lista da galeria. É função (e não constante) para nada rodar quando o módulo é importado.
+ *
+ * @returns os projetos próprios e os casos de empresa, na ordem em que aparecem.
+ */
+export function listarProjetos(): ItemProjeto[] {
+  const quant = caso('nexus-quant')
+  const clips = caso('nexus-clips')
+  const aprova = caso('aprovaos')
+  const revisor = caso('revisor-ia')
+  const sicoob = caso('sicoob-investimentos')
+  const concierge = caso('concierge-contabilizei')
+  const franca = caso('prefeitura-franca')
+  const araguaia = caso('araguaia')
+  const waizer = caso('waizer-wiv')
+  const serasa = empresa('serasa-experian')
+
+  return [
+    {
+      slug: 'aprovaos',
+      origem: 'proprio',
+      nome: 'AprovaOS',
+      resultado: 'Plano de estudo que se ajusta ao desempenho de cada aluno.',
+      tipos: ['sistemas', 'agentes'],
+      status: 'mvp',
+      etiquetas: ['FastAPI', 'Google ADK', 'Gemini'],
+      stack: aprova.stack,
+      problema: aprova.contexto,
+      feito: aprova.feito,
+      numeros: ['Mais de 1.600 testes automáticos', '53 decisões de arquitetura documentadas', 'MVP em desenvolvimento, sem usuário pagante'],
+      print: prints('aprovaos')[0],
+      printExtra: prints('aprovaos')[1],
+      repositorio: 'https://github.com/vlfcandido/aprovaos',
+    },
+    {
+      slug: 'nexus-quant',
+      origem: 'proprio',
+      nome: 'Bot de trading em cripto',
+      resultado: 'Confere cada ordem com a corretora, 24 horas, sem erro de conta.',
+      tipos: ['dados', 'integracoes'],
+      status: 'estudo',
+      etiquetas: ['Python', 'Redis Streams', 'Next.js'],
+      stack: quant.stack,
+      problema: quant.contexto,
+      feito: quant.feito,
+      numeros: ['1.060 testes automáticos passando', 'Roda só em simulação, sem lucro', 'A vitrine mostra o que deu errado, inclusive as taxas'],
+      print: prints('nexus-quant')[0],
+      printExtra: prints('nexus-quant')[1],
+      diagrama: diagramasDosCasos['nexus-quant'],
+      repositorio: 'https://github.com/vlfcandido/nexus-quant-showcase',
+    },
+    {
+      slug: 'nexus-clips',
+      origem: 'proprio',
+      nome: 'Agente de vídeo curto',
+      resultado: 'Da notícia do momento ao corte com legenda, sem editar à mão.',
+      tipos: ['agentes', 'integracoes'],
+      status: 'prototipo',
+      etiquetas: ['LangGraph', 'Claude API', 'FFmpeg'],
+      stack: clips.stack,
+      problema: clips.contexto,
+      feito: clips.feito,
+      numeros: ['Upload no YouTube funcionando', 'O fluxo de ponta a ponta ainda está em construção'],
+      print: prints('nexus-clips')[0],
+      diagrama: diagramasDosCasos['nexus-clips'],
+    },
+    {
+      slug: 'revisor-ia',
+      origem: 'proprio',
+      nome: 'Revisor de código com IA',
+      resultado: 'Revisão automática em que a resposta da IA é medida, não só gerada.',
+      tipos: ['agentes'],
+      status: 'estudo',
+      etiquetas: ['LangGraph', 'RAG', 'MCP'],
+      stack: revisor.stack,
+      problema: revisor.contexto,
+      feito: revisor.feito,
+      numeros: [revisor.metrica],
+      print: prints('revisor-ia')[0],
+      repositorio: 'https://github.com/vlfcandido/revisor-ia',
+    },
+    {
+      slug: 'varredura-voos',
+      origem: 'proprio',
+      nome: 'Varredura de voos',
+      resultado: 'Acha a passagem mais curta, não só a mais barata.',
+      tipos: ['integracoes'],
+      status: 'mvp',
+      etiquetas: ['Python', 'API Amadeus', 'cache'],
+      stack: ['Python', 'API Amadeus', 'cache', 'controle de cota', 'rate limit'],
+      feito: 'Busca de passagens integrada à API da Amadeus, com controle de cota, cache e limite de chamadas, que prioriza a duração da viagem.',
+      numeros: ['109 testes automáticos', 'MVP de uso pessoal'],
+      print: { arquivo: 'prints/varredura-voos.webp', alt: 'Terminal com o resultado da varredura de voos ordenado por duração' },
+      repositorio: 'https://github.com/vlfcandido/varredura-voos',
+    },
+    {
+      slug: 'engenharia-de-agentes',
+      origem: 'proprio',
+      nome: 'Engenharia de agentes',
+      resultado: 'O mesmo agente em três frameworks, lado a lado, para escolher com base.',
+      tipos: ['agentes'],
+      status: 'estudo',
+      etiquetas: ['Pydantic', 'LangGraph', 'Google ADK'],
+      stack: ['Pydantic', 'LangGraph', 'Google ADK', 'multiagente'],
+      feito: 'O mesmo agente em Pydantic puro, LangGraph e Google ADK, mais versões multiagente com defesa contra prompt injection, rodando offline.',
+      numeros: ['24 testes de fumaça'],
+      print: { arquivo: 'prints/engenharia-de-agentes.webp', alt: 'Comparação do mesmo agente em três frameworks' },
+      repositorio: 'https://github.com/vlfcandido/engenharia-de-agentes',
+    },
+    {
+      slug: 'benchmark-litellm',
+      origem: 'proprio',
+      nome: 'Benchmark de gateway de IA',
+      resultado: 'Latência, erros e custo medidos antes de escolher a arquitetura.',
+      tipos: ['dados'],
+      status: 'estudo',
+      etiquetas: ['LiteLLM', 'Python'],
+      stack: ['LiteLLM SDK', 'LiteLLM Proxy', 'Python'],
+      feito: 'Latência, tempo até o primeiro token, erros e custo: LiteLLM SDK contra LiteLLM Proxy.',
+      numeros: [],
+      print: { arquivo: 'prints/benchmark-litellm-sdk-proxy.webp', alt: 'Painel do benchmark com gráficos de latência e custo' },
+      repositorio: 'https://github.com/vlfcandido/benchmark-litellm-sdk-proxy',
+    },
+    {
+      slug: 'previsao-tempo-chatbot',
+      origem: 'proprio',
+      nome: 'Previsão do tempo para chatbot',
+      resultado: 'O robô responde a previsão de 3 dias numa mensagem curta.',
+      tipos: ['chatbot', 'integracoes'],
+      status: 'estudo',
+      etiquetas: ['microsserviço', 'JSON'],
+      stack: ['microsserviço', 'API REST', 'JSON'],
+      feito: 'Microsserviço que entrega a previsão de 3 dias num JSON enxuto para chatbots.',
+      numeros: [],
+      print: { arquivo: 'prints/previsao-tempo-chatbot.webp', alt: 'Conversa de chatbot respondendo a previsão do tempo' },
+      repositorio: 'https://github.com/vlfcandido/previsao-tempo-chatbot',
+    },
+    {
+      slug: 'api-premios-filmes',
+      origem: 'proprio',
+      nome: 'API de prêmios de filmes',
+      resultado: 'Calcula o menor e o maior intervalo entre prêmios de cada produtor.',
+      tipos: ['sistemas'],
+      status: 'estudo',
+      etiquetas: ['Node.js', 'API REST'],
+      stack: ['Node.js', 'API REST'],
+      feito: 'API REST em Node.js que calcula o menor e o maior intervalo entre prêmios de produtores.',
+      numeros: [],
+      print: { arquivo: 'prints/api-intervalo-premios-filmes.webp', alt: 'Documentação da API com a resposta de intervalos entre prêmios' },
+      repositorio: 'https://github.com/vlfcandido/api-intervalo-premios-filmes',
+    },
+    {
+      slug: 'sicoob',
+      origem: 'empresa',
+      nome: 'Sicoob',
+      resultado: 'Assistente de IA em uso pelas equipes das cooperativas.',
+      tipos: ['agentes'],
+      status: 'producao',
+      etiquetas: ['Python', 'multiagente', 'RAG'],
+      stack: sicoob.stack,
+      problema: sicoob.contexto,
+      feito: sicoob.feito,
+      numeros: [sicoob.metrica],
+      papel: empresa('sicoob').papel,
+      empresa: 'sicoob',
+      diagrama: 'sicoob',
+      fonte: sicoob.fonte,
+    },
+    {
+      slug: 'contabilizei',
+      origem: 'empresa',
+      nome: 'Contabilizei',
+      resultado: 'Atendimento com IA citado pelo Google Cloud entre 90 casos da América Latina.',
+      tipos: ['chatbot', 'agentes'],
+      status: 'producao',
+      etiquetas: ['Vertex AI', 'IA generativa'],
+      stack: concierge.stack,
+      problema: concierge.contexto,
+      feito: concierge.feito,
+      numeros: [concierge.metrica],
+      papel: empresa('contabilizei').papel,
+      empresa: 'contabilizei',
+      fonte: concierge.fonte,
+    },
+    {
+      slug: 'prefeitura-franca',
+      origem: 'empresa',
+      nome: 'Prefeitura de Franca',
+      resultado: '5 mil atendimentos da Saúde por mês sem ninguém digitar.',
+      tipos: ['chatbot'],
+      status: 'producao',
+      etiquetas: ['Blip', 'WhatsApp'],
+      stack: franca.stack,
+      problema: franca.contexto,
+      feito: franca.feito,
+      numeros: [franca.metrica],
+      papel: 'Tech lead dos projetos Blip na Vertigo',
+      empresa: 'prefeitura-franca',
+      fonte: franca.fonte,
+    },
+    {
+      slug: 'araguaia',
+      origem: 'empresa',
+      nome: 'Araguaia',
+      resultado: 'Mais contatos qualificados chegando ao time comercial.',
+      tipos: ['chatbot'],
+      status: 'producao',
+      etiquetas: ['Blip', 'WhatsApp', 'CRM'],
+      stack: araguaia.stack,
+      problema: araguaia.contexto,
+      feito: araguaia.feito,
+      numeros: [araguaia.metrica],
+      papel: 'Tech lead dos projetos Blip na Vertigo',
+      empresa: 'araguaia',
+      fonte: araguaia.fonte,
+    },
+    {
+      slug: 'wiv',
+      origem: 'empresa',
+      nome: 'Wiv',
+      resultado: 'Mostra onde as conversas dos robôs travam, em mais de 300 robôs.',
+      tipos: ['chatbot', 'dados'],
+      status: 'producao',
+      etiquetas: ['IA conversacional', 'análise de conversas'],
+      stack: waizer.stack,
+      problema: waizer.contexto,
+      feito: waizer.feito,
+      numeros: [waizer.metrica],
+      papel: empresa('wiv').papel,
+      empresa: 'wiv',
+      fonte: waizer.fonte,
+    },
+    {
+      slug: 'serasa-experian',
+      origem: 'empresa',
+      nome: 'Serasa Experian',
+      resultado: 'Segurança e modernização de aplicações em grande escala.',
+      tipos: ['sistemas'],
+      status: 'producao',
+      etiquetas: ['segurança', 'modernização'],
+      stack: ['segurança de aplicações', 'modernização'],
+      feito: serasa.feito,
+      numeros: [],
+      papel: serasa.papel,
+      empresa: 'serasa-experian',
+    },
+  ]
+}
+
+/**
+ * Filtra a galeria pelo tipo escolhido.
+ *
+ * @param itens lista completa.
+ * @param tipo tipo do chip, ou `todos`.
+ * @returns os itens daquele tipo (um item pode ter mais de um tipo).
+ */
+export function filtrarProjetos(itens: ItemProjeto[], tipo: TipoProjeto | 'todos'): ItemProjeto[] {
+  return tipo === 'todos' ? itens : itens.filter((i) => i.tipos.includes(tipo))
+}
