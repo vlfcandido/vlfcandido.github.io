@@ -1,4 +1,6 @@
 import { useMemo, useRef } from 'react'
+import { ComoMontoAgentes } from '../components/ComoMontoAgentes'
+import { CartaNautica } from '../components/CartaNautica'
 import { Contato } from '../components/Contato'
 import { GaleriaProjetos } from '../components/GaleriaProjetos'
 import { PainelProjeto } from '../components/PainelProjeto'
@@ -35,7 +37,12 @@ export function PaginaProjetos({ hash }: { hash: string }) {
 
   return (
     <>
-      <section aria-labelledby="projetos-pagina-titulo" className="pt-10 pb-8 sm:pt-14 sm:pb-10">
+      <section aria-labelledby="projetos-pagina-titulo" className="relative isolate bg-nevoa pt-10 pb-8 sm:pt-14 sm:pb-10">
+        <CartaNautica
+          versao="tartaruga"
+          sizes="(min-width: 640px) 420px, 60vw"
+          className="carta-topo pointer-events-none absolute top-0 right-0 -z-10 h-full w-[62%] sm:w-[min(48%,460px)]"
+        />
         <a href="#/" className="sublinha text-[0.98rem] text-grafite hover:text-tinta">
           Voltar para o início
         </a>
@@ -47,6 +54,7 @@ export function PaginaProjetos({ hash }: { hash: string }) {
         </p>
       </section>
       <GaleriaProjetos aoAbrir={abrir} />
+      <ComoMontoAgentes />
       <div className="mt-24">
         <Contato />
       </div>

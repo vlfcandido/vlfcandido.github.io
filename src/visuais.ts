@@ -1,3 +1,5 @@
+import type { IdDesenho } from './diagramas/desenhos'
+
 // Imagens do site: prints de produto e diagramas desenhados à mão.
 // Os textos dos casos ficam em conteudo.ts; aqui só o que é visual, ligado pelo `slug`.
 
@@ -7,8 +9,8 @@ export interface Print {
   alt: string
 }
 
-/** Diagramas de arquitetura desenhados em SVG para os projetos com mais peças. */
-export type Diagrama = 'nexus-quant' | 'nexus-clips' | 'sicoob'
+/** Ilustração-diagrama de um projeto (os desenhos ficam em diagramas/desenhos.ts). */
+export type Diagrama = IdDesenho
 
 /** Prints de cada caso, pelo slug de conteudo.ts. O primeiro é o principal. */
 export const printsDosCasos: Record<string, Print[]> = {
@@ -32,6 +34,13 @@ export const printsDosCasos: Record<string, Print[]> = {
 export const diagramasDosCasos: Record<string, Diagrama> = {
   'nexus-quant': 'nexus-quant',
   'nexus-clips': 'nexus-clips',
+  aprovaos: 'aprovaos',
+  'varredura-voos': 'varredura-voos',
+  'revisor-ia': 'agente-rag',
+  'engenharia-de-agentes': 'agente-ferramentas',
+  sicoob: 'sicoob',
+  ecovita: 'ecovita',
+  minu: 'minu',
 }
 
 /** Endereço do perfil no LinkedIn: a porta de entrada do site, num único lugar. */

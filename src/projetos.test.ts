@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { empresasDiretas } from './clientes'
+import { empresasDiretas, gruposClientes } from './clientes'
 import { encontrarTermosProibidos } from './lib/termos-proibidos'
 import { filtrarProjetos, listarProjetos, tiposProjeto } from './projetos'
 
@@ -23,10 +23,14 @@ describe('galeria de projetos', () => {
       expect(existsSync(join(PUBLICO, i.print!.arquivo)), i.print!.arquivo).toBe(true)
       if (i.printExtra) expect(existsSync(join(PUBLICO, i.printExtra.arquivo))).toBe(true)
     }))
-  it('todo caso de empresa tem logo de empresa conhecida', () => {
-    const slugs = new Set(empresasDiretas.map((e) => e.slug))
-    itens.filter((i) => i.origem === 'empresa').forEach((i) => expect(slugs.has(i.empresa!), i.slug).toBe(true))
+  it('todo caso de empresa tem logo conhecida ou desenho', () => {
+    const slugs = new Set([...empresasDiretas, ...gruposClientes.flatMap((g) => g.clientes)].map((e) => e.slug))
+    itens
+      .filter((i) => i.origem === 'empresa')
+      .forEach((i) => expect((i.empresa && slugs.has(i.empresa)) || Boolean(i.diagrama), i.slug).toBe(true))
   })
+  it('projeto de cliente feito por mim não tem link de código', () =>
+    ['ecovita', 'minu'].forEach((s) => expect(porSlug(s)?.repositorio, s).toBeUndefined()))
   it('card tem de 2 a 4 etiquetas e resultado de uma linha', () =>
     itens.forEach((i) => {
       expect(i.etiquetas.length, i.slug).toBeGreaterThanOrEqual(2)

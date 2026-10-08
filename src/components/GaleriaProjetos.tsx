@@ -1,7 +1,8 @@
 import { useMemo, useState, type CSSProperties } from 'react'
 import { flushSync } from 'react-dom'
-import { empresasDiretas } from '../clientes'
+import { empresasDiretas, gruposClientes } from '../clientes'
 import { filtrarProjetos, listarProjetos, tiposProjeto, type ItemProjeto, type TipoProjeto } from '../projetos'
+import { DiagramaMare } from './DiagramaMare'
 import { Logo } from './Logo'
 import { Print } from './Print'
 
@@ -27,21 +28,43 @@ interface CartaoProps {
   aoAbrir: (slug: string) => void
 }
 
+/** Logo de uma empresa, entre as diretas e as dos grupos de clientes. */
+const logoDe = (slug?: string) =>
+  slug ? [...empresasDiretas, ...gruposClientes.flatMap((g) => g.clientes)].find((e) => e.slug === slug) : undefined
+
 /**
  * Card da galeria. O botão está no título (leitor de tela ouve o nome) e se estende pelo card
- * inteiro com um pseudo-elemento, então o clique vale em qualquer ponto.
+ * inteiro com um pseudo-elemento, então o clique vale em qualquer ponto. Quando o projeto tem tela
+ * (ou logo) e desenho, um botão pequeno alterna entre os dois sem abrir o painel.
  */
 function Cartao({ item, aoAbrir }: CartaoProps) {
-  const empresa = item.empresa ? empresasDiretas.find((e) => e.slug === item.empresa) : undefined
+  const empresa = logoDe(item.empresa)
+  const temFrente = Boolean(item.print || empresa)
+  const [desenho, setDesenho] = useState(!temFrente)
+  const mostraDesenho = Boolean(item.diagrama) && desenho
   return (
     <article className="cartao-projeto group relative flex h-full flex-col">
       <div className="relative">
-        {item.print ? (
+        {mostraDesenho && item.diagrama ? (
+          <div className="moldura-logo flex aspect-[16/10] items-center overflow-hidden rounded-md border border-linha bg-folha px-2 shadow-[6px_6px_0_var(--linha)]">
+            <DiagramaMare id={item.diagrama} modo="largo" className="w-full" />
+          </div>
+        ) : item.print ? (
           <Print print={item.print} />
         ) : (
           <div className="moldura-logo flex aspect-[16/7] items-center justify-center rounded-md border border-linha bg-folha px-8 shadow-[6px_6px_0_var(--linha)]">
             {empresa && <Logo cliente={empresa} className="max-h-11 max-w-[170px]" />}
           </div>
+        )}
+        {item.diagrama && temFrente && (
+          <button
+            type="button"
+            aria-pressed={desenho}
+            onClick={() => setDesenho((v) => !v)}
+            className="absolute right-2 bottom-2 z-10 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta hover:border-cobalto hover:text-cobalto"
+          >
+            {desenho ? (item.print ? 'Ver a tela' : 'Ver a logo') : 'Ver o desenho'}
+          </button>
         )}
       </div>
       <h3 className="mt-5 text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]">
@@ -143,7 +166,7 @@ export function GaleriaProjetos({ aoAbrir }: { aoAbrir: (slug: string) => void }
             <h2 id="empresas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
               Em empresas
             </h2>
-            <p className="prosa max-w-[44ch] text-[1.08rem] text-grafite">Projetos que fiz ou liderei como contratado, com a fonte pública.</p>
+            <p className="prosa max-w-[44ch] text-[1.08rem] text-grafite">Projetos que fiz ou liderei como contratado. O desenho mostra como as peças conversam.</p>
           </div>
           <div className="mt-10">
             <Grade itens={deEmpresa} aoAbrir={aoAbrir} />
