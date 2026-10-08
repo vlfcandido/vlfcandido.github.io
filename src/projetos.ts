@@ -291,10 +291,12 @@ export function listarProjetos(): ItemProjeto[] {
       origem: 'empresa',
       nome: 'Contabilizei',
       // Corrigido em 08/10/2026 (ele): antes era o atendimento com IA citado pelo Google Cloud, que não foi dele.
-      resultado: 'Agentes de IA de vendas (SDR).',
-      tipos: ['agentes'],
+      // Atualizado em 08/10/2026 com o texto aprovado por ele. Antes: resultado 'Agentes de IA de vendas (SDR).',
+      // tipos ['agentes'] e etiquetas ['agentes de IA', 'vendas'].
+      resultado: 'Vendedor de IA no WhatsApp: um orquestrador e 8 agentes especializados.',
+      tipos: ['agentes', 'chatbot', 'integracoes'],
       status: 'producao',
-      etiquetas: ['agentes de IA', 'vendas'],
+      etiquetas: ['Google ADK', 'Gemini', 'WhatsApp'],
       stack: vendas.stack,
       problema: vendas.contexto,
       feito: vendas.feito,
