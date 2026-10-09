@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Cabecalho } from './components/Cabecalho'
-import { LinkedinFixo } from './components/LinkedinFixo'
+import { ContatoFixo } from './components/ContatoFixo'
 import { Rodape } from './components/Rodape'
 import { HASH_PROJETOS, hashAtual, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
 import { iniciarRevelacao } from './lib/revelar'
@@ -102,7 +102,7 @@ export function App() {
         </div>
       </main>
       <Rodape />
-      <LinkedinFixo rota={rota} />
+      <ContatoFixo rota={rota} />
     </>
   )
 }

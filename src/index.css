@@ -1629,3 +1629,12 @@ html[data-navegou] .pagina-troca {
     animation: none !important;
   }
 }
+
+/* Contato (09/10/2026): no cartão em mar, o anel de foco padrão (mar) sumiria; ali ele fica claro. */
+#contato .contato-botao:focus-visible {
+  outline-color: var(--nevoa);
+}
+/* Botão em pílula mantém a forma no foco (a regra geral de :focus-visible põe raio de 2px). */
+a.rounded-full:focus-visible {
+  border-radius: 9999px;
+}

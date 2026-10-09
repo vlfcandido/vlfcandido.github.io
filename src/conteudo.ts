@@ -83,7 +83,8 @@ export const perfil = {
   resumo:
     'Chatbots de WhatsApp, automações, sites, sistemas e integrações para o seu negócio, com preço fechado na primeira conversa e entrega testada. Hoje sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA de investimentos. Construo software há 13 anos: back-end em Java, Node.js e Python, front quando o projeto pede e IA aplicada em produção desde 2021. Liderei os projetos de chatbot Blip da Vertigo, parceira certificada da Blip, e trabalhei no Waizer, a plataforma de análise de conversas da Wiv.',
   notaTrabalho: 'Do seu lado, só preciso do acesso ao que já existe e de alguém para tirar dúvidas.',
-  convite: 'Me chame no LinkedIn ou no 99Freelas e conte o que você precisa. Respondo com o preço fechado e o prazo.',
+  // Antes de 09/10/2026: 'Me chame no LinkedIn ou no 99Freelas e conte o que você precisa. ...'
+  convite: 'Me chame no WhatsApp e conte o que você precisa. Respondo com o preço fechado e o prazo.',
 } as const
 
 /** O que eu resolvo, escrito como resultado para quem contrata. */
