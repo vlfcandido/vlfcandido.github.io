@@ -1,7 +1,9 @@
 import { empresasDiretas, gruposClientes, logosAbertura, textoMaisEmpresas, type Cliente } from '../clientes'
 import { links, perfil, type CenaDemo } from '../conteudo'
+import { WHATSAPP } from '../lib/whatsapp'
 import { LINKEDIN } from '../visuais'
 import { Demonstracao } from './Demonstracao'
+import { IconeConversa } from './IconeConversa'
 import { LinkExterno } from './LinkExterno'
 import { Logo } from './Logo'
 import { CartaNautica } from './CartaNautica'
@@ -21,7 +23,7 @@ interface PropsAbertura {
 }
 
 /**
- * Abertura: a frase de posicionamento, o que eu entrego, o botão do LinkedIn e, logo abaixo dos botões,
+ * Abertura: a frase de posicionamento, o que eu entrego, o botão do WhatsApp (LinkedIn e 99Freelas como links) e, logo abaixo dos botões,
  * seis logos de projetos que liderei (prova de escala na 1ª tela do celular) com a âncora para as provas.
  */
 export function Abertura({ ramo, aoEscolherRamo, cena, aoTrocarCena }: PropsAbertura) {
@@ -47,21 +49,26 @@ export function Abertura({ ramo, aoEscolherRamo, cena, aoTrocarCena }: PropsAber
             {perfil.chamada}
           </h1>
           <p className="prosa mt-4 max-w-[46ch] text-[1.12rem] text-grafite sm:mt-6 sm:text-[1.3rem]">{perfil.linha}</p>
-          <div id="cta-principal" className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+          {/* Hierarquia desde 09/10/2026: WhatsApp é o botão (cliente de pequeno negócio conversa por lá);
+              LinkedIn e 99Freelas viram links ao lado. Antes, o botão era "Falar comigo no LinkedIn". */}
+          <div id="cta-principal" className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
             <LinkExterno
-              href={LINKEDIN}
-              className="botao-acao rounded-full bg-cobalto px-6 py-3.5 text-[1.05rem] sm:px-7 sm:py-4 sm:text-[1.1rem] font-semibold text-nevoa hover:bg-cobalto-forte"
+              href={WHATSAPP}
+              className="botao-acao inline-flex items-center gap-2.5 rounded-full bg-cobalto py-3.5 pr-6 pl-5 text-[1.05rem] font-semibold text-nevoa hover:bg-cobalto-forte sm:py-4 sm:pr-7 sm:pl-6 sm:text-[1.1rem]"
             >
-              Falar comigo no LinkedIn
+              <IconeConversa tamanho={22} />
+              Chamar no WhatsApp
             </LinkExterno>
-            {NOVENTA_E_NOVE && (
-              <LinkExterno
-                href={NOVENTA_E_NOVE.url}
-                className="sublinha font-medium"
-              >
-                Contratar pelo 99Freelas
+            <span className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <LinkExterno href={LINKEDIN} className="sublinha font-medium">
+                LinkedIn
               </LinkExterno>
-            )}
+              {NOVENTA_E_NOVE && (
+                <LinkExterno href={NOVENTA_E_NOVE.url} className="sublinha font-medium">
+                  Contratar pelo 99Freelas
+                </LinkExterno>
+              )}
+            </span>
           </div>
           <div className="mt-7 sm:mt-9">
             <p className="text-[0.92rem] text-grafite">Projetos que liderei para</p>

@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { perfil } from '../conteudo'
 import { MESMO_NIVEL, NIVEIS, NIVEIS_CELULAR } from '../lib/niveis'
 import { HASH_PROJETOS, type Rota } from '../lib/rota'
-import { LINKEDIN } from '../visuais'
+import { WHATSAPP } from '../lib/whatsapp'
 import { BotaoTema } from './BotaoTema'
+import { IconeConversa } from './IconeConversa'
 import { LinkExterno } from './LinkExterno'
 
 /**
@@ -80,7 +81,7 @@ function ReguaLateral({ nivel, fracao }: { nivel: string | null; fracao: number 
 }
 
 /**
- * Cabeçalho fixo: nome, tema e o LinkedIn sempre à vista. No computador, os níveis ficam na linha
+ * Cabeçalho fixo: nome, tema e o WhatsApp sempre à vista. No computador, os níveis ficam na linha
  * do nome (e, em tela larga, também na régua lateral); no celular, viram a régua fina embaixo dela:
  * uma fileira rolável com as cotas e uma linha que se enche conforme a pessoa desce.
  */
@@ -124,11 +125,13 @@ export function Cabecalho({ rota }: { rota: Rota }) {
             </ul>
           </nav>
           <BotaoTema />
+          {/* Desde 09/10/2026 o contato fixo do cabeçalho é o WhatsApp (antes, "Falar comigo no LinkedIn"). */}
           <LinkExterno
-            href={LINKEDIN}
-            className="botao-acao hidden rounded-full bg-cobalto px-4 py-2 text-[0.95rem] font-semibold whitespace-nowrap text-nevoa hover:bg-cobalto-forte sm:inline-block"
+            href={WHATSAPP}
+            className="botao-acao hidden items-center gap-2 rounded-full bg-cobalto py-2 pr-4 pl-3.5 text-[0.95rem] font-semibold whitespace-nowrap text-nevoa hover:bg-cobalto-forte sm:inline-flex"
           >
-            Falar comigo no LinkedIn
+            <IconeConversa tamanho={18} />
+            WhatsApp
           </LinkExterno>
         </div>
         {/* Celular: a régua fina. */}
