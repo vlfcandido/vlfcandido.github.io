@@ -86,6 +86,7 @@ function Indicador({ lista, atual }: { lista: RefObject<HTMLUListElement | null>
           key={d.slug}
           type="button"
           tabIndex={-1}
+          aria-label={`Ver o caso ${i + 1}`}
           onClick={() => {
             const el = lista.current?.children[i] as HTMLElement | undefined
             el?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
