@@ -47,6 +47,22 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Microsoft Clarity (mapa de calor, rolagem e gravação anônima; textos digitados são mascarados), ligado em 10/10/2026 -->
+    <script>
+      (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");
+    </script>
+    <!-- Aviso de privacidade (LGPD): informa a medição; some depois do "Entendi" -->
+    <div id="aviso-privacidade" hidden style="position:fixed;left:16px;right:16px;bottom:16px;max-width:560px;margin:0 auto;z-index:9999;background:#0f3d47;color:#fff;border-radius:14px;padding:12px 16px;font:14px/1.45 system-ui,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.18);gap:12px;align-items:center">
+      <span style="flex:1">Este site mede visitas de forma anônima (Cloudflare e Microsoft Clarity) para melhorar a experiência. Nada do que você digita é gravado.</span>
+      <button type="button" id="aviso-ok" style="background:#fff;color:#0f3d47;border:0;border-radius:999px;padding:8px 14px;font-weight:600;cursor:pointer">Entendi</button>
+    </div>
+    <script>
+      (function(){var k="aviso-privacidade-ok",d=document.getElementById("aviso-privacidade");
+      try{if(localStorage.getItem(k))return;}catch(e){}
+      d.hidden=false;d.style.display="flex";document.getElementById("aviso-ok").onclick=function(){d.remove();try{localStorage.setItem(k,"1")}catch(e){}};})();
+    </script>
     <!-- Cloudflare Web Analytics (sem cookie, sem guardar IP), ligado em 10/10/2026 -->
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
   </body>
