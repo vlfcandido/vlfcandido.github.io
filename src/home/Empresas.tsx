@@ -1,31 +1,32 @@
-// Bloco 3: onde já trabalhei. Logo, nome e o papel real de clientes.ts (nunca um papel inventado).
+// Bloco 3: onde já trabalhei. Só as empresas de SLUGS_EMPRESAS (logos liberados por ele). No celular, uma
+// faixa de logos; no PC, logo, nome e o papel real de clientes.ts (nunca um papel inventado).
 import { empresasDiretas, type EmpresaDireta } from '../clientes'
 import { logoClara } from '../components/Logo'
 import { caminhoPublico } from '../lib/assets'
-import { SLUGS_EMPRESAS } from './conteudo'
+import { SLUGS_EMPRESAS, conteudoHome } from './conteudo'
 
 /** Terceiro bloco da home: as empresas onde ele trabalhou, na ordem de `SLUGS_EMPRESAS`. */
 export function Empresas() {
   const base = import.meta.env.BASE_URL
+  const { empresas: textos } = conteudoHome()
   const empresas = SLUGS_EMPRESAS.map((slug) => empresasDiretas.find((e) => e.slug === slug)).filter(
     (e): e is EmpresaDireta => Boolean(e),
   )
   return (
     <section id="empresas" className="secao">
-      <h2 className="titulo-bloco">Onde já trabalhei</h2>
-      <ul className="mt-10 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-x-6">
+      <h2 className="titulo-bloco">{textos.titulo}</h2>
+      <ul className="mt-4 grid grid-cols-3 gap-x-6 gap-y-4 sm:grid-cols-5 lg:mt-8 lg:grid-cols-1 lg:gap-y-0">
         {empresas.map((e) => (
-          <li key={e.slug} className="empresa flex items-center gap-5 border-t border-linha py-5 lg:flex-col lg:items-start lg:gap-4 lg:py-6">
-            <div className="flex h-12 w-28 flex-none items-center overflow-hidden lg:w-36">
+          <li key={e.slug} className="empresa flex items-center lg:gap-4 lg:border-t lg:border-linha lg:py-4">
+            <div className="flex h-10 w-full flex-none items-center lg:w-24">
               {e.logo ? (
-                <img className="logo-empresa" data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.nome} loading="lazy" decoding="async" />
-              ) : (
-                <span className="font-[family-name:var(--fonte-titulo)] text-xl">{e.nome}</span>
-              )}
+                // O nome está no texto ao lado (visível no PC, para leitor de tela no celular): a logo não repete.
+                <img className="logo-empresa" data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt="" height={32} loading="lazy" decoding="async" />
+              ) : null}
             </div>
-            <div className="min-w-0">
-              <p className="font-semibold">{e.nome}</p>
-              <p className="mt-1 text-sm leading-snug text-grafite">{e.papel}</p>
+            <div className={e.logo ? 'sr-only lg:not-sr-only lg:min-w-0' : 'min-w-0'}>
+              <p className="text-sm font-semibold">{e.nome}</p>
+              <p className="text-sm leading-snug text-grafite">{e.papel}</p>
             </div>
           </li>
         ))}

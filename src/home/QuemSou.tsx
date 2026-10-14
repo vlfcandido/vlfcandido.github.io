@@ -1,4 +1,4 @@
-// Bloco 6: quem vai fazer o sistema (foto e 3 linhas) e a chamada final para o WhatsApp.
+// Bloco 6: quem vai fazer o sistema (retrato e 3 linhas) e a chamada final para o WhatsApp, numa tela só.
 import { caminhoPublico } from '../lib/assets'
 import { WHATSAPP } from '../lib/whatsapp'
 import { LINKEDIN } from '../visuais'
@@ -17,7 +17,7 @@ function Retrato({ foto, alt }: { foto: string; alt: string }) {
   if (!TEM_FOTO)
     return (
       <div className="quadro-retrato flex items-center justify-center" role="img" aria-label="Monograma VC, de Vinicius Candido">
-        <span aria-hidden="true" className="font-[family-name:var(--fonte-titulo)] text-7xl font-medium tracking-tight sm:text-8xl">
+        <span aria-hidden="true" className="font-[family-name:var(--fonte-titulo)] text-4xl font-medium tracking-tight">
           <Marcacao tipo="circulo" semente={9}>VC</Marcacao>
         </span>
       </div>
@@ -36,29 +36,23 @@ function Retrato({ foto, alt }: { foto: string; alt: string }) {
 export function QuemSou() {
   const { quemSou, chamada } = conteudoHome()
   return (
-    <section id="quem" className="secao">
-      <div className="grid items-center gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-16">
-        <div className="mx-auto w-full max-w-[16rem] md:max-w-sm">
-          <Retrato foto={quemSou.foto} alt={quemSou.alt} />
-        </div>
-        <div>
-          <h2 className="titulo-bloco">{quemSou.titulo}</h2>
-          <div className="mt-6 space-y-3 text-lg text-grafite">
-            {quemSou.texto.map((t) => (
-              <p key={t}>{t}</p>
-            ))}
-          </div>
-          <a href={LINKEDIN} target="_blank" rel="noopener" className="link-secundario mt-6">
-            LinkedIn
-            <span className="seta" aria-hidden="true">↗</span>
-          </a>
-        </div>
+    <section id="quem" className="secao tela">
+      <div className="grid grid-cols-[6rem_1fr] items-end gap-4 lg:grid-cols-[5rem_1fr]">
+        <Retrato foto={quemSou.foto} alt={quemSou.alt} />
+        <h2 className="titulo-bloco lg:!text-[1.75rem]">{quemSou.titulo}</h2>
       </div>
-      <div className="mt-16 rounded-3xl border border-linha bg-folha px-6 py-10 text-center sm:px-12 sm:py-14">
-        <p className="mx-auto max-w-2xl font-[family-name:var(--fonte-titulo)] text-3xl leading-tight font-semibold text-balance sm:text-4xl">
-          {chamada.titulo}
-        </p>
-        <a className="cta mt-8" href={WHATSAPP} target="_blank" rel="noopener">
+      <div className="mt-4 space-y-2 text-grafite">
+        {quemSou.texto.map((t) => (
+          <p key={t}>{t}</p>
+        ))}
+      </div>
+      <a href={LINKEDIN} target="_blank" rel="noopener" className="link-secundario toque mt-4 self-start">
+        LinkedIn
+        <span className="seta" aria-hidden="true">↗</span>
+      </a>
+      <div className="mt-8 rounded-[var(--raio-m)] border border-linha bg-folha p-6 text-center">
+        <p className="font-[family-name:var(--fonte-titulo)] text-2xl leading-tight font-semibold text-balance">{chamada.titulo}</p>
+        <a className="cta toque mt-4" href={WHATSAPP} target="_blank" rel="noopener">
           {chamada.cta}
           <span className="seta" aria-hidden="true">→</span>
         </a>

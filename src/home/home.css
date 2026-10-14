@@ -1,85 +1,122 @@
-/* Layout da home nova (14/10/2026). Mobile primeiro: encaixe suave por seção e espiadinha da próxima.
-   Em @layer components para os utilitários do Tailwind poderem sobrescrever. */
+/* Layout da home nova (14/10/2026). Versão celular e versão PC com orçamento de rolagem (spec §12):
+   celular ≤ 5 telas (uma por papel), PC ≤ 4 telas (blocos lado a lado). Acabamento da §13: curva de mola,
+   só transform e opacity, :active imediato, 3 raios, 2 sombras e espaços em múltiplos de 4.
+   Em @layer components para os utilitários do Tailwind poderem sobrescrever (exceto o anel de foco, no fim). */
 @layer components {
-  html { scroll-snap-type: y proximity; scroll-padding-top: 72px; }
-  .secao { scroll-snap-align: start; padding-block: 72px; }
-  /* min-height deixa ~120 px da próxima seção à vista: a espiadinha que avisa que tem mais. */
-  @media (max-width: 767px) { .secao { padding-block: 48px; min-height: calc(100svh - 120px); } }
-  .secao + .secao { border-top: 1px solid var(--linha); }
+  :root {
+    --mola: cubic-bezier(.2, .8, .2, 1);
+    /* Retorno elástico curto do toque: passa um pouco do ponto e assenta. */
+    --mola-volta: cubic-bezier(.34, 1.56, .64, 1);
+    --raio-p: 8px; --raio-m: 16px; --raio-pilula: 999px;
+    --sombra-1: 0 1px 2px rgb(0 0 0 / .06), 0 8px 24px -12px rgb(0 0 0 / .18);
+    --sombra-2: 0 2px 4px rgb(0 0 0 / .06), 0 24px 48px -16px rgb(0 0 0 / .28);
+    /* Altura do cabeçalho no topo: a tela útil de cada bloco no celular é o resto. */
+    --cabecalho: 96px;
+  }
 
-  /* Sobretítulo pequeno acima do h2: numera o bloco, como um caderno de anotações. */
-  .sobretitulo { font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--fundo-suave); }
-  .titulo-bloco { font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3rem); line-height: 1.1; font-weight: 600; text-wrap: balance; }
+  html { scroll-snap-type: y proximity; scroll-padding-top: var(--cabecalho); }
 
-  .cta { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .75rem 1.25rem; border-radius: 999px;
-    background: var(--sol); color: var(--on-sol); font-weight: 600;
-    transition: transform var(--mov-toque) var(--mov-ease), box-shadow var(--mov-padrao) var(--mov-ease); }
-  .cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px color-mix(in srgb, var(--sol) 35%, transparent); }
-  /* Microanimação de sucesso: o botão afunda e a seta dá um passo à frente. */
-  .cta:active { transform: scale(.97); }
-  .cta .seta { transition: transform var(--mov-padrao) var(--mov-ease); }
-  .cta:hover .seta, .cta:active .seta { transform: translateX(4px); }
+  /* Composição: no celular, uma coluna na ordem do HTML; no PC, 3 colunas com os blocos lado a lado. */
+  .home { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .home > .secao { scroll-snap-align: start; padding-block: 40px; }
+  .home > .secao + .secao { border-top: 1px solid var(--linha); }
+  .home h1, .home h2, .home h3 { text-wrap: balance; }
+  .home p { text-wrap: pretty; }
 
-  /* Link secundário: contorno fino, mesmo alvo de toque do CTA. */
-  .link-secundario { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .65rem 1.1rem; border-radius: 999px;
-    border: 1px solid var(--linha); font-weight: 600; color: var(--fundo); background: var(--papel-alto);
-    transition: border-color var(--mov-toque), transform var(--mov-toque) var(--mov-ease); }
-  .link-secundario:hover { border-color: var(--fundo-suave); transform: translateY(-1px); }
-  .link-secundario .seta { transition: transform var(--mov-padrao) var(--mov-ease); }
-  .link-secundario:hover .seta { transform: translateX(4px); }
+  @media (max-width: 1023px) {
+    /* Uma tela por papel; o que sobra embaixo é a espiadinha da próxima. */
+    .home > .tela { min-height: calc(100svh - var(--cabecalho) - 24px); display: flex; flex-direction: column; justify-content: center; }
+    /* Empresas e Como funciona dividem a 4ª tela. */
+    .home > #empresas { padding-bottom: 24px; }
+    .home > #como { padding-top: 24px; scroll-snap-align: none; }
+  }
+  @media (min-width: 1024px) {
+    .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;
+      grid-template-areas: "inicio inicio inicio" "prototipo prototipo empresas" "trabalhos trabalhos trabalhos" "como como quem"; }
+    .home > .secao { padding-block: 56px; }
+    .home > #inicio { grid-area: inicio; }
+    .home > #prototipo { grid-area: prototipo; }
+    .home > #empresas { grid-area: empresas; }
+    .home > #trabalhos { grid-area: trabalhos; }
+    .home > #como { grid-area: como; }
+    .home > #quem { grid-area: quem; }
+    /* Blocos lado a lado: o da direita ganha um fio vertical em vez de ficar solto. */
+    .home > #empresas, .home > #quem { padding-left: 48px; margin-left: -24px; border-left: 1px solid var(--linha); }
+  }
 
-  .cartao { background: var(--papel-alto); border: 1px solid var(--linha); border-radius: 16px; overflow: hidden;
-    transition: transform var(--mov-padrao) var(--mov-ease), box-shadow var(--mov-padrao) var(--mov-ease); }
-  .cartao:hover, .cartao:focus-within { transform: translateY(-4px); box-shadow: 0 14px 32px rgb(0 0 0 / .08); }
-  .cartao img { transition: transform var(--mov-lento) var(--mov-ease); }
-  .cartao:hover img { transform: scale(1.02); }
+  .titulo-bloco { font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem); line-height: 1.12; font-weight: 600; }
 
-  /* No celular, carrossel com o próximo cartão pela metade; a margem negativa leva o trilho até a borda da tela. */
-  .carrossel { display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
-    padding: 4px 16px 12px; margin-inline: -16px; scroll-padding-inline: 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .cta { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 24px; border-radius: var(--raio-pilula);
+    background: var(--sol); color: var(--on-sol); font-weight: 600; }
+  .link-secundario { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 20px; border-radius: var(--raio-pilula);
+    border: 1px solid var(--linha); background: var(--papel-alto); color: var(--fundo); font-weight: 600; }
+  .seta { display: inline-block; transition: transform var(--mov-padrao) var(--mola); }
+
+  .cartao { display: flex; flex-direction: column; height: 100%; background: var(--papel-alto); border: 1px solid var(--linha);
+    border-radius: var(--raio-m); overflow: hidden; }
+  /* Espaço reservado da imagem: o fundo aparece enquanto ela carrega (sem salto, sem buraco branco). */
+  .imagem-reservada { background: var(--raso); }
+
+  /* Hover só com mouse (§13: nada no celular depende de hover). */
+  @media (hover: hover) {
+    .cta, .link-secundario { transition: transform var(--mov-padrao) var(--mola-volta), box-shadow var(--mov-padrao) var(--mola); }
+    .cta:hover { transform: translateY(-2px); box-shadow: var(--sombra-1); }
+    .link-secundario:hover { transform: translateY(-2px); border-color: var(--fundo-suave); }
+    .cta:hover .seta, .link-secundario:hover .seta { transform: translateX(4px); }
+    .cartao { transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
+    .cartao:hover { transform: translateY(-4px); box-shadow: var(--sombra-2); }
+    .cartao img { transition: transform var(--mov-lento) var(--mola); }
+    .cartao:hover img { transform: scale(1.02); }
+    a:hover > .moldura-navegador { transform: translateY(-4px); box-shadow: var(--sombra-2); }
+    .empresa:hover .logo-empresa { filter: none; opacity: 1; }
+  }
+
+  /* Toque que responde: afunda na hora (0 ms) e volta com mola curta. Só transform. Depois do hover de propósito:
+     no clique, o afundar vence a elevação. */
+  .toque { transition: transform var(--mov-padrao) var(--mola-volta), box-shadow var(--mov-padrao) var(--mola); -webkit-tap-highlight-color: transparent; }
+  .toque:active { transform: scale(.97); transition-duration: 0ms; }
+
+  /* Carrossel dos trabalhos: encaixe, próximo cartão aparecendo e área segura do iPhone. */
+  .carrossel { display: grid; grid-auto-flow: column; grid-auto-columns: 84%; gap: 16px; overflow-x: auto;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+    padding: 4px max(16px, env(safe-area-inset-right)) 8px max(16px, env(safe-area-inset-left));
+    margin-inline: -16px; scroll-padding-inline: max(16px, env(safe-area-inset-left)); }
   .carrossel::-webkit-scrollbar { display: none; }
   .carrossel > * { scroll-snap-align: start; }
-  @media (min-width: 768px) {
-    .carrossel { grid-auto-flow: row; grid-template-columns: repeat(2, 1fr); overflow: visible; padding: 0; margin-inline: 0; gap: 24px; }
+  @media (min-width: 640px) { .carrossel { grid-auto-columns: 46%; } }
+  @media (min-width: 1024px) {
+    .carrossel { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; padding: 0; margin-inline: 0; gap: 24px; }
   }
-  @media (min-width: 1024px) { .carrossel { grid-template-columns: repeat(3, 1fr); } }
-
-  /* Chips de filtro: trilho rolável no celular, sem empurrar a página para o lado. */
-  .filtros { display: flex; gap: 8px; overflow-x: auto; padding: 2px 16px 6px; margin-inline: -16px; scrollbar-width: none; }
-  .filtros::-webkit-scrollbar { display: none; }
-  @media (min-width: 768px) { .filtros { flex-wrap: wrap; overflow: visible; padding: 0; margin-inline: 0; } }
-  .filtro { flex: none; display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 1rem; border-radius: 999px;
-    border: 1px solid var(--linha); background: var(--papel-alto); color: var(--fundo); font-size: .9rem; font-weight: 500;
-    transition: background-color var(--mov-toque), border-color var(--mov-toque), color var(--mov-toque); }
-  .filtro:hover { border-color: var(--fundo-suave); }
-  .filtro[aria-pressed="true"] { background: var(--fundo); border-color: var(--fundo); color: var(--papel); }
-  .filtro .conta { font-size: .78rem; opacity: .7; font-variant-numeric: tabular-nums; }
+  /* Indicador de progresso que anda com o dedo (o JS só mexe em transform e width). */
+  .progresso { position: relative; height: 4px; margin-top: 16px; border-radius: var(--raio-pilula); background: var(--linha); overflow: hidden; }
+  .progresso > span { position: absolute; inset-block: 0; left: 0; width: 33%; border-radius: inherit; background: var(--fundo); will-change: transform; }
+  @media (min-width: 1024px) { .progresso { display: none; } }
 
   /* Moldura de navegador simples: borda e 3 pontinhos. */
-  .moldura-navegador { border: 1px solid var(--linha); border-radius: 14px; background: var(--papel-alto); overflow: hidden;
-    box-shadow: 0 1px 0 var(--linha), 0 24px 48px -24px rgb(0 0 0 / .25);
-    transition: transform var(--mov-padrao) var(--mov-ease), box-shadow var(--mov-padrao) var(--mov-ease); }
-  a:hover > .moldura-navegador { transform: translateY(-4px) rotate(-.3deg); box-shadow: 0 1px 0 var(--linha), 0 30px 56px -24px rgb(0 0 0 / .3); }
-  .moldura-navegador .barra-janela { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--linha); background: var(--raso); }
-  .moldura-navegador .barra-janela i { width: 9px; height: 9px; border-radius: 999px; background: var(--linha); }
+  .moldura-navegador { border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--papel-alto); overflow: hidden;
+    box-shadow: var(--sombra-1); transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
+  .moldura-navegador .barra-janela { display: flex; align-items: center; gap: 8px; height: 32px; padding-inline: 16px; border-bottom: 1px solid var(--linha); background: var(--raso); }
+  .moldura-navegador .barra-janela i { width: 8px; height: 8px; border-radius: var(--raio-pilula); background: var(--linha); }
 
-  /* Passos: número grande em Fraunces sobre um fio que liga a faixa. */
-  .numero-passo { font-family: var(--fonte-titulo); font-size: 3rem; line-height: 1; font-weight: 500; font-variant-numeric: lining-nums; color: var(--fundo); }
+  /* Caixa do detalhe na tela da vitrine: o círculo de caneta ocupa a caixa inteira. */
+  .vitrine-alvo { position: absolute; }
+  .vitrine-alvo > .marcacao { display: block; width: 100%; height: 100%; }
+  .vitrine-alvo .marcacao-traco path { stroke-width: 4; }
+
+  .numero-passo { font-family: var(--fonte-titulo); line-height: 1; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; color: var(--fundo); }
 
   /* Monograma no lugar da foto até ela existir (Task 8): mesmo quadro 4:5, layout final. */
-  .quadro-retrato { aspect-ratio: 4 / 5; border: 1px solid var(--linha); border-radius: 20px; background: var(--raso); overflow: hidden; }
+  .quadro-retrato { aspect-ratio: 4 / 5; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--raso); overflow: hidden; }
 
-  .logo-empresa { height: 36px; width: auto; max-width: 100%; object-fit: contain; object-position: left center; filter: grayscale(1); opacity: .85;
-    transition: filter var(--mov-padrao), opacity var(--mov-padrao); }
-  .empresa:hover .logo-empresa { filter: none; opacity: 1; }
+  .logo-empresa { height: 32px; width: auto; max-width: 100%; object-fit: contain; object-position: left center;
+    filter: grayscale(1); opacity: .85; transition: filter var(--mov-padrao) var(--mola), opacity var(--mov-padrao) var(--mola); }
   @media (prefers-color-scheme: dark) {
     :root:not([data-tema="claro"]) .logo-empresa,
     :root:not([data-tema="claro"]) .empresa:hover .logo-empresa { filter: grayscale(1) invert(1) brightness(1.6); }
   }
   :root[data-tema="escuro"] .logo-empresa,
   :root[data-tema="escuro"] .empresa:hover .logo-empresa { filter: grayscale(1) invert(1) brightness(1.6); }
-  /* Logo clara no original (branca, ex.: Prefeitura de Franca): some no papel; vira silhueta escura no claro
-     e fica como é no escuro. Sem cor no hover, porque a cor dela não aparece em fundo claro. */
+  /* Logo clara no original (branca, ex.: Prefeitura de Franca): silhueta escura no claro, como é no escuro. */
   .logo-empresa[data-clara="true"],
   .empresa:hover .logo-empresa[data-clara="true"] { filter: grayscale(1) invert(1) contrast(1.4); opacity: .8; }
   @media (prefers-color-scheme: dark) {
@@ -93,7 +130,18 @@
   .marcacao-circulo .marcacao-traco { inset: -32% -10%; width: 120%; height: 164%; }
 
   @media (prefers-reduced-motion: reduce) {
-    .cta:hover, .cartao:hover, .cartao:focus-within, a:hover > .moldura-navegador, .link-secundario:hover { transform: none; }
-    .cartao:hover img, .cta:hover .seta, .link-secundario:hover .seta { transform: none; }
+    .toque, .toque:active, .cta:hover, .link-secundario:hover, .cartao:hover, a:hover > .moldura-navegador,
+    .cartao:hover img, .cta:hover .seta, .link-secundario:hover .seta { transform: none; transition: none; }
   }
 }
+
+/* Anel de foco na cor do destaque (§13). Fora da camada de propósito: o :focus-visible global do index.css
+   não tem camada e venceria. O fio escuro por dentro garante contraste do amarelo sobre o papel. */
+.home :focus-visible {
+  outline: 3px solid var(--sol);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--fundo);
+  border-radius: var(--raio-p);
+}
+.home .cta:focus-visible, .home .link-secundario:focus-visible { border-radius: var(--raio-pilula); }
+.home .cartao:focus-visible, .home .vitrine:focus-visible { border-radius: var(--raio-m); }

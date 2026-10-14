@@ -14,9 +14,9 @@ describe('níveis da régua (M8, 08/10/2026)', () => {
     ]))
   // 14/10/2026 (Task 5): a home virou os 6 blocos da spec. Antes a ordem conferida era Abertura, Resolvo,
   // Prova, ComoFunciona, ComoEntrega, Pacotes, Carreira e Contato; a régua antiga sai na Task 6.
-  it('a página monta os 6 blocos na ordem da spec', () => {
+  it('a página monta os 6 blocos na ordem de leitura do celular (spec §12)', () => {
     const inicio = readFileSync(resolve(__dirname, '../paginas/Inicio.tsx'), 'utf8')
-    const ordem = ['<Promessa', '<Prototipo', '<Empresas', '<Galeria', '<ComoFunciona', '<QuemSou'].map((t) => inicio.indexOf(t))
+    const ordem = ['<Promessa', '<Prototipo', '<Trabalhos', '<Empresas', '<ComoFunciona', '<QuemSou'].map((t) => inicio.indexOf(t))
     ordem.forEach((pos) => expect(pos).toBeGreaterThan(-1))
     expect([...ordem].sort((a, b) => a - b)).toEqual(ordem)
   })
