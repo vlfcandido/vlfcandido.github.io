@@ -54,9 +54,10 @@
 /* Tipografia (14/10/2026): Fraunces nos títulos e Inter no texto e na interface.
    Antes (Maré): Hanken Grotesk na interface (font-titulo) e Brygada 1918 serifada em texto/display. */
 @theme {
-  --font-titulo: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-texto: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-titulo: "Inter", "Inter reserva", ui-sans-serif, system-ui, sans-serif;
+  --font-texto: "Inter", "Inter reserva", ui-sans-serif, system-ui, sans-serif;
+  /* 14/10/2026: reservas com size-adjust (identidade.css) no lugar de Georgia e Times puros, para não pular. */
+  --font-display: "Fraunces", "Fraunces reserva", "Fraunces reserva Times", serif;
 }
 
 html {
@@ -1540,6 +1541,17 @@ html[data-navegou] .pagina-troca {
 .entrando {
   transition: opacity var(--mov-lento) var(--mov-ease) var(--atraso-entrada, 0ms), transform var(--mov-lento) var(--mov-ease)
     var(--atraso-entrada, 0ms);
+}
+/* Celular (spec §12, 14/10/2026): entrada própria, mais curta e mais rápida (8 px, --mov-padrao = 260 ms); o PC fica com a
+   entrada mais longa (--mov-deslocamento e --mov-lento). Com reduced-motion a revelação nem roda (lib/revelar.ts). */
+@media (max-width: 1023px) {
+  .vai-entrar {
+    transform: translateY(8px);
+  }
+  .entrando {
+    transition-duration: var(--mov-padrao), var(--mov-padrao);
+    transition-timing-function: var(--mov-ease);
+  }
 }
 
 /* Ampliação do print: a miniatura dá um leve zoom; a tela cheia entra de escala e some de volta

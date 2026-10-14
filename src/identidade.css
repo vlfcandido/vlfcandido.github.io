@@ -5,7 +5,7 @@
   --mar:#1f3a6b; --mar-forte:#142a52; --on-mar:#ffffff; --sol:#f6b90a; --on-sol:#17150f;
   --coral:#d9542a; --coral-texto:#a8401c; --raso:#efe9dc; --areia:#e8dfcc; --mata:#2e6a4e;
   --mov-toque:150ms; --mov-padrao:260ms; --mov-lento:400ms; --mov-ease:cubic-bezier(.2,.7,.2,1); --mov-deslocamento:14px;
-  --fonte-titulo:'Fraunces', Georgia, serif; --fonte-texto:'Inter', system-ui, sans-serif;
+  --fonte-titulo:'Fraunces', 'Fraunces reserva', 'Fraunces reserva Times', serif; --fonte-texto:'Inter', 'Inter reserva', system-ui, sans-serif;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -22,6 +22,13 @@
   --coral:#ff7d52; --coral-texto:#ff9c78; --raso:#22201c; --areia:#2b2823; --mata:#74c39a;
   color-scheme: dark;
 }
+/* Fontes de reserva com a largura da web font (§13, CLS ≈ 0; 14/10/2026). Antes eram Georgia e system-ui puros:
+   a Georgia é 9–14% mais larga que a Fraunces, o título da home quebrava em 2 linhas a mais e tudo pulava
+   130 px quando a Fraunces chegava (CLS 0,22 a 1280). Proporções medidas no Chromium com o mesmo texto renderizado (Fraunces 600 a 28–60 px: 87–92% da Georgia;
+   Inter 400–600: 101–105% da Arial). Times: estimativa, sem medição (não instalada em todo sistema). */
+@font-face { font-family: 'Fraunces reserva'; src: local('Georgia'); size-adjust: 89%; }
+@font-face { font-family: 'Fraunces reserva Times'; src: local('Times New Roman'), local('Times'); size-adjust: 92%; }
+@font-face { font-family: 'Inter reserva'; src: local('Arial'), local('Helvetica'); size-adjust: 104%; }
 /* Tema claro forçado com o sistema escuro: controles nativos claros. */
 :root[data-tema="claro"] { color-scheme: light; }
 /* Em @layer base, para as utilitárias do Tailwind (font-*, tracking-*) vencerem. */
