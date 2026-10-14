@@ -337,6 +337,7 @@ footer a{color:var(--pine);font-weight:700}
 .tabs button[aria-selected="true"]{background:var(--pine);color:var(--pine-ink);font-weight:700}
 .app>*{min-width:0}.main h2.ttl{font-size:clamp(28px,4vw,40px);margin-bottom:6px}
 .main .lead{color:var(--muted);margin-bottom:24px}
+@media(min-width:700px){.main{padding-bottom:120px}} /* respiro para o WhatsApp flutuante não cobrir a última linha */
 .panel{background:var(--surface);border-radius:var(--r-m);border:1px solid var(--line);padding:20px}
 @media(min-width:760px){.panel{padding:26px}}
 .grid2{display:grid;gap:18px}
@@ -792,9 +793,8 @@ const PSI_EU=PSIS[0];
 const store={get(k,d){try{const v=localStorage.getItem('psi.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('psi.'+k,JSON.stringify(v))}catch(e){}}};
 const S={
   role:'site', tab:{paciente:'agendar',psi:'cadastro',admin:'geral'},
-  fee:store.get('fee',20), psy:PSIS[0], day:16, time:null, pay:'pix', paid:false, rated:false, rating:0, tags:[],
-  reqs:[{n:'Júlia M.',d:'Ter, 13/10',h:'10:00',v:140,primeira:true},{n:'Lia F.',d:'Qui, 15/10',h:'19:00',v:140,primeira:false}],
-  crpState:'done', crpUp:true, lgpd:true, wk:null, filt:{ab:'',tema:'',max:200,turno:''},
+  fee:store.get('fee',20), psy:PSIS[0], day:16, time:'19:00', pay:'pix', paid:false, rated:false, rating:0, tags:[],
+  crpState:'done', crpUp:true, lgpd:true, wk:{}, filt:{ab:'',tema:'',max:200,turno:''},
   queue:[
     {n:'Larissa Moraes',crp:'CRP 00/10007',r:'ok',t:'Situação ativa, nome confere',av:{s:0,h:2,b:1,c:1,hair:1}},
     {n:'Davi Queiroz',crp:'CRP 00/10008',r:'warn',t:'Nome diferente do documento enviado',av:{s:2,h:0,b:3,c:3,hair:4,beard:true}},
@@ -942,7 +942,7 @@ function site(){
     <div class="breath" aria-hidden="true"><i></i><span>Respire com a bolinha enquanto escolhe: <b id="brt">inspire</b></span></div>
    </div>
    <div class="hero-art">${HERO_ART}
-    <div class="float f1"><span class="dot-ic" style="background:#DDF5E5;color:var(--wa)">${WA}</span><span><b>Marisa está digitando<span class="typing"><i></i><i></i><i></i></span></b>Sessão de quinta, 19:00</span></div>
+    <div class="float f1"><span class="dot-ic" style="background:#DDF5E5;color:var(--wa)">${WA}</span><span><b>Marisa está digitando<span class="typing"><i></i><i></i><i></i></span></b>Sessão de ${NSEM[wdN(PROX().d)]}, ${ddmm(PROX().d)}, ${PROX().h}</span></div>
     <div class="float f2"><span class="dot-ic" style="background:var(--ok-soft);color:var(--ok)">${ic('shield')}</span><span><b>CRP 00/10001</b>Situação ativa</span></div>
    </div></div></section>
 
@@ -991,11 +991,11 @@ function site(){
   <section class="band"><div class="wrap split rev">
    <div class="phone"><div class="phone-in">
      <div class="wa-top">${avatar(PSIS[0].av)}<span><b>Marisa Tavares</b><small>Psicóloga · CRP verificado</small></span></div>
-     <div class="wa-body"><span class="day">Hoje</span>
+     <div class="wa-body"><span class="day">${cap1(ABR[wdN(9)])}, ${ddmm(9)}</span>
       <div class="bub">Oi, Ana! Aqui é a Marisa. Nossa sessão começa às 19h, eu te ligo por vídeo neste número.<small>18:52</small></div>
       <div class="bub me">Combinado, já estou num lugar tranquilo.<small>18:54</small></div>
       <div class="bub call"><span class="cic">${ic('video')}</span><span><b>Chamada de vídeo</b><br><small style="text-align:left">50 min · 19:00</small></span></div>
-      <div class="bub">Obrigada pela conversa de hoje. Até quinta que vem!<small>19:51</small></div>
+      <div class="bub">Obrigada pela conversa de hoje. Até sexta que vem!<small>19:51</small></div>
      </div></div></div>
    <div><div class="sec-h"><span class="arch" aria-hidden="true"></span><h2>A sessão acontece no WhatsApp</h2><p>Nada de instalar programa ou criar outra senha. A plataforma cuida da agenda, do pagamento e dos lembretes; a conversa é por chamada de vídeo no WhatsApp.</p></div>
     <ul class="checks">
@@ -1059,7 +1059,7 @@ function shell(role,who,tabs,body){
   document.body.classList.toggle('em-fluxo',role==='paciente'&&emFluxo());
 }
 const emFluxo=()=>S.tab.paciente==='agendar'||(S.tab.paciente==='pagar'&&!S.paid);
-const diaCurto=d=>`${['dom','seg','ter','qua','qui','sex','sáb'][(OCT_START+d-1)%7]}, ${d}/10`;
+const diaCurto=d=>`${ABR[wdN(d)]}, ${d}/10`;
 function cbar(){
   if(!emFluxo())return '';const p=S.psy;
   if(S.tab.paciente==='agendar')return `<div class="cbar" role="region" aria-label="Resumo e próximo passo"><div class="cb-t"><small>${esc(p.nome)} · ${diaCurto(S.day)}${S.time?' às '+S.time:''}</small><b>${brl(p.preco)}</b></div><button class="btn btn-p" data-cta="go-pay" ${S.time?'':'disabled'}>${S.time?'Continuar':'Escolha o horário'}</button></div>`;
@@ -1069,16 +1069,78 @@ function fhead(volta,txt){return `<div class="fhead so-cel"><button data-${volta
 
 /* ---------- PACIENTE ---------- */
 const OCT_START=4; // 1/out/2026 cai numa quinta (0=dom)
-function avDays(p){const out=[];for(let d=10;d<=31;d++){const w=(OCT_START+d-1)%7;if(w!==0&&(d+p.id)%3!==0)out.push(d)}return out}
-function slotsFor(p,d){const all={manha:['08:00','09:00','10:00','11:00'],tarde:['14:00','15:00','16:00','17:00'],noite:['18:00','19:00','20:00','21:00']};
-  return ['manha','tarde','noite'].filter(t=>p.turnos.includes(t)).map(t=>({t,h:all[t].map((h,i)=>({h,off:(d+i+p.id)%4===0}))}))}
+/* ===== FONTE ÚNICA DE DADOS =====
+   Hoje é sábado, 10/10/2026, 07:35. Toda tela (agenda, pedidos, hoje, repasses, sessões, histórico, horários livres,
+   financeiro e visão geral) lê da lista CONSULTAS; nada é calculado por fórmula solta.
+   Dia n>0 é 'n de outubro'; n<=0 é setembro (n=0 é 30/09). */
+const HOJE={d:10,agora:'07:35'};
+const NSEM=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+const ABR=['dom','seg','ter','qua','qui','sex','sáb'];
+const wdN=n=>(((OCT_START+n-1)%7)+7)%7;
+const ddmm=n=>n>0?`${String(n).padStart(2,'0')}/10`:`${String(30+n).padStart(2,'0')}/09`;
+const dlabelN=n=>`${NSEM[wdN(n)]}, ${n} de outubro`;
+const cap1=t=>t[0].toUpperCase()+t.slice(1);
+/* regra de repasse: sexta seguinte à sessão (sessão de sexta vai para a sexta da semana seguinte) */
+const proxSex=n=>{let x=n+1;while(wdN(x)!==5)x++;return x};
+/* regra única de reconferência do CRP: varredura mensal, todo dia 10 de madrugada */
+const CRP_REGRA={hora:'01:12',ultima:'10/10/2026',proxima:'10/11/2026',diaTxt:'10/10'};
+/* sessões que o paciente já tinha feito antes do início da lista */
+const PAC_ANTES={'Paulo S.':3,'Elisa T.':0,'Bruno A.':3,'Lia F.':2,'Diego R.':1,'Júlia M.':0,'Ana C.':0,'Clara B.':1,'Otto P.':2,'Vera S.':5};
+let _id=0;const K=(pac,psi,d,h,st,pg,x)=>Object.assign({id:'c'+(++_id),pac,psi,d,h,st,pg},x||{});
+const CONSULTAS=[
+ /* Ana C. (a paciente do exemplo): sextas às 19h com a Marisa, antes disso uma sessão com a Lívia que foi remarcada */
+ K('Ana C.',5,-19,'18:00','remarcada','pago'),
+ K('Ana C.',1,-5,'19:00','realizada','pago',{nota:5}),
+ K('Ana C.',1,2,'19:00','realizada','pago',{nota:5}),
+ K('Ana C.',1,9,'19:00','realizada','pago',{avaliar:true}),
+ K('Ana C.',1,16,'19:00','reservada','pendente',{id:'ana-prox'}),
+ /* sábados da Marisa */
+ K('Paulo S.',1,3,'08:00','realizada','pago'),K('Elisa T.',1,3,'10:00','realizada','pago'),K('Bruno A.',1,3,'19:00','realizada','pago'),
+ K('Paulo S.',1,10,'08:00','agendada','pago'),K('Elisa T.',1,10,'10:00','agendada','pago'),K('Bruno A.',1,10,'19:00','agendada','pago'),K('Diego R.',1,10,'20:00','agendada','pendente',{fin:['Pix expirado sem pagamento','Sessão será liberada se pagar até 2 h antes']}),
+ K('Paulo S.',1,17,'08:00','agendada','pago'),K('Elisa T.',1,17,'10:00','agendada','pago'),K('Bruno A.',1,17,'19:00','agendada','pago'),
+ /* meio de semana da Marisa */
+ K('Lia F.',1,7,'19:00','realizada','pago'),K('Diego R.',1,7,'20:00','realizada','pago'),
+ K('Clara B.',1,12,'19:00','agendada','pago'),K('Otto P.',1,14,'09:00','agendada','pago'),K('Vera S.',1,14,'19:00','agendada','pago'),
+ K('Júlia M.',1,13,'10:00','pedido','pago',{ped:true}),K('Lia F.',1,15,'19:00','pedido','analise',{ped:true}),
+ /* outros psicólogos (ocupam os horários deles) */
+ K('Carla P.',2,7,'19:00','realizada','pago',{fin:['Falta sem aviso contestada','Psicólogo enviou registro de tentativa de contato']}),
+ K('Nina P.',2,14,'19:00','agendada','pago'),K('Caio R.',3,12,'09:00','agendada','pago'),
+ K('Rita V.',3,13,'15:00','pedido','recusado',{fin:['Cartão recusado','Nova tentativa automática hoje 14h']}),
+ K('Marcos L.',4,2,'20:00','realizada','contestado',{fin:['Contestação no cartão (chargeback)','Prazo de defesa: 17/10']}),
+ K('Duda L.',4,15,'20:00','agendada','pago'),K('Gil M.',5,12,'10:00','agendada','pago'),K('Hugo T.',6,14,'20:00','agendada','pago'),K('Ivo P.',6,16,'18:00','agendada','pago')
+];
+const FIN_ORDEM=['Diego R.','Rita V.','Marcos L.','Carla P.'];
+const ATRASOS=[['Rodrigo Siqueira','Conta bancária recusou o depósito',9,576,'Pedir dados bancários novos'],['Cássio Rabelo','Nota fiscal do profissional pendente',9,312,'Lembrete enviado ontem']];
+const ativa=c=>!['recusada','remarcada','cancelada'].includes(c.st);
+const nth=c=>(PAC_ANTES[c.pac]||0)+CONSULTAS.filter(x=>x.pac===c.pac&&x.psi===c.psi&&ativa(x)&&(x.d<c.d||(x.d===c.d&&x.h<=c.h))).length;
+const tipoC=c=>nth(c)===1?'Primeira sessão':`Retorno · ${nth(c)}ª sessão`;
+const ordC=(a,b)=>a.d-b.d||a.h.localeCompare(b.h);
+const PROX=()=>CONSULTAS.find(c=>c.id==='ana-prox');
+const HORAS=['08','09','10','11','14','15','16','17','18','19','20','21'].map(h=>h+':00');
+const PERIODO=h=>+h.slice(0,2)<12?'manha':+h.slice(0,2)<18?'tarde':'noite';
+const FOLGA={2:[6],3:[1],4:[2,6],5:[3],6:[1]};            /* dia da semana de folga por psicólogo (0=dom) */
+const FECHADO_BASE={1:{15:['08:00','09:00','10:00','11:00']}};  /* Marisa: quinta 15 de manhã fechada */
+function ocupante(psiId,d,h){return CONSULTAS.find(c=>c.psi===psiId&&c.d===d&&c.h===h&&ativa(c))}
+/* 'busy' (consulta ou pedido), 'free' (aberto) ou '' (fechado): a mesma resposta para a agenda da psicóloga e para a paciente */
+function estado(p,d,h){
+  if(ocupante(p.id,d,h))return 'busy';
+  const ov=p.id===1&&S.wk[d+'|'+h];if(ov)return ov==='free'?'free':'';
+  if(wdN(d)===0||(FOLGA[p.id]||[]).includes(wdN(d)))return '';
+  if(((FECHADO_BASE[p.id]||{})[d]||[]).includes(h))return '';
+  return p.turnos.includes(PERIODO(h))?'free':'';
+}
+function slotsFor(p,d){const g={manha:[],tarde:[],noite:[]};
+  HORAS.forEach(h=>{const e=estado(p,d,h);if(!e)return;const o=ocupante(p.id,d,h);g[PERIODO(h)].push({h,off:e==='busy'&&!(o&&o.id==='ana-prox')})});
+  return ['manha','tarde','noite'].filter(t=>g[t].length).map(t=>({t,h:g[t]}))}
+function avDays(p){const out=[];for(let d=12;d<=31;d++){if(wdN(d)!==0&&slotsFor(p,d).some(g=>g.h.some(x=>!x.off)))out.push(d)}return out}
+function commitPago(){const c=PROX();c.psi=S.psy.id;c.d=S.day;c.h=S.time;c.st='agendada';c.pg='pago'}
 function stepper(n){const from=S.prog||0;S.prog=n;return `<div class="stepper" aria-label="Etapa ${n} de 3"><span class="track"><i data-to="${n/3}" style="--from:${from/3}"></i></span><span class="${n>=1?'on':''}">Horário</span><span class="${n>=2?'on':''}">Pagamento</span><span class="${n>=3?'on':''}">Confirmada</span></div>`}
 function paciente(){
   const t=S.tab.paciente,p=S.psy;
   const who=`${avatar(PAC)}<span><b>Ana Costa</b><small>Paciente de exemplo</small></span>`;
   const tabs=[['agendar','Agendar','cal'],['pagar','Pagamento','wallet'],['consultas','Minhas consultas','history'],['avaliar','Avaliar consulta','star'],['dados','Meus dados','lock']];
   let b='';
-  const dlabel=d=>{const w=['domingo','segunda','terça','quarta','quinta','sexta','sábado'][(OCT_START+d-1)%7];return `${w}, ${d} de outubro`};
+  const dlabel=dlabelN;
   if(t==='agendar'){
     const days=avDays(p);if(!days.includes(S.day))S.day=days[0];
     const cells=[];['D','S','T','Q','Q','S','S'].forEach(x=>cells.push(`<span class="dw">${x}</span>`));
@@ -1098,7 +1160,7 @@ function paciente(){
     </div></div>`;
   }
   if(t==='pagar'){
-    if(!S.time){S.time='19:00'}
+    if(!S.time){S.time=PROX().h}
     if(S.paid){
       b=`${stepper(3)}<div class="panel done"><div class="big-ic">${ic('check')}</div><h3>Sessão confirmada</h3><p>${p.nome} · ${dlabel(S.day)}, ${S.time}. Você recebe lembretes no WhatsApp 24 h e 1 h antes.</p>
        <div class="flex" style="justify-content:center"><button class="btn btn-wa" data-wa>${WA}Entrar na consulta pelo WhatsApp</button><button class="btn btn-g" data-tab="consultas">Ver minhas consultas</button></div>
@@ -1131,23 +1193,25 @@ function paciente(){
     </div></div>`;}
   }
   if(t==='consultas'){
-    const hist=[{p:PSIS[0],d:'02/10',h:'19:00',st:'Realizada',rate:true},{p:PSIS[0],d:'25/09',h:'19:00',st:'Realizada',rate:false,n:5},{p:PSIS[4],d:'11/09',h:'18:00',st:'Remarcada',rate:false}];
+    const x=PROX(),px=PSIS.find(q=>q.id===x.psi),pago=x.pg==='pago';
+    const hist=CONSULTAS.filter(c=>c.pac==='Ana C.'&&c.d<=HOJE.d&&(c.st==='realizada'||c.st==='remarcada')).sort((a,b)=>-ordC(a,b)).map(c=>({p:PSIS.find(q=>q.id===c.psi),d:ddmm(c.d),h:c.h,st:c.st==='realizada'?'Realizada':'Remarcada',rate:!!c.avaliar,n:c.nota}));
     b=`<h2 class="ttl">Minhas consultas</h2><p class="lead">Próximas sessões e histórico.</p>
     <div class="panel"><h3 class="ph">Próxima</h3>
-     <div class="row" style="background:var(--pine-soft)">${avatar(S.psy.av)}<div class="grow"><b>${S.psy.nome}</b><small>${dlabel(S.day)}, ${S.time||'19:00'} · ${S.paid?'Paga':'Aguardando pagamento'}</small></div>
-      ${S.paid?(S.near?`<button class="btn btn-wa btn-sm" data-wa>${WA}Entrar na consulta pelo WhatsApp</button>`:`<button class="btn btn-wa btn-sm" disabled>${WA}Entrar na consulta</button>`):`<button class="btn btn-p btn-sm" data-tab="pagar">Pagar agora</button>`}</div>
-     ${S.paid?`<div class="flex mt" style="justify-content:space-between"><span class="lock">${ic(S.near?'check':'lock')}${S.near?'Link liberado. Expira 15 minutos depois do fim da sessão.':`O link abre às ${(()=>{const [h,m]=(S.time||'19:00').split(':');return String(+h-1).padStart(2,'0')+':50'})()}, 10 minutos antes.`}</span>
+     <div class="row" style="background:var(--pine-soft)">${avatar(px.av)}<div class="grow"><b>${px.nome}</b><small>${dlabel(x.d)}, ${x.h} · ${pago?'Paga':'Aguardando pagamento'}</small></div>
+      ${pago?(S.near?`<button class="btn btn-wa btn-sm" data-wa>${WA}Entrar na consulta pelo WhatsApp</button>`:`<button class="btn btn-wa btn-sm" disabled>${WA}Entrar na consulta</button>`):`<button class="btn btn-p btn-sm" data-tab="pagar">Pagar agora</button>`}</div>
+     ${pago?`<div class="flex mt" style="justify-content:space-between"><span class="lock">${ic(S.near?'check':'lock')}${S.near?'Link liberado. Expira 15 minutos depois do fim da sessão.':`O link abre às ${(()=>{const [h]=x.h.split(':');return String(+h-1).padStart(2,'0')+':50'})()}, 10 minutos antes.`}</span>
       <label class="sw"><input type="checkbox" id="near" ${S.near?'checked':''}> Simular: faltam 10 minutos</label></div>
      <div class="flex mt"><span class="pill p-ok">${ic('bell')}Lembrete de 24 h agendado</span><span class="pill p-ok">${ic('bell')}Lembrete de 1 h agendado</span><button class="btn btn-g btn-sm" data-remarcar>Remarcar ou cancelar</button></div>`:''}</div>
     <div class="panel mt"><h3 class="ph">Histórico</h3><div class="list">${hist.map(h=>`<div class="row">${avatar(h.p.av)}<div class="grow"><b>${h.p.nome}</b><small>${h.d} às ${h.h} · ${brl(h.p.preco)}</small></div>
       <span class="pill ${h.st==='Realizada'?'p-ok':'p-warn'}">${h.st}</span>${h.rate?`<button class="btn btn-g btn-sm" data-tab="avaliar">${ic('star')}Avaliar</button>`:h.n?`<span class="rate">${stars(h.n)}</span>`:''}</div>`).join('')}</div></div>`;
   }
   if(t==='avaliar'){
+    const AV=CONSULTAS.find(c=>c.avaliar);
     const tg=['Me senti ouvida','Pontual','Explicou bem os combinados','Conexão boa','Quero continuar'];
     b=S.rated?`<div class="panel done"><div class="big-ic">${ic('heart')}</div><h3>Avaliação enviada</h3><p>Obrigado. Sua nota entra na média do perfil depois da moderação. Seu nome nunca aparece para outros pacientes.</p><button class="btn btn-g" data-tab="consultas">Voltar às consultas</button></div>`
-    :`<h2 class="ttl">Como foi a sessão?</h2><p class="lead">Sessão de 02/10 com ${PSIS[0].nome}. Leva menos de um minuto.</p>
-    <div class="alert info" style="margin-bottom:14px">${ic('lock')}<span><b>Só sessões realizadas podem ser avaliadas</b><small>A sessão de ${dlabel(S.day)} com ${S.psy.nome} libera a avaliação quando terminar.</small></span></div>
-    <div class="panel"><div class="psy-sum">${avatar(PSIS[0].av)}<div><b>${PSIS[0].nome}</b><span class="meta">${PSIS[0].ab} · <span class="pill p-ok">Realizada em 02/10</span></span></div></div>
+    :`<h2 class="ttl">Como foi a sessão?</h2><p class="lead">Sessão de ${ddmm(AV.d)} com ${PSIS[0].nome}. Leva menos de um minuto.</p>
+    <div class="alert info" style="margin-bottom:14px">${ic('lock')}<span><b>Só sessões realizadas podem ser avaliadas</b><small>A sessão de ${dlabel(PROX().d)} com ${PSIS.find(q=>q.id===PROX().psi).nome} libera a avaliação quando terminar.</small></span></div>
+    <div class="panel"><div class="psy-sum">${avatar(PSIS[0].av)}<div><b>${PSIS[0].nome}</b><span class="meta">${PSIS[0].ab} · <span class="pill p-ok">Realizada em ${ddmm(AV.d)}</span></span></div></div>
      <div class="rstars mt" role="radiogroup" aria-label="Nota de 1 a 5">${[1,2,3,4,5].map(i=>`<button role="radio" aria-checked="${S.rating===i}" aria-label="${i} estrela${i>1?'s':''}" data-rate="${i}" class="${i<=S.rating?'on':''}"><svg viewBox="0 0 24 24">${P.star}</svg></button>`).join('')}</div>
      <div class="tchips">${tg.map(x=>`<button data-tag="${x}" aria-pressed="${S.tags.includes(x)}">${x}</button>`).join('')}</div>
      <label class="fld">Comentário (opcional, sem detalhes da sessão)<textarea rows="3" placeholder="O que ajudaria outra pessoa a decidir?"></textarea></label>
@@ -1174,7 +1238,7 @@ function psi(){
   const t=S.tab.psi,me=PSI_EU,fee=S.fee;
   const verified=S.crpState==='done';
   const who=`${avatar(me.av)}<span><b>${me.nome}</b><small>${verified?'CRP verificado':'Verificação pendente'}</small></span>`;
-  const tabs=[['cadastro','Cadastro e CRP','shield'],['pedidos',`Pedidos novos (${S.reqs.filter(r=>!r.st).length})`,'inbox'],['hoje','Consultas do dia','today'],['agenda','Agenda','cal'],['repasses','Repasses','wallet'],['avaliar','Avaliar paciente','star']];
+  const tabs=[['cadastro','Cadastro e CRP','shield'],['pedidos',`Pedidos novos (${CONSULTAS.filter(c=>c.psi===1&&c.ped&&c.st==='pedido').length})`,'inbox'],['hoje','Consultas do dia','today'],['agenda','Agenda','cal'],['repasses','Repasses','wallet'],['avaliar','Avaliar paciente','star']];
   let b='';
   if(t==='cadastro'){
     const steps=[['Documento recebido','Carteira do CRP em PDF ou foto'],['Consulta ao cadastro do Conselho','Busca automática pelo número e região'],['Situação do registro','Precisa estar ativa'],['Nome confere','Comparado com o nome informado'],['Perfil liberado na busca','Selo “CRP verificado” no perfil']];
@@ -1190,46 +1254,50 @@ function psi(){
       <p class="note" id="exn">Campos preenchidos com dados de exemplo.</p>${verified?`<button class="btn btn-g btn-sm" type="button" data-reset>Simular um cadastro novo</button>`:''}</form></div>
     <div class="panel"><h3 class="ph">Status da verificação <span class="pill ${verified?'p-ok':st==='run'?'p-warn':'p-info'}">${verified?ic('check')+'Verificado':st==='run'?'Verificando…':'Pendente'}</span></h3>
       <ol class="vline">${steps.map((s,i)=>`<li class="${i<n?'ok':i===n&&st==='run'?'run':''}"><span class="vd">${i<n?ic('check'):''}</span><span><b>${s[0]}</b><small>${i<n&&i===2?'Ativa':i<n&&i===1?'Registro encontrado':s[1]}</small></span></li>`).join('')}</ol>
-      ${verified?`<div class="badge-big drawme" style="background:var(--ok-soft);color:var(--ok)">${ic('shieldc')}<span><b>CRP 00/10001 verificado</b><br><small style="color:var(--muted)">Última conferência: 10/10/2026 às 01:12 · próxima em 10/11/2026 (mensal)</small></span></div>`:''}
+      ${verified?`<div class="badge-big drawme" style="background:var(--ok-soft);color:var(--ok)">${ic('shieldc')}<span><b>CRP 00/10001 verificado</b><br><small style="color:var(--muted)">Última conferência: ${CRP_REGRA.ultima} às ${CRP_REGRA.hora} · próxima em ${CRP_REGRA.proxima} (mensal)</small></span></div>`:''}
       <div class="alert warn mt">${ic('bell')}<span><b>Se o registro ficar irregular</b><small>A reconferência é mensal. Se o CRP aparecer como suspenso ou cancelado, sua agenda é pausada, você recebe um aviso e os pacientes marcados são reembolsados ou remanejados.</small></span></div>
     </div></div>`;
   }
   if(t==='pedidos'){
+    const reqs=CONSULTAS.filter(c=>c.psi===1&&c.ped).sort(ordC);
     b=`<h2 class="ttl">Pedidos de agendamento</h2><p class="lead">Antes de aceitar, você vê quanto o paciente paga, quanto fica com a plataforma e quanto cai na sua conta.</p>
-    <div class="list">${S.reqs.map((r,i)=>{const tx=r.v*fee/100;return `<div class="panel"><div class="row" style="background:transparent;padding:0">${avatar({s:i+2,h:i+1,b:i+3,c:i+2,hair:i+1})}<div class="grow"><b>${r.n}${r.primeira?' · primeira sessão':''}</b><small>${r.d} às ${r.h} · pagamento ${i===0?'confirmado':'em análise (Pix)'}</small></div>
-      ${r.st?`<span class="pill ${r.st==='ok'?'p-ok':'p-bad'}">${r.st==='ok'?'Aceito':'Recusado'}</span>`:''}</div>
-      <div class="split-card"><div class="sumline"><span>Paciente paga</span><span>${brl(r.v)}</span></div><div class="sumline"><span>Taxa da plataforma (${fee}%)</span><span>− ${brl(tx)}</span></div><div class="sumline tot"><span>Você recebe</span><span>${brl(r.v-tx)}</span></div><p class="note">Repasse na sexta seguinte à sessão. Se o paciente faltar sem aviso, você recebe do mesmo jeito.</p></div>
-      ${r.st?'':`<div class="flex mt"><button class="btn btn-p btn-sm" data-req="${i}-ok">${ic('check')}Aceitar ${brl(r.v-tx)}</button><button class="btn btn-g btn-sm" data-req="${i}-no">Recusar</button><span class="lock">${ic('clock')}Expira em ${i?'11':'5'} h se não responder</span></div>`}</div>`}).join('')}</div>`;
+    <div class="list">${reqs.map((r,i)=>{const v=me.preco,tx=v*fee/100,aceito=r.acc==='ok',recus=r.st==='recusada',aberto=r.st==='pedido';return `<div class="panel"><div class="row" style="background:transparent;padding:0">${avatar({s:i+2,h:i+1,b:i+3,c:i+2,hair:i+1})}<div class="grow"><b>${r.pac}${nth(r)===1?' · primeira sessão':''}</b><small>${cap1(ABR[wdN(r.d)])}, ${ddmm(r.d)} às ${r.h} · pagamento ${r.pg==='pago'?'confirmado':'em análise (Pix)'}</small></div>
+      ${aceito||recus?`<span class="pill ${aceito?'p-ok':'p-bad'}">${aceito?'Aceito':'Recusado'}</span>`:''}</div>
+      <div class="split-card"><div class="sumline"><span>Paciente paga</span><span>${brl(v)}</span></div><div class="sumline"><span>Taxa da plataforma (${fee}%)</span><span>− ${brl(tx)}</span></div><div class="sumline tot"><span>Você recebe</span><span>${brl(v-tx)}</span></div><p class="note">Repasse na sexta seguinte à sessão (${ddmm(proxSex(r.d))}). Se o paciente faltar sem aviso, você recebe do mesmo jeito.</p></div>
+      ${aberto?`<div class="flex mt"><button class="btn btn-p btn-sm" data-req="${r.id}-ok">${ic('check')}Aceitar ${brl(v-tx)}</button><button class="btn btn-g btn-sm" data-req="${r.id}-no">Recusar</button><span class="lock">${ic('clock')}Expira em ${i?'11':'5'} h se não responder</span></div>`:''}</div>`}).join('')}</div>`;
   }
   if(t==='hoje'){
-    const list=[['08:00','Paulo S.','Retorno · 6ª sessão','ok'],['10:00','Júlia M.','Primeira sessão','info'],['19:00','Ana C.','Retorno · 3ª sessão','ok'],['20:00','Diego R.','Aguardando pagamento','warn']];
-    b=`<h2 class="ttl">Consultas de hoje</h2><p class="lead">Sábado, 10 de outubro. Pacientes identificados só pelo primeiro nome e inicial.</p>
-    <div class="grid-k"><div class="kpi hl"><span>${ic('today')}Hoje</span><b>4 sessões</b><small>3 pagas</small></div><div class="kpi"><span>${ic('clock')}Próxima</span><b>08:00</b><small>em 25 min</small></div><div class="kpi"><span>${ic('wallet')}A receber hoje</span><b>${brl(140*3*(100-fee)/100)}</b><small>já descontada a taxa</small></div><div class="kpi"><span>${ic('star')}Sua média</span><b>4,9</b><small>132 avaliações</small></div></div>
-    <div class="panel mt"><div class="list">${list.map(([h,n,d,s],i)=>`<div class="row"><b style="font-family:var(--f-d);font-size:22px;min-width:64px">${h}</b>${avatar({s:i+1,h:i,b:i+2,c:i+1,hair:i%5})}<div class="grow"><b>${n}</b><small>${d}</small></div>
-     ${s==='warn'?`<span class="pill p-warn">Aguardando pagamento</span>`:`<button class="btn btn-wa btn-sm" data-wa-psi="${n}">${WA}Abrir no WhatsApp</button><button class="btn btn-g btn-sm" data-done>${ic('check')}Realizada</button>`}</div>`).join('')}</div></div>`;
+    const lista=CONSULTAS.filter(c=>c.psi===1&&c.d===HOJE.d&&ativa(c)).sort(ordC);
+    const pagas=lista.filter(c=>c.pg==='pago').length;
+    const prox=lista.find(c=>c.h>HOJE.agora);
+    const mins=prox?(+prox.h.slice(0,2)*60+ +prox.h.slice(3))-(+HOJE.agora.slice(0,2)*60+ +HOJE.agora.slice(3)):0;
+    b=`<h2 class="ttl">Consultas de hoje</h2><p class="lead">${cap1(NSEM[wdN(HOJE.d)])}, ${HOJE.d} de outubro. Pacientes identificados só pelo primeiro nome e inicial.</p>
+    <div class="grid-k"><div class="kpi hl"><span>${ic('today')}Hoje</span><b>${lista.length} sessões</b><small>${pagas} pagas</small></div><div class="kpi"><span>${ic('clock')}Próxima</span><b>${prox?prox.h:'—'}</b><small>${prox?'em '+mins+' min':''}</small></div><div class="kpi"><span>${ic('wallet')}A receber hoje</span><b>${brl(me.preco*pagas*(100-fee)/100)}</b><small>já descontada a taxa</small></div><div class="kpi"><span>${ic('star')}Sua média</span><b>${me.nota.toFixed(1).replace('.',',')}</b><small>${me.n} avaliações</small></div></div>
+    <div class="panel mt"><div class="list">${lista.map((c,i)=>`<div class="row"><b style="font-family:var(--f-d);font-size:22px;min-width:64px">${c.h}</b>${avatar({s:i+1,h:i,b:i+2,c:i+1,hair:i%5})}<div class="grow"><b>${c.pac}</b><small>${c.pg==='pendente'?'Aguardando pagamento':tipoC(c)}</small></div>
+     ${c.pg==='pendente'?`<span class="pill p-warn">Aguardando pagamento</span>`:`<button class="btn btn-wa btn-sm" data-wa-psi="${c.pac}">${WA}Abrir no WhatsApp</button><button class="btn btn-g btn-sm" data-done>${ic('check')}Realizada</button>`}</div>`).join('')}</div></div>`;
   }
   if(t==='agenda'){
-    const days=['Seg 12','Ter 13','Qua 14','Qui 15','Sex 16','Sáb 17'],hrs=['08','09','10','11','14','15','16','17','18','19','20','21'];
-    if(!S.wk){S.wk={};hrs.forEach((h,i)=>days.forEach((d,j)=>{const k=d+h;const v=(i*7+j*3)%10;S.wk[k]=v<3?'busy':v<7?'free':''}))}
-    const names=['Ana C.','Paulo S.','Júlia M.','Diego R.','Lia F.'];
-    b=`<h2 class="ttl">Agenda da semana</h2><p class="lead">Toque num horário para abrir ou fechar. Horários ocupados vêm das consultas pagas.</p>
-    <div class="panel"><div class="wk-wrap"><div class="wk"><span></span>${days.map(d=>`<span class="hd">${d}</span>`).join('')}
-     ${hrs.map((h,i)=>`<span class="hr">${h}h</span>${days.map((d,j)=>{const v=S.wk[d+h];return `<button data-wk="${d+h}" class="${v}" aria-label="${d} ${h}h ${v==='busy'?'ocupado':v==='free'?'livre':'fechado'}">${v==='busy'?names[(i+j)%5]:v==='free'?'livre':''}</button>`}).join('')}`).join('')}
+    const dias=[12,13,14,15,16,17];
+    b=`<h2 class="ttl">Agenda da semana</h2><p class="lead">Semana de ${ddmm(12)} a ${ddmm(17)}. Toque num horário para abrir ou fechar. Horários ocupados vêm das consultas e dos pedidos.</p>
+    <div class="panel"><div class="wk-wrap"><div class="wk"><span></span>${dias.map(d=>`<span class="hd">${cap1(ABR[wdN(d)])} ${d}</span>`).join('')}
+     ${HORAS.map(h=>`<span class="hr">${h.slice(0,2)}h</span>${dias.map(d=>{const v=estado(me,d,h),o=ocupante(1,d,h);return `<button data-wk="${d}|${h}" class="${v}" aria-label="${cap1(ABR[wdN(d)])} ${d} ${h.slice(0,2)}h ${v==='busy'?'ocupado, '+o.pac:v==='free'?'livre':'fechado'}">${v==='busy'?o.pac:v==='free'?'livre':''}</button>`}).join('')}`).join('')}
     </div></div><div class="legend"><span><i style="background:var(--plum)"></i>Consulta marcada</span><span><i style="background:var(--pine-soft)"></i>Aberto para agendamento</span><span><i style="border:1px dashed var(--line)"></i>Fechado</span></div></div>`;
   }
   if(t==='repasses'){
-    const rows=[['09/10','Ana C.',140,'Pago'],['09/10','Paulo S.',140,'Pago'],['08/10','Júlia M.',140,'Pago'],['07/10','Lia F.',140,'A repassar 16/10'],['07/10','Diego R.',140,'A repassar 16/10'],['06/10','Paulo S.',140,'A repassar 16/10']];
+    const rows=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.pg==='pago'&&c.d>=2&&c.d<=HOJE.d).sort((a,b)=>-ordC(a,b)).map(c=>{const pf=proxSex(c.d);return [ddmm(c.d),c.pac,me.preco,pf<=HOJE.d?'Pago':'A repassar '+ddmm(pf),pf]});
     const br=rows.reduce((a,r)=>a+r[2],0),tx=br*fee/100;
-    b=`<h2 class="ttl">Repasses</h2><p class="lead">Cada consulta mostra o valor pago pelo paciente, a taxa da plataforma (${fee}%) e o que fica com você.</p>
-    <div class="grid-k"><div class="kpi"><span>${ic('wallet')}Bruto na semana</span><b>${brl(br)}</b></div><div class="kpi"><span>${ic('percent')}Taxa da plataforma</span><b>− ${brl(tx)}</b><small style="color:var(--muted)">${fee}% por consulta</small></div><div class="kpi hl"><span>${ic('check')}Líquido seu</span><b>${brl(br-tx)}</b><small>${100-fee}% do bruto</small></div><div class="kpi"><span>${ic('cal')}Próximo repasse</span><b>16/10</b><small>${brl(3*140*(100-fee)/100)}</small></div></div>
+    const pend=rows.filter(r=>r[3]!=='Pago'),prox=proxSex(HOJE.d);
+    b=`<h2 class="ttl">Repasses</h2><p class="lead">Cada consulta mostra o valor pago pelo paciente, a taxa da plataforma (${fee}%) e o que fica com você. Repasse na sexta seguinte à sessão.</p>
+    <div class="grid-k"><div class="kpi"><span>${ic('wallet')}Bruto de ${ddmm(2)} a ${ddmm(HOJE.d)}</span><b>${brl(br)}</b></div><div class="kpi"><span>${ic('percent')}Taxa da plataforma</span><b>− ${brl(tx)}</b><small style="color:var(--muted)">${fee}% por consulta</small></div><div class="kpi hl"><span>${ic('check')}Líquido seu</span><b>${brl(br-tx)}</b><small>${100-fee}% do bruto</small></div><div class="kpi"><span>${ic('cal')}Próximo repasse</span><b>${ddmm(prox)}</b><small>${brl(pend.length*me.preco*(100-fee)/100)}</small></div></div>
     <div class="panel mt tb-wrap"><table class="tb"><thead><tr><th>Data</th><th>Paciente</th><th class="n">Bruto</th><th class="n hm">Taxa</th><th class="n">Líquido</th><th>Status</th></tr></thead>
     <tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="n">${brl(r[2])}</td><td class="n hm">− ${brl(r[2]*fee/100)}</td><td class="n"><b>${brl(r[2]*(100-fee)/100)}</b></td><td><span class="pill ${r[3]==='Pago'?'p-ok':'p-warn'}">${r[3]}</span></td></tr>`).join('')}</tbody></table></div>`;
   }
   if(t==='avaliar'){
+    const UL=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.d<HOJE.d).sort((a,b)=>-ordC(a,b))[0];
     const crit=['Chegou no horário','Respeitou os combinados','Conexão estável'];
     b=S.ratedPsi?`<div class="panel done"><div class="big-ic">${ic('check')}</div><h3>Avaliação registrada</h3><p>Fica visível só para a equipe da plataforma. Ajuda a cuidar de faltas, atrasos e problemas de conexão.</p><button class="btn btn-g" data-tab="hoje">Voltar às consultas</button></div>`
-    :`<h2 class="ttl">Avaliar o paciente</h2><p class="lead">Sessão de ontem, 09/10 às 19:00, com Ana C. Avaliação interna, o paciente não vê.</p>
-    <div class="alert info" style="margin-bottom:14px">${ic('lock')}<span><b>Só aparecem aqui sessões realizadas</b><small>As 4 sessões de hoje liberam a avaliação quando você marcar como realizadas.</small></span></div>
+    :`<h2 class="ttl">Avaliar o paciente</h2><p class="lead">Sessão de ontem, ${ddmm(UL.d)} às ${UL.h}, com ${UL.pac}. Avaliação interna, o paciente não vê.</p>
+    <div class="alert info" style="margin-bottom:14px">${ic('lock')}<span><b>Só aparecem aqui sessões realizadas</b><small>As ${CONSULTAS.filter(c=>c.psi===1&&c.d===HOJE.d&&ativa(c)).length} sessões de hoje liberam a avaliação quando você marcar como realizadas.</small></span></div>
     <div class="panel"><div class="list">${crit.map((c,i)=>`<div class="row"><div class="grow"><b>${c}</b></div><div class="pay-t" style="margin:0;flex:0 0 auto"><button data-yn="${i}-s" aria-pressed="${(S.yn||{})[i]==='s'}">${ic('check')}Sim</button><button data-yn="${i}-n" aria-pressed="${(S.yn||{})[i]==='n'}">${ic('x')}Não</button></div></div>`).join('')}</div>
     <label class="fld mt">Observação para a equipe (sem conteúdo clínico)<textarea rows="3" placeholder="Ex.: entrou 15 minutos atrasado e pediu para remarcar"></textarea></label>
     <button class="btn btn-p mt" id="send-psi">Enviar avaliação</button></div>`;
@@ -1245,27 +1313,30 @@ function admin(){
   const tabs=[['geral','Visão geral','chart'],['fin','Financeiro','wallet'],['crp',`Verificação de CRP (${pend})`,'shield'],['taxa','Taxa da plataforma','percent'],['mod',`Avaliações (${mpend})`,'flag']];
   let b='';
   const ticket=148,cons=412,rec=cons*ticket*fee/100;
+  const LOTE={n:44,psis:31,d:proxSex(HOJE.d)};
+  const finRows=FIN_ORDEM.map(n=>CONSULTAS.find(c=>c.pac===n&&c.fin)).map(c=>({c,p:PSIS.find(q=>q.id===c.psi)}));
+  const inad=finRows.reduce((a,r)=>a+r.p.preco,0),atrT=ATRASOS.reduce((a,r)=>a+r[3],0);
   if(t==='geral'){
-    const w=[[ 'S1',88],['S2',97],['S3',104],['S4',123]];const mx=130;
+    const w=[['1 a 4/10',150],['5 a 10/10',262]];const mx=290;
     b=`<h2 class="ttl">Visão geral · outubro</h2><p class="lead">Números de exemplo para mostrar o painel.</p>
-    <div class="grid-k"><div class="kpi"><span>${ic('today')}Consultas no mês</span><b>${cons}</b><small>+18% vs setembro</small></div>
+    <div class="grid-k"><div class="kpi"><span>${ic('today')}Consultas no mês</span><b>${cons}</b><small>de 1 a ${HOJE.d} de outubro · +18% vs mesmo período de setembro</small></div>
      <div class="kpi hl"><span>${ic('percent')}Receita da plataforma</span><b>${brl(rec)}</b><small>${fee}% do bruto</small></div>
-     <div class="kpi"><span>${ic('wallet')}Repasses a fazer</span><b>${brl(126*ticket*(100-fee)/100)}</b><small style="color:var(--warn)">sexta, 16/10</small></div>
+     <div class="kpi"><span>${ic('wallet')}Repasses a fazer</span><b>${brl(LOTE.n*ticket*(100-fee)/100)}</b><small style="color:var(--warn)">${NSEM[wdN(LOTE.d)]}, ${ddmm(LOTE.d)}</small></div>
      <div class="kpi"><span>${ic('users')}Psicólogos ativos</span><b>57</b><small>${pend} aguardando CRP</small></div></div>
-    <div class="grid2 mt"><div class="panel"><h3 class="ph">Consultas por semana</h3><div class="bars">${w.map(([l,v],i)=>`<div class="b"><em data-cnt>${v}</em><i style="height:${v/mx*100}%;--i:${i}"></i>${l}</div>`).join('')}</div><p class="note">S4 em andamento.</p></div>
+    <div class="grid2 mt"><div class="panel"><h3 class="ph">Consultas por semana</h3><div class="bars">${w.map(([l,v],i)=>`<div class="b"><em data-cnt>${v}</em><i style="height:${v/mx*100}%;--i:${i}"></i>${l}</div>`).join('')}</div><p class="note">A semana de 5 a 10 de outubro está em andamento (hoje é ${NSEM[wdN(HOJE.d)]}). Total do mês até aqui: ${cons} consultas.</p></div>
     <div class="panel"><h3 class="ph">Pendências <span class="pill p-warn">${pend+mpend}</span></h3><div class="list">
       <div class="row"><span class="dot-ic" style="background:var(--warn-soft);color:var(--warn)">${ic('shield')}</span><div class="grow"><b>${pend} registros para revisar</b><small>Verificação automática com divergência</small></div><button class="btn btn-g btn-sm" data-tab="crp">Abrir</button></div>
       <div class="row"><span class="dot-ic" style="background:var(--plum-soft);color:var(--plum)">${ic('flag')}</span><div class="grow"><b>${mpend} avaliações na moderação</b><small>2 sinalizadas automaticamente</small></div><button class="btn btn-g btn-sm" data-tab="mod">Abrir</button></div>
-      <div class="row"><span class="dot-ic" style="background:var(--bad-soft);color:var(--bad)">${ic('alert')}</span><div class="grow"><b>1 registro ficou irregular</b><small>Reconferência de 09/10 · agenda pausada</small></div><button class="btn btn-g btn-sm" data-tab="crp">Ver</button></div>
-      <div class="row"><span class="dot-ic" style="background:var(--warn-soft);color:var(--warn)">${ic('refund')}</span><div class="grow"><b>${brl(1140)} em aberto</b><small>6 pagamentos pendentes · 2 repasses atrasados</small></div><button class="btn btn-g btn-sm" data-tab="fin">Ver</button></div>
-      <div class="row"><span class="dot-ic" style="background:var(--ok-soft);color:var(--ok)">${ic('wallet')}</span><div class="grow"><b>Lote de repasse de sexta</b><small>126 consultas · 41 psicólogos</small></div><button class="btn btn-p btn-sm" data-lote>Aprovar lote</button></div>
+      <div class="row"><span class="dot-ic" style="background:var(--bad-soft);color:var(--bad)">${ic('alert')}</span><div class="grow"><b>1 registro ficou irregular</b><small>Reconferência de ${CRP_REGRA.diaTxt} · agenda pausada</small></div><button class="btn btn-g btn-sm" data-tab="crp">Ver</button></div>
+      <div class="row"><span class="dot-ic" style="background:var(--warn-soft);color:var(--warn)">${ic('refund')}</span><div class="grow"><b>${brl(inad+atrT)} em aberto</b><small>${finRows.length} pagamentos pendentes · ${ATRASOS.length} repasses atrasados</small></div><button class="btn btn-g btn-sm" data-tab="fin">Ver</button></div>
+      <div class="row"><span class="dot-ic" style="background:var(--ok-soft);color:var(--ok)">${ic('wallet')}</span><div class="grow"><b>Lote de repasse de ${ddmm(LOTE.d)}</b><small>${LOTE.n} consultas de ${ddmm(9)} · ${LOTE.psis} psicólogos · fecha na sexta</small></div><button class="btn btn-p btn-sm" data-lote>Pré-aprovar lote</button></div>
     </div></div></div>`;
   }
   if(t==='fin'){
-    const pend=[['Diego R.','Pix expirado sem pagamento','12/10 20:00',140,'Sessão será liberada se pagar até 2 h antes'],['Rita V.','Cartão recusado','13/10 18:00',160,'Nova tentativa automática hoje 14h'],['Marcos L.','Contestação no cartão (chargeback)','02/10 09:00',180,'Prazo de defesa: 17/10'],['Carla P.','Falta sem aviso contestada','07/10 19:00',120,'Psicólogo enviou registro de tentativa de contato']];
-    const atr=[['Rodrigo Siqueira','Conta bancária recusou o depósito','09/10',576,'Pedir dados bancários novos'],['Cássio Rabelo','Nota fiscal do profissional pendente','09/10',312,'Lembrete enviado ontem']];
+    const pend=finRows.map(r=>[r.c.pac,r.c.fin[0],ddmm(r.c.d)+' '+r.c.h,r.p.preco,r.c.fin[1]]);
+    const atr=ATRASOS.map(r=>[r[0],r[1],ddmm(r[2]),r[3],r[4]]);
     b=`<h2 class="ttl">Financeiro</h2><p class="lead">Quem não pagou, o que está em disputa e quais repasses atrasaram.</p>
-    <div class="grid-k"><div class="kpi"><span>${ic('refund')}Inadimplência</span><b>${brl(600)}</b><small style="color:var(--bad)">4 casos abertos</small></div><div class="kpi"><span>${ic('alert')}Repasses atrasados</span><b>${brl(888)}</b><small style="color:var(--warn)">2 psicólogos</small></div><div class="kpi"><span>${ic('user')}Faltas no mês</span><b>3,1%</b><small>13 de 412 sessões</small></div><div class="kpi"><span>${ic('refund')}Reembolsos</span><b>${brl(840)}</b><small style="color:var(--muted)">6 sessões</small></div></div>
+    <div class="grid-k"><div class="kpi"><span>${ic('refund')}Inadimplência</span><b>${brl(inad)}</b><small style="color:var(--bad)">${finRows.length} casos abertos</small></div><div class="kpi"><span>${ic('alert')}Repasses atrasados</span><b>${brl(atrT)}</b><small style="color:var(--warn)">${ATRASOS.length} psicólogos</small></div><div class="kpi"><span>${ic('user')}Faltas no mês</span><b>${(13/cons*100).toFixed(1).replace('.',',')}%</b><small>13 de ${cons} sessões</small></div><div class="kpi"><span>${ic('refund')}Reembolsos</span><b>${brl(840)}</b><small style="color:var(--muted)">6 sessões</small></div></div>
     <div class="panel mt"><h3 class="ph">Pagamentos pendentes e disputas</h3><div class="tb-wrap"><table class="tb"><thead><tr><th>Paciente</th><th>Situação</th><th class="hm">Sessão</th><th class="n">Valor</th><th class="hm">Próximo passo</th><th></th></tr></thead><tbody>
      ${pend.map(r=>`<tr><td><b>${r[0]}</b></td><td><span class="pill ${/chargeback|contestada/.test(r[1])?'p-bad':'p-warn'}">${r[1]}</span></td><td class="hm">${r[2]}</td><td class="n">${brl(r[3])}</td><td class="hm meta">${r[4]}</td><td><button class="btn btn-g btn-sm" data-cobrar="${r[0]}">${/contest|charge/.test(r[1])?'Analisar':'Cobrar'}</button></td></tr>`).join('')}</tbody></table></div></div>
     <div class="panel mt"><h3 class="ph">Repasses atrasados</h3><div class="list">${atr.map(r=>`<div class="row"><span class="dot-ic" style="background:var(--warn-soft);color:var(--warn)">${ic('alert')}</span><div class="grow"><b>${r[0]} · ${brl(r[3])}</b><small>Previsto para ${r[2]} · ${r[1]}</small></div><span class="meta" style="font-size:14px">${r[4]}</span><button class="btn btn-p btn-sm" data-retry="${r[0]}">Reenviar</button></div>`).join('')}</div></div>`;
@@ -1274,8 +1345,8 @@ function admin(){
     const lab={ok:['p-ok','Confere'],warn:['p-warn','Divergência'],bad:['p-bad','Não encontrado']};
     b=`<h2 class="ttl">Verificação de CRP</h2><p class="lead">A consulta automática resolve a maioria. Aqui ficam os casos que pedem um olhar humano.</p>
     <div class="panel" style="margin-bottom:18px"><h3 class="ph">Monitoramento contínuo <span class="pill p-ok">57 ativos conferidos este mês</span></h3>
-     <div class="alert bad">${ic('alert')}<span><b>Registro irregular: Péricles Vasconcelos, CRP 00/10011</b><small>Na reconferência de 09/10 o cadastro do Conselho mostrou situação “suspenso”. Perfil tirado da busca, agenda pausada, 3 pacientes avisados com opção de reembolso ou troca.</small></span></div>
-     <div class="flex mt"><button class="btn btn-g btn-sm" data-recheck>Reconferir agora</button><span class="lock">${ic('clock')}Próxima varredura geral: 01/11/2026 · todos os registros, uma vez por mês</span></div></div>
+     <div class="alert bad">${ic('alert')}<span><b>Registro irregular: Péricles Vasconcelos, CRP 00/10011</b><small>Na reconferência de ${CRP_REGRA.diaTxt} o cadastro do Conselho mostrou situação “suspenso”. Perfil tirado da busca, agenda pausada, 3 pacientes avisados com opção de reembolso ou troca.</small></span></div>
+     <div class="flex mt"><button class="btn btn-g btn-sm" data-recheck>Reconferir agora</button><span class="lock">${ic('clock')}Próxima varredura geral: ${CRP_REGRA.proxima} · todos os registros, uma vez por mês</span></div></div>
     <h3 class="ph">Novos cadastros</h3><div class="panel"><div class="list">${S.queue.map((q,i)=>`<div class="row">${avatar(q.av)}<div class="grow"><b>${q.n}</b><small>${q.crp} · ${q.t}</small></div>
      ${q.done?`<span class="pill ${q.done==='ok'?'p-ok':'p-bad'}">${q.done==='ok'?'Aprovado':'Recusado'}</span>`:`<span class="pill ${lab[q.r][0]}">${lab[q.r][1]}</span>
      <div class="flex"><button class="btn btn-p btn-sm" data-q="${i}-ok" ${q.r==='bad'?'disabled':''}>Aprovar</button><button class="btn btn-g btn-sm" data-q="${i}-no">Recusar</button>${q.r==='warn'?`<button class="btn btn-g btn-sm" data-q="${i}-doc">Pedir documento</button>`:''}</div>`}</div>`).join('')}</div></div>`;
@@ -1327,7 +1398,7 @@ function trocar(f,jaTravado){
   fechaFiltros(true);
   if(REDUCED){f();topo();focaTitulo();soltar();return}
   travar();const t=setTimeout(soltar,1200);const fim=()=>{clearTimeout(t);soltar()};
-  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});v.updateCallbackDone.then(focaTitulo,focaTitulo);v.finished.then(fim,fim)}
+  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});if(v.ready)v.ready.catch(()=>{});v.updateCallbackDone.then(focaTitulo,focaTitulo);v.finished.then(fim,fim)}
   else{view.classList.add('sai');setTimeout(()=>{f();topo();view.classList.remove('sai');focaTitulo();setTimeout(fim,320)},140)}
 }
 function vt(f){trocar(f)}
@@ -1370,7 +1441,7 @@ new MutationObserver(()=>{
 }).observe(view,{childList:true});
 (function breathe(){const ph=[['inspire',3600],['segure',800],['solte',3600]];let i=0;const tick=()=>{const el=document.getElementById('brt');if(el)el.textContent=ph[i][0];const d=ph[i][1];i=(i+1)%3;setTimeout(tick,d)};tick()})();
 $('#roles').addEventListener('click',e=>{const b=e.target.closest('button');if(b)go(b.dataset.role)});
-(function(){const m=location.hash.slice(1).split('/');if(['site','paciente','psi','admin'].includes(m[0])){S.role=m[0];if(m[1])S.tab[m[0]]=m[1]}if(m[2]==='pago'){S.paid=true;S.time='19:00'}if(m[2]==='ok'){S.crpState='done';S.crpUp=true;S.lgpd=true}if(m[2]==='perto'){S.paid=true;S.time='19:00';S.near=true}})();
+(function(){const m=location.hash.slice(1).split('/');if(['site','paciente','psi','admin'].includes(m[0])){S.role=m[0];if(m[1])S.tab[m[0]]=m[1]}if(m[2]==='pago'){S.paid=true;S.time='19:00';commitPago()}if(m[2]==='ok'){S.crpState='done';S.crpUp=true;S.lgpd=true}if(m[2]==='perto'){S.paid=true;S.time='19:00';S.near=true;commitPago()}})();
 
 view.addEventListener('click',e=>{
   const el=e.target.closest('button,[data-go],#upl');if(!el)return;const d=el.dataset;
@@ -1386,9 +1457,9 @@ view.addEventListener('click',e=>{
   if(el.id==='go-pay'||d.cta==='go-pay'){if(!S.time)return;trocar(()=>{S.tab.paciente='pagar';S.paid=false;render()});return}
   if(d.pay){S.pay=d.pay;paciente();return}
   if(el.id==='cp'){toast('Código Pix copiado');return}
-  if(el.id==='pay'||d.cta==='pay'){view.querySelectorAll('#pay,[data-cta="pay"]').forEach(x=>{x.classList.add('loading');x.textContent=x.id==='pay'?'Confirmando pagamento':'Confirmando'});travar();setTimeout(()=>{trocar(()=>{S.paid=true;render()},true);toast('Pagamento aprovado')},1400);return}
+  if(el.id==='pay'||d.cta==='pay'){view.querySelectorAll('#pay,[data-cta="pay"]').forEach(x=>{x.classList.add('loading');x.textContent=x.id==='pay'?'Confirmando pagamento':'Confirmando'});travar();setTimeout(()=>{trocar(()=>{S.paid=true;commitPago();render()},true);toast('Pagamento aprovado')},1400);return}
   if(d.wa!==undefined){modal(`<h3>Entrando na consulta</h3><p class="meta">No sistema completo, este botão abre o WhatsApp no celular ou no computador, já na conversa com ${S.psy.nome}, e a chamada de vídeo começa no horário.</p>
-    <div class="phone" style="margin-top:16px;transform:scale(.9);transform-origin:top center"><div class="phone-in" style="height:380px"><div class="wa-top">${avatar(S.psy.av)}<span><b>${S.psy.nome}</b><small>online</small></span></div><div class="wa-body"><span class="day">Hoje</span><div class="bub">Oi, Ana! Já estou aqui. Pode atender a chamada de vídeo?<small>${S.time||'19:00'}</small></div><div class="bub call"><span class="cic">${ic('video')}</span><span><b>Chamada de vídeo recebida</b></span></div></div></div></div>
+    <div class="phone" style="margin-top:16px;transform:scale(.9);transform-origin:top center"><div class="phone-in" style="height:380px"><div class="wa-top">${avatar(S.psy.av)}<span><b>${S.psy.nome}</b><small>online</small></span></div><div class="wa-body"><span class="day">${cap1(ABR[wdN(PROX().d)])}, ${ddmm(PROX().d)}</span><div class="bub">Oi, Ana! Já estou aqui. Pode atender a chamada de vídeo?<small>${S.time||'19:00'}</small></div><div class="bub call"><span class="cic">${ic('video')}</span><span><b>Chamada de vídeo recebida</b></span></div></div></div></div>
     <button class="btn btn-p" data-close style="width:100%">Entendi</button>`);return}
   if(el.id==='near'){return}
   if(d.remarcar!==undefined){modal(`<h3>Remarcar ou cancelar</h3><p class="meta">Faltam mais de 24 horas: o reembolso é integral, ou você escolhe outro horário sem custo.</p><div class="flex mt"><button class="btn btn-p" data-close data-go2="agendar">Escolher outro horário</button><button class="btn btn-g" data-close>Cancelar com reembolso</button></div>`);return}
@@ -1398,13 +1469,13 @@ view.addEventListener('click',e=>{
   if(d.tag){const x=d.tag;S.tags=S.tags.includes(x)?S.tags.filter(y=>y!==x):[...S.tags,x];paciente();return}
   if(el.id==='send-rate'){S.rated=true;paciente();toast('Avaliação enviada');return}
   if(d.reset!==undefined){S.crpState='idle';S.crpUp=false;S.lgpd=false;psi();return}
-  if(d.req){const [i,a]=d.req.split('-');S.reqs[i].st=a;psi();toast(a==='ok'?'Pedido aceito. O paciente recebe a confirmação no WhatsApp.':'Pedido recusado. O paciente é reembolsado na hora.');return}
+  if(d.req){const [id,a]=d.req.split('-');const c=CONSULTAS.find(x=>x.id===id);if(a==='ok'){c.st='agendada';c.acc='ok'}else{c.st='recusada'}psi();toast(a==='ok'?'Pedido aceito. O paciente recebe a confirmação no WhatsApp.':'Pedido recusado. O paciente é reembolsado na hora.');return}
   if(el.id==='upl'){S.crpUp=true;psi();return}
   if(el.id==='verify'){e.preventDefault();if(!S.crpUp){toast('Envie a carteira do CRP antes de verificar');$('#upl').focus();return}if(!$('#lgpd').checked){toast('Marque a autorização de dados para continuar');$('#lgpd').focus();return}S.lgpd=true;
     S.crpState='run';S.crpStep=0;psi();const tick=()=>{S.crpStep++;if(S.crpStep>=5){S.crpState='done';psi();toast('CRP verificado. Seu perfil já aparece na busca.');return}psi();setTimeout(tick,850)};setTimeout(tick,850);return}
   if(d.waPsi){modal(`<h3>Abrir conversa</h3><p class="meta">No sistema completo, abre o WhatsApp profissional na conversa com ${esc(d.waPsi)} para iniciar a chamada de vídeo no horário.</p><button class="btn btn-p mt" data-close style="width:100%">Entendi</button>`);return}
   if(d.done!==undefined){el.closest('.row').querySelector('.grow small').textContent='Realizada · avaliação pendente';el.replaceWith(Object.assign(document.createElement('span'),{className:'pill p-ok',textContent:'Realizada'}));toast('Sessão marcada como realizada');return}
-  if(d.wk){const v=S.wk[d.wk];if(v==='busy'){toast('Horário com consulta paga. Remarque pelo paciente.');return}S.wk[d.wk]=v==='free'?'':'free';psi();return}
+  if(d.wk){const [dd,hh]=d.wk.split('|');const v=estado(PSI_EU,+dd,hh);if(v==='busy'){toast('Horário com consulta ou pedido. Remarque pelo paciente.');return}S.wk[d.wk]=v==='free'?'closed':'free';psi();return}
   if(d.yn){const [i,v]=d.yn.split('-');S.yn=S.yn||{};S.yn[i]=v;psi();return}
   if(el.id==='send-psi'){S.ratedPsi=true;psi();toast('Avaliação registrada');return}
   if(d.q){const [i,a]=d.q.split('-');if(a==='doc'){toast('Pedido de documento enviado ao psicólogo');return}S.queue[i].done=a==='ok'?'ok':'no';admin();toast(a==='ok'?'Perfil aprovado e liberado na busca':'Cadastro recusado');return}
@@ -1412,7 +1483,7 @@ view.addEventListener('click',e=>{
   if(d.cobrar){toast(`Lembrete de pagamento enviado para ${d.cobrar} pelo WhatsApp`);return}
   if(d.retry){toast(`Repasse de ${d.retry} reenviado`);return}
   if(d.recheck!==undefined){toast('Consulta feita: situação continua suspensa');return}
-  if(d.lote!==undefined){toast('Lote aprovado. Repasses agendados para sexta.');return}
+  if(d.lote!==undefined){toast('Lote pré-aprovado. Os repasses saem na sexta, 16/10.');return}
 });
 view.addEventListener('change',e=>{if(e.target.id==='near'){S.near=e.target.checked;paciente();return}if(e.target.id==='psel'){S.psy=PSIS.find(p=>p.id==e.target.value);S.time=null;paciente()}});
 view.addEventListener('submit',e=>{if(e.target.id==='crpf'){e.preventDefault();document.getElementById('verify').click()}});
@@ -1421,8 +1492,9 @@ render();
 })();
 /* no celular, o WhatsApp flutuante some enquanto o formulário de busca está na tela, para nunca cobrir o botão Buscar */
 (function(){const d=document.querySelector('.dev');if(!d)return;d.style.transition='opacity .2s';
-function chk(){const f=document.querySelector('.finder');let h=false;if(f&&innerWidth<700){const r=f.getBoundingClientRect();h=r.bottom>0&&r.top<innerHeight}d.style.opacity=h?'0':'';d.style.pointerEvents=h?'none':''}
-addEventListener('scroll',chk,{passive:true});addEventListener('resize',chk);new MutationObserver(chk).observe(document.getElementById('view')||document.body,{childList:true,subtree:true});chk()})();
+function chk(){const f=document.querySelector('.finder'),ft=document.querySelector('footer');let h=false;if(f&&innerWidth<700){const r=f.getBoundingClientRect();h=r.bottom>0&&r.top<innerHeight}if(ft){const r=ft.getBoundingClientRect();if(r.top<innerHeight-10&&r.bottom>0)h=true}
+  if(!h){const r=d.getBoundingClientRect();for(const fx of [.12,.5,.88])for(const fy of [.12,.5,.88]){const x=r.left+r.width*fx,y=r.top+r.height*fy;if(document.elementsFromPoint(x,y).some(e=>!d.contains(e)&&e.matches&&e.matches('.pill,button,a,td,th,b,small,input,select,textarea,h1,h2,h3,li,.kpi,.row,.tb,.wk')))h=true}}d.style.opacity=h?'0':'';d.style.pointerEvents=h?'none':''}
+addEventListener('scroll',chk,{passive:true});addEventListener('resize',chk);d.style.transition='opacity .15s';new MutationObserver(chk).observe(document.getElementById('view')||document.body,{childList:true,subtree:true});chk()})();
 </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
 </body>

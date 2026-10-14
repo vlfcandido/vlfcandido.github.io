@@ -1789,9 +1789,9 @@ function montaFila(){
  ];
  HIST=[
   {h:"há 8 min",q:"Marcos (editor)",t:"aprovou o borderô de "+COMB[COMB.length-1].h.sigla+" x "+COMB[COMB.length-1].a.sigla},
-  {h:"há 37 min",q:"Rotina automática",t:"recalculou classificação e rankings da Divisão C"},
+  {h:"há 11 min",q:"Rotina automática",t:"recalculou classificação e rankings da Divisão C"},
   {h:"ontem",q:"Ana (editora)",t:"corrigiu a capacidade do "+EST.e17.nome+" de "+n(EST.e17.cap+100)+" para "+n(EST.e17.cap)},
-  {h:"ontem",q:"Marcos (editor)",t:"uniu dois cadastros do Parque Cláudio Damasceno (Cláudio Damasceno)"}
+  {h:"ontem",q:"Marcos (editor)",t:"uniu dois cadastros do mesmo estádio, o Parque Cláudio Damasceno, que estavam com grafias diferentes"}
  ];
 }
 V.admin=function(){usa("C");
@@ -1814,7 +1814,7 @@ V.admin=function(){usa("C");
   '<div class="small" style="margin-top:12px;display:flex;justify-content:space-between"><span class="muted">Requisições do plano hoje</span><b>412 de 1.000</b></div><div class="ocup" style="margin-top:6px"><i style="width:41.2%"></i></div>'+
   '<button class="btn gh sm" style="margin-top:12px" id="syncnow">'+ico("sync","width:16px;height:16px")+'Sincronizar agora</button></div>'+
   '<div class="card pad"><div style="display:flex;gap:12px;align-items:center;margin-bottom:8px">'+ico("relogio","width:24px;height:24px")+'<h3>Histórico de alterações</h3></div><ul class="log" id="hist"></ul></div>'+
-  '<div class="card pad">'+ico("banco","width:28px;height:28px")+'<h3 style="margin:10px 0 6px">Banco próprio</h3><p class="small muted">'+n(M.length)+' partidas, '+n(CL.length)+' clubes, '+n(Object.keys(EST).length)+' estádios e '+n(JOG.reduce(function(s,m){return s+m.ev.length;},0))+' eventos gravados nesta competição. As páginas leem daqui, nunca da API na hora da visita.</p></div>'+
+  '<div class="card pad">'+ico("banco","width:28px;height:28px")+'<h3 style="margin:10px 0 6px">Banco próprio</h3><p class="small muted">'+n(M.length)+' partidas, '+n(CL.length)+' clubes, '+n(new Set(CL.map(function(c){return c.est;})).size)+' estádios e '+n(JOG.reduce(function(s,m){return s+m.ev.length;},0))+' eventos gravados nesta competição. As páginas leem daqui, nunca da API na hora da visita.</p></div>'+
  '</aside></div></div>';
 };
 function desenhaFila(){
