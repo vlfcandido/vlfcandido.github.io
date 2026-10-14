@@ -5,18 +5,23 @@ import { WHATSAPP } from '../lib/whatsapp'
 import { IconeConversa } from './IconeConversa'
 
 /**
- * Seletores do que, na tela, dispensa o flutuante: o cabeçalho (que já tem o WhatsApp), a chamada final da home
- * (`#quem`), o contato da página de projetos e o rodapé (para nunca cobrir os links dele).
+ * Links de WhatsApp de conteúdo (o do cabeçalho, o do hero, o de #quem, o #contato-cta): enquanto um deles está de
+ * fato visível, o flutuante sai, para nunca haver dois juntos. 14/10/2026 (medição da Task 9): antes observava as
+ * seções inteiras (`#quem`, o rodapé) sem limiar, e o flutuante sumia quando a seção encostava 1 px na tela, muito
+ * antes do botão dela aparecer; de y=2000 a 2600 a 390 px não havia nenhum WhatsApp ao alcance.
  */
-const DISPENSAM = ['header.cabecalho', '#quem', '#contato-cta', 'footer.rodape']
+const LINKS_WHATSAPP = 'a[href*="wa.me"]:not([data-flutuante])'
+
+/** Fração do link que precisa estar na tela para contar como visível. */
+const LIMIAR = 0.5
 
 /** Quanto dura o anel de sucesso depois do toque (igual a --mov-lento). */
 const ANEL_MS = 400
 
 /**
  * Círculo de 56 px com o WhatsApp no canto inferior direito, só no celular (no tablet e no PC o cabeçalho
- * acompanha a rolagem com o próprio botão). Some enquanto o cabeçalho, a chamada final, o contato ou o rodapé
- * estão na tela, para nunca haver dois WhatsApp juntos nem cobrir a chamada final.
+ * acompanha a rolagem com o próprio botão). Some só enquanto outro link de WhatsApp está de fato visível (metade
+ * dele ou mais na tela), para nunca haver dois juntos; no resto da página, inclusive sobre o rodapé, fica à mão.
  *
  * @param props.pagina página efetiva (início, projetos ou o slug do case aberto): a cada troca, a lista do que
  *   observar é refeita, porque o DOM é outro. Antes era só a rota, e galeria e case têm a mesma rota.
@@ -27,7 +32,7 @@ export function ContatoFixo({ pagina }: { pagina: string }) {
   const timer = useRef(0)
 
   useEffect(() => {
-    const alvos = DISPENSAM.flatMap((s) => [...document.querySelectorAll(s)])
+    const alvos = [...document.querySelectorAll(LINKS_WHATSAPP)]
     if (!('IntersectionObserver' in window)) {
       setVisivel(true)
       return
@@ -35,11 +40,11 @@ export function ContatoFixo({ pagina }: { pagina: string }) {
     const naTela = new Set<Element>()
     const obs = new IntersectionObserver((entradas) => {
       for (const e of entradas) {
-        if (e.isIntersecting) naTela.add(e.target)
+        if (e.isIntersecting && e.intersectionRatio >= LIMIAR) naTela.add(e.target)
         else naTela.delete(e.target)
       }
       setVisivel(naTela.size === 0)
-    })
+    }, { threshold: [0, LIMIAR] })
     alvos.forEach((el) => obs.observe(el))
     return () => obs.disconnect()
   }, [pagina])
