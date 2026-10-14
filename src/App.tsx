@@ -123,7 +123,7 @@ export function App() {
         </div>
       </main>
       <Rodape />
-      <ContatoFixo rota={rota} />
+      <ContatoFixo pagina={pagina} />
     </>
   )
 }

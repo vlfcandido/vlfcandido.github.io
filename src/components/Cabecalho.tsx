@@ -4,12 +4,10 @@ import { useEffect, useState } from 'react'
 import { perfil } from '../conteudo'
 import { caminhoPublico } from '../lib/assets'
 import type { Rota } from '../lib/rota'
+import { SITE } from '../lib/site'
 import { WHATSAPP } from '../lib/whatsapp'
 import { BotaoTema } from './BotaoTema'
 import { IconeConversa } from './IconeConversa'
-
-/** Endereço do site, escrito como as pessoas o digitam. */
-export const SITE = 'vlfcandido.github.io'
 
 /** Âncoras da home, na ordem de leitura. */
 const SECOES = [

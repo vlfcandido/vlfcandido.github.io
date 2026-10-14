@@ -23,11 +23,12 @@ export const ANCORAS_ANTIGAS: Readonly<Record<string, string>> = {
   '#sobre': '#/',
   '#cases': HASH_PROJETOS,
   '#projetos': HASH_PROJETOS,
-  '#empresas': HASH_PROJETOS,
   '#stack': HASH_PROJETOS,
   '#ferramentas': HASH_PROJETOS,
-  '#clientes': '#resultados',
-  '#como-trabalho': '#como-funciona',
+  // 14/10/2026 (site novo): antes '#resultados' e '#como-funciona', seções que não existem mais; e '#empresas'
+  // saiu do mapa (ia para projetos) porque virou seção da home.
+  '#clientes': '#empresas',
+  '#como-trabalho': '#como',
 }
 
 /**

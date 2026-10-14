@@ -18,9 +18,10 @@ const ANEL_MS = 400
  * acompanha a rolagem com o próprio botão). Some enquanto o cabeçalho, a chamada final, o contato ou o rodapé
  * estão na tela, para nunca haver dois WhatsApp juntos nem cobrir a chamada final.
  *
- * @param props.rota página atual: a cada troca, a lista do que observar é refeita (o DOM é outro).
+ * @param props.pagina página efetiva (início, projetos ou o slug do case aberto): a cada troca, a lista do que
+ *   observar é refeita, porque o DOM é outro. Antes era só a rota, e galeria e case têm a mesma rota.
  */
-export function ContatoFixo({ rota }: { rota: string }) {
+export function ContatoFixo({ pagina }: { pagina: string }) {
   const [visivel, setVisivel] = useState(false)
   const [enviado, setEnviado] = useState(false)
   const timer = useRef(0)
@@ -41,7 +42,7 @@ export function ContatoFixo({ rota }: { rota: string }) {
     })
     alvos.forEach((el) => obs.observe(el))
     return () => obs.disconnect()
-  }, [rota])
+  }, [pagina])
 
   useEffect(() => () => window.clearTimeout(timer.current), [])
 

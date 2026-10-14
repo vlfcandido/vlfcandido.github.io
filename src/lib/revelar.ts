@@ -5,10 +5,10 @@
  */
 
 /**
- * Cartões que entram em sequência: os trabalhos e os passos da home nova (14/10/2026).
+ * Cartões que entram em sequência: os trabalhos e os passos da home nova (14/10/2026) e os da galeria de projetos.
  * Antes: '.pacote, .cartao-caso, .cartao-projeto, li:has(> .logo-botao)' (home antiga e galeria).
  */
-export const CARTOES = '.cartao, .passo'
+export const CARTOES = '.cartao, .passo, .cartao-projeto'
 
 /** Intervalo entre um cartão e o seguinte. */
 export const ESCALONAMENTO_MS = 60

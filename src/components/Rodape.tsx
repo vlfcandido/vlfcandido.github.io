@@ -1,8 +1,8 @@
 // Rodapé do site novo (14/10/2026). Antes: isóbatas, gaivota e a faixa da carta náutica da Maré (ver git log).
 import { perfil } from '../conteudo'
 import { Marcacao } from '../home/Marcacao'
+import { SITE } from '../lib/site'
 import { GITHUB, LINKEDIN } from '../visuais'
-import { SITE } from './Cabecalho'
 
 /** Linha da medição de visitas (spec §3): no rodapé, sem position fixed. */
 export const AVISO_MEDICAO = 'Visitas medidas de forma anônima, sem gravar o que é digitado.'
@@ -55,7 +55,7 @@ export function Rodape() {
         <div className="mt-8 space-y-1 border-t border-linha pt-6 text-sm text-grafite">
           <p>
             {perfil.nome}, {new Date().getFullYear()}. Marcas e logos pertencem às respectivas empresas. Os exemplos usam
-            dados fictícios.
+            dados fictícios. Ilustrações geradas com IA e editadas por Vinicius Candido.
           </p>
           <p>{AVISO_MEDICAO}</p>
         </div>

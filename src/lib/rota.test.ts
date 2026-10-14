@@ -12,9 +12,9 @@ describe('rotaDoHash', () => {
 
 describe('hashAtual', () => {
   it('âncora antiga de projetos vai para a página de projetos', () => expect(hashAtual('#projetos')).toBe('#/projetos'))
-  it('como-trabalho virou como-funciona', () => expect(hashAtual('#como-trabalho')).toBe('#como-funciona'))
-  it('clientes virou resultados', () => expect(hashAtual('#clientes')).toBe('#resultados'))
-  it('hash atual não muda', () => expect(hashAtual('#resultados')).toBeNull())
+  it('como-trabalho virou como', () => expect(hashAtual('#como-trabalho')).toBe('#como'))
+  it('clientes virou empresas', () => expect(hashAtual('#clientes')).toBe('#empresas'))
+  it('hash atual não muda', () => expect(hashAtual('#trabalhos')).toBeNull())
   it('rota atual não muda', () => expect(hashAtual('#/projetos')).toBeNull())
   it('nenhum destino é outra âncora antiga', () =>
     Object.values(ANCORAS_ANTIGAS).forEach((destino) => expect(hashAtual(destino)).toBeNull()))
@@ -68,5 +68,20 @@ describe('site novo (14/10/2026)', () => {
     expect(rotaDoHash('#/projetos/aprovaos')).toBe('projetos')
     expect(projetoDoHash('#/projetos/aprovaos')).toBe('aprovaos')
     for (const antiga of Object.keys(ANCORAS_ANTIGAS)) expect(hashAtual(antiga)).not.toBeNull()
+  })
+})
+
+describe('âncoras antigas apontam para a home nova (14/10/2026)', () => {
+  const IDS_DA_HOME = ['inicio', 'prototipo', 'empresas', 'trabalhos', 'como', 'quem']
+  it('todo destino de seção é um id que existe na home', () => {
+    for (const destino of Object.values(ANCORAS_ANTIGAS)) {
+      const id = secaoDoHash(destino)
+      if (id) expect(IDS_DA_HOME, destino).toContain(id)
+    }
+  })
+  it('link direto #empresas fica na home, na seção', () => {
+    expect(hashAtual('#empresas')).toBeNull()
+    expect(rotaDoHash('#empresas')).toBe('inicio')
+    expect(secaoDoHash('#empresas')).toBe('empresas')
   })
 })
