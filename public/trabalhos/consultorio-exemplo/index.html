@@ -775,12 +775,12 @@ function avatar(o, framed=true){
 
 /* ---------- dados de exemplo ---------- */
 const PSIS=[
- {id:1,nome:'Marina Albuquerque',crp:'CRP 00/10001',ab:'TCC',temas:['Ansiedade','Autoestima','Sono'],preco:140,turnos:['noite','manha'],nota:4.9,n:132,anos:9,av:{s:0,h:1,b:0,c:0,hair:1},q:'Sessões objetivas e com tarefas práticas entre um encontro e outro.'},
- {id:2,nome:'Rafael Nogueira',crp:'CRP 00/10002',ab:'Psicanálise',temas:['Luto','Relacionamentos'],preco:120,turnos:['tarde','noite'],nota:4.8,n:87,anos:12,av:{s:2,h:3,b:1,c:2,hair:4,beard:true},q:'Um espaço para falar com calma, no seu tempo.'},
- {id:3,nome:'Helena Prado',crp:'CRP 00/10003',ab:'Humanista',temas:['Autoestima','Maternidade','Ansiedade'],preco:160,turnos:['manha','tarde'],nota:5.0,n:64,anos:15,av:{s:4,h:0,b:2,c:1,hair:3,glasses:true},q:'Atendo adultos em fases de mudança e decisões difíceis.'},
- {id:4,nome:'Tiago Moura',crp:'CRP 00/10004',ab:'Sistêmica',temas:['Casais','Família','Relacionamentos'],preco:180,turnos:['noite'],nota:4.7,n:51,anos:8,av:{s:1,h:1,b:3,c:3,hair:0,glasses:true},q:'Terapia de casal e família com combinados claros desde o início.'},
- {id:5,nome:'Luíza Fernandes',crp:'CRP 00/10005',ab:'TCC',temas:['TDAH adulto','Ansiedade','Trabalho'],preco:110,turnos:['manha','tarde','noite'],nota:4.9,n:203,anos:6,av:{s:5,h:4,b:4,c:4,hair:5},q:'Organização, foco e rotina, com metas que cabem na sua semana.'},
- {id:6,nome:'Caio Ribeiro',crp:'CRP 00/10006',ab:'Gestalt',temas:['Trabalho','Estresse','Luto'],preco:130,turnos:['tarde','noite'],nota:4.8,n:98,anos:10,av:{s:3,h:3,b:5,c:5,hair:2},q:'Para quem quer entender o que sente antes de decidir o que fazer.'}
+ {id:1,nome:'Marisa Tavares',crp:'CRP 00/10001',ab:'TCC',temas:['Ansiedade','Autoestima','Sono'],preco:140,turnos:['noite','manha'],nota:4.9,n:132,anos:9,av:{s:0,h:1,b:0,c:0,hair:1},q:'Sessões objetivas e com tarefas práticas entre um encontro e outro.'},
+ {id:2,nome:'Rodrigo Siqueira',crp:'CRP 00/10002',ab:'Psicanálise',temas:['Luto','Relacionamentos'],preco:120,turnos:['tarde','noite'],nota:4.8,n:87,anos:12,av:{s:2,h:3,b:1,c:2,hair:4,beard:true},q:'Um espaço para falar com calma, no seu tempo.'},
+ {id:3,nome:'Heloísa Pimenta',crp:'CRP 00/10003',ab:'Humanista',temas:['Autoestima','Maternidade','Ansiedade'],preco:160,turnos:['manha','tarde'],nota:5.0,n:64,anos:15,av:{s:4,h:0,b:2,c:1,hair:3,glasses:true},q:'Atendo adultos em fases de mudança e decisões difíceis.'},
+ {id:4,nome:'Tales Montenegro',crp:'CRP 00/10004',ab:'Sistêmica',temas:['Casais','Família','Relacionamentos'],preco:180,turnos:['noite'],nota:4.7,n:51,anos:8,av:{s:1,h:1,b:3,c:3,hair:0,glasses:true},q:'Terapia de casal e família com combinados claros desde o início.'},
+ {id:5,nome:'Lívia Cavalcante',crp:'CRP 00/10005',ab:'TCC',temas:['TDAH adulto','Ansiedade','Trabalho'],preco:110,turnos:['manha','tarde','noite'],nota:4.9,n:203,anos:6,av:{s:5,h:4,b:4,c:4,hair:5},q:'Organização, foco e rotina, com metas que cabem na sua semana.'},
+ {id:6,nome:'Cássio Rabelo',crp:'CRP 00/10006',ab:'Gestalt',temas:['Trabalho','Estresse','Luto'],preco:130,turnos:['tarde','noite'],nota:4.8,n:98,anos:10,av:{s:3,h:3,b:5,c:5,hair:2},q:'Para quem quer entender o que sente antes de decidir o que fazer.'}
 ];
 const TURNO={manha:'Manhã',tarde:'Tarde',noite:'Noite'};
 const PAC={s:1,h:2,b:2,c:1,hair:1};
@@ -799,7 +799,7 @@ const S={
     {n:'Igor Campos',crp:'CRP 00/10010',r:'bad',t:'Registro não encontrado no cadastro do Conselho',av:{s:1,h:1,b:5,c:2,hair:0}}
   ],
   mod:[
-    {q:'A Luíza me ajudou a montar uma rotina que finalmente funciona.',a:'Paciente de exemplo · nota 5',f:null,st:'pend'},
+    {q:'A Lívia me ajudou a montar uma rotina que finalmente funciona.',a:'Paciente de exemplo · nota 5',f:null,st:'pend'},
     {q:'Me chama no 41 9XXXX-XXXX que te passo um desconto por fora.',a:'Paciente de exemplo · nota 5',f:'Contato fora da plataforma',st:'pend'},
     {q:'Pessoa horrível, não recomendo pra ninguém!!!',a:'Paciente de exemplo · nota 1',f:'Linguagem ofensiva',st:'pend'},
     {q:'A chamada caiu duas vezes, mas a psicóloga remarcou na hora.',a:'Paciente de exemplo · nota 4',f:null,st:'pend'}
@@ -938,7 +938,7 @@ function site(){
     <div class="breath" aria-hidden="true"><i></i><span>Respire com a bolinha enquanto escolhe: <b id="brt">inspire</b></span></div>
    </div>
    <div class="hero-art">${HERO_ART}
-    <div class="float f1"><span class="dot-ic" style="background:#DDF5E5;color:var(--wa)">${WA}</span><span><b>Marina está digitando<span class="typing"><i></i><i></i><i></i></span></b>Sessão de quinta, 19:00</span></div>
+    <div class="float f1"><span class="dot-ic" style="background:#DDF5E5;color:var(--wa)">${WA}</span><span><b>Marisa está digitando<span class="typing"><i></i><i></i><i></i></span></b>Sessão de quinta, 19:00</span></div>
     <div class="float f2"><span class="dot-ic" style="background:var(--ok-soft);color:var(--ok)">${ic('shield')}</span><span><b>CRP 00/10001</b>Situação ativa</span></div>
    </div></div></section>
 
@@ -986,9 +986,9 @@ function site(){
 
   <section class="band"><div class="wrap split rev">
    <div class="phone"><div class="phone-in">
-     <div class="wa-top">${avatar(PSIS[0].av)}<span><b>Marina Albuquerque</b><small>Psicóloga · CRP verificado</small></span></div>
+     <div class="wa-top">${avatar(PSIS[0].av)}<span><b>Marisa Tavares</b><small>Psicóloga · CRP verificado</small></span></div>
      <div class="wa-body"><span class="day">Hoje</span>
-      <div class="bub">Oi, Ana! Aqui é a Marina. Nossa sessão começa às 19h, eu te ligo por vídeo neste número.<small>18:52</small></div>
+      <div class="bub">Oi, Ana! Aqui é a Marisa. Nossa sessão começa às 19h, eu te ligo por vídeo neste número.<small>18:52</small></div>
       <div class="bub me">Combinado, já estou num lugar tranquilo.<small>18:54</small></div>
       <div class="bub call"><span class="cic">${ic('video')}</span><span><b>Chamada de vídeo</b><br><small style="text-align:left">50 min · 19:00</small></span></div>
       <div class="bub">Obrigada pela conversa de hoje. Até quinta que vem!<small>19:51</small></div>
@@ -1259,7 +1259,7 @@ function admin(){
   }
   if(t==='fin'){
     const pend=[['Diego R.','Pix expirado sem pagamento','12/10 20:00',140,'Sessão será liberada se pagar até 2 h antes'],['Rita V.','Cartão recusado','13/10 18:00',160,'Nova tentativa automática hoje 14h'],['Marcos L.','Contestação no cartão (chargeback)','02/10 09:00',180,'Prazo de defesa: 17/10'],['Carla P.','Falta sem aviso contestada','07/10 19:00',120,'Psicólogo enviou registro de tentativa de contato']];
-    const atr=[['Rafael Nogueira','Conta bancária recusou o depósito','09/10',576,'Pedir dados bancários novos'],['Caio Ribeiro','Nota fiscal do profissional pendente','09/10',312,'Lembrete enviado ontem']];
+    const atr=[['Rodrigo Siqueira','Conta bancária recusou o depósito','09/10',576,'Pedir dados bancários novos'],['Cássio Rabelo','Nota fiscal do profissional pendente','09/10',312,'Lembrete enviado ontem']];
     b=`<h2 class="ttl">Financeiro</h2><p class="lead">Quem não pagou, o que está em disputa e quais repasses atrasaram.</p>
     <div class="grid-k"><div class="kpi"><span>${ic('refund')}Inadimplência</span><b>${brl(600)}</b><small style="color:var(--bad)">4 casos abertos</small></div><div class="kpi"><span>${ic('alert')}Repasses atrasados</span><b>${brl(888)}</b><small style="color:var(--warn)">2 psicólogos</small></div><div class="kpi"><span>${ic('user')}Faltas no mês</span><b>3,1%</b><small>13 de 412 sessões</small></div><div class="kpi"><span>${ic('refund')}Reembolsos</span><b>${brl(840)}</b><small style="color:var(--muted)">6 sessões</small></div></div>
     <div class="panel mt"><h3 class="ph">Pagamentos pendentes e disputas</h3><div class="tb-wrap"><table class="tb"><thead><tr><th>Paciente</th><th>Situação</th><th class="hm">Sessão</th><th class="n">Valor</th><th class="hm">Próximo passo</th><th></th></tr></thead><tbody>
