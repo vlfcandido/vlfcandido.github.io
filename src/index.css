@@ -2,6 +2,7 @@
 
 @import "./identidade.css";
 @import "./case.css";
+@import "./home/marcacao.css";
 
 /* Identidade "o detalhe que ninguém viu" (14/10/2026): papel, tinta e marca-texto, Fraunces + Inter. As cores vêm
    de identidade.css (mesmos nomes de variável do Maré). Os apelidos abaixo seguem valendo.

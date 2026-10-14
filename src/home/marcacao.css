@@ -1,0 +1,16 @@
+/* Assinatura animada: caneta circulando e marca-texto passando (300–400 ms).
+   Em @layer components para os utilitários do Tailwind poderem sobrescrever. */
+@layer components {
+  .marcacao { position: relative; display: inline; }
+  .marcacao-grifo { background-image: linear-gradient(transparent 58%, color-mix(in srgb, var(--sol) 70%, transparent) 58%);
+    background-repeat: no-repeat; background-size: 0% 100%; transition: background-size var(--mov-lento) var(--mov-ease); }
+  .marcacao-grifo.desenhada { background-size: 100% 100%; }
+  .marcacao-traco { position: absolute; inset: -8%; width: 116%; height: 116%; overflow: visible; pointer-events: none; }
+  .marcacao-traco path { fill: none; stroke: var(--sol); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--mov-lento) var(--mov-ease); vector-effect: non-scaling-stroke; }
+  .desenhada .marcacao-traco path { stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .marcacao-grifo { background-size: 100% 100%; transition: none; }
+    .marcacao-traco path { stroke-dashoffset: 0; transition: none; }
+  }
+}
