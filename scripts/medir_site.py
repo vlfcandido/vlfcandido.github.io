@@ -38,7 +38,10 @@ JS_VISIVEIS = """() => {
 JS_FLUTUANTE = """() => { const f = document.querySelector('[data-flutuante]'); if (!f) return null;
   const s = getComputedStyle(f); const q = document.getElementById('quem'); let noQuem = false;
   if (q) { const r = q.getBoundingClientRect(); noQuem = r.top < innerHeight && r.bottom > 0; }
-  return { ok: s.display !== 'none' && parseFloat(s.opacity) > 0.5, noQuem }; }"""
+  const wa = [...document.querySelectorAll('a[href*="wa.me"]')].some((a) => { if (a.hasAttribute('data-flutuante')) return false;
+    const r = a.getBoundingClientRect(); const e = getComputedStyle(a);
+    return r.width > 1 && r.height > 1 && r.bottom > 0 && r.top < innerHeight && e.display !== 'none' && e.visibility !== 'hidden'; });
+  return { ok: s.display !== 'none' && parseFloat(s.opacity) > 0.5, noQuem, wa }; }"""
 
 JS_QUADROS = """() => new Promise((res) => {
   const alvo = document.documentElement.scrollHeight - innerHeight; let y = 0, ult = 0, max = 0, n = 0;
@@ -146,21 +149,23 @@ def main() -> int:
                         pg.evaluate("window.scrollTo(0,0)")
                         pg.wait_for_timeout(500)
                         total = pg.evaluate("document.documentElement.scrollHeight")
-                        cont = bons = 0
-                        ruins: list[int] = []
+                        cont = alcance = proprio = 0
+                        sem: list[int] = []
                         for y in range(0, total - 844 + 1, 100):
                             pg.evaluate(f"window.scrollTo(0,{y})")
                             pg.wait_for_timeout(350)
                             r = pg.evaluate(JS_FLUTUANTE)
-                            if r is None or r["noQuem"]:
+                            if r is None:
                                 continue
                             cont += 1
-                            if r["ok"]:
-                                bons += 1
+                            proprio += 1 if r["ok"] else 0
+                            if r["ok"] or r["wa"]:
+                                alcance += 1
                             else:
-                                ruins.append(y)
-                        pct = 100 * bons / cont if cont else 0
-                        medida("8 flutuante visível>=90%", cont > 0 and pct >= 90, f"{bons}/{cont} = {pct:.0f}% (ocultos em y={ruins[:8]})")
+                                sem.append(y)
+                        medida("8 contato sempre ao alcance (flutuante OU link wa.me)", cont > 0 and alcance == cont,
+                               f"{alcance}/{cont} posições; sem contato em y={sem[:8]}")
+                        print(f"ℹ️  8i flutuante visível sozinho | 390 | {tema} | {proprio}/{cont} = {100 * proprio / cont:.0f}%", flush=True)
 
                         pg.evaluate("window.scrollTo(0,0)")
                         pg.wait_for_timeout(400)
