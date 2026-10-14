@@ -646,6 +646,7 @@ html.trocando body{touch-action:none;pointer-events:none}
 @media(prefers-reduced-motion:reduce){#view,.filters,.sh-bg{transition:none!important}}
 /* WhatsApp do desenvolvedor: pílula no desktop, círculo de 56 px no celular (acima das barras), com espaço reservado no fim de cada tela */
 body{padding-bottom:96px}
+@media(min-width:1024px){.logado .dev{right:auto;left:16px}} /* nas telas do app a pílula vai para a barra lateral, onde não cobre conteúdo */
 @media(max-width:700px){body{padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom) + 84px)}
  .dev{width:56px;height:56px;padding:6px;right:12px;bottom:calc(var(--barra) + 12px + env(safe-area-inset-bottom))}.dev .wa-c{width:44px;height:44px}}
 </style>
