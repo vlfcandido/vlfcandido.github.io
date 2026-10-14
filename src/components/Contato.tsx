@@ -4,12 +4,13 @@ import { GITHUB, LINKEDIN } from '../visuais'
 import { IconeConversa } from './IconeConversa'
 import { LinkExterno } from './LinkExterno'
 
+// Task 10: caixa em tinta e botão em marca-texto (antes cobalto da Maré, fora da paleta de um destaque só).
 /** Fechamento: o convite, o botão do WhatsApp e os outros perfis (LinkedIn, 99Freelas, GitHub) em segundo plano. */
 export function Contato() {
   const noventaENove = links.find((l) => l.rotulo === '99Freelas')
   return (
     <section id="contato" aria-labelledby="contato-titulo" className="scroll-mt-24 pt-2 pb-12 lg:pb-20">
-      <div className="rounded-2xl bg-cobalto px-5 py-7 text-nevoa sm:px-12 sm:py-12 lg:flex lg:items-end lg:justify-between lg:gap-12">
+      <div className="rounded-2xl bg-tinta px-5 py-7 text-nevoa sm:px-12 sm:py-12 lg:flex lg:items-end lg:justify-between lg:gap-12">
         <div>
           <h2 id="contato-titulo" className="max-w-[18ch] text-[1.75rem] leading-[1.1] font-bold tracking-[0.004em] sm:text-[2.6rem]">
             Conte o que você precisa.
@@ -19,7 +20,7 @@ export function Contato() {
         <div id="contato-cta" className="mt-6 shrink-0 lg:mt-0">
           <LinkExterno
             href={WHATSAPP}
-            className="botao-acao contato-botao inline-flex items-center gap-2.5 rounded-full bg-nevoa py-3.5 pr-6 pl-5 text-[1.05rem] font-semibold text-cobalto hover:bg-folha sm:py-4 sm:pr-7 sm:pl-6 sm:text-[1.1rem]"
+            className="botao-acao contato-botao inline-flex items-center gap-2.5 rounded-full bg-marca py-3.5 pr-6 pl-5 text-[1.05rem] font-semibold text-marca-tinta hover:brightness-105 sm:py-4 sm:pr-7 sm:pl-6 sm:text-[1.1rem]"
           >
             <IconeConversa tamanho={22} />
             Chamar no WhatsApp

@@ -137,7 +137,7 @@ h3 {
   flex: none;
 }
 
-/* No chip ativo (fundo cobalto) o ponto ganha um anel claro para não se perder no azul. */
+/* No chip ativo (fundo tinta desde a Task 10; antes cobalto) o ponto ganha um anel claro para não se perder no fundo. */
 .ponto-anel {
   box-shadow: 0 0 0 2px var(--nevoa);
 }
