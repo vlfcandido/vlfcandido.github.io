@@ -1419,6 +1419,10 @@ view.addEventListener('submit',e=>{if(e.target.id==='crpf'){e.preventDefault();d
 view.addEventListener('keydown',e=>{if(e.target.id==='upl'&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.target.click()}});
 render();
 })();
+/* no celular, o WhatsApp flutuante some enquanto o formulário de busca está na tela, para nunca cobrir o botão Buscar */
+(function(){const d=document.querySelector('.dev');if(!d)return;d.style.transition='opacity .2s';
+function chk(){const f=document.querySelector('.finder');let h=false;if(f&&innerWidth<700){const r=f.getBoundingClientRect();h=r.bottom>0&&r.top<innerHeight}d.style.opacity=h?'0':'';d.style.pointerEvents=h?'none':''}
+addEventListener('scroll',chk,{passive:true});addEventListener('resize',chk);new MutationObserver(chk).observe(document.getElementById('view')||document.body,{childList:true,subtree:true});chk()})();
 </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
 </body>
