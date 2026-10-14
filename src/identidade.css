@@ -1,0 +1,25 @@
+/* Identidade "o detalhe que ninguém viu" (14/10/2026). Valores espelham src/identidade.ts (o teste mede o contraste lá).
+   Antes: Maré (carta náutica), em mare.css, removido nesta troca. */
+:root {
+  --papel:#f7f4ee; --papel-alto:#fffdf9; --fundo:#17150f; --fundo-suave:#4a463e; --linha:#ddd5c6;
+  --mar:#1f3a6b; --mar-forte:#142a52; --on-mar:#ffffff; --sol:#f6b90a; --on-sol:#17150f;
+  --coral:#d9542a; --coral-texto:#a8401c; --raso:#efe9dc; --areia:#e8dfcc; --mata:#2e6a4e;
+  --mov-toque:150ms; --mov-padrao:260ms; --mov-lento:400ms; --mov-ease:cubic-bezier(.2,.7,.2,1); --mov-deslocamento:14px;
+  --fonte-titulo:'Fraunces', Georgia, serif; --fonte-texto:'Inter', system-ui, sans-serif;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    --papel:#161512; --papel-alto:#1f1d19; --fundo:#f3efe6; --fundo-suave:#c8c1b3; --linha:#36322c;
+    --mar:#a9c6ff; --mar-forte:#cfe0ff; --on-mar:#0f1522; --sol:#ffc83d; --on-sol:#161512;
+    --coral:#ff7d52; --coral-texto:#ff9c78; --raso:#22201c; --areia:#2b2823; --mata:#74c39a;
+  }
+}
+:root[data-tema="escuro"] {
+  --papel:#161512; --papel-alto:#1f1d19; --fundo:#f3efe6; --fundo-suave:#c8c1b3; --linha:#36322c;
+  --mar:#a9c6ff; --mar-forte:#cfe0ff; --on-mar:#0f1522; --sol:#ffc83d; --on-sol:#161512;
+  --coral:#ff7d52; --coral-texto:#ff9c78; --raso:#22201c; --areia:#2b2823; --mata:#74c39a;
+}
+body { background: var(--papel); color: var(--fundo); font-family: var(--fonte-texto); }
+h1, h2, h3 { font-family: var(--fonte-titulo); font-optical-sizing: auto; letter-spacing: -0.01em; }
+@media (prefers-reduced-motion: reduce) { :root { --mov-toque:0ms; --mov-padrao:0ms; --mov-lento:0ms; --mov-deslocamento:0px; } }

@@ -35,11 +35,12 @@ describe('o que não pode aparecer no site', () => {
 
 // Reorganização de 08/10/2026 (plano do juiz, site-reorg/04-juiz.md).
 describe('textos fixos das telas', () => {
-  it('meta description sem "Chatbots de WhatsApp" e com o posicionamento amplo (M19)', () => {
+  // Texto trocado em 14/10/2026 (site novo). Antes: "Integro sistemas e CRM, crio APIs, automatizo o trabalho repetido e conserto o que travou. Preço fechado antes de começar. Engenheiro de software sênior, 13 anos."
+  it('meta description sem "Chatbots de WhatsApp" e com a prova (13 anos, Sicoob e Serasa) do site novo', () => {
     const html = ler('index.html')
     const meta = html.match(/name="description"\s+content="([^"]+)"/)?.[1]
     expect(meta).toBe(
-      'Integro sistemas e CRM, crio APIs, automatizo o trabalho repetido e conserto o que travou. Preço fechado antes de começar. Engenheiro de software sênior, 13 anos.',
+      '13 anos construindo sistemas para Sicoob e Serasa Experian. Veja o seu sistema funcionando antes de fechar.',
     )
   })
   it('subtítulo das provas fala de órgãos públicos a grandes marcas (M9)', () => {

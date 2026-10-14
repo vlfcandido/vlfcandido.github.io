@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
-@import "./mare.css";
+@import "./identidade.css";
 @import "./case.css";
 
-/* Identidade Maré (07/10/2026): carta náutica, tábua de maré e guia de campo. As cores vêm do
+/* Identidade "o detalhe que ninguém viu" (14/10/2026): papel, tinta e marca-texto, Fraunces + Inter. As cores vêm
+   de identidade.css (mesmos nomes de variável do Maré). Os apelidos abaixo seguem valendo.
+   Histórico, Identidade Maré (07/10/2026): carta náutica, tábua de maré e guia de campo. As cores vêm do
    design system em mare.css; os nomes antigos do site (névoa, folha, tinta, cobalto...) viram
    apelidos dos tokens Maré, para os componentes não precisarem mudar de classe.
    Antes: tema "névoa e cobalto" (#eef1f5, #13233f, #2448c8), Bricolage Grotesque + Newsreader. */
@@ -47,13 +49,12 @@
   --color-coral-texto: var(--coral-texto);
 }
 
-/* Tipografia Maré: Hanken Grotesk para a interface (o que se clica e se escaneia) e Brygada 1918,
-   serifada de guia de campo, para títulos e prosa. `font-titulo` segue sendo a família da interface
-   (o corpo usa ela) e `font-texto` a serifada. */
+/* Tipografia (14/10/2026): Fraunces nos títulos e Inter no texto e na interface.
+   Antes (Maré): Hanken Grotesk na interface (font-titulo) e Brygada 1918 serifada em texto/display. */
 @theme {
-  --font-titulo: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-texto: "Brygada 1918", Georgia, "Times New Roman", serif;
-  --font-display: "Brygada 1918", Georgia, "Times New Roman", serif;
+  --font-titulo: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-texto: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
 }
 
 html {

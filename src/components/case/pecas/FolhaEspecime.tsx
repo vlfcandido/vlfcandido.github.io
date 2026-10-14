@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import tokens from '../../../design/mare.tokens.json'
+import { PALETA } from '../../../identidade'
 import { contraste } from '../../../lib/contraste'
 import type { PecaProps } from './tipos'
 
@@ -31,7 +31,11 @@ const limpar = (t: string) => t.replaceAll('`', '')
  */
 export function FolhaEspecime(_: PecaProps) {
   const [tema, setTema] = useState<Tema>('light')
-  const cores = (tokens.color.tokens as Cor[]).filter((c) => !c.value.light.startsWith('{'))
+  const cores: Cor[] = (Object.keys(PALETA.claro) as (keyof typeof PALETA.claro)[]).map((name) => ({
+    name,
+    value: { light: PALETA.claro[name], dark: PALETA.escuro[name] },
+    usage: '',
+  }))
   const papel = cores.find((c) => c.name === 'papel')!.value
   return (
     <div className="especime">
@@ -84,7 +88,7 @@ export function FolhaEspecime(_: PecaProps) {
       </ul>
 
       <figure className="mt-8 rounded-lg border border-linha bg-folha p-4">
-        <figcaption className="text-[0.92rem] text-grafite">O teste que trava a folha, resumido (src/design/mare.test.ts)</figcaption>
+        <figcaption className="text-[0.92rem] text-grafite">O teste que trava a folha, resumido (src/identidade.test.ts)</figcaption>
         <pre className="folha-codigo mt-2 text-[0.8rem] leading-[1.7]">
           <code>{`it.each(cores)('%s', (nome, claro, escuro) => {
   expect(variaveis(cssClaro)[nome]).toBe(claro)
