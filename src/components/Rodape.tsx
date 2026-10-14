@@ -16,7 +16,10 @@ export function Rodape() {
         <Ilustracao nome="gaivota" className="size-12 shrink-0 text-mar" />
         <p className="max-w-[60ch] text-[0.85rem] text-grafite sm:text-[0.9rem]">
           {perfil.nome}, {new Date().getFullYear()}. Marcas e logos pertencem às respectivas empresas. Os prints de projetos
-          usam dados fictícios. Ilustrações geradas com IA e editadas por Vinicius Candido.
+          usam dados fictícios. Ilustrações geradas com IA e editadas por Vinicius Candido.{' '}
+          <a href="/trabalhos/" className="sublinha leve">
+            Veja os trabalhos de exemplo.
+          </a>
         </p>
       </div>
     </footer>

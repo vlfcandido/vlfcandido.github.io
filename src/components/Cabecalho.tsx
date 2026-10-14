@@ -122,6 +122,12 @@ export function Cabecalho({ rota }: { rota: Rota }) {
                   Projetos
                 </a>
               </li>
+              {/* Acrescentado em 14/10/2026: página estática de projetos de exemplo navegáveis (public/trabalhos). */}
+              <li>
+                <a className="sublinha leve hover:text-tinta" href="/trabalhos/">
+                  Trabalhos
+                </a>
+              </li>
             </ul>
           </nav>
           <BotaoTema />
@@ -152,6 +158,11 @@ export function Cabecalho({ rota }: { rota: Rota }) {
               <li className="shrink-0 max-sm:hidden">
                 <a href={HASH_PROJETOS} aria-current={naProjetos ? 'page' : undefined} className="regua-chip">
                   Projetos
+                </a>
+              </li>
+              <li className="shrink-0">
+                <a href="/trabalhos/" className="regua-chip">
+                  Trabalhos
                 </a>
               </li>
             </ol>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trabalhos de Vinicius Candido, projetos de exemplo</title>
+<meta name="description" content="Projetos de exemplo navegáveis feitos por Vinicius Candido: um portal de dados de futebol e uma plataforma de psicologia online. Dados fictícios, para você abrir e mexer.">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Vinicius Candido">
+<meta property="og:url" content="https://vlfcandido.github.io/trabalhos/">
+<meta property="og:title" content="Trabalhos de Vinicius Candido, projetos de exemplo">
+<meta property="og:description" content="Dois projetos de exemplo navegáveis: portal de dados de futebol e plataforma de psicologia online. Abra e mexa.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Página de trabalhos de Vinicius Candido, com dois projetos de exemplo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f2f5f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1e25" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400..700;1,400..700&family=Hanken+Grotesk:wght@400..700&display=swap">
+<style>
+:root{--papel:#f2f5f3;--alto:#fff;--raso:#dcebec;--linha:#bccdce;--tinta:#0f2a33;--suave:#486169;--mar:#0d5f73;--mar-forte:#08475a;--on-mar:#fff;--coral:#e8445f;--sombra:0 1px 2px rgba(15,42,51,.08),0 14px 30px -18px rgba(15,42,51,.35);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-tema="claro"]){--papel:#0b1e25;--alto:#112a33;--raso:#163843;--linha:#2c4b55;--tinta:#e3eeec;--suave:#97b2b5;--mar:#6cc6d6;--mar-forte:#a3dde7;--on-mar:#0b1e25;--sombra:0 1px 2px rgba(0,0,0,.4),0 14px 30px -18px rgba(0,0,0,.7);color-scheme:dark}}
+:root[data-tema="escuro"]{--papel:#0b1e25;--alto:#112a33;--raso:#163843;--linha:#2c4b55;--tinta:#e3eeec;--suave:#97b2b5;--mar:#6cc6d6;--mar-forte:#a3dde7;--on-mar:#0b1e25;--sombra:0 1px 2px rgba(0,0,0,.4),0 14px 30px -18px rgba(0,0,0,.7);color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--papel);color:var(--tinta);font:400 1.0625rem/1.6 "Brygada 1918",Georgia,serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.sans{font-family:"Hanken Grotesk",ui-sans-serif,system-ui,sans-serif}
+a{color:var(--mar)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+@media(min-width:640px){.wrap{padding:0 32px}}
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--papel) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid color-mix(in srgb,var(--linha) 70%,transparent)}
+header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
+.nome{margin-right:auto;font:700 1.05rem "Hanken Grotesk",system-ui,sans-serif;color:var(--tinta);text-decoration:none;display:inline-flex;align-items:baseline;gap:.15em}
+.nome i{width:.38em;height:.38em;border-radius:50%;background:var(--coral);display:inline-block}
+.nav a{font:500 .95rem "Hanken Grotesk",system-ui,sans-serif;color:var(--suave);text-decoration:none;padding:12px 4px;display:inline-block;min-height:44px}
+.nav a:hover{color:var(--tinta)}
+.nav a[aria-current]{color:var(--tinta);font-weight:700}
+.zap{display:inline-flex;align-items:center;gap:8px;background:var(--mar);color:var(--on-mar);border-radius:999px;padding:10px 16px;min-height:44px;font:600 .95rem "Hanken Grotesk",system-ui,sans-serif;text-decoration:none;white-space:nowrap;transition:background .2s,transform .2s}
+.zap:hover{background:var(--mar-forte);transform:translateY(-1px)}
+.zap svg{width:18px;height:18px;fill:currentColor}
+.topo{padding:56px 0 24px}
+.topo .eyebrow{font:600 .8rem "Hanken Grotesk",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mar)}
+.topo h1{font-size:clamp(2rem,5.4vw,3.4rem);line-height:1.05;margin:.35em 0 .4em;letter-spacing:-.02em}
+.topo p{max-width:62ch;color:var(--suave);margin:0}
+.grade{display:grid;gap:24px;padding:24px 0 72px;grid-template-columns:1fr}
+@media(min-width:860px){.grade{grid-template-columns:1fr 1fr;gap:32px}}
+.cartao{background:var(--alto);border:1px solid var(--linha);border-radius:18px;overflow:hidden;box-shadow:var(--sombra);display:flex;flex-direction:column;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+.cartao:hover,.cartao:focus-within{transform:translateY(-4px)}
+.cartao .img{display:block;aspect-ratio:16/10;overflow:hidden;background:var(--raso)}
+.cartao .img img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.cartao:hover .img img{transform:scale(1.03)}
+.corpo{padding:20px 20px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.corpo h2{margin:0;font-size:1.45rem;line-height:1.15;letter-spacing:-.01em}
+.corpo p{margin:0}
+.tag{display:inline-block;font:600 .78rem "Hanken Grotesk",system-ui,sans-serif;color:var(--suave);background:var(--raso);border-radius:999px;padding:4px 10px;margin:0 6px 6px 0}
+.exemplo{font:600 .78rem "Hanken Grotesk",system-ui,sans-serif;color:var(--mar)}
+.acoes{margin-top:auto;display:flex;gap:12px;flex-wrap:wrap;padding-top:6px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:10px 18px;border-radius:999px;font:600 .95rem "Hanken Grotesk",system-ui,sans-serif;text-decoration:none;background:var(--mar);color:var(--on-mar);transition:background .2s}
+.btn:hover{background:var(--mar-forte)}
+.btn.sec{background:transparent;color:var(--mar);border:1px solid var(--linha)}
+.btn.sec:hover{background:var(--raso)}
+.nota{border-top:1px solid var(--linha);padding:28px 0 96px;color:var(--suave);font-size:.95rem}
+.nota p{max-width:70ch;margin:0 0 8px}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+.rv.on{opacity:1;transform:none}
+.rv.on:hover,.rv.on:focus-within{transform:translateY(-4px)}
+.med{font-size:.8rem;margin-top:12px}
+:focus-visible{outline:2px solid var(--mar);outline-offset:3px;border-radius:6px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
+@media(max-width:520px){.zap span{display:none}.zap{padding:10px 12px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="nome" href="/">Vinicius Candido<i aria-hidden="true"></i></a>
+    <nav class="nav" aria-label="Principal"><a href="/#/projetos">Projetos</a> <a href="/trabalhos/" aria-current="page">Trabalhos</a></nav>
+    <a class="zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seus%20trabalhos%20no%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius pelo WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span>WhatsApp</span></a>
+  </div>
+</header>
+<main id="conteudo">
+  <section class="topo wrap">
+    <div class="eyebrow">Trabalhos</div>
+    <h1>Projetos de exemplo para você abrir e mexer</h1>
+    <p>Cada um é um site funcionando no navegador, com pessoas, clubes e números inventados. Mostram como eu penso a tela, o fluxo e os detalhes pequenos que costumam ficar de fora.</p>
+  </section>
+  <section class="wrap grade" aria-label="Trabalhos">
+    <article class="cartao rv" id="liga-varzea">
+      <a class="img" href="/trabalhos/liga-varzea/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/liga-varzea.jpg" width="1000" height="625" loading="lazy" alt="Tela inicial do portal de dados Liga Várzea FC, com título, fonte de dados e painel de sincronização"></a>
+      <div class="corpo">
+        <span class="exemplo">Projeto de exemplo, dados fictícios</span>
+        <h2>Portal de dados de futebol</h2>
+        <p>Quem mantém um site de futebol perde tempo corrigindo número que a API entrega errado e vendo a correção sumir na próxima atualização. Este portal lê de uma base própria, mostra de onde veio cada número e guarda o que a equipe corrigiu à mão.</p>
+        <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Painel administrativo</span></div>
+        <div class="acoes"><a class="btn" href="/trabalhos/liga-varzea/">Abrir o exemplo</a><a class="btn sec" href="/trabalhos/liga-varzea/#/admin">Ver o painel</a></div>
+      </div>
+    </article>
+    <article class="cartao rv" id="consultorio-exemplo">
+      <a class="img" href="/trabalhos/consultorio-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/consultorio-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Tela inicial da plataforma de psicologia online Consultório Exemplo, com busca por tema e horário"></a>
+      <div class="corpo">
+        <span class="exemplo">Projeto de exemplo, dados fictícios</span>
+        <h2>Plataforma de psicologia online</h2>
+        <p>Terapia online só funciona quando o paciente confia no profissional e consegue marcar e pagar sem atrito. O exemplo cobre o caminho inteiro: busca, registro conferido, agenda, pagamento e as áreas do paciente, do psicólogo e da administração.</p>
+        <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Quatro áreas de acesso</span></div>
+        <div class="acoes"><a class="btn" href="/trabalhos/consultorio-exemplo/">Abrir o exemplo</a></div>
+      </div>
+    </article>
+  </section>
+  <section class="nota wrap">
+    <p>Os dois projetos são exemplos navegáveis, feitos para mostrar o trabalho. Nenhum representa um negócio real e todos os nomes, registros e números são inventados.</p>
+    <p>Feito por Vinicius Candido. <a href="/">vlfcandido.github.io</a></p>
+    <p class="med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
+  </section>
+</main>
+<script>
+(function(){var l=document.querySelectorAll('.rv');if(!('IntersectionObserver' in window)){l.forEach(function(e){e.classList.add('on')});return}
+var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');o.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+l.forEach(function(e,i){e.style.transitionDelay=(i*90)+'ms';o.observe(e)})})();
+</script>
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalhos");</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
+</body>
+</html>
