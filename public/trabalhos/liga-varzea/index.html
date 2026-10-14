@@ -706,6 +706,10 @@ html.trocando body{touch-action:none;pointer-events:none}
 .vc-faixa-nome{font:600 15px/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em;text-align:center}
 .vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:-3px;border-radius:6px}
 @media(max-width:560px){.vc-faixa-nome{display:none}.vc-faixa-in{justify-content:space-between}}
+/* Task 10: WhatsApp na faixa das duas peças; no celular "Mais trabalhos" vira "Trabalhos" para tudo caber numa linha. */
+.vc-faixa-dir{display:flex;align-items:center;gap:16px}.vc-c{display:none}
+.vc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:560px){.vc-faixa-in{gap:8px 12px}.vc-faixa-dir{gap:12px}.vc-l{display:none}.vc-c{display:inline}}
 @media(prefers-reduced-motion:reduce){.vc-faixa a span{transition:none}}
 </style>
 <style id="vc-sig-css">.assina .a1 small,.assina .a1 span{font-family:Inter,system-ui,sans-serif}.assina .a1 b{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:24px;letter-spacing:-.01em}</style>
@@ -742,7 +746,7 @@ html.trocando body{touch-action:none;pointer-events:none}
  <symbol id="i-banco" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
 </svg>
 
-<div class="vc-faixa"><div class="vc-faixa-in"><a href="/"><span>← vlfcandido.github.io</span></a><b class="vc-faixa-nome">Exemplo de Vinicius Candido</b><a href="/trabalhos/"><span>Mais trabalhos</span></a></div></div>
+<div class="vc-faixa"><div class="vc-faixa-in"><a href="/"><span>← vlfcandido.github.io</span></a><b class="vc-faixa-nome">Exemplo de Vinicius Candido</b><span class="vc-faixa-dir"><a href="/trabalhos/"><span class="vc-l">Mais trabalhos</span><span class="vc-c">Trabalhos</span></a><a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><span>WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></span></div></div>
 <header class="top">
  <div class="wrap">
   <a class="logo" href="#/" aria-label="LVF, Liga Várzea FC, início">
@@ -773,7 +777,7 @@ html.trocando body{touch-action:none;pointer-events:none}
   <div style="display:flex;gap:14px;align-items:center"><span id="logo-foot"></span>
    <div><div class="disp" style="font-size:22px;color:#fff;font-weight:800">Liga Várzea FC</div>
    <div class="small">Projeto de exemplo, navegável. Liga, clubes e números são fictícios.</div></div></div>
-  <a class="assina" href="https://vlfcandido.github.io" target="_blank" rel="noopener"><div class="a1"><small>Feito por</small><b>Vinicius Candido</b><span>vlfcandido.github.io</span></div><div class="a2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c3-1 4-7 6-7s1 5 3 5 2-4 4-4 2 3 3 3"/><path d="M4 21h16"/></svg></div></a>
+  <a class="assina" href="/"><div class="a1"><small>Feito por</small><b>Vinicius Candido</b><span>vlfcandido.github.io</span></div><div class="a2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c3-1 4-7 6-7s1 5 3 5 2-4 4-4 2 3 3 3"/><path d="M4 21h16"/></svg></div></a>
   <p class="aviso-med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
  </div>
 </footer>

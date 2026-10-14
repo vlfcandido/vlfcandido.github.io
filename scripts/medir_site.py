@@ -5,12 +5,14 @@ Uso: ~/.local/share/patrimonio/pwenv/bin/python scripts/medir_site.py <url-base>
 
 Mede, em 390x844, 1280x800 e 1440x900 e nos temas claro e escuro: rolagem lateral, colisão com o
 WhatsApp flutuante, alvos de toque, marcações animadas, gutter do h1, reduced-motion, orçamento de
-rolagem, visibilidade do flutuante, CLS, quadros longos, rotas e se a rolagem volta sozinha (check 12). Imprime uma linha por verificação
+rolagem, visibilidade do flutuante, CLS, quadros longos, rotas, se a rolagem volta sozinha (check 12), se cada item do menu chega ao destino (check 13) e se
+algum link interno está quebrado (check 14). Imprime uma linha por verificação
 e termina com código 1 se houver qualquer falha. Nenhum efeito colateral na importação.
 """
 from __future__ import annotations
 
 import sys
+from urllib.parse import urljoin, urlparse
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -85,6 +87,133 @@ def erro_proprio(msg) -> bool:
     url = (msg.location or {}).get("url", "") or ""
     # Erros de CORS/rede da telemetria vêm com a página como origem, então o host também é procurado no texto.
     return not any(t in url or t in msg.text for t in TERCEIROS)
+
+
+# Check 13: onde o título de destino de cada item do menu ficou. Mesma escolha de src/lib/destino.ts.
+JS_CHEGADA = """(id) => { const s = document.getElementById(id); if (!s) return null;
+  const alvo = s.querySelector('.alvo-secao, h1, h2') || s, t = s.querySelector('h1, h2') || s;
+  const cab = document.querySelector('.cabecalho'), cr = cab.getBoundingClientRect();
+  const fixo = getComputedStyle(cab).position === 'sticky' && cr.top <= 0 ? cr.bottom : 0;
+  const r = alvo.getBoundingClientRect(), maxs = document.documentElement.scrollHeight - innerHeight;
+  return { topo: Math.round(r.top), fundo: Math.round(r.bottom), cab: Math.round(fixo), vh: innerHeight,
+           fim: scrollY >= maxs - 2, marcado: t.classList.contains('chegou') }; }"""
+
+
+def menu_chega(nav, base: str, nome_l: str) -> list[tuple[str, bool, str]]:
+    """Check 13: clica em cada âncora do menu (partindo da home e de #/projetos, e clicando duas vezes no mesmo
+    item) e confere que o título de destino ficou no topo, logo abaixo do cabeçalho (até 25% da tela), ou, quando
+    o bloco está no fim da página e não sobe mais, inteiro na tela e com a marca de chegada.
+
+    :returns: lista de (nome, ok, detalhe).
+    """
+    w, h = LARGURAS[nome_l]
+    ctx = nav.new_context(viewport={"width": w, "height": h}, is_mobile=w < 768, has_touch=w < 768, device_scale_factor=1)
+    pg = ctx.new_page()
+    saida: list[tuple[str, bool, str]] = []
+    try:
+        pg.goto(base, wait_until="load")
+        pg.wait_for_timeout(1200)
+        ids = pg.eval_on_selector_all(".cabecalho-nav a[href^='#']:not([href^='#/'])", "els => els.map(a => a.getAttribute('href').slice(1))")
+        for origem in ("", "#/projetos"):
+            for id_ in ids:
+                for clique in (1, 2):
+                    if clique == 1:
+                        pg.goto(base + origem, wait_until="load")
+                        pg.wait_for_timeout(900)
+                    else:
+                        # Segundo clique no mesmo item, com o endereço já em #id: não pode ficar parado.
+                        pg.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
+                        pg.wait_for_timeout(500)
+                    pg.locator(f".cabecalho-nav a[href='#{id_}']").click()
+                    pg.wait_for_timeout(250)
+                    marcado_cedo = pg.evaluate(JS_CHEGADA, id_)
+                    pg.wait_for_timeout(1250)
+                    r = pg.evaluate(JS_CHEGADA, id_)
+                    if r is None:
+                        saida.append((f"13 menu leva a #{id_}", False, f"seção #{id_} não existe"))
+                        continue
+                    no_topo = r["cab"] <= r["topo"] <= r["cab"] + 0.25 * r["vh"]
+                    no_fim = r["fim"] and r["topo"] >= r["cab"] and r["fundo"] <= r["vh"] and (marcado_cedo or {}).get("marcado", False)
+                    det = f"de '{origem or '/'}' clique {clique}: título em y={r['topo']} (cabeçalho {r['cab']}, tela {r['vh']}), fim={r['fim']}, marca={(marcado_cedo or {}).get('marcado')}"
+                    saida.append((f"13 menu leva a #{id_}", no_topo or no_fim, det))
+    finally:
+        ctx.close()
+    return saida
+
+
+def links_internos(nav, base: str, nome_l: str) -> tuple[bool, str]:
+    """Check 14: percorre a home, #/projetos, todos os cases e as 3 páginas de /trabalhos/ e confere cada link
+    interno: caminho que responde 200, âncora que existe na página, rota do app que mostra conteúdo e nenhum link
+    absoluto para o domínio publicado (na prévia ele leva ao site velho).
+
+    :returns: (ok, detalhe).
+    """
+    w, h = LARGURAS[nome_l]
+    ctx = nav.new_context(viewport={"width": w, "height": h}, is_mobile=w < 768, has_touch=w < 768, device_scale_factor=1)
+    pg = ctx.new_page()
+    origem = urlparse(base)
+    problemas: list[str] = []
+    vistos: set[str] = set()
+    try:
+        pg.goto(base + "#/projetos", wait_until="load")
+        pg.wait_for_timeout(1200)
+        slugs = pg.eval_on_selector_all("[id^='card-']", "els => els.map(e => e.id.slice(5))")
+        # Âncora de seção (#como) fora da home é válida quando existe na home: o app volta à home e rola até ela.
+        pg.goto(base, wait_until="load")
+        pg.wait_for_timeout(900)
+        ids_home = set(pg.eval_on_selector_all("[id]", "els => els.map(e => e.id)"))
+        paginas = ["", "#/projetos"] + [f"#/projetos/{s}" for s in slugs] + ["trabalhos/", "trabalhos/liga-varzea/", "trabalhos/consultorio-exemplo/"]
+        for pag in paginas:
+            pg.goto("about:blank")
+            pg.goto(base + pag, wait_until="load")
+            pg.wait_for_timeout(1000)
+            spa = not pag.startswith("trabalhos/")
+            hrefs = pg.eval_on_selector_all("a[href]", "els => els.map(a => a.getAttribute('href'))")
+            for href in hrefs:
+                if not href or href.startswith(("mailto:", "tel:", "javascript:")):
+                    continue
+                if urlparse(href).netloc == "vlfcandido.github.io":
+                    problemas.append(f"{pag or '/'}: {href} (absoluto, sai da prévia para o site publicado)")
+                    continue
+                url = urljoin(pg.url, href)
+                alvo = urlparse(url)
+                if alvo.netloc != origem.netloc:
+                    continue
+                frag = alvo.fragment
+                if href.startswith("#") and not href.startswith("#/") and spa:
+                    if not pg.evaluate("(id) => !!document.getElementById(id)", frag) and (pag == "" or frag not in ids_home):
+                        problemas.append(f"{pag or '/'}: {href} (âncora inexistente)")
+                    continue
+                if href.startswith("#") and not spa:
+                    continue  # rota interna da própria peça (o roteador dela cuida)
+                chave = url
+                if chave in vistos:
+                    continue
+                vistos.add(chave)
+                resp = pg.request.get(url.split("#")[0])
+                if resp.status >= 400:
+                    problemas.append(f"{pag or '/'}: {href} (HTTP {resp.status})")
+                    continue
+                if frag.startswith("/") and alvo.path.rstrip("/") == origem.path.rstrip("/"):
+                    p2 = ctx.new_page()
+                    p2.goto(url, wait_until="load")
+                    p2.wait_for_timeout(900)
+                    ok_rota = p2.evaluate("document.querySelector('main')?.innerText.length || 0") > 100
+                    if "/projetos/" in frag:
+                        ok_rota = ok_rota and p2.evaluate("!!document.getElementById('case-titulo')")
+                    if not ok_rota:
+                        problemas.append(f"{pag or '/'}: {href} (rota vazia)")
+                    p2.close()
+                elif frag and not frag.startswith("/") and alvo.path.rstrip("/") == origem.path.rstrip("/"):
+                    p2 = ctx.new_page()
+                    p2.goto(url, wait_until="load")
+                    p2.wait_for_timeout(600)
+                    if not p2.evaluate("(id) => !!document.getElementById(id)", frag):
+                        problemas.append(f"{pag or '/'}: {href} (âncora inexistente)")
+                    p2.close()
+    finally:
+        ctx.close()
+    return not problemas, f"{len(paginas)} páginas, {len(vistos)} destinos únicos; quebrados={problemas[:8]}"
 
 
 def rolagem_nao_volta(pg, w: int, h: int, cel: bool) -> tuple[str, bool, str]:
@@ -290,6 +419,15 @@ def main() -> int:
                         pg.wait_for_timeout(1500)
                         medida(*rolagem_nao_volta(pg, w, h, cel))
                         ctx.close()
+
+                    # 13 e 14: navegação pelo menu e links internos (no tema claro; o tema não muda nada disso).
+                    if tema == "light" and nome_l in ("390", "1280"):
+                        with bloco("13 menu chega ao destino", nome_l, tema):
+                            for nome, ok, det in menu_chega(nav, base, nome_l):
+                                medida(nome, ok, det)
+                        with bloco("14 links internos", nome_l, tema):
+                            ok, det = links_internos(nav, base, nome_l)
+                            medida("14 nenhum link interno quebrado", ok, det)
 
                     # 6. reduced-motion
                     with bloco("6 reduced-motion", nome_l, tema):

@@ -28,6 +28,27 @@
     html { scroll-snap-type: y proximity; }
     .home > .secao { scroll-snap-align: start; }
   }
+  /* Ponto de chegada dos links do menu (Task 10): o título (ou o retrato com o título) fica no topo, 24 px abaixo
+     do cabeçalho. O encaixe do celular continua no começo de cada seção (um teste com o encaixe nos títulos
+     prendia a 1ª tela: arrastos de 300 px voltavam sempre ao título da prova). */
+  .alvo-secao { scroll-margin-top: 24px; }
+  /* CLS no celular (Task 10): com a fonte de reserva o título da prova cabe em 3 linhas e, com a Fraunces, em 5.
+     Como a 1ª tela centra o conteúdo, a troca de fonte puxava tudo 46 px para cima e empurrava o resto (CLS 0,08).
+     A altura das 5 linhas fica reservada; a troca acontece dentro da caixa do título. */
+  @media (max-width: 639px) { .home #inicio h1 { min-height: 5lh; } }
+  /* Marca de chegada pelo menu: o marca-texto passa sob o texto do título (400 ms) e sai pela direita. Mostra que a
+     pessoa chegou mesmo quando o bloco está na última linha do PC e o título não sobe até o topo. Fica no span do
+     texto (inline, uma faixa por linha), para o traço ter o tamanho das palavras e não o da coluna. */
+  .titulo-texto { background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--sol) 80%, transparent) 62%, color-mix(in srgb, var(--sol) 80%, transparent) 94%, transparent 94%);
+    background-repeat: no-repeat; background-size: 0% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .chegou .titulo-texto { animation: chegada 1400ms var(--mola) both; }
+  @keyframes chegada {
+    0% { background-size: 0% 100%; background-position: 0 0; }
+    29%, 72% { background-size: 100% 100%; background-position: 0 0; }
+    73% { background-size: 100% 100%; background-position: 100% 0; }
+    100% { background-size: 0% 100%; background-position: 100% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .chegou .titulo-texto { animation: none; background-size: 100% 100%; } }
 
   /* Composição: no celular, uma coluna na ordem do HTML; no PC, 3 colunas com os blocos lado a lado. */
   .home { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -41,7 +62,9 @@
     .home > .tela { min-height: calc(100svh - var(--cabecalho) - var(--espiada)); display: flex; flex-direction: column; justify-content: center; }
     /* Empresas e Como funciona dividem a 4ª tela. */
     .home > #empresas { padding-bottom: 24px; }
-    .home > #como { padding-top: 24px; scroll-snap-align: none; }
+    /* Task 10: "Como funciona" ganhou encaixe próprio. Antes (scroll-snap-align: none) o link do menu caía nas
+       empresas, porque o encaixe puxava a página para o começo do bloco de cima. */
+    .home > #como { padding-top: 24px; }
   }
   @media (min-width: 1024px) {
     .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;

@@ -14,7 +14,7 @@ export function Prototipo() {
   return (
     <section id="prototipo" className="secao tela grid content-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-10">
       <div>
-        <h2 className="titulo-bloco">
+        <h2 className="titulo-bloco alvo-secao">
           {titulo ? (
             <>
               {titulo.antes}

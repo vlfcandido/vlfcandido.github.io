@@ -3,6 +3,7 @@ import { Cabecalho } from './components/Cabecalho'
 import { ContatoFixo } from './components/ContatoFixo'
 import { Rodape } from './components/Rodape'
 import { HASH_PROJETOS, chaveDaPagina, hashAtual, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
+import { irParaSecao } from './lib/destino'
 import { iniciarRevelacao } from './lib/revelar'
 import { comTransicao } from './lib/transicao'
 import { PaginaInicio } from './paginas/Inicio'
@@ -93,7 +94,9 @@ function useDestino(hash: string, rota: Rota, posicoes: RefObject<Posicoes>) {
     if (!(alvo instanceof HTMLElement)) return
     if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1')
     alvo.focus({ preventScroll: true })
-    if (id) alvo.scrollIntoView({ behavior: suave ? 'smooth' : 'auto', block: 'start' })
+    // Task 10: a âncora leva o TÍTULO da seção ao topo (abaixo do cabeçalho) e o marca por um instante.
+    // Antes: alvo.scrollIntoView na seção, que no PC deixava "Como funciona" e "Quem sou" no mesmo lugar sem aviso.
+    if (id) irParaSecao(id, suave)
     else window.scrollTo({ top: 0 })
   }, [hash, rota, posicoes])
 }

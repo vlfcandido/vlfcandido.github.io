@@ -15,7 +15,7 @@ export function Empresas() {
   )
   return (
     <section id="empresas" className="secao">
-      <h2 className="titulo-bloco">{textos.titulo}</h2>
+      <h2 className="titulo-bloco alvo-secao"><span className="titulo-texto">{textos.titulo}</span></h2>
       <ul className="mt-4 grid grid-cols-3 gap-x-6 gap-y-4 sm:grid-cols-5 lg:mt-8 lg:grid-cols-1 lg:gap-y-0">
         {empresas.map((e) => (
           <li key={e.slug} className="empresa flex items-center lg:gap-4 lg:border-t lg:border-linha lg:py-4">

@@ -37,9 +37,9 @@ export function QuemSou() {
   const { quemSou, chamada } = conteudoHome()
   return (
     <section id="quem" className="secao tela">
-      <div className="grid grid-cols-[6rem_1fr] items-end gap-4 lg:grid-cols-[5rem_1fr]">
+      <div className="alvo-secao grid grid-cols-[6rem_1fr] items-end gap-4 lg:grid-cols-[5rem_1fr]">
         <Retrato foto={quemSou.foto} alt={quemSou.alt} />
-        <h2 className="titulo-bloco lg:!text-[1.75rem]">{quemSou.titulo}</h2>
+        <h2 className="titulo-bloco lg:!text-[1.75rem]"><span className="titulo-texto">{quemSou.titulo}</span></h2>
       </div>
       <div className="mt-4 space-y-2 text-grafite">
         {quemSou.texto.map((t) => (

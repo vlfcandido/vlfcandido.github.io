@@ -11,7 +11,7 @@
      encaixava a página no #inicio ao abrir e o cabeçalho nascia fora da tela. */
   @media (max-width: 767px) { .cabecalho { scroll-snap-align: start; } }
   .cabecalho-grade { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "marca tema whats" "nav nav nav";
-    grid-template-rows: var(--linha-1) var(--linha-nav); align-items: center; column-gap: 8px; }
+    grid-template-rows: var(--linha-1) minmax(var(--linha-nav), auto); align-items: center; column-gap: 8px; }
   .cabecalho-marca { grid-area: marca; justify-self: start; display: inline-flex; flex-direction: column; justify-content: center;
     min-height: 44px; padding-right: 8px; border-radius: var(--raio-p); }
   .cabecalho-nome { font-family: var(--fonte-titulo); font-optical-sizing: auto; font-size: 1.125rem; line-height: 1.2; font-weight: 600;
@@ -20,14 +20,12 @@
   .cabecalho .botao-tema { grid-area: tema; }
   .cabecalho .cta-compacta { grid-area: whats; }
 
-  /* Navegação: no celular uma linha rolável sob a marca, com alvos de 44 px e o gesto preso nela. */
+  /* Navegação: no celular, todos os itens à vista em até duas linhas sob a marca, com alvos de 44 px (Task 10:
+     antes era uma linha rolável que cortava "Exemplos navegáveis" na borda, sem o dono perceber que rolava).
+     O texto do 1º item alinha com o nome (16 px). */
   .cabecalho-nav { grid-area: nav; min-width: 0; align-self: stretch; }
-  .cabecalho-nav ul { display: flex; height: 100%; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none;
-    overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-padding-inline: 8px;
-    /* Sangra até a borda da tela (o item cortado avisa que rola) e o texto do 1º item alinha com o nome (16 px). */
-    margin-inline: -16px; padding-inline: 8px; }
-  .cabecalho-nav ul::-webkit-scrollbar { display: none; }
-  .cabecalho-nav li { flex: none; scroll-snap-align: start; }
+  .cabecalho-nav ul { display: flex; flex-wrap: wrap; height: 100%; align-items: center; gap: 0 4px; margin-inline: -8px; padding-bottom: 4px; }
+  .cabecalho-nav li { flex: none; }
   .cabecalho-nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding-inline: 8px;
     border-radius: var(--raio-p); font-size: 0.9375rem; font-weight: 500; color: var(--fundo-suave); white-space: nowrap; }
   .cabecalho-nav a[aria-current] { color: var(--fundo); }
@@ -48,7 +46,7 @@
     /* Só a partir do tablet o cabeçalho acompanha a rolagem (no celular ele é estático: nada fixo sobre a página). */
     .cabecalho { background: color-mix(in srgb, var(--papel) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(12px);
       backdrop-filter: saturate(1.4) blur(12px); }
-    .cabecalho-nav ul { margin-inline: -8px; padding-inline: 0; }
+    .cabecalho-nav ul { flex-wrap: nowrap; padding-bottom: 0; }
   }
   @media (min-width: 1024px) {
     .cabecalho { --linha-1: 64px; }

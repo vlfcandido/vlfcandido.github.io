@@ -110,7 +110,7 @@ export function Trabalhos() {
   const assentados = useCarrossel(trilho, barra)
   return (
     <section id="trabalhos" className="secao tela">
-      <h2 className="titulo-bloco">{trabalhos.titulo}</h2>
+      <h2 className="titulo-bloco alvo-secao"><span className="titulo-texto">{trabalhos.titulo}</span></h2>
       <ul ref={trilho} className="carrossel mt-6 lg:mt-8">
         {destaques.map((d, i) => (
           <CartaoDestaque key={d.slug} d={d} indice={i} assentado={assentados ? assentados.has(i) : undefined} />

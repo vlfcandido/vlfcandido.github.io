@@ -1,9 +1,10 @@
 // Cabeçalho do site novo (14/10/2026). Antes: régua de profundidade da Maré (níveis com cotas, fileira de chips
 // no celular e régua lateral fixa em tela larga), apagada junto com src/lib/niveis.ts (ver git log).
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type MouseEvent } from 'react'
 import { perfil } from '../conteudo'
 import { caminhoPublico } from '../lib/assets'
-import type { Rota } from '../lib/rota'
+import { irParaSecao } from '../lib/destino'
+import { HASH_PROJETOS, type Rota } from '../lib/rota'
 import { SITE } from '../lib/site'
 import { WHATSAPP } from '../lib/whatsapp'
 import { BotaoTema } from './BotaoTema'
@@ -45,6 +46,19 @@ function useSecaoAVista(ativo: boolean): string | null {
 }
 
 /**
+ * Clique numa âncora que já está no endereço não dispara `hashchange`, e o item parecia quebrado (Task 10): a
+ * rolagem é feita aqui mesmo, sem mexer no histórico.
+ *
+ * @param e evento do clique.
+ * @param id seção de destino.
+ */
+function mesmaAncora(e: MouseEvent<HTMLAnchorElement>, id: string) {
+  if (window.location.hash !== `#${id}` || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+  e.preventDefault()
+  irParaSecao(id, !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+}
+
+/**
  * Cabeçalho: o nome em Fraunces com o endereço do site, as âncoras da home, os exemplos navegáveis, o tema e o
  * WhatsApp. No celular é estático (nada fixo por cima da página) e a navegação vira uma linha rolável no polegar;
  * a partir do tablet ele acompanha a rolagem (`md:sticky`).
@@ -64,11 +78,17 @@ export function Cabecalho({ rota }: { rota: Rota }) {
           <ul>
             {SECOES.map((s) => (
               <li key={s.id}>
-                <a href={`#${s.id}`} aria-current={secao === s.id ? 'location' : undefined}>
+                <a href={`#${s.id}`} aria-current={secao === s.id ? 'location' : undefined} onClick={(e) => mesmaAncora(e, s.id)}>
                   {s.rotulo}
                 </a>
               </li>
             ))}
+            {/* Task 10: a galeria completa no menu (antes só se chegava a ela pelo botão do bloco de trabalhos). */}
+            <li>
+              <a href={HASH_PROJETOS} aria-current={rota === 'projetos' ? 'page' : undefined}>
+                Projetos
+              </a>
+            </li>
             {/* Peças navegáveis (HTML estático em public/trabalhos/), na mesma aba: elas têm volta própria. */}
             <li>
               <a href={caminhoPublico(import.meta.env.BASE_URL, 'trabalhos/')}>Exemplos navegáveis</a>
