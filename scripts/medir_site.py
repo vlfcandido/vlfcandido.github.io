@@ -38,6 +38,8 @@ JS_ALVOS = """() => [...document.querySelectorAll('a, button')].filter((el) => {
 # Regra de colisão do check 2 (flutuante x alvos): há colisão quando o retângulo do flutuante intersecta
 # (a) qualquer nó de TEXTO visível dentro de um a/button (Range.getClientRects nos text nodes) ou
 # (b) mais de 15% da área do alvo. O canto de um cartão grande clicável, sem texto sob o botão, não conta.
+# Exclusão: alvo com menos de 50% da largura dentro do viewport (e do contêiner que o recorta, como o carrossel)
+# não está "ativo", é só a dica de rolagem do cartão que espia, e fica fora da colisão. Os excluídos são listados.
 JS_POSICAO = """() => { const f = document.querySelector('[data-flutuante]'); if (!f) return null;
   const s = getComputedStyle(f), fr = f.getBoundingClientRect();
   const noVp = (r) => r.width > 1 && r.height > 1 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
@@ -51,12 +53,21 @@ JS_POSICAO = """() => { const f = document.querySelector('[data-flutuante]'); if
       const rg = document.createRange(); rg.selectNodeContents(n);
       if ([...rg.getClientRects()].some((q) => q.width > 0 && q.height > 0 && noVp(q) && inter(q, fr))) return true; }
     return false; };
-  const bate = ok ? [...document.querySelectorAll('a, button')].filter((el) => {
-    if (el === f || !vis(el)) return false; const r = el.getBoundingClientRect();
-    if (!noVp(r) || !inter(r, fr)) return false;
-    return area(r, fr) > 0.15 * r.width * r.height || textoSob(el); })
-    .map((el) => el.tagName.toLowerCase() + ':' + (el.getAttribute('aria-label') || el.textContent || '').trim().slice(0, 24)) : [];
-  return { ok, wa, bate }; }"""
+  const fracLargura = (el) => { const r = el.getBoundingClientRect(); let l = Math.max(r.left, 0), rr = Math.min(r.right, innerWidth);
+    for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      const o = getComputedStyle(p).overflowX; if (o === 'visible') continue;
+      const c = p.getBoundingClientRect(); l = Math.max(l, c.left); rr = Math.min(rr, c.right); }
+    return Math.max(0, rr - l) / r.width; };
+  const bate = [], excluidos = [];
+  if (ok) for (const el of document.querySelectorAll('a, button')) {
+    if (el === f || !vis(el)) continue; const r = el.getBoundingClientRect();
+    if (!noVp(r) || !inter(r, fr)) continue;
+    if (!(area(r, fr) > 0.15 * r.width * r.height || textoSob(el))) continue;
+    const nome = el.tagName.toLowerCase() + ':' + (el.getAttribute('aria-label') || el.textContent || '').trim().slice(0, 24);
+    const fr2 = fracLargura(el);
+    if (fr2 < 0.5) excluidos.push(nome + ' (' + Math.round(fr2 * 100) + '% visível)'); else bate.push(nome);
+  }
+  return { ok, wa, bate, excluidos }; }"""
 
 JS_QUADROS = """() => new Promise((res) => {
   const alvo = document.documentElement.scrollHeight - innerHeight; let y = 0, ult = 0, max = 0, n = 0;
@@ -153,6 +164,7 @@ def main() -> int:
                             cont = alcance = proprio = 0
                             sem: list[int] = []
                             colisoes: list[str] = []
+                            excluidos: list[str] = []
                             for y in posicoes:
                                 pg.evaluate(f"window.scrollTo(0,{y})")
                                 pg.wait_for_timeout(350)
@@ -166,8 +178,10 @@ def main() -> int:
                                 else:
                                     sem.append(y)
                                 colisoes += [f"y={y}:{b}" for b in r["bate"]]
+                                excluidos += [f"y={y}:{b}" for b in r["excluidos"]]
                             medida("2 nada sob o flutuante (todas as posições em que ele aparece)", cont > 0 and proprio > 0 and not colisoes,
                                    f"{proprio} posições com flutuante, colisões={colisoes[:5]}")
+                            print(f"ℹ️  2i alvos excluídos da colisão (<50% visíveis, cartão que espia) | 390 | {tema} | {excluidos or 'nenhum'}", flush=True)
                             medida("8 contato sempre ao alcance (flutuante OU link wa.me)", cont > 0 and alcance == cont,
                                    f"{alcance}/{cont} posições (viewport {vh}px); sem contato em y={sem[:8]}")
                             print(f"ℹ️  8i flutuante visível sozinho | 390 | {tema} | {proprio}/{cont} = {100 * proprio / max(cont, 1):.0f}%", flush=True)
