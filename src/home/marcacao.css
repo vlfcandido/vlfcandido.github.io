@@ -2,6 +2,8 @@
    Em @layer components para os utilitários do Tailwind poderem sobrescrever. */
 @layer components {
   .marcacao { position: relative; display: inline; }
+  /* Círculo só em frase curta: numa linha só, para o traço abraçar o texto e não flutuar entre duas linhas. */
+  .marcacao-circulo { display: inline-block; white-space: nowrap; }
   .marcacao-grifo { background-image: linear-gradient(transparent 58%, color-mix(in srgb, var(--sol) 70%, transparent) 58%);
     background-repeat: no-repeat; background-size: 0% 100%; transition: background-size var(--mov-lento) var(--mov-ease); }
   .marcacao-grifo.desenhada { background-size: 100% 100%; }

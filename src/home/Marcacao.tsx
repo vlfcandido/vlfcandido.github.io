@@ -17,11 +17,28 @@ export function Marcacao({ tipo = 'grifo', semente = 1, children }: { tipo?: 'ci
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    setCaixa({ l: el.offsetWidth, a: el.offsetHeight })
-    if (!('IntersectionObserver' in window)) return setVisivel(true)
+    // Mede a caixa agora, de novo quando ela muda de tamanho (quebra de linha, rotação) e quando as
+    // fontes terminam de carregar (Fraunces troca a largura do texto): o círculo abraça o texto real.
+    let ativo = true
+    const medir = () => ativo && setCaixa({ l: el.offsetWidth, a: el.offsetHeight })
+    medir()
+    const redim = 'ResizeObserver' in window ? new ResizeObserver(medir) : null
+    redim?.observe(el)
+    document.fonts?.ready.then(medir)
+    const fim = () => {
+      ativo = false
+      redim?.disconnect()
+    }
+    if (!('IntersectionObserver' in window)) {
+      setVisivel(true)
+      return fim
+    }
     const obs = new IntersectionObserver(([e]) => e.isIntersecting && (setVisivel(true), obs.disconnect()), { threshold: 0.6 })
     obs.observe(el)
-    return () => obs.disconnect()
+    return () => {
+      obs.disconnect()
+      fim()
+    }
   }, [])
   return (
     <span ref={ref} className={`marcacao marcacao-${tipo}${visivel ? ' desenhada' : ''}`}>
