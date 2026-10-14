@@ -12,10 +12,27 @@ export interface Passo { titulo: string; texto: string }
 export interface Frente { titulo: string; resultado: string; exemplo: string }
 
 /** Peças navegáveis de /trabalhos/ (HTML estático em public/trabalhos/). */
+// 14/10/2026 (fix da Task 5): ganharam imagem e alt, porque entram no topo da página de projetos.
 export const PECAS = [
-  { slug: 'liga-varzea', nome: 'Liga Várzea FC (exemplo)', href: 'trabalhos/liga-varzea/' },
-  { slug: 'consultorio-exemplo', nome: 'Consultório Exemplo', href: 'trabalhos/consultorio-exemplo/' },
+  {
+    slug: 'liga-varzea', nome: 'Liga Várzea FC (exemplo)', href: 'trabalhos/liga-varzea/',
+    imagem: 'trabalhos/img/liga-varzea.jpg', alt: 'Tela inicial da Liga Várzea FC, com o painel de dados',
+  },
+  {
+    slug: 'consultorio-exemplo', nome: 'Consultório Exemplo', href: 'trabalhos/consultorio-exemplo/',
+    imagem: 'trabalhos/img/consultorio-exemplo.jpg', alt: 'Página inicial do Consultório Exemplo, com a busca de psicólogos',
+  },
 ] as const
+
+/**
+ * Trechos que levam a marcação à mão, um por bloco. O componente parte o texto neles; o teste garante que
+ * cada trecho existe no texto (senão a marcação some sem aviso).
+ */
+export const FRASES_MARCADAS = {
+  promessa: 'Sicoob e Serasa Experian',
+  prototipo: 'antes de fechar',
+  garantia: '30 dias de correção',
+} as const
 
 /** Empresas do bloco "Onde já trabalhei", na ordem de exibição (logos liberados por ele em 14/10/2026). */
 export const SLUGS_EMPRESAS = ['sicoob', 'serasa-experian', 'contabilizei', 'prefeitura-franca', 'wiv'] as const
@@ -44,6 +61,16 @@ export function conteudoHome() {
       titulo: `${n.anos} anos construindo sistemas para Sicoob e Serasa Experian.`,
       subtitulo: 'Agora para o seu negócio, cuidando até do detalhe que ninguém viu.',
       cta: 'Conversar no WhatsApp',
+    },
+    // Tela do 1º bloco no PC (decisão dele, 14/10/2026: "acaba a metade vazia"): um trabalho com o círculo
+    // de caneta em volta do detalhe. `alvo` é a caixa do detalhe na imagem, em % da largura e da altura.
+    vitrine: {
+      slug: 'liga-varzea',
+      href: 'trabalhos/liga-varzea/',
+      imagem: 'trabalhos/img/liga-varzea-detalhe.jpg',
+      alt: 'Painel da Liga Várzea com o valor da API ao lado do valor no banco, esperando conferência',
+      legenda: 'A correção manual sobrevive à sincronização.',
+      alvo: { x: 25.6, y: 71.2, l: 38.4, a: 9.6 },
     },
     prototipo: {
       titulo: 'Veja o seu sistema funcionando antes de fechar.',
@@ -75,6 +102,9 @@ export function conteudoHome() {
         alt: 'Tela do AprovaOS com o histórico de aprovação de uma ordem de serviço',
       },
     ] satisfies Destaque[],
+    empresas: { titulo: 'Onde já trabalhei' },
+    trabalhos: { titulo: 'Trabalhos com o detalhe marcado', verTodos: 'Ver todos os projetos' },
+    como: { titulo: 'Como funciona' },
     passos: [
       { titulo: 'Protótipo antes de fechar', texto: 'Você vê e clica no seu sistema antes de decidir.' },
       { titulo: 'Escopo de 1 página', texto: 'O que entra, o que não entra e o prazo, por escrito.' },

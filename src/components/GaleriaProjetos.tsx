@@ -6,6 +6,8 @@ import { DiagramaMare } from './DiagramaMare'
 import { Logo } from './Logo'
 import { Print, SeloFicticio } from './Print'
 import { comTransicao } from '../lib/transicao'
+import { caminhoPublico } from '../lib/assets'
+import type { Peca } from '../home/lib/universo'
 
 type Filtro = TipoProjeto | 'todos'
 
@@ -100,16 +102,48 @@ function Grade({ itens, aoAbrir }: { itens: ItemProjeto[]; aoAbrir: (slug: strin
 }
 
 /**
+ * Cartão de uma peça navegável de /trabalhos/ (14/10/2026): abre a peça na mesma aba, porque ela tem o
+ * próprio cabeçalho com volta.
+ */
+function CartaoPeca({ peca }: { peca: Peca }) {
+  const base = import.meta.env.BASE_URL
+  return (
+    <article className="cartao-projeto group relative flex h-full flex-col">
+      <div className="moldura-logo relative aspect-[16/10] overflow-hidden rounded-md border border-linha bg-folha shadow-[6px_6px_0_var(--linha)]">
+        <img src={caminhoPublico(base, peca.imagem)} width={1000} height={625} alt={peca.alt} loading="lazy" decoding="async" className="block h-full w-full object-cover object-top" />
+        <SeloFicticio />
+      </div>
+      <h3 className="mt-5 text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]">
+        <a href={caminhoPublico(base, peca.href)} className="text-left group-hover:text-cobalto after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none">
+          {peca.nome}
+        </a>
+      </h3>
+      <p className="prosa mt-1.5 text-[1.06rem] leading-[1.55] text-grafite">Exemplo navegável: dá para clicar e testar.</p>
+    </article>
+  )
+}
+
+/**
  * Galeria da página de projetos: chips de filtro por tipo e três seções no mesmo padrão de card:
  * "Em empresas", "Projetos próprios" e, no fim, "Outros projetos em empresas" (só participação). O clique abre o case do projeto (quem chama cuida do hash).
  */
-export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: string) => void; filtroInicial?: TipoProjeto }) {
+export function GaleriaProjetos({
+  aoAbrir,
+  filtroInicial,
+  pecas = [],
+}: {
+  aoAbrir: (slug: string) => void
+  filtroInicial?: TipoProjeto
+  /** Peças navegáveis, no topo e só em "Todos" (não têm tipo). Entram na contagem de "Todos". */
+  pecas?: readonly Peca[]
+}) {
   const todos = useMemo(listarProjetos, [])
   const [filtro, setFiltro] = useState<Filtro>(filtroInicial ?? 'todos')
   const lista = filtrarProjetos(todos, filtro)
   const { emEmpresas, proprios, outros } = separarGaleria(lista)
+  const pecasVisiveis = filtro === 'todos' ? pecas : []
   const chips: { valor: Filtro; rotulo: string; total: number }[] = [
-    { valor: 'todos', rotulo: 'Todos', total: todos.length },
+    { valor: 'todos', rotulo: 'Todos', total: todos.length + pecas.length },
     ...(Object.keys(tiposProjeto) as TipoProjeto[]).map((t) => ({
       valor: t,
       rotulo: tiposProjeto[t],
@@ -145,13 +179,28 @@ export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: st
         })}
       </div>
       <p aria-live="polite" className="sr-only">
-        {lista.length} projetos
+        {lista.length + pecasVisiveis.length} projetos
       </p>
+
+      {pecasVisiveis.length > 0 && (
+        <section aria-labelledby="pecas-titulo" className="mt-12">
+          <h2 id="pecas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
+            Exemplos navegáveis
+          </h2>
+          <ul className="mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            {pecasVisiveis.map((p) => (
+              <li key={p.slug}>
+                <CartaoPeca peca={p} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Ordem trocada em 08/10/2026 (M11): "Em empresas" sobe e ganha o lugar de primeira seção; os próprios
           descem com título visível; Ecovita e Minu (só participação) ficam no fim, sem destaque. */}
       {emEmpresas.length > 0 && (
-        <section aria-labelledby="empresas-titulo" className="mt-12">
+        <section aria-labelledby="empresas-titulo" className={pecasVisiveis.length > 0 ? 'mt-24 border-t border-linha pt-14' : 'mt-12'}>
           <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2">
             <h2 id="empresas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
               Em empresas

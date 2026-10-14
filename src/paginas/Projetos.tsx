@@ -4,6 +4,7 @@ import { CartaNautica } from '../components/CartaNautica'
 import { Contato } from '../components/Contato'
 import { GaleriaProjetos } from '../components/GaleriaProjetos'
 import { PaginaCase } from '../components/case/PaginaCase'
+import { universoDeProjetos } from '../home/lib/universo'
 import { HASH_PROJETOS, filtroDoHash, hashDoProjeto, projetoDoHash } from '../lib/rota'
 import { listarProjetos, separarGaleria, tiposProjeto, type TipoProjeto } from '../projetos'
 
@@ -13,6 +14,8 @@ import { listarProjetos, separarGaleria, tiposProjeto, type TipoProjeto } from '
  */
 export function PaginaProjetos({ hash }: { hash: string }) {
   const itens = useMemo(listarProjetos, [])
+  // As peças navegáveis entram no topo da galeria: o total da página bate com o número da prova (14/10/2026).
+  const { pecas } = useMemo(() => universoDeProjetos(), [])
   // Ordem de leitura da galeria (Em empresas, próprios, outros), para o "anterior" e o "próximo" do case.
   const ordem = useMemo(() => {
     const s = separarGaleria(itens)
@@ -53,7 +56,7 @@ export function PaginaProjetos({ hash }: { hash: string }) {
           A tela de cada produto e o que ele resolve. Toque em um para ver como foi feito.
         </p>
       </section>
-      <GaleriaProjetos aoAbrir={abrir} filtroInicial={filtroInicial} />
+      <GaleriaProjetos aoAbrir={abrir} filtroInicial={filtroInicial} pecas={pecas} />
       <ComoMontoAgentes />
       <div className="mt-24">
         <Contato />
