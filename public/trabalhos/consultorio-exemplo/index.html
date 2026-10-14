@@ -644,6 +644,14 @@ html.trocando body{touch-action:none;pointer-events:none}
 }
 @media(max-width:959px) and (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(prefers-reduced-motion:reduce){#view,.filters,.sh-bg{transition:none!important}}
+/* WhatsApp do desenvolvedor como faixa fixa, sempre visível, com espaço reservado no fim do conteúdo (nada passa por baixo do botão) */
+.dev,.dev:hover{left:0;right:0;bottom:0;transform:none;width:auto;height:52px;border-radius:0;justify-content:center;padding:0 16px;gap:12px;box-shadow:0 -8px 24px -14px rgba(0,0,0,.5)}
+.dev::before{display:none}
+.dev>span:last-child{display:block!important}
+.dev .wa-c{width:36px;height:36px}
+body{padding-bottom:calc(var(--barra,0px) + 64px + env(safe-area-inset-bottom))}
+@media(max-width:700px){.dev,.dev:hover{left:0;right:0;bottom:calc(var(--barra) + env(safe-area-inset-bottom));height:44px;padding:0 12px;gap:10px}
+ .dev .wa-c{width:32px;height:32px}.dev small{display:none}.toast{bottom:calc(var(--barra) + 64px + env(safe-area-inset-bottom))!important}}
 </style>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-consultorio-exemplo");</script>
 </head>
@@ -909,9 +917,9 @@ const PRO_ART=f=>{const a=Math.round(2*Math.PI*70*(100-f)/100);return `<svg view
 function cardPsi(p){
   return `<article class="pcard">
    <div class="pcard-top" style="background:${BG[p.av.b]}">${avatar(p.av,false)}
-     <span class="crp" title="Última conferência automática: 0${(p.id%5)+3}/10/2026">${ic('shieldc')}CRP verificado</span><span class="price">${brl(p.preco)}</span></div>
+     <span class="crp" title="Última conferência automática: ${CRP_REGRA.ultima}">${ic('shieldc')}CRP verificado</span><span class="price">${brl(p.preco)}</span></div>
    <div class="pcard-b">
-     <div><h3>${p.nome}</h3><div class="meta">${p.ab} · ${p.crp} · ${p.anos} anos de prática</div><div class="meta" style="font-size:13px">Registro conferido em 0${(p.id%5)+3}/10/2026</div></div>
+     <div><h3>${p.nome}</h3><div class="meta">${p.ab} · ${p.crp} · ${p.anos} anos de prática</div><div class="meta" style="font-size:13px">Registro conferido em ${CRP_REGRA.ultima}</div></div>
      <div class="rate">${stars(p.nota)}<b>${p.nota.toFixed(1).replace('.',',')}</b><span class="meta">(${p.n} avaliações)</span></div>
      <p class="quote">${p.q}</p>
      <div class="chips">${p.temas.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
@@ -920,7 +928,7 @@ function cardPsi(p){
    </div></article>`;
 }
 function filtered(){const f=S.filt;return PSIS.filter(p=>(!f.ab||p.ab===f.ab)&&(!f.tema||p.temas.includes(f.tema))&&p.preco<=f.max&&(!f.turno||p.turnos.includes(f.turno)))}
-function renderCards(){const l=filtered();{const ok=$('#f-ok');if(ok)ok.textContent=l.length?`Ver ${l.length} ${l.length===1?'psicólogo':'psicólogos'}`:'Nenhum resultado, ajuste os filtros';const fn=$('#f-n'),k=[S.filt.ab,S.filt.tema,S.filt.turno].filter(Boolean).length+(S.filt.max<200?1:0);if(fn)fn.textContent=k?` (${k})`:''}$('#count').textContent=`${l.length} ${l.length===1?'psicólogo encontrado':'psicólogos encontrados'}`;
+function renderCards(){const l=filtered();{const ok=$('#f-ok');if(ok)ok.textContent=l.length?`Ver ${l.length} ${l.length===1?'psicólogo':'psicólogos'}`:'Nenhum resultado, ajuste os filtros';const fn=$('#f-n'),k=[S.filt.ab,S.filt.tema,S.filt.turno].filter(Boolean).length+(S.filt.max<200?1:0);if(fn)fn.textContent=k?` (${k})`:''}$('#count').textContent=`${l.length} de 57 psicólogos (perfis de exemplo)`;
   $('#cards').innerHTML=l.length?l.map(cardPsi).join(''):`<div class="empty" style="grid-column:1/-1"><b>Nenhum perfil com esses filtros.</b><p class="meta mt">Aumente o valor máximo ou tire o filtro de horário.</p><button class="btn btn-g btn-sm mt" id="clr">Limpar filtros</button></div>`}
 const abs=[...new Set(PSIS.map(p=>p.ab))],temas=[...new Set(PSIS.flatMap(p=>p.temas))].sort();
 
@@ -1272,7 +1280,7 @@ function psi(){
     const prox=lista.find(c=>c.h>HOJE.agora);
     const mins=prox?(+prox.h.slice(0,2)*60+ +prox.h.slice(3))-(+HOJE.agora.slice(0,2)*60+ +HOJE.agora.slice(3)):0;
     b=`<h2 class="ttl">Consultas de hoje</h2><p class="lead">${cap1(NSEM[wdN(HOJE.d)])}, ${HOJE.d} de outubro. Pacientes identificados só pelo primeiro nome e inicial.</p>
-    <div class="grid-k"><div class="kpi hl"><span>${ic('today')}Hoje</span><b>${lista.length} sessões</b><small>${pagas} pagas</small></div><div class="kpi"><span>${ic('clock')}Próxima</span><b>${prox?prox.h:'—'}</b><small>${prox?'em '+mins+' min':''}</small></div><div class="kpi"><span>${ic('wallet')}A receber hoje</span><b>${brl(me.preco*pagas*(100-fee)/100)}</b><small>já descontada a taxa</small></div><div class="kpi"><span>${ic('star')}Sua média</span><b>${me.nota.toFixed(1).replace('.',',')}</b><small>${me.n} avaliações</small></div></div>
+    <div class="grid-k"><div class="kpi hl"><span>${ic('today')}Hoje</span><b>${lista.length} sessões</b><small>${pagas} pagas</small></div><div class="kpi"><span>${ic('clock')}Próxima</span><b>${prox?prox.h:'—'}</b><small>${prox?'em '+mins+' min':''}</small></div><div class="kpi"><span>${ic('wallet')}Gerado hoje</span><b>${brl(me.preco*pagas*(100-fee)/100)}</b><small>cai em ${ddmm(proxSex(HOJE.d))} · já descontada a taxa</small></div><div class="kpi"><span>${ic('star')}Sua média</span><b>${me.nota.toFixed(1).replace('.',',')}</b><small>${me.n} avaliações</small></div></div>
     <div class="panel mt"><div class="list">${lista.map((c,i)=>`<div class="row"><b style="font-family:var(--f-d);font-size:22px;min-width:64px">${c.h}</b>${avatar({s:i+1,h:i,b:i+2,c:i+1,hair:i%5})}<div class="grow"><b>${c.pac}</b><small>${c.pg==='pendente'?'Aguardando pagamento':tipoC(c)}</small></div>
      ${c.pg==='pendente'?`<span class="pill p-warn">Aguardando pagamento</span>`:`<button class="btn btn-wa btn-sm" data-wa-psi="${c.pac}">${WA}Abrir no WhatsApp</button><button class="btn btn-g btn-sm" data-done>${ic('check')}Realizada</button>`}</div>`).join('')}</div></div>`;
   }
@@ -1296,7 +1304,7 @@ function psi(){
     const UL=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.d<HOJE.d).sort((a,b)=>-ordC(a,b))[0];
     const crit=['Chegou no horário','Respeitou os combinados','Conexão estável'];
     b=S.ratedPsi?`<div class="panel done"><div class="big-ic">${ic('check')}</div><h3>Avaliação registrada</h3><p>Fica visível só para a equipe da plataforma. Ajuda a cuidar de faltas, atrasos e problemas de conexão.</p><button class="btn btn-g" data-tab="hoje">Voltar às consultas</button></div>`
-    :`<h2 class="ttl">Avaliar o paciente</h2><p class="lead">Sessão de ontem, ${ddmm(UL.d)} às ${UL.h}, com ${UL.pac}. Avaliação interna, o paciente não vê.</p>
+    :`<h2 class="ttl">Avaliar o paciente</h2><p class="lead">Sessão de ontem, ${ddmm(UL.d)} às ${UL.h}, com ${UL.pac}${UL.pac.endsWith('.')?'':'.'} Avaliação interna, o paciente não vê.</p>
     <div class="alert info" style="margin-bottom:14px">${ic('lock')}<span><b>Só aparecem aqui sessões realizadas</b><small>As ${CONSULTAS.filter(c=>c.psi===1&&c.d===HOJE.d&&ativa(c)).length} sessões de hoje liberam a avaliação quando você marcar como realizadas.</small></span></div>
     <div class="panel"><div class="list">${crit.map((c,i)=>`<div class="row"><div class="grow"><b>${c}</b></div><div class="pay-t" style="margin:0;flex:0 0 auto"><button data-yn="${i}-s" aria-pressed="${(S.yn||{})[i]==='s'}">${ic('check')}Sim</button><button data-yn="${i}-n" aria-pressed="${(S.yn||{})[i]==='n'}">${ic('x')}Não</button></div></div>`).join('')}</div>
     <label class="fld mt">Observação para a equipe (sem conteúdo clínico)<textarea rows="3" placeholder="Ex.: entrou 15 minutos atrasado e pediu para remarcar"></textarea></label>
@@ -1398,7 +1406,7 @@ function trocar(f,jaTravado){
   fechaFiltros(true);
   if(REDUCED){f();topo();focaTitulo();soltar();return}
   travar();const t=setTimeout(soltar,1200);const fim=()=>{clearTimeout(t);soltar()};
-  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});if(v.ready)v.ready.catch(()=>{});v.updateCallbackDone.then(focaTitulo,focaTitulo);v.finished.then(fim,fim)}
+  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});if(v.ready)v.ready.catch(()=>{});v.updateCallbackDone.then(focaTitulo,focaTitulo).catch(()=>{});v.finished.then(fim,fim).catch(()=>{})}
   else{view.classList.add('sai');setTimeout(()=>{f();topo();view.classList.remove('sai');focaTitulo();setTimeout(fim,320)},140)}
 }
 function vt(f){trocar(f)}
@@ -1492,8 +1500,8 @@ render();
 })();
 /* no celular, o WhatsApp flutuante some enquanto o formulário de busca está na tela, para nunca cobrir o botão Buscar */
 (function(){const d=document.querySelector('.dev');if(!d)return;d.style.transition='opacity .2s';
-function chk(){const f=document.querySelector('.finder'),ft=document.querySelector('footer');let h=false;if(f&&innerWidth<700){const r=f.getBoundingClientRect();h=r.bottom>0&&r.top<innerHeight}if(ft){const r=ft.getBoundingClientRect();if(r.top<innerHeight-10&&r.bottom>0)h=true}
-  if(!h){const r=d.getBoundingClientRect();for(const fx of [.12,.5,.88])for(const fy of [.12,.5,.88]){const x=r.left+r.width*fx,y=r.top+r.height*fy;if(document.elementsFromPoint(x,y).some(e=>!d.contains(e)&&e.matches&&e.matches('.pill,button,a,td,th,b,small,input,select,textarea,h1,h2,h3,li,.kpi,.row,.tb,.wk')))h=true}}d.style.opacity=h?'0':'';d.style.pointerEvents=h?'none':''}
+function chk(){const f=document.querySelector('.finder'),ft=document.querySelector('footer'),dr=d.getBoundingClientRect(),ov=r=>Math.min(r.bottom,dr.bottom)-Math.max(r.top,dr.top)>10;let h=false;if(f&&ov(f.getBoundingClientRect()))h=true;if(ft&&ov(ft.getBoundingClientRect()))h=true
+  d.style.opacity=h?'0':'';d.style.pointerEvents=h?'none':''}
 addEventListener('scroll',chk,{passive:true});addEventListener('resize',chk);d.style.transition='opacity .15s';new MutationObserver(chk).observe(document.getElementById('view')||document.body,{childList:true,subtree:true});chk()})();
 </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
