@@ -5,7 +5,7 @@ Uso: ~/.local/share/patrimonio/pwenv/bin/python scripts/medir_site.py <url-base>
 
 Mede, em 390x844, 1280x800 e 1440x900 e nos temas claro e escuro: rolagem lateral, colisão com o
 WhatsApp flutuante, alvos de toque, marcações animadas, gutter do h1, reduced-motion, orçamento de
-rolagem, visibilidade do flutuante, CLS, quadros longos e rotas. Imprime uma linha por verificação
+rolagem, visibilidade do flutuante, CLS, quadros longos, rotas e se a rolagem volta sozinha (check 12). Imprime uma linha por verificação
 e termina com código 1 se houver qualquer falha. Nenhum efeito colateral na importação.
 """
 from __future__ import annotations
@@ -85,6 +85,57 @@ def erro_proprio(msg) -> bool:
     url = (msg.location or {}).get("url", "") or ""
     # Erros de CORS/rede da telemetria vêm com a página como origem, então o host também é procurado no texto.
     return not any(t in url or t in msg.text for t in TERCEIROS)
+
+
+def rolagem_nao_volta(pg, w: int, h: int, cel: bool) -> tuple[str, bool, str]:
+    """Check 12: rola com a roda do mouse em passos de 120 px, esperando 400 ms depois de cada passo.
+
+    No PC (sem encaixe) o scrollY nunca pode diminuir e a rolagem tem de chegar ao fim. No celular o encaixe por
+    seção é permitido, mas um recuo nunca pode passar do início da seção em que a página estava (no máximo 1 seção
+    para trás); ali o fim é conferido com arrastos de toque de 300 px (CDP synthesizeScrollGesture), porque o
+    encaixe devolve passos curtos de 120 px ao começo da seção, e isso é informado no detalhe.
+
+    :returns: (nome, ok, detalhe) para o relatório.
+    """
+    pg.mouse.move(w / 2, h / 2)
+    tops = pg.evaluate("[...document.querySelectorAll('.home > .secao')].map(s => Math.round(s.getBoundingClientRect().top + scrollY))")
+    maxs = pg.evaluate("document.documentElement.scrollHeight - innerHeight")
+    y = pg.evaluate("scrollY")
+    recuos: list[str] = []
+    passos = 0
+    limite = 40 if cel else 200
+    while y < maxs - 2 and passos < limite:
+        pg.mouse.wheel(0, 120)
+        pg.wait_for_timeout(400)
+        novo = pg.evaluate("scrollY")
+        passos += 1
+        if novo < y - 1:
+            inicio = max([t for t in tops if t <= y + 1] or [0])
+            if not cel or novo < inicio - 2:
+                recuos.append(f"{y:.0f}->{novo:.0f}")
+        y = novo
+    chegou_roda = y >= maxs - 2
+    if not cel:
+        return ("12 rolagem não volta sozinha", chegou_roda and not recuos,
+                f"{passos} passos de 120px, fim={'sim' if chegou_roda else 'não'} (y={y:.0f}/{maxs}), recuos={recuos[:6]}")
+    # Celular: o fim com arrastos de toque de 300 px, também sem recuo além do começo da seção.
+    pg.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
+    pg.wait_for_timeout(400)
+    cdp = pg.context.new_cdp_session(pg)
+    yt = pg.evaluate("scrollY")
+    arrastos = 0
+    while yt < maxs - 2 and arrastos < 40:
+        cdp.send("Input.synthesizeScrollGesture", {"x": w / 2, "y": h * 0.7, "yDistance": -300, "gestureSourceType": "touch", "speed": 600})
+        pg.wait_for_timeout(400)
+        novo = pg.evaluate("scrollY")
+        arrastos += 1
+        if novo < yt - 1 and novo < max([t for t in tops if t <= yt + 1] or [0]) - 2:
+            recuos.append(f"toque {yt:.0f}->{novo:.0f}")
+        yt = novo
+    chegou = yt >= maxs - 2
+    return ("12 rolagem não volta sozinha (encaixe recua no máximo 1 seção)", chegou and not recuos,
+            f"roda 120px: {passos} passos, y final={y:.0f}/{maxs}; toque 300px: {arrastos} arrastos, fim={'sim' if chegou else 'não'}; "
+            f"recuos além de 1 seção={recuos[:6]}")
 
 
 def contexto(nav, nome_l: str, tema: str, **extra):
@@ -230,6 +281,15 @@ def main() -> int:
                         pg.screenshot(path=str(pasta / f"home-{nome_l}-{tema}.png"))
                         medida("0 sem erros de console na home", not erros, f"{erros[:3]}")
                     ctx.close()
+
+                    # 12. rolagem não volta sozinha (reclamação dele, 14/10/2026: "no PC o site fica rolando para cima").
+                    with bloco("12 rolagem não volta", nome_l, tema):
+                        ctx = contexto(nav, nome_l, tema)
+                        pg = ctx.new_page()
+                        pg.goto(base, wait_until="load")
+                        pg.wait_for_timeout(1500)
+                        medida(*rolagem_nao_volta(pg, w, h, cel))
+                        ctx.close()
 
                     # 6. reduced-motion
                     with bloco("6 reduced-motion", nome_l, tema):

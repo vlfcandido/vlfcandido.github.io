@@ -20,11 +20,18 @@
   @media (min-width: 768px) { :root { --cabecalho: 105px; --espiada: 24px; } }
   @media (min-width: 1024px) { :root { --cabecalho: 65px; } }
 
-  html { scroll-snap-type: y proximity; scroll-padding-top: var(--cabecalho); }
+  html { scroll-padding-top: var(--cabecalho); }
+  /* Encaixe vertical por seção só no celular (spec §7). 14/10/2026, reclamação dele ("no PC o site fica rolando
+     para cima toda hora"): antes `html { scroll-snap-type: y proximity }` valia em toda largura, e no PC, com os
+     blocos lado a lado, cada rolagem curta era puxada de volta para o começo da seção. No PC a rolagem é livre. */
+  @media (max-width: 767px) {
+    html { scroll-snap-type: y proximity; }
+    .home > .secao { scroll-snap-align: start; }
+  }
 
   /* Composição: no celular, uma coluna na ordem do HTML; no PC, 3 colunas com os blocos lado a lado. */
   .home { display: grid; grid-template-columns: minmax(0, 1fr); }
-  .home > .secao { scroll-snap-align: start; padding-block: 40px; }
+  .home > .secao { padding-block: 40px; }
   .home > .secao + .secao { border-top: 1px solid var(--linha); }
   .home h1, .home h2, .home h3 { text-wrap: balance; }
   .home p { text-wrap: pretty; }
