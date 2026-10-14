@@ -1,22 +1,33 @@
-import { useEffect, useState } from 'react'
+// WhatsApp flutuante do site novo (14/10/2026). Antes: faixa fixa no pé da tela com "Chamar no WhatsApp" (até
+// 09/10/2026, LinkedIn), que escondia quando o botão da abertura ou o do contato estavam à vista.
+import { useEffect, useRef, useState } from 'react'
 import { WHATSAPP } from '../lib/whatsapp'
 import { IconeConversa } from './IconeConversa'
-import { LinkExterno } from './LinkExterno'
-
-/** Botões de contato que, quando estão na tela, dispensam o fixo (para nunca haver dois juntos). */
-const ALVOS = ['cta-principal', 'contato-cta']
 
 /**
- * Botão fixo no rodapé da tela, só no celular: o WhatsApp a um toque em qualquer ponto da página.
- * Some enquanto o botão da abertura ou o do contato está à vista, para não haver dois juntos.
- * Antes (até 09/10/2026) era o LinkedIn, no mesmo lugar e com o mesmo comportamento.
+ * Seletores do que, na tela, dispensa o flutuante: o cabeçalho (que já tem o WhatsApp), a chamada final da home
+ * (`#quem`), o contato da página de projetos e o rodapé (para nunca cobrir os links dele).
+ */
+const DISPENSAM = ['header.cabecalho', '#quem', '#contato-cta', 'footer.rodape']
+
+/** Quanto dura o anel de sucesso depois do toque (igual a --mov-lento). */
+const ANEL_MS = 400
+
+/**
+ * Círculo de 56 px com o WhatsApp no canto inferior direito, só no celular (no tablet e no PC o cabeçalho
+ * acompanha a rolagem com o próprio botão). Some enquanto o cabeçalho, a chamada final, o contato ou o rodapé
+ * estão na tela, para nunca haver dois WhatsApp juntos nem cobrir a chamada final.
+ *
+ * @param props.rota página atual: a cada troca, a lista do que observar é refeita (o DOM é outro).
  */
 export function ContatoFixo({ rota }: { rota: string }) {
-  const [visivel, setVisivel] = useState(true)
+  const [visivel, setVisivel] = useState(false)
+  const [enviado, setEnviado] = useState(false)
+  const timer = useRef(0)
 
   useEffect(() => {
-    const alvos = ALVOS.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el))
-    if (alvos.length === 0 || typeof IntersectionObserver === 'undefined') {
+    const alvos = DISPENSAM.flatMap((s) => [...document.querySelectorAll(s)])
+    if (!('IntersectionObserver' in window)) {
       setVisivel(true)
       return
     }
@@ -32,21 +43,30 @@ export function ContatoFixo({ rota }: { rota: string }) {
     return () => obs.disconnect()
   }, [rota])
 
+  useEffect(() => () => window.clearTimeout(timer.current), [])
+
+  /** Microanimação de sucesso: o anel sai do botão quando a conversa abre. */
+  function aoTocar() {
+    setEnviado(true)
+    window.clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setEnviado(false), ANEL_MS)
+  }
+
   return (
-    <div
+    <a
+      href={WHATSAPP}
+      target="_blank"
+      rel="noopener"
+      onClick={aoTocar}
+      data-flutuante=""
+      data-visivel={visivel}
+      data-enviado={enviado}
       aria-hidden={!visivel}
-      inert={!visivel}
-      className={`fixed inset-x-0 bottom-0 z-20 border-t border-linha bg-nevoa/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur transition-transform duration-300 motion-reduce:transition-none sm:hidden ${
-        visivel ? 'translate-y-0' : 'translate-y-full'
-      }`}
+      tabIndex={visivel ? undefined : -1}
+      className="flutuante"
     >
-      <LinkExterno
-        href={WHATSAPP}
-        className="botao-acao flex items-center justify-center gap-2.5 rounded-full bg-cobalto py-3 text-[1.05rem] font-semibold text-nevoa"
-      >
-        <IconeConversa />
-        Chamar no WhatsApp
-      </LinkExterno>
-    </div>
+      <IconeConversa tamanho={28} />
+      <span className="sr-only">Conversar no WhatsApp (abre em nova aba)</span>
+    </a>
   )
 }

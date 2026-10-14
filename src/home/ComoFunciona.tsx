@@ -13,7 +13,7 @@ export function ComoFunciona() {
       <h2 className="titulo-bloco">{como.titulo}</h2>
       <ol className="mt-4 grid lg:mt-8 lg:grid-cols-5 lg:gap-x-6">
         {passos.map((p, i) => (
-          <li key={p.titulo} className="grid grid-cols-[2rem_1fr] items-baseline gap-x-2 border-t border-linha py-2 lg:block lg:py-4">
+          <li key={p.titulo} className="passo grid grid-cols-[2rem_1fr] items-baseline gap-x-2 border-t border-linha py-2 lg:block lg:py-4">
             <span className="numero-passo text-2xl lg:text-4xl" aria-hidden="true">
               {i + 1}
             </span>

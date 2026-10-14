@@ -69,7 +69,9 @@ export function conteudoHome() {
       href: 'trabalhos/liga-varzea/',
       imagem: 'trabalhos/img/liga-varzea-detalhe.jpg',
       alt: 'Painel da Liga Várzea com o valor da API ao lado do valor no banco, esperando conferência',
-      legenda: 'A correção manual sobrevive à sincronização.',
+      // 14/10/2026: legenda própria da tela do painel. Antes: 'A correção manual sobrevive à sincronização.', que
+      // repetia ao pé da letra o detalhe do 1º cartão logo abaixo.
+      legenda: 'O valor novo da API espera alguém conferir antes de trocar o do banco.',
       alvo: { x: 25.6, y: 71.2, l: 38.4, a: 9.6 },
     },
     prototipo: {
@@ -78,6 +80,9 @@ export function conteudoHome() {
         'Em vez de uma proposta em texto, você recebe um protótipo navegável com a cara do seu negócio. Dá para clicar, testar e decidir com o sistema na mão.',
       exemploHref: 'trabalhos/consultorio-exemplo/',
       exemploRotulo: 'Abrir um exemplo navegável',
+      // 14/10/2026: a página inicial do consultório (a "cara do negócio"); o cartão do consultório passou a
+      // mostrar a tela do CRP, que é a do detalhe dele. Antes os dois usavam consultorio-exemplo.jpg.
+      imagem: 'trabalhos/img/consultorio-exemplo.jpg',
     },
     destaques: [
       {
@@ -91,7 +96,7 @@ export function conteudoHome() {
         slug: 'consultorio-exemplo', nome: 'Consultório Exemplo',
         dor: 'Paciente só marca terapia online quando confia em quem atende.',
         detalhe: 'O CRP é reconferido todo mês, e perfil irregular sai da busca com a agenda pausada.',
-        href: 'trabalhos/consultorio-exemplo/', imagem: 'trabalhos/img/consultorio-exemplo.jpg',
+        href: 'trabalhos/consultorio-exemplo/', imagem: 'trabalhos/img/consultorio-exemplo-detalhe.jpg',
         alt: 'Painel de verificação de CRP com um registro irregular em destaque',
       },
       {

@@ -10,9 +10,15 @@
     --raio-p: 8px; --raio-m: 16px; --raio-pilula: 999px;
     --sombra-1: 0 1px 2px rgb(0 0 0 / .06), 0 8px 24px -12px rgb(0 0 0 / .18);
     --sombra-2: 0 2px 4px rgb(0 0 0 / .06), 0 24px 48px -16px rgb(0 0 0 / .28);
-    /* Altura do cabeçalho no topo: a tela útil de cada bloco no celular é o resto. */
-    --cabecalho: 96px;
+    /* Altura do cabeçalho que acompanha a rolagem (casca.css) e a espiadinha da próxima tela. Recalibrado em
+       14/10/2026 para o cabeçalho novo; antes 96px fixo (régua da Maré, sticky também no celular). No celular o
+       cabeçalho é estático, então não ocupa a tela de cada bloco: a reserva vira só a espiadinha (120 px, o
+       mesmo resto de antes, 96 + 24). */
+    --cabecalho: 0px;
+    --espiada: 120px;
   }
+  @media (min-width: 768px) { :root { --cabecalho: 105px; --espiada: 24px; } }
+  @media (min-width: 1024px) { :root { --cabecalho: 65px; } }
 
   html { scroll-snap-type: y proximity; scroll-padding-top: var(--cabecalho); }
 
@@ -25,7 +31,7 @@
 
   @media (max-width: 1023px) {
     /* Uma tela por papel; o que sobra embaixo é a espiadinha da próxima. */
-    .home > .tela { min-height: calc(100svh - var(--cabecalho) - 24px); display: flex; flex-direction: column; justify-content: center; }
+    .home > .tela { min-height: calc(100svh - var(--cabecalho) - var(--espiada)); display: flex; flex-direction: column; justify-content: center; }
     /* Empresas e Como funciona dividem a 4ª tela. */
     .home > #empresas { padding-bottom: 24px; }
     .home > #como { padding-top: 24px; scroll-snap-align: none; }
@@ -50,7 +56,11 @@
     background: var(--sol); color: var(--on-sol); font-weight: 600; }
   .link-secundario { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 20px; border-radius: var(--raio-pilula);
     border: 1px solid var(--linha); background: var(--papel-alto); color: var(--fundo); font-weight: 600; }
-  .seta { display: inline-block; transition: transform var(--mov-padrao) var(--mola); }
+  /* Alinhamento óptico da seta (§13): medido no Chromium, a tinta do "→" e do "↗" da Inter 600 fica centrada na
+     altura das maiúsculas (5,8 px a 16 px), acima do meio do x (4,4 px), e a seta parecia alta ao lado do texto em
+     minúsculas. Desce 0,04em (≈ 0,6 px a 16 px) até o meio entre os dois. `translate` à parte do `transform`, para o
+     deslize do hover não desfazer o ajuste. */
+  .seta { display: inline-block; translate: 0 .04em; transition: transform var(--mov-padrao) var(--mola); }
 
   .cartao { display: flex; flex-direction: column; height: 100%; background: var(--papel-alto); border: 1px solid var(--linha);
     border-radius: var(--raio-m); overflow: hidden; }

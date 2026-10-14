@@ -43,9 +43,6 @@ describe('textos fixos das telas', () => {
       '13 anos construindo sistemas para Sicoob e Serasa Experian. Veja o seu sistema funcionando antes de fechar.',
     )
   })
-  it('subtítulo das provas fala de órgãos públicos a grandes marcas (M9)', () => {
-    const prova = ler('src/components/Prova.tsx')
-    expect(prova).toContain(', de órgãos públicos a grandes marcas.')
-    expect(prova).not.toMatch(/^\s*, com chatbots e análise de conversas\./m)
-  })
+  // 14/10/2026: saiu o caso "subtítulo das provas (M9)", que lia src/components/Prova.tsx; o bloco de provas da home
+  // antiga foi apagado com o site novo (o texto da prova agora vive em src/home/conteudo.ts, com teste próprio).
 })

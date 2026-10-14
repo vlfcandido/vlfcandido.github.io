@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react'
-import { comTransicao } from '../lib/transicao'
+import { useState } from 'react'
+import { comTransicao, temViewTransition, poucoMovimento } from '../lib/transicao'
 
 type Tema = 'claro' | 'escuro'
+
+/** Cor da barra do navegador em cada tema (a mesma do papel; ver index.html). */
+const COR_DA_BARRA: Record<Tema, string> = { claro: '#f7f4ee', escuro: '#161512' }
 
 /** Tema em uso agora: o escolhido pela pessoa ou, sem escolha, o do sistema. */
 function temaAtual(): Tema {
@@ -10,19 +13,34 @@ function temaAtual(): Tema {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro'
 }
 
-/** Alterna entre claro e escuro e lembra a escolha neste navegador. */
-export function BotaoTema() {
-  const [tema, setTema] = useState<Tema>('claro')
+/** A barra do navegador acompanha o tema escolhido (as metas do index.html só seguem o tema do sistema). */
+function pintarBarra(tema: Tema) {
+  for (const meta of document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')) meta.content = COR_DA_BARRA[tema]
+}
 
-  useEffect(() => setTema(temaAtual()), [])
+/**
+ * Alterna entre claro e escuro e lembra a escolha neste navegador. Sem piscar (§13): o estado inicial já sai do
+ * tema aplicado pelo index.html antes da pintura (antes começava em "claro" e trocava o ícone depois de montar);
+ * com View Transition o site inteiro esmaece de uma vez; sem ela, as transições de cor ficam desligadas por um
+ * quadro, para nada trocar de cor em tempos diferentes.
+ */
+export function BotaoTema() {
+  const [tema, setTema] = useState<Tema>(temaAtual)
 
   function alternar() {
     const novo: Tema = tema === 'escuro' ? 'claro' : 'escuro'
-    // Troca de tema como um esmaecer do site inteiro (View Transition); sem suporte, troca direta.
-    comTransicao(() => {
-      document.documentElement.dataset.tema = novo
+    const raiz = document.documentElement
+    const aplicar = () => {
+      raiz.dataset.tema = novo
+      pintarBarra(novo)
       setTema(novo)
-    }, 'tema')
+    }
+    if (temViewTransition() && !poucoMovimento()) comTransicao(aplicar, 'tema')
+    else {
+      raiz.dataset.trocandoTema = ''
+      aplicar()
+      requestAnimationFrame(() => requestAnimationFrame(() => delete raiz.dataset.trocandoTema))
+    }
     try {
       localStorage.setItem('tema', novo)
     } catch {
@@ -32,14 +50,8 @@ export function BotaoTema() {
 
   const rotulo = tema === 'escuro' ? 'Usar tema claro' : 'Usar tema escuro'
   return (
-    <button
-      type="button"
-      onClick={alternar}
-      aria-label={rotulo}
-      title={rotulo}
-      className="grid size-9 place-items-center rounded-full text-grafite hover:bg-folha hover:text-tinta"
-    >
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <button type="button" onClick={alternar} aria-label={rotulo} title={rotulo} data-tema={tema} className="botao-tema toque">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
         {tema === 'escuro' ? (
           <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
             <circle cx="12" cy="12" r="4.2" />

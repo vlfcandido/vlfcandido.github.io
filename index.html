@@ -38,10 +38,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script>
-      // Aplica o tema salvo antes da pintura, para não piscar.
+      // Aplica o tema salvo antes da pintura, para não piscar; a barra do navegador vai junto (14/10/2026).
       try {
         var t = localStorage.getItem('tema')
-        if (t === 'claro' || t === 'escuro') document.documentElement.dataset.tema = t
+        if (t === 'claro' || t === 'escuro') {
+          document.documentElement.dataset.tema = t
+          document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+            m.content = t === 'escuro' ? '#161512' : '#f7f4ee'
+          })
+        }
       } catch (e) {}
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />

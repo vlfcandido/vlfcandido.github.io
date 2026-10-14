@@ -9,7 +9,8 @@ import { Marcacao } from './Marcacao'
 
 /**
  * Faz os números contarem de 0 até o valor (~600 ms) quando a linha assenta inteira na tela.
- * Sem JS, ou com reduced-motion, o número final do HTML fica como está.
+ * O texto que o React escreveu (o número final) só é trocado dentro da animação: até a linha assentar, e se ela
+ * nunca assentar, o número final fica como está. Sem JS, ou com reduced-motion, nada é tocado.
  */
 function useContagemAoAssentar(ref: RefObject<HTMLDivElement | null>) {
   useEffect(() => {
@@ -17,15 +18,18 @@ function useContagemAoAssentar(ref: RefObject<HTMLDivElement | null>) {
     if (!linha || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return
     const alvos = [...linha.querySelectorAll<HTMLElement>('[data-valor]')]
     const finais = alvos.map((el) => Number(el.dataset.valor))
-    alvos.forEach((el) => (el.textContent = '0'))
+    const escrever = (k: number) => alvos.forEach((el, i) => (el.textContent = String(Math.round(finais[i] * k))))
     let id = 0
+    let contando = false
     const contar = () => {
+      contando = true
       const inicio = performance.now()
+      escrever(0)
       const passo = (t: number) => {
         const f = Math.min((t - inicio) / 600, 1)
-        const k = 1 - (1 - f) ** 3
-        alvos.forEach((el, i) => (el.textContent = String(Math.round(finais[i] * k))))
+        escrever(1 - (1 - f) ** 3)
         if (f < 1) id = requestAnimationFrame(passo)
+        else contando = false
       }
       id = requestAnimationFrame(passo)
     }
@@ -39,12 +43,16 @@ function useContagemAoAssentar(ref: RefObject<HTMLDivElement | null>) {
     return () => {
       obs.disconnect()
       cancelAnimationFrame(id)
-      alvos.forEach((el, i) => (el.textContent = String(finais[i])))
+      // Interrompida no meio (troca de página, StrictMode): devolve o número final que o React escreveu.
+      if (contando) escrever(1)
     }
   }, [ref])
 }
 
-/** Tela de um trabalho com o círculo de caneta em volta do detalhe (só no PC). */
+/**
+ * Tela de um trabalho com o círculo de caneta em volta do detalhe (só no PC). A imagem é `lazy`: no celular a
+ * vitrine fica em `display: none` e o navegador nem baixa o arquivo.
+ */
 function Vitrine() {
   const { vitrine } = conteudoHome()
   const base = import.meta.env.BASE_URL
@@ -59,7 +67,7 @@ function Vitrine() {
             <i />
           </div>
           <div className="imagem-reservada relative aspect-[1000/625]">
-            <img src={caminhoPublico(base, vitrine.imagem)} width={1000} height={625} alt={vitrine.alt} decoding="async" className="block h-full w-full" />
+            <img src={caminhoPublico(base, vitrine.imagem)} width={1000} height={625} alt={vitrine.alt} loading="lazy" decoding="async" className="block h-full w-full" />
             <span className="vitrine-alvo" style={{ left: `${x}%`, top: `${y}%`, width: `${l}%`, height: `${a}%` }} aria-hidden="true">
               <Marcacao tipo="circulo" semente={4}>
                 {''}

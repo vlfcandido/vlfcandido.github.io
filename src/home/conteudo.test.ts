@@ -37,6 +37,16 @@ describe('conteúdo da home', () => {
   it('as imagens dos destaques existem em public/', () => {
     for (const d of c.destaques) expect(existsSync(`public/${d.imagem}`), d.imagem).toBe(true)
   })
+  // 14/10/2026 (revisão da Task 5): no PC a mesma tela aparecia duas vezes (vitrine e 1º cartão; protótipo e 2º).
+  it('nenhuma tela se repete na home (vitrine, protótipo e destaques)', () => {
+    const telas = [c.vitrine.imagem, c.prototipo.imagem, ...c.destaques.map((d) => d.imagem)]
+    expect(new Set(telas).size).toBe(telas.length)
+    for (const t of telas) expect(existsSync(`public/${t}`), t).toBe(true)
+  })
+  it('a legenda da vitrine não repete o detalhe de um cartão', () => {
+    const legenda = c.vitrine.legenda.replace(/\.$/, '').toLowerCase()
+    for (const d of c.destaques) expect(d.detalhe.toLowerCase()).not.toContain(legenda)
+  })
   it('nenhum destaque cita nome do material original das peças', () =>
     expect(tudo.toLowerCase()).not.toMatch(/terceira|fdt|nome-privado/))
 })

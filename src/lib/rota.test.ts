@@ -62,3 +62,11 @@ describe('movimentoDaTroca', () => {
     expect(movimentoDaTroca('#/projetos/aprovaos', '#/')).toBe('pagina')
   })
 })
+
+describe('site novo (14/10/2026)', () => {
+  it('rotas antigas continuam abrindo depois do site novo', () => {
+    expect(rotaDoHash('#/projetos/aprovaos')).toBe('projetos')
+    expect(projetoDoHash('#/projetos/aprovaos')).toBe('aprovaos')
+    for (const antiga of Object.keys(ANCORAS_ANTIGAS)) expect(hashAtual(antiga)).not.toBeNull()
+  })
+})

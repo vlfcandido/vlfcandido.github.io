@@ -4,8 +4,11 @@
  * é reservado desde o início. Com `prefers-reduced-motion`, ou sem `IntersectionObserver`, nada acontece.
  */
 
-/** Cartões que entram em sequência (logos, pacotes, cases e projetos). */
-export const CARTOES = '.pacote, .cartao-caso, .cartao-projeto, li:has(> .logo-botao)'
+/**
+ * Cartões que entram em sequência: os trabalhos e os passos da home nova (14/10/2026).
+ * Antes: '.pacote, .cartao-caso, .cartao-projeto, li:has(> .logo-botao)' (home antiga e galeria).
+ */
+export const CARTOES = '.cartao, .passo'
 
 /** Intervalo entre um cartão e o seguinte. */
 export const ESCALONAMENTO_MS = 60
@@ -56,7 +59,8 @@ function unidadesDe(raiz: ParentNode, altura: number): Unidade[] {
   for (const c of raiz.querySelectorAll<HTMLElement>(CARTOES)) {
     // Dentro de uma área recolhida ("Ver todas as empresas") o cartão nunca cruza a tela: ficaria preso escondido.
     if (c.closest('.expansivel')) continue
-    const pai = c.parentElement
+    // O grupo é a lista em volta (o cartão da home é o link dentro do <li>), para o escalonamento correr na fila.
+    const pai = c.parentElement?.closest('ul, ol') ?? c.parentElement
     if (pai) grupos.set(pai, [...(grupos.get(pai) ?? []), c])
   }
   for (const [pai, cartoes] of grupos) {

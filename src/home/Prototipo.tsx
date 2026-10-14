@@ -41,7 +41,7 @@ export function Prototipo() {
             <i />
           </div>
           <img
-            src={caminhoPublico(base, 'trabalhos/img/consultorio-exemplo.jpg')}
+            src={caminhoPublico(base, prototipo.imagem)}
             width={1000}
             height={625}
             alt=""
