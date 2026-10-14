@@ -181,13 +181,14 @@ body{padding-bottom:84px}
 .trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:26px;font-size:15px;color:var(--muted)}
 .trust span{display:flex;gap:8px;align-items:center}
 .trust svg{width:20px;height:20px;color:var(--pine)}
-.selo-nota{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;max-width:46ch;font-size:14.5px;line-height:1.45;color:var(--ink);background:var(--ok-soft);border-radius:14px}
+.selo-nota{display:flex;gap:10px;align-items:flex-start;margin:-6px 0 18px;padding:12px 14px;max-width:46ch;font-size:14.5px;line-height:1.45;color:var(--ink);background:var(--ok-soft);border-radius:14px}
 .selo-nota svg{flex:none;width:20px;height:20px;margin-top:1px;color:var(--ok)}
 .hero-art{position:relative}
 .hero-art .float{position:absolute;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:12px 14px;display:flex;gap:10px;align-items:center;font-size:14px;line-height:1.3}
 .hero-art .float b{display:block;font-size:15px}
 .f1{left:-4%;bottom:12%;animation:rise .9s .35s both}
 .f2{right:-2%;top:8%;animation:rise .9s .6s both}
+@media(max-width:700px){.f2{right:auto;left:2%;top:2%}}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .dot-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none}
 .dot-ic svg{width:21px;height:21px}
@@ -349,7 +350,7 @@ footer a{color:var(--pine);font-weight:700}
 .kpi small{font-size:13px;color:var(--ok)}
 .kpi.hl{background:var(--pine);color:var(--pine-ink);border-color:transparent}
 .kpi.hl span,.kpi.hl small{color:inherit;opacity:.85}
-h3.ph{font-size:20px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+h3.ph{font-size:20px;margin-bottom:14px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 10px}
 
 .psy-sum{display:flex;gap:14px;align-items:center}
 .psy-sum>svg{width:72px;height:72px;border-radius:20px;flex:none}
@@ -933,11 +934,11 @@ function site(){
    <div>
     <h1><span class="ln">Terapia que</span><span class="ln">cabe na sua</span><span class="ln">semana.</span></h1>
     <p class="hero-sub">Escolha um psicólogo com registro conferido, marque o horário, pague pela plataforma e faça a sessão por vídeo no WhatsApp.</p>
+    <p class="selo-nota">${ic('shieldc')}<span><b>Selo reconferido todo mês.</b> Perfil com CRP irregular sai da busca e tem a agenda pausada.</span></p>
     <form class="finder" id="finder"><label>O que você quer cuidar<select id="h-tema"><option value="">Qualquer tema</option>${temas.map(t=>`<option>${t}</option>`).join('')}</select></label>
      <label>Quando<select id="h-turno"><option value="">Qualquer horário</option><option value="manha">Manhã</option><option value="tarde">Tarde</option><option value="noite">Noite</option></select></label>
      <button class="btn btn-p" type="submit">${ic('search')}Buscar</button></form>
     <div class="trust"><span>${ic('shieldc')}CRP conferido em todo perfil</span><span>${ic('lock')}Pagamento pela plataforma</span><span>${WA.replace('<svg','<svg style="color:var(--wa)"')}Sessão no WhatsApp</span></div>
-    <p class="selo-nota">${ic('shieldc')}<span><b>Selo reconferido todo mês.</b> Perfil com CRP irregular sai da busca e tem a agenda pausada.</span></p>
     <div class="breath" aria-hidden="true"><i></i><span>Respire com a bolinha enquanto escolhe: <b id="brt">inspire</b></span></div>
    </div>
    <div class="hero-art">${HERO_ART}
@@ -1181,7 +1182,7 @@ function psi(){
     b=`<h2 class="ttl">Cadastro profissional</h2><p class="lead">Seu perfil só aparece para pacientes depois que o registro é confirmado.</p>
     <div class="grid2"><div class="panel"><form class="form-g" id="crpf">
       <div class="form-g two"><label class="fld">Nome completo<input value="${me.nome}"></label><label class="fld">CPF<input value="000.000.000-00" aria-describedby="exn"></label></div>
-      <div class="form-g two"><label class="fld">Região do CRP<select><option>08 · Paraná</option><option>06 · São Paulo</option><option>04 · Minas Gerais</option><option>05 · Rio de Janeiro</option><option>07 · Rio Grande do Sul</option><option>12 · Santa Catarina</option></select></label><label class="fld">Número do CRP<input value="14527" inputmode="numeric"></label></div>
+      <div class="form-g two"><label class="fld">Região do CRP<select><option>00 · Exemplo</option></select></label><label class="fld">Número do CRP<input value="14527" inputmode="numeric"></label></div>
       <label class="fld">Abordagem principal<select><option>TCC</option><option>Psicanálise</option><option>Humanista</option><option>Sistêmica</option><option>Gestalt</option></select></label>
       <div class="upl ${S.crpUp?'ok':''}" id="upl" role="button" tabindex="0">${ic(S.crpUp?'check':'upload')}<b>${S.crpUp?'carteira-crp.pdf enviado':'Enviar foto ou PDF da carteira do CRP'}</b><br><small>${S.crpUp?'1,2 MB':'Toque para simular o envio'}</small></div>
       <label class="consent"><input type="checkbox" id="lgpd" ${S.lgpd?'checked':''}> <span>Autorizo o tratamento dos meus dados e entendo que vou acessar <b style="color:var(--ink)">dados de saúde dos pacientes</b>, que são dados sensíveis pela LGPD. Comprometo-me a manter o sigilo profissional e a guardar o prontuário com segurança, como pede o Conselho.</span></label>
