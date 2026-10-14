@@ -35,15 +35,26 @@ JS_ALVOS = """() => [...document.querySelectorAll('a, button')].filter((el) => {
     + ':' + (el.getAttribute('aria-label') || el.textContent || '').trim().slice(0, 24), w: el.offsetWidth || r.width, h: el.offsetHeight || r.height }; })"""
 # Nota: sem filtro de opacidade, para medir também o que ainda não foi revelado pela animação de entrada.
 
+# Regra de colisão do check 2 (flutuante x alvos): há colisão quando o retângulo do flutuante intersecta
+# (a) qualquer nó de TEXTO visível dentro de um a/button (Range.getClientRects nos text nodes) ou
+# (b) mais de 15% da área do alvo. O canto de um cartão grande clicável, sem texto sob o botão, não conta.
 JS_POSICAO = """() => { const f = document.querySelector('[data-flutuante]'); if (!f) return null;
   const s = getComputedStyle(f), fr = f.getBoundingClientRect();
   const noVp = (r) => r.width > 1 && r.height > 1 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
   const vis = (el) => { const e = getComputedStyle(el); return e.display !== 'none' && e.visibility !== 'hidden'; };
   const wa = [...document.querySelectorAll('a[href*="wa.me"]')].some((a) => !a.hasAttribute('data-flutuante') && vis(a) && noVp(a.getBoundingClientRect()));
   const ok = s.display !== 'none' && parseFloat(s.opacity) > 0.5;
+  const inter = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+  const area = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+  const textoSob = (el) => { const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let n = w.nextNode(); n; n = w.nextNode()) { if (!n.textContent.trim()) continue;
+      const rg = document.createRange(); rg.selectNodeContents(n);
+      if ([...rg.getClientRects()].some((q) => q.width > 0 && q.height > 0 && noVp(q) && inter(q, fr))) return true; }
+    return false; };
   const bate = ok ? [...document.querySelectorAll('a, button')].filter((el) => {
     if (el === f || !vis(el)) return false; const r = el.getBoundingClientRect();
-    return noVp(r) && r.left < fr.right && r.right > fr.left && r.top < fr.bottom && r.bottom > fr.top; })
+    if (!noVp(r) || !inter(r, fr)) return false;
+    return area(r, fr) > 0.15 * r.width * r.height || textoSob(el); })
     .map((el) => el.tagName.toLowerCase() + ':' + (el.getAttribute('aria-label') || el.textContent || '').trim().slice(0, 24)) : [];
   return { ok, wa, bate }; }"""
 
