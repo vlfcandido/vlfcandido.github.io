@@ -644,20 +644,16 @@ html.trocando body{touch-action:none;pointer-events:none}
 }
 @media(max-width:959px) and (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(prefers-reduced-motion:reduce){#view,.filters,.sh-bg{transition:none!important}}
-/* WhatsApp do desenvolvedor como faixa fixa, sempre visível, com espaço reservado no fim do conteúdo (nada passa por baixo do botão) */
-.dev,.dev:hover{left:0;right:0;bottom:0;transform:none;width:auto;height:52px;border-radius:0;justify-content:center;padding:0 16px;gap:12px;box-shadow:0 -8px 24px -14px rgba(0,0,0,.5)}
-.dev::before{display:none}
-.dev>span:last-child{display:block!important}
-.dev .wa-c{width:36px;height:36px}
-body{padding-bottom:calc(var(--barra,0px) + 64px + env(safe-area-inset-bottom))}
-@media(max-width:700px){.dev,.dev:hover{left:0;right:0;bottom:calc(var(--barra) + env(safe-area-inset-bottom));height:44px;padding:0 12px;gap:10px}
- .dev .wa-c{width:32px;height:32px}.dev small{display:none}.toast{bottom:calc(var(--barra) + 64px + env(safe-area-inset-bottom))!important}}
+/* WhatsApp do desenvolvedor: pílula no desktop, círculo de 56 px no celular (acima das barras), com espaço reservado no fim de cada tela */
+body{padding-bottom:96px}
+@media(max-width:700px){body{padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom) + 84px)}
+ .dev{width:56px;height:56px;padding:6px;right:12px;bottom:calc(var(--barra) + 12px + env(safe-area-inset-bottom))}.dev .wa-c{width:44px;height:44px}}
 </style>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-consultorio-exemplo");</script>
 </head>
 <body>
 
-<div class="byline">Exemplo de Vinicius Candido · <a href="/trabalhos/">mais trabalhos</a> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">portfólio</a></div>
+<div class="byline">Exemplo de Vinicius Candido · <a href="/trabalhos/">mais trabalhos</a> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">portfólio</a> · <a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Consult%C3%B3rio%20Exemplo%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp</a></div>
 <a class="dev" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Consult%C3%B3rio%20Exemplo%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius, desenvolvedor deste projeto, pelo WhatsApp"><span class="wa-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg></span><span><b>Falar com o Vinicius</b><small>quem fez este projeto</small></span></a>
 <div class="barra-ex" role="region" aria-label="Controles do exemplo">
   <div class="wrap">
@@ -1123,6 +1119,11 @@ const ativa=c=>!['recusada','remarcada','cancelada'].includes(c.st);
 const nth=c=>(PAC_ANTES[c.pac]||0)+CONSULTAS.filter(x=>x.pac===c.pac&&x.psi===c.psi&&ativa(x)&&(x.d<c.d||(x.d===c.d&&x.h<=c.h))).length;
 const tipoC=c=>nth(c)===1?'Primeira sessão':`Retorno · ${nth(c)}ª sessão`;
 const ordC=(a,b)=>a.d-b.d||a.h.localeCompare(b.h);
+/* repasse da próxima sexta: confirmado (sessões já realizadas) + previsto (sessões de hoje, pagas, ainda não realizadas) */
+function repasseProx(fee){const liq=n=>n*(100-fee)/100,pf=proxSex(HOJE.d);
+  const conf=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.pg==='pago'&&c.d<=HOJE.d&&proxSex(c.d)===pf);
+  const prev=CONSULTAS.filter(c=>c.psi===1&&c.st==='agendada'&&c.pg==='pago'&&c.d===HOJE.d);
+  return {pf,conf,prev,vconf:liq(conf.length*PSIS[0].preco),vprev:liq(prev.length*PSIS[0].preco)}}
 const PROX=()=>CONSULTAS.find(c=>c.id==='ana-prox');
 const HORAS=['08','09','10','11','14','15','16','17','18','19','20','21'].map(h=>h+':00');
 const PERIODO=h=>+h.slice(0,2)<12?'manha':+h.slice(0,2)<18?'tarde':'noite';
@@ -1280,7 +1281,7 @@ function psi(){
     const prox=lista.find(c=>c.h>HOJE.agora);
     const mins=prox?(+prox.h.slice(0,2)*60+ +prox.h.slice(3))-(+HOJE.agora.slice(0,2)*60+ +HOJE.agora.slice(3)):0;
     b=`<h2 class="ttl">Consultas de hoje</h2><p class="lead">${cap1(NSEM[wdN(HOJE.d)])}, ${HOJE.d} de outubro. Pacientes identificados só pelo primeiro nome e inicial.</p>
-    <div class="grid-k"><div class="kpi hl"><span>${ic('today')}Hoje</span><b>${lista.length} sessões</b><small>${pagas} pagas</small></div><div class="kpi"><span>${ic('clock')}Próxima</span><b>${prox?prox.h:'—'}</b><small>${prox?'em '+mins+' min':''}</small></div><div class="kpi"><span>${ic('wallet')}Gerado hoje</span><b>${brl(me.preco*pagas*(100-fee)/100)}</b><small>cai em ${ddmm(proxSex(HOJE.d))} · já descontada a taxa</small></div><div class="kpi"><span>${ic('star')}Sua média</span><b>${me.nota.toFixed(1).replace('.',',')}</b><small>${me.n} avaliações</small></div></div>
+    <div class="grid-k"><div class="kpi hl"><span>${ic('today')}Hoje</span><b>${lista.length} sessões</b><small>${pagas} pagas</small></div><div class="kpi"><span>${ic('clock')}Próxima</span><b>${prox?prox.h:'—'}</b><small>${prox?'em '+mins+' min':''}</small></div><div class="kpi"><span>${ic('wallet')}Previsto hoje</span><b>${brl(repasseProx(fee).vprev)}</b><small>entra no repasse de ${ddmm(proxSex(HOJE.d))} depois de realizada · já descontada a taxa</small></div><div class="kpi"><span>${ic('star')}Sua média</span><b>${me.nota.toFixed(1).replace('.',',')}</b><small>${me.n} avaliações</small></div></div>
     <div class="panel mt"><div class="list">${lista.map((c,i)=>`<div class="row"><b style="font-family:var(--f-d);font-size:22px;min-width:64px">${c.h}</b>${avatar({s:i+1,h:i,b:i+2,c:i+1,hair:i%5})}<div class="grow"><b>${c.pac}</b><small>${c.pg==='pendente'?'Aguardando pagamento':tipoC(c)}</small></div>
      ${c.pg==='pendente'?`<span class="pill p-warn">Aguardando pagamento</span>`:`<button class="btn btn-wa btn-sm" data-wa-psi="${c.pac}">${WA}Abrir no WhatsApp</button><button class="btn btn-g btn-sm" data-done>${ic('check')}Realizada</button>`}</div>`).join('')}</div></div>`;
   }
@@ -1292,13 +1293,15 @@ function psi(){
     </div></div><div class="legend"><span><i style="background:var(--plum)"></i>Consulta marcada</span><span><i style="background:var(--pine-soft)"></i>Aberto para agendamento</span><span><i style="border:1px dashed var(--line)"></i>Fechado</span></div></div>`;
   }
   if(t==='repasses'){
-    const rows=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.pg==='pago'&&c.d>=2&&c.d<=HOJE.d).sort((a,b)=>-ordC(a,b)).map(c=>{const pf=proxSex(c.d);return [ddmm(c.d),c.pac,me.preco,pf<=HOJE.d?'Pago':'A repassar '+ddmm(pf),pf]});
-    const br=rows.reduce((a,r)=>a+r[2],0),tx=br*fee/100;
-    const pend=rows.filter(r=>r[3]!=='Pago'),prox=proxSex(HOJE.d);
-    b=`<h2 class="ttl">Repasses</h2><p class="lead">Cada consulta mostra o valor pago pelo paciente, a taxa da plataforma (${fee}%) e o que fica com você. Repasse na sexta seguinte à sessão.</p>
-    <div class="grid-k"><div class="kpi"><span>${ic('wallet')}Bruto de ${ddmm(2)} a ${ddmm(HOJE.d)}</span><b>${brl(br)}</b></div><div class="kpi"><span>${ic('percent')}Taxa da plataforma</span><b>− ${brl(tx)}</b><small style="color:var(--muted)">${fee}% por consulta</small></div><div class="kpi hl"><span>${ic('check')}Líquido seu</span><b>${brl(br-tx)}</b><small>${100-fee}% do bruto</small></div><div class="kpi"><span>${ic('cal')}Próximo repasse</span><b>${ddmm(prox)}</b><small>${brl(pend.length*me.preco*(100-fee)/100)}</small></div></div>
+    const rp=repasseProx(fee);
+    const feitas=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.pg==='pago'&&c.d>=2&&c.d<=HOJE.d).sort((a,b)=>-ordC(a,b)).map(c=>{const pf=proxSex(c.d);return [ddmm(c.d),c.pac,me.preco,pf<=HOJE.d?'Pago':'A repassar '+ddmm(pf)]});
+    const previstas=rp.prev.slice().sort((a,b)=>-ordC(a,b)).map(c=>[ddmm(c.d),c.pac,me.preco,'Prevista '+ddmm(rp.pf)]);
+    const rows=[...previstas,...feitas];
+    const br=feitas.reduce((a,r)=>a+r[2],0),tx=br*fee/100;
+    b=`<h2 class="ttl">Repasses</h2><p class="lead">Cada consulta mostra o valor pago pelo paciente, a taxa da plataforma (${fee}%) e o que fica com você. Repasse na sexta seguinte à sessão. Sessões de hoje entram como previstas até serem realizadas.</p>
+    <div class="grid-k"><div class="kpi"><span>${ic('wallet')}Bruto confirmado, ${ddmm(2)} a ${ddmm(HOJE.d-1)}</span><b>${brl(br)}</b></div><div class="kpi"><span>${ic('percent')}Taxa da plataforma</span><b>− ${brl(tx)}</b><small style="color:var(--muted)">${fee}% por consulta</small></div><div class="kpi hl"><span>${ic('check')}Líquido confirmado</span><b>${brl(br-tx)}</b><small>${100-fee}% do bruto</small></div><div class="kpi"><span>${ic('cal')}Próximo repasse</span><b>${ddmm(rp.pf)}</b><small>${brl(rp.vconf)} confirmado + ${brl(rp.vprev)} previsto</small></div></div>
     <div class="panel mt tb-wrap"><table class="tb"><thead><tr><th>Data</th><th>Paciente</th><th class="n">Bruto</th><th class="n hm">Taxa</th><th class="n">Líquido</th><th>Status</th></tr></thead>
-    <tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="n">${brl(r[2])}</td><td class="n hm">− ${brl(r[2]*fee/100)}</td><td class="n"><b>${brl(r[2]*(100-fee)/100)}</b></td><td><span class="pill ${r[3]==='Pago'?'p-ok':'p-warn'}">${r[3]}</span></td></tr>`).join('')}</tbody></table></div>`;
+    <tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="n">${brl(r[2])}</td><td class="n hm">− ${brl(r[2]*fee/100)}</td><td class="n"><b>${brl(r[2]*(100-fee)/100)}</b></td><td><span class="pill ${r[3]==='Pago'?'p-ok':r[3].startsWith('Prevista')?'p-info':'p-warn'}">${r[3]}</span></td></tr>`).join('')}</tbody></table></div>`;
   }
   if(t==='avaliar'){
     const UL=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.d<HOJE.d).sort((a,b)=>-ordC(a,b))[0];
@@ -1500,7 +1503,7 @@ render();
 })();
 /* no celular, o WhatsApp flutuante some enquanto o formulário de busca está na tela, para nunca cobrir o botão Buscar */
 (function(){const d=document.querySelector('.dev');if(!d)return;d.style.transition='opacity .2s';
-function chk(){const f=document.querySelector('.finder'),ft=document.querySelector('footer'),dr=d.getBoundingClientRect(),ov=r=>Math.min(r.bottom,dr.bottom)-Math.max(r.top,dr.top)>10;let h=false;if(f&&ov(f.getBoundingClientRect()))h=true;if(ft&&ov(ft.getBoundingClientRect()))h=true
+function chk(){const f=document.querySelector('.finder'),dr=d.getBoundingClientRect();let h=false;if(f){const r=f.getBoundingClientRect();h=Math.min(r.bottom,dr.bottom)-Math.max(r.top,dr.top)>4}
   d.style.opacity=h?'0':'';d.style.pointerEvents=h?'none':''}
 addEventListener('scroll',chk,{passive:true});addEventListener('resize',chk);d.style.transition='opacity .15s';new MutationObserver(chk).observe(document.getElementById('view')||document.body,{childList:true,subtree:true});chk()})();
 </script>
