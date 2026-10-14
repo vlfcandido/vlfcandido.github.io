@@ -1,56 +1,22 @@
-import { useState } from 'react'
-import { Abertura } from '../components/Abertura'
-import { Carreira } from '../components/Carreira'
-import { ComoFunciona } from '../components/ComoFunciona'
-import { ComoEntrega } from '../components/ComoEntrega'
-import { Contato } from '../components/Contato'
-import { Pacotes } from '../components/Pacotes'
-import { Prova } from '../components/Prova'
-import { Resolvo } from '../components/Resolvo'
-import { cenaDaOferta, cenaDoRamo, inicioDemo, oferta, type CenaDemo, type Oferta } from '../conteudo'
+// Home nova (14/10/2026): prova → protótipo antes de fechar → onde já trabalhei → todos os projetos →
+// como funciona → quem sou e chamada. Antes: abertura Maré com 12 seções (ver git log deste arquivo).
+import { ComoFunciona } from '../home/ComoFunciona'
+import { Empresas } from '../home/Empresas'
+import { Galeria } from '../home/Galeria'
+import { Promessa } from '../home/Promessa'
+import { Prototipo } from '../home/Prototipo'
+import { QuemSou } from '../home/QuemSou'
 
-/** Oferta sugerida para um ramo do seletor (a primeira, se o ramo não tiver sugestão). */
-function ofertaDoRamo(ramo: string): Oferta['id'] {
-  return (oferta.find((o) => o.ramos.includes(ramo)) ?? oferta[0]).id
-}
-
-/**
- * Página principal, curta e comercial, contando a história em 30 segundos, da superfície para o
- * fundo (a régua de profundidade marca cada nível): abertura, o que eu resolvo, provas, como
- * funciona, carreira e o contato. (Provas subiu para antes de Como funciona em 08/10/2026, M8.) A profundidade fica a um toque (sondar, abas, "Descer"), nunca
- * empilhada.
- *
- * A página guarda três escolhas ligadas: o ramo do "Qual é o seu negócio?", a oferta sondada na
- * carta e a cena da demonstração. Escolher o ramo leva à oferta e à cena dele; sondar uma oferta
- * leva a demonstração para a cena que combina.
- */
+/** Página principal: só compõe os 6 blocos, na ordem da spec. */
 export function PaginaInicio() {
-  // Abre em Clínica, mas na cena "Venda no CRM" e com a oferta de integração (M5, `inicioDemo`).
-  const [ramo, setRamo] = useState(inicioDemo.ramo)
-  const [ofertaAtiva, setOfertaAtiva] = useState<Oferta['id']>(inicioDemo.oferta)
-  const [cena, setCena] = useState<CenaDemo['id']>(inicioDemo.cena)
-
-  function escolherRamo(id: string) {
-    setRamo(id)
-    setOfertaAtiva(ofertaDoRamo(id))
-    setCena(cenaDoRamo[id] ?? 'atendimento')
-  }
-
-  function sondarOferta(id: Oferta['id']) {
-    setOfertaAtiva(id)
-    setCena(cenaDaOferta[id])
-  }
-
   return (
     <>
-      <Abertura ramo={ramo} aoEscolherRamo={escolherRamo} cena={cena} aoTrocarCena={setCena} />
-      <Resolvo ramo={ramo} ativa={ofertaAtiva} aoSondar={sondarOferta} />
-      <Prova />
+      <Promessa />
+      <Prototipo />
+      <Empresas />
+      <Galeria />
       <ComoFunciona />
-      <ComoEntrega />
-      <Pacotes />
-      <Carreira />
-      <Contato />
+      <QuemSou />
     </>
   )
 }

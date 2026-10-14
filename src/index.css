@@ -3,6 +3,7 @@
 @import "./identidade.css";
 @import "./case.css";
 @import "./home/marcacao.css";
+@import "./home/home.css";
 
 /* Identidade "o detalhe que ninguém viu" (14/10/2026): papel, tinta e marca-texto, Fraunces + Inter. As cores vêm
    de identidade.css (mesmos nomes de variável do Maré). Os apelidos abaixo seguem valendo.
@@ -850,19 +851,8 @@ a:focus-visible .logo-mono {
 /* Página principal enxuta (08/10/2026): divulgação progressiva. Uma composição por tamanho de tela:
    no celular, abas em linha rolável, stepper compacto e "ver mais"; no computador, grade densa com
    painel ao lado. Os componentes trocam de forma pelo breakpoint, sem HTML duplicado. */
-.secao {
-  padding-block: 2rem;
-}
-@media (min-width: 640px) {
-  .secao {
-    padding-block: 3.25rem;
-  }
-}
-@media (min-width: 1024px) {
-  .secao {
-    padding-block: 3.5rem;
-  }
-}
+/* 14/10/2026: o espaçamento de .secao passou para home/home.css (72 px; 48 px no celular, com encaixe por seção).
+   Antes: 2rem, 3.25rem a partir de 640 px e 3.5rem a partir de 1024 px, fora de camada (venceria o home.css). */
 .titulo-secao {
   font-size: 1.75rem;
   line-height: 1.12;
