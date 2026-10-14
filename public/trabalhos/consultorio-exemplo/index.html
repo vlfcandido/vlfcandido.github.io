@@ -181,6 +181,8 @@ body{padding-bottom:84px}
 .trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:26px;font-size:15px;color:var(--muted)}
 .trust span{display:flex;gap:8px;align-items:center}
 .trust svg{width:20px;height:20px;color:var(--pine)}
+.selo-nota{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;max-width:46ch;font-size:14.5px;line-height:1.45;color:var(--ink);background:var(--ok-soft);border-radius:14px}
+.selo-nota svg{flex:none;width:20px;height:20px;margin-top:1px;color:var(--ok)}
 .hero-art{position:relative}
 .hero-art .float{position:absolute;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:12px 14px;display:flex;gap:10px;align-items:center;font-size:14px;line-height:1.3}
 .hero-art .float b{display:block;font-size:15px}
@@ -793,10 +795,10 @@ const S={
   reqs:[{n:'Júlia M.',d:'Ter, 13/10',h:'10:00',v:140,primeira:true},{n:'Lia F.',d:'Qui, 15/10',h:'19:00',v:140,primeira:false}],
   crpState:'done', crpUp:true, lgpd:true, wk:null, filt:{ab:'',tema:'',max:200,turno:''},
   queue:[
-    {n:'nome-privado Lopes',crp:'CRP 00/10007',r:'ok',t:'Situação ativa, nome confere',av:{s:0,h:2,b:1,c:1,hair:1}},
-    {n:'Otávio Reis',crp:'CRP 00/10008',r:'warn',t:'Nome diferente do documento enviado',av:{s:2,h:0,b:3,c:3,hair:4,beard:true}},
-    {n:'Sofia Andrade',crp:'CRP 00/10009',r:'ok',t:'Situação ativa, nome confere',av:{s:4,h:3,b:0,c:4,hair:3}},
-    {n:'Igor Campos',crp:'CRP 00/10010',r:'bad',t:'Registro não encontrado no cadastro do Conselho',av:{s:1,h:1,b:5,c:2,hair:0}}
+    {n:'Larissa Moraes',crp:'CRP 00/10007',r:'ok',t:'Situação ativa, nome confere',av:{s:0,h:2,b:1,c:1,hair:1}},
+    {n:'Davi Queiroz',crp:'CRP 00/10008',r:'warn',t:'Nome diferente do documento enviado',av:{s:2,h:0,b:3,c:3,hair:4,beard:true}},
+    {n:'Aline Furtado',crp:'CRP 00/10009',r:'ok',t:'Situação ativa, nome confere',av:{s:4,h:3,b:0,c:4,hair:3}},
+    {n:'Ícaro Bastos',crp:'CRP 00/10010',r:'bad',t:'Registro não encontrado no cadastro do Conselho',av:{s:1,h:1,b:5,c:2,hair:0}}
   ],
   mod:[
     {q:'A Lívia me ajudou a montar uma rotina que finalmente funciona.',a:'Paciente de exemplo · nota 5',f:null,st:'pend'},
@@ -935,6 +937,7 @@ function site(){
      <label>Quando<select id="h-turno"><option value="">Qualquer horário</option><option value="manha">Manhã</option><option value="tarde">Tarde</option><option value="noite">Noite</option></select></label>
      <button class="btn btn-p" type="submit">${ic('search')}Buscar</button></form>
     <div class="trust"><span>${ic('shieldc')}CRP conferido em todo perfil</span><span>${ic('lock')}Pagamento pela plataforma</span><span>${WA.replace('<svg','<svg style="color:var(--wa)"')}Sessão no WhatsApp</span></div>
+    <p class="selo-nota">${ic('shieldc')}<span><b>Selo reconferido todo mês.</b> Perfil com CRP irregular sai da busca e tem a agenda pausada.</span></p>
     <div class="breath" aria-hidden="true"><i></i><span>Respire com a bolinha enquanto escolhe: <b id="brt">inspire</b></span></div>
    </div>
    <div class="hero-art">${HERO_ART}
@@ -1270,7 +1273,7 @@ function admin(){
     const lab={ok:['p-ok','Confere'],warn:['p-warn','Divergência'],bad:['p-bad','Não encontrado']};
     b=`<h2 class="ttl">Verificação de CRP</h2><p class="lead">A consulta automática resolve a maioria. Aqui ficam os casos que pedem um olhar humano.</p>
     <div class="panel" style="margin-bottom:18px"><h3 class="ph">Monitoramento contínuo <span class="pill p-ok">57 ativos conferidos este mês</span></h3>
-     <div class="alert bad">${ic('alert')}<span><b>Registro irregular: Paulo Teixeira, CRP 00/10011</b><small>Na reconferência de 09/10 o cadastro do Conselho mostrou situação “suspenso”. Perfil tirado da busca, agenda pausada, 3 pacientes avisados com opção de reembolso ou troca.</small></span></div>
+     <div class="alert bad">${ic('alert')}<span><b>Registro irregular: Péricles Vasconcelos, CRP 00/10011</b><small>Na reconferência de 09/10 o cadastro do Conselho mostrou situação “suspenso”. Perfil tirado da busca, agenda pausada, 3 pacientes avisados com opção de reembolso ou troca.</small></span></div>
      <div class="flex mt"><button class="btn btn-g btn-sm" data-recheck>Reconferir agora</button><span class="lock">${ic('clock')}Próxima varredura geral: 01/11/2026 · todos os registros, uma vez por mês</span></div></div>
     <h3 class="ph">Novos cadastros</h3><div class="panel"><div class="list">${S.queue.map((q,i)=>`<div class="row">${avatar(q.av)}<div class="grow"><b>${q.n}</b><small>${q.crp} · ${q.t}</small></div>
      ${q.done?`<span class="pill ${q.done==='ok'?'p-ok':'p-bad'}">${q.done==='ok'?'Aprovado':'Recusado'}</span>`:`<span class="pill ${lab[q.r][0]}">${lab[q.r][1]}</span>

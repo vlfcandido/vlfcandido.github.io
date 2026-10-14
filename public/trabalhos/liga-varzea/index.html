@@ -794,7 +794,7 @@ function cnt(v,f,txt){return '<span class="cnt" data-v="'+v+'" data-f="'+(f||"n"
 var FMT={n:function(v){return n(Math.round(v));},brl:function(v){return brl.format(v);},pct:function(v){return Math.round(v*100)+"%";},o:function(v){return Math.round(v)+"º";}};
 function selo(){return '<span class="selo" title="Números inventados para demonstrar o produto"><i></i>Dados de exemplo</span>';}
 var uid=0;
-function sync(dark){return '<span class="sync'+(dark?' d':'')+'" title="O site lê do banco próprio do LVF, não da API a cada visita">'+ico("sync","width:14px;height:14px")+'Banco atualizado hoje, 10/10, às 21:40</span>';}
+function sync(dark){return '<span class="sync'+(dark?' d':'')+'" title="O site lê do banco próprio do LVF, não da API a cada visita">'+ico("sync","width:14px;height:14px")+'Banco atualizado há 12 min</span>';}
 
 /* ---------- estádios (capacidades aproximadas, uso ilustrativo) ---------- */
 var EST={
@@ -875,10 +875,10 @@ var C=[
  ["c01","Atlético Peroba","PER","Peroba","PE","#2E4057","#FFFFFF","e01",0,"listras",80,10700,33],
  ["c02","Peroba Futebol Clube","PRO","Peroba","PE","#F2C200","#F7D117","e02",2,"faixa",67,20200,28],
  ["c03","Esporte Clube Praia Seca","PRA","Praia Seca","SC","#1F4AA8","#FFFFFF","e03",0,"listras",69,6500,27],
- ["c04","Associação Santa Rita do Vale","SAN","Santa Rita do Vale","SP","#0E6B35","#F2C200","e04",1,"metade",72,2900,33],
+ ["c04","Associação Santa Rita do Vale","SRV","Santa Rita do Vale","SP","#0E6B35","#F2C200","e04",1,"metade",72,2900,33],
  ["c05","Lagoa Seca Nova Futebol Clube","LAG","Lagoa Seca Nova","SP","#D2691E","#F2C200","e05",2,"chevron",70,4400,36],
  ["c06","Sport Serra Azul","SER","Serra Azul","SC","#0F7A7A","#FFFFFF","e06",0,"faixa",72,2400,27],
- ["c07","União Campo Lindo","CAM","Campo Lindo","RS","#2E4057","#111111","e07",1,"liso",75,3100,24],
+ ["c07","União Campo Lindo","UCP","Campo Lindo","RS","#2E4057","#111111","e07",1,"liso",75,3100,24],
  ["c08","Real Angico","ANG","Angico","RS","#C8102E","#F7D117","e08",0,"liso",63,7100,27],
  ["c09","Operário Água Boa Nova","AGU","Água Boa Nova","CE","#0F7A7A","#111111","e09",3,"listras",61,2100,17],
  ["c10","Ferroviário Boa Esperança do Sul","BOA","Boa Esperança do Sul","SE","#B5550F","#FFFFFF","e10",0,"faixa",66,6900,25],
@@ -887,14 +887,14 @@ var C=[
  ["c13","Esporte Clube Cabo Sereno","CAB","Cabo Sereno","SP","#1F4AA8","#F2C200","e13",1,"metade",76,2100,28],
  ["c14","Associação Nova Aurora do Leste","NOV","Nova Aurora do Leste","GO","#F2C200","#E8E8E8","e14",3,"liso",66,3600,19],
  ["c15","Cachoeira Funda Futebol Clube","CAC","Cachoeira Funda","PR","#7A1C2E","#FFFFFF","e15",2,"metade",70,3100,22],
- ["c16","Sport Porto Alvorada","POR","Porto Alvorada","SE","#2E4057","#E8E8E8","e16",0,"chevron",67,5000,21],
+ ["c16","Sport Porto Alvorada","SPA","Porto Alvorada","SE","#2E4057","#E8E8E8","e16",0,"chevron",67,5000,21],
  ["c17","União Rio Claro Novo","RIO","Rio Claro Novo","SP","#B5550F","#111111","e17",1,"faixa",64,2600,28],
  ["c18","Real Morro Verde","MOR","Morro Verde","AM","#D2691E","#FFFFFF","e18",2,"listras",70,3600,30],
- ["c19","Operário São Clemente","SAO","São Clemente","MG","#5B2C83","#F2C200","e19",3,"chevron",59,800,19],
+ ["c19","Operário São Clemente","OSC","São Clemente","MG","#5B2C83","#F2C200","e19",3,"chevron",59,800,19],
  ["c20","Ferroviário Mangueiras","MAN","Mangueiras","AL","#1F4AA8","#F7D117","e20",0,"listras",65,7300,29],
  /* Divisão A (exemplo) */
  ["c21","Atlético Colina Real","COL","Colina Real","RJ","#C8102E","#111111","e21",0,"listras",87,43000,97],
- ["c22","Cruz das Almas Novas FC","CRU","Cruz das Almas Novas","SP","#F2C200","#E8E8E8","e22",2,"liso",90,29500,112],
+ ["c22","Cruz das Almas Novas FC","CDN","Cruz das Almas Novas","SP","#F2C200","#E8E8E8","e22",2,"liso",90,29500,112],
  ["c23","Sport Cruz das Almas Novas","CUZ","Cruz das Almas Novas","SP","#1A8FD0","#E8E8E8","e23",1,"liso",85,41500,92],
  ["c24","Ferroviário Cruz das Almas Novas","CRS","Cruz das Almas Novas","SP","#F2C200","#FFFFFF","e24",3,"faixa",89,33200,79],
  ["c25","Cerrado Alto Futebol Clube","CER","Cerrado Alto","SP","#B5550F","#FFFFFF","e25",0,"listras",80,12700,74],
@@ -928,7 +928,7 @@ var C=[
  ["c52","Pedra Branca FC","PED","Pedra Branca","PR","#C8102E","#F2C200","e49",0,"listras",75,5300,36],
  ["c53","Sport Vargem Bonita","VRG","Vargem Bonita","GO","#B5550F","#F2C200","e50",1,"listras",77,6300,38],
  ["c54","Ferroviário Vargem Bonita","VAA","Vargem Bonita","GO","#111111","#F7D117","e51",3,"liso",70,5300,36],
- ["c55","Atlético Barreiras Novas","BAS","Barreiras Novas","MG","#F2C200","#FFFFFF","e52",0,"listras",74,9100,42],
+ ["c55","União Barreiras Novas","BAS","Barreiras Novas","MG","#F2C200","#FFFFFF","e52",0,"listras",74,9100,42],
  ["c56","Sport Lagoa Dourada","LGO","Lagoa Dourada","MT","#5B2C83","#F2C200","e53",2,"metade",71,7300,33],
  ["c57","União Salto Claro","SLT","Salto Claro","MG","#B5550F","#FFFFFF","e54",1,"listras",71,3000,27],
  ["c58","Real Sertão Manso","SRT","Sertão Manso","RJ","#B5550F","#F7D117","e55",0,"faixa",73,4000,32],
@@ -936,7 +936,7 @@ var C=[
  ["c60","Ferroviário Rio Manso","ROM","Rio Manso","MA","#7A1C2E","#FFFFFF","e57",3,"faixa",69,8800,33],
  /* Divisão D, Grupo 3 (exemplo) */
  ["c61","Atlético Mata Redonda","MAT","Mata Redonda","PE","#1A8FD0","#FFFFFF","e58",1,"faixa",63,2800,22],
- ["c62","Guaporé Novo FC","GUA","Guaporé Novo","PE","#F2C200","#FFFFFF","e59",0,"listras",62,3900,20],
+ ["c62","Guaporé Novo FC","GNV","Guaporé Novo","PE","#F2C200","#FFFFFF","e59",0,"listras",62,3900,20],
  ["c63","Esporte Clube Taquaral do Norte","TAQ","Taquaral do Norte","PB","#0F7A7A","#FFFFFF","e60",2,"listras",64,6000,23],
  ["c64","União Taquaral do Norte","TQU","Taquaral do Norte","PB","#F2C200","#FFFFFF","e60",0,"listras",62,4700,23],
  ["c65","Alto Bonito Futebol Clube","ALT","Alto Bonito","AL","#D2691E","#F2C200","e61",3,"liso",58,2800,19],
@@ -944,7 +944,7 @@ var C=[
  /* estaduais (exemplo) */
  ["c67","União Mirante do Vale","MIR","Mirante do Vale","PE","#1A8FD0","#FFFFFF","e62",0,"liso",58,2000,16],
  ["c68","Real Estrela do Oeste","EST","Estrela do Oeste","PE","#5B2C83","#111111","e63",2,"faixa",52,1300,17],
- ["c69","Guaporé Novo FC","GAP","Guaporé Novo","PE","#1A8FD0","#FFFFFF","e59",1,"listras",52,1500,14],
+ ["c69","Real Guaporé Novo","RGN","Guaporé Novo","PE","#1A8FD0","#FFFFFF","e59",1,"listras",52,1500,14],
  ["c70","Ferroviário Jacarandá","JAC","Jacarandá","RS","#B5550F","#FFFFFF","e64",0,"listras",68,5200,25],
  ["c71","União Bom Jardim do Sul","BOL","Bom Jardim do Sul","RS","#1A8FD0","#F2C200","e65",2,"liso",63,2200,22],
  ["c72","Tamanduá FC","TAM","Tamanduá","RS","#2E4057","#F7D117","e66",1,"faixa",60,2100,18],

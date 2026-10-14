@@ -45,11 +45,11 @@ header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
 .zap{display:inline-flex;align-items:center;gap:8px;background:var(--mar);color:var(--on-mar);border-radius:999px;padding:10px 16px;min-height:44px;font:600 .95rem "Hanken Grotesk",system-ui,sans-serif;text-decoration:none;white-space:nowrap;transition:background .2s,transform .2s}
 .zap:hover{background:var(--mar-forte);transform:translateY(-1px)}
 .zap svg{width:18px;height:18px;fill:currentColor}
-.topo{padding:56px 0 24px}
+.topo{padding-block:56px 24px}
 .topo .eyebrow{font:600 .8rem "Hanken Grotesk",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mar)}
 .topo h1{font-size:clamp(2rem,5.4vw,3.4rem);line-height:1.05;margin:.35em 0 .4em;letter-spacing:-.02em}
 .topo p{max-width:62ch;color:var(--suave);margin:0}
-.grade{display:grid;gap:24px;padding:24px 0 72px;grid-template-columns:1fr}
+.grade{display:grid;gap:24px;padding-block:24px 72px;grid-template-columns:1fr}
 @media(min-width:860px){.grade{grid-template-columns:1fr 1fr;gap:32px}}
 .cartao{background:var(--alto);border:1px solid var(--linha);border-radius:18px;overflow:hidden;box-shadow:var(--sombra);display:flex;flex-direction:column;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
 .cartao:hover,.cartao:focus-within{transform:translateY(-4px)}
@@ -66,7 +66,7 @@ header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
 .btn:hover{background:var(--mar-forte)}
 .btn.sec{background:transparent;color:var(--mar);border:1px solid var(--linha)}
 .btn.sec:hover{background:var(--raso)}
-.nota{border-top:1px solid var(--linha);padding:28px 0 96px;color:var(--suave);font-size:.95rem}
+.nota{border-top:1px solid var(--linha);padding-block:28px 56px;color:var(--suave);font-size:.95rem}
 .nota p{max-width:70ch;margin:0 0 8px}
 .rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
 .rv.on{opacity:1;transform:none}
@@ -107,9 +107,9 @@ header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
       <div class="corpo">
         <span class="exemplo">Projeto de exemplo, dados fictícios</span>
         <h2>Plataforma de psicologia online</h2>
-        <p>Terapia online só funciona quando o paciente confia no profissional e consegue marcar e pagar sem atrito. O exemplo cobre o caminho inteiro: busca, registro conferido, agenda, pagamento e as áreas do paciente, do psicólogo e da administração.</p>
+        <p>Todo mês o sistema reconfere o CRP de cada psicólogo: perfil com registro irregular sai da busca, a agenda é pausada e os pacientes marcados são avisados. É esse detalhe que dá confiança a quem escolhe um terapeuta. Em volta dele, o caminho inteiro: busca, agenda, pagamento e as áreas do paciente, do psicólogo e da administração.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Quatro áreas de acesso</span></div>
-        <div class="acoes"><a class="btn" href="/trabalhos/consultorio-exemplo/">Abrir o exemplo</a></div>
+        <div class="acoes"><a class="btn" href="/trabalhos/consultorio-exemplo/">Abrir o exemplo</a><a class="btn sec" href="/trabalhos/consultorio-exemplo/#admin/crp">Ver o painel</a></div>
       </div>
     </article>
   </section>
