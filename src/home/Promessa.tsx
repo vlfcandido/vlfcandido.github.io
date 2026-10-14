@@ -88,10 +88,11 @@ export function Promessa() {
   const titulo = partirNaFrase(promessa.titulo, FRASES_MARCADAS.promessa)
   const numeros = useRef<HTMLDivElement>(null)
   useContagemAoAssentar(numeros)
+  const { rotulos } = promessa
   const itens = [
-    { valor: n.anos, rotulo: 'anos de software' },
-    { valor: n.empresas, rotulo: 'empresas de grande porte' },
-    { valor: n.projetos, rotulo: 'projetos no portfólio' },
+    { valor: n.anos, rotulo: rotulos.anos },
+    { valor: n.empresas, rotulo: rotulos.empresas },
+    { valor: n.projetos, rotulo: rotulos.projetos },
   ]
   return (
     <section id="inicio" className="secao tela lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-16">

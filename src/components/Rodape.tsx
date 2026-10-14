@@ -54,7 +54,7 @@ export function Rodape() {
         </div>
         <div className="mt-8 space-y-1 border-t border-linha pt-6 text-sm text-grafite">
           <p>
-            {perfil.nome}, {new Date().getFullYear()}. Marcas e logos pertencem às respectivas empresas. Os exemplos usam
+            {perfil.nome}, {new Date().getFullYear()}. Marcas e logos são das próprias empresas. Os exemplos usam
             dados fictícios. Ilustrações geradas com IA e editadas por Vinicius Candido.
           </p>
           <p>{AVISO_MEDICAO}</p>

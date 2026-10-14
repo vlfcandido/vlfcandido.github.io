@@ -1,9 +1,10 @@
 // Bloco 3: onde já trabalhei. Só as empresas de SLUGS_EMPRESAS (logos liberados por ele). No celular, uma
-// faixa de logos; no PC, logo, nome e o papel real de clientes.ts (nunca um papel inventado).
+// faixa de logos; no PC, logo, nome e o papel real de clientes.ts (nunca um papel inventado), ou a LINHA_EMPRESA
+// de conteudo.ts quando o papel não diz nada ao cliente (Prefeitura de Franca, Task 10).
 import { empresasDiretas, type EmpresaDireta } from '../clientes'
 import { logoClara } from '../components/Logo'
 import { caminhoPublico } from '../lib/assets'
-import { SLUGS_EMPRESAS, conteudoHome } from './conteudo'
+import { LINHA_EMPRESA, SLUGS_EMPRESAS, conteudoHome } from './conteudo'
 
 /** Terceiro bloco da home: as empresas onde ele trabalhou, na ordem de `SLUGS_EMPRESAS`. */
 export function Empresas() {
@@ -26,7 +27,7 @@ export function Empresas() {
             </div>
             <div className={e.logo ? 'sr-only lg:not-sr-only lg:min-w-0' : 'min-w-0'}>
               <p className="text-sm font-semibold">{e.nome}</p>
-              <p className="text-sm leading-snug text-grafite">{e.papel}</p>
+              <p className="text-sm leading-snug text-grafite">{LINHA_EMPRESA[e.slug as keyof typeof LINHA_EMPRESA] ?? e.papel}</p>
             </div>
           </li>
         ))}

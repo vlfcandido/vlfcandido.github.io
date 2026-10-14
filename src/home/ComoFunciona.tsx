@@ -6,7 +6,7 @@ import { Marcacao } from './Marcacao'
 
 /** Quinto bloco da home: os passos numerados e a garantia. */
 export function ComoFunciona() {
-  const { como, passos, garantia } = conteudoHome()
+  const { como, passos, garantia, garantiaPlataforma } = conteudoHome()
   const g = partirNaFrase(garantia, FRASES_MARCADAS.garantia)
   return (
     <section id="como" className="secao">
@@ -35,6 +35,8 @@ export function ComoFunciona() {
         ) : (
           garantia
         )}
+        {/* Frase à parte (Task 10): a retenção vale só no 99Freelas, não para quem chega pelo WhatsApp. */}
+        <span className="mt-1 block text-sm text-grafite lg:text-base">{garantiaPlataforma}</span>
       </p>
     </section>
   )

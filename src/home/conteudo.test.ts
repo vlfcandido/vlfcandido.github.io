@@ -47,6 +47,26 @@ describe('conteúdo da home', () => {
     const legenda = c.vitrine.legenda.replace(/\.$/, '').toLowerCase()
     for (const d of c.destaques) expect(d.detalhe.toLowerCase()).not.toContain(legenda)
   })
+  // Task 10 (decisão do controlador): a retenção do pagamento só vale no 99Freelas; a garantia não a promete.
+  it('a garantia não promete retenção de pagamento; a frase da plataforma nomeia o 99Freelas', () => {
+    expect(c.garantia).not.toMatch(/retid|plataforma/i)
+    expect(c.garantiaPlataforma).toMatch(/^No 99Freelas,/)
+  })
+  // Task 10: o destaque do AprovaOS dizia "ordem de serviço"; o projeto é plano de estudo (casos.ts).
+  it('o destaque do AprovaOS fala do que o projeto é', () => {
+    const d = c.destaques.find((x) => x.slug === 'aprovaos')
+    expect(JSON.stringify(d).toLowerCase()).not.toMatch(/ordem de servi/)
+    expect(JSON.stringify(d).toLowerCase()).toMatch(/estudo|concurseiro|aluno/)
+  })
+  it('as peças têm uma linha própria cada', () => {
+    expect(new Set(PECAS.map((x) => x.resumo)).size).toBe(PECAS.length)
+  })
+  it('nenhum dois-pontos nem travessão no texto da home (humanizer)', () => {
+    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.vitrine.legenda, c.prototipo.titulo, c.prototipo.texto,
+      ...c.destaques.flatMap((d) => [d.dor, d.detalhe]), ...c.passos.flatMap((x) => [x.titulo, x.texto]), c.garantia,
+      c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo]
+    for (const t of visivel) expect(t, t).not.toMatch(/[:—–]/)
+  })
   it('nenhum destaque cita nome do material original das peças', () =>
     expect(tudo.toLowerCase()).not.toMatch(/terceira|fdt|nome-privado/))
 })

@@ -60,7 +60,7 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
             type="button"
             aria-pressed={noVerso}
             onClick={() => setNoVerso((v) => !v)}
-            className="absolute right-2 bottom-2 z-10 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta hover:border-cobalto hover:text-cobalto"
+            className="absolute right-2 bottom-2 z-10 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta hover:border-tinta hover:text-tinta"
           >
             {noVerso ? rotuloFrente : rotuloVerso}
           </button>
@@ -71,7 +71,7 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
           type="button"
           id={`card-${item.slug}`}
           onClick={() => aoAbrir(item.slug)}
-          className="text-left group-hover:text-cobalto after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none"
+          className="text-left group-hover:text-tinta after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none"
         >
           {item.nome}
         </button>
@@ -114,11 +114,12 @@ function CartaoPeca({ peca }: { peca: Peca }) {
         <SeloFicticio />
       </div>
       <h3 className="mt-5 text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]">
-        <a href={caminhoPublico(base, peca.href)} className="text-left group-hover:text-cobalto after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none">
+        <a href={caminhoPublico(base, peca.href)} className="text-left group-hover:text-tinta after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none">
           {peca.nome}
         </a>
       </h3>
-      <p className="prosa mt-1.5 text-[1.06rem] leading-[1.55] text-grafite">Exemplo navegável: dá para clicar e testar.</p>
+      {/* Task 10: antes as duas peças repetiam 'Exemplo navegável: dá para clicar e testar.' */}
+      <p className="prosa mt-1.5 text-[1.06rem] leading-[1.55] text-grafite">{peca.resumo}</p>
     </article>
   )
 }
@@ -167,7 +168,7 @@ export function GaleriaProjetos({
               aria-pressed={marcado}
               onClick={() => c.valor !== filtro && comTransicao(() => setFiltro(c.valor))}
               className={`chip inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[0.95rem] font-medium whitespace-nowrap ${
-                marcado ? 'border-cobalto bg-cobalto text-nevoa' : 'border-linha bg-folha text-tinta hover:border-cobalto hover:text-cobalto'
+                marcado ? 'border-tinta bg-tinta text-nevoa' : 'border-linha bg-folha text-tinta hover:border-tinta hover:text-tinta'
               }`}
             >
               {marcado && <span aria-hidden="true" className="ponto ponto-anel" />}
