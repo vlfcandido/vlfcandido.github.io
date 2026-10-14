@@ -6,20 +6,27 @@
   --coral:#d9542a; --coral-texto:#a8401c; --raso:#efe9dc; --areia:#e8dfcc; --mata:#2e6a4e;
   --mov-toque:150ms; --mov-padrao:260ms; --mov-lento:400ms; --mov-ease:cubic-bezier(.2,.7,.2,1); --mov-deslocamento:14px;
   --fonte-titulo:'Fraunces', Georgia, serif; --fonte-texto:'Inter', system-ui, sans-serif;
-  color-scheme: light dark;
+  color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) {
     --papel:#161512; --papel-alto:#1f1d19; --fundo:#f3efe6; --fundo-suave:#c8c1b3; --linha:#36322c;
     --mar:#a9c6ff; --mar-forte:#cfe0ff; --on-mar:#0f1522; --sol:#ffc83d; --on-sol:#161512;
     --coral:#ff7d52; --coral-texto:#ff9c78; --raso:#22201c; --areia:#2b2823; --mata:#74c39a;
+    color-scheme: dark;
   }
 }
 :root[data-tema="escuro"] {
   --papel:#161512; --papel-alto:#1f1d19; --fundo:#f3efe6; --fundo-suave:#c8c1b3; --linha:#36322c;
   --mar:#a9c6ff; --mar-forte:#cfe0ff; --on-mar:#0f1522; --sol:#ffc83d; --on-sol:#161512;
   --coral:#ff7d52; --coral-texto:#ff9c78; --raso:#22201c; --areia:#2b2823; --mata:#74c39a;
+  color-scheme: dark;
 }
-body { background: var(--papel); color: var(--fundo); font-family: var(--fonte-texto); }
-h1, h2, h3 { font-family: var(--fonte-titulo); font-optical-sizing: auto; letter-spacing: -0.01em; }
+/* Tema claro forçado com o sistema escuro: controles nativos claros. */
+:root[data-tema="claro"] { color-scheme: light; }
+/* Em @layer base, para as utilitárias do Tailwind (font-*, tracking-*) vencerem. */
+@layer base {
+  body { background: var(--papel); color: var(--fundo); font-family: var(--fonte-texto); }
+  h1, h2, h3 { font-family: var(--fonte-titulo); font-optical-sizing: auto; letter-spacing: -0.01em; }
+}
 @media (prefers-reduced-motion: reduce) { :root { --mov-toque:0ms; --mov-padrao:0ms; --mov-lento:0ms; --mov-deslocamento:0px; } }
