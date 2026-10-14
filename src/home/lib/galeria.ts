@@ -9,7 +9,8 @@ import { tiposProjeto, type ItemProjeto, type TipoProjeto } from '../../projetos
  * @returns o tipo efetivamente aplicado e os itens que aparecem.
  */
 export function filtrarGaleria(itens: ItemProjeto[], tipo: string | null): { tipo: TipoProjeto | null; itens: ItemProjeto[] } {
-  if (!tipo || !(tipo in tiposProjeto)) return { tipo: null, itens }
+  // Object.hasOwn em vez de `in`: `in` aceita chaves herdadas do protótipo (ex.: 'toString').
+  if (!tipo || !Object.hasOwn(tiposProjeto, tipo)) return { tipo: null, itens }
   const t = tipo as TipoProjeto
   const filtrados = itens.filter((p) => p.tipos.includes(t))
   return filtrados.length ? { tipo: t, itens: filtrados } : { tipo: null, itens }

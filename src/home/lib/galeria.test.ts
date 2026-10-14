@@ -15,11 +15,21 @@ describe('filtro da galeria', () => {
     const vazio = todos.filter(() => false)
     expect(filtrarGaleria(vazio, 'chatbot').itens).toHaveLength(0)
     const semChatbot = todos.filter((p) => !p.tipos.includes('chatbot'))
-    expect(filtrarGaleria(semChatbot, 'chatbot').tipo).toBeNull()
+    const r = filtrarGaleria(semChatbot, 'chatbot')
+    expect(r.tipo).toBeNull()
+    expect(r.itens).toHaveLength(semChatbot.length)
+  })
+  it('chave herdada do protótipo não vira tipo', () => {
+    const r = filtrarGaleria(todos, 'toString')
+    expect(r.tipo).toBeNull()
+    expect(r.itens).toHaveLength(todos.length)
   })
   it('filtra pelo tipo', () => {
-    const tipo = Object.keys(tiposProjeto)[0] as TipoProjeto
+    const contagem = contarPorTipo(todos)
+    const tipo = (Object.keys(tiposProjeto) as TipoProjeto[]).find((t) => contagem[t] > 0)!
     const r = filtrarGaleria(todos, tipo)
+    expect(r.tipo).toBe(tipo)
+    expect(r.itens.length).toBeGreaterThan(0)
     expect(r.itens.every((p) => p.tipos.includes(tipo))).toBe(true)
   })
   it('conta por tipo', () => {
