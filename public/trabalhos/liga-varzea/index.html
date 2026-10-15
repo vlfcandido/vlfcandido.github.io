@@ -682,7 +682,7 @@ html.trocando body{touch-action:none;pointer-events:none}
 .wa{transition:transform .2s var(--ease),opacity .2s}
 @media(max-width:859px){
  .wa{width:44px;height:44px;right:8px}.wa i{width:38px;height:38px}.wa::after{left:3px;top:3px;width:38px;height:38px}
- .wa.recua{transform:scale(.6);transform-origin:100% 100%;opacity:.55}
+ .wa.recua{opacity:.7;background:transparent;box-shadow:none}.wa.recua i{transform:scale(.6);transform-origin:100% 100%;transition:transform .2s var(--ease)}.wa.recua::after{display:none} /* recua só o desenho: o alvo de toque fica com 44 px */
  .recs{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:1fr 1fr;overflow:visible;padding-bottom:0}
  .rec{min-width:0;padding:12px}.rec>div:first-child{flex-wrap:wrap;row-gap:2px}.rec>div:first-child b{flex:1 1 100%;min-width:0;overflow-wrap:anywhere;line-height:1.1}.rec>div:first-child span.small{margin-left:0!important;width:100%}.rec .disp{font-size:32px!important}
 }
@@ -691,10 +691,7 @@ html.trocando body{touch-action:none;pointer-events:none}
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-liga-varzea");</script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
 <style id="vc-faixa-css">
-/* Cabeçalho do site nas peças (fix final, 15/10/2026, revisor de detalhes: "as páginas de exemplo com o cabeçalho do
-   site"). Igual ao do site: o nome em Fraunces com o endereço embaixo, "Exemplos navegáveis" e o WhatsApp em pílula de
-   marca-texto, numa linha de 56 px. Antes (14/10): faixa de 44 px com "← vlfcandido.github.io", "Exemplo de Vinicius
-   Candido" no meio e os links à direita. Só o cabeçalho e a fonte da assinatura; o corpo da peça é o aprovado. */
+/* Cabeçalho do site: nome com o endereço, "Exemplos navegáveis" e WhatsApp, numa linha de 56 px. */
 .vc-faixa{--vc-papel:#f7f4ee;--vc-tinta:#17150f;--vc-suave:#5b564a;--vc-sol:#f6b90a;--vc-raso:#ece7db;position:relative;z-index:60;background:var(--vc-papel);color:var(--vc-tinta);border-bottom:1px solid #d9d3c3;font:500 15px/1.3 Inter,system-ui,sans-serif}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}}
 :root[data-theme="dark"] .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}

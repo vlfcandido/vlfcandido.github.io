@@ -1442,3 +1442,8 @@ html[data-navegou] .pagina-troca {
 a.rounded-full:focus-visible {
   border-radius: 9999px;
 }
+
+/* 15/10/2026: logo dos cartões de empresa centrada no quadro (a ampliação das logos com margem partia da esquerda). */
+.logo-cartao.origin-left {
+  transform-origin: center;
+}

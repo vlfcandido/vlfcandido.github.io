@@ -1,21 +1,25 @@
-import { links, perfil } from '../conteudo'
+import { conteudoHome } from '../home/conteudo'
 import { WHATSAPP } from '../lib/whatsapp'
-import { GITHUB, LINKEDIN } from '../visuais'
 import { IconeConversa } from './IconeConversa'
 import { LinkExterno } from './LinkExterno'
 
 // Task 10: caixa em tinta e botão em marca-texto (antes cobalto da Maré, fora da paleta de um destaque só).
-/** Fechamento: o convite, o botão do WhatsApp e os outros perfis (LinkedIn, 99Freelas, GitHub) em segundo plano. */
+/**
+ * Fechamento de #/projetos: a mesma chamada da home e o botão do WhatsApp. 15/10/2026 (revisor, rodada 2): antes o
+ * título era "Conte o que você precisa." com o convite "Me chame no WhatsApp e conte o que você precisa. Respondo com o
+ * preço fechado e o prazo." (a frase repetida), e embaixo vinha a linha LinkedIn · 99Freelas · GitHub, que o rodapé
+ * repetia logo depois; o 99Freelas foi para o rodapé.
+ */
 export function Contato() {
-  const noventaENove = links.find((l) => l.rotulo === '99Freelas')
+  const { chamada } = conteudoHome()
   return (
     <section id="contato" aria-labelledby="contato-titulo" className="scroll-mt-24 pt-2 pb-12 lg:pb-20">
       <div className="rounded-2xl bg-tinta px-5 py-7 text-nevoa sm:px-12 sm:py-12 lg:flex lg:items-end lg:justify-between lg:gap-12">
         <div>
           <h2 id="contato-titulo" className="max-w-[18ch] text-[1.75rem] leading-[1.1] font-bold tracking-[0.004em] sm:text-[2.6rem]">
-            Conte o que você precisa.
+            {chamada.titulo}
           </h2>
-          <p className="prosa mt-3 max-w-[48ch] text-[1.05rem] opacity-90 sm:text-[1.1rem]">{perfil.convite}</p>
+          <p className="prosa mt-3 max-w-[48ch] text-[1.05rem] opacity-90 sm:text-[1.1rem]">Respondo com o preço fechado e o prazo.</p>
         </div>
         <div id="contato-cta" className="mt-6 shrink-0 lg:mt-0">
           <LinkExterno
@@ -28,19 +32,6 @@ export function Contato() {
           <p className="mt-3 text-[0.95rem] opacity-85">A mensagem já vai escrita. É só enviar.</p>
         </div>
       </div>
-      <p className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-grafite">
-        <LinkExterno href={LINKEDIN} className="sublinha hover:text-tinta">
-          LinkedIn
-        </LinkExterno>
-        {noventaENove && (
-          <LinkExterno href={noventaENove.url} className="sublinha hover:text-tinta">
-            99Freelas
-          </LinkExterno>
-        )}
-        <LinkExterno href={GITHUB} className="sublinha hover:text-tinta">
-          GitHub
-        </LinkExterno>
-      </p>
     </section>
   )
 }

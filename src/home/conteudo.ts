@@ -29,12 +29,7 @@ export const PECAS = [
     imagem: 'trabalhos/img/consultorio-exemplo.jpg', alt: 'Página inicial do Consultório Exemplo, com a busca de psicólogos',
     resumo: 'Terapia online em que perfil com CRP irregular sai da busca.',
   },
-  // 15/10/2026: o 3º exemplo (Atelier Linha, escritório de arquitetura) entrou e saiu no mesmo dia, pela regra do dono
-  // (projeto ainda não fechado só entra ~3 dias depois do envio, sem nome do cliente; volta em 18/10). Para voltar:
-  // { slug: 'escritorio-arquitetura-exemplo', nome: 'Atelier Linha', href: 'trabalhos/escritorio-arquitetura-exemplo/',
-  //   imagem: 'trabalhos/img/escritorio-arquitetura-exemplo.jpg', alt: 'Tela inicial do Atelier Linha, com a planta
-  //   baixa em traço técnico e os indicadores do mês', resumo: 'Gestão de escritório de arquitetura em que revisão fora
-  //   do contrato não vira hora de graça.' } e o cartão em public/trabalhos/index.html. O teste confere os dois lados.
+  // Para acrescentar uma peça: a entrada aqui e o cartão em public/trabalhos/index.html (o teste confere os dois lados).
 ] as const
 
 /**
@@ -172,7 +167,8 @@ export function conteudoHome() {
     empresas: { titulo: 'Onde já trabalhei', subtitulo: 'As empresas onde trabalhei e o que fiz em cada uma.' },
     // Fix final (14/10/2026): antes 'Trabalhos com o detalhe marcado'; o menu passou a chamar a seção de "Destaques".
     trabalhos: { titulo: 'Destaques, com o detalhe marcado', verTodos: 'Ver todos os projetos' },
-    como: { titulo: 'Como funciona' },
+    // 15/10/2026: botão do WhatsApp no fim do bloco, com a mensagem do passo 1.
+    como: { titulo: 'Como funciona', cta: 'Pedir o meu protótipo', mensagem: 'Oi, Vinicius! Vi seu site e queria pedir um protótipo do meu sistema.' },
     // Task 10 (humanizer): antes, passo 4 'Manual, documentação técnica e testes automatizados.' (tríade) e passo 5
     // '30 dias de correção depois da entrega.', que repetia a caixa da garantia logo abaixo. Textos do Método
     // Entrega Acompanhada (fase 4: publicação, acessos no nome do cliente, manual, testes; fase 5: defeito corrigido).

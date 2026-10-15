@@ -11,11 +11,14 @@
      como marca-texto em papel escuro. Task 10: a 34% (de 52% até a base) ficou apagado e sem presença; agora é uma
      faixa mais forte (58%) só na metade de baixo da letra (60% a 96%), e o corpo da letra fica sobre o papel escuro.
      Fix final (14/10/2026, revisor: "grifo fino no escuro"): a faixa sobe e cobre mais da letra (46% a 96%), com o
-     amarelo a 48% para a letra clara manter 4,5:1 sobre a faixa (medido no relatório). Antes: 60% a 96%, a 58%. */
+     amarelo a 48% para a letra clara manter 4,5:1 sobre a faixa (medido no relatório). Antes: 60% a 96%, a 58%.
+     15/10/2026 (revisor, rodada 2: "no escuro fica oliva e sem brilho"): amarelo misturado ao papel escuro sempre dá
+     oliva. Agora é um sublinhado grosso em amarelo puro (80% a 93%) com um véu leve (16%) no corpo da letra, que fica
+     sobre o papel escuro. Antes: faixa única a 48% de 46% a 96%. */
   @media (prefers-color-scheme: dark) {
-    :root:not([data-tema="claro"]) .marcacao-grifo { background-image: linear-gradient(transparent 46%, color-mix(in srgb, var(--sol) 48%, transparent) 46%, color-mix(in srgb, var(--sol) 48%, transparent) 96%, transparent 96%); }
+    :root:not([data-tema="claro"]) .marcacao-grifo { background-image: linear-gradient(transparent 50%, color-mix(in srgb, var(--sol) 16%, transparent) 50%, color-mix(in srgb, var(--sol) 16%, transparent) 80%, var(--sol) 80%, var(--sol) 93%, transparent 93%); }
   }
-  :root[data-tema="escuro"] .marcacao-grifo { background-image: linear-gradient(transparent 46%, color-mix(in srgb, var(--sol) 48%, transparent) 46%, color-mix(in srgb, var(--sol) 48%, transparent) 96%, transparent 96%); }
+  :root[data-tema="escuro"] .marcacao-grifo { background-image: linear-gradient(transparent 50%, color-mix(in srgb, var(--sol) 16%, transparent) 50%, color-mix(in srgb, var(--sol) 16%, transparent) 80%, var(--sol) 80%, var(--sol) 93%, transparent 93%); }
   .marcacao-traco { position: absolute; inset: -8%; width: 116%; height: 116%; overflow: visible; pointer-events: none; }
   .marcacao-traco path { fill: none; stroke: var(--sol); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1;
     transition: stroke-dashoffset var(--mov-lento) var(--mov-ease); vector-effect: non-scaling-stroke; }

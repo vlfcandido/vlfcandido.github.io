@@ -12,7 +12,7 @@ export function Prototipo() {
   const titulo = partirNaFrase(prototipo.titulo, FRASES_MARCADAS.prototipo)
   const href = caminhoPublico(base, prototipo.exemploHref)
   return (
-    <section id="prototipo" className="secao tela grid content-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-10">
+    <section id="prototipo" className="secao tela grid content-center gap-8 lg:content-start lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-10">
       <div>
         <h2 className="titulo-bloco alvo-secao">
           {titulo ? (

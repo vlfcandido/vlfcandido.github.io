@@ -38,6 +38,11 @@ export function FolhaEspecime(_: PecaProps) {
   const papel = cores.find((c) => c.name === 'papel')!.value
   return (
     <div className="especime">
+      {/* 15/10/2026 (revisor, rodada 2): os usos falam de carta náutica e sondagem, a linguagem do Maré; a linha diz que
+          a folha é do site anterior e ficou como estava. */}
+      <p className="mb-4 max-w-[60ch] text-[0.98rem] text-grafite">
+        Tokens do site anterior, com o uso escrito na época, mantidos como estavam.
+      </p>
       <div role="group" aria-label="Tema da folha" className="inline-flex rounded-full border border-linha bg-folha p-1">
         {(
           [

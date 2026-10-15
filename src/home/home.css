@@ -170,6 +170,9 @@
 
   .logo-empresa { height: 32px; width: auto; max-width: 100%; object-fit: contain; object-position: left center;
     filter: grayscale(1); opacity: .85; transition: filter var(--mov-padrao) var(--mola), opacity var(--mov-padrao) var(--mola); }
+  /* Serasa (15/10/2026, revisor, rodada 2): o desenho tem letra fina e duas linhas, e saía menor e mais claro que os
+     outros. Altura óptica +25% e tinta mais firme. */
+  .logo-empresa[data-slug="serasa-experian"] { height: 40px; opacity: 1; filter: grayscale(1) contrast(1.35) brightness(.75); }
   @media (prefers-color-scheme: dark) {
     :root:not([data-tema="claro"]) .logo-empresa,
     :root:not([data-tema="claro"]) .empresa:hover .logo-empresa { filter: grayscale(1) invert(1) brightness(1.6); }
@@ -187,7 +190,9 @@
   :root[data-tema="escuro"] .empresa:hover .logo-empresa[data-clara="true"] { filter: grayscale(1) brightness(1.3); }
 
   /* O círculo de caneta ganha folga em volta da frase: abraça o texto sem riscar as letras. */
-  .marcacao-circulo .marcacao-traco { inset: -32% -10%; width: 120%; height: 164%; }
+  /* 15/10/2026 (revisor, rodada 2): o traço cortava o pé da linha de cima e, a 390 px, chegava a 4 px da borda.
+     Desce ~4 px e encolhe na horizontal. Antes: inset -32% -10%, width 120%, height 164%. */
+  .marcacao-circulo .marcacao-traco { inset: -24% -6%; width: 112%; height: 160%; }
 
   @media (prefers-reduced-motion: reduce) {
     .toque, .toque:active, .cta:hover, .link-secundario:hover, .cartao:hover, a:hover > .moldura-navegador,

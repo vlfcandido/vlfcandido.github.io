@@ -88,6 +88,13 @@ const empresa = (slug: string): EmpresaDireta => {
 const prints = (slug: string) => printsDosCasos[slug] ?? []
 
 /**
+ * Quantos projetos o print de "Este site" (public/prints/este-site.webp) mostra na prova da home. 15/10/2026 (revisor,
+ * rodada 2): o print dizia 20 e o site 19. O teste compara com a contagem da fonte: mudou o número, recapture o print
+ * da home em 1440x900 (1600x1000) e atualize aqui.
+ */
+export const PROJETOS_NO_PRINT_ESTE_SITE = 19
+
+/**
  * Monta a lista da galeria. É função (e não constante) para nada rodar quando o módulo é importado.
  *
  * @returns os projetos próprios e os casos de empresa, na ordem em que aparecem.
@@ -414,10 +421,13 @@ export function listarProjetos(): ItemProjeto[] {
         'Um job agendado lê a fila, confere no CRM e no Blip Desk onde cada lead está e, se ninguém respondeu em uma hora, passa o atendimento para o próximo corretor da mesma fila, atualizando o ticket no Blip, o responsável no CRM e o analytics.',
       numeros: [],
       // Antes: 'Projeto que liderei para a Ecovita' (corrigido por ele em 08/10/2026: só participou).
-      papel: 'Projeto de que participei na Ecovita',
+      // 15/10/2026 (decisão dele): a Ecovita foi cliente da Wiv, como a Minu. Antes: 'Projeto de que participei na Ecovita'.
+      papel: 'Cliente da Wiv',
+      contratante: 'wiv',
       participacao: true,
+      // 15/10/2026 (revisor, rodada 2): saiu a capa isométrica azul-petróleo (linguagem do Maré); o cartão abre no
+      // desenho do fluxo. Antes: capa: capasDosProjetos.ecovita.
       diagrama: diagramasDosCasos.ecovita,
-      capa: capasDosProjetos.ecovita,
     },
     {
       slug: 'minu',
@@ -434,9 +444,12 @@ export function listarProjetos(): ItemProjeto[] {
         'Uma função agendada a cada minuto busca as campanhas e a audiência no Blip, lê o status de cada mensagem, junta o perfil do usuário no Braze e registra um evento por status no analytics.',
       numeros: [],
       // Antes: 'Projeto que liderei para a Minu' (corrigido por ele em 08/10/2026: só participou).
-      papel: 'Projeto de que participei na Minu',
+      // 15/10/2026 (revisor, rodada 2): a Minu é cliente da Wiv (clientes.ts, grupo wiv); "participei na Minu" dava a
+      // entender um 6º empregador. Antes: papel 'Projeto de que participei na Minu', sem contratante.
+      papel: 'Cliente da Wiv',
       participacao: true,
       empresa: 'minu',
+      contratante: 'wiv',
       diagrama: diagramasDosCasos.minu,
     },
   ]

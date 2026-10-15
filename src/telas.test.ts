@@ -41,7 +41,8 @@ describe('textos fixos das telas', () => {
     const meta = html.match(/name="description"\s+content="([^"]+)"/)?.[1]
     expect(meta).toBe(
       // Fix final (14/10/2026): antes '13 anos construindo sistemas para Sicoob e Serasa Experian. …' (enganava).
-      '13 anos de software. Hoje no Sicoob, antes na Serasa Experian. Veja o seu sistema funcionando antes de fechar.',
+      // 15/10/2026 (decisão dele): a Serasa foi pela NTT DATA.
+      '13 anos de software. Hoje no Sicoob, antes na Serasa Experian, pela NTT DATA. Veja o seu sistema funcionando antes de fechar.',
     )
   })
   // 14/10/2026: saiu o caso "subtítulo das provas (M9)", que lia src/components/Prova.tsx; o bloco de provas da home

@@ -1,5 +1,5 @@
 // Rodapé do site novo (14/10/2026). Antes: isóbatas, gaivota e a faixa da carta náutica da Maré (ver git log).
-import { perfil } from '../conteudo'
+import { links, perfil } from '../conteudo'
 import { Marcacao } from '../home/Marcacao'
 import { SITE } from '../lib/site'
 import { GITHUB, LINKEDIN } from '../visuais'
@@ -17,11 +17,13 @@ function Saida() {
 }
 
 /**
- * Rodapé: o endereço do site, o LinkedIn e o GitHub, a assinatura "feito por Vinicius Candido" (com o marca-texto
+ * Rodapé: o endereço do site, o LinkedIn, o 99Freelas e o GitHub, a assinatura "feito por Vinicius Candido" (com o marca-texto
  * da identidade no nome), o aviso de marcas e dados de exemplo e a linha da medição anônima.
  */
 export function Rodape() {
   const base = import.meta.env.BASE_URL
+  // 15/10/2026: o 99Freelas veio da linha de perfis de #/projetos para cá (antes só LinkedIn e GitHub).
+  const noventaENove = links.find((l) => l.rotulo === '99Freelas')
   return (
     <footer className="rodape">
       <div className="mx-auto max-w-7xl px-4 pt-12 pb-[max(48px,calc(env(safe-area-inset-bottom)+32px))] sm:px-8">
@@ -43,6 +45,15 @@ export function Rodape() {
                 <span className="sr-only"> (abre em nova aba)</span>
               </a>
             </li>
+            {noventaENove && (
+              <li>
+                <a href={noventaENove.url} target="_blank" rel="noopener">
+                  99Freelas
+                  <Saida />
+                  <span className="sr-only"> (abre em nova aba)</span>
+                </a>
+              </li>
+            )}
             <li>
               <a href={GITHUB} target="_blank" rel="noopener">
                 GitHub

@@ -85,7 +85,8 @@ export function listarCasos(): CaseDetalhe[] {
       peca: 'recorte-imprensa',
       tituloPeca: 'O que a matéria publicou',
       legendaPeca: 'As anotações a lápis são minhas; o texto entre aspas é da matéria.',
-      status: { texto: 'Em uso pelas equipes das cooperativas, segundo a matéria.', tom: 'vivo' },
+      // 15/10/2026 (revisor, rodada 2): repetia o resultado logo acima. Antes 'Em uso pelas equipes das cooperativas, segundo a matéria.'
+      status: { texto: 'Em uso, segundo a MobileTime (17/07/2026).', tom: 'vivo' },
       regua: [],
       papel: {
         meu: 'Sou engenheiro de IA sênior no Sicoob e lidero tecnicamente a frente de IA do assistente de investimentos.',
@@ -98,8 +99,9 @@ export function listarCasos(): CaseDetalhe[] {
         },
         {
           titulo: 'O que existe hoje',
+          // 15/10/2026 (revisor, rodada 2): saiu o fim 'Quem usa são as equipes das cooperativas, no atendimento.' (o recorte já diz).
           texto:
-            'Um assistente com três agentes, cada um com uma tarefa: um encaminha a pergunta, um responde sobre investimentos e um cuida das perguntas frequentes. Quem usa são as equipes das cooperativas, no atendimento.',
+            'Um assistente com três agentes, cada um com uma tarefa: um encaminha a pergunta, um responde sobre investimentos e um cuida das perguntas frequentes.',
         },
       ],
     },
@@ -460,7 +462,8 @@ export function listarCasos(): CaseDetalhe[] {
       ficticio: 'Horários, nomes e lead são exemplo.',
       status: { texto: 'Participação, sem liderar. Situação de hoje não conferida.', tom: 'neutro' },
       regua: [],
-      papel: { meu: 'Participei do projeto no time da Ecovita, sem liderar.' },
+      // 15/10/2026 (decisão dele: foi pela Wiv). Antes 'Participei do projeto no time da Ecovita, sem liderar.'
+      papel: { meu: 'Participei, pela Wiv, do projeto da Ecovita, sem liderar.' },
       historia: [
         {
           titulo: 'O problema',
@@ -482,7 +485,8 @@ export function listarCasos(): CaseDetalhe[] {
       ficticio: 'Campanhas e quantidades ilustrativas.',
       status: { texto: 'Participação, sem liderar. Situação de hoje não conferida.', tom: 'neutro' },
       regua: [],
-      papel: { meu: 'Participei do projeto no time da Minu, sem liderar.' },
+      // 15/10/2026 (revisor, rodada 2): antes 'Participei do projeto no time da Minu, sem liderar.'
+      papel: { meu: 'Participei, pela Wiv, do projeto da Minu, sem liderar.' },
       historia: [
         {
           titulo: 'O problema',

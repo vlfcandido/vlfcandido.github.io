@@ -54,8 +54,10 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
         ) : (
           // 14/10/2026 (fix final): a logo também em 16/10 (antes 16/7 sem capa), para toda imagem de cartão ter a mesma
           // proporção e os títulos de uma linha da grade alinharem.
+          // 15/10/2026 (revisor, rodada 2: "logo pequeno num quadro vazio parece capa que não carregou"): a logo cresce
+          // para ~55% do quadro. Antes: className "max-h-11 max-w-[170px]".
           <div className={`${moldura} flex aspect-[16/10] items-center justify-center px-8`}>
-            {empresa && <Logo cliente={empresa} className="max-h-11 max-w-[170px]" />}
+            {empresa && <Logo cliente={empresa} className="logo-cartao h-16 max-w-[55%] sm:h-20" />}
           </div>
         )}
         {verso && temFrente && (
@@ -108,12 +110,13 @@ function OndeTrabalhei() {
       <p className="text-[0.85rem] font-semibold tracking-[0.02em] text-grafite">Onde trabalhei</p>
       <ul className="mt-3 grid grid-cols-3 items-center gap-x-6 gap-y-4 sm:grid-cols-5">
         {empresas.map((e) => (
-          <li key={e.slug} className="empresa flex h-10 items-center">
+          <li key={e.slug} className="empresa flex min-h-10 flex-col justify-center">
             {e.logo ? (
-              <img className="logo-empresa max-w-[min(100%,128px)]" data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.nome} height={32} loading="lazy" decoding="async" />
+              <img className="logo-empresa max-w-[min(100%,128px)]" data-slug={e.slug} data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.via ? `${e.nome}, pela ${e.via}` : e.nome} height={32} loading="lazy" decoding="async" />
             ) : (
               <span className="text-sm font-semibold">{e.nome}</span>
             )}
+            {e.via && <span className="mt-1 text-[0.75rem] leading-tight text-grafite">pela {e.via}</span>}
           </li>
         ))}
       </ul>
@@ -221,7 +224,8 @@ export function GaleriaProjetos({
           <h2 id="pecas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
             Exemplos navegáveis
           </h2>
-          <ul className="mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          {/* 15/10/2026 (revisor, rodada 2): com 2 peças, 2 colunas (antes sempre 3, e a 3ª ficava vazia). */}
+          <ul className={`mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 ${pecasVisiveis.length >= 3 ? 'lg:grid-cols-3' : ''}`}>
             {pecasVisiveis.map((p) => (
               <li key={p.slug}>
                 <CartaoPeca peca={p} />

@@ -49,6 +49,8 @@ export interface EmpresaDireta extends Cliente {
   feito: string
   /** Matéria ou material público que conta a história (quando existe). */
   historia?: { texto: string; url: string }
+  /** Empresa pela qual o trabalho foi feito, quando não foi contratação direta (ex.: 'NTT DATA' na Serasa). */
+  via?: string
   /** Slug da notícia em `noticias.ts` ou do case em `conteudo.ts`, quando houver. */
   ligadoA?: string
 }
@@ -108,7 +110,10 @@ export const empresasDiretas: EmpresaDireta[] = [
     segmento: 'financeiro',
     logo: 'logos/serasa-experian.webp',
     // Fix final (14/10/2026): antes 'Engenheiro de IA sênior e tech lead' (um cargo em inglês, os outros em português).
-    papel: 'Engenheiro de IA sênior e líder técnico',
+    // 15/10/2026 (decisão dele): o trabalho na Serasa foi pela NTT DATA, e isso aparece onde o site fala dele (o h1 da
+    // home fica curto). Antes: papel 'Engenheiro de IA sênior e líder técnico', sem `via`.
+    papel: 'Engenheiro de IA sênior e líder técnico, pela NTT DATA',
+    via: 'NTT DATA',
     feito: 'Liderei um squad de engenharia cuidando da segurança e da modernização de aplicações em grande escala.',
   },
   {

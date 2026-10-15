@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { ONDE_TRABALHEI, empresasDiretas } from '../clientes'
 import { encontrarTermosProibidos } from '../lib/termos-proibidos'
-import { listarProjetos } from '../projetos'
+import { PROJETOS_NO_PRINT_ESTE_SITE, listarProjetos } from '../projetos'
 import { FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva } from './conteudo'
 
 const c = conteudoHome()
@@ -92,5 +92,14 @@ describe('conteúdo da home', () => {
     if (!FOTO_PRONTA) return
     for (const l of FOTO_LARGURAS) for (const ext of ['avif', 'webp', 'jpg'])
       expect(existsSync(`public/${FOTO_BASE}-${l}.${ext}`), `${l}.${ext}`).toBe(true)
+  })
+  // 15/10/2026 (revisor, rodada 2, B1): o print de "Este site" mostrava "20 projetos" com o site dizendo 19.
+  it('o print de "Este site" mostra a mesma contagem de projetos da home', () =>
+    expect(PROJETOS_NO_PRINT_ESTE_SITE).toBe(numerosDeProva().projetos))
+  // 15/10/2026 (decisão dele): onde o site fala do trabalho na Serasa, aparece que foi pela NTT DATA.
+  it('a Serasa Experian aparece com "pela NTT DATA" no papel e no `via`', () => {
+    const e = empresasDiretas.find((x) => x.slug === 'serasa-experian')
+    expect(e?.via).toBe('NTT DATA')
+    expect(e?.papel).toMatch(/pela NTT DATA/)
   })
 })

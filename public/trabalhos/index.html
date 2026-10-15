@@ -3,11 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Fix final (14/10/2026): esta página se chama "Exemplos navegáveis" em todo lugar (menu, cabeçalho, faixa das
-     peças). Antes: title e og:title "Trabalhos de Vinicius Candido, projetos de exemplo", h1 "Projetos de exemplo para
-     você abrir e mexer"; cabeçalho e rodapé próprios, diferentes dos do site. 15/10/2026: o 3º exemplo (Atelier Linha)
-     entrou e saiu no mesmo dia (regra do dono: projeto não fechado só entra ~3 dias depois do envio, sem nome do
-     cliente; volta em 18/10). Para ele voltar, basta o cartão aqui e a entrada em PECAS (src/home/conteudo.ts). -->
 <title>Exemplos navegáveis · Vinicius Candido</title>
 <meta name="description" content="Exemplos navegáveis feitos por Vinicius Candido: Liga Várzea FC, um portal de dados de futebol, e Consultório Exemplo, uma plataforma de terapia online. Dados fictícios, para você abrir e mexer.">
 <link rel="canonical" href="https://vlfcandido.github.io/trabalhos/">
@@ -67,7 +62,8 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
 .btn:hover{background:var(--sol-forte)}
 .btn.sec{background:transparent;color:var(--tinta);border:1px solid var(--linha)}
 .btn.sec:hover{background:var(--raso)}
-.nota{border-top:1px solid var(--linha);padding-block:28px 56px;color:var(--suave);font-size:.95rem}
+.nota{padding-block:0 56px;color:var(--suave);font-size:.95rem}
+.nota::before{content:"";display:block;border-top:1px solid var(--linha);margin-bottom:28px} /* fio na largura do conteúdo, não da faixa com o recuo */
 .nota p{max-width:70ch;margin:0 0 8px}
 .rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
 .rv.on{opacity:1;transform:none}
@@ -75,8 +71,7 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
 :focus-visible{outline:3px solid var(--sol);outline-offset:3px;border-radius:6px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
 
-/* Cabeçalho e rodapé iguais aos do site (src/casca.css e Cabecalho/Rodape.tsx), em CSS puro: esta página é HTML
-   estático. Fix final, 14/10/2026. Mesmas alturas, fontes, alvos de 44 px e o menu recolhível do celular. */
+/* Cabeçalho e rodapé iguais aos do site, em CSS puro (esta página é HTML estático). */
 :root{--mola:cubic-bezier(.2,.8,.2,1);--raio-p:8px}
 .cab{position:relative;z-index:20;border-bottom:1px solid var(--linha);background:var(--papel)}
 .cab-grade{max-width:1280px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;grid-template-areas:"marca tema whats menu" "nav nav nav nav";grid-template-rows:56px auto;align-items:center;column-gap:4px}
@@ -127,8 +122,8 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
 @media(min-width:768px){.rod-topo{flex-direction:row;align-items:center;justify-content:space-between}}
 .rod-assina{margin:0;font:400 1.125rem Fraunces,Georgia,serif;font-optical-sizing:auto}
 .rod-assina mark{color:inherit;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--sol) 70%,transparent) 58%);padding:0}
-:root[data-tema="escuro"] .rod-assina mark{background:linear-gradient(transparent 46%,color-mix(in srgb,var(--sol) 48%,transparent) 46%,color-mix(in srgb,var(--sol) 48%,transparent) 96%,transparent 96%)}
-@media(prefers-color-scheme:dark){:root:not([data-tema="claro"]) .rod-assina mark{background:linear-gradient(transparent 46%,color-mix(in srgb,var(--sol) 48%,transparent) 46%,color-mix(in srgb,var(--sol) 48%,transparent) 96%,transparent 96%)}}
+:root[data-tema="escuro"] .rod-assina mark{background:linear-gradient(transparent 50%,color-mix(in srgb,var(--sol) 16%,transparent) 50%,color-mix(in srgb,var(--sol) 16%,transparent) 80%,var(--sol) 80%,var(--sol) 93%,transparent 93%)}
+@media(prefers-color-scheme:dark){:root:not([data-tema="claro"]) .rod-assina mark{background:linear-gradient(transparent 50%,color-mix(in srgb,var(--sol) 16%,transparent) 50%,color-mix(in srgb,var(--sol) 16%,transparent) 80%,var(--sol) 80%,var(--sol) 93%,transparent 93%)}}
 .rod-site{display:inline-flex;align-items:center;min-height:44px;margin-inline:-12px;padding-inline:12px;border-radius:var(--raio-p);color:var(--suave);font-size:.875rem;text-decoration:none}
 .rod-links{list-style:none;display:flex;flex-wrap:wrap;gap:4px 8px;margin:0 -12px;padding:0}
 .rod-links a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding-inline:12px;border-radius:var(--raio-p);font-weight:500;text-decoration:none}
@@ -195,6 +190,7 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
       </div>
       <ul class="rod-links" aria-label="Perfis">
         <li><a href="https://www.linkedin.com/in/viniciusf-candido" target="_blank" rel="noopener">LinkedIn<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr"> (abre em nova aba)</span></a></li>
+        <li><a href="https://www.99freelas.com.br/user/vinicius-candido-ia" target="_blank" rel="noopener">99Freelas<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr"> (abre em nova aba)</span></a></li>
         <li><a href="https://github.com/vlfcandido" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr"> (abre em nova aba)</span></a></li>
       </ul>
     </div>

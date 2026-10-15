@@ -1,5 +1,6 @@
 // Bloco 5: como funciona, em 5 passos, e a garantia escrita (30 dias de correção, decisão dele de 14/10/2026).
 // No celular, lista compacta que divide a tela com as empresas; no PC, faixa de 5 colunas.
+import { linkWhatsapp } from '../lib/whatsapp'
 import { FRASES_MARCADAS, conteudoHome } from './conteudo'
 import { partirNaFrase } from './lib/marcar'
 import { Marcacao } from './Marcacao'
@@ -38,6 +39,15 @@ export function ComoFunciona() {
         {/* Frase à parte (Task 10): a retenção vale só no 99Freelas, não para quem chega pelo WhatsApp. */}
         <span className="mt-1 block text-sm text-grafite lg:text-base">{garantiaPlataforma}</span>
       </p>
+      {/* 15/10/2026 (revisor, rodada 2): na parada de "Como funciona" no celular não havia WhatsApp à vista, e o
+          flutuante cobria o texto de baixo. O passo 1 vira ação aqui, com a mensagem já pedindo o protótipo. */}
+      <div className="mt-4 lg:mt-6">
+      <a className="link-secundario toque" href={linkWhatsapp(como.mensagem)} target="_blank" rel="noopener">
+        {como.cta}
+        <span className="seta" aria-hidden="true">↗</span>
+        <span className="sr-only"> (abre em nova aba)</span>
+      </a>
+      </div>
     </section>
   )
 }
