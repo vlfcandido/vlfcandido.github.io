@@ -644,38 +644,49 @@ html.trocando body{touch-action:none;pointer-events:none}
 }
 @media(max-width:959px) and (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(prefers-reduced-motion:reduce){#view,.filters,.sh-bg{transition:none!important}}
+/* WhatsApp do desenvolvedor: pílula no desktop, círculo de 56 px no celular (acima das barras), com espaço reservado no fim de cada tela */
+body{padding-bottom:96px}
+@media(min-width:1024px){.logado .dev{right:auto;left:16px}} /* nas telas do app a pílula vai para a barra lateral, onde não cobre conteúdo */
+@media(max-width:700px){body{padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom) + 84px)}
+ .dev{width:56px;height:56px;padding:6px;right:12px;bottom:calc(var(--barra) + 12px + env(safe-area-inset-bottom))}.dev .wa-c{width:44px;height:44px}}
 </style>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-consultorio-exemplo");</script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
 <style id="vc-faixa-css">
-/* Faixa e assinatura do Vinicius na identidade nova do site (14/10/2026). Antes: faixa verde/amarela na cor da peça.
-   Só a faixa e a fonte da assinatura; o resto da peça é o corpo aprovado e não muda. */
-.vc-faixa{--vc-papel:#f7f4ee;--vc-tinta:#17150f;--vc-sol:#f6b90a;position:relative;z-index:60;background:var(--vc-papel);color:var(--vc-tinta);border-bottom:1px solid #d9d3c3;font:500 14px/1.3 Inter,system-ui,sans-serif}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-sol:#ffc83d;border-bottom-color:#3b3830}}
-:root[data-theme="dark"] .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-sol:#ffc83d;border-bottom-color:#3b3830}
+/* Cabeçalho do site nas peças (fix final, 15/10/2026, revisor de detalhes: "as páginas de exemplo com o cabeçalho do
+   site"). Igual ao do site: o nome em Fraunces com o endereço embaixo, "Exemplos navegáveis" e o WhatsApp em pílula de
+   marca-texto, numa linha de 56 px. Antes (14/10): faixa de 44 px com "← vlfcandido.github.io", "Exemplo de Vinicius
+   Candido" no meio e os links à direita. Só o cabeçalho e a fonte da assinatura; o corpo da peça é o aprovado. */
+.vc-faixa{--vc-papel:#f7f4ee;--vc-tinta:#17150f;--vc-suave:#5b564a;--vc-sol:#f6b90a;--vc-raso:#ece7db;position:relative;z-index:60;background:var(--vc-papel);color:var(--vc-tinta);border-bottom:1px solid #d9d3c3;font:500 15px/1.3 Inter,system-ui,sans-serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}}
+:root[data-theme="dark"] .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}
 /* Mesmo encaixe de rolagem que a faixa antiga tinha: sem isto o celular abria com a faixa fora da tela. */
 .vc-faixa{scroll-snap-align:start;scroll-snap-stop:normal}
-.vc-faixa-in{max-width:1240px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px 16px;min-height:44px}
-.vc-faixa a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;font-weight:600;white-space:nowrap}
-.vc-faixa a:hover span{background-size:100% 100%}
-.vc-faixa a span{background:linear-gradient(var(--vc-sol),var(--vc-sol)) 0 100%/100% 3px no-repeat;transition:background-size .2s cubic-bezier(.2,.8,.2,1)}
-.vc-faixa a:hover span{background-size:100% 70%}
-.vc-faixa-nome{font:600 15px/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em;text-align:center}
-.vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:-3px;border-radius:6px}
-@media(max-width:560px){.vc-faixa-nome{display:none}.vc-faixa-in{justify-content:space-between}}
-/* Task 10: WhatsApp na faixa das duas peças. Fix final (14/10/2026): o link para /trabalhos/ se chama "Exemplos navegáveis"
-   em todo lugar (antes "Mais trabalhos", e "Trabalhos" no celular); no celular o endereço encurta para caber numa linha. */
-.vc-faixa-dir{display:flex;align-items:center;gap:16px}
+.vc-faixa-in{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:56px}
+@media(min-width:640px){.vc-faixa-in{padding:0 32px}}
+.vc-faixa a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;white-space:nowrap;border-radius:8px}
+.vc-marca{flex-direction:column;align-items:flex-start!important;justify-content:center;padding-right:8px}
+.vc-marca b{font:600 18px/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em}
+.vc-marca small{font-size:12px;line-height:1.33;color:var(--vc-suave);letter-spacing:.01em}
+.vc-faixa-dir{display:flex;align-items:center;gap:8px}
+.vc-ex{padding:0 8px;font-weight:600}
+.vc-ex span{background:linear-gradient(var(--vc-sol),var(--vc-sol)) 0 100%/100% 3px no-repeat;transition:background-size .2s cubic-bezier(.2,.8,.2,1)}
+.vc-ex:hover span{background-size:100% 70%}
+.vc-zap{gap:8px;padding:0 16px 0 12px;border-radius:999px!important;background:var(--vc-sol);color:#17150f!important;font-weight:600}
+.vc-zap svg{width:18px;height:18px;flex:none}
+.vc-zap:hover{filter:brightness(1.05)}
 .vc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media(max-width:560px){.vc-faixa-in{gap:8px 10px}.vc-faixa-dir{gap:10px}}
-@media(max-width:420px){.vc-faixa{font-size:13px}.vc-faixa-in{gap:8px 6px}.vc-faixa-dir{gap:6px}}
-@media(prefers-reduced-motion:reduce){.vc-faixa a span{transition:none}}
+.vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:2px}
+/* Celular: como no site, o WhatsApp do cabeçalho fica só com o ícone e a linha cabe em 390 px com alvos de 44 px. */
+@media(max-width:600px){.vc-zap{width:44px;padding:0;justify-content:center}.vc-zap-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+@media(max-width:380px){.vc-marca small{display:none}.vc-faixa{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.vc-ex span{transition:none}}
 </style>
 <style id="vc-sig-css">.sig small,.sig em{font-family:Inter,system-ui,sans-serif}.sig b{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:-.01em}.sig-m span{font-family:Fraunces,Georgia,serif;font-weight:600}</style>
 </head>
 <body>
 
-<div class="vc-faixa"><div class="vc-faixa-in"><a href="/"><span>← vlfcandido.github.io</span></a><b class="vc-faixa-nome">Exemplo de Vinicius Candido</b><span class="vc-faixa-dir"><a href="/trabalhos/"><span>Exemplos navegáveis</span></a><a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><span>WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></span></div></div>
+<header class="vc-faixa"><div class="vc-faixa-in"><a class="vc-marca" href="/" aria-label="Vinicius Candido, voltar para vlfcandido.github.io"><b>Vinicius Candido</b><small>vlfcandido.github.io</small></a><nav class="vc-faixa-dir" aria-label="Site do Vinicius"><a class="vc-ex" href="/trabalhos/"><span>Exemplos navegáveis</span></a><a class="vc-zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span class="vc-zap-t">WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></nav></div></header>
 <a class="dev" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Consult%C3%B3rio%20Exemplo%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius, desenvolvedor deste projeto, pelo WhatsApp"><span class="wa-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg></span><span><b>Falar com o Vinicius</b><small>quem fez este projeto</small></span></a>
 <div class="barra-ex" role="region" aria-label="Controles do exemplo">
   <div class="wrap">
@@ -935,9 +946,9 @@ const PRO_ART=f=>{const a=Math.round(2*Math.PI*70*(100-f)/100);return `<svg view
 function cardPsi(p){
   return `<article class="pcard">
    <div class="pcard-top" style="background:${BG[p.av.b]}">${avatar(p.av,false)}
-     <span class="crp" title="Última conferência automática: 0${(p.id%5)+3}/10/2026">${ic('shieldc')}CRP verificado</span><span class="price">${brl(p.preco)}</span></div>
+     <span class="crp" title="Última conferência automática: ${CRP_REGRA.ultima}">${ic('shieldc')}CRP verificado</span><span class="price">${brl(p.preco)}</span></div>
    <div class="pcard-b">
-     <div><h3>${p.nome}</h3><div class="meta">${p.ab} · ${p.crp} · ${p.anos} anos de prática</div><div class="meta" style="font-size:13px">Registro conferido em 0${(p.id%5)+3}/10/2026</div></div>
+     <div><h3>${p.nome}</h3><div class="meta">${p.ab} · ${p.crp} · ${p.anos} anos de prática</div><div class="meta" style="font-size:13px">Registro conferido em ${CRP_REGRA.ultima}</div></div>
      <div class="rate">${stars(p.nota)}<b>${p.nota.toFixed(1).replace('.',',')}</b><span class="meta">(${p.n} avaliações)</span></div>
      <p class="quote">${p.q}</p>
      <div class="chips">${p.temas.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
@@ -946,7 +957,7 @@ function cardPsi(p){
    </div></article>`;
 }
 function filtered(){const f=S.filt;return PSIS.filter(p=>(!f.ab||p.ab===f.ab)&&(!f.tema||p.temas.includes(f.tema))&&p.preco<=f.max&&(!f.turno||p.turnos.includes(f.turno)))}
-function renderCards(){const l=filtered();{const ok=$('#f-ok');if(ok)ok.textContent=l.length?`Ver ${l.length} ${l.length===1?'psicólogo':'psicólogos'}`:'Nenhum resultado, ajuste os filtros';const fn=$('#f-n'),k=[S.filt.ab,S.filt.tema,S.filt.turno].filter(Boolean).length+(S.filt.max<200?1:0);if(fn)fn.textContent=k?` (${k})`:''}$('#count').textContent=`${l.length} ${l.length===1?'psicólogo encontrado':'psicólogos encontrados'}`;
+function renderCards(){const l=filtered();{const ok=$('#f-ok');if(ok)ok.textContent=l.length?`Ver ${l.length} ${l.length===1?'psicólogo':'psicólogos'}`:'Nenhum resultado, ajuste os filtros';const fn=$('#f-n'),k=[S.filt.ab,S.filt.tema,S.filt.turno].filter(Boolean).length+(S.filt.max<200?1:0);if(fn)fn.textContent=k?` (${k})`:''}$('#count').textContent=`${l.length} de 57 psicólogos (perfis de exemplo)`;
   $('#cards').innerHTML=l.length?l.map(cardPsi).join(''):`<div class="empty" style="grid-column:1/-1"><b>Nenhum perfil com esses filtros.</b><p class="meta mt">Aumente o valor máximo ou tire o filtro de horário.</p><button class="btn btn-g btn-sm mt" id="clr">Limpar filtros</button></div>`}
 const abs=[...new Set(PSIS.map(p=>p.ab))],temas=[...new Set(PSIS.flatMap(p=>p.temas))].sort();
 
@@ -1141,6 +1152,11 @@ const ativa=c=>!['recusada','remarcada','cancelada'].includes(c.st);
 const nth=c=>(PAC_ANTES[c.pac]||0)+CONSULTAS.filter(x=>x.pac===c.pac&&x.psi===c.psi&&ativa(x)&&(x.d<c.d||(x.d===c.d&&x.h<=c.h))).length;
 const tipoC=c=>nth(c)===1?'Primeira sessão':`Retorno · ${nth(c)}ª sessão`;
 const ordC=(a,b)=>a.d-b.d||a.h.localeCompare(b.h);
+/* repasse da próxima sexta: confirmado (sessões já realizadas) + previsto (sessões de hoje, pagas, ainda não realizadas) */
+function repasseProx(fee){const liq=n=>n*(100-fee)/100,pf=proxSex(HOJE.d);
+  const conf=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.pg==='pago'&&c.d<=HOJE.d&&proxSex(c.d)===pf);
+  const prev=CONSULTAS.filter(c=>c.psi===1&&c.st==='agendada'&&c.pg==='pago'&&c.d===HOJE.d);
+  return {pf,conf,prev,vconf:liq(conf.length*PSIS[0].preco),vprev:liq(prev.length*PSIS[0].preco)}}
 const PROX=()=>CONSULTAS.find(c=>c.id==='ana-prox');
 const HORAS=['08','09','10','11','14','15','16','17','18','19','20','21'].map(h=>h+':00');
 const PERIODO=h=>+h.slice(0,2)<12?'manha':+h.slice(0,2)<18?'tarde':'noite';
@@ -1298,7 +1314,7 @@ function psi(){
     const prox=lista.find(c=>c.h>HOJE.agora);
     const mins=prox?(+prox.h.slice(0,2)*60+ +prox.h.slice(3))-(+HOJE.agora.slice(0,2)*60+ +HOJE.agora.slice(3)):0;
     b=`<h2 class="ttl">Consultas de hoje</h2><p class="lead">${cap1(NSEM[wdN(HOJE.d)])}, ${HOJE.d} de outubro. Pacientes identificados só pelo primeiro nome e inicial.</p>
-    <div class="grid-k"><div class="kpi hl"><span>${ic('today')}Hoje</span><b>${lista.length} sessões</b><small>${pagas} pagas</small></div><div class="kpi"><span>${ic('clock')}Próxima</span><b>${prox?prox.h:'—'}</b><small>${prox?'em '+mins+' min':''}</small></div><div class="kpi"><span>${ic('wallet')}A receber hoje</span><b>${brl(me.preco*pagas*(100-fee)/100)}</b><small>já descontada a taxa</small></div><div class="kpi"><span>${ic('star')}Sua média</span><b>${me.nota.toFixed(1).replace('.',',')}</b><small>${me.n} avaliações</small></div></div>
+    <div class="grid-k"><div class="kpi hl"><span>${ic('today')}Hoje</span><b>${lista.length} sessões</b><small>${pagas} pagas</small></div><div class="kpi"><span>${ic('clock')}Próxima</span><b>${prox?prox.h:'—'}</b><small>${prox?'em '+mins+' min':''}</small></div><div class="kpi"><span>${ic('wallet')}Previsto hoje</span><b>${brl(repasseProx(fee).vprev)}</b><small>entra no repasse de ${ddmm(proxSex(HOJE.d))} depois de realizada · já descontada a taxa</small></div><div class="kpi"><span>${ic('star')}Sua média</span><b>${me.nota.toFixed(1).replace('.',',')}</b><small>${me.n} avaliações</small></div></div>
     <div class="panel mt"><div class="list">${lista.map((c,i)=>`<div class="row"><b style="font-family:var(--f-d);font-size:22px;min-width:64px">${c.h}</b>${avatar({s:i+1,h:i,b:i+2,c:i+1,hair:i%5})}<div class="grow"><b>${c.pac}</b><small>${c.pg==='pendente'?'Aguardando pagamento':tipoC(c)}</small></div>
      ${c.pg==='pendente'?`<span class="pill p-warn">Aguardando pagamento</span>`:`<button class="btn btn-wa btn-sm" data-wa-psi="${c.pac}">${WA}Abrir no WhatsApp</button><button class="btn btn-g btn-sm" data-done>${ic('check')}Realizada</button>`}</div>`).join('')}</div></div>`;
   }
@@ -1310,19 +1326,21 @@ function psi(){
     </div></div><div class="legend"><span><i style="background:var(--plum)"></i>Consulta marcada</span><span><i style="background:var(--pine-soft)"></i>Aberto para agendamento</span><span><i style="border:1px dashed var(--line)"></i>Fechado</span></div></div>`;
   }
   if(t==='repasses'){
-    const rows=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.pg==='pago'&&c.d>=2&&c.d<=HOJE.d).sort((a,b)=>-ordC(a,b)).map(c=>{const pf=proxSex(c.d);return [ddmm(c.d),c.pac,me.preco,pf<=HOJE.d?'Pago':'A repassar '+ddmm(pf),pf]});
-    const br=rows.reduce((a,r)=>a+r[2],0),tx=br*fee/100;
-    const pend=rows.filter(r=>r[3]!=='Pago'),prox=proxSex(HOJE.d);
-    b=`<h2 class="ttl">Repasses</h2><p class="lead">Cada consulta mostra o valor pago pelo paciente, a taxa da plataforma (${fee}%) e o que fica com você. Repasse na sexta seguinte à sessão.</p>
-    <div class="grid-k"><div class="kpi"><span>${ic('wallet')}Bruto de ${ddmm(2)} a ${ddmm(HOJE.d)}</span><b>${brl(br)}</b></div><div class="kpi"><span>${ic('percent')}Taxa da plataforma</span><b>− ${brl(tx)}</b><small style="color:var(--muted)">${fee}% por consulta</small></div><div class="kpi hl"><span>${ic('check')}Líquido seu</span><b>${brl(br-tx)}</b><small>${100-fee}% do bruto</small></div><div class="kpi"><span>${ic('cal')}Próximo repasse</span><b>${ddmm(prox)}</b><small>${brl(pend.length*me.preco*(100-fee)/100)}</small></div></div>
+    const rp=repasseProx(fee);
+    const feitas=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.pg==='pago'&&c.d>=2&&c.d<=HOJE.d).sort((a,b)=>-ordC(a,b)).map(c=>{const pf=proxSex(c.d);return [ddmm(c.d),c.pac,me.preco,pf<=HOJE.d?'Pago':'A repassar '+ddmm(pf)]});
+    const previstas=rp.prev.slice().sort((a,b)=>-ordC(a,b)).map(c=>[ddmm(c.d),c.pac,me.preco,'Prevista '+ddmm(rp.pf)]);
+    const rows=[...previstas,...feitas];
+    const br=feitas.reduce((a,r)=>a+r[2],0),tx=br*fee/100;
+    b=`<h2 class="ttl">Repasses</h2><p class="lead">Cada consulta mostra o valor pago pelo paciente, a taxa da plataforma (${fee}%) e o que fica com você. Repasse na sexta seguinte à sessão. Sessões de hoje entram como previstas até serem realizadas.</p>
+    <div class="grid-k"><div class="kpi"><span>${ic('wallet')}Bruto confirmado, ${ddmm(2)} a ${ddmm(HOJE.d-1)}</span><b>${brl(br)}</b></div><div class="kpi"><span>${ic('percent')}Taxa da plataforma</span><b>− ${brl(tx)}</b><small style="color:var(--muted)">${fee}% por consulta</small></div><div class="kpi hl"><span>${ic('check')}Líquido confirmado</span><b>${brl(br-tx)}</b><small>${100-fee}% do bruto</small></div><div class="kpi"><span>${ic('cal')}Próximo repasse</span><b>${ddmm(rp.pf)}</b><small>${brl(rp.vconf)} confirmado + ${brl(rp.vprev)} previsto</small></div></div>
     <div class="panel mt tb-wrap"><table class="tb"><thead><tr><th>Data</th><th>Paciente</th><th class="n">Bruto</th><th class="n hm">Taxa</th><th class="n">Líquido</th><th>Status</th></tr></thead>
-    <tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="n">${brl(r[2])}</td><td class="n hm">− ${brl(r[2]*fee/100)}</td><td class="n"><b>${brl(r[2]*(100-fee)/100)}</b></td><td><span class="pill ${r[3]==='Pago'?'p-ok':'p-warn'}">${r[3]}</span></td></tr>`).join('')}</tbody></table></div>`;
+    <tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="n">${brl(r[2])}</td><td class="n hm">− ${brl(r[2]*fee/100)}</td><td class="n"><b>${brl(r[2]*(100-fee)/100)}</b></td><td><span class="pill ${r[3]==='Pago'?'p-ok':r[3].startsWith('Prevista')?'p-info':'p-warn'}">${r[3]}</span></td></tr>`).join('')}</tbody></table></div>`;
   }
   if(t==='avaliar'){
     const UL=CONSULTAS.filter(c=>c.psi===1&&c.st==='realizada'&&c.d<HOJE.d).sort((a,b)=>-ordC(a,b))[0];
     const crit=['Chegou no horário','Respeitou os combinados','Conexão estável'];
     b=S.ratedPsi?`<div class="panel done"><div class="big-ic">${ic('check')}</div><h3>Avaliação registrada</h3><p>Fica visível só para a equipe da plataforma. Ajuda a cuidar de faltas, atrasos e problemas de conexão.</p><button class="btn btn-g" data-tab="hoje">Voltar às consultas</button></div>`
-    :`<h2 class="ttl">Avaliar o paciente</h2><p class="lead">Sessão de ontem, ${ddmm(UL.d)} às ${UL.h}, com ${UL.pac}. Avaliação interna, o paciente não vê.</p>
+    :`<h2 class="ttl">Avaliar o paciente</h2><p class="lead">Sessão de ontem, ${ddmm(UL.d)} às ${UL.h}, com ${UL.pac}${UL.pac.endsWith('.')?'':'.'} Avaliação interna, o paciente não vê.</p>
     <div class="alert info" style="margin-bottom:14px">${ic('lock')}<span><b>Só aparecem aqui sessões realizadas</b><small>As ${CONSULTAS.filter(c=>c.psi===1&&c.d===HOJE.d&&ativa(c)).length} sessões de hoje liberam a avaliação quando você marcar como realizadas.</small></span></div>
     <div class="panel"><div class="list">${crit.map((c,i)=>`<div class="row"><div class="grow"><b>${c}</b></div><div class="pay-t" style="margin:0;flex:0 0 auto"><button data-yn="${i}-s" aria-pressed="${(S.yn||{})[i]==='s'}">${ic('check')}Sim</button><button data-yn="${i}-n" aria-pressed="${(S.yn||{})[i]==='n'}">${ic('x')}Não</button></div></div>`).join('')}</div>
     <label class="fld mt">Observação para a equipe (sem conteúdo clínico)<textarea rows="3" placeholder="Ex.: entrou 15 minutos atrasado e pediu para remarcar"></textarea></label>
@@ -1424,7 +1442,7 @@ function trocar(f,jaTravado){
   fechaFiltros(true);
   if(REDUCED){f();topo();focaTitulo();soltar();return}
   travar();const t=setTimeout(soltar,1200);const fim=()=>{clearTimeout(t);soltar()};
-  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});if(v.ready)v.ready.catch(()=>{});v.updateCallbackDone.then(focaTitulo,focaTitulo);v.finished.then(fim,fim)}
+  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});if(v.ready)v.ready.catch(()=>{});v.updateCallbackDone.then(focaTitulo,focaTitulo).catch(()=>{});v.finished.then(fim,fim).catch(()=>{})}
   else{view.classList.add('sai');setTimeout(()=>{f();topo();view.classList.remove('sai');focaTitulo();setTimeout(fim,320)},140)}
 }
 function vt(f){trocar(f)}
@@ -1518,8 +1536,8 @@ render();
 })();
 /* no celular, o WhatsApp flutuante some enquanto o formulário de busca está na tela, para nunca cobrir o botão Buscar */
 (function(){const d=document.querySelector('.dev');if(!d)return;d.style.transition='opacity .2s';
-function chk(){const f=document.querySelector('.finder'),ft=document.querySelector('footer');let h=false;if(f&&innerWidth<700){const r=f.getBoundingClientRect();h=r.bottom>0&&r.top<innerHeight}if(ft){const r=ft.getBoundingClientRect();if(r.top<innerHeight-10&&r.bottom>0)h=true}
-  if(!h){const r=d.getBoundingClientRect();for(const fx of [.12,.5,.88])for(const fy of [.12,.5,.88]){const x=r.left+r.width*fx,y=r.top+r.height*fy;if(document.elementsFromPoint(x,y).some(e=>!d.contains(e)&&e.matches&&e.matches('.pill,button,a,td,th,b,small,input,select,textarea,h1,h2,h3,li,.kpi,.row,.tb,.wk')))h=true}}d.style.opacity=h?'0':'';d.style.pointerEvents=h?'none':''}
+function chk(){const f=document.querySelector('.finder'),dr=d.getBoundingClientRect();let h=false;if(f){const r=f.getBoundingClientRect();h=Math.min(r.bottom,dr.bottom)-Math.max(r.top,dr.top)>4}
+  d.style.opacity=h?'0':'';d.style.pointerEvents=h?'none':''}
 addEventListener('scroll',chk,{passive:true});addEventListener('resize',chk);d.style.transition='opacity .15s';new MutationObserver(chk).observe(document.getElementById('view')||document.body,{childList:true,subtree:true});chk()})();
 </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>

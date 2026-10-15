@@ -691,28 +691,34 @@ html.trocando body{touch-action:none;pointer-events:none}
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-liga-varzea");</script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
 <style id="vc-faixa-css">
-/* Faixa e assinatura do Vinicius na identidade nova do site (14/10/2026). Antes: faixa verde/amarela na cor da peça.
-   Só a faixa e a fonte da assinatura; o resto da peça é o corpo aprovado e não muda. */
-.vc-faixa{--vc-papel:#f7f4ee;--vc-tinta:#17150f;--vc-sol:#f6b90a;position:relative;z-index:60;background:var(--vc-papel);color:var(--vc-tinta);border-bottom:1px solid #d9d3c3;font:500 14px/1.3 Inter,system-ui,sans-serif}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-sol:#ffc83d;border-bottom-color:#3b3830}}
-:root[data-theme="dark"] .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-sol:#ffc83d;border-bottom-color:#3b3830}
+/* Cabeçalho do site nas peças (fix final, 15/10/2026, revisor de detalhes: "as páginas de exemplo com o cabeçalho do
+   site"). Igual ao do site: o nome em Fraunces com o endereço embaixo, "Exemplos navegáveis" e o WhatsApp em pílula de
+   marca-texto, numa linha de 56 px. Antes (14/10): faixa de 44 px com "← vlfcandido.github.io", "Exemplo de Vinicius
+   Candido" no meio e os links à direita. Só o cabeçalho e a fonte da assinatura; o corpo da peça é o aprovado. */
+.vc-faixa{--vc-papel:#f7f4ee;--vc-tinta:#17150f;--vc-suave:#5b564a;--vc-sol:#f6b90a;--vc-raso:#ece7db;position:relative;z-index:60;background:var(--vc-papel);color:var(--vc-tinta);border-bottom:1px solid #d9d3c3;font:500 15px/1.3 Inter,system-ui,sans-serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}}
+:root[data-theme="dark"] .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}
 /* Mesmo encaixe de rolagem que a faixa antiga tinha: sem isto o celular abria com a faixa fora da tela. */
 .vc-faixa{scroll-snap-align:start;scroll-snap-stop:normal}
-.vc-faixa-in{max-width:1240px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px 16px;min-height:44px}
-.vc-faixa a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;font-weight:600;white-space:nowrap}
-.vc-faixa a:hover span{background-size:100% 100%}
-.vc-faixa a span{background:linear-gradient(var(--vc-sol),var(--vc-sol)) 0 100%/100% 3px no-repeat;transition:background-size .2s cubic-bezier(.2,.8,.2,1)}
-.vc-faixa a:hover span{background-size:100% 70%}
-.vc-faixa-nome{font:600 15px/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em;text-align:center}
-.vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:-3px;border-radius:6px}
-@media(max-width:560px){.vc-faixa-nome{display:none}.vc-faixa-in{justify-content:space-between}}
-/* Task 10: WhatsApp na faixa das duas peças. Fix final (14/10/2026): o link para /trabalhos/ se chama "Exemplos navegáveis"
-   em todo lugar (antes "Mais trabalhos", e "Trabalhos" no celular); no celular o endereço encurta para caber numa linha. */
-.vc-faixa-dir{display:flex;align-items:center;gap:16px}
+.vc-faixa-in{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:56px}
+@media(min-width:640px){.vc-faixa-in{padding:0 32px}}
+.vc-faixa a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;white-space:nowrap;border-radius:8px}
+.vc-marca{flex-direction:column;align-items:flex-start!important;justify-content:center;padding-right:8px}
+.vc-marca b{font:600 18px/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em}
+.vc-marca small{font-size:12px;line-height:1.33;color:var(--vc-suave);letter-spacing:.01em}
+.vc-faixa-dir{display:flex;align-items:center;gap:8px}
+.vc-ex{padding:0 8px;font-weight:600}
+.vc-ex span{background:linear-gradient(var(--vc-sol),var(--vc-sol)) 0 100%/100% 3px no-repeat;transition:background-size .2s cubic-bezier(.2,.8,.2,1)}
+.vc-ex:hover span{background-size:100% 70%}
+.vc-zap{gap:8px;padding:0 16px 0 12px;border-radius:999px!important;background:var(--vc-sol);color:#17150f!important;font-weight:600}
+.vc-zap svg{width:18px;height:18px;flex:none}
+.vc-zap:hover{filter:brightness(1.05)}
 .vc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media(max-width:560px){.vc-faixa-in{gap:8px 10px}.vc-faixa-dir{gap:10px}}
-@media(max-width:420px){.vc-faixa{font-size:13px}.vc-faixa-in{gap:8px 6px}.vc-faixa-dir{gap:6px}}
-@media(prefers-reduced-motion:reduce){.vc-faixa a span{transition:none}}
+.vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:2px}
+/* Celular: como no site, o WhatsApp do cabeçalho fica só com o ícone e a linha cabe em 390 px com alvos de 44 px. */
+@media(max-width:600px){.vc-zap{width:44px;padding:0;justify-content:center}.vc-zap-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+@media(max-width:380px){.vc-marca small{display:none}.vc-faixa{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.vc-ex span{transition:none}}
 </style>
 <style id="vc-sig-css">.assina .a1 small,.assina .a1 span{font-family:Inter,system-ui,sans-serif}.assina .a1 b{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:24px;letter-spacing:-.01em}</style>
 </head>
@@ -748,7 +754,7 @@ html.trocando body{touch-action:none;pointer-events:none}
  <symbol id="i-banco" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
 </svg>
 
-<div class="vc-faixa"><div class="vc-faixa-in"><a href="/"><span>← vlfcandido.github.io</span></a><b class="vc-faixa-nome">Exemplo de Vinicius Candido</b><span class="vc-faixa-dir"><a href="/trabalhos/"><span>Exemplos navegáveis</span></a><a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><span>WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></span></div></div>
+<header class="vc-faixa"><div class="vc-faixa-in"><a class="vc-marca" href="/" aria-label="Vinicius Candido, voltar para vlfcandido.github.io"><b>Vinicius Candido</b><small>vlfcandido.github.io</small></a><nav class="vc-faixa-dir" aria-label="Site do Vinicius"><a class="vc-ex" href="/trabalhos/"><span>Exemplos navegáveis</span></a><a class="vc-zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span class="vc-zap-t">WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></nav></div></header>
 <header class="top">
  <div class="wrap">
   <a class="logo" href="#/" aria-label="LVF, Liga Várzea FC, início">
@@ -1836,7 +1842,7 @@ V.admin=function(){usa("C");
   '<div class="card pad"><h3 style="margin-bottom:12px">Partidas sem borderô</h3><div class="tw"><table><thead><tr><th class="l">Partida</th><th>Rodada</th><th class="l">Estádio</th><th class="l">Situação</th></tr></thead><tbody>'+sem.map(function(m){return '<tr><td class="l"><a class="lnk" href="#/partida/'+m.id+'">'+esc(m.h.nome)+' '+m.gh+' x '+m.ga+' '+esc(m.a.nome)+'</a></td><td>'+m.r+'</td><td class="l">'+esc(m.est.nome)+'</td><td class="l"><span class="tag al">'+(m.r===18?"Aguardando federação":"Cobrado da federação")+'</span>'+(m.estim?' <span class="tag" title="Público divulgado pelo clube">~'+n(m.estim)+' estimado</span>':'')+'</td></tr>';}).join("")+'</tbody></table></div></div>'+
  '</div><aside class="grid">'+
   '<div class="card pad"><div style="display:flex;gap:12px;align-items:center;margin-bottom:8px">'+ico("sync","width:24px;height:24px")+'<h3>Log de sincronização</h3></div><ul class="log">'+
-   [["há 12 min","#13804A","Partidas da rodada 18","5 jogos atualizados, 1 sem borderô"],["há 12 min","#E0A800","Borderôs","3 PDFs lidos, 1 divergência de público"],["há 40 min","#C42A36","Erro tratado: API externa","Requisição recusada (429, limite do plano) ao buscar a súmula da rodada 18. A nova tentativa, 15 minutos depois, funcionou; 1 partida ficou para reprocessar.","reproc"],["há 6 h","#13804A","Elencos","20 clubes, 4 inscrições novas"],["ontem 21:40","#13804A","Classificação","Recalculada após 2 correções"],["ontem 15:40","#C42A36","API externa","Tempo esgotado, nova tentativa às 15:55 com sucesso"],["ontem 09:40","#13804A","Partidas da rodada 17","10 jogos atualizados"]].map(function(x){return '<li><time>'+x[0]+'</time><span class="dot" style="background:'+x[1]+'"></span><div><b>'+x[2]+'</b><div class="small muted">'+x[3]+'</div>'+(x[4]?'<button class="btn gh sm" id="reproc" type="button" style="margin-top:8px">'+ico("sync","width:16px;height:16px")+'Reprocessar rodada 18</button>':'')+'</div></li>';}).join("")+'</ul>'+
+   [["há 12 min","#13804A","Partidas da rodada 18","5 jogos atualizados, 1 sem borderô"],["há 12 min","#E0A800","Borderôs","3 PDFs lidos, 1 divergência de público"],["há 40 min","#C42A36","Erro tratado: API externa","Requisição recusada (429, limite do plano) ao buscar a súmula da rodada 18. A nova tentativa, 15 minutos depois, funcionou e a sincronização terminou há 12 min; 1 partida ficou para reprocessar.","reproc"],["há 6 h","#13804A","Elencos","20 clubes, 4 inscrições novas"],["ontem 21:40","#13804A","Classificação","Recalculada após 2 correções"],["ontem 15:40","#C42A36","API externa","Tempo esgotado, nova tentativa às 15:55 com sucesso"],["ontem 09:40","#13804A","Partidas da rodada 17","10 jogos atualizados"]].map(function(x){return '<li><time>'+x[0]+'</time><span class="dot" style="background:'+x[1]+'"></span><div><b>'+x[2]+'</b><div class="small muted">'+x[3]+'</div>'+(x[4]?'<button class="btn gh sm" id="reproc" type="button" style="margin-top:8px">'+ico("sync","width:16px;height:16px")+'Reprocessar rodada 18</button>':'')+'</div></li>';}).join("")+'</ul>'+
   '<div class="small" style="margin-top:12px;display:flex;justify-content:space-between"><span class="muted">Requisições do plano hoje</span><b>412 de 1.000</b></div><div class="ocup" style="margin-top:6px"><i style="width:41.2%"></i></div>'+
   '<button class="btn gh sm" style="margin-top:12px" id="syncnow">'+ico("sync","width:16px;height:16px")+'Sincronizar agora</button></div>'+
   '<div class="card pad"><div style="display:flex;gap:12px;align-items:center;margin-bottom:8px">'+ico("relogio","width:24px;height:24px")+'<h3>Histórico de alterações</h3></div><ul class="log" id="hist"></ul></div>'+
@@ -1940,7 +1946,7 @@ function trocaTela(){
  function fim(){clearTimeout(t);soltar();}
  if(document.startViewTransition){
   var vt=document.startViewTransition(function(){render();topo();});
-  vt.updateCallbackDone.then(focaTitulo,focaTitulo);vt.finished.then(fim,fim);
+  if(vt.ready)vt.ready.catch(function(){});vt.updateCallbackDone.then(focaTitulo,focaTitulo).catch(function(){});vt.finished.then(fim,fim).catch(function(){});
  }else{
   app.classList.add("sai");
   setTimeout(function(){render();topo();app.classList.remove("sai");focaTitulo();setTimeout(fim,320);},140);
