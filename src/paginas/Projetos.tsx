@@ -1,18 +1,19 @@
 import { useMemo } from 'react'
-import { ComoMontoAgentes } from '../components/ComoMontoAgentes'
-import { CartaNautica } from '../components/CartaNautica'
 import { Contato } from '../components/Contato'
 import { GaleriaProjetos } from '../components/GaleriaProjetos'
 import { PaginaCase } from '../components/case/PaginaCase'
+import { universoDeProjetos } from '../home/lib/universo'
 import { HASH_PROJETOS, filtroDoHash, hashDoProjeto, projetoDoHash } from '../lib/rota'
 import { listarProjetos, separarGaleria, tiposProjeto, type TipoProjeto } from '../projetos'
 
 /**
- * Página de projetos: abertura curta, galeria filtrável e a chamada do LinkedIn. Com um projeto no hash
+ * Página de projetos: abertura curta, galeria filtrável e a chamada para conversar. Com um projeto no hash
  * (`#/projetos/<slug>`), a página vira o case daquele projeto, em tela cheia e com link compartilhável.
  */
 export function PaginaProjetos({ hash }: { hash: string }) {
   const itens = useMemo(listarProjetos, [])
+  // As peças navegáveis entram no topo da galeria: o total da página bate com o número da prova (14/10/2026).
+  const { pecas } = useMemo(() => universoDeProjetos(), [])
   // Ordem de leitura da galeria (Em empresas, próprios, outros), para o "anterior" e o "próximo" do case.
   const ordem = useMemo(() => {
     const s = separarGaleria(itens)
@@ -37,12 +38,9 @@ export function PaginaProjetos({ hash }: { hash: string }) {
 
   return (
     <>
-      <section aria-labelledby="projetos-pagina-titulo" className="relative isolate bg-nevoa pt-10 pb-8 sm:pt-14 sm:pb-10">
-        <CartaNautica
-          versao="tartaruga"
-          sizes="(min-width: 640px) 420px, 60vw"
-          className="carta-topo pointer-events-none absolute top-0 right-0 -z-10 h-full w-[62%] sm:w-[min(48%,460px)]"
-        />
+      {/* 14/10/2026 (fix final): saíram a carta náutica com tartaruga ao lado do título e o bloco "Como eu monto
+          agentes" do fim da página (identidade Maré, spec §4). */}
+      <section aria-labelledby="projetos-pagina-titulo" className="pt-10 pb-8 sm:pt-14 sm:pb-10">
         <a href="#/" className="sublinha text-[0.98rem] text-grafite hover:text-tinta">
           Voltar para o início
         </a>
@@ -50,11 +48,13 @@ export function PaginaProjetos({ hash }: { hash: string }) {
           Projetos
         </h1>
         <p className="prosa mt-3 max-w-[62ch] text-[1.15rem] leading-[1.5] text-grafite sm:text-[1.25rem]">
-          A tela de cada produto e o que ele resolve. Toque em um para ver como foi feito.
+          A tela de cada produto e o que ele resolve.{' '}
+          {/* "Toque" só onde se toca; com mouse, "Clique" (fix final, 14/10/2026). */}
+          <span className="so-toque">Toque em um para ver como foi feito.</span>
+          <span className="so-clique">Clique em um para ver como foi feito.</span>
         </p>
       </section>
-      <GaleriaProjetos aoAbrir={abrir} filtroInicial={filtroInicial} />
-      <ComoMontoAgentes />
+      <GaleriaProjetos aoAbrir={abrir} filtroInicial={filtroInicial} pecas={pecas} />
       <div className="mt-24">
         <Contato />
       </div>

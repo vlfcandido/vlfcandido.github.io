@@ -14,8 +14,6 @@ export type IdDesenho =
   | 'varredura-voos'
   | 'ecovita'
   | 'minu'
-  | 'agente-roteador'
-  | 'agente-grafo'
   | 'agente-ferramentas'
   | 'agente-rag'
   | 'ia-local'
@@ -183,50 +181,6 @@ export function listarDesenhos(): Record<IdDesenho, Desenho> {
       etiquetas: ['Firebase Functions', 'Hono', 'TypeScript', 'Zod', 'API do Blip'],
     },
 
-    'agente-roteador': {
-      id: 'agente-roteador',
-      titulo: 'Uma pergunta, o especialista certo',
-      descricao:
-        'Padrão de roteador com especialistas: a pergunta chega a um agente roteador, que entende a intenção e passa para o especialista daquele assunto (produtos, dúvidas frequentes ou atendimento). A resposta volta numa voz só para quem perguntou.',
-      etapas: [
-        { legenda: 'chega', nos: [{ titulo: 'Pergunta', sub: 'do cliente ou da equipe', forma: 'pilula' }] },
-        { legenda: 'entende a intenção', nos: [{ titulo: 'Roteador', sub: 'escolhe quem responde', destaque: true }] },
-        {
-          legenda: 'responde',
-          grupo: 'especialistas',
-          nos: [
-            { titulo: 'Produtos', sub: 'consulta o catálogo' },
-            { titulo: 'Dúvidas frequentes', sub: 'busca na base de conhecimento' },
-            { titulo: 'Atendimento', sub: 'abre chamado' },
-          ],
-        },
-        { legenda: 'devolve', nos: [{ titulo: 'Resposta', sub: 'uma voz só para quem perguntou', forma: 'pilula' }] },
-      ],
-      porLinha: 4,
-      etiquetas: ['Google ADK', 'LangGraph', 'multiagente'],
-    },
-
-    'agente-grafo': {
-      id: 'agente-grafo',
-      titulo: 'Fluxo que decide sozinho e trabalha em paralelo',
-      descricao:
-        'Grafo com estado em LangGraph, como no agente de vídeo: a entrada é classificada; uma aresta condicional encerra o que não vale a pena; o resto ganha um plano, três nós rodam em paralelo e se juntam de novo antes de gerar e salvar o resultado.',
-      etapas: [
-        { legenda: 'entra', nos: [{ titulo: 'Entrada', sub: 'notícia, vídeo ou post', forma: 'pilula' }] },
-        {
-          legenda: 'classifica',
-          nos: [{ titulo: 'Classificar', sub: 'relevância e confiança', destaque: true }],
-          lateral: { no: { titulo: 'Fim', sub: 'não vale a pena', forma: 'pilula' }, rotulo: 'aresta condicional' },
-        },
-        { legenda: 'planeja', nos: [{ titulo: 'Estratégia' }] },
-        { legenda: 'em paralelo', grupo: 'ramos ao mesmo tempo', nos: [{ titulo: 'Legenda' }, { titulo: 'Crescimento' }, { titulo: 'Canais' }] },
-        { legenda: 'junta e gera', nos: [{ titulo: 'Gerar', sub: 'espera os três ramos' }] },
-        { legenda: 'guarda', nos: [{ titulo: 'Salvar', sub: 'estado de cada passo', forma: 'cilindro' }] },
-      ],
-      porLinha: 3,
-      etiquetas: ['LangGraph', 'LangChain', 'estado tipado'],
-    },
-
     'agente-ferramentas': {
       id: 'agente-ferramentas',
       titulo: 'Agente que usa ferramentas sem sair da linha',
@@ -289,23 +243,5 @@ export function listarDesenhos(): Record<IdDesenho, Desenho> {
   }
 }
 
-/** Padrões de agente da seção "Como eu monto agentes", com o título e a linha do que resolve. */
-export interface PadraoAgente {
-  id: IdDesenho
-  titulo: string
-  resolve: string
-}
-
-/**
- * Os quatro padrões, na ordem da seção.
- *
- * @returns lista nova a cada chamada.
- */
-export function listarPadroes(): PadraoAgente[] {
-  return [
-    { id: 'agente-roteador', titulo: 'Uma pergunta, o especialista certo', resolve: 'Cada assunto vai para o agente que sabe responder, sem um prompt gigante.' },
-    { id: 'agente-grafo', titulo: 'Fluxo que decide e trabalha em paralelo', resolve: 'O que não vale a pena para cedo; o resto anda em paralelo.' },
-    { id: 'agente-ferramentas', titulo: 'Ferramentas sem sair da linha', resolve: 'Texto de fora nunca vira ordem, e a saída é conferida antes de valer.' },
-    { id: 'agente-rag', titulo: 'Resposta com fonte e com nota', resolve: 'A IA busca antes de responder, e outra etapa dá nota antes de entregar.' },
-  ]
-}
+// 14/10/2026 (fix final): saíram listarPadroes/PadraoAgente e os desenhos 'agente-roteador' e 'agente-grafo', que só
+// serviam ao bloco "Como eu monto agentes" de #/projetos (removido; ver git log).

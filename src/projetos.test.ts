@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { empresasDiretas, gruposClientes } from './clientes'
+import { ONDE_TRABALHEI, empresasDiretas, gruposClientes } from './clientes'
 import { encontrarTermosProibidos } from './lib/termos-proibidos'
 import { filtrarProjetos, listarProjetos, separarGaleria, tiposProjeto } from './projetos'
 
@@ -53,7 +53,8 @@ describe('galeria de projetos', () => {
     const q = porSlug('nexus-quant')!
     expect(q.status).toBe('estudo')
     expect(q.nome).toBe('Sistema de ordens em tempo real')
-    expect(q.resultado).toContain('Cripto, só em simulação, sem lucro.')
+    // 14/10/2026 (fix final): antes 'Cripto, só em simulação, sem lucro.', frase que o leigo não entendia.
+    expect(q.resultado).toContain('Só em simulação, sem dinheiro de verdade.')
     expect(JSON.stringify(q).toLowerCase().replaceAll('sem lucro', '')).not.toMatch(/lucro|rendimento|ganho|market making/)
     expect(q.numeros.join(' ')).toContain('simulação')
   })
@@ -120,5 +121,10 @@ describe('galeria de projetos', () => {
       expect(tiposProjeto.dados).toBe('Dados e tempo real')
       Object.values(tiposProjeto).forEach((r) => expect(r.toLowerCase()).not.toContain('trading'))
     })
+  })
+  // 15/10/2026 (revisor de detalhes): todo caso de empresa diz onde ele trabalhava, pela fonte única.
+  it('todo caso em empresa tem contratante entre ONDE_TRABALHEI', () => {
+    for (const i of separarGaleria(listarProjetos()).emEmpresas)
+      expect(ONDE_TRABALHEI as readonly string[], i.slug).toContain(i.contratante)
   })
 })

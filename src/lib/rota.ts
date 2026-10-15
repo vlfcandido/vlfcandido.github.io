@@ -23,11 +23,15 @@ export const ANCORAS_ANTIGAS: Readonly<Record<string, string>> = {
   '#sobre': '#/',
   '#cases': HASH_PROJETOS,
   '#projetos': HASH_PROJETOS,
-  '#empresas': HASH_PROJETOS,
   '#stack': HASH_PROJETOS,
   '#ferramentas': HASH_PROJETOS,
-  '#clientes': '#resultados',
-  '#como-trabalho': '#como-funciona',
+  // 14/10/2026 (site novo): antes '#resultados' e '#como-funciona', seções que não existem mais; e '#empresas'
+  // saiu do mapa (ia para projetos) porque virou seção da home.
+  '#clientes': '#empresas',
+  '#como-trabalho': '#como',
+  // Fix final (14/10/2026): a seção dos 3 trabalhos virou "Destaques" (o menu dizia "Trabalhos" e /trabalhos/ é outra
+  // página). Link salvo com #trabalhos cai no mesmo lugar.
+  '#trabalhos': '#destaques',
 }
 
 /**
@@ -109,4 +113,16 @@ export function movimentoDaTroca(antes: string, depois: string): 'avancar' | 'vo
   if (a.startsWith('projetos/') && !d.startsWith('projetos/')) return d === 'projetos' ? 'voltar' : 'pagina'
   if (d.startsWith('projetos/')) return 'avancar'
   return 'pagina'
+}
+
+/**
+ * Separa uma consulta colada depois do hash (`#/projetos/aprovaos?_i=1`, `#/projetos?utm_source=x`). Sem isto a rota
+ * não era reconhecida e o link abria a página errada (15/10/2026, medido pelo checklist, que acrescenta `?_i=1`).
+ *
+ * @param hash valor de `location.hash`.
+ * @returns o hash limpo e a consulta (sem o `?`), ou `null` quando o hash não tem consulta.
+ */
+export function separarConsultaDoHash(hash: string): { hash: string; consulta: string } | null {
+  const i = hash.indexOf('?')
+  return i < 0 ? null : { hash: hash.slice(0, i), consulta: hash.slice(i + 1) }
 }

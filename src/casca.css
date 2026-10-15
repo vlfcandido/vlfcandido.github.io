@@ -1,0 +1,136 @@
+/* Casca do site novo (14/10/2026): cabeçalho, rodapé e WhatsApp flutuante, comuns a todas as páginas.
+   Mesmo sistema da home (home.css): curva de mola, só transform e opacity, 3 raios, 2 sombras, múltiplos de 4.
+   Substitui a régua de profundidade e o rodapé com a carta náutica da Maré.
+   Em @layer components para os utilitários do Tailwind poderem sobrescrever (exceto o anel de foco, no fim). */
+@layer components {
+  /* Alturas fixas: o cabeçalho nunca muda de tamanho quando a fonte chega (CLS 0), e o --cabecalho do home.css
+     sai destes números. Celular: 2 linhas (marca e ações; navegação no polegar). PC: 1 linha. */
+  .cabecalho { --linha-1: 56px; --linha-nav: 48px; position: relative; z-index: 20; border-bottom: 1px solid var(--linha);
+    background: var(--papel); }
+  /* No celular o cabeçalho estático é a 1ª parada do encaixe por seção: sem isto, o html (scroll-snap proximity)
+     encaixava a página no #inicio ao abrir e o cabeçalho nascia fora da tela. */
+  @media (max-width: 767px) { .cabecalho { scroll-snap-align: start; } }
+  /* Fix final (14/10/2026): no celular, uma linha (marca, tema, WhatsApp e Menu) e a navegação recolhida embaixo.
+     Antes: "marca tema whats" / "nav nav nav", com a navegação sempre aberta em duas linhas. */
+  .cabecalho-grade { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; grid-template-areas: "marca tema whats menu" "nav nav nav nav";
+    grid-template-rows: var(--linha-1) auto; align-items: center; column-gap: 4px; }
+  .cabecalho-menu { grid-area: menu; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px;
+    margin-right: -8px; border-radius: var(--raio-pilula); font-size: 0.9375rem; font-weight: 600; color: var(--fundo); }
+  .cabecalho-menu[aria-expanded="true"] { background: var(--raso); }
+  .cabecalho-menu:active { transform: scale(.96); }
+  @media (max-width: 767px) {
+    .cabecalho-nav[data-aberto="false"] { display: none; }
+    /* Aberto: um item por linha, no polegar, entrando com a mola curta (só opacity e transform). */
+    .cabecalho-nav[data-aberto="true"] ul { flex-direction: column; align-items: stretch; padding-block: 4px 12px; }
+    .cabecalho-nav[data-aberto="true"] a { width: 100%; font-size: 1.0625rem; }
+    .cabecalho-nav[data-aberto="true"] li { animation: menu-entra var(--mov-padrao) var(--mola) both; }
+    .cabecalho-nav[data-aberto="true"] li:nth-child(2) { animation-delay: 30ms; }
+    .cabecalho-nav[data-aberto="true"] li:nth-child(3) { animation-delay: 60ms; }
+    .cabecalho-nav[data-aberto="true"] li:nth-child(4) { animation-delay: 90ms; }
+    .cabecalho-nav[data-aberto="true"] li:nth-child(5) { animation-delay: 120ms; }
+    /* WhatsApp do cabeçalho só com o ícone: a linha única cabe em 390 px com alvos de 44 px. */
+    .cabecalho .cta-compacta { width: 44px; padding: 0; justify-content: center; }
+    .cta-compacta-texto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  }
+  @keyframes menu-entra { from { opacity: 0; transform: translateY(-6px); } }
+  .cabecalho-marca { grid-area: marca; justify-self: start; display: inline-flex; flex-direction: column; justify-content: center;
+    min-height: 44px; padding-right: 8px; border-radius: var(--raio-p); }
+  .cabecalho-nome { font-family: var(--fonte-titulo); font-optical-sizing: auto; font-size: 1.125rem; line-height: 1.2; font-weight: 600;
+    letter-spacing: -0.01em; white-space: nowrap; }
+  .cabecalho-site { font-size: 0.75rem; line-height: 1.33; color: var(--fundo-suave); letter-spacing: 0.01em; white-space: nowrap; }
+  .cabecalho .botao-tema { grid-area: tema; }
+  .cabecalho .cta-compacta { grid-area: whats; }
+
+  /* Navegação: no celular, todos os itens à vista em até duas linhas sob a marca, com alvos de 44 px (Task 10:
+     antes era uma linha rolável que cortava "Exemplos navegáveis" na borda, sem o dono perceber que rolava).
+     O texto do 1º item alinha com o nome (16 px). */
+  .cabecalho-nav { grid-area: nav; min-width: 0; align-self: stretch; }
+  .cabecalho-nav ul { display: flex; flex-wrap: wrap; height: 100%; align-items: center; gap: 0 4px; margin-inline: -8px; padding-bottom: 4px; }
+  .cabecalho-nav li { flex: none; }
+  .cabecalho-nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding-inline: 8px;
+    border-radius: var(--raio-p); font-size: 0.9375rem; font-weight: 500; color: var(--fundo-suave); white-space: nowrap; }
+  .cabecalho-nav a[aria-current] { color: var(--fundo); }
+  /* Traço de marca-texto sob o item da página atual (a mesma cor da assinatura). */
+  .cabecalho-nav a::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 8px; height: 3px; border-radius: var(--raio-pilula);
+    background: var(--sol); transform: scaleX(0); transform-origin: left; transition: transform var(--mov-padrao) var(--mola); }
+  .cabecalho-nav a[aria-current]::after { transform: scaleX(1); }
+
+  /* Botão de tema: 44 px, ícone gira de leve na troca. */
+  .botao-tema { display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--raio-pilula); color: var(--fundo-suave); }
+  .botao-tema svg { transition: transform var(--mov-lento) var(--mola); }
+  .botao-tema[data-tema="escuro"] svg { transform: rotate(90deg); }
+
+  /* WhatsApp compacto do cabeçalho: o mesmo .cta da home, no tamanho de cabeçalho. */
+  .cta-compacta { min-height: 44px; padding: 8px 16px 8px 12px; gap: 8px; font-size: 0.9375rem; }
+
+  @media (min-width: 768px) {
+    /* Só a partir do tablet o cabeçalho acompanha a rolagem (no celular ele é estático: nada fixo sobre a página). */
+    .cabecalho { background: color-mix(in srgb, var(--papel) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+      backdrop-filter: saturate(1.4) blur(12px); }
+    .cabecalho-nav ul { flex-wrap: nowrap; padding-bottom: 0; }
+    /* Do tablet para cima a navegação está sempre à vista: sem botão de menu. */
+    .cabecalho-menu { display: none; }
+    .cabecalho-grade { grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "marca tema whats" "nav nav nav";
+      grid-template-rows: var(--linha-1) minmax(var(--linha-nav), auto); column-gap: 8px; }
+  }
+  @media (min-width: 1024px) {
+    .cabecalho { --linha-1: 64px; }
+    .cabecalho-grade { grid-template-columns: auto minmax(0, 1fr) auto auto; grid-template-areas: "marca nav tema whats";
+      grid-template-rows: var(--linha-1); column-gap: 16px; }
+    .cabecalho-nav ul { justify-content: flex-end; margin-inline: 0; overflow: visible; }
+    .cabecalho-nav a { padding-inline: 12px; }
+    .cabecalho-nav a::after { left: 12px; right: 12px; bottom: 10px; }
+  }
+
+  /* Rodapé: endereço, perfis, a linha da medição e a assinatura. */
+  .rodape { border-top: 1px solid var(--linha); background: var(--papel); }
+  .rodape-links { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-inline: -12px; }
+  .rodape-site { display: inline-flex; align-items: center; min-height: 44px; margin-inline: -12px; padding-inline: 12px;
+    border-radius: var(--raio-p); color: var(--fundo-suave); }
+  .rodape-links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-inline: 12px; border-radius: var(--raio-p);
+    font-weight: 500; }
+  .rodape-links svg { flex: none; }
+  .rodape-assinatura { font-family: var(--fonte-titulo); font-optical-sizing: auto; font-size: 1.125rem; }
+
+  /* WhatsApp flutuante (só no celular): 56 px, na área segura, e sai do caminho quando o cabeçalho, a chamada
+     final ou o rodapé estão na tela. Entra com a mola curta (passa um pouco do ponto e assenta). */
+  .flutuante { position: fixed; z-index: 25; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+    display: grid; place-items: center; width: 56px; height: 56px; border-radius: var(--raio-pilula);
+    background: var(--sol); color: var(--on-sol); box-shadow: var(--sombra-2);
+    transition: transform var(--mov-padrao) var(--mola-volta), opacity var(--mov-toque) var(--mola);
+    -webkit-tap-highlight-color: transparent; }
+  .flutuante[data-visivel="false"] { opacity: 0; transform: translateY(16px) scale(.6); pointer-events: none;
+    transition: transform var(--mov-padrao) var(--mola), opacity var(--mov-toque) var(--mola); }
+  .flutuante:active { transform: scale(.92); transition-duration: 0ms; }
+  /* Microanimação de sucesso no toque: um anel sai do botão e some (a conversa abriu). */
+  .flutuante::after { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--sol);
+    opacity: 0; pointer-events: none; }
+  .flutuante[data-enviado="true"]::after { animation: flutuante-anel var(--mov-lento) var(--mola) both; }
+  @keyframes flutuante-anel { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.6); } }
+  @media (min-width: 768px) { .flutuante { display: none; } }
+
+  @media (hover: hover) {
+    .cabecalho-nav a, .cabecalho-marca, .rodape-links a, .rodape-site, .botao-tema { transition: color var(--mov-toque) var(--mola), background-color var(--mov-toque) var(--mola); }
+    .cabecalho-nav a:hover, .rodape-links a:hover, .rodape-site:hover, .botao-tema:hover { color: var(--fundo); background: var(--raso); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flutuante, .flutuante[data-visivel="false"], .flutuante:active, .botao-tema svg, .botao-tema[data-tema="escuro"] svg,
+    .cabecalho-nav a::after { transform: none; transition: none; }
+    .cabecalho-nav[data-aberto="true"] li { animation: none; }
+    .flutuante[data-enviado="true"]::after { animation: none; }
+  }
+}
+
+/* Troca de tema sem View Transition (Safari antigo, Firefox): por um quadro, nada transiciona, para as cores
+   não trocarem em tempos diferentes (era o "piscar" do cabeçalho e dos logos). */
+:root[data-trocando-tema] *, :root[data-trocando-tema] *::before, :root[data-trocando-tema] *::after { transition: none !important; }
+
+/* Anel de foco na cor do destaque (§13), igual ao da home. Fora da camada de propósito (ver home.css). */
+.cabecalho :focus-visible, .rodape :focus-visible, .flutuante:focus-visible {
+  outline: 3px solid var(--sol);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--fundo);
+  border-radius: var(--raio-p);
+}
+.cabecalho .cta:focus-visible, .cabecalho .botao-tema:focus-visible, .cabecalho .cabecalho-menu:focus-visible, .flutuante:focus-visible { border-radius: var(--raio-pilula); }

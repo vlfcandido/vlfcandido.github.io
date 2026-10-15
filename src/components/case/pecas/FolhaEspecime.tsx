@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import tokens from '../../../design/mare.tokens.json'
+// 14/10/2026 (fix final): a folha volta a ler os tokens do Maré, o design system do site anterior, guardados em
+// cópia de arquivo. Antes lia a PALETA da identidade nova (sem texto de uso, cada cor saía com um "." solto) e
+// mostrava a paleta deste site como se fosse o Maré.
+import tokens from './mare-anterior.tokens.json'
 import { contraste } from '../../../lib/contraste'
 import type { PecaProps } from './tipos'
 
@@ -26,8 +29,8 @@ function selo(r: number): string {
 const limpar = (t: string) => t.replaceAll('`', '')
 
 /**
- * Peça do design system Maré: a folha de espécime lida do arquivo de tokens, com cada cor nos dois
- * temas, o uso escrito e o contraste sobre o papel calculado na hora.
+ * Peça do design system Maré, o do site anterior: a folha de espécime lida da cópia do arquivo de tokens, com
+ * cada cor nos dois temas, o uso que estava escrito e o contraste sobre o papel calculado na hora.
  */
 export function FolhaEspecime(_: PecaProps) {
   const [tema, setTema] = useState<Tema>('light')
@@ -35,6 +38,11 @@ export function FolhaEspecime(_: PecaProps) {
   const papel = cores.find((c) => c.name === 'papel')!.value
   return (
     <div className="especime">
+      {/* 15/10/2026 (revisor, rodada 2): os usos falam de carta náutica e sondagem, a linguagem do Maré; a linha diz que
+          a folha é do site anterior e ficou como estava. */}
+      <p className="mb-4 max-w-[60ch] text-[0.98rem] text-grafite">
+        Tokens do site anterior, com o uso escrito na época, mantidos como estavam.
+      </p>
       <div role="group" aria-label="Tema da folha" className="inline-flex rounded-full border border-linha bg-folha p-1">
         {(
           [
@@ -84,7 +92,7 @@ export function FolhaEspecime(_: PecaProps) {
       </ul>
 
       <figure className="mt-8 rounded-lg border border-linha bg-folha p-4">
-        <figcaption className="text-[0.92rem] text-grafite">O teste que trava a folha, resumido (src/design/mare.test.ts)</figcaption>
+        <figcaption className="text-[0.92rem] text-grafite">O teste que travava a folha no site anterior, resumido (src/design/mare.test.ts)</figcaption>
         <pre className="folha-codigo mt-2 text-[0.8rem] leading-[1.7]">
           <code>{`it.each(cores)('%s', (nome, claro, escuro) => {
   expect(variaveis(cssClaro)[nome]).toBe(claro)

@@ -1,9 +1,14 @@
 @import "tailwindcss";
 
-@import "./mare.css";
+@import "./identidade.css";
 @import "./case.css";
+@import "./home/marcacao.css";
+@import "./home/home.css";
+@import "./casca.css";
 
-/* Identidade Maré (07/10/2026): carta náutica, tábua de maré e guia de campo. As cores vêm do
+/* Identidade "o detalhe que ninguém viu" (14/10/2026): papel, tinta e marca-texto, Fraunces + Inter. As cores vêm
+   de identidade.css (mesmos nomes de variável do Maré). Os apelidos abaixo seguem valendo.
+   Histórico, Identidade Maré (07/10/2026): carta náutica, tábua de maré e guia de campo. As cores vêm do
    design system em mare.css; os nomes antigos do site (névoa, folha, tinta, cobalto...) viram
    apelidos dos tokens Maré, para os componentes não precisarem mudar de classe.
    Antes: tema "névoa e cobalto" (#eef1f5, #13233f, #2448c8), Bricolage Grotesque + Newsreader. */
@@ -12,13 +17,17 @@
   --folha: var(--papel-alto);
   --tinta: var(--fundo);
   --grafite: var(--fundo-suave);
-  --cobalto: var(--mar);
-  --cobalto-forte: var(--mar-forte);
+  /* 15/10/2026 (fix final, revisor: "#/projetos e os cases ainda no tema antigo"): os apelidos de acento da Maré
+     passam para a identidade nova, com um destaque só. Cobalto (links, cargo, bordas de hover) vira tinta; pitanga
+     (traços, pontos, rótulo tracejado) vira marca-texto, e o texto dela vira grafite (amarelo não passa 4,5:1 como
+     texto). Antes: --cobalto: var(--mar); --cobalto-forte: var(--mar-forte); --pitanga: var(--coral);
+     --pitanga-texto: var(--coral-texto). */
+  --cobalto: var(--fundo);
+  --cobalto-forte: var(--fundo);
   --marca: var(--sol);
   --marca-tinta: var(--on-sol);
-  /* Pitanga = o coral da Maré: acento quente secundário, só em traço e ponto. */
-  --pitanga: var(--coral);
-  --pitanga-texto: var(--coral-texto);
+  --pitanga: var(--sol);
+  --pitanga-texto: var(--fundo-suave);
 }
 
 @theme inline {
@@ -47,13 +56,13 @@
   --color-coral-texto: var(--coral-texto);
 }
 
-/* Tipografia Maré: Hanken Grotesk para a interface (o que se clica e se escaneia) e Brygada 1918,
-   serifada de guia de campo, para títulos e prosa. `font-titulo` segue sendo a família da interface
-   (o corpo usa ela) e `font-texto` a serifada. */
+/* Tipografia (14/10/2026): Fraunces nos títulos e Inter no texto e na interface.
+   Antes (Maré): Hanken Grotesk na interface (font-titulo) e Brygada 1918 serifada em texto/display. */
 @theme {
-  --font-titulo: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-texto: "Brygada 1918", Georgia, "Times New Roman", serif;
-  --font-display: "Brygada 1918", Georgia, "Times New Roman", serif;
+  --font-titulo: "Inter", "Inter reserva", ui-sans-serif, system-ui, sans-serif;
+  --font-texto: "Inter", "Inter reserva", ui-sans-serif, system-ui, sans-serif;
+  /* 14/10/2026: reservas com size-adjust (identidade.css) no lugar de Georgia e Times puros, para não pular. */
+  --font-display: "Fraunces", "Fraunces reserva", "Fraunces reserva Times", serif;
 }
 
 html {
@@ -98,6 +107,19 @@ h3 {
   border-radius: 2px;
 }
 
+/* "Toque" só em tela de toque; "Clique" com mouse (fix final, 14/10/2026). */
+.so-clique {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .so-toque {
+    display: none;
+  }
+  .so-clique {
+    display: inline;
+  }
+}
+
 /* Seleção de texto na cor de acento, clara o bastante para a tinta continuar legível. */
 ::selection {
   background: color-mix(in srgb, var(--pitanga) 30%, transparent);
@@ -108,7 +130,7 @@ h3 {
 .sublinha {
   text-decoration: none;
   background: linear-gradient(var(--linha), var(--linha)) left bottom / 100% 2px no-repeat,
-    linear-gradient(var(--pitanga), var(--pitanga)) left bottom / 0% 2px no-repeat;
+    linear-gradient(var(--marca), var(--marca)) left bottom / 0% 2px no-repeat;
   padding-bottom: 2px;
   transition: background-size 0.25s ease, color 0.15s;
 }
@@ -132,7 +154,7 @@ h3 {
   flex: none;
 }
 
-/* No chip ativo (fundo cobalto) o ponto ganha um anel claro para não se perder no azul. */
+/* No chip ativo (fundo tinta desde a Task 10; antes cobalto) o ponto ganha um anel claro para não se perder no fundo. */
 .ponto-anel {
   box-shadow: 0 0 0 2px var(--nevoa);
 }
@@ -300,15 +322,15 @@ a:focus-visible .logo-mono {
   transform: scale(0.94);
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
-/* Logos claras (brancas ou cinza-claro no original) sumiam na placa branca: ganham placa azul-marinho
+/* Logos claras (brancas ou cinza-claro no original) sumiam na placa branca: ganham placa de tinta
    fixa, a mesma nos dois temas, com borda para destacar do fundo escuro. */
 .logo-botao[data-clara="true"]::before {
-  background: #0f2a33;
+  background: #17150f; /* 15/10/2026: tinta da identidade nova (antes #0f2a33, azul-marinho da Maré). */
   box-shadow: 4px 4px 0 var(--linha), inset 0 0 0 1px rgb(255 255 255 / 0.18);
 }
 /* Sem arquivo de logo, o nome em texto vai sobre a placa branca: tinta fixa, legível nos dois temas. */
 .logo-botao[data-ativo="true"] .nome-logo {
-  color: #13233f;
+  color: #17150f; /* 15/10/2026: antes #13233f. */
 }
 .logo-botao[data-ativo="true"] {
   z-index: 5;
@@ -380,7 +402,8 @@ a:focus-visible .logo-mono {
 .cartao-projeto:has(:focus-visible) img,
 .cartao-projeto:has(:focus-visible) .moldura-logo {
   transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0 var(--pitanga);
+  /* 14/10/2026 (fix final): antes pitanga (coral da Maré); o destaque do site é um só, o marca-texto. */
+  box-shadow: 9px 9px 0 var(--marca);
 }
 /* Logo e capa ilustrada sobem junto com a moldura; a imagem dentro dela não se move sozinha. */
 .cartao-projeto .moldura-logo img {
@@ -420,59 +443,9 @@ a:focus-visible .logo-mono {
   border-color: var(--cobalto);
 }
 
-/* Como funciona: cada passo liga ao próximo por um traço que se preenche quando o passo
-   já ficou para trás (vertical no celular, horizontal no computador). */
-.passo:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: calc(1.3rem - 1px);
-  top: 2.6rem;
-  width: 2px;
-  height: calc(100% + 2.5rem - 2.6rem);
-  background: linear-gradient(var(--cobalto), var(--cobalto)) top / 100% 0% no-repeat, var(--linha);
-  transition: background-size 0.35s ease;
-}
-.passo[data-estado="feito"]::after {
-  background-size: 100% 100%, auto;
-}
-@media (min-width: 1024px) {
-  .passo:not(:last-child)::after {
-    left: 2.6rem;
-    top: calc(1.3rem - 1px);
-    width: calc(100% + 2.5rem - 2.6rem);
-    height: 2px;
-    background-position: left;
-    background-size: 0% 100%, auto;
-  }
-  .passo[data-estado="feito"]::after {
-    background-size: 100% 100%, auto;
-  }
-}
-.passo-numero {
-  position: relative;
-  border: 2px solid var(--cobalto);
-  background: var(--nevoa);
-  color: var(--cobalto);
-  transition: background-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
-}
-.passo[data-estado="feito"] .passo-numero,
-.passo[data-estado="ativo"] .passo-numero {
-  background: var(--cobalto);
-  color: var(--nevoa);
-}
-.passo[data-estado="ativo"] .passo-numero {
-  border-color: var(--pitanga);
-  background: var(--pitanga);
-  color: var(--on-sol);
-  transform: scale(1.12);
-  box-shadow: 0 0 0 4px var(--nevoa), 0 0 0 6px var(--pitanga);
-}
-.passo-titulo {
-  transition: color 0.25s;
-}
-.passo[data-estado="ativo"] .passo-titulo {
-  color: var(--cobalto);
-}
+/* Fix final (14/10/2026): saíram as regras .passo::after, .passo-numero e .passo-titulo da home antiga. A home nova
+   reusa a classe .passo (ComoFunciona.tsx) sem position: relative, e o traço absoluto do ::after virava uma linha
+   vertical a 20 px da borda, do topo da página até o fim da prova, cortando a 1ª letra do título no celular. */
 
 /* O que eu resolvo: a oferta ativa ganha o trilho coral e o fundo de folha. */
 .oferta {
@@ -717,36 +690,7 @@ a:focus-visible .logo-mono {
     display: block !important;
   }
 }
-/* Abertura: a carta é textura, não figura; some nas bordas para não pesar sobre o texto. */
-.carta-abertura {
-  opacity: 0.32;
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 70% 55%, #000 35%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 60% at 70% 55%, #000 35%, transparent 100%);
-}
-@media (min-width: 1024px) {
-  .carta-abertura {
-    opacity: 0.42;
-    -webkit-mask-image: radial-gradient(ellipse 58% 62% at 64% 40%, #000 40%, transparent 100%);
-    mask-image: radial-gradient(ellipse 58% 62% at 64% 40%, #000 40%, transparent 100%);
-  }
-}
-/* Topo de seção (projetos, agentes): a ilustração ao lado do título, sumindo para a esquerda e para baixo. */
-.carta-topo {
-  opacity: 0.5;
-  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 70% 40%, #000 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 75% 75% at 70% 40%, #000 40%, transparent 100%);
-}
-@media (min-width: 640px) {
-  .carta-topo {
-    opacity: 0.85;
-  }
-}
-/* Faixa do rodapé: baixa, só o desenho da direita. */
-.carta-faixa {
-  opacity: 0.6;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
-  mask-image: linear-gradient(to right, transparent, #000 45%);
-}
+/* 14/10/2026 (fix final): saíram .carta-abertura, .carta-topo e .carta-faixa, as máscaras da carta náutica da Maré. */
 
 /* Interfaces que eu construo (08/10/2026): peças vivas com dados de exemplo. */
 .grafico:focus-visible {
@@ -848,19 +792,8 @@ a:focus-visible .logo-mono {
 /* Página principal enxuta (08/10/2026): divulgação progressiva. Uma composição por tamanho de tela:
    no celular, abas em linha rolável, stepper compacto e "ver mais"; no computador, grade densa com
    painel ao lado. Os componentes trocam de forma pelo breakpoint, sem HTML duplicado. */
-.secao {
-  padding-block: 2rem;
-}
-@media (min-width: 640px) {
-  .secao {
-    padding-block: 3.25rem;
-  }
-}
-@media (min-width: 1024px) {
-  .secao {
-    padding-block: 3.5rem;
-  }
-}
+/* 14/10/2026: o espaçamento de .secao passou para home/home.css (72 px; 48 px no celular, com encaixe por seção).
+   Antes: 2rem, 3.25rem a partir de 640 px e 3.5rem a partir de 1024 px, fora de camada (venceria o home.css). */
 .titulo-secao {
   font-size: 1.75rem;
   line-height: 1.12;
@@ -878,12 +811,8 @@ a:focus-visible .logo-mono {
     font-size: 2.4rem;
   }
 }
-/* No celular o cabeçalho tem a fileira de chips: a âncora para um pouco mais abaixo. */
-@media (max-width: 1023px) {
-  main [id].scroll-mt-24 {
-    scroll-margin-top: 7rem;
-  }
-}
+/* 14/10/2026: saiu o recuo de 7rem das âncoras no celular (era para a fileira de chips do cabeçalho fixo; o
+   cabeçalho novo é estático no celular). */
 
 /* Linha rolável sem barra (abas, chips, faixa de logos, carrossel). */
 .rolagem-lateral {
@@ -1136,144 +1065,8 @@ a:focus-visible .logo-mono {
   }
 }
 
-/* Régua de profundidade (Sondagem): cotas de 0 m a 40 m. No celular, a fileira fina sob o
-   cabeçalho; em tela larga, fixa na margem esquerda, com o trecho percorrido em mar. */
-.regua-chip {
-  display: inline-block;
-  padding: 0.3rem 0 0.25rem;
-  border-bottom: 2px solid transparent;
-  color: var(--fundo-suave);
-  font-size: 0.92rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-.regua-chip[aria-current] {
-  border-bottom-color: var(--coral);
-  color: var(--fundo);
-  font-weight: 600;
-}
-.regua-cota {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--fundo-suave);
-}
-.regua-chip .regua-cota {
-  font-size: 0.85rem;
-}
-.regua-progresso {
-  transition: transform 0.1s linear;
-}
-.regua-lateral {
-  display: none;
-}
-@media (min-width: 1400px) {
-  .regua-lateral {
-    position: fixed;
-    top: 50%;
-    left: 1.1rem;
-    z-index: 15;
-    display: block;
-    height: 19rem;
-    transform: translateY(-50%);
-  }
-  .regua-lateral ol {
-    position: relative;
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .regua-trilho {
-    position: absolute;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    left: 4px;
-    width: 2px;
-    background: var(--linha);
-  }
-  .regua-percorrido {
-    position: absolute;
-    inset: 0;
-    background: var(--mar);
-    transform-origin: top;
-    transition: transform 0.1s linear;
-  }
-  .regua-marca {
-    position: relative;
-    display: grid;
-    grid-template-columns: 10px auto;
-    column-gap: 0.55rem;
-    align-items: center;
-    padding: 0.15rem 0.25rem 0.15rem 0;
-    border-radius: 6px;
-  }
-  .regua-marca::before {
-    content: "";
-    grid-row: 1 / span 2;
-    width: 10px;
-    height: 10px;
-    border: 2px solid var(--mar);
-    border-radius: 999px;
-    background: var(--papel);
-  }
-  .regua-marca[aria-current]::before {
-    border-color: var(--coral);
-    background: var(--coral);
-    box-shadow: 0 0 0 3px var(--papel), 0 0 0 4.5px var(--coral);
-  }
-  .regua-marca .regua-cota {
-    font-size: 0.85rem;
-  }
-  .regua-marca[aria-current] .regua-cota {
-    color: var(--fundo);
-  }
-  .regua-nome {
-    max-width: 4.6rem;
-    color: var(--fundo);
-    font-size: 0.74rem;
-    font-weight: 600;
-    line-height: 1.15;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .regua-marca[aria-current] .regua-nome,
-  .regua-marca:hover .regua-nome,
-  .regua-marca:focus-visible .regua-nome {
-    opacity: 1;
-  }
-}
-
-/* "Descer": o prumo afunda um pouco no hover e a isóbata se desenha quando o bloco abre. */
-.descer-prumo {
-  transition: transform 0.2s ease;
-}
-.descer-botao:hover .descer-prumo,
-.descer-botao[aria-expanded="true"] .descer-prumo {
-  transform: translateY(2px);
-}
-.isobata-descer path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.expansivel[data-aberto="true"] .isobata-descer path {
-  stroke-dashoffset: 0;
-}
-/* Logos: a legenda flutuante (só no hover) saiu; a linha de sondagem embaixo da faixa vale para todos. */
-.grade-logos .dica {
-  display: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .regua-progresso,
-  .regua-percorrido,
-  .regua-nome,
-  .descer-prumo,
-  .isobata-descer path {
-    transition: none;
-  }
-}
+/* 14/10/2026: saíram a régua de profundidade da Maré (cabeçalho e régua lateral) e o "Descer", com os componentes
+   que os usavam (ver git log). */
 
 /* Como é uma entrega (08/10/2026, compacta): no celular, lista de uma linha por etapa; a partir de 1024px,
    faixa horizontal de oito colunas com trilho que enche por escala e popover de uma frase. */
@@ -1489,8 +1282,8 @@ a:focus-visible .logo-mono {
     opacity: 0;
   }
 }
-/* O cabeçalho fixo não pisca na troca. */
-header.sticky {
+/* O cabeçalho não pisca na troca (14/10/2026: classe .cabecalho; antes header.sticky). */
+.cabecalho {
   view-transition-name: cabecalho;
 }
 ::view-transition-group(cabecalho) {
@@ -1548,6 +1341,17 @@ html[data-navegou] .pagina-troca {
 .entrando {
   transition: opacity var(--mov-lento) var(--mov-ease) var(--atraso-entrada, 0ms), transform var(--mov-lento) var(--mov-ease)
     var(--atraso-entrada, 0ms);
+}
+/* Celular (spec §12, 14/10/2026): entrada própria, mais curta e mais rápida (8 px, --mov-padrao = 260 ms); o PC fica com a
+   entrada mais longa (--mov-deslocamento e --mov-lento). Com reduced-motion a revelação nem roda (lib/revelar.ts). */
+@media (max-width: 1023px) {
+  .vai-entrar {
+    transform: translateY(8px);
+  }
+  .entrando {
+    transition-duration: var(--mov-padrao), var(--mov-padrao);
+    transition-timing-function: var(--mov-ease);
+  }
 }
 
 /* Ampliação do print: a miniatura dá um leve zoom; a tela cheia entra de escala e some de volta
@@ -1637,4 +1441,9 @@ html[data-navegou] .pagina-troca {
 /* Botão em pílula mantém a forma no foco (a regra geral de :focus-visible põe raio de 2px). */
 a.rounded-full:focus-visible {
   border-radius: 9999px;
+}
+
+/* 15/10/2026: logo dos cartões de empresa centrada no quadro (a ampliação das logos com margem partia da esquerda). */
+.logo-cartao.origin-left {
+  transform-origin: center;
 }

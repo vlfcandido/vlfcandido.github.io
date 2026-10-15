@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { encontrarTermosProibidos } from '../lib/termos-proibidos'
 import { diagramasDosCasos } from '../visuais'
-import { listarDesenhos, listarPadroes } from './desenhos'
+import { listarDesenhos } from './desenhos'
 import { desenharSvg, paletaDoTema, quebrar } from './motor'
 
 const desenhos = Object.values(listarDesenhos())
@@ -35,10 +35,6 @@ describe('ilustrações-diagrama', () => {
           quebrar(n.titulo, 240, 17).forEach((l) => expect(l.length, `${d.id}: ${l}`).toBeLessThanOrEqual(27))))))
   it('todo desenho ligado a um caso existe', () =>
     Object.values(diagramasDosCasos).forEach((id) => expect(listarDesenhos()[id], id).toBeTruthy()))
-  it('quatro padrões de agente, cada um com desenho', () => {
-    expect(listarPadroes()).toHaveLength(4)
-    listarPadroes().forEach((p) => expect(listarDesenhos()[p.id]).toBeTruthy())
-  })
   it('ids únicos por prefixo, para vários SVGs na mesma página', () => {
     const a = desenharSvg(desenhos[0], 'largo', paletaDoTema(), { prefixo: 'a' })
     const b = desenharSvg(desenhos[0], 'largo', paletaDoTema(), { prefixo: 'b' })

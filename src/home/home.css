@@ -1,0 +1,212 @@
+/* Layout da home nova (14/10/2026). Versão celular e versão PC com orçamento de rolagem (spec §12):
+   celular ≤ 5 telas (uma por papel), PC ≤ 4 telas (blocos lado a lado). Acabamento da §13: curva de mola,
+   só transform e opacity, :active imediato, 3 raios, 2 sombras e espaços em múltiplos de 4.
+   Em @layer components para os utilitários do Tailwind poderem sobrescrever (exceto o anel de foco, no fim). */
+@layer components {
+  :root {
+    --mola: cubic-bezier(.2, .8, .2, 1);
+    /* Retorno elástico curto do toque: passa um pouco do ponto e assenta. */
+    --mola-volta: cubic-bezier(.34, 1.56, .64, 1);
+    --raio-p: 8px; --raio-m: 16px; --raio-pilula: 999px;
+    --sombra-1: 0 1px 2px rgb(0 0 0 / .06), 0 8px 24px -12px rgb(0 0 0 / .18);
+    --sombra-2: 0 2px 4px rgb(0 0 0 / .06), 0 24px 48px -16px rgb(0 0 0 / .28);
+    /* Altura do cabeçalho que acompanha a rolagem (casca.css) e a espiadinha da próxima tela. Recalibrado em
+       14/10/2026 para o cabeçalho novo; antes 96px fixo (régua da Maré, sticky também no celular). No celular o
+       cabeçalho é estático, então não ocupa a tela de cada bloco: a reserva vira só a espiadinha (120 px, o
+       mesmo resto de antes, 96 + 24). */
+    --cabecalho: 0px;
+    --espiada: 120px;
+  }
+  @media (min-width: 768px) { :root { --cabecalho: 105px; --espiada: 24px; } }
+  @media (min-width: 1024px) { :root { --cabecalho: 65px; } }
+
+  html { scroll-padding-top: var(--cabecalho); }
+  /* Encaixe vertical por seção só no celular (spec §7). 14/10/2026, reclamação dele ("no PC o site fica rolando
+     para cima toda hora"): antes `html { scroll-snap-type: y proximity }` valia em toda largura, e no PC, com os
+     blocos lado a lado, cada rolagem curta era puxada de volta para o começo da seção. No PC a rolagem é livre. */
+  @media (max-width: 767px) {
+    /* Fix final (14/10/2026, revisor: "a 1ª parada do toque cai no meio de duas seções"): um arrasto de 300 px parava
+       em y=359, metade da prova e metade do protótipo. O encaixe segue `proximity` (com `mandatory`, arrastos curtos
+       voltavam ao topo e a página parecia travada; medido), só na home (`:has`), e quem completa a parada é
+       useParadaPorTela (Inicio.tsx): depois de um toque, a página assenta no começo da tela seguinte no sentido do
+       dedo. A prova não tem parada própria: o cabeçalho é a parada do topo e a prova cabe inteira com ele.
+       Antes: `html { scroll-snap-type: y proximity }` em toda rota do celular e a prova com parada própria. */
+    html:has(.home) { scroll-snap-type: y proximity; }
+    .home > .secao { scroll-snap-align: start; }
+    .home > #inicio { scroll-snap-align: none; }
+  }
+  /* Ponto de chegada dos links do menu (Task 10): o título (ou o retrato com o título) fica no topo, 24 px abaixo
+     do cabeçalho. O encaixe do celular continua no começo de cada seção (um teste com o encaixe nos títulos
+     prendia a 1ª tela: arrastos de 300 px voltavam sempre ao título da prova). */
+  .alvo-secao { scroll-margin-top: 24px; }
+  /* CLS no celular (Task 10): com a fonte de reserva o título da prova cabe em 3 linhas e, com a Fraunces, em 5.
+     Como a 1ª tela centra o conteúdo, a troca de fonte puxava tudo 46 px para cima e empurrava o resto (CLS 0,08).
+     A altura das 5 linhas fica reservada; a troca acontece dentro da caixa do título. */
+  /* Fix final (14/10/2026): o título novo tem 4 linhas com a Fraunces a 390 px (antes 5); a reserva acompanha. */
+  @media (max-width: 639px) { .home #inicio h1 { min-height: 4lh; } }
+  /* Marca de chegada pelo menu: o marca-texto passa sob o texto do título (400 ms) e sai pela direita. Mostra que a
+     pessoa chegou mesmo quando o bloco está na última linha do PC e o título não sobe até o topo. Fica no span do
+     texto (inline, uma faixa por linha), para o traço ter o tamanho das palavras e não o da coluna. */
+  .titulo-texto { background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--sol) 80%, transparent) 62%, color-mix(in srgb, var(--sol) 80%, transparent) 94%, transparent 94%);
+    background-repeat: no-repeat; background-size: 0% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .chegou .titulo-texto { animation: chegada 1400ms var(--mola) both; }
+  @keyframes chegada {
+    0% { background-size: 0% 100%; background-position: 0 0; }
+    29%, 72% { background-size: 100% 100%; background-position: 0 0; }
+    73% { background-size: 100% 100%; background-position: 100% 0; }
+    100% { background-size: 0% 100%; background-position: 100% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .chegou .titulo-texto { animation: none; background-size: 100% 100%; } }
+
+  /* Composição: no celular, uma coluna na ordem do HTML; no PC, 3 colunas com os blocos lado a lado. */
+  .home { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .home > .secao { padding-block: 40px; }
+  .home > .secao + .secao { border-top: 1px solid var(--linha); }
+  .home h1, .home h2, .home h3 { text-wrap: balance; }
+  .home p { text-wrap: pretty; }
+
+  @media (max-width: 1023px) {
+    /* Uma tela por papel; o que sobra embaixo é a espiadinha da próxima. */
+    .home > .tela { min-height: calc(100svh - var(--cabecalho) - var(--espiada)); display: flex; flex-direction: column; justify-content: center; }
+  }
+  @media (max-width: 767px) {
+    /* Fix final (14/10/2026, revisor: "topo pesado, ≈ 110 px vazios antes do título"): no celular a prova tem a
+       altura do próprio conteúdo, com o título a 32 px do cabeçalho de uma linha. Cabeçalho + prova ocupam ≈ 640 px e o
+       título do protótipo já espia embaixo. Antes: altura de uma tela menos a espiada, com o conteúdo centrado (o
+       título ficava a ≈ 110 px do cabeçalho de 153 px). */
+    .home > #inicio { min-height: 0; padding-top: 32px; }
+    /* Empresas e Como funciona dividem a 4ª tela. */
+    .home > #empresas { padding-bottom: 24px; }
+    /* Task 10: "Como funciona" ganhou encaixe próprio. Antes (scroll-snap-align: none) o link do menu caía nas
+       empresas, porque o encaixe puxava a página para o começo do bloco de cima. */
+    .home > #como { padding-top: 24px; }
+  }
+  @media (min-width: 1024px) {
+    .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;
+      grid-template-areas: "inicio inicio inicio" "prototipo prototipo empresas" "destaques destaques destaques" "como como quem"; }
+    .home > .secao { padding-block: 56px; }
+    .home > #inicio { grid-area: inicio; }
+    .home > #prototipo { grid-area: prototipo; }
+    .home > #empresas { grid-area: empresas; }
+    .home > #destaques { grid-area: destaques; }
+    .home > #como { grid-area: como; }
+    .home > #quem { grid-area: quem; }
+    /* Blocos lado a lado: o da direita ganha um fio vertical em vez de ficar solto. */
+    .home > #empresas, .home > #quem { padding-left: 48px; margin-left: -24px; border-left: 1px solid var(--linha); }
+  }
+
+  .titulo-bloco { font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem); line-height: 1.12; font-weight: 600; }
+
+  .cta { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 24px; border-radius: var(--raio-pilula);
+    background: var(--sol); color: var(--on-sol); font-weight: 600; }
+  .link-secundario { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 20px; border-radius: var(--raio-pilula);
+    border: 1px solid var(--linha); background: var(--papel-alto); color: var(--fundo); font-weight: 600; }
+  /* Alinhamento óptico da seta (§13): medido no Chromium, a tinta do "→" e do "↗" da Inter 600 fica centrada na
+     altura das maiúsculas (5,8 px a 16 px), acima do meio do x (4,4 px), e a seta parecia alta ao lado do texto em
+     minúsculas. Desce 0,04em (≈ 0,6 px a 16 px) até o meio entre os dois. `translate` à parte do `transform`, para o
+     deslize do hover não desfazer o ajuste. */
+  .seta { display: inline-block; translate: 0 .04em; transition: transform var(--mov-padrao) var(--mola); }
+
+  .cartao { display: flex; flex-direction: column; height: 100%; background: var(--papel-alto); border: 1px solid var(--linha);
+    border-radius: var(--raio-m); overflow: hidden; }
+  /* Espaço reservado da imagem: o fundo aparece enquanto ela carrega (sem salto, sem buraco branco). */
+  .imagem-reservada { background: var(--raso); }
+
+  /* Hover só com mouse (§13: nada no celular depende de hover). */
+  @media (hover: hover) {
+    .cta, .link-secundario { transition: transform var(--mov-padrao) var(--mola-volta), box-shadow var(--mov-padrao) var(--mola); }
+    .cta:hover { transform: translateY(-2px); box-shadow: var(--sombra-1); }
+    .link-secundario:hover { transform: translateY(-2px); border-color: var(--fundo-suave); }
+    .cta:hover .seta, .link-secundario:hover .seta { transform: translateX(4px); }
+    .cartao { transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
+    .cartao:hover { transform: translateY(-4px); box-shadow: var(--sombra-2); }
+    .cartao img { transition: transform var(--mov-lento) var(--mola); }
+    .cartao:hover img { transform: scale(1.02); }
+    a:hover > .moldura-navegador { transform: translateY(-4px); box-shadow: var(--sombra-2); }
+    .empresa:hover .logo-empresa { filter: none; opacity: 1; }
+  }
+
+  /* Toque que responde: afunda na hora (0 ms) e volta com mola curta. Só transform. Depois do hover de propósito:
+     no clique, o afundar vence a elevação. */
+  .toque { transition: transform var(--mov-padrao) var(--mola-volta), box-shadow var(--mov-padrao) var(--mola); -webkit-tap-highlight-color: transparent; }
+  .toque:active { transform: scale(.97); transition-duration: 0ms; }
+
+  /* Carrossel dos trabalhos: encaixe, próximo cartão aparecendo e área segura do iPhone. */
+  .carrossel { display: grid; grid-auto-flow: column; grid-auto-columns: 84%; gap: 16px; overflow-x: auto;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+    padding: 4px max(16px, env(safe-area-inset-right)) 8px max(16px, env(safe-area-inset-left));
+    margin-inline: -16px; scroll-padding-inline: max(16px, env(safe-area-inset-left)); }
+  .carrossel::-webkit-scrollbar { display: none; }
+  .carrossel > * { scroll-snap-align: start; }
+  @media (min-width: 640px) { .carrossel { grid-auto-columns: 46%; } }
+  @media (min-width: 1024px) {
+    .carrossel { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; padding: 0; margin-inline: 0; gap: 24px; }
+  }
+  /* Indicador de progresso que anda com o dedo (o JS só mexe em transform e width). */
+  .progresso { position: relative; height: 4px; margin-top: 16px; border-radius: var(--raio-pilula); background: var(--linha); overflow: hidden; }
+  .progresso > span { position: absolute; inset-block: 0; left: 0; width: 33%; border-radius: inherit; background: var(--fundo); will-change: transform; }
+  @media (min-width: 1024px) { .progresso { display: none; } }
+
+  /* Moldura de navegador simples: borda e 3 pontinhos. */
+  .moldura-navegador { border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--papel-alto); overflow: hidden;
+    box-shadow: var(--sombra-1); transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
+  .moldura-navegador .barra-janela { display: flex; align-items: center; gap: 8px; height: 32px; padding-inline: 16px; border-bottom: 1px solid var(--linha); background: var(--raso); }
+  .moldura-navegador .barra-janela i { width: 8px; height: 8px; border-radius: var(--raio-pilula); background: var(--linha); }
+
+  /* Caixa do detalhe na tela da vitrine: o círculo de caneta ocupa a caixa inteira. */
+  .vitrine-alvo { position: absolute; }
+  .vitrine-alvo > .marcacao { display: block; width: 100%; height: 100%; }
+  .vitrine-alvo .marcacao-traco path { stroke-width: 4; }
+
+  .numero-passo { font-family: var(--fonte-titulo); line-height: 1; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; color: var(--fundo); }
+
+  /* Monograma no lugar da foto até ela existir (Task 8): mesmo quadro 4:5, layout final. */
+  .quadro-retrato { aspect-ratio: 4 / 5; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--raso); overflow: hidden; }
+  /* Foto (15/10/2026): avatar redondo de 96 px (80 px no PC), com um anel de marca-texto afastado por um fio de papel,
+     a assinatura do site. A foto original tem 210 px: nunca passa de 105 px CSS para não perder nitidez em tela 2x. */
+  .avatar-retrato { width: 96px; height: 96px; border-radius: var(--raio-pilula); overflow: hidden; background: var(--raso);
+    box-shadow: 0 0 0 3px var(--papel), 0 0 0 5px var(--sol); }
+  @media (min-width: 1024px) { .avatar-retrato { width: 80px; height: 80px; } }
+
+  .logo-empresa { height: 32px; width: auto; max-width: 100%; object-fit: contain; object-position: left center;
+    filter: grayscale(1); opacity: .85; transition: filter var(--mov-padrao) var(--mola), opacity var(--mov-padrao) var(--mola); }
+  /* Serasa (15/10/2026, revisor, rodada 2): o desenho tem letra fina e duas linhas, e saía menor e mais claro que os
+     outros. Altura óptica +25% e tinta mais firme. */
+  .logo-empresa[data-slug="serasa-experian"] { height: 40px; opacity: 1; filter: grayscale(1) contrast(1.35) brightness(.75); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .logo-empresa,
+    :root:not([data-tema="claro"]) .empresa:hover .logo-empresa { filter: grayscale(1) invert(1) brightness(1.6); }
+  }
+  :root[data-tema="escuro"] .logo-empresa,
+  :root[data-tema="escuro"] .empresa:hover .logo-empresa { filter: grayscale(1) invert(1) brightness(1.6); }
+  /* Logo clara no original (branca, ex.: Prefeitura de Franca): silhueta escura no claro, como é no escuro. */
+  .logo-empresa[data-clara="true"],
+  .empresa:hover .logo-empresa[data-clara="true"] { filter: grayscale(1) invert(1) contrast(1.4); opacity: .8; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .logo-empresa[data-clara="true"],
+    :root:not([data-tema="claro"]) .empresa:hover .logo-empresa[data-clara="true"] { filter: grayscale(1) brightness(1.3); }
+  }
+  :root[data-tema="escuro"] .logo-empresa[data-clara="true"],
+  :root[data-tema="escuro"] .empresa:hover .logo-empresa[data-clara="true"] { filter: grayscale(1) brightness(1.3); }
+
+  /* O círculo de caneta ganha folga em volta da frase: abraça o texto sem riscar as letras. */
+  /* 15/10/2026 (revisor, rodada 2): o traço cortava o pé da linha de cima e, a 390 px, chegava a 4 px da borda.
+     Desce ~4 px e encolhe na horizontal. Antes: inset -32% -10%, width 120%, height 164%. */
+  .marcacao-circulo .marcacao-traco { inset: -24% -6%; width: 112%; height: 160%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toque, .toque:active, .cta:hover, .link-secundario:hover, .cartao:hover, a:hover > .moldura-navegador,
+    .cartao:hover img, .cta:hover .seta, .link-secundario:hover .seta { transform: none; transition: none; }
+  }
+}
+
+/* Anel de foco na cor do destaque (§13). Fora da camada de propósito: o :focus-visible global do index.css
+   não tem camada e venceria. O fio escuro por dentro garante contraste do amarelo sobre o papel. */
+.home :focus-visible {
+  outline: 3px solid var(--sol);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--fundo);
+  border-radius: var(--raio-p);
+}
+.home .cta:focus-visible, .home .link-secundario:focus-visible { border-radius: var(--raio-pilula); }
+.home .cartao:focus-visible, .home .vitrine:focus-visible { border-radius: var(--raio-m); }

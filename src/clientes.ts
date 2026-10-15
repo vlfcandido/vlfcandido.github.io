@@ -49,6 +49,8 @@ export interface EmpresaDireta extends Cliente {
   feito: string
   /** Matéria ou material público que conta a história (quando existe). */
   historia?: { texto: string; url: string }
+  /** Empresa pela qual o trabalho foi feito, quando não foi contratação direta (ex.: 'NTT DATA' na Serasa). */
+  via?: string
   /** Slug da notícia em `noticias.ts` ou do case em `conteudo.ts`, quando houver. */
   ligadoA?: string
 }
@@ -63,13 +65,27 @@ export interface GrupoClientes {
   clientes: Cliente[]
 }
 
+/**
+ * Fonte única das empresas onde ele trabalhou (15/10/2026, revisor de detalhes: "as empresas da home não batem com as
+ * de #/projetos"). A home ("Onde já trabalhei"), o número de prova e a faixa de #/projetos ("Casos em empresas") leem
+ * daqui. Só empregadores: a Prefeitura de Franca e a Araguaia são clientes atendidos pela Vertigo e aparecem como casos,
+ * nunca como empresa onde ele trabalhou. Antes, a home listava sicoob, serasa-experian, contabilizei, prefeitura-franca
+ * e wiv (src/home/conteudo.ts, SLUGS_EMPRESAS).
+ */
+export const ONDE_TRABALHEI = ['sicoob', 'serasa-experian', 'contabilizei', 'vertigo', 'wiv'] as const
+
+/** Slug de uma empresa onde ele trabalhou. */
+export type SlugEmpregador = (typeof ONDE_TRABALHEI)[number]
+
 export const empresasDiretas: EmpresaDireta[] = [
   {
     slug: 'sicoob',
     nome: 'Sicoob',
     segmento: 'financeiro',
     logo: 'logos/sicoob.svg',
-    papel: 'Engenheiro de IA sênior, à frente técnica da IA de investimentos',
+    // Fix final (14/10/2026): uma regra só de maiúsculas nos cargos (só a 1ª letra da linha); "à frente técnica"
+    // virou "líder técnico". Antes: 'Engenheiro de IA sênior, à frente técnica da IA de investimentos'.
+    papel: 'Engenheiro de IA sênior e líder técnico da IA de investimentos',
     feito: 'Lidero tecnicamente a frente de IA do assistente de investimentos, com três agentes especializados.',
     historia: { texto: 'MobileTime, 17/07/2026', url: 'https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/' },
     ligadoA: 'sicoob-ia-investimentos',
@@ -82,7 +98,8 @@ export const empresasDiretas: EmpresaDireta[] = [
     // Corrigido em 08/10/2026 (ele): o atendimento com IA citado pelo Google Cloud não foi trabalho dele.
     // Antes: papel "Arquiteto sênior de IA", com a matéria do Google como história.
     // Cargo devolvido em 08/10/2026 (decisão dele). Antes desta correção: 'Agentes de IA de vendas (SDR)'.
-    papel: 'Arquiteto Sênior de IA, agentes de IA de vendas',
+    // Fix final (14/10/2026): antes 'Arquiteto Sênior de IA, …' (maiúsculas fora da regra dos outros cargos).
+    papel: 'Arquiteto sênior de IA, agentes de IA de vendas',
     // Atualizado em 08/10/2026 com o texto aprovado. Antes: 'Fiz os agentes de IA de vendas (SDR).'
     feito: 'Vendedor de IA no WhatsApp com um orquestrador e 8 agentes; trabalhei no backend, na passagem para o time humano e nas integrações.',
     ligadoA: 'contabilizei-vendas',
@@ -92,16 +109,24 @@ export const empresasDiretas: EmpresaDireta[] = [
     nome: 'Serasa Experian',
     segmento: 'financeiro',
     logo: 'logos/serasa-experian.webp',
-    papel: 'Engenheiro de IA sênior e tech lead',
+    // Fix final (14/10/2026): antes 'Engenheiro de IA sênior e tech lead' (um cargo em inglês, os outros em português).
+    // 15/10/2026 (decisão dele): o trabalho na Serasa foi pela NTT DATA, e isso aparece onde o site fala dele (o h1 da
+    // home fica curto). Antes: papel 'Engenheiro de IA sênior e líder técnico', sem `via`.
+    papel: 'Engenheiro de IA sênior e líder técnico, pela NTT DATA',
+    via: 'NTT DATA',
     feito: 'Liderei um squad de engenharia cuidando da segurança e da modernização de aplicações em grande escala.',
   },
   {
     slug: 'vertigo',
     nome: 'Vertigo',
     segmento: 'tecnologia',
-    logo: 'logos/vertigo.png',
-    papel: 'Tech lead dos projetos Blip',
-    feito: 'Liderei o time de projetos de chatbot na Blip, de órgãos públicos a grandes empresas.',
+    // 15/10/2026 (decisão dele): a Vertigo entra no "Onde já trabalhei", com logo em SVG de tinta única desenhado para a
+    // faixa. Antes: logos/vertigo.png (colorida, com o slogan) e feito 'Liderei o time de projetos de chatbot na Blip, de
+    // órgãos públicos a grandes empresas.'. Fonte do feito novo: LinkedIn dele (via controlador, 15/10/2026).
+    logo: 'logos/vertigo.svg',
+    // Fix final (14/10/2026): antes 'Tech lead dos projetos Blip'.
+    papel: 'Líder técnico dos projetos Blip',
+    feito: 'Liderei o time que entregou mais de 80 chatbots na Blip, de órgãos públicos a grandes empresas, e certificou a Vertigo como parceira Blip.',
     historia: { texto: 'diretório de parceiros Blip', url: 'https://www.blip.ai/partners/en/experts/vertigo-tecnologia/' },
     ligadoA: 'vertigo-take-blip',
   },

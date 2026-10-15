@@ -75,7 +75,7 @@ export interface Paleta {
 /** Composição: larga para tela grande, estreita para celular. */
 export type Modo = 'largo' | 'estreito'
 
-/** Paleta que segue o tema do site (variáveis de `mare.css`). */
+/** Paleta que segue o tema do site (variáveis de `identidade.css`). */
 export function paletaDoTema(): Paleta {
   return {
     papelAlto: 'var(--papel-alto)',

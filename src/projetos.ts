@@ -5,7 +5,7 @@
 // dos projetos próprios saem do banco de provas (medidos em 07/10/2026). Nada de projeto que o banco
 // de provas manda não citar (ex.: o bot de pedidos, que não sobe), nem de lucro em operação de mercado.
 
-import { empresasDiretas, type EmpresaDireta } from './clientes'
+import { empresasDiretas, type EmpresaDireta, type SlugEmpregador } from './clientes'
 import { cases, type Case, type Fonte } from './conteudo'
 import { capasDosProjetos, diagramasDosCasos, printsDosCasos, type Capa, type Diagrama, type Print } from './visuais'
 
@@ -59,6 +59,11 @@ export interface ItemProjeto {
   telas?: Print[]
   /** Slug da empresa em `clientes.ts`, para a logo dos casos de empresa. */
   empresa?: string
+  /**
+   * Empresa onde ele trabalhava quando fez o caso, da fonte única `ONDE_TRABALHEI` (15/10/2026). Quando difere de
+   * `empresa` (cliente atendido pela Vertigo), o cartão diz de quem era o cliente.
+   */
+  contratante?: SlugEmpregador
   diagrama?: Diagrama
   /** Ilustração de capa, para projeto sem tela própria: vira a frente do card e o topo do painel. */
   capa?: Capa
@@ -81,6 +86,13 @@ const empresa = (slug: string): EmpresaDireta => {
 }
 
 const prints = (slug: string) => printsDosCasos[slug] ?? []
+
+/**
+ * Quantos projetos o print de "Este site" (public/prints/este-site.webp) mostra na prova da home. 15/10/2026 (revisor,
+ * rodada 2): o print dizia 20 e o site 19. O teste compara com a contagem da fonte: mudou o número, recapture o print
+ * da home em 1440x900 (1600x1000) e atualize aqui.
+ */
+export const PROJETOS_NO_PRINT_ESTE_SITE = 19
 
 /**
  * Monta a lista da galeria. É função (e não constante) para nada rodar quando o módulo é importado.
@@ -128,7 +140,9 @@ export function listarProjetos(): ItemProjeto[] {
       // Renomeado em 08/10/2026 (M13): antes o nome era o de um robô de cripto, com o resultado "Confere cada ordem
       // com a corretora, 24 horas, sem erro de conta.". O status honesto fica à vista no card.
       nome: 'Sistema de ordens em tempo real',
-      resultado: 'Confere cada ordem com a corretora, 24 horas. Cripto, só em simulação, sem lucro.',
+      // 14/10/2026 (fix final): antes 'Confere cada ordem com a corretora, 24 horas. Cripto, só em simulação, sem lucro.',
+      // frase truncada que o leigo não entendia.
+      resultado: 'Confere cada ordem de cripto com a corretora. Só em simulação, sem dinheiro de verdade.',
       tipos: ['dados', 'integracoes', 'frontend'],
       status: 'estudo',
       etiquetas: ['Python', 'Redis Streams', 'Next.js'],
@@ -251,31 +265,40 @@ export function listarProjetos(): ItemProjeto[] {
       slug: 'este-site',
       origem: 'proprio',
       nome: 'Este site',
-      resultado: 'Galeria filtrável, demonstração ao vivo e tema claro e escuro.',
+      // 14/10/2026 (fix final, revisor de detalhes): o texto anterior descrevia o site velho e afirmava o que não existe
+      // aqui. Antes: resultado 'Galeria filtrável, demonstração ao vivo e tema claro e escuro.'; feito 'Feito do zero, sem
+      // tema pronto: a galeria de projetos com link compartilhável, a demonstração de atendimento, os diagramas desenhados
+      // por um motor próprio em SVG e o tema claro e escuro. Funciona no teclado e com leitor de tela, e respeita quem
+      // pede menos movimento no sistema.'; print com a seção "Interfaces que eu construo", que saiu.
+      resultado: 'A prova na frente, um exemplo para clicar e versões próprias para celular e PC.',
       tipos: ['frontend'],
       status: 'producao',
       etiquetas: ['React', 'TypeScript', 'Tailwind'],
-      stack: ['React 19', 'TypeScript', 'Vite', 'Tailwind 4', 'Vitest', 'SVG'],
+      stack: ['React 19', 'TypeScript', 'Vite', 'Tailwind 4', 'Vitest', 'Playwright'],
       feito:
-        'Feito do zero, sem tema pronto: a galeria de projetos com link compartilhável, a demonstração de atendimento, os diagramas desenhados por um motor próprio em SVG e o tema claro e escuro. Funciona no teclado e com leitor de tela, e respeita quem pede menos movimento no sistema.',
-      numeros: ['Testes automáticos travam o conteúdo publicado', 'No ar em vlfcandido.github.io'],
-      print: { arquivo: 'prints/este-site.webp', alt: 'Seção Interfaces que eu construo deste site, com o gráfico de pedidos, o status do pedido e a lista filtrável', ficticio: true },
+        'Feito do zero, sem tema pronto. A página inicial abre com a prova, com anos, empresas e projetos contados na fonte, e leva a um protótipo navegável para clicar antes de fechar. O detalhe de cada trabalho ganha uma marcação de caneta que se desenha na tela. Celular e PC têm versões próprias, cada uma com o seu limite de rolagem. Antes de publicar, um robô abre o site no navegador em três larguras e nos dois temas e mede rolagem lateral, alvos de toque e salto de layout.',
+      numeros: ['Testes automáticos travam o conteúdo publicado', 'Medido no navegador em 390, 1280 e 1440 px'],
+      print: { arquivo: 'prints/este-site.webp', alt: 'Página inicial deste site no PC, com a prova à esquerda e a tela de um trabalho com o detalhe circulado à direita' },
       repositorio: 'https://github.com/vlfcandido/vlfcandido.github.io',
     },
     {
       slug: 'design-system-mare',
       origem: 'proprio',
-      nome: 'Design system Maré',
-      resultado: 'Cores, tipos e regras de uso escritos uma vez e conferidos por teste.',
+      // 14/10/2026 (fix final): o Maré era a identidade do site anterior; este site usa outra. Antes: nome 'Design system
+      // Maré', resultado 'Cores, tipos e regras de uso escritos uma vez e conferidos por teste.' e o feito no presente
+      // ("A identidade deste site virou um design system"), que dizia estar no ar aqui. O status fica 'producao' porque
+      // o Maré esteve no ar no site anterior; o texto visível diz que foi.
+      nome: 'Design system do site anterior',
+      resultado: 'Cores, tipos e regras do site anterior, escritos num lugar só e conferidos por teste.',
       tipos: ['frontend'],
       status: 'producao',
       etiquetas: ['design system', 'tokens', 'acessibilidade'],
       stack: ['tokens em JSON', 'CSS', 'Tailwind', 'Vitest'],
       problema: 'Sem regra escrita, cada tela nova escolhe a cor e o espaço de novo, e o produto perde a cara.',
       feito:
-        'A identidade deste site virou um design system: cada cor existe no tema claro e no escuro, com o uso escrito ao lado ("fundo, nunca texto"), e um teste confere que o CSS e o arquivo de tokens não divergem. No AprovaOS, fiz o mesmo com regras de componente e uma página de estilo viva.',
-      numeros: ['Tema claro e escuro em todos os tokens', 'Teste que trava o contrato de cores'],
-      print: { arquivo: 'prints/design-system-mare.webp', alt: 'Folha de cores do design system Maré, com cada cor no tema claro e no escuro e o seu uso' },
+        'A identidade do site anterior, o Maré, virou um design system. Cada cor existia no tema claro e no escuro, com o uso escrito ao lado ("fundo, nunca texto"), e um teste conferia que o CSS e o arquivo de tokens não divergiam. No AprovaOS, fiz o mesmo com regras de componente e uma página de estilo viva.',
+      numeros: ['Tema claro e escuro em todos os tokens', 'Um teste travava o contrato de cores'],
+      print: { arquivo: 'prints/design-system-mare.webp', alt: 'Folha de cores do Maré, o design system do site anterior, com cada cor no tema claro e no escuro e o seu uso' },
     },
     {
       slug: 'benchmark-litellm',
@@ -309,6 +332,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [sicoob.metrica],
       papel: empresa('sicoob').papel,
       empresa: 'sicoob',
+      contratante: 'sicoob',
       diagrama: diagramasDosCasos.sicoob,
       fonte: sicoob.fonte,
     },
@@ -329,6 +353,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [],
       papel: empresa('contabilizei').papel,
       empresa: 'contabilizei',
+      contratante: 'contabilizei',
     },
     {
       slug: 'prefeitura-franca',
@@ -342,9 +367,9 @@ export function listarProjetos(): ItemProjeto[] {
       problema: franca.contexto,
       feito: franca.feito,
       numeros: [franca.metrica],
-      papel: 'Tech lead dos projetos Blip na Vertigo',
+      papel: 'Líder técnico dos projetos Blip na Vertigo',
       empresa: 'prefeitura-franca',
-      capa: capasDosProjetos['prefeitura-franca'],
+      contratante: 'vertigo',
       fonte: franca.fonte,
     },
     {
@@ -361,6 +386,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [waizer.metrica],
       papel: empresa('wiv').papel,
       empresa: 'wiv',
+      contratante: 'wiv',
       fonte: waizer.fonte,
     },
     {
@@ -375,8 +401,9 @@ export function listarProjetos(): ItemProjeto[] {
       problema: araguaia.contexto,
       feito: araguaia.feito,
       numeros: [araguaia.metrica],
-      papel: 'Tech lead dos projetos Blip na Vertigo',
+      papel: 'Líder técnico dos projetos Blip na Vertigo',
       empresa: 'araguaia',
+      contratante: 'vertigo',
       fonte: araguaia.fonte,
     },
     {
@@ -394,10 +421,13 @@ export function listarProjetos(): ItemProjeto[] {
         'Um job agendado lê a fila, confere no CRM e no Blip Desk onde cada lead está e, se ninguém respondeu em uma hora, passa o atendimento para o próximo corretor da mesma fila, atualizando o ticket no Blip, o responsável no CRM e o analytics.',
       numeros: [],
       // Antes: 'Projeto que liderei para a Ecovita' (corrigido por ele em 08/10/2026: só participou).
-      papel: 'Projeto de que participei na Ecovita',
+      // 15/10/2026 (decisão dele): a Ecovita foi cliente da Wiv, como a Minu. Antes: 'Projeto de que participei na Ecovita'.
+      papel: 'Cliente da Wiv',
+      contratante: 'wiv',
       participacao: true,
+      // 15/10/2026 (revisor, rodada 2): saiu a capa isométrica azul-petróleo (linguagem do Maré); o cartão abre no
+      // desenho do fluxo. Antes: capa: capasDosProjetos.ecovita.
       diagrama: diagramasDosCasos.ecovita,
-      capa: capasDosProjetos.ecovita,
     },
     {
       slug: 'minu',
@@ -414,9 +444,12 @@ export function listarProjetos(): ItemProjeto[] {
         'Uma função agendada a cada minuto busca as campanhas e a audiência no Blip, lê o status de cada mensagem, junta o perfil do usuário no Braze e registra um evento por status no analytics.',
       numeros: [],
       // Antes: 'Projeto que liderei para a Minu' (corrigido por ele em 08/10/2026: só participou).
-      papel: 'Projeto de que participei na Minu',
+      // 15/10/2026 (revisor, rodada 2): a Minu é cliente da Wiv (clientes.ts, grupo wiv); "participei na Minu" dava a
+      // entender um 6º empregador. Antes: papel 'Projeto de que participei na Minu', sem contratante.
+      papel: 'Cliente da Wiv',
       participacao: true,
       empresa: 'minu',
+      contratante: 'wiv',
       diagrama: diagramasDosCasos.minu,
     },
   ]

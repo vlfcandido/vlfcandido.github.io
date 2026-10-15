@@ -682,13 +682,44 @@ html.trocando body{touch-action:none;pointer-events:none}
 .wa{transition:transform .2s var(--ease),opacity .2s}
 @media(max-width:859px){
  .wa{width:44px;height:44px;right:8px}.wa i{width:38px;height:38px}.wa::after{left:3px;top:3px;width:38px;height:38px}
- .wa.recua{transform:scale(.6);transform-origin:100% 100%;opacity:.55}
+ .wa.recua{opacity:.7;background:transparent;box-shadow:none}.wa.recua i{transform:scale(.6);transform-origin:100% 100%;transition:transform .2s var(--ease)}.wa.recua::after{display:none} /* recua só o desenho: o alvo de toque fica com 44 px */
  .recs{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:1fr 1fr;overflow:visible;padding-bottom:0}
  .rec{min-width:0;padding:12px}.rec>div:first-child{flex-wrap:wrap;row-gap:2px}.rec>div:first-child b{flex:1 1 100%;min-width:0;overflow-wrap:anywhere;line-height:1.1}.rec>div:first-child span.small{margin-left:0!important;width:100%}.rec .disp{font-size:32px!important}
 }
 .jog-pos{display:inline-block;margin-top:6px}
 </style>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-liga-varzea");</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
+<style id="vc-faixa-css">
+/* Cabeçalho do site: nome com o endereço, "Exemplos navegáveis" e WhatsApp, numa linha de 56 px. */
+.vc-faixa{--vc-papel:#f7f4ee;--vc-tinta:#17150f;--vc-suave:#5b564a;--vc-sol:#f6b90a;--vc-raso:#ece7db;position:relative;z-index:60;background:var(--vc-papel);color:var(--vc-tinta);border-bottom:1px solid #d9d3c3;font:500 15px/1.3 Inter,system-ui,sans-serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}}
+:root[data-theme="dark"] .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}
+/* Mesmo encaixe de rolagem que a faixa antiga tinha: sem isto o celular abria com a faixa fora da tela. */
+.vc-faixa{scroll-snap-align:start;scroll-snap-stop:normal}
+.vc-faixa-in{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:56px}
+@media(min-width:640px){.vc-faixa-in{padding:0 32px}}
+.vc-faixa a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;white-space:nowrap;border-radius:8px}
+.vc-marca{flex-direction:column;align-items:flex-start!important;justify-content:center;padding-right:8px}
+.vc-marca b{font:600 18px/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em}
+.vc-marca small{font-size:12px;line-height:1.33;color:var(--vc-suave);letter-spacing:.01em}
+.vc-faixa-dir{display:flex;align-items:center;gap:8px}
+.vc-ex{padding:0 8px;font-weight:600}
+.vc-ex span{background:linear-gradient(var(--vc-sol),var(--vc-sol)) 0 100%/100% 3px no-repeat;transition:background-size .2s cubic-bezier(.2,.8,.2,1)}
+.vc-ex:hover span{background-size:100% 70%}
+.vc-zap{gap:8px;padding:0 16px 0 12px;border-radius:999px!important;background:var(--vc-sol);color:#17150f!important;font-weight:600}
+.vc-zap svg{width:18px;height:18px;flex:none}
+.vc-zap:hover{filter:brightness(1.05)}
+.vc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:2px}
+/* Celular: como no site, o WhatsApp do cabeçalho fica só com o ícone e a linha cabe em 390 px com alvos de 44 px. */
+@media(max-width:600px){.vc-zap{width:44px;padding:0;justify-content:center}.vc-zap-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+/* Até 420 px (medido no checklist: a linha passava 10 px da borda a 390): nome e link um pouco menores. */
+@media(max-width:420px){.vc-faixa-in{gap:4px}.vc-marca b{font-size:16px}.vc-faixa{font-size:14px}.vc-ex{padding:0 6px}.vc-faixa-dir{gap:4px}}
+@media(max-width:360px){.vc-marca small{display:none}}
+@media(prefers-reduced-motion:reduce){.vc-ex span{transition:none}}
+</style>
+<style id="vc-sig-css">.assina .a1 small,.assina .a1 span{font-family:Inter,system-ui,sans-serif}.assina .a1 b{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:24px;letter-spacing:-.01em}</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -722,7 +753,7 @@ html.trocando body{touch-action:none;pointer-events:none}
  <symbol id="i-banco" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
 </svg>
 
-<div class="faixa"><div class="wrap"><span>Exemplo de Vinicius Candido</span><a href="/trabalhos/">Mais trabalhos</a><a href="https://vlfcandido.github.io" target="_blank" rel="noopener">Portfólio</a></div></div>
+<header class="vc-faixa"><div class="vc-faixa-in"><a class="vc-marca" href="/" aria-label="Vinicius Candido, voltar para vlfcandido.github.io"><b>Vinicius Candido</b><small>vlfcandido.github.io</small></a><nav class="vc-faixa-dir" aria-label="Site do Vinicius"><a class="vc-ex" href="/trabalhos/"><span>Exemplos navegáveis</span></a><a class="vc-zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span class="vc-zap-t">WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></nav></div></header>
 <header class="top">
  <div class="wrap">
   <a class="logo" href="#/" aria-label="LVF, Liga Várzea FC, início">
@@ -753,7 +784,7 @@ html.trocando body{touch-action:none;pointer-events:none}
   <div style="display:flex;gap:14px;align-items:center"><span id="logo-foot"></span>
    <div><div class="disp" style="font-size:22px;color:#fff;font-weight:800">Liga Várzea FC</div>
    <div class="small">Projeto de exemplo, navegável. Liga, clubes e números são fictícios.</div></div></div>
-  <a class="assina" href="https://vlfcandido.github.io" target="_blank" rel="noopener"><div class="a1"><small>Feito por</small><b>Vinicius Candido</b><span>vlfcandido.github.io</span></div><div class="a2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c3-1 4-7 6-7s1 5 3 5 2-4 4-4 2 3 3 3"/><path d="M4 21h16"/></svg></div></a>
+  <a class="assina" href="/"><div class="a1"><small>Feito por</small><b>Vinicius Candido</b><span>vlfcandido.github.io</span></div><div class="a2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c3-1 4-7 6-7s1 5 3 5 2-4 4-4 2 3 3 3"/><path d="M4 21h16"/></svg></div></a>
   <p class="aviso-med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
  </div>
 </footer>

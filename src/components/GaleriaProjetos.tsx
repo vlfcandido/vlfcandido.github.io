@@ -1,11 +1,13 @@
 import { useMemo, useState, type CSSProperties } from 'react'
-import { empresasDiretas, gruposClientes } from '../clientes'
+import { ONDE_TRABALHEI, empresasDiretas, gruposClientes } from '../clientes'
 import { filtrarProjetos, listarProjetos, separarGaleria, tiposProjeto, type ItemProjeto, type TipoProjeto } from '../projetos'
 import { CapaProjeto } from './CapaProjeto'
 import { DiagramaMare } from './DiagramaMare'
-import { Logo } from './Logo'
+import { Logo, logoClara } from './Logo'
 import { Print, SeloFicticio } from './Print'
 import { comTransicao } from '../lib/transicao'
+import { caminhoPublico } from '../lib/assets'
+import type { Peca } from '../home/lib/universo'
 
 type Filtro = TipoProjeto | 'todos'
 
@@ -25,6 +27,7 @@ const logoDe = (slug?: string) =>
  */
 function Cartao({ item, aoAbrir }: CartaoProps) {
   const empresa = logoDe(item.empresa)
+  const contratante = item.contratante && item.contratante !== item.empresa ? logoDe(item.contratante) : undefined
   // Frente: capa ilustrada, senão a tela, senão a logo. Verso: o diagrama; sem ele, a tela/logo atrás da capa.
   const temTelaOuLogo = Boolean(item.print || empresa)
   const temFrente = Boolean(item.capa) || temTelaOuLogo
@@ -49,8 +52,12 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
         ) : item.print ? (
           <Print print={item.print} />
         ) : (
-          <div className={`${moldura} flex ${item.capa ? 'aspect-[16/10]' : 'aspect-[16/7]'} items-center justify-center px-8`}>
-            {empresa && <Logo cliente={empresa} className="max-h-11 max-w-[170px]" />}
+          // 14/10/2026 (fix final): a logo também em 16/10 (antes 16/7 sem capa), para toda imagem de cartão ter a mesma
+          // proporção e os títulos de uma linha da grade alinharem.
+          // 15/10/2026 (revisor, rodada 2: "logo pequeno num quadro vazio parece capa que não carregou"): a logo cresce
+          // para ~55% do quadro. Antes: className "max-h-11 max-w-[170px]".
+          <div className={`${moldura} flex aspect-[16/10] items-center justify-center px-8`}>
+            {empresa && <Logo cliente={empresa} className="logo-cartao h-16 max-w-[55%] sm:h-20" />}
           </div>
         )}
         {verso && temFrente && (
@@ -58,18 +65,22 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
             type="button"
             aria-pressed={noVerso}
             onClick={() => setNoVerso((v) => !v)}
-            className="absolute right-2 bottom-2 z-10 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta hover:border-cobalto hover:text-cobalto"
+            className="absolute right-2 bottom-2 z-10 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta hover:border-tinta hover:text-tinta"
           >
             {noVerso ? rotuloFrente : rotuloVerso}
           </button>
         )}
       </div>
-      <h3 className="mt-5 text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]">
+      {/* 15/10/2026: caso de cliente atendido por uma empresa onde ele trabalhava (fonte única ONDE_TRABALHEI). */}
+      {contratante && (
+        <p className="mt-5 text-[0.85rem] font-semibold tracking-[0.02em] text-grafite">Cliente da {contratante.nome}</p>
+      )}
+      <h3 className={`${contratante ? 'mt-1' : 'mt-5'} text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]`}>
         <button
           type="button"
           id={`card-${item.slug}`}
           onClick={() => aoAbrir(item.slug)}
-          className="text-left group-hover:text-cobalto after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none"
+          className="text-left group-hover:text-tinta after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none"
         >
           {item.nome}
         </button>
@@ -83,6 +94,33 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
         ))}
       </ul>
     </article>
+  )
+}
+
+/**
+ * Faixa "Onde trabalhei" de #/projetos (15/10/2026): as mesmas empresas e a mesma ordem do bloco "Onde já trabalhei"
+ * da home, lidas da fonte única `ONDE_TRABALHEI`. Antes a página só mostrava as logos dos casos (clientes como a
+ * Prefeitura de Franca) e a home mostrava outras empresas.
+ */
+function OndeTrabalhei() {
+  const base = import.meta.env.BASE_URL
+  const empresas = ONDE_TRABALHEI.map((slug) => empresasDiretas.find((e) => e.slug === slug)).filter((e) => e !== undefined)
+  return (
+    <div className="mt-8 border-y border-linha py-5">
+      <p className="text-[0.85rem] font-semibold tracking-[0.02em] text-grafite">Onde trabalhei</p>
+      <ul className="mt-3 grid grid-cols-3 items-center gap-x-6 gap-y-4 sm:grid-cols-5">
+        {empresas.map((e) => (
+          <li key={e.slug} className="empresa flex min-h-10 flex-col justify-center">
+            {e.logo ? (
+              <img className="logo-empresa max-w-[min(100%,128px)]" data-slug={e.slug} data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.via ? `${e.nome}, pela ${e.via}` : e.nome} height={32} loading="lazy" decoding="async" />
+            ) : (
+              <span className="text-sm font-semibold">{e.nome}</span>
+            )}
+            {e.via && <span className="mt-1 text-[0.75rem] leading-tight text-grafite">pela {e.via}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
@@ -100,16 +138,49 @@ function Grade({ itens, aoAbrir }: { itens: ItemProjeto[]; aoAbrir: (slug: strin
 }
 
 /**
+ * Cartão de uma peça navegável de /trabalhos/ (14/10/2026): abre a peça na mesma aba, porque ela tem o
+ * próprio cabeçalho com volta.
+ */
+function CartaoPeca({ peca }: { peca: Peca }) {
+  const base = import.meta.env.BASE_URL
+  return (
+    <article className="cartao-projeto group relative flex h-full flex-col">
+      <div className="moldura-logo relative aspect-[16/10] overflow-hidden rounded-md border border-linha bg-folha shadow-[6px_6px_0_var(--linha)]">
+        <img src={caminhoPublico(base, peca.imagem)} width={1000} height={625} alt={peca.alt} loading="lazy" decoding="async" className="block h-full w-full object-cover object-top" />
+        <SeloFicticio />
+      </div>
+      <h3 className="mt-5 text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]">
+        <a href={caminhoPublico(base, peca.href)} className="text-left group-hover:text-tinta after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none">
+          {peca.nome}
+        </a>
+      </h3>
+      {/* Task 10: antes as duas peças repetiam 'Exemplo navegável: dá para clicar e testar.' */}
+      <p className="prosa mt-1.5 text-[1.06rem] leading-[1.55] text-grafite">{peca.resumo}</p>
+    </article>
+  )
+}
+
+/**
  * Galeria da página de projetos: chips de filtro por tipo e três seções no mesmo padrão de card:
  * "Em empresas", "Projetos próprios" e, no fim, "Outros projetos em empresas" (só participação). O clique abre o case do projeto (quem chama cuida do hash).
  */
-export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: string) => void; filtroInicial?: TipoProjeto }) {
+export function GaleriaProjetos({
+  aoAbrir,
+  filtroInicial,
+  pecas = [],
+}: {
+  aoAbrir: (slug: string) => void
+  filtroInicial?: TipoProjeto
+  /** Peças navegáveis, no topo e só em "Todos" (não têm tipo). Entram na contagem de "Todos". */
+  pecas?: readonly Peca[]
+}) {
   const todos = useMemo(listarProjetos, [])
   const [filtro, setFiltro] = useState<Filtro>(filtroInicial ?? 'todos')
   const lista = filtrarProjetos(todos, filtro)
   const { emEmpresas, proprios, outros } = separarGaleria(lista)
+  const pecasVisiveis = filtro === 'todos' ? pecas : []
   const chips: { valor: Filtro; rotulo: string; total: number }[] = [
-    { valor: 'todos', rotulo: 'Todos', total: todos.length },
+    { valor: 'todos', rotulo: 'Todos', total: todos.length + pecas.length },
     ...(Object.keys(tiposProjeto) as TipoProjeto[]).map((t) => ({
       valor: t,
       rotulo: tiposProjeto[t],
@@ -133,10 +204,10 @@ export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: st
               aria-pressed={marcado}
               onClick={() => c.valor !== filtro && comTransicao(() => setFiltro(c.valor))}
               className={`chip inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[0.95rem] font-medium whitespace-nowrap ${
-                marcado ? 'border-cobalto bg-cobalto text-nevoa' : 'border-linha bg-folha text-tinta hover:border-cobalto hover:text-cobalto'
+                marcado ? 'border-tinta bg-tinta text-nevoa' : 'border-linha bg-folha text-tinta hover:border-tinta hover:text-tinta'
               }`}
             >
-              {marcado && <span aria-hidden="true" className="ponto ponto-anel" />}
+              {/* 14/10/2026 (fix final): saiu o ponto coral do chip ativo; o destaque do site é um só (marca-texto). */}
               <span>
                 {c.rotulo} <span className={marcado ? 'opacity-80' : 'text-grafite'}>{c.total}</span>
               </span>
@@ -145,19 +216,37 @@ export function GaleriaProjetos({ aoAbrir, filtroInicial }: { aoAbrir: (slug: st
         })}
       </div>
       <p aria-live="polite" className="sr-only">
-        {lista.length} projetos
+        {lista.length + pecasVisiveis.length} projetos
       </p>
+
+      {pecasVisiveis.length > 0 && (
+        <section aria-labelledby="pecas-titulo" className="mt-12">
+          <h2 id="pecas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
+            Exemplos navegáveis
+          </h2>
+          {/* 15/10/2026 (revisor, rodada 2): com 2 peças, 2 colunas (antes sempre 3, e a 3ª ficava vazia). */}
+          <ul className={`mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 ${pecasVisiveis.length >= 3 ? 'lg:grid-cols-3' : ''}`}>
+            {pecasVisiveis.map((p) => (
+              <li key={p.slug}>
+                <CartaoPeca peca={p} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Ordem trocada em 08/10/2026 (M11): "Em empresas" sobe e ganha o lugar de primeira seção; os próprios
           descem com título visível; Ecovita e Minu (só participação) ficam no fim, sem destaque. */}
       {emEmpresas.length > 0 && (
-        <section aria-labelledby="empresas-titulo" className="mt-12">
+        <section aria-labelledby="empresas-titulo" className={pecasVisiveis.length > 0 ? 'mt-24 border-t border-linha pt-14' : 'mt-12'}>
           <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2">
             <h2 id="empresas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
-              Em empresas
+              {/* 14/10/2026 (fix final): antes "Em empresas"; a home tem "Onde já trabalhei" (empregos), aqui são casos. */}
+              Casos em empresas
             </h2>
             <p className="prosa max-w-[44ch] text-[1.08rem] text-grafite">Projetos que fiz ou liderei como contratado. O desenho mostra como as peças conversam.</p>
           </div>
+          <OndeTrabalhei />
           <div className="mt-10">
             <Grade itens={emEmpresas} aoAbrir={aoAbrir} />
           </div>

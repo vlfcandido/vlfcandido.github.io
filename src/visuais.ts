@@ -156,12 +156,8 @@ export const capasDosProjetos: Record<string, Capa> = {
     razao: 1312 / 816,
     alt: 'Ilustração isométrica: contatos chegando por vários celulares a uma roleta central que distribui cada um para um corretor na sua mesa, com um painel de acompanhamento ao fundo',
   },
-  'prefeitura-franca': {
-    nome: 'farol',
-    larguras: [640, 1040, 1312],
-    razao: 1312 / 816,
-    alt: 'Ilustração em traço: um farol aponta para dois balões de conversa sobre as curvas de profundidade de uma carta náutica',
-  },
+  // 14/10/2026 (fix final): saiu a capa 'farol' da Prefeitura de Franca (farol sobre carta náutica, identidade Maré);
+  // o cartão volta a mostrar a logo, como os outros casos de empresa.
   // As capas dos projetos próprios foram trocadas em 08/10/2026 pelas telas recriadas. A de ia-local era um
   // SVG de carta náutica com versão escura (ia-local-escuro); saiu junto com os arquivos.
   aprovaos: capaColorida('aprovaos', 'Capa do AprovaOS: telas do plano de estudo que se ajusta ao desempenho, com dados fictícios'),
