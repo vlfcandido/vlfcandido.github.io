@@ -11,38 +11,43 @@
 }
 
 /* ---------- zona escura: a sala de controle e o terminal ficam escuros nos dois temas ---------- */
+/* 15/10/2026 (fix final): a zona escura usa o escuro da identidade nova (papel #161512, tinta #f3efe6, marca-texto).
+   Antes, o escuro da Maré: papel #0b1e25, papel-alto #112a33, raso #163843, linha #2c4b55, fundo #e3eeec, fundo-suave
+   #97b2b5, mar #6cc6d6, mar-forte #a3dde7, on-mar #0b1e25, mata #8cc7a1, coral #ff7a90, coral-texto #ff8fa2, sol
+   #e9b949, cobalto = mar e pitanga = coral, com borda #3d6470 no tema escuro. */
 .zona-escura {
   color-scheme: dark;
-  --papel: #0b1e25;
-  --papel-alto: #112a33;
-  --raso: #163843;
-  --linha: #2c4b55;
-  --fundo: #e3eeec;
-  --fundo-suave: #97b2b5;
-  --mar: #6cc6d6;
-  --mar-forte: #a3dde7;
-  --on-mar: #0b1e25;
-  --mata: #8cc7a1;
-  --coral: #ff7a90;
-  --coral-texto: #ff8fa2;
-  --sol: #e9b949;
+  --papel: #161512;
+  --papel-alto: #1f1d19;
+  --raso: #2a2823;
+  --linha: #3b3830;
+  --fundo: #f3efe6;
+  --fundo-suave: #c8c1b3;
+  --mar: #a9c6ff;
+  --mar-forte: #cfe0ff;
+  --on-mar: #0f1522;
+  --mata: #74c39a;
+  --coral: #ff7d52;
+  --coral-texto: #ff9c78;
+  --sol: #ffc83d;
+  --on-sol: #161512;
   /* Os apelidos são resolvidos no :root; aqui precisam ser declarados de novo para seguirem a zona. */
   --nevoa: var(--papel);
   --folha: var(--papel-alto);
   --tinta: var(--fundo);
   --grafite: var(--fundo-suave);
-  --cobalto: var(--mar);
-  --cobalto-forte: var(--mar-forte);
-  --pitanga: var(--coral);
-  --pitanga-texto: var(--coral-texto);
+  --cobalto: var(--fundo);
+  --cobalto-forte: var(--fundo);
+  --pitanga: var(--sol);
+  --pitanga-texto: var(--fundo-suave);
 }
 /* No tema escuro a zona ganha uma borda mais clara, para não sumir no fundo da página. */
 :root[data-tema="escuro"] .zona-escura {
-  border-color: #3d6470;
+  border-color: #4a463e;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) .zona-escura {
-    border-color: #3d6470;
+    border-color: #4a463e;
   }
 }
 
@@ -54,14 +59,15 @@
 .bezel-alto {
   background: var(--fundo-suave);
 }
+/* 15/10/2026: bezel escuro na linha da identidade nova (antes #2c4b55, da Maré). */
 :root[data-tema="escuro"] .bezel {
-  border-color: #2c4b55;
-  background: #2c4b55;
+  border-color: #3b3830;
+  background: #3b3830;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) .bezel {
-    border-color: #2c4b55;
-    background: #2c4b55;
+    border-color: #3b3830;
+    background: #3b3830;
   }
 }
 

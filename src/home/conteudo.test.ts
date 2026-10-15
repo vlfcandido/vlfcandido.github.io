@@ -1,10 +1,11 @@
 // src/home/conteudo.test.ts
 import { existsSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { empresasDiretas } from '../clientes'
+import { readFileSync } from 'node:fs'
+import { ONDE_TRABALHEI, empresasDiretas } from '../clientes'
 import { encontrarTermosProibidos } from '../lib/termos-proibidos'
 import { listarProjetos } from '../projetos'
-import { PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva } from './conteudo'
+import { FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva } from './conteudo'
 
 const c = conteudoHome()
 const tudo = JSON.stringify(c)
@@ -69,4 +70,25 @@ describe('conteúdo da home', () => {
   })
   it('nenhum destaque cita nome do material original das peças', () =>
     expect(tudo.toLowerCase()).not.toMatch(/terceira|fdt|nome-privado/))
+  // 15/10/2026 (revisor de detalhes): as empresas da home e de #/projetos vêm de uma fonte só.
+  it('as empresas da home são as da fonte única ONDE_TRABALHEI', () => expect([...SLUGS_EMPRESAS]).toEqual([...ONDE_TRABALHEI]))
+  // 15/10/2026: cada exemplo navegável existe, aparece em /trabalhos/ com o mesmo nome e tem miniatura; e /trabalhos/
+  // não tem cartão que não esteja em PECAS (a 3ª peça volta acrescentando os dois lados).
+  it('as peças de PECAS e os cartões de /trabalhos/ são os mesmos, com página, miniatura e nome', () => {
+    const pagina = readFileSync('public/trabalhos/index.html', 'utf8')
+    const cartoes = [...pagina.matchAll(/<article class="cartao rv" id="([^"]+)"/g)].map((m) => m[1])
+    expect(cartoes).toEqual(PECAS.map((p) => p.slug))
+    for (const p of PECAS) {
+      expect(existsSync(`public/${p.href}index.html`), p.href).toBe(true)
+      expect(existsSync(`public/${p.imagem}`), p.imagem).toBe(true)
+      expect(pagina, p.slug).toContain(`href="/${p.href}"`)
+      expect(pagina, p.nome).toContain(`<h2>${p.nome}</h2>`)
+    }
+  })
+  // 15/10/2026: com FOTO_PRONTA ligada, os 6 arquivos da foto têm de existir (senão o quadro fica vazio).
+  it('foto ligada só com os 6 arquivos no lugar', () => {
+    if (!FOTO_PRONTA) return
+    for (const l of FOTO_LARGURAS) for (const ext of ['avif', 'webp', 'jpg'])
+      expect(existsSync(`public/${FOTO_BASE}-${l}.${ext}`), `${l}.${ext}`).toBe(true)
+  })
 })

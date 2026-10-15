@@ -1,9 +1,9 @@
 import { useMemo, useState, type CSSProperties } from 'react'
-import { empresasDiretas, gruposClientes } from '../clientes'
+import { ONDE_TRABALHEI, empresasDiretas, gruposClientes } from '../clientes'
 import { filtrarProjetos, listarProjetos, separarGaleria, tiposProjeto, type ItemProjeto, type TipoProjeto } from '../projetos'
 import { CapaProjeto } from './CapaProjeto'
 import { DiagramaMare } from './DiagramaMare'
-import { Logo } from './Logo'
+import { Logo, logoClara } from './Logo'
 import { Print, SeloFicticio } from './Print'
 import { comTransicao } from '../lib/transicao'
 import { caminhoPublico } from '../lib/assets'
@@ -27,6 +27,7 @@ const logoDe = (slug?: string) =>
  */
 function Cartao({ item, aoAbrir }: CartaoProps) {
   const empresa = logoDe(item.empresa)
+  const contratante = item.contratante && item.contratante !== item.empresa ? logoDe(item.contratante) : undefined
   // Frente: capa ilustrada, senão a tela, senão a logo. Verso: o diagrama; sem ele, a tela/logo atrás da capa.
   const temTelaOuLogo = Boolean(item.print || empresa)
   const temFrente = Boolean(item.capa) || temTelaOuLogo
@@ -68,7 +69,11 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
           </button>
         )}
       </div>
-      <h3 className="mt-5 text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]">
+      {/* 15/10/2026: caso de cliente atendido por uma empresa onde ele trabalhava (fonte única ONDE_TRABALHEI). */}
+      {contratante && (
+        <p className="mt-5 text-[0.85rem] font-semibold tracking-[0.02em] text-grafite">Cliente da {contratante.nome}</p>
+      )}
+      <h3 className={`${contratante ? 'mt-1' : 'mt-5'} text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]`}>
         <button
           type="button"
           id={`card-${item.slug}`}
@@ -87,6 +92,32 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
         ))}
       </ul>
     </article>
+  )
+}
+
+/**
+ * Faixa "Onde trabalhei" de #/projetos (15/10/2026): as mesmas empresas e a mesma ordem do bloco "Onde já trabalhei"
+ * da home, lidas da fonte única `ONDE_TRABALHEI`. Antes a página só mostrava as logos dos casos (clientes como a
+ * Prefeitura de Franca) e a home mostrava outras empresas.
+ */
+function OndeTrabalhei() {
+  const base = import.meta.env.BASE_URL
+  const empresas = ONDE_TRABALHEI.map((slug) => empresasDiretas.find((e) => e.slug === slug)).filter((e) => e !== undefined)
+  return (
+    <div className="mt-8 border-y border-linha py-5">
+      <p className="text-[0.85rem] font-semibold tracking-[0.02em] text-grafite">Onde trabalhei</p>
+      <ul className="mt-3 grid grid-cols-3 items-center gap-x-6 gap-y-4 sm:grid-cols-5">
+        {empresas.map((e) => (
+          <li key={e.slug} className="empresa flex h-10 items-center">
+            {e.logo ? (
+              <img className="logo-empresa max-w-[128px]" data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.nome} height={32} loading="lazy" decoding="async" />
+            ) : (
+              <span className="text-sm font-semibold">{e.nome}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
@@ -211,6 +242,7 @@ export function GaleriaProjetos({
             </h2>
             <p className="prosa max-w-[44ch] text-[1.08rem] text-grafite">Projetos que fiz ou liderei como contratado. O desenho mostra como as peças conversam.</p>
           </div>
+          <OndeTrabalhei />
           <div className="mt-10">
             <Grade itens={emEmpresas} aoAbrir={aoAbrir} />
           </div>

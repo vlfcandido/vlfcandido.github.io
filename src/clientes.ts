@@ -63,6 +63,18 @@ export interface GrupoClientes {
   clientes: Cliente[]
 }
 
+/**
+ * Fonte única das empresas onde ele trabalhou (15/10/2026, revisor de detalhes: "as empresas da home não batem com as
+ * de #/projetos"). A home ("Onde já trabalhei"), o número de prova e a faixa de #/projetos ("Casos em empresas") leem
+ * daqui. Só empregadores: a Prefeitura de Franca e a Araguaia são clientes atendidos pela Vertigo e aparecem como casos,
+ * nunca como empresa onde ele trabalhou. Antes, a home listava sicoob, serasa-experian, contabilizei, prefeitura-franca
+ * e wiv (src/home/conteudo.ts, SLUGS_EMPRESAS).
+ */
+export const ONDE_TRABALHEI = ['sicoob', 'serasa-experian', 'contabilizei', 'vertigo', 'wiv'] as const
+
+/** Slug de uma empresa onde ele trabalhou. */
+export type SlugEmpregador = (typeof ONDE_TRABALHEI)[number]
+
 export const empresasDiretas: EmpresaDireta[] = [
   {
     slug: 'sicoob',
@@ -103,10 +115,13 @@ export const empresasDiretas: EmpresaDireta[] = [
     slug: 'vertigo',
     nome: 'Vertigo',
     segmento: 'tecnologia',
-    logo: 'logos/vertigo.png',
+    // 15/10/2026 (decisão dele): a Vertigo entra no "Onde já trabalhei", com logo em SVG de tinta única desenhado para a
+    // faixa. Antes: logos/vertigo.png (colorida, com o slogan) e feito 'Liderei o time de projetos de chatbot na Blip, de
+    // órgãos públicos a grandes empresas.'. Fonte do feito novo: LinkedIn dele (via controlador, 15/10/2026).
+    logo: 'logos/vertigo.svg',
     // Fix final (14/10/2026): antes 'Tech lead dos projetos Blip'.
     papel: 'Líder técnico dos projetos Blip',
-    feito: 'Liderei o time de projetos de chatbot na Blip, de órgãos públicos a grandes empresas.',
+    feito: 'Liderei o time que entregou mais de 80 chatbots na Blip, de órgãos públicos a grandes empresas, e certificou a Vertigo como parceira Blip.',
     historia: { texto: 'diretório de parceiros Blip', url: 'https://www.blip.ai/partners/en/experts/vertigo-tecnologia/' },
     ligadoA: 'vertigo-take-blip',
   },

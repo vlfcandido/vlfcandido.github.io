@@ -2,19 +2,17 @@
 import { caminhoPublico } from '../lib/assets'
 import { WHATSAPP } from '../lib/whatsapp'
 import { LINKEDIN } from '../visuais'
-import { conteudoHome } from './conteudo'
+import { FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, conteudoHome } from './conteudo'
 import { Marcacao } from './Marcacao'
 
 /**
- * A foto `img/vinicius-640.*` ainda não existe (chega na Task 8). Enquanto for `false`, o quadro 4:5 mostra
- * o monograma "VC"; o layout já é o final, só troca o miolo.
+ * Retrato do "Quem sou". Com `FOTO_PRONTA` (conteudo.ts), um avatar redondo com a foto do LinkedIn (96 px no celular,
+ * 80 px no PC; arquivos de 105 e 210 px em AVIF, WebP e JPEG, nunca ampliados). Sem a foto, o quadro 4:5 com o
+ * monograma "VC". 15/10/2026: antes a constante era local (TEM_FOTO) e a foto previa um retrato 4:5 em 640 px.
  */
-const TEM_FOTO = false
-
-/** Retrato no quadro 4:5: a foto em AVIF/WebP/JPEG quando existir; antes disso, o monograma. */
-function Retrato({ foto, alt }: { foto: string; alt: string }) {
+function Retrato({ alt }: { alt: string }) {
   const base = import.meta.env.BASE_URL
-  if (!TEM_FOTO)
+  if (!FOTO_PRONTA)
     return (
       <div className="quadro-retrato flex items-center justify-center" role="img" aria-label="Monograma VC, de Vinicius Candido">
         <span aria-hidden="true" className="font-[family-name:var(--fonte-titulo)] text-4xl font-medium tracking-tight">
@@ -22,12 +20,13 @@ function Retrato({ foto, alt }: { foto: string; alt: string }) {
         </span>
       </div>
     )
-  const semExt = foto.replace(/\.[a-z]+$/, '')
+  const conjunto = (ext: string) => FOTO_LARGURAS.map((l) => `${caminhoPublico(base, `${FOTO_BASE}-${l}.${ext}`)} ${l}w`).join(', ')
+  const tamanhos = '(min-width: 1024px) 80px, 96px'
   return (
-    <picture className="quadro-retrato block">
-      <source type="image/avif" srcSet={caminhoPublico(base, `${semExt}.avif`)} />
-      <source type="image/webp" srcSet={caminhoPublico(base, `${semExt}.webp`)} />
-      <img src={caminhoPublico(base, foto)} width={640} height={800} alt={alt} loading="lazy" decoding="async" className="block h-full w-full object-cover" />
+    <picture className="avatar-retrato block">
+      <source type="image/avif" srcSet={conjunto('avif')} sizes={tamanhos} />
+      <source type="image/webp" srcSet={conjunto('webp')} sizes={tamanhos} />
+      <img src={caminhoPublico(base, `${FOTO_BASE}-210.jpg`)} srcSet={conjunto('jpg')} sizes={tamanhos} width={210} height={210} alt={alt} loading="lazy" decoding="async" className="block h-full w-full object-cover" />
     </picture>
   )
 }
@@ -37,8 +36,8 @@ export function QuemSou() {
   const { quemSou, chamada } = conteudoHome()
   return (
     <section id="quem" className="secao tela">
-      <div className="alvo-secao grid grid-cols-[6rem_1fr] items-end gap-4 lg:grid-cols-[5rem_1fr]">
-        <Retrato foto={quemSou.foto} alt={quemSou.alt} />
+      <div className={`alvo-secao grid grid-cols-[6rem_1fr] gap-4 lg:grid-cols-[5rem_1fr] ${FOTO_PRONTA ? 'items-center' : 'items-end'}`}>
+        <Retrato alt={quemSou.alt} />
         <h2 className="titulo-bloco lg:!text-[1.75rem]"><span className="titulo-texto">{quemSou.titulo}</span></h2>
       </div>
       <div className="mt-4 space-y-2 text-grafite">

@@ -162,6 +162,11 @@
 
   /* Monograma no lugar da foto até ela existir (Task 8): mesmo quadro 4:5, layout final. */
   .quadro-retrato { aspect-ratio: 4 / 5; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--raso); overflow: hidden; }
+  /* Foto (15/10/2026): avatar redondo de 96 px (80 px no PC), com um anel de marca-texto afastado por um fio de papel,
+     a assinatura do site. A foto original tem 210 px: nunca passa de 105 px CSS para não perder nitidez em tela 2x. */
+  .avatar-retrato { width: 96px; height: 96px; border-radius: var(--raio-pilula); overflow: hidden; background: var(--raso);
+    box-shadow: 0 0 0 3px var(--papel), 0 0 0 5px var(--sol); }
+  @media (min-width: 1024px) { .avatar-retrato { width: 80px; height: 80px; } }
 
   .logo-empresa { height: 32px; width: auto; max-width: 100%; object-fit: contain; object-position: left center;
     filter: grayscale(1); opacity: .85; transition: filter var(--mov-padrao) var(--mola), opacity var(--mov-padrao) var(--mola); }

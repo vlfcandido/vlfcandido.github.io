@@ -2,6 +2,7 @@
 // o detalhe como assinatura. Funções em vez de constantes montadas, para nada rodar ao importar.
 // Sem preço (decisão dele, 14/10/2026). Garantia de 30 dias de correção (decisão dele, 14/10/2026).
 
+import { ONDE_TRABALHEI } from '../clientes'
 import { listarProjetos } from '../projetos'
 
 /** Um trabalho em destaque, com a dor do cliente e o detalhe marcado à mão. */
@@ -28,6 +29,12 @@ export const PECAS = [
     imagem: 'trabalhos/img/consultorio-exemplo.jpg', alt: 'Página inicial do Consultório Exemplo, com a busca de psicólogos',
     resumo: 'Terapia online em que perfil com CRP irregular sai da busca.',
   },
+  // 15/10/2026: o 3º exemplo (Atelier Linha, escritório de arquitetura) entrou e saiu no mesmo dia, pela regra do dono
+  // (projeto ainda não fechado só entra ~3 dias depois do envio, sem nome do cliente; volta em 18/10). Para voltar:
+  // { slug: 'escritorio-arquitetura-exemplo', nome: 'Atelier Linha', href: 'trabalhos/escritorio-arquitetura-exemplo/',
+  //   imagem: 'trabalhos/img/escritorio-arquitetura-exemplo.jpg', alt: 'Tela inicial do Atelier Linha, com a planta
+  //   baixa em traço técnico e os indicadores do mês', resumo: 'Gestão de escritório de arquitetura em que revisão fora
+  //   do contrato não vira hora de graça.' } e o cartão em public/trabalhos/index.html. O teste confere os dois lados.
 ] as const
 
 /**
@@ -41,8 +48,12 @@ export const FRASES_MARCADAS = {
   garantia: '30 dias de correção',
 } as const
 
-/** Empresas do bloco "Onde já trabalhei", na ordem de exibição (logos liberados por ele em 14/10/2026). */
-export const SLUGS_EMPRESAS = ['sicoob', 'serasa-experian', 'contabilizei', 'prefeitura-franca', 'wiv'] as const
+/**
+ * Empresas do bloco "Onde já trabalhei", na ordem de exibição. 15/10/2026: lidas da fonte única `ONDE_TRABALHEI`
+ * (clientes.ts), a mesma de #/projetos. Antes: ['sicoob', 'serasa-experian', 'contabilizei', 'prefeitura-franca', 'wiv']
+ * escrito aqui; a Prefeitura de Franca (cliente da Vertigo) saiu e a Vertigo entrou (decisão dele).
+ */
+export const SLUGS_EMPRESAS = ONDE_TRABALHEI
 
 /**
  * Linha de cada empresa no bloco "Onde já trabalhei" quando o papel de clientes.ts não serve ao cliente de freela.
@@ -50,9 +61,24 @@ export const SLUGS_EMPRESAS = ['sicoob', 'serasa-experian', 'contabilizei', 'pre
  * junta o `feito` ("Chatbot da Saúde…") e o papel do projeto em projetos.ts ("Líder técnico dos projetos Blip na Vertigo").
  */
 export const LINHA_EMPRESA: Partial<Record<(typeof SLUGS_EMPRESAS)[number], string>> = {
-  // Fix final (14/10/2026): antes 'Chatbot da Saúde, como tech lead da Vertigo'.
-  'prefeitura-franca': 'Chatbot da Saúde, como líder técnico na Vertigo',
+  // 15/10/2026: a linha da Prefeitura de Franca ('Chatbot da Saúde, como líder técnico na Vertigo'; antes 'Chatbot da
+  // Saúde, como tech lead da Vertigo') saiu com ela; o chatbot da Saúde virou exemplo na linha da Vertigo.
+  vertigo: 'Líder técnico do time que entregou mais de 80 chatbots na Blip',
 }
+
+/**
+ * Liga a foto do "Quem sou" (15/10/2026). A foto é a do LinkedIn dele, quadrada de 210 px, em
+ * public/img/foto-210.{avif,webp,jpg} e public/img/foto-105.{avif,webp,jpg}, mostrada como avatar redondo de no máximo
+ * 96 px CSS (210 px cobre tela 2x sem ampliar). Com `false`, o quadro volta ao monograma "VC" (o teste confere os
+ * arquivos quando ligada). Ligada em 15/10/2026, quando a foto chegou; antes previa 4:5 em 320 e 640 px.
+ */
+export const FOTO_PRONTA = true
+
+/** Larguras geradas da foto, em px (a original tem 210; nunca ampliar). */
+export const FOTO_LARGURAS = [105, 210] as const
+
+/** Caminho da foto sem largura nem extensão (relativo a public/). */
+export const FOTO_BASE = 'img/foto'
 
 /** Anos de software, de config/privado/carreira/respostas-padrao.md ("Software total = 13"). */
 const ANOS_DE_SOFTWARE = 13
@@ -98,7 +124,9 @@ export function conteudoHome() {
       // repetia ao pé da letra o detalhe do 1º cartão logo abaixo.
       // Task 10: antes 'O valor novo da API espera alguém conferir antes de trocar o do banco.'
       legenda: 'Quando a API traz um número diferente, ele espera alguém conferir antes de entrar no banco.',
-      alvo: { x: 25.6, y: 71.2, l: 38.4, a: 9.6 },
+      // 15/10/2026: a miniatura foi recapturada com o cabeçalho do site na peça (56 px; antes faixa de 44 px) e o círculo
+      // passou a cortar o valor e os botões. Medido na captura: só as duas caixas de valor. Antes { x: 25.6, y: 71.2, l: 38.4, a: 9.6 }.
+      alvo: { x: 26.3, y: 75.3, l: 20.4, a: 7.8 },
     },
     prototipo: {
       titulo: 'Veja o seu sistema funcionando antes de fechar.',
@@ -173,8 +201,9 @@ export function conteudoHome() {
         // Task 10: antes 'Hoje levo esse cuidado para negócios que precisam de um sistema que funcione de verdade.'
         'Hoje levo o mesmo cuidado para o sistema do seu negócio.',
       ],
-      foto: 'img/vinicius-640.jpg',
-      alt: 'Foto de Vinicius Candido',
+      // 15/10/2026: a foto vem de FOTO_BASE/FOTO_PRONTA. Antes: foto 'img/vinicius-640.jpg' (arquivo nunca criado).
+      // 15/10/2026: antes 'Foto de Vinicius Candido'.
+      alt: 'Vinicius Candido',
     },
     chamada: { titulo: 'Me conte o que está travando o seu negócio.', cta: 'Conversar no WhatsApp' },
   }

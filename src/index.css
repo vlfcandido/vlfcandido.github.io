@@ -17,13 +17,17 @@
   --folha: var(--papel-alto);
   --tinta: var(--fundo);
   --grafite: var(--fundo-suave);
-  --cobalto: var(--mar);
-  --cobalto-forte: var(--mar-forte);
+  /* 15/10/2026 (fix final, revisor: "#/projetos e os cases ainda no tema antigo"): os apelidos de acento da Maré
+     passam para a identidade nova, com um destaque só. Cobalto (links, cargo, bordas de hover) vira tinta; pitanga
+     (traços, pontos, rótulo tracejado) vira marca-texto, e o texto dela vira grafite (amarelo não passa 4,5:1 como
+     texto). Antes: --cobalto: var(--mar); --cobalto-forte: var(--mar-forte); --pitanga: var(--coral);
+     --pitanga-texto: var(--coral-texto). */
+  --cobalto: var(--fundo);
+  --cobalto-forte: var(--fundo);
   --marca: var(--sol);
   --marca-tinta: var(--on-sol);
-  /* Pitanga = o coral da Maré: acento quente secundário, só em traço e ponto. */
-  --pitanga: var(--coral);
-  --pitanga-texto: var(--coral-texto);
+  --pitanga: var(--sol);
+  --pitanga-texto: var(--fundo-suave);
 }
 
 @theme inline {
@@ -318,15 +322,15 @@ a:focus-visible .logo-mono {
   transform: scale(0.94);
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
-/* Logos claras (brancas ou cinza-claro no original) sumiam na placa branca: ganham placa azul-marinho
+/* Logos claras (brancas ou cinza-claro no original) sumiam na placa branca: ganham placa de tinta
    fixa, a mesma nos dois temas, com borda para destacar do fundo escuro. */
 .logo-botao[data-clara="true"]::before {
-  background: #0f2a33;
+  background: #17150f; /* 15/10/2026: tinta da identidade nova (antes #0f2a33, azul-marinho da Maré). */
   box-shadow: 4px 4px 0 var(--linha), inset 0 0 0 1px rgb(255 255 255 / 0.18);
 }
 /* Sem arquivo de logo, o nome em texto vai sobre a placa branca: tinta fixa, legível nos dois temas. */
 .logo-botao[data-ativo="true"] .nome-logo {
-  color: #13233f;
+  color: #17150f; /* 15/10/2026: antes #13233f. */
 }
 .logo-botao[data-ativo="true"] {
   z-index: 5;

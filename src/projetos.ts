@@ -5,7 +5,7 @@
 // dos projetos próprios saem do banco de provas (medidos em 07/10/2026). Nada de projeto que o banco
 // de provas manda não citar (ex.: o bot de pedidos, que não sobe), nem de lucro em operação de mercado.
 
-import { empresasDiretas, type EmpresaDireta } from './clientes'
+import { empresasDiretas, type EmpresaDireta, type SlugEmpregador } from './clientes'
 import { cases, type Case, type Fonte } from './conteudo'
 import { capasDosProjetos, diagramasDosCasos, printsDosCasos, type Capa, type Diagrama, type Print } from './visuais'
 
@@ -59,6 +59,11 @@ export interface ItemProjeto {
   telas?: Print[]
   /** Slug da empresa em `clientes.ts`, para a logo dos casos de empresa. */
   empresa?: string
+  /**
+   * Empresa onde ele trabalhava quando fez o caso, da fonte única `ONDE_TRABALHEI` (15/10/2026). Quando difere de
+   * `empresa` (cliente atendido pela Vertigo), o cartão diz de quem era o cliente.
+   */
+  contratante?: SlugEmpregador
   diagrama?: Diagrama
   /** Ilustração de capa, para projeto sem tela própria: vira a frente do card e o topo do painel. */
   capa?: Capa
@@ -320,6 +325,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [sicoob.metrica],
       papel: empresa('sicoob').papel,
       empresa: 'sicoob',
+      contratante: 'sicoob',
       diagrama: diagramasDosCasos.sicoob,
       fonte: sicoob.fonte,
     },
@@ -340,6 +346,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [],
       papel: empresa('contabilizei').papel,
       empresa: 'contabilizei',
+      contratante: 'contabilizei',
     },
     {
       slug: 'prefeitura-franca',
@@ -355,6 +362,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [franca.metrica],
       papel: 'Líder técnico dos projetos Blip na Vertigo',
       empresa: 'prefeitura-franca',
+      contratante: 'vertigo',
       fonte: franca.fonte,
     },
     {
@@ -371,6 +379,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [waizer.metrica],
       papel: empresa('wiv').papel,
       empresa: 'wiv',
+      contratante: 'wiv',
       fonte: waizer.fonte,
     },
     {
@@ -387,6 +396,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [araguaia.metrica],
       papel: 'Líder técnico dos projetos Blip na Vertigo',
       empresa: 'araguaia',
+      contratante: 'vertigo',
       fonte: araguaia.fonte,
     },
     {
