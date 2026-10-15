@@ -68,8 +68,10 @@ describe('conteúdo da home', () => {
       c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo]
     for (const t of visivel) expect(t, t).not.toMatch(/[:—–]/)
   })
-  it('nenhum destaque cita nome do material original das peças', () =>
-    expect(tudo.toLowerCase()).not.toMatch(/terceira|fdt|nome-privado/))
+  it('nenhum destaque cita nome do material original das peças', () => {
+    expect(tudo.toLowerCase()).not.toMatch(/terceira|fdt/)
+    expect(encontrarTermosProibidos(tudo)).toEqual([])
+  })
   // 15/10/2026 (revisor de detalhes): as empresas da home e de #/projetos vêm de uma fonte só.
   it('as empresas da home são as da fonte única ONDE_TRABALHEI', () => expect([...SLUGS_EMPRESAS]).toEqual([...ONDE_TRABALHEI]))
   // 15/10/2026: cada exemplo navegável existe, aparece em /trabalhos/ com o mesmo nome e tem miniatura; e /trabalhos/

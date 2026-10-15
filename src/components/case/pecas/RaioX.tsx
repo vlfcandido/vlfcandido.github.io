@@ -8,29 +8,13 @@ interface ArquivoTeste {
 }
 
 /**
- * Lê os arquivos de teste do próprio site (carregados só quando esta peça abre) e conta as verificações.
- * O número que aparece na página é contado do código publicado, não escrito à mão.
+ * Lista dos arquivos de teste do próprio site, contada no build (`vite.config.ts`).
+ * O número que aparece na página vem do código, não é escrito à mão. Só nome e total chegam ao navegador.
  *
- * @returns a lista de arquivos, da maior para a menor, ou `null` enquanto carrega.
+ * @returns a lista de arquivos, da maior para a menor.
  */
 function useTestesDoSite(): ArquivoTeste[] | null {
-  const [lista, setLista] = useState<ArquivoTeste[] | null>(null)
-  useEffect(() => {
-    let vivo = true
-    const modulos = import.meta.glob('/src/**/*.test.ts', { query: '?raw', import: 'default' })
-    Promise.all(
-      Object.entries(modulos).map(async ([caminho, carregar]) => {
-        const texto = String(await carregar())
-        return { nome: caminho.replace(/^\/src\//, ''), total: (texto.match(/\bit(?:\.each)?\(/g) ?? []).length }
-      }),
-    )
-      .then((l) => vivo && setLista(l.sort((a, b) => b.total - a.total)))
-      .catch(() => vivo && setLista([]))
-    return () => {
-      vivo = false
-    }
-  }, [])
-  return lista
+  return __TESTES_DO_SITE__
 }
 
 const TECLADO = [
