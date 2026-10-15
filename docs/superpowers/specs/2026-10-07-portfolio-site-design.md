@@ -61,7 +61,7 @@ largura máx. ~72rem, densidade de documentação técnica.
 - `src/conteudo.ts` — dados tipados (`Case`, `Passo`, `CamadaStack`, `Link`, `Numero`). Nenhuma lógica.
 - `src/lib/assets.ts` — `caminhoPublico(base, relativo)`: junta a base do Vite com o caminho, sem barra dupla.
 - `src/lib/termos-proibidos.ts` — `encontrarTermosProibidos(texto)`: devolve os termos vetados achados
-  (Sicoob, Mirante, e-mail, telefone, assunto-privado…). Usado por teste sobre todo o conteúdo serializado.
+  (empregador formal, nomes internos, e-mail, telefone, assuntos privados). Usado por teste sobre todo o conteúdo serializado.
 - `src/components/*` — uma seção por arquivo, recebem dados por props.
 - `vite.config.ts` — `base` vem de `BASE_PATH` (default `/`).
 

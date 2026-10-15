@@ -15,7 +15,7 @@ sem lógica); cada seção é um componente que recebe dados. Duas funções pur
 
 ## Restrições globais
 - pt-BR em tudo: texto, comentários, docstrings (TSDoc), commits.
-- Proibido no conteúdo: Sicoob, Mirante, "Staff de IA", e-mail, telefone, assunto-privado, nomes de família.
+- Proibido no conteúdo: Sicoob, Mirante, "Staff de IA", e-mail, telefone e assuntos privados (lista guardada só como hash).
 - Dado pessoal publicado: só nome, GitHub `https://github.com/vlfcandido`, LinkedIn
   `https://www.linkedin.com/in/viniciusf-candido` (+ perfil público do 99Freelas, decidido por default).
 - Visual: IBM Plex Sans + IBM Plex Mono; 1 destaque `#0b6b62`; sem gradiente, glass, blob, emoji, sombra difusa.
@@ -102,7 +102,7 @@ tokens de cor em `:root` + `prefers-color-scheme: dark`, mapeados em `@theme inl
 **Arquivos:** `src/lib/termos-proibidos.ts`, `src/lib/termos-proibidos.test.ts`.
 
 **Interfaces:** produz `encontrarTermosProibidos(texto: string): string[]` — rótulos achados, sem repetição,
-na ordem da lista (`sicoob`, `mirante`, `staff de ia`, `assunto-privado`, `nome-privado`, `e-mail`, `telefone`).
+na ordem da lista (termos privados, `e-mail`, `telefone`).
 
 - [x] **Passo 1: teste que falha**
 ```ts
@@ -111,7 +111,7 @@ import { encontrarTermosProibidos } from './termos-proibidos'
 
 describe('encontrarTermosProibidos', () => {
   it('texto limpo', () => expect(encontrarTermosProibidos('5 mil atendimentos de 2021 a 2025')).toEqual([]))
-  it('ignora caixa e acento', () => expect(encontrarTermosProibidos('SICOOB e assunto-privado')).toEqual(['sicoob', 'assunto-privado']))
+  it('ignora caixa e acento', () => expect(encontrarTermosProibidos('<termo privado>')).toHaveLength(1))
   it('acha e-mail', () => expect(encontrarTermosProibidos('fale em a.b@x.com.br')).toEqual(['e-mail']))
   it('acha telefone', () => expect(encontrarTermosProibidos('ligue (45) 99999-1234')).toEqual(['telefone']))
   it('não confunde URL com data', () =>
@@ -122,7 +122,7 @@ describe('encontrarTermosProibidos', () => {
 - [x] **Passo 2:** `npm test` → FALHA.
 - [x] **Passo 3: implementação**
 ```ts
-const PALAVRAS = ['sicoob', 'mirante', 'staff de ia', 'assunto-privado', 'nome-privado'] as const
+const PALAVRAS = [/* termos privados, hoje só como hash em src/lib/termos-proibidos.ts */] as const
 const PADROES: ReadonlyArray<[string, RegExp]> = [
   ['e-mail', /[\w.+-]+@[\w-]+\.[\w.]+/],
   ['telefone', /(?:\+?55\s?)?\(?\b\d{2}\)?[\s-]?9?\d{4}[\s-]\d{4}\b/],
