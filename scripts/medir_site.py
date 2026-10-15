@@ -376,20 +376,20 @@ def main() -> int:
                             pequenos = [f"{e['t']}({e['w']:.0f}x{e['h']:.0f})" for e in els if e["h"] < 43.5]
                             medida("3 alvos>=44px de altura", not pequenos, f"{len(els)} alvos, {len(pequenos)} abaixo: {pequenos[:6]}")
 
-                    # 4. marcações de #trabalhos (no celular, cartões de um carrossel horizontal: cada uma desenha ao entrar na tela)
+                    # 4. marcações de #destaques (no celular, cartões de um carrossel horizontal: cada uma desenha ao entrar na tela)
                     with bloco("4 marcações", nome_l, tema):
-                        pg.evaluate("document.getElementById('trabalhos')?.scrollIntoView()")
-                        alt_sec = pg.evaluate("document.getElementById('trabalhos')?.offsetHeight || 0")
+                        pg.evaluate("document.getElementById('destaques')?.scrollIntoView()")
+                        alt_sec = pg.evaluate("document.getElementById('destaques')?.offsetHeight || 0")
                         for _ in range(int(alt_sec // (h * 0.4)) + 2):
                             pg.evaluate(f"window.scrollBy(0, {int(h * 0.4)})")
                             pg.wait_for_timeout(250)
-                        pg.evaluate("document.getElementById('trabalhos')?.scrollIntoView({block:'center'})")
+                        pg.evaluate("document.getElementById('destaques')?.scrollIntoView({block:'center'})")
                         for _ in range(8):
-                            pg.evaluate("""() => { const c = document.querySelector('#trabalhos .carrossel');
+                            pg.evaluate("""() => { const c = document.querySelector('#destaques .carrossel');
                               if (c) c.scrollBy({ left: c.clientWidth * 0.5, behavior: 'instant' }); }""")
                             pg.wait_for_timeout(400)
                         pg.wait_for_timeout(1200)
-                        tot, ok_n = pg.evaluate("""() => { const m = [...document.querySelectorAll('#trabalhos .marcacao')];
+                        tot, ok_n = pg.evaluate("""() => { const m = [...document.querySelectorAll('#destaques .marcacao')];
                           return [m.length, m.filter(x => x.classList.contains('desenhada')).length]; }""")
                         medida("4 marcações desenhadas", tot > 0 and tot == ok_n, f"{ok_n}/{tot}")
 

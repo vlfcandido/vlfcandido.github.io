@@ -4,7 +4,7 @@ import { useEffect, useRef, type RefObject } from 'react'
 import { caminhoPublico } from '../lib/assets'
 import { WHATSAPP } from '../lib/whatsapp'
 import { FRASES_MARCADAS, conteudoHome, numerosDeProva } from './conteudo'
-import { partirNaFrase } from './lib/marcar'
+import { partirNasFrases } from './lib/marcar'
 import { Marcacao } from './Marcacao'
 
 /**
@@ -85,7 +85,7 @@ function Vitrine() {
 export function Promessa() {
   const { promessa } = conteudoHome()
   const n = numerosDeProva()
-  const titulo = partirNaFrase(promessa.titulo, FRASES_MARCADAS.promessa)
+  const titulo = partirNasFrases(promessa.titulo, FRASES_MARCADAS.promessa)
   const numeros = useRef<HTMLDivElement>(null)
   useContagemAoAssentar(numeros)
   const { rotulos } = promessa
@@ -99,11 +99,7 @@ export function Promessa() {
       <div>
         <h1 className="text-[2.5rem] leading-[1.08] font-semibold sm:text-6xl lg:text-[3.5rem] xl:text-6xl">
           {titulo ? (
-            <>
-              {titulo.antes}
-              <Marcacao tipo="grifo">{titulo.marcado}</Marcacao>
-              {titulo.depois}
-            </>
+            titulo.map((p, i) => (p.marcado ? <Marcacao key={i} tipo="grifo">{p.texto}</Marcacao> : p.texto))
           ) : (
             promessa.titulo
           )}

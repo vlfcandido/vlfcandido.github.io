@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { PALETA } from '../../../identidade'
+// 14/10/2026 (fix final): a folha volta a ler os tokens do Maré, o design system do site anterior, guardados em
+// cópia de arquivo. Antes lia a PALETA da identidade nova (sem texto de uso, cada cor saía com um "." solto) e
+// mostrava a paleta deste site como se fosse o Maré.
+import tokens from './mare-anterior.tokens.json'
 import { contraste } from '../../../lib/contraste'
 import type { PecaProps } from './tipos'
 
@@ -26,16 +29,12 @@ function selo(r: number): string {
 const limpar = (t: string) => t.replaceAll('`', '')
 
 /**
- * Peça do design system Maré: a folha de espécime lida do arquivo de tokens, com cada cor nos dois
- * temas, o uso escrito e o contraste sobre o papel calculado na hora.
+ * Peça do design system Maré, o do site anterior: a folha de espécime lida da cópia do arquivo de tokens, com
+ * cada cor nos dois temas, o uso que estava escrito e o contraste sobre o papel calculado na hora.
  */
 export function FolhaEspecime(_: PecaProps) {
   const [tema, setTema] = useState<Tema>('light')
-  const cores: Cor[] = (Object.keys(PALETA.claro) as (keyof typeof PALETA.claro)[]).map((name) => ({
-    name,
-    value: { light: PALETA.claro[name], dark: PALETA.escuro[name] },
-    usage: '',
-  }))
+  const cores = (tokens.color.tokens as Cor[]).filter((c) => !c.value.light.startsWith('{'))
   const papel = cores.find((c) => c.name === 'papel')!.value
   return (
     <div className="especime">
@@ -88,7 +87,7 @@ export function FolhaEspecime(_: PecaProps) {
       </ul>
 
       <figure className="mt-8 rounded-lg border border-linha bg-folha p-4">
-        <figcaption className="text-[0.92rem] text-grafite">O teste que trava a folha, resumido (src/identidade.test.ts)</figcaption>
+        <figcaption className="text-[0.92rem] text-grafite">O teste que travava a folha no site anterior, resumido (src/design/mare.test.ts)</figcaption>
         <pre className="folha-codigo mt-2 text-[0.8rem] leading-[1.7]">
           <code>{`it.each(cores)('%s', (nome, claro, escuro) => {
   expect(variaveis(cssClaro)[nome]).toBe(claro)

@@ -53,7 +53,8 @@ describe('galeria de projetos', () => {
     const q = porSlug('nexus-quant')!
     expect(q.status).toBe('estudo')
     expect(q.nome).toBe('Sistema de ordens em tempo real')
-    expect(q.resultado).toContain('Cripto, só em simulação, sem lucro.')
+    // 14/10/2026 (fix final): antes 'Cripto, só em simulação, sem lucro.', frase que o leigo não entendia.
+    expect(q.resultado).toContain('Só em simulação, sem dinheiro de verdade.')
     expect(JSON.stringify(q).toLowerCase().replaceAll('sem lucro', '')).not.toMatch(/lucro|rendimento|ganho|market making/)
     expect(q.numeros.join(' ')).toContain('simulação')
   })

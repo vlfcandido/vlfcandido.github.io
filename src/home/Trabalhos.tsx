@@ -2,6 +2,7 @@
 // encaixe e indicador que anda com o dedo; o grifo desenha quando o cartão assenta. No PC, 3 colunas.
 // A galeria completa fica em #/projetos (decisão dele, 14/10/2026), e o botão não leva número.
 import { useEffect, useRef, useState, type RefObject } from 'react'
+import { SeloFicticio } from '../components/Print'
 import { caminhoPublico } from '../lib/assets'
 import { HASH_PROJETOS } from '../lib/rota'
 import { conteudoHome, type Destaque } from './conteudo'
@@ -77,7 +78,7 @@ function CartaoDestaque({ d, indice, assentado }: { d: Destaque; indice: number;
   return (
     <li data-indice={indice}>
       <a href={hrefDe(d.href)} className="cartao toque">
-        <div className="imagem-reservada aspect-[16/10] overflow-hidden border-b border-linha">
+        <div className="imagem-reservada relative aspect-[16/10] overflow-hidden border-b border-linha">
           <img
             src={caminhoPublico(import.meta.env.BASE_URL, d.imagem)}
             width={1000}
@@ -87,6 +88,8 @@ function CartaoDestaque({ d, indice, assentado }: { d: Destaque; indice: number;
             decoding="async"
             className="block h-full w-full object-cover object-top"
           />
+          {/* Fix final (14/10/2026): as peças de /trabalhos/ perderam o "(exemplo)" do nome; o selo diz que é exemplo. */}
+          {d.href.startsWith('trabalhos/') && <SeloFicticio />}
         </div>
         <div className="flex flex-1 flex-col p-4 sm:p-6">
           <h3 className="text-xl font-semibold">{d.nome}</h3>
@@ -109,7 +112,7 @@ export function Trabalhos() {
   const barra = useRef<HTMLSpanElement>(null)
   const assentados = useCarrossel(trilho, barra)
   return (
-    <section id="trabalhos" className="secao tela">
+    <section id="destaques" className="secao tela">
       <h2 className="titulo-bloco alvo-secao"><span className="titulo-texto">{trabalhos.titulo}</span></h2>
       <ul ref={trilho} className="carrossel mt-6 lg:mt-8">
         {destaques.map((d, i) => (

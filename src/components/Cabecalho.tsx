@@ -1,6 +1,6 @@
 // Cabeçalho do site novo (14/10/2026). Antes: régua de profundidade da Maré (níveis com cotas, fileira de chips
 // no celular e régua lateral fixa em tela larga), apagada junto com src/lib/niveis.ts (ver git log).
-import { useEffect, useState, type MouseEvent } from 'react'
+import { useEffect, useId, useState, type MouseEvent } from 'react'
 import { perfil } from '../conteudo'
 import { caminhoPublico } from '../lib/assets'
 import { irParaSecao } from '../lib/destino'
@@ -12,7 +12,9 @@ import { IconeConversa } from './IconeConversa'
 
 /** Âncoras da home, na ordem de leitura. */
 const SECOES = [
-  { id: 'trabalhos', rotulo: 'Trabalhos' },
+  // Fix final (14/10/2026): antes { id: 'trabalhos', rotulo: 'Trabalhos' }; um destino, um nome (/trabalhos/ é
+  // "Exemplos navegáveis").
+  { id: 'destaques', rotulo: 'Destaques' },
   { id: 'como', rotulo: 'Como funciona' },
   { id: 'quem', rotulo: 'Quem sou' },
 ] as const
@@ -60,13 +62,31 @@ function mesmaAncora(e: MouseEvent<HTMLAnchorElement>, id: string) {
 
 /**
  * Cabeçalho: o nome em Fraunces com o endereço do site, as âncoras da home, os exemplos navegáveis, o tema e o
- * WhatsApp. No celular é estático (nada fixo por cima da página) e a navegação vira uma linha rolável no polegar;
- * a partir do tablet ele acompanha a rolagem (`md:sticky`).
+ * WhatsApp. No celular é estático (nada fixo por cima da página) e a navegação fica num menu recolhível, aberto
+ * no próprio fluxo da página (empurra o conteúdo, nunca cobre); a partir do tablet ele acompanha a rolagem
+ * (`md:sticky`) e a navegação fica sempre à vista.
+ * Fix final (14/10/2026, revisor: "topo do celular pesado, menu em 2 linhas"): antes, no celular, o menu ocupava
+ * duas linhas fixas sob a marca (≈ 153 px de cabeçalho); agora é uma linha de 56 px com o botão "Menu".
  *
  * @param props.rota página atual: na de projetos, as âncoras levam de volta à home.
  */
 export function Cabecalho({ rota }: { rota: Rota }) {
   const secao = useSecaoAVista(rota === 'inicio')
+  const [aberto, setAberto] = useState(false)
+  const idNav = useId()
+  // Troca de página fecha o menu; Esc também, devolvendo o foco ao botão.
+  useEffect(() => setAberto(false), [rota])
+  useEffect(() => {
+    if (!aberto) return
+    const aoTeclar = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      setAberto(false)
+      document.querySelector<HTMLButtonElement>('.cabecalho-menu')?.focus()
+    }
+    window.addEventListener('keydown', aoTeclar)
+    return () => window.removeEventListener('keydown', aoTeclar)
+  }, [aberto])
+  const fechar = () => setAberto(false)
   return (
     <header className="cabecalho md:sticky md:top-0">
       <div className="cabecalho-grade mx-auto max-w-7xl px-4 sm:px-8">
@@ -74,18 +94,33 @@ export function Cabecalho({ rota }: { rota: Rota }) {
           <span className="cabecalho-nome">{perfil.nome}</span>
           <span className="cabecalho-site">{SITE}</span>
         </a>
-        <nav aria-label="Seções" className="cabecalho-nav">
+        <button
+          type="button"
+          className="cabecalho-menu toque"
+          aria-expanded={aberto}
+          aria-controls={idNav}
+          onClick={() => setAberto((a) => !a)}
+        >
+          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+            <path d={aberto ? 'M5 5l10 10M15 5L5 15' : 'M3 6h14M3 10h14M3 14h14'} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+          Menu
+        </button>
+        <nav id={idNav} aria-label="Seções" className="cabecalho-nav" data-aberto={aberto}>
           <ul>
             {SECOES.map((s) => (
               <li key={s.id}>
-                <a href={`#${s.id}`} aria-current={secao === s.id ? 'location' : undefined} onClick={(e) => mesmaAncora(e, s.id)}>
+                <a href={`#${s.id}`} aria-current={secao === s.id ? 'location' : undefined} onClick={(e) => {
+                    fechar()
+                    mesmaAncora(e, s.id)
+                  }}>
                   {s.rotulo}
                 </a>
               </li>
             ))}
             {/* Task 10: a galeria completa no menu (antes só se chegava a ela pelo botão do bloco de trabalhos). */}
             <li>
-              <a href={HASH_PROJETOS} aria-current={rota === 'projetos' ? 'page' : undefined}>
+              <a href={HASH_PROJETOS} aria-current={rota === 'projetos' ? 'page' : undefined} onClick={fechar}>
                 Projetos
               </a>
             </li>
@@ -98,7 +133,8 @@ export function Cabecalho({ rota }: { rota: Rota }) {
         <BotaoTema />
         <a href={WHATSAPP} target="_blank" rel="noopener" className="cta cta-compacta toque">
           <IconeConversa tamanho={18} />
-          WhatsApp
+          {/* No celular só o ícone (o texto fica para leitor de tela); o WhatsApp com texto está logo abaixo, na prova. */}
+          <span className="cta-compacta-texto">WhatsApp</span>
           <span className="sr-only"> (abre em nova aba)</span>
         </a>
       </div>

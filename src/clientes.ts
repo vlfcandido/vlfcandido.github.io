@@ -69,7 +69,9 @@ export const empresasDiretas: EmpresaDireta[] = [
     nome: 'Sicoob',
     segmento: 'financeiro',
     logo: 'logos/sicoob.svg',
-    papel: 'Engenheiro de IA sênior, à frente técnica da IA de investimentos',
+    // Fix final (14/10/2026): uma regra só de maiúsculas nos cargos (só a 1ª letra da linha); "à frente técnica"
+    // virou "líder técnico". Antes: 'Engenheiro de IA sênior, à frente técnica da IA de investimentos'.
+    papel: 'Engenheiro de IA sênior e líder técnico da IA de investimentos',
     feito: 'Lidero tecnicamente a frente de IA do assistente de investimentos, com três agentes especializados.',
     historia: { texto: 'MobileTime, 17/07/2026', url: 'https://www.mobiletime.com.br/noticias/17/07/2026/sicoob-ia-investimento/' },
     ligadoA: 'sicoob-ia-investimentos',
@@ -82,7 +84,8 @@ export const empresasDiretas: EmpresaDireta[] = [
     // Corrigido em 08/10/2026 (ele): o atendimento com IA citado pelo Google Cloud não foi trabalho dele.
     // Antes: papel "Arquiteto sênior de IA", com a matéria do Google como história.
     // Cargo devolvido em 08/10/2026 (decisão dele). Antes desta correção: 'Agentes de IA de vendas (SDR)'.
-    papel: 'Arquiteto Sênior de IA, agentes de IA de vendas',
+    // Fix final (14/10/2026): antes 'Arquiteto Sênior de IA, …' (maiúsculas fora da regra dos outros cargos).
+    papel: 'Arquiteto sênior de IA, agentes de IA de vendas',
     // Atualizado em 08/10/2026 com o texto aprovado. Antes: 'Fiz os agentes de IA de vendas (SDR).'
     feito: 'Vendedor de IA no WhatsApp com um orquestrador e 8 agentes; trabalhei no backend, na passagem para o time humano e nas integrações.',
     ligadoA: 'contabilizei-vendas',
@@ -92,7 +95,8 @@ export const empresasDiretas: EmpresaDireta[] = [
     nome: 'Serasa Experian',
     segmento: 'financeiro',
     logo: 'logos/serasa-experian.webp',
-    papel: 'Engenheiro de IA sênior e tech lead',
+    // Fix final (14/10/2026): antes 'Engenheiro de IA sênior e tech lead' (um cargo em inglês, os outros em português).
+    papel: 'Engenheiro de IA sênior e líder técnico',
     feito: 'Liderei um squad de engenharia cuidando da segurança e da modernização de aplicações em grande escala.',
   },
   {
@@ -100,7 +104,8 @@ export const empresasDiretas: EmpresaDireta[] = [
     nome: 'Vertigo',
     segmento: 'tecnologia',
     logo: 'logos/vertigo.png',
-    papel: 'Tech lead dos projetos Blip',
+    // Fix final (14/10/2026): antes 'Tech lead dos projetos Blip'.
+    papel: 'Líder técnico dos projetos Blip',
     feito: 'Liderei o time de projetos de chatbot na Blip, de órgãos públicos a grandes empresas.',
     historia: { texto: 'diretório de parceiros Blip', url: 'https://www.blip.ai/partners/en/experts/vertigo-tecnologia/' },
     ligadoA: 'vertigo-take-blip',

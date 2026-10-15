@@ -29,6 +29,9 @@ export const ANCORAS_ANTIGAS: Readonly<Record<string, string>> = {
   // saiu do mapa (ia para projetos) porque virou seção da home.
   '#clientes': '#empresas',
   '#como-trabalho': '#como',
+  // Fix final (14/10/2026): a seção dos 3 trabalhos virou "Destaques" (o menu dizia "Trabalhos" e /trabalhos/ é outra
+  // página). Link salvo com #trabalhos cai no mesmo lugar.
+  '#trabalhos': '#destaques',
 }
 
 /**

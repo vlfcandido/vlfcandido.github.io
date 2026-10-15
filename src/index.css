@@ -103,6 +103,19 @@ h3 {
   border-radius: 2px;
 }
 
+/* "Toque" só em tela de toque; "Clique" com mouse (fix final, 14/10/2026). */
+.so-clique {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .so-toque {
+    display: none;
+  }
+  .so-clique {
+    display: inline;
+  }
+}
+
 /* Seleção de texto na cor de acento, clara o bastante para a tinta continuar legível. */
 ::selection {
   background: color-mix(in srgb, var(--pitanga) 30%, transparent);
@@ -113,7 +126,7 @@ h3 {
 .sublinha {
   text-decoration: none;
   background: linear-gradient(var(--linha), var(--linha)) left bottom / 100% 2px no-repeat,
-    linear-gradient(var(--pitanga), var(--pitanga)) left bottom / 0% 2px no-repeat;
+    linear-gradient(var(--marca), var(--marca)) left bottom / 0% 2px no-repeat;
   padding-bottom: 2px;
   transition: background-size 0.25s ease, color 0.15s;
 }
@@ -385,7 +398,8 @@ a:focus-visible .logo-mono {
 .cartao-projeto:has(:focus-visible) img,
 .cartao-projeto:has(:focus-visible) .moldura-logo {
   transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0 var(--pitanga);
+  /* 14/10/2026 (fix final): antes pitanga (coral da Maré); o destaque do site é um só, o marca-texto. */
+  box-shadow: 9px 9px 0 var(--marca);
 }
 /* Logo e capa ilustrada sobem junto com a moldura; a imagem dentro dela não se move sozinha. */
 .cartao-projeto .moldura-logo img {
@@ -425,59 +439,9 @@ a:focus-visible .logo-mono {
   border-color: var(--cobalto);
 }
 
-/* Como funciona: cada passo liga ao próximo por um traço que se preenche quando o passo
-   já ficou para trás (vertical no celular, horizontal no computador). */
-.passo:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: calc(1.3rem - 1px);
-  top: 2.6rem;
-  width: 2px;
-  height: calc(100% + 2.5rem - 2.6rem);
-  background: linear-gradient(var(--cobalto), var(--cobalto)) top / 100% 0% no-repeat, var(--linha);
-  transition: background-size 0.35s ease;
-}
-.passo[data-estado="feito"]::after {
-  background-size: 100% 100%, auto;
-}
-@media (min-width: 1024px) {
-  .passo:not(:last-child)::after {
-    left: 2.6rem;
-    top: calc(1.3rem - 1px);
-    width: calc(100% + 2.5rem - 2.6rem);
-    height: 2px;
-    background-position: left;
-    background-size: 0% 100%, auto;
-  }
-  .passo[data-estado="feito"]::after {
-    background-size: 100% 100%, auto;
-  }
-}
-.passo-numero {
-  position: relative;
-  border: 2px solid var(--cobalto);
-  background: var(--nevoa);
-  color: var(--cobalto);
-  transition: background-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
-}
-.passo[data-estado="feito"] .passo-numero,
-.passo[data-estado="ativo"] .passo-numero {
-  background: var(--cobalto);
-  color: var(--nevoa);
-}
-.passo[data-estado="ativo"] .passo-numero {
-  border-color: var(--pitanga);
-  background: var(--pitanga);
-  color: var(--on-sol);
-  transform: scale(1.12);
-  box-shadow: 0 0 0 4px var(--nevoa), 0 0 0 6px var(--pitanga);
-}
-.passo-titulo {
-  transition: color 0.25s;
-}
-.passo[data-estado="ativo"] .passo-titulo {
-  color: var(--cobalto);
-}
+/* Fix final (14/10/2026): saíram as regras .passo::after, .passo-numero e .passo-titulo da home antiga. A home nova
+   reusa a classe .passo (ComoFunciona.tsx) sem position: relative, e o traço absoluto do ::after virava uma linha
+   vertical a 20 px da borda, do topo da página até o fim da prova, cortando a 1ª letra do título no celular. */
 
 /* O que eu resolvo: a oferta ativa ganha o trilho coral e o fundo de folha. */
 .oferta {
@@ -722,36 +686,7 @@ a:focus-visible .logo-mono {
     display: block !important;
   }
 }
-/* Abertura: a carta é textura, não figura; some nas bordas para não pesar sobre o texto. */
-.carta-abertura {
-  opacity: 0.32;
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 70% 55%, #000 35%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 60% at 70% 55%, #000 35%, transparent 100%);
-}
-@media (min-width: 1024px) {
-  .carta-abertura {
-    opacity: 0.42;
-    -webkit-mask-image: radial-gradient(ellipse 58% 62% at 64% 40%, #000 40%, transparent 100%);
-    mask-image: radial-gradient(ellipse 58% 62% at 64% 40%, #000 40%, transparent 100%);
-  }
-}
-/* Topo de seção (projetos, agentes): a ilustração ao lado do título, sumindo para a esquerda e para baixo. */
-.carta-topo {
-  opacity: 0.5;
-  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 70% 40%, #000 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 75% 75% at 70% 40%, #000 40%, transparent 100%);
-}
-@media (min-width: 640px) {
-  .carta-topo {
-    opacity: 0.85;
-  }
-}
-/* Faixa do rodapé: baixa, só o desenho da direita. */
-.carta-faixa {
-  opacity: 0.6;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
-  mask-image: linear-gradient(to right, transparent, #000 45%);
-}
+/* 14/10/2026 (fix final): saíram .carta-abertura, .carta-topo e .carta-faixa, as máscaras da carta náutica da Maré. */
 
 /* Interfaces que eu construo (08/10/2026): peças vivas com dados de exemplo. */
 .grafico:focus-visible {

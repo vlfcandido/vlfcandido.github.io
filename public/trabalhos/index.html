@@ -3,24 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trabalhos de Vinicius Candido, projetos de exemplo</title>
-<meta name="description" content="Projetos de exemplo navegáveis feitos por Vinicius Candido: um portal de dados de futebol e uma plataforma de psicologia online. Dados fictícios, para você abrir e mexer.">
+<!-- Fix final (14/10/2026): esta página se chama "Exemplos navegáveis" em todo lugar (menu, cabeçalho, faixa das
+     peças). Antes: title e og:title "Trabalhos de Vinicius Candido, projetos de exemplo", h1 "Projetos de exemplo para
+     você abrir e mexer"; cabeçalho e rodapé próprios, diferentes dos do site. -->
+<title>Exemplos navegáveis · Vinicius Candido</title>
+<meta name="description" content="Exemplos navegáveis feitos por Vinicius Candido: Liga Várzea FC, um portal de dados de futebol, e Consultório Exemplo, uma plataforma de terapia online. Dados fictícios, para você abrir e mexer.">
 <link rel="canonical" href="https://vlfcandido.github.io/trabalhos/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Vinicius Candido">
 <meta property="og:url" content="https://vlfcandido.github.io/trabalhos/">
-<meta property="og:title" content="Trabalhos de Vinicius Candido, projetos de exemplo">
-<meta property="og:description" content="Dois projetos de exemplo navegáveis: portal de dados de futebol e plataforma de psicologia online. Abra e mexa.">
+<meta property="og:title" content="Exemplos navegáveis · Vinicius Candido">
+<meta property="og:description" content="Dois exemplos navegáveis: Liga Várzea FC, portal de dados de futebol, e Consultório Exemplo, terapia online. Abra e mexa.">
 <meta property="og:image" content="https://vlfcandido.github.io/trabalhos/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Página de trabalhos de Vinicius Candido, com dois projetos de exemplo">
+<meta property="og:image:alt" content="Exemplos navegáveis de Vinicius Candido: Liga Várzea FC e Consultório Exemplo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#161512" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>
+// Tema salvo aplicado antes da pintura, igual ao index.html do site (mesma chave "tema").
+try{var t=localStorage.getItem('tema');if(t==='claro'||t==='escuro'){document.documentElement.dataset.tema=t;document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.content=t==='escuro'?'#161512':'#f7f4ee'})}}catch(e){}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap">
@@ -33,18 +40,8 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--papel);color:var(--tinta);font:400 1.0625rem/1.6 Inter,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 h1,h2,h3,.sans{font-family:Fraunces,Georgia,serif;font-optical-sizing:auto;font-weight:600;text-wrap:balance}
 a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:2px;text-underline-offset:3px}
-.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 16px}
 @media(min-width:640px){.wrap{padding:0 32px}}
-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--papel) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid color-mix(in srgb,var(--linha) 70%,transparent)}
-header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
-.nome{margin-right:auto;font:600 1.125rem Fraunces,Georgia,serif;font-optical-sizing:auto;color:var(--tinta);text-decoration:none;display:inline-flex;align-items:baseline;gap:.15em}
-.nome i{width:.38em;height:.38em;border-radius:50%;background:var(--sol);display:inline-block}
-.nav a{font:500 .95rem Inter,system-ui,sans-serif;color:var(--suave);text-decoration:none;padding:12px 4px;display:inline-block;min-height:44px}
-.nav a:hover{color:var(--tinta)}
-.nav a[aria-current]{color:var(--tinta);font-weight:700}
-.zap{display:inline-flex;align-items:center;gap:8px;background:var(--sol);color:var(--on-sol);border-radius:999px;padding:10px 16px;min-height:44px;font:600 .95rem Inter,system-ui,sans-serif;text-decoration:none;white-space:nowrap;transition:background .2s,transform .2s}
-.zap:hover{background:var(--sol-forte);transform:translateY(-1px)}
-.zap svg{width:18px;height:18px;fill:currentColor}
 .topo{padding-block:56px 24px}
 .topo .eyebrow{font:600 .8rem Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--suave)}
 .topo h1{font-size:clamp(2rem,5.4vw,3.4rem);line-height:1.05;margin:.35em 0 .4em;letter-spacing:-.02em}
@@ -71,32 +68,100 @@ header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
 .rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
 .rv.on{opacity:1;transform:none}
 .rv.on:hover,.rv.on:focus-within{transform:translateY(-4px)}
-.med{font-size:.8rem;margin-top:12px}
 :focus-visible{outline:3px solid var(--sol);outline-offset:3px;border-radius:6px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
-@media(max-width:520px){.zap span{display:none}.zap{padding:10px 12px}header .wrap{flex-wrap:wrap;gap:0 12px;min-height:0;padding-block:4px}.nome{white-space:nowrap}.nome i{display:none}.nav{order:3;flex:1 0 100%;display:flex;gap:16px}}
+
+/* Cabeçalho e rodapé iguais aos do site (src/casca.css e Cabecalho/Rodape.tsx), em CSS puro: esta página é HTML
+   estático. Fix final, 14/10/2026. Mesmas alturas, fontes, alvos de 44 px e o menu recolhível do celular. */
+:root{--mola:cubic-bezier(.2,.8,.2,1);--raio-p:8px}
+.cab{position:relative;z-index:20;border-bottom:1px solid var(--linha);background:var(--papel)}
+.cab-grade{max-width:1280px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;grid-template-areas:"marca tema whats menu" "nav nav nav nav";grid-template-rows:56px auto;align-items:center;column-gap:4px}
+.cab-marca{grid-area:marca;justify-self:start;display:inline-flex;flex-direction:column;justify-content:center;min-height:44px;padding-right:8px;border-radius:var(--raio-p);color:var(--tinta);text-decoration:none}
+.cab-nome{font:600 1.125rem/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em;white-space:nowrap}
+.cab-site{font-size:.75rem;line-height:1.33;color:var(--suave);letter-spacing:.01em;white-space:nowrap}
+.cab-nav{grid-area:nav;min-width:0}
+.cab-nav ul{list-style:none;display:flex;flex-direction:column;margin:0 -8px;padding:4px 0 12px}
+.cab-nav a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 8px;border-radius:var(--raio-p);font:500 1.0625rem Inter,system-ui,sans-serif;color:var(--suave);text-decoration:none;white-space:nowrap}
+.cab-nav a[aria-current]{color:var(--tinta)}
+.cab-nav a::after{content:"";position:absolute;left:8px;right:8px;bottom:8px;height:3px;border-radius:999px;background:var(--sol);transform:scaleX(0);transform-origin:left;transition:transform .26s var(--mola)}
+.cab-nav a[aria-current]::after{transform:scaleX(1)}
+.cab-nav[data-aberto="false"]{display:none}
+.cab-nav[data-aberto="true"] li{animation:menu-entra .26s var(--mola) both}
+@keyframes menu-entra{from{opacity:0;transform:translateY(-6px)}}
+.cab-tema{grid-area:tema;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:999px;background:none;color:var(--suave);cursor:pointer}
+.cab-tema svg{transition:transform .4s var(--mola)}
+:root[data-tema="escuro"] .cab-tema svg{transform:rotate(90deg)}
+.cab-zap{grid-area:whats;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;width:44px;border-radius:999px;background:var(--sol);color:var(--on-sol);font:600 .9375rem Inter,system-ui,sans-serif;text-decoration:none;white-space:nowrap}
+.cab-zap svg{width:18px;height:18px;fill:currentColor;flex:none}
+.cab-zap-texto,.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cab-menu{grid-area:menu;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;margin-right:-8px;border:0;border-radius:999px;background:none;color:var(--tinta);font:600 .9375rem Inter,system-ui,sans-serif;cursor:pointer}
+.cab-menu[aria-expanded="true"]{background:var(--raso)}
+.cab-menu:active{transform:scale(.96)}
+@media(min-width:640px){.cab-grade{padding:0 32px}}
+@media(min-width:768px){
+  .cab{position:sticky;top:0;background:color-mix(in srgb,var(--papel) 88%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px)}
+  .cab-grade{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"marca tema whats" "nav nav nav";grid-template-rows:56px minmax(48px,auto);column-gap:8px}
+  .cab-menu{display:none}
+  .cab-nav[data-aberto="false"]{display:block}
+  .cab-nav ul{flex-direction:row;flex-wrap:nowrap;align-items:center;gap:0 4px;padding:0}
+  .cab-nav a{font-size:.9375rem}
+  .cab-nav[data-aberto="true"] li{animation:none}
+  .cab-zap{width:auto;padding:8px 16px 8px 12px}
+  .cab-zap-texto{position:static;width:auto;height:auto;overflow:visible;clip:auto}
+}
+@media(min-width:1024px){
+  .cab-grade{grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-areas:"marca nav tema whats";grid-template-rows:64px;column-gap:16px}
+  .cab-nav ul{justify-content:flex-end;margin:0}
+  .cab-nav a{padding:0 12px}
+  .cab-nav a::after{left:12px;right:12px;bottom:10px}
+}
+@media(hover:hover){.cab-nav a:hover,.cab-tema:hover,.rod-links a:hover,.rod-site:hover{color:var(--tinta);background:var(--raso)}}
+.rod{border-top:1px solid var(--linha);background:var(--papel)}
+.rod-in{max-width:1280px;margin:0 auto;padding:48px 16px max(48px,calc(env(safe-area-inset-bottom) + 32px))}
+@media(min-width:640px){.rod-in{padding-inline:32px}}
+.rod-topo{display:flex;flex-direction:column;gap:16px}
+@media(min-width:768px){.rod-topo{flex-direction:row;align-items:center;justify-content:space-between}}
+.rod-assina{margin:0;font:400 1.125rem Fraunces,Georgia,serif;font-optical-sizing:auto}
+.rod-assina mark{color:inherit;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--sol) 70%,transparent) 58%);padding:0}
+:root[data-tema="escuro"] .rod-assina mark{background:linear-gradient(transparent 46%,color-mix(in srgb,var(--sol) 48%,transparent) 46%,color-mix(in srgb,var(--sol) 48%,transparent) 96%,transparent 96%)}
+@media(prefers-color-scheme:dark){:root:not([data-tema="claro"]) .rod-assina mark{background:linear-gradient(transparent 46%,color-mix(in srgb,var(--sol) 48%,transparent) 46%,color-mix(in srgb,var(--sol) 48%,transparent) 96%,transparent 96%)}}
+.rod-site{display:inline-flex;align-items:center;min-height:44px;margin-inline:-12px;padding-inline:12px;border-radius:var(--raio-p);color:var(--suave);font-size:.875rem;text-decoration:none}
+.rod-links{list-style:none;display:flex;flex-wrap:wrap;gap:4px 8px;margin:0 -12px;padding:0}
+.rod-links a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding-inline:12px;border-radius:var(--raio-p);font-weight:500;text-decoration:none}
+.rod-nota{margin-top:32px;border-top:1px solid var(--linha);padding-top:24px;font-size:.875rem;color:var(--suave)}
+.rod-nota p{margin:0 0 4px}
+.cab :focus-visible,.rod :focus-visible{outline:3px solid var(--sol);outline-offset:3px;box-shadow:0 0 0 3px var(--tinta);border-radius:var(--raio-p)}
+@media(prefers-reduced-motion:reduce){.cab-nav a::after,.cab-tema svg{transition:none}.cab-nav[data-aberto="true"] li{animation:none}}
 </style>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <a class="nome" href="/">Vinicius Candido<i aria-hidden="true"></i></a>
-    <nav class="nav" aria-label="Principal"><a href="/">← vlfcandido.github.io</a> <a href="/#/projetos">Projetos</a> <a href="/trabalhos/" aria-current="page">Exemplos</a></nav>
-    <a class="zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seus%20trabalhos%20no%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius pelo WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span>WhatsApp</span></a>
+<header class="cab">
+  <div class="cab-grade">
+    <a class="cab-marca" href="../"><span class="cab-nome">Vinicius Candido</span><span class="cab-site">vlfcandido.github.io</span></a>
+    <button type="button" class="cab-menu" aria-expanded="false" aria-controls="cab-nav"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Menu</button>
+    <nav id="cab-nav" class="cab-nav" aria-label="Seções" data-aberto="false"><ul>
+      <li><a href="../#destaques">Destaques</a></li>
+      <li><a href="../#como">Como funciona</a></li>
+      <li><a href="../#quem">Quem sou</a></li>
+      <li><a href="../#/projetos">Projetos</a></li>
+      <li><a href="./" aria-current="page">Exemplos navegáveis</a></li>
+    </ul></nav>
+    <button type="button" class="cab-tema" aria-label="Usar tema escuro" title="Usar tema escuro"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="currentColor"/></svg></button>
+    <a class="cab-zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seus%20trabalhos%20no%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span class="cab-zap-texto">WhatsApp</span><span class="sr"> (abre em nova aba)</span></a>
   </div>
 </header>
 <main id="conteudo">
   <section class="topo wrap">
-    <div class="eyebrow">Trabalhos</div>
-    <h1>Projetos de exemplo para você abrir e mexer</h1>
+    <div class="eyebrow">Para abrir e mexer</div>
+    <h1>Exemplos navegáveis</h1>
     <p>Cada um é um site funcionando no navegador, com pessoas, clubes e números inventados. Mostram como eu penso a tela, o fluxo e os detalhes pequenos que costumam ficar de fora.</p>
   </section>
-  <section class="wrap grade" aria-label="Trabalhos">
+  <section class="wrap grade" aria-label="Exemplos navegáveis">
     <article class="cartao rv" id="liga-varzea">
       <a class="img" href="/trabalhos/liga-varzea/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/liga-varzea.jpg" width="1000" height="625" loading="lazy" alt="Tela inicial do portal de dados Liga Várzea FC, com título, fonte de dados e painel de sincronização"></a>
       <div class="corpo">
-        <span class="exemplo">Projeto de exemplo, dados fictícios</span>
-        <h2>Portal de dados de futebol</h2>
+        <span class="exemplo">Portal de dados de futebol · exemplo, dados fictícios</span>
+        <h2>Liga Várzea FC</h2>
         <p>Quem mantém um site de futebol perde tempo corrigindo número que a API entrega errado e vendo a correção sumir na próxima atualização. Este portal lê de uma base própria, mostra de onde veio cada número e guarda o que a equipe corrigiu à mão.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Painel administrativo</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/liga-varzea/">Abrir o exemplo</a><a class="btn sec" href="/trabalhos/liga-varzea/#/admin">Ver o painel</a></div>
@@ -105,8 +170,8 @@ header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
     <article class="cartao rv" id="consultorio-exemplo">
       <a class="img" href="/trabalhos/consultorio-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/consultorio-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Tela inicial da plataforma de psicologia online Consultório Exemplo, com busca por tema e horário"></a>
       <div class="corpo">
-        <span class="exemplo">Projeto de exemplo, dados fictícios</span>
-        <h2>Plataforma de psicologia online</h2>
+        <span class="exemplo">Plataforma de terapia online · exemplo, dados fictícios</span>
+        <h2>Consultório Exemplo</h2>
         <p>Todo mês o sistema reconfere o CRP de cada psicólogo: perfil com registro irregular sai da busca, a agenda é pausada e os pacientes marcados são avisados. É esse detalhe que dá confiança a quem escolhe um terapeuta. Em volta dele, o caminho inteiro: busca, agenda, pagamento e as áreas do paciente, do psicólogo e da administração.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Quatro áreas de acesso</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/consultorio-exemplo/">Abrir o exemplo</a><a class="btn sec" href="/trabalhos/consultorio-exemplo/#admin/crp">Ver o painel</a></div>
@@ -115,10 +180,42 @@ header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
   </section>
   <section class="nota wrap">
     <p>Os dois projetos são exemplos navegáveis, feitos para mostrar o trabalho. Nenhum representa um negócio real e todos os nomes, registros e números são inventados.</p>
-    <p>Feito por Vinicius Candido. <a href="/">vlfcandido.github.io</a></p>
-    <p class="med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
   </section>
 </main>
+<footer class="rod">
+  <div class="rod-in">
+    <div class="rod-topo">
+      <div>
+        <p class="rod-assina">feito por <mark>Vinicius Candido</mark></p>
+        <a class="rod-site" href="../">vlfcandido.github.io</a>
+      </div>
+      <ul class="rod-links" aria-label="Perfis">
+        <li><a href="https://www.linkedin.com/in/viniciusf-candido" target="_blank" rel="noopener">LinkedIn<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr"> (abre em nova aba)</span></a></li>
+        <li><a href="https://github.com/vlfcandido" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr"> (abre em nova aba)</span></a></li>
+      </ul>
+    </div>
+    <div class="rod-nota">
+      <p>Vinicius Candido, 2026. Marcas e logos são das próprias empresas. Os exemplos usam dados fictícios. Ilustrações geradas com IA e editadas por Vinicius Candido.</p>
+      <p>Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
+    </div>
+  </div>
+</footer>
+<script>
+// Menu recolhível do celular e botão de tema, iguais aos do site (Cabecalho.tsx e BotaoTema.tsx).
+(function(){
+  var b=document.querySelector('.cab-menu'),n=document.getElementById('cab-nav');
+  function abrir(v){b.setAttribute('aria-expanded',v?'true':'false');n.dataset.aberto=v?'true':'false';b.querySelector('path').setAttribute('d',v?'M5 5l10 10M15 5L5 15':'M3 6h14M3 10h14M3 14h14')}
+  b.addEventListener('click',function(){abrir(b.getAttribute('aria-expanded')!=='true')});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&b.getAttribute('aria-expanded')==='true'){abrir(false);b.focus()}});
+  var t=document.querySelector('.cab-tema'),r=document.documentElement;
+  var LUA='<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="currentColor"/>';
+  var SOL='<g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g>';
+  function atual(){var d=r.dataset.tema;if(d==='claro'||d==='escuro')return d;return matchMedia('(prefers-color-scheme: dark)').matches?'escuro':'claro'}
+  function pintar(){var e=atual()==='escuro';t.querySelector('svg').innerHTML=e?SOL:LUA;var l=e?'Usar tema claro':'Usar tema escuro';t.setAttribute('aria-label',l);t.title=l}
+  t.addEventListener('click',function(){var novo=atual()==='escuro'?'claro':'escuro';r.dataset.tema=novo;document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.content=novo==='escuro'?'#161512':'#f7f4ee'});try{localStorage.setItem('tema',novo)}catch(e){}pintar()});
+  pintar();
+})();
+</script>
 <script>
 (function(){var l=document.querySelectorAll('.rv');if(!('IntersectionObserver' in window)){l.forEach(function(e){e.classList.add('on')});return}
 var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');o.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});

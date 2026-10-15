@@ -15,7 +15,9 @@ export interface Frente { titulo: string; resultado: string; exemplo: string }
 // 14/10/2026 (fix da Task 5): ganharam imagem e alt, porque entram no topo da página de projetos.
 export const PECAS = [
   {
-    slug: 'liga-varzea', nome: 'Liga Várzea FC (exemplo)', href: 'trabalhos/liga-varzea/',
+    // Fix final (14/10/2026): um nome só para cada peça, igual em /trabalhos/ e na faixa. Antes 'Liga Várzea FC (exemplo)'
+    // aqui e 'Portal de dados de futebol' em /trabalhos/; o "exemplo" vai no selo de dados fictícios do cartão.
+    slug: 'liga-varzea', nome: 'Liga Várzea FC', href: 'trabalhos/liga-varzea/',
     imagem: 'trabalhos/img/liga-varzea.jpg', alt: 'Tela inicial da Liga Várzea FC, com o painel de dados',
     // 14/10/2026 (Task 10): linha própria no cartão de #/projetos. Antes as duas peças diziam
     // 'Exemplo navegável: dá para clicar e testar.', a mesma frase lado a lado.
@@ -33,7 +35,8 @@ export const PECAS = [
  * cada trecho existe no texto (senão a marcação some sem aviso).
  */
 export const FRASES_MARCADAS = {
-  promessa: 'Sicoob e Serasa Experian',
+  // Fix final (14/10/2026): duas marcas, uma por empresa. Antes 'Sicoob e Serasa Experian', um trecho só.
+  promessa: ['Sicoob', 'Serasa Experian'],
   prototipo: 'antes de fechar',
   garantia: '30 dias de correção',
 } as const
@@ -44,10 +47,11 @@ export const SLUGS_EMPRESAS = ['sicoob', 'serasa-experian', 'contabilizei', 'pre
 /**
  * Linha de cada empresa no bloco "Onde já trabalhei" quando o papel de clientes.ts não serve ao cliente de freela.
  * 14/10/2026 (Task 10): a Prefeitura de Franca mostrava 'Case Vertigo', que não diz o que foi feito. O texto novo
- * junta o `feito` ("Chatbot da Saúde…") e o papel do projeto em projetos.ts ("Tech lead dos projetos Blip na Vertigo").
+ * junta o `feito` ("Chatbot da Saúde…") e o papel do projeto em projetos.ts ("Líder técnico dos projetos Blip na Vertigo").
  */
 export const LINHA_EMPRESA: Partial<Record<(typeof SLUGS_EMPRESAS)[number], string>> = {
-  'prefeitura-franca': 'Chatbot da Saúde, como tech lead da Vertigo',
+  // Fix final (14/10/2026): antes 'Chatbot da Saúde, como tech lead da Vertigo'.
+  'prefeitura-franca': 'Chatbot da Saúde, como líder técnico na Vertigo',
 }
 
 /** Anos de software, de config/privado/carreira/respostas-padrao.md ("Software total = 13"). */
@@ -71,10 +75,13 @@ export function conteudoHome() {
   const n = numerosDeProva()
   return {
     promessa: {
-      titulo: `${n.anos} anos construindo sistemas para Sicoob e Serasa Experian.`,
+      // Fix final (14/10/2026, revisor de detalhes): o título dizia `${n.anos} anos construindo sistemas para Sicoob e
+      // Serasa Experian.`, e enganava. Os 13 anos são de carreira, o Sicoob é o emprego atual e a Serasa veio em 2025.
+      // Fonte: config/privado/carreira/respostas-padrao.md (software total 13, empresa atual Sicoob, Serasa Experian).
+      titulo: `${n.anos} anos de software. Hoje no Sicoob, antes na Serasa Experian.`,
       // 14/10/2026 (Task 10, humanizer): antes 'Agora para o seu negócio, cuidando até do detalhe que ninguém viu.'
-      // (frase sem verbo e gerúndio pendurado).
-      subtitulo: 'Agora faço o sistema do seu negócio e cuido até do detalhe que ninguém viu.',
+      // (frase sem verbo e gerúndio pendurado). Fix final: 'Agora faço…' sugeria que ele saiu do Sicoob.
+      subtitulo: 'Também faço o sistema do seu negócio e cuido até do detalhe que ninguém viu.',
       cta: 'Conversar no WhatsApp',
       // Rótulos dos números (antes fixos em Promessa.tsx). 'empresas de grande porte' virou 'empresas onde trabalhei':
       // nem todas as 5 são de grande porte, e o bloco de logos se chama "Onde já trabalhei".
@@ -106,7 +113,7 @@ export function conteudoHome() {
     },
     destaques: [
       {
-        slug: 'liga-varzea', nome: 'Liga Várzea FC (exemplo)',
+        slug: 'liga-varzea', nome: 'Liga Várzea FC',
         dor: 'Cada atualização automática apagava a correção feita à mão.',
         // Task 10: antes 'A correção manual sobrevive à sincronização e mostra de onde veio cada número.' (jargão).
         detalhe: 'A correção feita à mão sobrevive à atualização, e cada número mostra de onde veio.',
@@ -133,8 +140,10 @@ export function conteudoHome() {
         alt: 'Tela do AprovaOS com o plano de estudo do dia dividido em blocos',
       },
     ] satisfies Destaque[],
-    empresas: { titulo: 'Onde já trabalhei' },
-    trabalhos: { titulo: 'Trabalhos com o detalhe marcado', verTodos: 'Ver todos os projetos' },
+    // Fix final (14/10/2026): subtítulo para separar este bloco (empregos) dos "Casos em empresas" de #/projetos.
+    empresas: { titulo: 'Onde já trabalhei', subtitulo: 'As empresas onde trabalhei e o que fiz em cada uma.' },
+    // Fix final (14/10/2026): antes 'Trabalhos com o detalhe marcado'; o menu passou a chamar a seção de "Destaques".
+    trabalhos: { titulo: 'Destaques, com o detalhe marcado', verTodos: 'Ver todos os projetos' },
     como: { titulo: 'Como funciona' },
     // Task 10 (humanizer): antes, passo 4 'Manual, documentação técnica e testes automatizados.' (tríade) e passo 5
     // '30 dias de correção depois da entrega.', que repetia a caixa da garantia logo abaixo. Textos do Método

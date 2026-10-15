@@ -51,7 +51,9 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
         ) : item.print ? (
           <Print print={item.print} />
         ) : (
-          <div className={`${moldura} flex ${item.capa ? 'aspect-[16/10]' : 'aspect-[16/7]'} items-center justify-center px-8`}>
+          // 14/10/2026 (fix final): a logo também em 16/10 (antes 16/7 sem capa), para toda imagem de cartão ter a mesma
+          // proporção e os títulos de uma linha da grade alinharem.
+          <div className={`${moldura} flex aspect-[16/10] items-center justify-center px-8`}>
             {empresa && <Logo cliente={empresa} className="max-h-11 max-w-[170px]" />}
           </div>
         )}
@@ -171,7 +173,7 @@ export function GaleriaProjetos({
                 marcado ? 'border-tinta bg-tinta text-nevoa' : 'border-linha bg-folha text-tinta hover:border-tinta hover:text-tinta'
               }`}
             >
-              {marcado && <span aria-hidden="true" className="ponto ponto-anel" />}
+              {/* 14/10/2026 (fix final): saiu o ponto coral do chip ativo; o destaque do site é um só (marca-texto). */}
               <span>
                 {c.rotulo} <span className={marcado ? 'opacity-80' : 'text-grafite'}>{c.total}</span>
               </span>
@@ -204,7 +206,8 @@ export function GaleriaProjetos({
         <section aria-labelledby="empresas-titulo" className={pecasVisiveis.length > 0 ? 'mt-24 border-t border-linha pt-14' : 'mt-12'}>
           <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2">
             <h2 id="empresas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
-              Em empresas
+              {/* 14/10/2026 (fix final): antes "Em empresas"; a home tem "Onde já trabalhei" (empregos), aqui são casos. */}
+              Casos em empresas
             </h2>
             <p className="prosa max-w-[44ch] text-[1.08rem] text-grafite">Projetos que fiz ou liderei como contratado. O desenho mostra como as peças conversam.</p>
           </div>

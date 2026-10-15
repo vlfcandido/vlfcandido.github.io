@@ -706,10 +706,12 @@ html.trocando body{touch-action:none;pointer-events:none}
 .vc-faixa-nome{font:600 15px/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em;text-align:center}
 .vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:-3px;border-radius:6px}
 @media(max-width:560px){.vc-faixa-nome{display:none}.vc-faixa-in{justify-content:space-between}}
-/* Task 10: WhatsApp na faixa das duas peças; no celular "Mais trabalhos" vira "Trabalhos" para tudo caber numa linha. */
-.vc-faixa-dir{display:flex;align-items:center;gap:16px}.vc-c{display:none}
+/* Task 10: WhatsApp na faixa das duas peças. Fix final (14/10/2026): o link para /trabalhos/ se chama "Exemplos navegáveis"
+   em todo lugar (antes "Mais trabalhos", e "Trabalhos" no celular); no celular o endereço encurta para caber numa linha. */
+.vc-faixa-dir{display:flex;align-items:center;gap:16px}
 .vc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media(max-width:560px){.vc-faixa-in{gap:8px 12px}.vc-faixa-dir{gap:12px}.vc-l{display:none}.vc-c{display:inline}}
+@media(max-width:560px){.vc-faixa-in{gap:8px 10px}.vc-faixa-dir{gap:10px}}
+@media(max-width:420px){.vc-faixa{font-size:13px}.vc-faixa-in{gap:8px 6px}.vc-faixa-dir{gap:6px}}
 @media(prefers-reduced-motion:reduce){.vc-faixa a span{transition:none}}
 </style>
 <style id="vc-sig-css">.assina .a1 small,.assina .a1 span{font-family:Inter,system-ui,sans-serif}.assina .a1 b{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:24px;letter-spacing:-.01em}</style>
@@ -746,7 +748,7 @@ html.trocando body{touch-action:none;pointer-events:none}
  <symbol id="i-banco" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
 </svg>
 
-<div class="vc-faixa"><div class="vc-faixa-in"><a href="/"><span>← vlfcandido.github.io</span></a><b class="vc-faixa-nome">Exemplo de Vinicius Candido</b><span class="vc-faixa-dir"><a href="/trabalhos/"><span class="vc-l">Mais trabalhos</span><span class="vc-c">Trabalhos</span></a><a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><span>WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></span></div></div>
+<div class="vc-faixa"><div class="vc-faixa-in"><a href="/"><span>← vlfcandido.github.io</span></a><b class="vc-faixa-nome">Exemplo de Vinicius Candido</b><span class="vc-faixa-dir"><a href="/trabalhos/"><span>Exemplos navegáveis</span></a><a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><span>WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></span></div></div>
 <header class="top">
  <div class="wrap">
   <a class="logo" href="#/" aria-label="LVF, Liga Várzea FC, início">

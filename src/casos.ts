@@ -114,7 +114,7 @@ export function listarCasos(): CaseDetalhe[] {
       regua: [],
       papel: {
         // Cargo incluído em 08/10/2026 (decisão dele). Antes: 'Trabalhei no backend em Python, no handoff (...)'.
-        meu: 'Como Arquiteto Sênior de IA, trabalhei no backend em Python, no handoff automático para o time humano e nas integrações com WhatsApp e CRM.',
+        meu: 'Como arquiteto sênior de IA, trabalhei no backend em Python, no handoff automático para o time humano e nas integrações com WhatsApp e CRM.',
         resto: 'Volume, prompts, telas e dados de clientes são da empresa e não saem daqui.',
       },
       historia: [
@@ -401,22 +401,25 @@ export function listarCasos(): CaseDetalhe[] {
       historia: [
         {
           titulo: 'O que foi feito',
+          // 14/10/2026 (fix final): antes citava a galeria, a demonstração de atendimento e os diagramas do site velho.
           texto:
-            'A galeria com link compartilhável, a demonstração de atendimento, os diagramas desenhados por um motor próprio em SVG e o tema claro e escuro. Funciona no teclado e com leitor de tela, e respeita quem pede menos movimento no sistema.',
+            'A página inicial abre com a prova, com anos, empresas e projetos contados na fonte, e leva a um protótipo navegável para clicar antes de fechar. O detalhe de cada trabalho ganha uma marcação de caneta que se desenha na tela. Celular e PC têm versões próprias, cada uma com o seu limite de rolagem. Funciona no teclado e respeita quem pede menos movimento no sistema.',
         },
         {
           titulo: 'Por que tanto teste num site',
           texto:
-            'Porque o texto aqui é prova: um teste barra termo proibido, outro confere que cada print existe, outro que o projeto próprio nunca diz "em produção" sem estar. Se alguém errar, o build quebra antes de ir ao ar.',
+            'Porque o texto aqui é prova. Um teste barra termo proibido, outro confere que cada imagem existe, outro que o projeto próprio nunca diz "em produção" sem estar. E antes de publicar um robô abre o site no navegador em três larguras e mede rolagem lateral, alvos de toque e salto de layout. Se algo falhar, o site não vai ao ar.',
         },
       ],
     },
     {
       slug: 'design-system-mare',
       peca: 'folha-especime',
-      tituloPeca: 'Folha de cores',
-      legendaPeca: 'Lida do arquivo de tokens. O contraste é calculado aqui, na hora.',
-      status: { texto: 'No ar neste site.', tom: 'vivo' },
+      // 14/10/2026 (fix final): antes 'Folha de cores', legenda 'Lida do arquivo de tokens…' e status 'No ar neste site.'
+      // (falso: este site usa outra identidade).
+      tituloPeca: 'A folha de cores do site anterior',
+      legendaPeca: 'Lida de uma cópia do arquivo de tokens do Maré. O contraste é calculado aqui, na hora.',
+      status: { texto: 'Foi a identidade do site anterior. Este site usa outra.', tom: 'neutro' },
       regua: [],
       papel: { meu: 'Desenhado e escrito por mim.' },
       historia: [
@@ -427,7 +430,7 @@ export function listarCasos(): CaseDetalhe[] {
         {
           titulo: 'O que foi feito',
           texto:
-            'A identidade deste site virou um design system: cada cor existe no tema claro e no escuro, com o uso escrito ao lado, e um teste confere que o CSS e o arquivo de tokens não divergem. No AprovaOS, fiz o mesmo com regras de componente e uma página de estilo viva.',
+            'A identidade do site anterior, o Maré, virou um design system. Cada cor existia no tema claro e no escuro, com o uso escrito ao lado, e um teste conferia que o CSS e o arquivo de tokens não divergiam. No AprovaOS, fiz o mesmo com regras de componente e uma página de estilo viva.',
         },
       ],
     },

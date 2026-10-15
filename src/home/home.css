@@ -25,8 +25,15 @@
      para cima toda hora"): antes `html { scroll-snap-type: y proximity }` valia em toda largura, e no PC, com os
      blocos lado a lado, cada rolagem curta era puxada de volta para o começo da seção. No PC a rolagem é livre. */
   @media (max-width: 767px) {
-    html { scroll-snap-type: y proximity; }
+    /* Fix final (14/10/2026, revisor: "a 1ª parada do toque cai no meio de duas seções"): um arrasto de 300 px parava
+       em y=359, metade da prova e metade do protótipo. O encaixe segue `proximity` (com `mandatory`, arrastos curtos
+       voltavam ao topo e a página parecia travada; medido), só na home (`:has`), e quem completa a parada é
+       useParadaPorTela (Inicio.tsx): depois de um toque, a página assenta no começo da tela seguinte no sentido do
+       dedo. A prova não tem parada própria: o cabeçalho é a parada do topo e a prova cabe inteira com ele.
+       Antes: `html { scroll-snap-type: y proximity }` em toda rota do celular e a prova com parada própria. */
+    html:has(.home) { scroll-snap-type: y proximity; }
     .home > .secao { scroll-snap-align: start; }
+    .home > #inicio { scroll-snap-align: none; }
   }
   /* Ponto de chegada dos links do menu (Task 10): o título (ou o retrato com o título) fica no topo, 24 px abaixo
      do cabeçalho. O encaixe do celular continua no começo de cada seção (um teste com o encaixe nos títulos
@@ -35,7 +42,8 @@
   /* CLS no celular (Task 10): com a fonte de reserva o título da prova cabe em 3 linhas e, com a Fraunces, em 5.
      Como a 1ª tela centra o conteúdo, a troca de fonte puxava tudo 46 px para cima e empurrava o resto (CLS 0,08).
      A altura das 5 linhas fica reservada; a troca acontece dentro da caixa do título. */
-  @media (max-width: 639px) { .home #inicio h1 { min-height: 5lh; } }
+  /* Fix final (14/10/2026): o título novo tem 4 linhas com a Fraunces a 390 px (antes 5); a reserva acompanha. */
+  @media (max-width: 639px) { .home #inicio h1 { min-height: 4lh; } }
   /* Marca de chegada pelo menu: o marca-texto passa sob o texto do título (400 ms) e sai pela direita. Mostra que a
      pessoa chegou mesmo quando o bloco está na última linha do PC e o título não sobe até o topo. Fica no span do
      texto (inline, uma faixa por linha), para o traço ter o tamanho das palavras e não o da coluna. */
@@ -60,6 +68,13 @@
   @media (max-width: 1023px) {
     /* Uma tela por papel; o que sobra embaixo é a espiadinha da próxima. */
     .home > .tela { min-height: calc(100svh - var(--cabecalho) - var(--espiada)); display: flex; flex-direction: column; justify-content: center; }
+  }
+  @media (max-width: 767px) {
+    /* Fix final (14/10/2026, revisor: "topo pesado, ≈ 110 px vazios antes do título"): no celular a prova tem a
+       altura do próprio conteúdo, com o título a 32 px do cabeçalho de uma linha. Cabeçalho + prova ocupam ≈ 640 px e o
+       título do protótipo já espia embaixo. Antes: altura de uma tela menos a espiada, com o conteúdo centrado (o
+       título ficava a ≈ 110 px do cabeçalho de 153 px). */
+    .home > #inicio { min-height: 0; padding-top: 32px; }
     /* Empresas e Como funciona dividem a 4ª tela. */
     .home > #empresas { padding-bottom: 24px; }
     /* Task 10: "Como funciona" ganhou encaixe próprio. Antes (scroll-snap-align: none) o link do menu caía nas
@@ -68,12 +83,12 @@
   }
   @media (min-width: 1024px) {
     .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;
-      grid-template-areas: "inicio inicio inicio" "prototipo prototipo empresas" "trabalhos trabalhos trabalhos" "como como quem"; }
+      grid-template-areas: "inicio inicio inicio" "prototipo prototipo empresas" "destaques destaques destaques" "como como quem"; }
     .home > .secao { padding-block: 56px; }
     .home > #inicio { grid-area: inicio; }
     .home > #prototipo { grid-area: prototipo; }
     .home > #empresas { grid-area: empresas; }
-    .home > #trabalhos { grid-area: trabalhos; }
+    .home > #destaques { grid-area: destaques; }
     .home > #como { grid-area: como; }
     .home > #quem { grid-area: quem; }
     /* Blocos lado a lado: o da direita ganha um fio vertical em vez de ficar solto. */

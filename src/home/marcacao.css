@@ -9,11 +9,13 @@
   .marcacao-grifo.desenhada { background-size: 100% 100%; }
   /* Escuro (14/10/2026): o amarelo a 70% sob letra clara parecia um risco; fica mais baixo e mais transparente,
      como marca-texto em papel escuro. Task 10: a 34% (de 52% até a base) ficou apagado e sem presença; agora é uma
-     faixa mais forte (58%) só na metade de baixo da letra (60% a 96%), e o corpo da letra fica sobre o papel escuro. */
+     faixa mais forte (58%) só na metade de baixo da letra (60% a 96%), e o corpo da letra fica sobre o papel escuro.
+     Fix final (14/10/2026, revisor: "grifo fino no escuro"): a faixa sobe e cobre mais da letra (46% a 96%), com o
+     amarelo a 48% para a letra clara manter 4,5:1 sobre a faixa (medido no relatório). Antes: 60% a 96%, a 58%. */
   @media (prefers-color-scheme: dark) {
-    :root:not([data-tema="claro"]) .marcacao-grifo { background-image: linear-gradient(transparent 60%, color-mix(in srgb, var(--sol) 58%, transparent) 60%, color-mix(in srgb, var(--sol) 58%, transparent) 96%, transparent 96%); }
+    :root:not([data-tema="claro"]) .marcacao-grifo { background-image: linear-gradient(transparent 46%, color-mix(in srgb, var(--sol) 48%, transparent) 46%, color-mix(in srgb, var(--sol) 48%, transparent) 96%, transparent 96%); }
   }
-  :root[data-tema="escuro"] .marcacao-grifo { background-image: linear-gradient(transparent 60%, color-mix(in srgb, var(--sol) 58%, transparent) 60%, color-mix(in srgb, var(--sol) 58%, transparent) 96%, transparent 96%); }
+  :root[data-tema="escuro"] .marcacao-grifo { background-image: linear-gradient(transparent 46%, color-mix(in srgb, var(--sol) 48%, transparent) 46%, color-mix(in srgb, var(--sol) 48%, transparent) 96%, transparent 96%); }
   .marcacao-traco { position: absolute; inset: -8%; width: 116%; height: 116%; overflow: visible; pointer-events: none; }
   .marcacao-traco path { fill: none; stroke: var(--sol); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1;
     transition: stroke-dashoffset var(--mov-lento) var(--mov-ease); vector-effect: non-scaling-stroke; }
