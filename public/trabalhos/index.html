@@ -51,6 +51,8 @@ header .wrap{display:flex;align-items:center;gap:16px;min-height:56px}
 .topo p{max-width:62ch;color:var(--suave);margin:0}
 .grade{display:grid;gap:24px;padding-block:24px 72px;grid-template-columns:1fr}
 @media(min-width:860px){.grade{grid-template-columns:1fr 1fr;gap:32px}}
+/* cartão que sobra sozinho na última linha ocupa a largura inteira, com a imagem ao lado do texto */
+@media(min-width:860px){.grade>.cartao:last-child:nth-child(odd){grid-column:1/-1;flex-direction:row}.grade>.cartao:last-child:nth-child(odd) .img{flex:0 0 54%;aspect-ratio:auto;min-height:100%}.grade>.cartao:last-child:nth-child(odd) .corpo{padding:28px 28px 26px;justify-content:center}}
 .cartao{background:var(--alto);border:1px solid var(--linha);border-radius:18px;overflow:hidden;box-shadow:var(--sombra);display:flex;flex-direction:column;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
 .cartao:hover,.cartao:focus-within{transform:translateY(-4px)}
 .cartao .img{display:block;aspect-ratio:16/10;overflow:hidden;background:var(--raso)}
