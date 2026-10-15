@@ -1,6 +1,7 @@
 // Cabeçalho do site novo (14/10/2026). Antes: régua de profundidade da Maré (níveis com cotas, fileira de chips
 // no celular e régua lateral fixa em tela larga), apagada junto com src/lib/niveis.ts (ver git log).
 import { useEffect, useId, useState, type MouseEvent } from 'react'
+import { flushSync } from 'react-dom'
 import { perfil } from '../conteudo'
 import { caminhoPublico } from '../lib/assets'
 import { irParaSecao } from '../lib/destino'
@@ -111,7 +112,9 @@ export function Cabecalho({ rota }: { rota: Rota }) {
             {SECOES.map((s) => (
               <li key={s.id}>
                 <a href={`#${s.id}`} aria-current={secao === s.id ? 'location' : undefined} onClick={(e) => {
-                    fechar()
+                    // 15/10/2026 (medir_site, check 13): o menu aberto empurra a página; a rolagem da mesma âncora
+                    // era medida com ele aberto e o título parava ~200 px acima da tela. Fecha de forma síncrona antes.
+                    flushSync(fechar)
                     mesmaAncora(e, s.id)
                   }}>
                   {s.rotulo}

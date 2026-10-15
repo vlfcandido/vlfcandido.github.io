@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ANCORAS_ANTIGAS, filtroDoHash, hashAtual, hashDoProjeto, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash } from './rota'
+import { ANCORAS_ANTIGAS, filtroDoHash, hashAtual, hashDoProjeto, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash, separarConsultaDoHash } from './rota'
 
 describe('rotaDoHash', () => {
   it('vazio é início', () => expect(rotaDoHash('')).toBe('inicio'))
@@ -84,4 +84,12 @@ describe('âncoras antigas apontam para a home nova (14/10/2026)', () => {
     expect(rotaDoHash('#empresas')).toBe('inicio')
     expect(secaoDoHash('#empresas')).toBe('empresas')
   })
+})
+
+describe('separarConsultaDoHash', () => {
+  it('tira a consulta colada no hash', () => {
+    expect(separarConsultaDoHash('#/projetos/aprovaos?_i=1')).toEqual({ hash: '#/projetos/aprovaos', consulta: '_i=1' })
+    expect(separarConsultaDoHash('#/projetos?utm_source=x&a=b')).toEqual({ hash: '#/projetos', consulta: 'utm_source=x&a=b' })
+  })
+  it('hash sem consulta fica como está', () => expect(separarConsultaDoHash('#/projetos')).toBeNull())
 })

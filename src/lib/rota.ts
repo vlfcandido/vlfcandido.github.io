@@ -114,3 +114,15 @@ export function movimentoDaTroca(antes: string, depois: string): 'avancar' | 'vo
   if (d.startsWith('projetos/')) return 'avancar'
   return 'pagina'
 }
+
+/**
+ * Separa uma consulta colada depois do hash (`#/projetos/aprovaos?_i=1`, `#/projetos?utm_source=x`). Sem isto a rota
+ * não era reconhecida e o link abria a página errada (15/10/2026, medido pelo checklist, que acrescenta `?_i=1`).
+ *
+ * @param hash valor de `location.hash`.
+ * @returns o hash limpo e a consulta (sem o `?`), ou `null` quando o hash não tem consulta.
+ */
+export function separarConsultaDoHash(hash: string): { hash: string; consulta: string } | null {
+  const i = hash.indexOf('?')
+  return i < 0 ? null : { hash: hash.slice(0, i), consulta: hash.slice(i + 1) }
+}

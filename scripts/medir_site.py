@@ -124,6 +124,11 @@ def menu_chega(nav, base: str, nome_l: str) -> list[tuple[str, bool, str]]:
                         # Segundo clique no mesmo item, com o endereço já em #id: não pode ficar parado.
                         pg.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
                         pg.wait_for_timeout(500)
+                    # 15/10/2026: no celular a navegação fica no menu recolhível; abre antes de clicar (como a pessoa faz).
+                    menu = pg.locator(".cabecalho-menu")
+                    if menu.is_visible() and menu.get_attribute("aria-expanded") != "true":
+                        menu.click()
+                        pg.wait_for_timeout(300)
                     pg.locator(f".cabecalho-nav a[href='#{id_}']").click()
                     pg.wait_for_timeout(250)
                     marcado_cedo = pg.evaluate(JS_CHEGADA, id_)

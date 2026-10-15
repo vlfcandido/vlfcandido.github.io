@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 're
 import { Cabecalho } from './components/Cabecalho'
 import { ContatoFixo } from './components/ContatoFixo'
 import { Rodape } from './components/Rodape'
-import { HASH_PROJETOS, chaveDaPagina, hashAtual, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash, type Rota } from './lib/rota'
+import { HASH_PROJETOS, chaveDaPagina, hashAtual, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash, separarConsultaDoHash, type Rota } from './lib/rota'
 import { irParaSecao } from './lib/destino'
 import { iniciarRevelacao } from './lib/revelar'
 import { comTransicao } from './lib/transicao'
@@ -11,6 +11,13 @@ import { PaginaProjetos } from './paginas/Projetos'
 
 /** Troca um hash de versão antiga pelo atual sem criar entrada nova no histórico. */
 function normalizarHash(): string {
+  // 15/10/2026: consulta colada no hash (#/projetos?_i=1) vai para o lugar dela, antes do hash.
+  const comConsulta = separarConsultaDoHash(window.location.hash)
+  if (comConsulta) {
+    const busca = new URLSearchParams(window.location.search)
+    new URLSearchParams(comConsulta.consulta).forEach((v, k) => busca.set(k, v))
+    history.replaceState(null, '', `${window.location.pathname}?${busca}${comConsulta.hash}`)
+  }
   const novo = hashAtual(window.location.hash)
   if (novo) history.replaceState(null, '', novo)
   return window.location.hash

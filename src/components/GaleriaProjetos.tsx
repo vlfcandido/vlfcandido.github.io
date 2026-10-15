@@ -110,7 +110,7 @@ function OndeTrabalhei() {
         {empresas.map((e) => (
           <li key={e.slug} className="empresa flex h-10 items-center">
             {e.logo ? (
-              <img className="logo-empresa max-w-[128px]" data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.nome} height={32} loading="lazy" decoding="async" />
+              <img className="logo-empresa max-w-[min(100%,128px)]" data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.nome} height={32} loading="lazy" decoding="async" />
             ) : (
               <span className="text-sm font-semibold">{e.nome}</span>
             )}

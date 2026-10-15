@@ -679,7 +679,9 @@ body{padding-bottom:96px}
 .vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:2px}
 /* Celular: como no site, o WhatsApp do cabeçalho fica só com o ícone e a linha cabe em 390 px com alvos de 44 px. */
 @media(max-width:600px){.vc-zap{width:44px;padding:0;justify-content:center}.vc-zap-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
-@media(max-width:380px){.vc-marca small{display:none}.vc-faixa{font-size:14px}}
+/* Até 420 px (medido no checklist: a linha passava 10 px da borda a 390): nome e link um pouco menores. */
+@media(max-width:420px){.vc-faixa-in{gap:4px}.vc-marca b{font-size:16px}.vc-faixa{font-size:14px}.vc-ex{padding:0 6px}.vc-faixa-dir{gap:4px}}
+@media(max-width:360px){.vc-marca small{display:none}}
 @media(prefers-reduced-motion:reduce){.vc-ex span{transition:none}}
 </style>
 <style id="vc-sig-css">.sig small,.sig em{font-family:Inter,system-ui,sans-serif}.sig b{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:-.01em}.sig-m span{font-family:Fraunces,Georgia,serif;font-weight:600}</style>
