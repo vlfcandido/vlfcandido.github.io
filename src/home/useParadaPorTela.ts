@@ -18,6 +18,7 @@ export function useParadaPorTela() {
     let yInicio = 0
     let tocando = false
     let depoisDoToque = false
+    let dentroDoComponente = false
     let relogio = 0
     const paradas = () => {
       const secoes = [...document.querySelectorAll<HTMLElement>('.home > .secao')].filter(
@@ -30,7 +31,7 @@ export function useParadaPorTela() {
       relogio = 0
       if (tocando || !depoisDoToque || !mq.matches) return
       depoisDoToque = false
-      const alvo = paradaDoToque(window.scrollY, window.scrollY - yInicio, paradas())
+      const alvo = paradaDoToque(window.scrollY, window.scrollY - yInicio, paradas(), window.innerHeight * 0.9)
       if (alvo === null) return
       const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
       window.scrollTo({ top: alvo, behavior: suave ? 'smooth' : 'auto' })
@@ -39,12 +40,20 @@ export function useParadaPorTela() {
       window.clearTimeout(relogio)
       relogio = window.setTimeout(assentar, PAROU_MS)
     }
-    const aoTocar = () => {
+    const aoTocar = (e: TouchEvent) => {
+      // Toque dentro de um componente com rolagem própria (o plantão, por exemplo) não move a página nem dispara
+      // o encaixe: o dedo está conversando com o componente, não rolando a home.
+      dentroDoComponente = !!(e.target as Element | null)?.closest?.('[data-sem-parada]')
+      if (dentroDoComponente) return
       tocando = true
       depoisDoToque = false
       yInicio = window.scrollY
     }
     const aoSoltar = () => {
+      if (dentroDoComponente) {
+        dentroDoComponente = false
+        return
+      }
       tocando = false
       depoisDoToque = true
       esperar()

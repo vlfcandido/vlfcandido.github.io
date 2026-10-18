@@ -6,9 +6,11 @@ import { ONDE_TRABALHEI, empresasDiretas } from '../clientes'
 import { encontrarTermosProibidos } from '../lib/termos-proibidos'
 import { PROJETOS_NO_PRINT_ESTE_SITE, listarProjetos } from '../projetos'
 import { FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva } from './conteudo'
+import { PLANTAO, estadoInicial } from './lib/plantao'
 
 const c = conteudoHome()
 const tudo = JSON.stringify(c)
+const tudoVisivel = tudo + JSON.stringify(PLANTAO)
 
 describe('conteúdo da home', () => {
   it('tem exatamente 3 destaques, cada um com dor e detalhe', () => {
@@ -18,8 +20,14 @@ describe('conteúdo da home', () => {
       expect(d.detalhe.length).toBeGreaterThan(10)
     }
   })
-  it('não tem preço', () => expect(tudo).not.toMatch(/R\$\s?\d/))
-  it('não tem termo proibido', () => expect(encontrarTermosProibidos(tudo)).toEqual([]))
+  // 18/10/2026 (brief do hero): preço passou a existir no resumo do plantão, com os valores reais da política de
+  // 09/10. O resto da home continua sem preço, para não ancorar a conversa antes do escopo.
+  it('só o plantão tem preço, e é o da política', () => {
+    expect(tudo).not.toMatch(/R\$\s?\d/)
+    expect(PLANTAO.resumo.preco).toMatch(/R\$ 590 \+ R\$ 149\/mês no lançamento/)
+    expect(PLANTAO.resumo.preco).toMatch(/R\$ 990 \+ R\$ 199\/mês/)
+  })
+  it('não tem termo proibido', () => expect(encontrarTermosProibidos(tudoVisivel)).toEqual([]))
   it('garantia é de 30 dias de correção', () => expect(c.garantia).toMatch(/30 dias de correção/))
   it('tem 5 passos', () => expect(c.passos).toHaveLength(5))
   it('números de prova vêm da fonte, sem inflar', () => {
@@ -38,16 +46,14 @@ describe('conteúdo da home', () => {
   it('as imagens dos destaques existem em public/', () => {
     for (const d of c.destaques) expect(existsSync(`public/${d.imagem}`), d.imagem).toBe(true)
   })
-  // 14/10/2026 (revisão da Task 5): no PC a mesma tela aparecia duas vezes (vitrine e 1º cartão; protótipo e 2º).
-  it('nenhuma tela se repete na home (vitrine, protótipo e destaques)', () => {
-    const telas = [c.vitrine.imagem, c.prototipo.imagem, ...c.destaques.map((d) => d.imagem)]
+  // 18/10/2026: o hero deixou de ter captura. A tela do Pelo Solto aparece uma vez na seção de IA (detalhe) e uma
+  // vez na vitrine (capa), em arquivos diferentes. O teste guarda as duas pontas.
+  it('nenhuma tela se repete na home (IA, protótipo morto e destaques)', () => {
+    const telas = [c.ia.exemplo.imagem, c.prototipo.imagem, ...c.destaques.map((d) => d.imagem)]
     expect(new Set(telas).size).toBe(telas.length)
     for (const t of telas) expect(existsSync(`public/${t}`), t).toBe(true)
   })
-  it('a legenda da vitrine não repete o detalhe de um cartão', () => {
-    const legenda = c.vitrine.legenda.replace(/\.$/, '').toLowerCase()
-    for (const d of c.destaques) expect(d.detalhe.toLowerCase()).not.toContain(legenda)
-  })
+  it('o hero não guarda mais a captura do painel', () => expect(c).not.toHaveProperty('vitrine'))
   // Task 10 (decisão do controlador): a retenção do pagamento só vale no 99Freelas; a garantia não a promete.
   it('a garantia não promete retenção de pagamento; a frase da plataforma nomeia o 99Freelas', () => {
     expect(c.garantia).not.toMatch(/retid|plataforma/i)
@@ -63,12 +69,21 @@ describe('conteúdo da home', () => {
     expect(new Set(PECAS.map((x) => x.resumo)).size).toBe(PECAS.length)
   })
   it('nenhum dois-pontos nem travessão no texto da home (humanizer)', () => {
-    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.vitrine.legenda, c.prototipo.titulo, c.prototipo.texto,
+    const doPlantao = [
+      PLANTAO.rotulo, PLANTAO.titulo, PLANTAO.texto, PLANTAO.honestidade,
+      ...estadoInicial().falas.map((f) => f.texto),
+      ...PLANTAO.regras.flatMap((r) => [r.nome, r.curto, r.texto]),
+      ...PLANTAO.passos.flatMap((p) => [p.mensagem, ...p.opcoes.flatMap((o) => [o.rotulo, o.resposta ?? '', o.nota ?? '', o.sistema ?? ''])]),
+      PLANTAO.resumo.rotulo, PLANTAO.resumo.titulo, PLANTAO.resumo.chamadaSegmento, PLANTAO.resumo.preco,
+      PLANTAO.resumo.notaPreco, PLANTAO.resumo.cta, PLANTAO.resumo.peca, PLANTAO.resumo.reiniciar,
+      ...PLANTAO.segmentos.map((s) => s.rotulo),
+    ]
+    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.prototipo.titulo, c.prototipo.texto,
       ...c.destaques.flatMap((d) => [d.dor, d.detalhe]), ...c.passos.flatMap((x) => [x.titulo, x.texto]), c.garantia,
       c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo, c.experimente.lede,
       c.ia.rotulo, c.ia.titulo, c.ia.lede, c.ia.exemplo.rotulo, c.ia.exemplo.titulo, c.ia.exemplo.texto,
       ...c.ia.frentes.flatMap((f) => [f.titulo, f.texto]), ...c.ia.provas.flatMap((p) => [p.nome, p.texto]),
-      c.trabalhos.titulo, c.trabalhos.lede, ...c.trabalhos.categorias.map((x) => x.rotulo)]
+      c.trabalhos.titulo, c.trabalhos.lede, ...c.trabalhos.categorias.map((x) => x.rotulo), ...doPlantao]
     for (const t of visivel) expect(t, t).not.toMatch(/[:—–]/)
   })
   // 18/10/2026 (brief do dono): a home abre pela especialidade de IA e agentes, com prova e sem superlativo.

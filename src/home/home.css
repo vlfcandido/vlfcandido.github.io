@@ -39,11 +39,9 @@
      do cabeçalho. O encaixe do celular continua no começo de cada seção (um teste com o encaixe nos títulos
      prendia a 1ª tela: arrastos de 300 px voltavam sempre ao título da prova). */
   .alvo-secao { scroll-margin-top: 24px; }
-  /* CLS no celular (Task 10): com a fonte de reserva o título da prova cabe em 3 linhas e, com a Fraunces, em 5.
-     Como a 1ª tela centra o conteúdo, a troca de fonte puxava tudo 46 px para cima e empurrava o resto (CLS 0,08).
-     A altura das 5 linhas fica reservada; a troca acontece dentro da caixa do título. */
-  /* Fix final (14/10/2026): o título novo tem 4 linhas com a Fraunces a 390 px (antes 5); a reserva acompanha. */
-  @media (max-width: 639px) { .home #inicio h1 { min-height: 4lh; } }
+  /* CLS (18/10/2026): a reserva de 4lh saiu. Ela existia para a troca de fonte do Google Fonts, que agora é local e
+     entra no preload (src/identidade.css). Com a Fraunces desde o 1º paint, a reserva só deixava 43 px vazios a
+     390 px e 86 px entre 500 e 639 px, onde o título fecha em 3 e 2 linhas. Medido: CLS 0 em 390 e 1440. */
   /* Marca de chegada pelo menu: o marca-texto passa sob o texto do título (400 ms) e sai pela direita. Mostra que a
      pessoa chegou mesmo quando o bloco está na última linha do PC e o título não sobe até o topo. Fica no span do
      texto (inline, uma faixa por linha), para o traço ter o tamanho das palavras e não o da coluna. */
@@ -100,6 +98,154 @@
   }
 
   .titulo-bloco { font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem); line-height: 1.12; font-weight: 600; }
+
+  /* ---------------------------------------------------------------- Plantão do atendente (18/10/2026) */
+  /* A coluna direita do hero deixou de ser captura: o visitante escolhe a resposta do atendente em três decisões
+     reais do Pelo Solto. O cartão de tinta com a barra amarela é a força de cor do primeiro impacto; o carimbo de
+     regra é a assinatura. No celular, título, subtítulo e CTA vêm primeiro; o cartão entra logo abaixo e ocupa
+     ~300 px, com a conversa rolando por dentro. No PC, o painel ocupa a coluna direita com as quatro regras ao lado. */
+  .promessa { display: flex; flex-direction: column; gap: 0; }
+  .promessa-texto { order: 1; }
+  .promessa > .plantao { order: 2; margin-top: 28px; }
+  .promessa-numeros { order: 3; margin-top: 28px; }
+  @media (min-width: 1024px) {
+    .promessa { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      column-gap: 64px; align-items: start; }
+    .promessa-texto { grid-column: 1; grid-row: 1; }
+    .promessa > .plantao { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin-top: 0; }
+    .promessa-numeros { grid-column: 1; grid-row: 2; margin-top: 48px; }
+  }
+
+  .plantao { position: relative; overflow: hidden; border: 1px solid #2a2620; border-radius: var(--raio-m);
+    background: #17150f; color: #f3efe6; padding: 18px 18px 16px; }
+  .plantao::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: var(--sol); }
+  @media (min-width: 640px) { .plantao { padding: 22px 22px 18px; } }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .plantao { background: #0d0c0a; border-color: #3b3830; }
+  }
+  :root[data-tema="escuro"] .plantao { background: #0d0c0a; border-color: #3b3830; }
+
+  .plantao-topo { display: grid; gap: 5px; }
+  @media (max-width: 639px) {
+    .plantao { padding: 14px 16px; }
+    .plantao-titulo { font-size: 1.4rem; }
+    .plantao-texto { font-size: 0.84rem; line-height: 1.35; }
+    .plantao-grade { margin-top: 12px; }
+  }
+  .plantao-rotulo { font-size: 0.7rem; line-height: 1; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sol); }
+  .plantao-titulo { font-family: var(--fonte-titulo); font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    line-height: 1.04; font-weight: 600; color: #fffdf9; }
+  .plantao-texto { font-size: 0.88rem; line-height: 1.4; color: #c8c1b3; }
+
+  .plantao-grade { display: grid; gap: 14px; margin-top: 14px; }
+  @media (min-width: 1200px) { .plantao-grade { grid-template-columns: minmax(0, 1fr) 180px; align-items: start; } }
+
+  /* A folha de plantão tem altura fixa nos dois estados (conversa e resumo), para o hero não pular durante o jogo. */
+  .plantao-folha { display: flex; flex-direction: column; height: 290px; min-width: 0; overflow: hidden;
+    border: 1px solid #3b3830; border-radius: var(--raio-p); background: #0f0e0b; }
+  @media (min-width: 1024px) { .plantao-folha { height: 430px; } }
+
+  .plantao-cabecalho { display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 6px 10px; border-bottom: 1px solid #3b3830; background: #17150f; }
+  .plantao-selo { display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border-radius: var(--raio-pilula);
+    background: var(--sol); color: #17150f; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .plantao-progresso { font-size: 0.68rem; color: #c8c1b3; font-variant-numeric: tabular-nums; }
+  /* Faixa compacta das quatro regras (celular e tablet): o painel lateral só existe a partir de 1200 px. */
+  .plantao-regras-linha { display: flex; flex-wrap: wrap; gap: 3px 9px; padding: 4px 10px;
+    border-bottom: 1px solid #3b3830; background: #14120e; color: #8f887a; font-size: 0.58rem;
+    letter-spacing: 0.03em; line-height: 1.2; }
+  .plantao-regras-linha span[data-ativa="true"] { color: var(--sol); font-weight: 700; }
+  .plantao-regras-linha b { color: var(--sol); font-weight: 700; }
+  @media (min-width: 1200px) { .plantao-regras-linha { display: none; } }
+  @media (max-width: 374px) { .plantao-texto { display: none; } }
+
+  .plantao-conversa { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 7px; padding: 10px;
+    overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #4a463e transparent; }
+  .plantao-fala { display: flex; flex-direction: column; gap: 2px; max-width: 90%; }
+  .plantao-fala-cliente { align-self: flex-start; align-items: flex-start; }
+  .plantao-fala-agente { align-self: flex-end; align-items: flex-end; }
+  .plantao-quem { font-size: 0.6rem; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #8f887a; }
+  .plantao-fala p { margin: 0; padding: 7px 9px; border-radius: 12px; font-size: 0.8rem; line-height: 1.38; }
+  .plantao-dica { display: none; }
+  @media (min-width: 640px) {
+    .plantao-dica { display: block; margin-top: auto; padding-top: 8px; color: #8f887a; font-size: 0.7rem; text-align: center; }
+  }
+  .plantao-fala-cliente p { background: #2a2620; color: #f3efe6; border-bottom-left-radius: 4px; }
+  .plantao-fala-agente p { background: #fffdf9; color: #17150f; border-bottom-right-radius: 4px; }
+  .plantao-carimbo { display: inline-block; padding: 1px 5px; border: 1px solid color-mix(in srgb, var(--sol) 60%, transparent);
+    border-radius: 2px; color: var(--sol); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.56rem; letter-spacing: 0.05em; text-transform: uppercase; transform: rotate(-1.5deg); }
+  .plantao-sistema { align-self: center; max-width: 94%; margin: 1px 0; padding: 5px 8px; border: 1px dashed #3b3830;
+    border-radius: var(--raio-p); color: #c8c1b3; font-size: 0.7rem; line-height: 1.35; text-align: center; }
+  .plantao-sistema-regra { display: block; margin-bottom: 1px; color: var(--sol); font-size: 0.56rem;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .plantao-opcoes { display: grid; gap: 5px; padding: 6px 10px 8px; border-top: 1px solid #3b3830; background: #17150f; }
+  .plantao-opcao { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px;
+    padding: 6px 10px; border: 1px solid #4a463e; border-radius: var(--raio-p); background: #211f1a; color: #f3efe6;
+    font-size: 0.78rem; font-weight: 600; line-height: 1.25; text-align: left; cursor: pointer; }
+  .plantao-opcao:disabled { opacity: 0.5; border-style: dashed; cursor: not-allowed; }
+  .plantao-opcao-barrada { flex: none; color: var(--sol); font-size: 0.56rem; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase; }
+  @media (hover: hover) {
+    .plantao-opcao { transition: background-color var(--mov-toque) var(--mola), border-color var(--mov-toque) var(--mola),
+      transform var(--mov-toque) var(--mola), box-shadow var(--mov-toque) var(--mola); }
+    .plantao-opcao:not(:disabled):hover { border-color: var(--sol); background: #2a2620; transform: translateY(-1px);
+      box-shadow: 0 6px 14px -8px #000; }
+    .plantao-segmentos-botoes button, .plantao-reiniciar { transition: border-color var(--mov-toque) var(--mola),
+      background-color var(--mov-toque) var(--mola), color var(--mov-toque) var(--mola); }
+    .plantao-segmentos-botoes button:hover, .plantao-reiniciar:hover { border-color: var(--sol); color: var(--sol); }
+    .plantao-segmentos-botoes button[aria-pressed="true"]:hover { color: #17150f; }
+  }
+  .plantao-opcao:not(:disabled):active { transform: scale(0.99); }
+
+  .plantao-resumo { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 11px;
+    background: #0f0e0b; scrollbar-width: thin; scrollbar-color: #4a463e transparent; }
+  .plantao-resumo-rotulo { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sol); }
+  .plantao-resumo h3 { margin-top: 1px; font-family: var(--fonte-titulo); font-size: 1.05rem; line-height: 1.15; color: #fffdf9; }
+  .plantao-fatos { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 6px; }
+  .plantao-fatos li { display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px; border: 1px solid #3b3830;
+    border-radius: var(--raio-pilula); color: #c8c1b3; font-size: 0.62rem; line-height: 1.2; }
+  .plantao-fatos li[data-ok="true"] { color: #f3efe6; border-color: color-mix(in srgb, var(--sol) 45%, transparent); }
+  .plantao-fatos li > span[aria-hidden] { flex: none; color: var(--sol); }
+  .plantao-bloqueios { margin-top: 4px; color: #c8c1b3; font-size: 0.64rem; }
+  .plantao-segmentos { margin-top: 7px; }
+  .plantao-segmentos-titulo { color: #f3efe6; font-size: 0.68rem; font-weight: 600; }
+  .plantao-segmentos-botoes { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+  .plantao-segmentos-botoes button { min-height: 44px; padding: 0 9px; border: 1px solid #4a463e; border-radius: var(--raio-pilula);
+    background: #211f1a; color: #f3efe6; font-size: 0.68rem; font-weight: 600; cursor: pointer; }
+  .plantao-segmentos-botoes button[aria-pressed="true"] { background: var(--sol); border-color: var(--sol); color: #17150f; }
+  .plantao-preco { margin-top: 7px; color: #f3efe6; font-size: 0.7rem; font-weight: 600; line-height: 1.35; }
+  .plantao-preco-nota { color: #c8c1b3; font-size: 0.62rem; line-height: 1.3; }
+  .plantao-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 7px; }
+  .plantao-cta { display: flex; width: 100%; min-height: 44px; justify-content: center; margin-top: 8px;
+    padding: 8px 14px; font-size: 0.8rem; }
+  /* O CTA do resumo fica no fluxo do resumo. Testei sticky no pé do cartão: ele cobria o preço no celular. O
+     resumo rola por dentro e a ação aparece logo depois do preço, sem esconder nada. */
+  .plantao-link { flex: 1 1 auto; justify-content: center; display: inline-flex; align-items: center; gap: 4px; min-height: 44px;
+    color: var(--sol); font-size: 0.7rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .plantao-reiniciar { flex: 0 1 auto; min-height: 44px; padding: 0 10px; border: 1px solid #4a463e; border-radius: var(--raio-pilula);
+    background: transparent; color: #c8c1b3; font-size: 0.68rem; font-weight: 600; cursor: pointer; }
+
+  .plantao-regras { color: #c8c1b3; }
+  .plantao-regras-titulo { color: var(--sol); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .plantao-regras ol { display: grid; gap: 6px; margin-top: 7px; padding: 0; list-style: none; }
+  .plantao-regras li { display: grid; grid-template-columns: 18px minmax(0, 1fr); column-gap: 6px;
+    padding: 6px 7px; border-left: 2px solid #3b3830; }
+  .plantao-regras li[data-ativa="true"] { border-left-color: var(--sol); background: #211f1a; }
+  .plantao-regra-numero { grid-row: span 2; color: var(--sol); font-family: var(--fonte-titulo); font-size: 1rem; line-height: 1; }
+  .plantao-regra-nome { color: #fffdf9; font-size: 0.8rem; font-weight: 600; line-height: 1.2; }
+  .plantao-regra-texto { color: #c8c1b3; font-size: 0.72rem; line-height: 1.32; }
+  .plantao-honestidade { margin-top: 9px; color: #c8c1b3; font-size: 0.7rem; line-height: 1.35; }
+
+  /* O anel de foco do plantão é ajustado fora da camada, junto do anel global do .home (fim do arquivo): o fio
+     escuro padrão sumiria no cartão de tinta. */
+  @media (max-width: 1199px) { .plantao-regras { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .plantao-opcao, .plantao-opcao:active, .plantao-segmentos-botoes button, .plantao-cta, .plantao-link,
+    .plantao-reiniciar { transition: none; transform: none; box-shadow: none; }
+  }
 
   .cta { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 24px; border-radius: var(--raio-pilula);
     background: var(--sol); color: var(--on-sol); font-weight: 600; }
@@ -293,7 +439,7 @@
 
   .ia-topo { display: grid; gap: 10px; }
   .ia-rotulo { font-size: 0.78rem; line-height: 1; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sol); }
-  .ia-titulo { font-size: clamp(2.3rem, 1.5rem + 3vw, 4rem); line-height: 1.02; font-weight: 600; color: #fffdf9; }
+  .ia-titulo { font-size: clamp(2.3rem, 1.5rem + 3vw, 3.5rem); line-height: 1.02; font-weight: 600; color: #fffdf9; }
   .ia-lede { max-width: 64ch; font-size: 1.0625rem; line-height: 1.55; color: #c8c1b3; }
   @media (min-width: 1024px) {
     .ia-topo { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: end; column-gap: 48px; }
@@ -301,8 +447,11 @@
     .ia-lede { font-size: 1.125rem; }
   }
 
-  /* O exemplo principal: texto à esquerda, a conversa no WhatsApp à direita. */
+  /* O exemplo principal: texto à esquerda, a conversa no WhatsApp à direita. No celular a captura vem primeiro
+     (18/10/2026, auditoria): antes a primeira tela da seção era só texto e a imagem do Pelo Solto começava a 1,6
+     telas do topo, escondendo justamente a prova que o dono quer mostrar. */
   .ia-exemplo { display: grid; gap: 24px; margin-top: 28px; }
+  @media (max-width: 1023px) { .ia-exemplo-tela { order: -1; } }
   @media (min-width: 1024px) {
     .ia-exemplo { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: center; gap: 48px; margin-top: 40px; }
   }
@@ -380,3 +529,5 @@
 }
 .home .cta:focus-visible, .home .link-secundario:focus-visible { border-radius: var(--raio-pilula); }
 .home .cartao:focus-visible, .home .vitrine:focus-visible { border-radius: var(--raio-m); }
+/* No cartão de tinta do plantão, o fio de foco é escuro também no tema claro e no escuro. */
+.home .plantao :focus-visible { outline-color: var(--sol); box-shadow: 0 0 0 3px #17150f; }

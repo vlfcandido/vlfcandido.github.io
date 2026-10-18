@@ -22,6 +22,27 @@
   --coral:#ff7d52; --coral-texto:#ff9c78; --raso:#22201c; --areia:#2b2823; --mata:#74c39a;
   color-scheme: dark;
 }
+/* Fontes próprias (18/10/2026): Fraunces e Inter em woff2 local, em vez do CSS do Google Fonts. O arquivo local
+   entra no preload do index.html e chega antes da primeira pintura, o que zera a troca de fonte que empurrava o
+   hero no desktop (CLS 0,17 medido no Chromium). O subset latin cobre o português (ã, ç, é). */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('./assets/fontes/fraunces-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fontes/inter-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 /* Fontes de reserva com a largura da web font (§13, CLS ≈ 0; 14/10/2026). Antes eram Georgia e system-ui puros:
    a Georgia é 9–14% mais larga que a Fraunces, o título da home quebrava em 2 linhas a mais e tudo pulava
    130 px quando a Fraunces chegava (CLS 0,22 a 1280). Proporções medidas no Chromium com o mesmo texto renderizado (Fraunces 600 a 28–60 px: 87–92% da Georgia;

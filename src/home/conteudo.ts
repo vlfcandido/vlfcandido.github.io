@@ -173,17 +173,8 @@ export function conteudoHome() {
       // Rótulos dos números ('empresas de grande porte' virou 'empresas onde trabalhei' em 14/10/2026).
       rotulos: { anos: 'anos de software', empresas: 'empresas onde trabalhei', projetos: 'projetos e sites no portfólio' },
     },
-    // Tela do 1º bloco no PC. 18/10/2026: o Pelo Solto toma o lugar da Liga Várzea, com o círculo de caneta no
-    // "78% resolvido pela IA". É o exemplo principal pedido pelo dono e aparece acima da dobra.
-    vitrine: {
-      slug: 'pet-shop-whatsapp-ia-exemplo',
-      href: 'trabalhos/pet-shop-whatsapp-ia-exemplo/',
-      imagem: 'trabalhos/img/pet-shop-whatsapp-ia-exemplo-detalhe.jpg',
-      alt: 'Painel do Pelo Solto com 78% das conversas resolvidas pela IA e a fila do que passou para a equipe',
-      legenda: 'O painel mostra o que a IA resolveu sozinha e o que ficou na mão da equipe.',
-      // Card "Resolvidas pela IA" na captura de 1000x625, com folga para o círculo abraçar o cartão inteiro.
-      alvo: { x: 50.6, y: 34.4, l: 18, a: 17.2 },
-    },
+    // A antiga captura do painel no hero saiu em 18/10/2026: o espaço é do plantão do atendente (Plantao.tsx). A
+    // mesma tela continua na seção de IA e na vitrine, e nada saiu do ar.
     // Seção "IA e agentes" (18/10/2026, brief do dono): a especialidade no centro, com o Pelo Solto como exemplo
     // principal e quatro provas reais do banco-provas.md. Tudo aqui é afirmação com linha no banco, sem superlativo.
     ia: {
@@ -198,8 +189,8 @@ export function conteudoHome() {
           'A IA entende o pedido, consulta a agenda do banho e tosa, marca o horário, manda lembrete e passa para a equipe o que precisa de gente. O painel do dono mostra o que ela resolveu sozinha.',
         cta: 'Ver o exemplo funcionando',
         href: 'trabalhos/pet-shop-whatsapp-ia-exemplo/',
-        imagem: 'trabalhos/img/pet-shop-whatsapp-ia-exemplo.jpg',
-        alt: 'Conversa do Pelo Solto no WhatsApp com o agendamento do Tofu confirmado e a passagem para a equipe',
+        imagem: 'trabalhos/img/pet-shop-whatsapp-ia-exemplo-detalhe.jpg',
+        alt: 'Painel do Pelo Solto com 78% das conversas resolvidas pela IA e a fila do que passou para a equipe',
       } satisfies ExemploIa,
       frentes: [
         { titulo: 'Agentes com Claude', texto: 'Skills, workflows e subagentes, com um revisor que confere o que a IA produz.' },
