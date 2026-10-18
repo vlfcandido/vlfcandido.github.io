@@ -19,10 +19,10 @@ describe('trechos marcados à mão', () => {
       { texto: 'B', marcado: true }, { texto: '.', marcado: false },
     ]))
   it('vários trechos com um ausente devolve null', () => expect(partirNasFrases('Hoje no A.', ['A', 'B'])).toBeNull())
-  // Fix final (14/10/2026): o grifo da prova fica nas duas empresas, e só nelas.
-  it('o grifo da prova marca Sicoob e Serasa Experian', () =>
+  // 18/10/2026: o grifo da prova deixou de marcar as empresas e passou a marcar o diferencial da seção de IA.
+  it('o grifo da prova marca a resposta que não é inventada', () =>
     expect(partirNasFrases(c.promessa.titulo, FRASES_MARCADAS.promessa)?.filter((p) => p.marcado).map((p) => p.texto)).toEqual([
-      'Sicoob', 'Serasa Experian',
+      'não inventam resposta',
     ]))
   it('o círculo só vai em frase curta, de uma linha (até 24 caracteres)', () =>
     expect(FRASES_MARCADAS.prototipo.length).toBeLessThanOrEqual(24))

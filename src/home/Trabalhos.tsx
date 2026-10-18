@@ -111,6 +111,16 @@ export function Trabalhos() {
   return (
     <section id="destaques" className="secao tela">
       <h2 className="titulo-bloco alvo-secao"><span className="titulo-texto">{trabalhos.titulo}</span></h2>
+      <p className="trabalhos-lede">{trabalhos.lede}</p>
+      {/* 18/10/2026: os atalhos por tipo deixam à vista os trabalhos que não cabem nos três destaques (SaaS,
+          sistemas, agentes, chatbots, sites e integrações). Cada um abre a galeria já filtrada. */}
+      <ul className="trabalhos-categorias" aria-label="Ver projetos por tipo">
+        {trabalhos.categorias.map((c) => (
+          <li key={c.filtro}>
+            <a className="chip-categoria toque" href={`#/projetos/tipo/${c.filtro}`}>{c.rotulo}</a>
+          </li>
+        ))}
+      </ul>
       <ul ref={trilho} className="carrossel mt-6 lg:mt-8">
         {destaques.map((d, i) => (
           <CartaoDestaque key={d.slug} d={d} indice={i} assentado={assentados ? assentados.has(i) : undefined} />

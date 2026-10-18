@@ -65,8 +65,30 @@ describe('conteúdo da home', () => {
   it('nenhum dois-pontos nem travessão no texto da home (humanizer)', () => {
     const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.vitrine.legenda, c.prototipo.titulo, c.prototipo.texto,
       ...c.destaques.flatMap((d) => [d.dor, d.detalhe]), ...c.passos.flatMap((x) => [x.titulo, x.texto]), c.garantia,
-      c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo]
+      c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo, c.experimente.lede,
+      c.ia.rotulo, c.ia.titulo, c.ia.lede, c.ia.exemplo.rotulo, c.ia.exemplo.titulo, c.ia.exemplo.texto,
+      ...c.ia.frentes.flatMap((f) => [f.titulo, f.texto]), ...c.ia.provas.flatMap((p) => [p.nome, p.texto]),
+      c.trabalhos.titulo, c.trabalhos.lede, ...c.trabalhos.categorias.map((x) => x.rotulo)]
     for (const t of visivel) expect(t, t).not.toMatch(/[:—–]/)
+  })
+  // 18/10/2026 (brief do dono): a home abre pela especialidade de IA e agentes, com prova e sem superlativo.
+  it('a abertura traz o cargo no Sicoob, os 80 chatbots e o Claude', () => {
+    expect(c.promessa.subtitulo).toMatch(/setor de IA do Sicoob/)
+    expect(c.promessa.subtitulo).toMatch(/80 chatbots/)
+    expect(c.promessa.subtitulo).toMatch(/Claude/)
+    expect(c.promessa.subtitulo).toMatch(/Site e sistema/)
+    expect(JSON.stringify(c.promessa)).not.toMatch(/maior|melhor do país/i)
+  })
+  it('a seção de IA e agentes tem o Pelo Solto como exemplo principal e quatro provas reais', () => {
+    expect(c.ia.exemplo.href).toContain('pet-shop-whatsapp-ia-exemplo')
+    expect(c.ia.exemplo.cta).toBe('Ver o exemplo funcionando')
+    expect(c.ia.frentes).toHaveLength(4)
+    expect(c.ia.provas).toHaveLength(4)
+    expect(c.ia.provas.map((p) => p.nome)).toContain('Sicoob')
+  })
+  it('o Pelo Solto é a primeira peça da vitrine e da página de trabalhos', () => {
+    expect(PECAS[0].slug).toBe('pet-shop-whatsapp-ia-exemplo')
+    expect(PECAS[0].categoria).toBe('Atendimento com IA')
   })
   it('nenhum destaque cita nome do material original das peças', () => {
     expect(tudo.toLowerCase()).not.toMatch(/terceira|fdt/)

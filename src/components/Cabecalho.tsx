@@ -13,10 +13,12 @@ import { BotaoTema } from './BotaoTema'
 import { IconeConversa } from './IconeConversa'
 
 /**
- * Âncoras da home, na ordem de leitura. 18/10/2026: "Destaques" saiu do menu, porque era um terceiro nome para os
- * casos de trabalho; a seção passou a se chamar "Projetos", e o item "Projetos" leva à página completa.
+ * Âncoras da home, na ordem de leitura. 18/10/2026: "IA e agentes" entrou logo depois de Projetos, porque é a
+ * especialidade que a home passou a abrir. "Destaques" saiu em 18/10, porque era um terceiro nome para os casos
+ * de trabalho; a seção passou a se chamar "Projetos", e o item "Projetos" leva à página completa.
  */
 const SECOES = [
+  { id: 'ia', rotulo: 'IA e agentes' },
   { id: 'como', rotulo: 'Como funciona' },
   { id: 'quem', rotulo: 'Quem sou' },
 ] as const

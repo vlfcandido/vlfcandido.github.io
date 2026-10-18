@@ -116,6 +116,7 @@ export function Vitrine() {
                 </span>
               </span>
               <div className="peca-ficha">
+                <span className="peca-categoria">{p.categoria}</span>
                 <h3 className="peca-nome">{p.nome}</h3>
                 <p className="peca-dor"><span className="peca-marca">{p.resumo}</span></p>
                 <span className="peca-cta">

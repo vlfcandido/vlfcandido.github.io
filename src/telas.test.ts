@@ -35,14 +35,15 @@ describe('o que não pode aparecer no site', () => {
 
 // Reorganização de 08/10/2026 (plano do juiz, site-reorg/04-juiz.md).
 describe('textos fixos das telas', () => {
-  // Texto trocado em 14/10/2026 (site novo). Antes: "Integro sistemas e CRM, crio APIs, automatizo o trabalho repetido e conserto o que travou. Preço fechado antes de começar. Engenheiro de software sênior, 13 anos."
-  it('meta description sem "Chatbots de WhatsApp" e com a prova (13 anos, Sicoob e Serasa) do site novo', () => {
+  // Texto trocado em 14/10/2026 (site novo) e de novo em 18/10/2026 (IA e agentes no centro). Antes:
+  // "Integro sistemas e CRM... Engenheiro de software sênior, 13 anos." e depois "13 anos de software. Hoje no Sicoob...".
+  it('meta description abre pela IA e mantém site e sistema', () => {
     const html = ler('index.html')
     const meta = html.match(/name="description"\s+content="([^"]+)"/)?.[1]
     expect(meta).toBe(
-      // Fix final (14/10/2026): antes '13 anos construindo sistemas para Sicoob e Serasa Experian. …' (enganava).
-      // 15/10/2026 (decisão dele): a Serasa foi pela NTT DATA.
-      '13 anos de software. Hoje no Sicoob, antes na Serasa Experian, pela NTT DATA. Veja o seu sistema funcionando antes de fechar.',
+      // 18/10/2026 (brief do dono): o cargo no Sicoob, os 80 chatbots e o Claude são a prova; site e sistema
+      // continuam na mesma frase para não perder o outro lado do trabalho.
+      'Responsável pelo setor de IA do Sicoob, mais de 80 chatbots entregues e sistemas multiagente com Claude. Site, sistema e automação também saem daqui, com escopo e preço fechado.',
     )
   })
   // 14/10/2026: saiu o caso "subtítulo das provas (M9)", que lia src/components/Prova.tsx; o bloco de provas da home
