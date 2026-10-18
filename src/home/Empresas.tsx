@@ -19,11 +19,12 @@ export function Empresas() {
       {/* 15/10/2026 (revisor, rodada 2): o subtítulo promete "o que fiz em cada uma", que só aparece do PC para cima
           (no celular o papel fica para leitor de tela). Antes ele aparecia em toda largura. */}
       <p className="mt-2 hidden text-base text-grafite lg:block">{textos.subtitulo}</p>
-      {/* Celular: 3 + 2 logos centradas (antes grade de 3 colunas, que deixava a 2ª linha torta, com vão à direita). */}
-      <ul className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-4 sm:grid sm:grid-cols-5 lg:mt-8 lg:grid-cols-1 lg:gap-y-0">
+      {/* Celular: 3 + 2 logos centradas. 18/10/2026: no PC vira a faixa de fecho, com as cinco empresas em colunas
+          sobre um fio (antes era a coluna estreita ao lado do bloco de protótipo). */}
+      <ul className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-4 sm:grid sm:grid-cols-5 lg:mt-8 lg:gap-x-6">
         {empresas.map((e) => (
-          <li key={e.slug} className="empresa flex w-[calc((100%-3rem)/3)] flex-col items-center sm:w-auto sm:items-start lg:flex-row lg:items-center lg:gap-4 lg:border-t lg:border-linha lg:py-4">
-            <div className="flex h-10 w-full flex-none items-center justify-center sm:justify-start lg:w-24">
+          <li key={e.slug} className="empresa flex w-[calc((100%-3rem)/3)] flex-col items-center sm:w-auto sm:items-start lg:gap-2 lg:border-t lg:border-linha lg:py-4">
+            <div className="flex h-10 w-full flex-none items-center justify-center sm:justify-start lg:w-full">
               {e.logo ? (
                 // O nome está no texto ao lado (visível no PC, para leitor de tela no celular): a logo não repete.
                 <img className="logo-empresa" data-slug={e.slug} data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt="" height={32} loading="lazy" decoding="async" />

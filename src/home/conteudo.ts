@@ -12,6 +12,12 @@ export interface Passo { titulo: string; texto: string }
 /** Uma frente de trabalho (vira chip de filtro da galeria). */
 export interface Frente { titulo: string; resultado: string; exemplo: string }
 
+/**
+ * Nome único das peças navegáveis, igual no menu, na home, em /trabalhos/ e nos cartões (18/10/2026).
+ * Os casos de trabalho real continuam com outro nome, "Projetos". Nada de chamar a mesma coisa de dois jeitos.
+ */
+export const NOME_PECAS = 'Experimente ao vivo'
+
 /** Peças navegáveis de /trabalhos/ (HTML estático em public/trabalhos/). */
 // 14/10/2026 (fix da Task 5): ganharam imagem e alt, porque entram no topo da página de projetos.
 export const PECAS = [
@@ -136,7 +142,9 @@ export function conteudoHome() {
       cta: 'Conversar no WhatsApp',
       // Rótulos dos números (antes fixos em Promessa.tsx). 'empresas de grande porte' virou 'empresas onde trabalhei':
       // nem todas as 5 são de grande porte, e o bloco de logos se chama "Onde já trabalhei".
-      rotulos: { anos: 'anos de software', empresas: 'empresas onde trabalhei', projetos: 'projetos no portfólio' },
+      // 18/10/2026: o número soma os casos e as peças navegáveis; o rótulo diz os dois, em vez de chamar as peças de
+      // projetos. Antes: 'projetos no portfólio'.
+      rotulos: { anos: 'anos de software', empresas: 'empresas onde trabalhei', projetos: 'projetos e sites no portfólio' },
     },
     // Tela do 1º bloco no PC (decisão dele, 14/10/2026: "acaba a metade vazia"): um trabalho com o círculo
     // de caneta em volta do detalhe. `alvo` é a caixa do detalhe na imagem, em % da largura e da altura.
@@ -153,6 +161,14 @@ export function conteudoHome() {
       // passou a cortar o valor e os botões. Medido na captura: só as duas caixas de valor. Antes { x: 25.6, y: 71.2, l: 38.4, a: 9.6 }.
       alvo: { x: 26.3, y: 75.3, l: 20.4, a: 7.8 },
     },
+    // Vitrine das oito peças (18/10/2026): ocupa o lugar do antigo bloco de protótipo, que mostrava uma peça só.
+    // O argumento "veja antes de fechar" continua na primeira frase, agora sustentado pelas oito telas de exemplo.
+    experimente: {
+      titulo: NOME_PECAS,
+      lede: 'Veja o seu sistema funcionando antes de fechar. Oito sites de exemplo, com dados inventados, para abrir e mexer.',
+      cta: 'Abrir e testar',
+      verTodas: 'Abrir e testar as oito',
+    },
     prototipo: {
       titulo: 'Veja o seu sistema funcionando antes de fechar.',
       // Task 10: antes terminava em 'Dá para clicar, testar e decidir com o sistema na mão.' (tríade).
@@ -164,23 +180,9 @@ export function conteudoHome() {
       // mostrar a tela do CRP, que é a do detalhe dele. Antes os dois usavam consultorio-exemplo.jpg.
       imagem: 'trabalhos/img/consultorio-exemplo.jpg',
     },
+    // 18/10/2026: os destaques passaram a ser só casos de trabalho real. As peças navegáveis saíram daqui para a
+    // vitrine "Experimente ao vivo", e a seção ganhou o nome "Projetos" (o mesmo do menu e de #/projetos).
     destaques: [
-      {
-        slug: 'liga-varzea', nome: 'Liga Várzea FC',
-        dor: 'Cada atualização automática apagava a correção feita à mão.',
-        // Task 10: antes 'A correção manual sobrevive à sincronização e mostra de onde veio cada número.' (jargão).
-        detalhe: 'A correção feita à mão sobrevive à atualização, e cada número mostra de onde veio.',
-        href: 'trabalhos/liga-varzea/', imagem: 'trabalhos/img/liga-varzea.jpg',
-        alt: 'Tela da Liga Várzea com a coluna de origem de cada número',
-      },
-      {
-        slug: 'consultorio-exemplo', nome: 'Consultório Exemplo',
-        dor: 'Paciente só marca terapia online quando confia em quem atende.',
-        // Task 10: antes 'O CRP é reconferido todo mês, e perfil irregular sai da busca com a agenda pausada.'
-        detalhe: 'O CRP é conferido de novo todo mês. Perfil irregular sai da busca e tem a agenda pausada.',
-        href: 'trabalhos/consultorio-exemplo/', imagem: 'trabalhos/img/consultorio-exemplo-detalhe.jpg',
-        alt: 'Painel de verificação de CRP com um registro irregular em destaque',
-      },
       {
         slug: 'aprovaos', nome: 'AprovaOS',
         // 14/10/2026 (Task 10): CORRIGIDO, o texto anterior era falso. O AprovaOS é plano de estudo para concurso
@@ -192,11 +194,26 @@ export function conteudoHome() {
         href: '#/projetos/aprovaos', imagem: 'img/capa-aprovaos-1040.jpg',
         alt: 'Tela do AprovaOS com o plano de estudo do dia dividido em blocos',
       },
+      {
+        slug: 'nexus-quant', nome: 'Sistema de ordens em tempo real',
+        dor: 'Operar 24 horas exige conferir cada ordem com a corretora sem erro.',
+        detalhe: 'A tela mostra também o que deu errado, inclusive as taxas. Nada fica escondido.',
+        href: '#/projetos/nexus-quant', imagem: 'img/capa-nexus-quant-1040.jpg',
+        alt: 'Capa do sistema de ordens em tempo real, com a sala de controle em simulação',
+      },
+      {
+        slug: 'app-score', nome: 'App de score de crédito',
+        dor: 'Quem vende a prazo decide no balcão sem saber se o cliente paga em dia.',
+        detalhe: 'A nota abre o cálculo, com o peso de cada pagamento, atraso e quitação.',
+        href: '#/projetos/app-score', imagem: 'img/capa-app-score-1040.jpg',
+        alt: 'Capa do app de score de crédito no celular, com a nota do cliente',
+      },
     ] satisfies Destaque[],
     // Fix final (14/10/2026): subtítulo para separar este bloco (empregos) dos "Casos em empresas" de #/projetos.
     empresas: { titulo: 'Onde já trabalhei', subtitulo: 'As empresas onde trabalhei e o que fiz em cada uma.' },
-    // Fix final (14/10/2026): antes 'Trabalhos com o detalhe marcado'; o menu passou a chamar a seção de "Destaques".
-    trabalhos: { titulo: 'Destaques, com o detalhe marcado', verTodos: 'Ver todos os projetos' },
+    // 18/10/2026: o nome da seção é "Projetos", o mesmo do menu e da página #/projetos (antes "Destaques", um terceiro
+    // nome para a mesma coisa). As peças navegáveis deixaram de aparecer aqui: elas têm a vitrine própria.
+    trabalhos: { titulo: 'Projetos, com o detalhe marcado', verTodos: 'Ver todos os projetos' },
     // 15/10/2026: botão do WhatsApp no fim do bloco, com a mensagem do passo 1.
     como: { titulo: 'Como funciona', cta: 'Pedir o meu protótipo', mensagem: 'Oi, Vinicius! Vi seu site e queria pedir um protótipo do meu sistema.' },
     // Task 10 (humanizer): antes, passo 4 'Manual, documentação técnica e testes automatizados.' (tríade) e passo 5

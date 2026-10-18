@@ -41,17 +41,17 @@ export function PaginaProjetos({ hash }: { hash: string }) {
       {/* 14/10/2026 (fix final): saíram a carta náutica com tartaruga ao lado do título e o bloco "Como eu monto
           agentes" do fim da página (identidade Maré, spec §4). */}
       <section aria-labelledby="projetos-pagina-titulo" className="pt-10 pb-8 sm:pt-14 sm:pb-10">
-        <a href="#/" className="sublinha text-[0.98rem] text-grafite hover:text-tinta">
+        <a href="#/" className="sublinha inline-flex min-h-11 items-center text-[0.98rem] text-grafite hover:text-tinta">
           Voltar para o início
         </a>
         <h1 id="projetos-pagina-titulo" className="mt-5 text-[2.6rem] leading-[1.05] font-bold tracking-[0.004em] sm:text-[3.6rem]">
           Projetos
         </h1>
         <p className="prosa mt-3 max-w-[62ch] text-[1.15rem] leading-[1.5] text-grafite sm:text-[1.25rem]">
-          A tela de cada produto e o que ele resolve.{' '}
+          Casos de trabalho real e sites de exemplo, com a tela e o que cada um resolve.{' '}
           {/* "Toque" só onde se toca; com mouse, "Clique" (fix final, 14/10/2026). */}
-          <span className="so-toque">Toque em um para ver como foi feito.</span>
-          <span className="so-clique">Clique em um para ver como foi feito.</span>
+          <span className="so-toque">Toque em um projeto para ver como foi feito.</span>
+          <span className="so-clique">Clique em um projeto para ver como foi feito.</span>
         </p>
       </section>
       <GaleriaProjetos aoAbrir={abrir} filtroInicial={filtroInicial} pecas={pecas} />

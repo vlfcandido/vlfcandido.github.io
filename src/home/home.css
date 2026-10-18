@@ -82,17 +82,19 @@
     .home > #como { padding-top: 24px; }
   }
   @media (min-width: 1024px) {
+    /* 18/10/2026: a vitrine das oito peças entra em faixa inteira logo depois da prova, e as empresas viram a faixa
+       de fecho entre os projetos e o "Como funciona". Antes: "prototipo prototipo empresas" e "como como quem". */
     .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;
-      grid-template-areas: "inicio inicio inicio" "prototipo prototipo empresas" "destaques destaques destaques" "como como quem"; }
+      grid-template-areas: "inicio inicio inicio" "vitrine vitrine vitrine" "destaques destaques destaques" "empresas empresas empresas" "como como quem"; }
     .home > .secao { padding-block: 56px; }
     .home > #inicio { grid-area: inicio; }
-    .home > #prototipo { grid-area: prototipo; }
+    .home > #experimente { grid-area: vitrine; }
     .home > #empresas { grid-area: empresas; }
     .home > #destaques { grid-area: destaques; }
     .home > #como { grid-area: como; }
     .home > #quem { grid-area: quem; }
-    /* Blocos lado a lado: o da direita ganha um fio vertical em vez de ficar solto. */
-    .home > #empresas, .home > #quem { padding-left: 48px; margin-left: -24px; border-left: 1px solid var(--linha); }
+    /* O bloco ao lado do "Como funciona" ganha um fio vertical em vez de ficar solto. */
+    .home > #quem { padding-left: 48px; margin-left: -24px; border-left: 1px solid var(--linha); }
   }
 
   .titulo-bloco { font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem); line-height: 1.12; font-weight: 600; }
@@ -194,9 +196,91 @@
      Desce ~4 px e encolhe na horizontal. Antes: inset -32% -10%, width 120%, height 164%. */
   .marcacao-circulo .marcacao-traco { inset: -24% -6%; width: 112%; height: 160%; }
 
+  /* Vitrine das peças (18/10/2026): cada item é uma prova sobre a mesa, não uma caixa de SaaS. A moldura do navegador
+     levanta no hover; a ficha de papel embaixo fica no lugar e o marca-texto risca a dor do cartão apontado, focado
+     ou assentado no trilho do celular. */
+  @media (max-width: 1023px) { .home > #experimente { padding-top: 24px; } }
+  .vitrine-lede { max-width: 58ch; margin-top: 10px; font-size: 1.0625rem; line-height: 1.5; color: var(--fundo-suave); }
+  .vitrine-cta { margin-top: 12px; }
+  .vitrine-dica { margin-top: 8px; font-size: 0.875rem; color: var(--fundo-suave); }
+  .vitrine-trilho { display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 16px; overflow-x: auto;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+    margin: 20px -16px 0; padding: 4px max(16px, env(safe-area-inset-right)) 8px max(16px, env(safe-area-inset-left));
+    scroll-padding-inline: max(16px, env(safe-area-inset-left)); }
+  .vitrine-trilho::-webkit-scrollbar { display: none; }
+  .vitrine-trilho > * { scroll-snap-align: start; }
+  @media (min-width: 640px) { .vitrine-trilho { grid-auto-columns: 42%; gap: 24px; } }
+  @media (min-width: 1024px) {
+    .home > #experimente { padding-top: 40px; }
+    /* Título e promessa lado a lado, como a ficha e a prova numa mesa: a fileira de telas sobe para a primeira dobra. */
+    .vitrine-topo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; column-gap: 48px; }
+    .vitrine-lede { font-size: 1.125rem; max-width: 62ch; margin-top: 6px; }
+    .vitrine-trilho { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 20px;
+      overflow: visible; scroll-snap-type: none; margin: 20px 0 0; padding: 0; }
+    .vitrine-dica { display: none; }
+  }
+  .peca { min-width: 0; }
+  .peca-link { display: flex; flex-direction: column; height: 100%; }
+  .peca-janela { display: block; }
+  .peca-tela { position: relative; display: block; aspect-ratio: 1000 / 625; background: var(--raso); }
+  .peca-tela img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .peca-ficha { display: flex; flex: 1; flex-direction: column; gap: 8px; margin-top: 12px; padding-top: 12px;
+    border-top: 1px solid var(--linha); }
+  .peca-nome { font-family: var(--fonte-titulo); font-size: 1.3rem; line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; }
+  .peca-dor { flex: 1; font-size: 1rem; line-height: 1.45; color: var(--fundo-suave); }
+  /* O traço fica num span inline: assim ele risca cada linha do texto, como caneta de verdade, e não só a última. */
+  .peca-marca { background-image: linear-gradient(transparent 74%, color-mix(in srgb, var(--sol) 80%, transparent) 74%,
+      color-mix(in srgb, var(--sol) 80%, transparent) 96%, transparent 96%);
+    background-repeat: no-repeat; background-size: 0% 100%; background-position: left bottom;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    transition: background-size var(--mov-padrao) var(--mola); }
+  /* 18/10/2026 (revisor, rodada 1): no escuro, o amarelo cheio atrás de texto claro dava 1,29:1. O traço vira um
+     âmbar escuro que cobre a linha inteira: continua marca-texto e o texto claro passa AA (≈5,4:1). */
+  :root[data-tema="escuro"] .peca-marca {
+    background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--sol) 26%, transparent) 62%,
+      color-mix(in srgb, var(--sol) 26%, transparent) 94%, transparent 94%); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .peca-marca {
+      background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--sol) 26%, transparent) 62%,
+        color-mix(in srgb, var(--sol) 26%, transparent) 94%, transparent 94%); }
+  }
+  .peca-cta { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 4px;
+    padding: 0 16px; border: 1px solid var(--linha); border-radius: var(--raio-pilula); background: var(--papel-alto);
+    color: var(--fundo); font-family: var(--fonte-texto); font-weight: 600;
+    transition: background-color var(--mov-toque) var(--mola), border-color var(--mov-toque) var(--mola), color var(--mov-toque) var(--mola); }
+  /* Entrada da fileira na montagem: as provas se acomodam na mesa, com uma inclinação curta que assenta. O atraso
+     por cartão vem do estilo embutido (60 ms até o sexto). Em tela baixa, a revelação ao rolar da própria seção
+     continua valendo para quem só encontra a fileira depois de rolar. */
+  .vitrine .peca { animation: prova-entra var(--mov-lento) var(--mola) both; }
+  @keyframes prova-entra {
+    from { opacity: 0; transform: translateY(14px) rotate(-0.5deg); }
+  }
+  @media (max-width: 1023px) {
+    .vitrine .peca { animation-duration: var(--mov-padrao); }
+    @keyframes prova-entra { from { opacity: 0; transform: translateY(8px) rotate(-0.4deg); } }
+  }
+  /* O marca-texto risca a dor do cartão em que a pessoa para, aponta ou foca. */
+  .peca-assentada .peca-marca, .peca-link:focus-visible .peca-marca { background-size: 100% 100%; }
+  .peca-link:focus-visible .peca-cta { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+  @media (hover: hover) {
+    .peca-janela { transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
+    .peca-link:hover .peca-janela { transform: translateY(-6px); box-shadow: var(--sombra-2); }
+    .peca-link:hover .peca-marca { background-size: 100% 100%; }
+    .peca-link:hover .peca-cta { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+    .peca-link:hover .peca-cta .seta { transform: translateX(4px); }
+  }
+  .peca-link:active .peca-janela { transform: scale(0.985); }
+  /* No cartão de peça de #/projetos o botão também acende com o cartão inteiro (o link esticado cobre a área). */
+  .cartao-projeto:focus-within .peca-cta { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+  @media (hover: hover) {
+    .cartao-projeto:hover .peca-cta { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+  }
   @media (prefers-reduced-motion: reduce) {
     .toque, .toque:active, .cta:hover, .link-secundario:hover, .cartao:hover, a:hover > .moldura-navegador,
     .cartao:hover img, .cta:hover .seta, .link-secundario:hover .seta { transform: none; transition: none; }
+    .peca-janela, .peca-link:hover .peca-janela, .peca-link:active .peca-janela, .peca-marca { transition: none; }
+    .peca-link:hover .peca-janela, .peca-link:active .peca-janela { transform: none; }
+    .vitrine .peca { animation: none; }
   }
 }
 

@@ -3,6 +3,7 @@
 import { useEffect, useId, useState, type MouseEvent } from 'react'
 import { flushSync } from 'react-dom'
 import { perfil } from '../conteudo'
+import { NOME_PECAS } from '../home/conteudo'
 import { caminhoPublico } from '../lib/assets'
 import { irParaSecao } from '../lib/destino'
 import { HASH_PROJETOS, type Rota } from '../lib/rota'
@@ -11,11 +12,11 @@ import { WHATSAPP } from '../lib/whatsapp'
 import { BotaoTema } from './BotaoTema'
 import { IconeConversa } from './IconeConversa'
 
-/** Âncoras da home, na ordem de leitura. */
+/**
+ * Âncoras da home, na ordem de leitura. 18/10/2026: "Destaques" saiu do menu, porque era um terceiro nome para os
+ * casos de trabalho; a seção passou a se chamar "Projetos", e o item "Projetos" leva à página completa.
+ */
 const SECOES = [
-  // Fix final (14/10/2026): antes { id: 'trabalhos', rotulo: 'Trabalhos' }; um destino, um nome (/trabalhos/ é
-  // "Exemplos navegáveis").
-  { id: 'destaques', rotulo: 'Destaques' },
   { id: 'como', rotulo: 'Como funciona' },
   { id: 'quem', rotulo: 'Quem sou' },
 ] as const
@@ -39,7 +40,7 @@ function useSecaoAVista(ativo: boolean): string | null {
       { rootMargin: '-45% 0px -50% 0px' },
     )
     // As seções fora do menu entram na conta só para apagar o traço quando a pessoa sobe de volta.
-    for (const id of ['inicio', 'prototipo', 'empresas', ...SECOES.map((s) => s.id)]) {
+    for (const id of ['inicio', 'experimente', 'destaques', 'empresas', ...SECOES.map((s) => s.id)]) {
       const el = document.getElementById(id)
       if (el) obs.observe(el)
     }
@@ -62,8 +63,8 @@ function mesmaAncora(e: MouseEvent<HTMLAnchorElement>, id: string) {
 }
 
 /**
- * Cabeçalho: o nome em Fraunces com o endereço do site, as âncoras da home, os exemplos navegáveis, o tema e o
- * WhatsApp. No celular é estático (nada fixo por cima da página) e a navegação fica num menu recolhível, aberto
+ * Cabeçalho: o nome em Fraunces com o endereço do site, "Experimente ao vivo", "Projetos", as âncoras da home,
+ * o tema e o WhatsApp. No celular é estático (nada fixo por cima da página) e a navegação fica num menu recolhível, aberto
  * no próprio fluxo da página (empurra o conteúdo, nunca cobre); a partir do tablet ele acompanha a rolagem
  * (`md:sticky`) e a navegação fica sempre à vista.
  * Fix final (14/10/2026, revisor: "topo do celular pesado, menu em 2 linhas"): antes, no celular, o menu ocupava
@@ -109,6 +110,19 @@ export function Cabecalho({ rota }: { rota: Rota }) {
         </button>
         <nav id={idNav} aria-label="Seções" className="cabecalho-nav" data-aberto={aberto}>
           <ul>
+            {/* Peças navegáveis (HTML estático em public/trabalhos/), na mesma aba: elas têm volta própria.
+                18/10/2026: primeiro item do menu, com o nome único que a home, /trabalhos/ e os cartões usam. */}
+            <li>
+              <a href={caminhoPublico(import.meta.env.BASE_URL, 'trabalhos/')} onClick={fechar}>
+                {NOME_PECAS}
+              </a>
+            </li>
+            {/* Casos de trabalho real: o nome "Projetos" é o mesmo da seção da home e do título de #/projetos. */}
+            <li>
+              <a href={HASH_PROJETOS} aria-current={rota === 'projetos' ? 'page' : undefined} onClick={fechar}>
+                Projetos
+              </a>
+            </li>
             {SECOES.map((s) => (
               <li key={s.id}>
                 <a href={`#${s.id}`} aria-current={secao === s.id ? 'location' : undefined} onClick={(e) => {
@@ -121,16 +135,6 @@ export function Cabecalho({ rota }: { rota: Rota }) {
                 </a>
               </li>
             ))}
-            {/* Task 10: a galeria completa no menu (antes só se chegava a ela pelo botão do bloco de trabalhos). */}
-            <li>
-              <a href={HASH_PROJETOS} aria-current={rota === 'projetos' ? 'page' : undefined} onClick={fechar}>
-                Projetos
-              </a>
-            </li>
-            {/* Peças navegáveis (HTML estático em public/trabalhos/), na mesma aba: elas têm volta própria. */}
-            <li>
-              <a href={caminhoPublico(import.meta.env.BASE_URL, 'trabalhos/')}>Exemplos navegáveis</a>
-            </li>
           </ul>
         </nav>
         <BotaoTema />
