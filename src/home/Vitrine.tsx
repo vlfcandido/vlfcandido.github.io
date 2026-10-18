@@ -1,6 +1,6 @@
-// Vitrine das oito peças navegáveis (18/10/2026). Ocupa o lugar do antigo bloco de protótipo, que mostrava uma peça
-// só: o argumento "veja antes de fechar" agora vem sustentado por oito telas de verdade. No celular é um trilho com
-// encaixe e o próximo cartão aparecendo pela metade; no PC, quatro colunas em duas fileiras. O marca-texto risca a dor
+// Vitrine das nove peças navegáveis (18/10/2026). Ocupa o lugar do antigo bloco de protótipo, que mostrava uma peça
+// só: o argumento "veja antes de fechar" agora vem sustentado por nove telas de verdade. No celular é um trilho com
+// encaixe e o próximo cartão aparecendo pela metade; no PC, três colunas em três fileiras. O marca-texto risca a dor
 // do cartão em que a pessoa para (celular) ou aponta (mouse e teclado), que é a assinatura do site.
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { SeloFicticio } from '../components/Print'
@@ -85,12 +85,12 @@ export function Vitrine() {
         <div>
           <p className="vitrine-lede">{experimente.lede}</p>
           {/* 18/10/2026 (revisor, rodada 1): o alvo explícito precisa caber na primeira dobra; o botão do topo leva
-              à página em que cada uma das oito tem o seu "Abrir e testar". */}
+              à página em que cada uma das nove tem o seu "Abrir e testar". */}
           <a className="cta toque vitrine-cta" href={caminhoPublico(base, 'trabalhos/')}>
             {experimente.verTodas}
             <span className="seta" aria-hidden="true">→</span>
           </a>
-          <p className="vitrine-dica so-toque">Arraste para o lado para ver as oito.</p>
+          <p className="vitrine-dica so-toque">Arraste para o lado para ver as nove.</p>
         </div>
       </div>
       <ul ref={trilho} className="vitrine-trilho" aria-label={experimente.titulo}>

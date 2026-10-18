@@ -3,7 +3,7 @@ import { PECAS } from '../conteudo'
 import { ORDEM_DA_VITRINE, pecasDaVitrine } from './vitrine'
 
 describe('vitrine da home', () => {
-  it('mostra as oito peças, uma vez cada', () => {
+  it('mostra as nove peças, uma vez cada', () => {
     const pecas = pecasDaVitrine()
     expect(pecas).toHaveLength(PECAS.length)
     expect(new Set(pecas.map((p) => p.slug)).size).toBe(PECAS.length)

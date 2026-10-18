@@ -1,6 +1,6 @@
 // Home nova (14/10/2026), com orçamento de rolagem (spec §12): no celular, uma tela por papel (prova → vitrine →
 // projetos → empresas → passos → quem sou); no PC, blocos lado a lado (o CSS de home.css arruma por área).
-// 18/10/2026: a vitrine das oito peças tomou o lugar do bloco de protótipo, que mostrava uma peça só; o argumento
+// 18/10/2026: a vitrine das nove peças tomou o lugar do bloco de protótipo, que mostrava uma peça só; o argumento
 // "veja antes de fechar" vive na abertura dela.
 import { ComoFunciona } from '../home/ComoFunciona'
 import { Empresas } from '../home/Empresas'

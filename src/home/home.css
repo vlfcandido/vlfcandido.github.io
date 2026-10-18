@@ -82,7 +82,7 @@
     .home > #como { padding-top: 24px; }
   }
   @media (min-width: 1024px) {
-    /* 18/10/2026: a vitrine das oito peças entra em faixa inteira logo depois da prova, e as empresas viram a faixa
+    /* 18/10/2026: a vitrine das nove peças entra em faixa inteira logo depois da prova, e as empresas viram a faixa
        de fecho entre os projetos e o "Como funciona". Antes: "prototipo prototipo empresas" e "como como quem". */
     .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;
       grid-template-areas: "inicio inicio inicio" "vitrine vitrine vitrine" "destaques destaques destaques" "empresas empresas empresas" "como como quem"; }
@@ -215,7 +215,7 @@
     /* Título e promessa lado a lado, como a ficha e a prova numa mesa: a fileira de telas sobe para a primeira dobra. */
     .vitrine-topo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; column-gap: 48px; }
     .vitrine-lede { font-size: 1.125rem; max-width: 62ch; margin-top: 6px; }
-    .vitrine-trilho { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 20px;
+    .vitrine-trilho { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 24px;
       overflow: visible; scroll-snap-type: none; margin: 20px 0 0; padding: 0; }
     .vitrine-dica { display: none; }
   }

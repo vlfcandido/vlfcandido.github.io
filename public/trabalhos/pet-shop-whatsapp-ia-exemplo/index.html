@@ -1,0 +1,1231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pelo Solto · atendimento com IA no WhatsApp para pet shop (exemplo)</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/pet-shop-whatsapp-ia-exemplo/">
+<meta name="theme-color" content="#FFF6EA">
+<meta name="description" content="Exemplo de trabalho: atendimento no WhatsApp com IA que entende o pedido, consulta a agenda do banho e tosa, marca o horário, envia lembrete e passa para a equipe quando precisa de gente. Pet shop, pets e números são fictícios.">
+<meta property="og:title" content="Pelo Solto · atendimento com IA no WhatsApp para pet shop (exemplo)">
+<meta property="og:description" content="Exemplo de trabalho: a IA atende no WhatsApp, qualifica o banho e a tosa, consulta a agenda, marca o horário, manda lembrete e chama a equipe quando o caso precisa de gente. Dados fictícios.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/pet-shop-whatsapp-ia-exemplo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pelo Solto com a conversa de WhatsApp e o agendamento do banho e tosa do Tofu confirmado">
+<meta property="og:url" content="https://vlfcandido.github.io/trabalhos/pet-shop-whatsapp-ia-exemplo/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-pet-shop-whatsapp-ia-exemplo");</script>
+<style>
+/* ===== Pelo Solto: leite, rosa chiclete, manteiga e menta ===== */
+:root{
+  --papel:#FFF6EA;--papel-fundo:#FBEBDD;--cartao:#FFFDFA;--tinta:#2A2038;--tinta-suave:#6E6078;
+  --linha:#E7D4C2;--linha-forte:#2A2038;
+  --rosa:#E94F79;--rosa-forte:#C93460;--rosa-clara:#FFE2E9;
+  --manteiga:#FFC94A;--manteiga-clara:#FFF2CC;
+  --menta:#BFEAD4;--menta-clara:#E4F7ED;--verde:#2F7D5B;
+  --uva:#33264A;--uva-2:#3E2F58;
+  --wa:#075E54;--wa-bolha:#D9FDD3;--wa-fundo:#EFEAE2;
+  --f-d:"Fredoka",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-t:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:22px;--r-g:32px;--r-p:999px;
+  --duro:0 5px 0 var(--tinta);
+  --sombra:0 2px 0 rgba(42,32,56,.08),0 18px 40px -24px rgba(42,32,56,.42);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --head:68px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--head) + 12px);scrollbar-gutter:stable}
+@media (prefers-reduced-motion:no-preference){html{scroll-snap-type:y proximity}}
+body{
+  margin:0;background-color:var(--papel);color:var(--tinta);
+  background-image:radial-gradient(circle at 1px 1px,rgba(201,170,141,.28) 1px,transparent 1.4px);
+  background-size:26px 26px;
+  font:400 17px/1.62 var(--f-t);overflow-x:hidden;
+}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--f-d);font-weight:600;line-height:1.04;letter-spacing:-.02em;text-wrap:balance}
+h1{font-size:clamp(2.35rem,4.6vw,3.62rem)}
+h2{font-size:clamp(2rem,4.2vw,3.15rem)}
+h3{font-size:1.22rem;line-height:1.15}
+a{color:inherit}
+img,svg{display:block;max-width:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--rosa-forte);outline-offset:3px;border-radius:8px}
+.painel :focus-visible{outline-color:var(--manteiga)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.pula{position:absolute;left:12px;top:-80px;z-index:100;background:var(--manteiga);border:2px solid var(--tinta);border-radius:12px;padding:12px 18px;font-weight:800;text-decoration:none}
+.pula:focus{top:12px}
+
+/* ===== faixa de assinatura ===== */
+.byline{background:var(--tinta);color:#FFF1E2;font-size:.78rem;line-height:1.35;text-align:center;padding:7px 16px;position:relative;z-index:60}
+.byline a{color:inherit;font-weight:800;text-underline-offset:3px;padding-block:15px;margin-block:-15px;display:inline-block}
+@media (max-width:640px){.byline .so-pc{display:none}}
+
+/* ===== cabeçalho ===== */
+.topo{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--papel) 93%,transparent);-webkit-backdrop-filter:saturate(1.3) blur(10px);backdrop-filter:saturate(1.3) blur(10px);border-bottom:2px solid var(--tinta)}
+.topo-in{max-width:1200px;margin:0 auto;min-height:var(--head);padding:8px 24px;display:flex;align-items:center;gap:18px}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto;min-height:48px;border-radius:12px}
+.logo-selo{width:46px;height:46px;flex:none;background:var(--manteiga);border:2px solid var(--tinta);border-radius:15px;display:grid;place-items:center;transform:rotate(-4deg);box-shadow:0 3px 0 var(--tinta)}
+.logo-selo svg{width:28px;height:28px}
+.logo-nome{display:block;font:600 1.34rem/1 var(--f-d);letter-spacing:-.02em}
+.logo-sub{display:block;font:700 .72rem/1.2 var(--f-t);color:var(--tinta-suave);margin-top:4px}
+.topo-nav{display:flex;align-items:center;gap:2px}
+.topo-nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 13px;border-radius:999px;text-decoration:none;font-weight:800;font-size:.92rem;color:var(--tinta-suave);transition:background .18s,color .18s}
+.topo-nav a:hover,.topo-nav a[aria-current="true"]{background:var(--manteiga-clara);color:var(--tinta)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 20px;border:2px solid var(--tinta);border-radius:999px;background:var(--manteiga);color:var(--tinta);font:700 1rem/1 var(--f-t);text-decoration:none;cursor:pointer;box-shadow:0 4px 0 var(--tinta);transition:transform .16s var(--ease),box-shadow .16s var(--ease),background .16s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--tinta)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--tinta)}
+.btn-rosa{background:var(--rosa-forte);color:#fff}
+.btn-sec{background:var(--cartao)}
+.btn-pequeno{min-height:44px;padding:0 16px;font-size:.92rem;box-shadow:0 3px 0 var(--tinta)}
+.btn svg{width:19px;height:19px;flex:none}
+.topo-zap{white-space:nowrap}
+.topo-menu{display:none;width:44px;height:44px;align-items:center;justify-content:center;border:2px solid var(--tinta);border-radius:12px;background:var(--cartao);cursor:pointer}
+.topo-menu svg{width:20px;height:20px}
+.topo-menu .ico-fecha{display:none}
+.topo-menu[aria-expanded="true"] .ico-menu{display:none}
+.topo-menu[aria-expanded="true"] .ico-fecha{display:block}
+.menu-painel{display:none;background:var(--papel);border-top:2px solid var(--tinta);padding:8px 24px 16px}
+.menu-painel.aberto{display:block}
+.menu-painel a{display:flex;align-items:center;min-height:46px;font-weight:800;text-decoration:none;padding:0 6px;border-bottom:1px dashed var(--linha)}
+.menu-painel a:last-child{border-bottom:0}
+.menu-painel .btn{margin-top:10px;justify-content:center}
+@media (min-width:861px){.menu-painel{display:none!important}}
+
+/* ===== herói ===== */
+.hero{max-width:1200px;margin:0 auto;padding:30px 24px 46px;display:grid;grid-template-columns:1.04fr .96fr;gap:52px;align-items:center}
+.hero-selo{display:inline-flex;align-items:center;gap:8px;background:var(--menta);border:2px solid var(--tinta);border-radius:999px;padding:8px 15px;font-weight:800;font-size:.82rem;transform:rotate(-1.4deg);box-shadow:0 3px 0 var(--tinta)}
+.hero-selo svg{width:16px;height:16px;flex:none}
+h1{margin:20px 0 18px}
+.hero-lede{font-size:1.08rem;color:var(--tinta-suave);max-width:56ch}
+.hero-lede strong{color:var(--tinta);font-weight:800}
+.hero-acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.hero-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:16px;font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--rosa)}
+.hero-link svg{width:17px;height:17px}
+.hero-nota{display:flex;gap:9px;align-items:flex-start;margin-top:22px;padding-top:16px;border-top:2px dashed var(--linha);font-size:.84rem;color:var(--tinta-suave);max-width:52ch}
+.hero-nota svg{width:20px;height:20px;flex:none;color:var(--verde);margin-top:2px}
+
+/* ===== telefone ===== */
+.palco{position:relative;display:grid;place-items:center;padding:8px 0 0}
+.blob{position:absolute;z-index:0;width:min(440px,96%);aspect-ratio:1;background:var(--menta);border:2px solid var(--tinta);border-radius:48% 52% 58% 42%/46% 44% 56% 54%;transform:rotate(7deg);box-shadow:10px 12px 0 rgba(42,32,56,.12)}
+.blob::after{content:"";position:absolute;right:8%;top:2%;width:74px;height:74px;border-radius:50%;background:var(--manteiga);border:2px solid var(--tinta)}
+@media (prefers-reduced-motion:no-preference){
+  .telefone{animation:sobe .7s var(--ease) both .1s}
+  @keyframes sobe{from{opacity:0;transform:translateY(26px) rotate(2deg)}to{opacity:1;transform:none}}
+}
+.telefone{position:relative;z-index:2;width:min(376px,100%);background:#17131D;border:2px solid var(--tinta);border-radius:46px;padding:9px;box-shadow:0 26px 50px -22px rgba(42,32,56,.55),0 0 0 1px rgba(255,255,255,.08) inset}
+.telefone-tela{background:var(--wa-fundo);border-radius:38px;overflow:hidden;display:flex;flex-direction:column;height:540px;position:relative}
+.telefone-status{height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--wa);color:#fff;font-size:.62rem;font-weight:800;letter-spacing:.02em}
+.telefone-status span:last-child{display:flex;gap:4px;align-items:center}
+.telefone-status svg{width:11px;height:11px}
+.zap-topo{background:var(--wa);color:#fff;padding:6px 12px 12px;display:flex;align-items:center;gap:9px}
+.zap-volta{width:26px;height:36px;display:grid;place-items:center;flex:none}
+.zap-volta svg{width:19px;height:19px}
+.zap-avatar{width:38px;height:38px;border-radius:50%;background:var(--manteiga);display:grid;place-items:center;flex:none;border:1px solid rgba(255,255,255,.45)}
+.zap-avatar svg{width:24px;height:24px}
+.zap-nome{display:flex;align-items:center;gap:7px;font-weight:800;font-size:.92rem;line-height:1.1}
+.zap-nome .ia{background:var(--manteiga);color:var(--tinta);font:800 .56rem/1 var(--f-t);padding:3px 6px;border-radius:5px;letter-spacing:.03em}
+.zap-estado{font-size:.68rem;opacity:.9;margin-top:3px}
+.zap-acoes{margin-left:auto;display:flex;gap:14px;opacity:.9}
+.zap-acoes svg{width:18px;height:18px}
+.conversa{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px 10px 14px;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin;scrollbar-color:#C9BBAE transparent;background-image:radial-gradient(circle at 1px 1px,rgba(120,100,80,.10) 1px,transparent 1.3px);background-size:19px 19px}
+.conversa::before{content:"";display:block;margin-top:auto}
+.conversa::-webkit-scrollbar{width:5px}
+.conversa::-webkit-scrollbar-thumb{background:#C9BBAE;border-radius:4px}
+.msg{position:relative;max-width:87%;padding:7px 9px 5px;border-radius:11px;font-size:.84rem;line-height:1.38;box-shadow:0 1px 1px rgba(0,0,0,.09);color:#111;word-break:break-word}
+.msg.ia,.msg.equipe{align-self:flex-start;background:#fff;border-top-left-radius:3px}
+.msg.tutor{align-self:flex-end;background:var(--wa-bolha);border-top-right-radius:3px}
+.msg .quem{display:block;font:800 .64rem/1.1 var(--f-t);color:var(--rosa-forte);margin-bottom:3px}
+.msg.equipe .quem{color:var(--verde)}
+.msg .hora{display:block;text-align:right;font-size:.58rem;color:#5F5F5F;line-height:1;margin-top:3px}
+.msg .hora svg{display:inline-block;width:11px;height:11px;vertical-align:-2px;margin-left:2px;color:#53BDEB}
+.msg-sistema{align-self:center;max-width:92%;background:#FFF4D6;border:1px solid #E9D7AC;border-radius:9px;padding:6px 9px;text-align:center;font-size:.65rem;line-height:1.35;color:#5A4A2A}
+.msg-sistema b{font-weight:800;color:#3F3319}
+.divisor-dia{align-self:center;background:#E4F3EA;color:#3F5C4E;border-radius:7px;padding:4px 10px;font-size:.62rem;font-weight:800;margin:2px 0}
+.digitando{align-self:flex-start;background:#fff;border-radius:11px;border-top-left-radius:3px;padding:10px 12px;display:flex;gap:4px;box-shadow:0 1px 1px rgba(0,0,0,.09)}
+.digitando i{width:6px;height:6px;border-radius:50%;background:#9A9A9A;animation:pula 1s infinite}
+.digitando i:nth-child(2){animation-delay:.16s}
+.digitando i:nth-child(3){animation-delay:.32s}
+@keyframes pula{0%,60%,100%{transform:translateY(0);opacity:.55}30%{transform:translateY(-4px);opacity:1}}
+@keyframes entraBolha{from{opacity:0;transform:translateY(7px) scale(.98)}to{opacity:1;transform:none}}
+.conversa .msg,.conversa .msg-sistema,.conversa .divisor-dia,.conversa .cartao-agenda,.conversa .resumo-ia{animation:entraBolha .26s var(--ease) both;flex:0 0 auto}
+.cartao-agenda{align-self:flex-start;width:91%;background:#fff;border:1px solid #E4D8CB;border-left:5px solid var(--rosa);border-radius:12px;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.12);position:relative;color:#111}
+.cartao-agenda .ca-topo{background:var(--manteiga-clara);padding:7px 10px;display:flex;align-items:center;gap:6px;font:800 .68rem/1 var(--f-t);color:#6A4A00}
+.cartao-agenda .ca-topo svg{width:14px;height:14px}
+.cartao-agenda .ca-corpo{padding:9px 11px 10px}
+.ca-pet{display:flex;align-items:center;gap:8px;margin-bottom:7px;padding-right:56px}
+.ca-pet-selo{width:32px;height:32px;border-radius:50%;background:var(--menta-clara);display:grid;place-items:center;flex:none}
+.ca-pet-selo svg{width:19px;height:19px}
+.ca-pet b{display:block;font-size:.84rem}
+.ca-pet small{display:block;font-size:.65rem;color:#5F5F5F}
+.ca-linhas{display:grid;grid-template-columns:1fr 1fr;gap:5px 8px;font-size:.66rem;line-height:1.25;color:#444}
+.ca-linhas span{display:block;color:#6B6B6B;font-size:.57rem;font-weight:800;letter-spacing:.02em}
+.ca-obs{margin-top:7px;padding-top:6px;border-top:1px dashed #E4D8CB;font-size:.63rem;color:#6B4C00;background:var(--manteiga-clara);margin-inline:-11px;padding-inline:11px;padding-bottom:2px}
+.carimbo{position:absolute;right:5px;top:29px;width:57px;height:57px;border:2.5px solid var(--rosa-forte);border-radius:50%;color:var(--rosa-forte);display:grid;place-items:center;text-align:center;transform:rotate(-14deg) scale(.4);opacity:0;font:700 .55rem/1.02 var(--f-d);text-transform:uppercase;letter-spacing:.03em;background:rgba(255,255,255,.72)}
+.carimbo svg{width:15px;height:15px;margin:0 auto 2px}
+@media (prefers-reduced-motion:no-preference){.carimbo{animation:carimba .42s cubic-bezier(.2,.9,.3,1.35) .18s forwards}@keyframes carimba{60%{transform:rotate(-14deg) scale(1.13);opacity:1}100%{transform:rotate(-14deg) scale(1);opacity:1}}}
+@media (prefers-reduced-motion:reduce){.carimbo{opacity:1;transform:rotate(-14deg) scale(1)}}
+.msg.lembrete{max-width:92%;border:1px solid #CFE8DA;align-self:flex-start}
+.msg.lembrete .quem{color:var(--verde)}
+.botoes-wa{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.botoes-wa button{border:1px solid #CFE8DA;background:#F2FBF6;color:#0B6E5F;border-radius:7px;padding:7px 8px;font:800 .7rem/1 var(--f-t);min-height:44px;cursor:pointer}
+.botoes-wa button:hover{background:#E4F7ED}
+.resumo-ia{background:#FFF;border:1px dashed #C9BBAE;border-radius:9px;padding:7px 9px;font-size:.63rem;line-height:1.35;color:#555;align-self:flex-start;max-width:92%}
+.resumo-ia b{display:block;font-size:.6rem;color:var(--rosa-forte);margin-bottom:2px}
+.zap-entrada{display:flex;align-items:center;gap:7px;padding:7px 9px;background:#F6F0E8;border-top:1px solid #DED1C4}
+.zap-entrada .campo{flex:1;min-height:36px;border-radius:999px;background:#fff;border:1px solid #E1D5C8;display:flex;align-items:center;padding:0 11px;color:#9A8F83;font-size:.7rem}
+.zap-entrada .redondo{width:36px;height:36px;border-radius:50%;background:var(--wa);display:grid;place-items:center;flex:none}
+.zap-entrada .redondo svg{width:17px;height:17px;color:#fff}
+.controles{width:min(430px,100%);margin-top:16px;z-index:2;position:relative}
+.controles-topo{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.controles-topo p{font-size:.78rem;color:var(--tinta-suave);font-weight:700}
+.controles-botoes{display:flex;gap:6px}
+.controles-botoes button{min-height:44px;min-width:44px;padding:0 12px;border-radius:999px;border:2px solid var(--tinta);background:var(--cartao);font:800 .76rem/1 var(--f-t);cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.controles-botoes button:hover{background:var(--manteiga-clara)}
+.controles-botoes svg{width:14px;height:14px}
+.cenarios{display:flex;gap:6px;flex-wrap:wrap}
+.cenarios button{min-height:44px;padding:0 13px;border-radius:999px;border:2px solid var(--tinta);background:var(--cartao);font:800 .78rem/1 var(--f-t);cursor:pointer;box-shadow:0 3px 0 var(--tinta);transition:transform .15s,box-shadow .15s,background .15s}
+.cenarios button:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--tinta)}
+.cenarios button[aria-pressed="true"]{background:var(--manteiga);box-shadow:0 2px 0 var(--tinta);transform:translateY(1px)}
+.trilha-passos{width:min(430px,100%);margin-top:15px;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;position:relative;z-index:2}
+.passo{text-align:center;position:relative;padding-top:16px;font:800 .6rem/1.15 var(--f-t);color:#7A6B78}
+.passo::before{content:"";position:absolute;left:50%;top:0;width:11px;height:11px;border-radius:50%;background:#D9C9BA;border:2px solid var(--tinta);transform:translateX(-50%);transition:background .2s,box-shadow .2s}
+.passo::after{content:"";position:absolute;top:5px;left:calc(50% + 8px);width:calc(100% - 16px);height:2px;background:#D9C9BA}
+.passo:last-child::after{display:none}
+.passo[data-estado="feito"]{color:var(--tinta)}
+.passo[data-estado="feito"]::before{background:var(--verde)}
+.passo[data-estado="feito"]::after{background:var(--verde)}
+.passo[data-estado="atual"]{color:var(--tinta)}
+.passo[data-estado="atual"]::before{background:var(--rosa);box-shadow:0 0 0 4px var(--rosa-clara)}
+.passo-leitura{margin-top:8px;text-align:center;font-size:.72rem;font-weight:800;color:var(--tinta-suave);width:min(430px,100%)}
+
+/* ===== seções ===== */
+.secao{max-width:1200px;margin:0 auto;padding:72px 24px;scroll-snap-align:start}
+.secao-topo{max-width:760px;margin-bottom:30px}
+.selo-secao{display:inline-flex;align-items:center;gap:7px;background:var(--manteiga);border:2px solid var(--tinta);border-radius:999px;padding:6px 12px;font:800 .74rem/1 var(--f-t);transform:rotate(-1deg);margin-bottom:15px}
+.selo-secao svg{width:14px;height:14px}
+.secao-topo h2{margin-bottom:12px}
+.secao-topo p{color:var(--tinta-suave);max-width:64ch}
+.pente{height:4px;max-width:1200px;margin:0 auto;background:repeating-linear-gradient(90deg,var(--tinta) 0 14px,transparent 14px 27px);border-radius:2px;opacity:.28}
+
+/* ===== o que a IA faz ===== */
+.etapas{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:stretch}
+.etapa{background:var(--cartao);border:2px solid var(--tinta);border-radius:24px;padding:22px 19px 20px;box-shadow:var(--duro);display:flex;flex-direction:column;gap:11px;position:relative}
+.etapa:nth-child(2){transform:rotate(.5deg)}
+.etapa:nth-child(3){transform:rotate(-.45deg)}
+.etapa-num{width:38px;height:38px;border-radius:50%;background:var(--manteiga);border:2px solid var(--tinta);display:grid;place-items:center;font:600 1.04rem/1 var(--f-d)}
+.etapa h3{font-size:1.18rem}
+.etapa p{font-size:.92rem;color:var(--tinta-suave)}
+.etapa-detalhe{margin-top:auto;display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:800;color:var(--verde);background:var(--menta-clara);border-radius:999px;padding:5px 9px;align-self:flex-start}
+.etapa-detalhe svg{width:13px;height:13px;flex:none}
+.etapa.destaque{background:var(--uva);color:var(--papel);box-shadow:0 5px 0 var(--tinta)}
+.etapa.destaque p{color:#D8CBE4}
+.etapa.destaque .etapa-num{background:var(--manteiga);color:var(--tinta)}
+.etapa.destaque .etapa-detalhe{background:#4A3762;color:var(--manteiga)}
+
+/* ===== painel ===== */
+.painel{background:var(--uva);color:var(--papel);border-top:3px solid var(--tinta);border-bottom:3px solid var(--tinta);padding:78px 0;scroll-snap-align:start;position:relative;overflow:hidden}
+.painel::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.055) 1px,transparent 1.4px);background-size:24px 24px;pointer-events:none}
+.painel .secao{padding-top:0;padding-bottom:0;position:relative}
+.painel .secao-topo p{color:#D5C8E0}
+.painel .selo-secao{background:var(--manteiga);color:var(--tinta)}
+.painel-topo{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:26px}
+.painel-topo .secao-topo{margin-bottom:0}
+.filtros{display:flex;gap:7px;flex-wrap:wrap;padding-bottom:4px}
+.filtros button{min-height:44px;padding:0 17px;border-radius:999px;border:1.5px solid #88759C;background:transparent;color:var(--papel);font:800 .84rem/1 var(--f-t);cursor:pointer}
+.filtros button:hover{border-color:var(--manteiga)}
+.filtros button[aria-pressed="true"]{background:var(--manteiga);color:var(--tinta);border-color:var(--manteiga)}
+.filtro-nota{font-size:.72rem;color:#B5A4C4;margin-top:8px;text-align:right}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:13px}
+.kpi{background:var(--uva-2);border:1px solid #5A4870;border-radius:20px;padding:18px 17px 16px;min-height:132px;display:flex;flex-direction:column}
+.kpi-rotulo{font-size:.78rem;font-weight:800;color:#E6DBEF;line-height:1.2}
+.kpi-valor{font:600 clamp(2.1rem,3.7vw,2.75rem)/1 var(--f-d);color:var(--manteiga);margin:9px 0 5px;letter-spacing:-.02em}
+.kpi-nota{font-size:.72rem;color:#BAABC9;margin-top:auto;line-height:1.3}
+.painel-grade{display:grid;grid-template-columns:1.08fr .92fr;gap:13px}
+.painel-card{background:var(--uva-2);border:1px solid #5A4870;border-radius:22px;padding:21px 20px}
+.painel-card h3{font-size:1.16rem;color:var(--papel);display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.painel-card h3 svg{width:19px;height:19px;color:var(--manteiga);flex:none}
+.painel-card .sub{font-size:.7rem;color:#BAABC9;margin-bottom:16px}
+.funil-linha{display:grid;grid-template-columns:150px 1fr 38px;gap:9px;align-items:center;margin-top:10px}
+.funil-nome{font-size:.78rem;font-weight:800;color:#E6DBEF;line-height:1.15}
+.funil-trilho{display:block;height:26px;background:#2A2038;border-radius:7px;overflow:hidden}
+.funil-barra{display:block;height:100%;width:0;background:var(--rosa);border-radius:7px;transition:width .7s var(--ease)}
+.funil-valor{font:600 .97rem/1 var(--f-d);text-align:right;color:var(--papel)}
+.funil-queda{grid-column:2/4;font-size:.65rem;color:#B5A4C4;margin:-3px 0 2px;line-height:1.2}
+.funil-pe{display:grid;grid-template-columns:150px 1fr 38px;gap:9px;margin-top:13px;padding-top:11px;border-top:1px dashed #5A4870;font-size:.68rem;color:#BAABC9}
+.funil-pe strong{color:var(--manteiga);font-weight:800}
+.grafico-horas{display:flex;align-items:flex-end;gap:4px;height:172px;margin-top:14px;border-bottom:1px solid #5A4870;padding-bottom:2px}
+.hora{flex:1;height:100%;display:flex;align-items:flex-end;position:relative;outline-offset:2px;min-width:0}
+.hora-barra{width:100%;height:2px;background:var(--menta);border-radius:5px 5px 0 0;transition:height .7s var(--ease);position:relative}
+.hora.pico .hora-barra{background:var(--manteiga)}
+.hora-dica{position:absolute;left:50%;bottom:calc(100% + 7px);transform:translate(-50%,4px);background:var(--papel);color:var(--tinta);font:800 .65rem/1.2 var(--f-t);padding:5px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:3;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.hora:hover .hora-dica,.hora:focus .hora-dica{opacity:1;transform:translate(-50%,0)}
+.hora-pico{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);font:600 .66rem/1 var(--f-d);color:var(--manteiga)}
+.hora-eixo{display:flex;gap:4px;margin-top:5px}
+.hora-eixo span{flex:1;text-align:center;font-size:.6rem;color:#AFA0BE;font-weight:800}
+.hora-eixo span:not(:nth-child(1)):not(:nth-child(5)):not(:nth-child(9)):not(:nth-child(13)){visibility:hidden}
+.fila-card{grid-column:1/-1}
+.fila{display:grid;grid-template-columns:repeat(3,1fr);gap:0 26px;margin-top:4px}
+.fila-item{display:flex;align-items:center;gap:10px;padding:6px 20px 6px 0;border-bottom:0;border-right:1px dashed #5A4870}
+.fila-item:last-child{border-right:0;padding-right:0}
+.fila-avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:600 .84rem/1 var(--f-d);flex:none;border:2px solid var(--papel)}
+.fila-avatar.a{background:var(--menta);color:var(--tinta)}
+.fila-avatar.b{background:var(--manteiga);color:var(--tinta)}
+.fila-avatar.c{background:var(--rosa-clara);color:var(--tinta)}
+.fila-corpo{min-width:0}
+.fila-corpo b{display:block;font-size:.79rem;line-height:1.2}
+.fila-corpo small{display:block;font-size:.67rem;color:#BAABC9;margin-top:2px;line-height:1.25}
+.fila-tempo{margin-left:auto;text-align:right;font:800 .64rem/1.2 var(--f-t);color:var(--manteiga);white-space:nowrap}
+.fila-tempo small{display:block;color:#AFA0BE;font-weight:700;margin-top:2px}
+.grafico-nota{font-size:.68rem;color:#BAABC9;margin-top:12px;padding-top:10px;border-top:1px dashed #5A4870;line-height:1.4}
+.insight{grid-column:1/-1;background:var(--manteiga);color:var(--tinta);border:2px solid var(--tinta);border-radius:20px;padding:17px 20px;display:flex;gap:14px;align-items:flex-start;margin-top:0}
+.insight svg{width:26px;height:26px;flex:none;margin-top:2px}
+.insight b{font-family:var(--f-d);font-weight:600;font-size:1.03rem;display:block;margin-bottom:2px}
+.insight p{font-size:.84rem;line-height:1.4}
+.definicoes{font-size:.68rem;color:#AFA0BE;margin-top:14px;line-height:1.45;max-width:88ch}
+
+/* ===== como funciona ===== */
+.como-grade{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.como-card{background:var(--cartao);border:2px solid var(--tinta);border-radius:24px;padding:21px 20px;display:grid;grid-template-columns:56px 1fr;gap:15px;box-shadow:var(--duro)}
+.como-icone{width:56px;height:56px;border-radius:17px;border:2px solid var(--tinta);display:grid;place-items:center;background:var(--menta-clara);flex:none}
+.como-icone svg{width:28px;height:28px}
+.como-card:nth-child(2) .como-icone{background:var(--manteiga-clara)}
+.como-card:nth-child(3) .como-icone{background:var(--rosa-clara)}
+.como-card:nth-child(4) .como-icone{background:var(--menta)}
+.como-card h3{font-size:1.12rem;margin-bottom:5px}
+.como-card p{font-size:.89rem;color:var(--tinta-suave)}
+.como-card code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--manteiga-clara);border-radius:4px;padding:1px 4px}
+.fluxo{margin-top:22px;background:var(--cartao);border:2px solid var(--tinta);border-radius:24px;padding:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px;box-shadow:0 4px 0 var(--tinta)}
+.no{position:relative;display:flex;align-items:center;gap:10px;min-width:0}
+.no-icone{width:42px;height:42px;border-radius:12px;background:var(--uva);display:grid;place-items:center;flex:none}
+.no-icone svg{width:22px;height:22px;color:var(--papel)}
+.no b{display:block;font:600 .94rem/1.1 var(--f-d)}
+.no small{display:block;font-size:.65rem;color:var(--tinta-suave);margin-top:2px;line-height:1.2}
+.no:not(:last-child)::after{content:"→";position:absolute;right:-20px;top:50%;transform:translateY(-50%);font:700 1.25rem/1 var(--f-d);color:var(--rosa)}
+.limites{margin-top:22px;background:var(--uva);color:var(--papel);border:2px solid var(--tinta);border-radius:26px;padding:24px 22px;box-shadow:0 5px 0 var(--tinta)}
+.limites h3{color:var(--papel);display:flex;align-items:center;gap:9px;font-size:1.24rem;margin-bottom:6px}
+.limites h3 svg{width:22px;height:22px;color:var(--manteiga);flex:none}
+.limites .introducao{color:#D5C8E0;font-size:.9rem;max-width:70ch;margin-bottom:15px}
+.limites ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 22px}
+.limites li{display:grid;grid-template-columns:22px 1fr;gap:9px;font-size:.87rem;line-height:1.4;color:#E9E0F0}
+.limites li svg{width:18px;height:18px;color:var(--rosa);margin-top:2px}
+.limites li b{color:var(--papel)}
+
+/* ===== CTA final ===== */
+.cta-final{max-width:1200px;margin:0 auto;padding:0 24px 76px;scroll-snap-align:start}
+.cta-caixa{background:var(--menta);border:2px solid var(--tinta);border-radius:32px;padding:38px 38px 36px;display:flex;align-items:center;gap:32px;box-shadow:8px 8px 0 var(--tinta);position:relative;overflow:hidden}
+.cta-caixa h2{max-width:19ch;position:relative;z-index:1}
+.cta-caixa p{color:#38584A;max-width:48ch;margin-top:12px;position:relative;z-index:1;font-size:.98rem}
+.cta-acoes{margin-left:auto;display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;flex:none}
+.cta-acoes .btn{min-width:238px}
+.cta-acoes .secundario{font-size:.78rem;font-weight:800;text-align:center;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+.cta-caixa::after{content:"";position:absolute;right:-66px;bottom:-88px;width:240px;height:240px;border-radius:50%;background:var(--manteiga);border:2px solid var(--tinta);opacity:.9}
+.cta-caixa::before{content:"";position:absolute;right:88px;top:-38px;width:74px;height:74px;border-radius:50%;background:var(--rosa);border:2px solid var(--tinta);opacity:.85}
+
+/* ===== rodapé ===== */
+.rodape{background:var(--tinta);color:#FFF1E2;padding:46px 24px 34px;scroll-snap-align:start}
+.rodape-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:start}
+.rodape-marca{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.rodape-marca .logo-selo{box-shadow:0 3px 0 #0F0B15}
+.rodape-marca b{font:600 1.35rem/1 var(--f-d);display:block}
+.rodape-marca small{display:block;font-size:.7rem;color:#C8B9D3;margin-top:4px}
+.rodape p{font-size:.82rem;color:#CBBDD5;max-width:52ch;line-height:1.5}
+.rodape-assinatura{margin-top:20px;font:500 1.06rem/1.2 var(--f-d)}
+.rodape-assinatura mark{background:linear-gradient(transparent 82%,var(--manteiga) 82%);color:#FFF1E2;padding:0 2px}
+.rodape-assinatura a,.rodape-fim a{display:inline-flex;align-items:center;min-height:44px;padding-inline:2px;margin-block:-10px}
+.rodape-links{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.rodape-links a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px;font-weight:800;font-size:.88rem;text-decoration:none;border-radius:6px}
+.rodape-links a:hover{text-decoration:underline;text-decoration-color:var(--manteiga);text-underline-offset:3px;text-decoration-thickness:2px}
+.rodape-links svg{width:16px;height:16px;color:var(--manteiga)}
+.rodape-fim{max-width:1200px;margin:30px auto 0;padding-top:18px;border-top:1px solid #564463;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.7rem;color:#A995B7}
+.rodape-fim a{color:#D9CBE2}
+.rodape-fim .dados{display:inline-flex;align-items:center;gap:6px}
+.rodape-fim .dados svg{width:13px;height:13px}
+
+/* ===== WhatsApp flutuante (desktop) ===== */
+.zap-flutuante{position:fixed;right:20px;bottom:20px;z-index:45;display:inline-flex;align-items:center;justify-content:center;width:58px;height:58px;padding:0;border-radius:50%;background:var(--rosa-forte);color:#fff;border:2px solid var(--tinta);box-shadow:0 5px 0 var(--tinta),0 16px 30px -16px rgba(42,32,56,.6);text-decoration:none;font-weight:800;font-size:.88rem;transition:transform .22s var(--ease),box-shadow .16s var(--ease),opacity .22s var(--ease)}
+.zap-flutuante:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(--tinta),0 18px 34px -16px rgba(42,32,56,.6)}
+.zap-flutuante.recolhido{opacity:0;pointer-events:none;transform:translateY(14px)}
+.zap-flutuante:focus-visible{outline:3px solid var(--manteiga);outline-offset:3px}
+.zap-flutuante svg{width:28px;height:28px;flex:none}
+.zap-flutuante span{display:none}
+
+/* ===== navegação do celular ===== */
+.nav-mobile{display:none}
+
+/* ===== responsivo ===== */
+@media (max-width:1040px){
+  .hero{gap:34px;grid-template-columns:1fr 1fr}
+  .etapas{grid-template-columns:1fr 1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .painel-grade{grid-template-columns:1fr}
+  .cta-caixa{flex-direction:column;align-items:flex-start;gap:22px}
+  .cta-acoes{margin-left:0;flex-direction:row;flex-wrap:wrap}
+  .limites ul{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .topo-nav{display:none}
+  .topo-zap{display:none}
+  .topo-menu{display:inline-flex}
+  .hero{grid-template-columns:1fr;gap:34px;padding-top:34px}
+  .hero-copy{max-width:640px}
+  .palco{padding-top:0}
+  .blob{width:min(390px,92%)}
+  .telefone-tela{height:545px}
+  .como-grade{grid-template-columns:1fr}
+  .fluxo{grid-template-columns:1fr 1fr;gap:22px}
+  .no:not(:last-child)::after{right:-16px}
+  .rodape-in{grid-template-columns:1fr}
+  .fila{grid-template-columns:1fr;gap:0}
+  .fila-item{border-right:0;border-bottom:1px dashed #5A4870;padding:9px 0}
+  .fila-item:last-child{border-bottom:0}
+}
+@media (max-width:640px){
+  :root{--head:62px}
+  body{font-size:16px}
+  .byline{font-size:.68rem;padding:6px 12px}
+  .topo-in{padding:6px 16px;gap:10px}
+  .logo-selo{width:40px;height:40px;border-radius:13px}
+  .logo-selo svg{width:24px;height:24px}
+  .logo-nome{font-size:1.16rem}
+  .logo-sub{font-size:.64rem}
+  .topo-menu{width:44px;height:44px;border-radius:11px}
+  .menu-painel{padding:8px 16px 16px}
+  .menu-painel a{min-height:48px}
+  .menu-painel .btn{margin-top:10px;width:100%}
+  .hero{padding:24px 16px 44px;gap:26px;display:flex;flex-direction:column}
+  .hero-copy{display:contents}
+  .hero-selo{order:1;align-self:flex-start}
+  #titulo-principal{order:2}
+  .palco{order:3;width:100%}
+  .hero-nota{order:4}
+  .hero-lede{order:5}
+  .hero-acoes{order:6;width:100%}
+  .hero-link{order:7;align-self:flex-start}
+  h1{font-size:clamp(2.25rem,10.4vw,3.05rem);margin:16px 0 14px}
+  .hero-lede{font-size:1rem}
+  .hero-acoes{gap:9px}
+  .hero-acoes .btn{flex:1 1 auto;padding:0 15px;font-size:.92rem}
+  .hero-nota{font-size:.76rem}
+  .telefone{width:min(342px,100%);border-radius:40px;padding:7px}
+  .telefone-tela{height:516px;border-radius:34px}
+  .conversa{font-size:.8rem}
+  .msg{font-size:.8rem}
+  .cartao-agenda{width:94%}
+  .controles{margin-top:13px}
+  .controles-topo p{display:none}
+  .controles-botoes{margin-left:auto}
+  .controles-botoes button span{display:none}
+  .cenarios{display:grid;grid-template-columns:1fr 1fr}
+  .cenarios button{font-size:.72rem;padding:0 8px;text-align:center}
+  .cenarios button:last-child{grid-column:1/-1}
+  .trilha-passos{grid-template-columns:repeat(5,1fr)}
+  .passo{font-size:.6rem}
+  .secao{padding:54px 16px}
+  .secao-topo{margin-bottom:24px}
+  .selo-secao{font-size:.68rem}
+  .etapas{grid-template-columns:1fr;gap:12px}
+  .etapa{padding:19px 18px}
+  .etapa:nth-child(2),.etapa:nth-child(3){transform:none}
+  .painel{padding:56px 0}
+  .painel-topo{flex-direction:column;align-items:flex-start;gap:16px}
+  .filtros{width:100%}
+  .filtros button{flex:1;padding:0 9px;font-size:.76rem}
+  .kpis{grid-template-columns:1fr 1fr;gap:9px}
+  .kpi{min-height:116px;padding:14px 13px;border-radius:16px}
+  .kpi-rotulo{font-size:.7rem}
+  .kpi-valor{font-size:2rem;margin:7px 0 4px}
+  .kpi-nota{font-size:.64rem}
+  .painel-card{padding:17px 15px;border-radius:18px}
+  .funil-linha{grid-template-columns:118px 1fr 30px;gap:7px}
+  .funil-nome{font-size:.69rem}
+  .funil-queda{grid-column:2/4;font-size:.6rem}
+  .grafico-horas{height:120px;gap:3px}
+  .hora-eixo span{font-size:.52rem}
+  .insight{padding:15px 16px;gap:10px}
+  .insight b{font-size:.94rem}
+  .insight p{font-size:.76rem}
+  .como-grade{gap:12px}
+  .como-card{grid-template-columns:46px 1fr;gap:12px;padding:17px 15px;border-radius:19px}
+  .como-icone{width:46px;height:46px;border-radius:14px}
+  .como-icone svg{width:24px;height:24px}
+  .fluxo{grid-template-columns:1fr;gap:18px;padding:17px 15px}
+  .no:not(:last-child)::after{content:"↓";right:auto;left:20px;top:auto;bottom:-16px;transform:none}
+  .limites{padding:20px 16px;border-radius:20px}
+  .limites ul{grid-template-columns:1fr}
+  .limites li{font-size:.82rem}
+  .cta-final{padding:0 16px 56px}
+  .cta-caixa{padding:28px 20px 30px;border-radius:24px;box-shadow:6px 6px 0 var(--tinta)}
+  .cta-caixa h2{font-size:1.85rem}
+  .cta-caixa p{font-size:.9rem}
+  .cta-acoes{width:100%;flex-direction:column}
+  .cta-acoes .btn{min-width:0;width:100%}
+  .cta-caixa::before{right:-16px;top:-30px;width:64px;height:64px}
+  .rodape{padding:36px 16px 110px}
+  .rodape-in{gap:22px}
+  .rodape-fim{flex-direction:column;gap:8px}
+  .zap-flutuante{display:none}
+  .secao,.painel,.cta-final{scroll-snap-align:start}
+  .nav-mobile{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--papel);border-top:2px solid var(--tinta);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -10px 26px -18px rgba(42,32,56,.5)}
+  .nav-mobile a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:62px;text-decoration:none;font:800 .62rem/1 var(--f-t);color:var(--tinta-suave)}
+  .nav-mobile a[aria-current="true"]{color:var(--tinta);background:var(--manteiga-clara)}
+  .nav-mobile a.wa{background:var(--rosa-forte);color:#fff}
+  .nav-mobile svg{width:20px;height:20px}
+  body{padding-bottom:0}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;scroll-snap-type:none}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .telefone{animation:none}
+}
+</style>
+</head>
+<body>
+<a class="pula" href="#conteudo">Ir para o conteúdo</a>
+<div class="byline">Exemplo de Vinicius Candido<span class="so-pc"> · <a href="/trabalhos/">mais trabalhos</a></span> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">vlfcandido.github.io</a><span class="so-pc"> · <a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Pelo%20Solto%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp</a></span></div>
+
+<header class="topo" role="banner">
+  <div class="topo-in">
+    <a class="logo" href="#inicio" aria-label="Pelo Solto, início">
+      <span class="logo-selo" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><g fill="#2A2038"><ellipse cx="21" cy="25" rx="5.2" ry="6.8" transform="rotate(-18 21 25)"/><ellipse cx="32" cy="21" rx="5.2" ry="6.8"/><ellipse cx="43" cy="25" rx="5.2" ry="6.8" transform="rotate(18 43 25)"/></g><path d="M32 31c-8.4 0-14 6.1-14 11.7 0 4.2 3.1 7.3 7.2 7.3 3 0 4.9-2 6.8-2s3.8 2 6.8 2c4.1 0 7.2-3.1 7.2-7.3C46 37.1 40.4 31 32 31Z" fill="#E94F79"/></svg>
+      </span>
+      <span><span class="logo-nome">Pelo Solto</span><span class="logo-sub">pet shop · banho e tosa</span></span>
+    </a>
+    <nav class="topo-nav" aria-label="Seções">
+      <a href="#inicio">A conversa</a>
+      <a href="#painel">Painel do dono</a>
+      <a href="#como">Como funciona</a>
+    </nav>
+    <a class="btn btn-pequeno topo-zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20Pelo%20Solto%20no%20seu%20portf%C3%B3lio%20e%20quero%20um%20atendimento%20com%20IA%20no%20WhatsApp." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg>
+      Pedir um assim
+    </a>
+    <button class="topo-menu" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Abrir menu">
+      <svg class="ico-menu" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <svg class="ico-fecha" viewBox="0 0 20 20" aria-hidden="true"><path d="m4 4 12 12M16 4 4 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="menu-painel" id="menu-mobile">
+    <a href="#conversa">A conversa</a>
+    <a href="#painel">Painel do dono</a>
+    <a href="#como">Como funciona</a>
+    <a class="btn" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20Pelo%20Solto%20no%20seu%20portf%C3%B3lio%20e%20quero%20um%20atendimento%20com%20IA%20no%20WhatsApp." target="_blank" rel="noopener">Pedir um assim</a>
+  </div>
+</header>
+
+<main id="conteudo">
+  <section class="hero" id="inicio" aria-labelledby="titulo-principal">
+    <div class="hero-copy">
+      <span class="hero-selo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.2 9.2 17.4 20 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Pet shop de exemplo · pessoas e números fictícios
+      </span>
+      <h1 id="titulo-principal">Quando o secador está ligado, o WhatsApp continua atendendo.</h1>
+      <p class="hero-lede">O <strong>Pelo Solto</strong> é um pet shop de exemplo. A IA conversa com o tutor no tom da casa, entende o serviço, consulta a agenda de verdade e marca o horário. Quando o assunto precisa de gente, ela chama a equipe com o histórico pronto.</p>
+      <div class="hero-acoes">
+        <a class="btn btn-rosa" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20Pelo%20Solto%20no%20seu%20portf%C3%B3lio%20e%20quero%20um%20atendimento%20com%20IA%20no%20WhatsApp." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg>
+          Quero no meu negócio
+        </a>
+        <a class="btn btn-sec" href="#conversa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+          Ver a conversa
+        </a>
+      </div>
+      <a class="hero-link" href="#painel">
+        Abrir o painel do dono
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v14m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="hero-nota">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 4.2 6v6.2c0 4.6 3.3 8 7.8 9.2 4.5-1.2 7.8-4.6 7.8-9.2V6L12 2.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="m8.4 12 2.4 2.4 4.8-4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Clique nos caminhos abaixo do telefone para mudar a conversa. A simulação não envia mensagem para ninguém.
+      </p>
+    </div>
+
+    <div class="palco" id="conversa">
+      <div class="blob" aria-hidden="true"></div>
+      <div class="telefone" aria-label="Simulação de conversa no WhatsApp do Pelo Solto">
+        <div class="telefone-tela">
+          <div class="telefone-status" aria-hidden="true">
+            <span>20:47</span>
+            <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 8h2v10H2zM7 5h2v13H7zM12 2h2v16h-2zM17 7h2v11h-2z" opacity=".8"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20 2 9.5A14.5 14.5 0 0 1 22 9.5L12 20Z"/></svg><span>84</span></span>
+          </div>
+          <div class="zap-topo">
+            <span class="zap-volta" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="zap-avatar" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#2A2038"><ellipse cx="21" cy="25" rx="5.2" ry="6.8" transform="rotate(-18 21 25)"/><ellipse cx="32" cy="21" rx="5.2" ry="6.8"/><ellipse cx="43" cy="25" rx="5.2" ry="6.8" transform="rotate(18 43 25)"/></g><path d="M32 31c-8.4 0-14 6.1-14 11.7 0 4.2 3.1 7.3 7.2 7.3 3 0 4.9-2 6.8-2s3.8 2 6.8 2c4.1 0 7.2-3.1 7.2-7.3C46 37.1 40.4 31 32 31Z" fill="#E94F79"/></svg></span>
+            <div>
+              <div class="zap-nome">Pelo Solto <span class="ia">IA</span></div>
+              <div class="zap-estado" id="zap-estado">online · responde na hora</div>
+            </div>
+            <span class="zap-acoes" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 3.5V7l-4 3.5Z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20a1 1 0 0 1-1 1C10.4 21 3 13.6 3 4.6a1 1 0 0 1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1l-2.1 2.3Z"/></svg>
+            </span>
+          </div>
+          <div class="conversa" id="conversa-thread" aria-live="off">
+            <noscript><div class="msg-sistema">Esta simulação usa JavaScript. O restante da página continua legível.</div></noscript>
+          </div>
+          <div class="zap-entrada" aria-hidden="true">
+            <span class="campo">Mensagem</span>
+            <span class="redondo"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="controles">
+        <div class="controles-topo">
+          <p>Escolha o caminho da conversa</p>
+          <div class="controles-botoes">
+            <button type="button" id="ver-tudo" aria-label="Ver a conversa completa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Ver tudo</span></button>
+            <button type="button" id="rodar" aria-label="Rodar a conversa de novo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 6.6M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>De novo</span></button>
+          </div>
+        </div>
+        <div class="cenarios" role="group" aria-label="Cenários da conversa">
+          <button type="button" data-cenario="banho" aria-pressed="true">Banho e tosa</button>
+          <button type="button" data-cenario="so-banho" aria-pressed="false">Só banho</button>
+          <button type="button" data-cenario="medicacao" aria-pressed="false">É sobre medicação</button>
+        </div>
+        <div class="trilha-passos" id="trilha" aria-hidden="true">
+          <span class="passo" data-estado="atual">Pergunta</span>
+          <span class="passo">Qualifica</span>
+          <span class="passo">Agenda</span>
+          <span class="passo">Lembra</span>
+          <span class="passo">Equipe</span>
+        </div>
+        <p class="passo-leitura" id="passo-leitura" aria-live="polite">Etapa 1 de 5: o tutor pergunta.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="pente" aria-hidden="true"></div>
+
+  <section class="secao" id="etapas" aria-labelledby="etapas-titulo">
+    <div class="secao-topo">
+      <span class="selo-secao"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 6h14M5 18h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Do “oi” ao horário marcado</span>
+      <h2 id="etapas-titulo">Quatro passos, sem inventar horário.</h2>
+      <p>A IA não é um menu de respostas prontas. Ela lê a ficha do pet, confere a agenda e decide quando a conversa precisa de uma pessoa. O limite é parte do desenho.</p>
+    </div>
+    <div class="etapas">
+      <article class="etapa">
+        <span class="etapa-num" aria-hidden="true">1</span>
+        <h3>Entende o pedido</h3>
+        <p>Serviço, porte, pelagem, dia e horário. Se o tutor já veio antes, a ficha do pet entra na conversa com a última visita e as observações.</p>
+        <span class="etapa-detalhe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Qualifica sem formulário</span>
+      </article>
+      <article class="etapa">
+        <span class="etapa-num" aria-hidden="true">2</span>
+        <h3>Consulta a agenda real</h3>
+        <p>Só oferece horário que existe, com o profissional certo para o porte do pet. Se não houver encaixe, oferece espera ou chama a equipe.</p>
+        <span class="etapa-detalhe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Nada de promessa vazia</span>
+      </article>
+      <article class="etapa">
+        <span class="etapa-num" aria-hidden="true">3</span>
+        <h3>Agenda e lembra</h3>
+        <p>Reserva o horário, grava tutor e pet no CRM e manda o lembrete no dia anterior com dois botões: confirmar ou remarcar.</p>
+        <span class="etapa-detalhe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Menos falta no sábado</span>
+      </article>
+      <article class="etapa destaque">
+        <span class="etapa-num" aria-hidden="true">4</span>
+        <h3>Passa para a equipe</h3>
+        <p>Medicação, ferida, reclamação ou desconto saem da IA na hora. A conversa entra na fila dos atendentes da loja com um resumo do que já foi dito.</p>
+        <span class="etapa-detalhe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 12h10M13 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Com histórico, sem recomeçar</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="painel" id="painel" aria-labelledby="painel-titulo">
+    <div class="secao">
+      <div class="painel-topo">
+        <div class="secao-topo">
+          <span class="selo-secao"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Painel do dono · dados de exemplo</span>
+          <h2 id="painel-titulo">O dia inteiro numa tela, sem planilha.</h2>
+          <p>O que o atendimento gerou, o que a IA resolveu sozinha e o que ainda está na mão de alguém. Os números abaixo são inventados para mostrar a leitura.</p>
+        </div>
+        <div>
+          <div class="filtros" role="group" aria-label="Período do painel">
+            <button type="button" data-periodo="hoje" aria-pressed="true">Hoje</button>
+            <button type="button" data-periodo="ontem" aria-pressed="false">Ontem</button>
+            <button type="button" data-periodo="semana" aria-pressed="false">7 dias</button>
+          </div>
+          <p class="filtro-nota" id="filtro-nota">Exemplo · terça-feira, 22 de setembro</p>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><span class="kpi-rotulo" id="rotulo-conversas">Conversas do dia</span><strong class="kpi-valor" data-kpi="conversas">0</strong><span class="kpi-nota" data-kpi-nota="conversas">conversas únicas no WhatsApp</span></div>
+        <div class="kpi"><span class="kpi-rotulo">Agendamentos gerados</span><strong class="kpi-valor" data-kpi="agendamentos">0</strong><span class="kpi-nota" data-kpi-nota="agendamentos">banho, tosa e hidratação</span></div>
+        <div class="kpi"><span class="kpi-rotulo">Resolvido pela IA</span><strong class="kpi-valor" data-kpi="resolvidas">0%</strong><span class="kpi-nota" data-kpi-nota="resolvidas">33 conversas sem atendente</span></div>
+        <div class="kpi"><span class="kpi-rotulo">Tempo médio de resposta</span><strong class="kpi-valor" data-kpi="resposta">0 s</strong><span class="kpi-nota" data-kpi-nota="resposta">primeira resposta, 24 h por dia</span></div>
+      </div>
+
+      <div class="painel-grade">
+        <div class="painel-card">
+          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M6 12h12M9 18h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Funil do atendimento</h3>
+          <p class="sub">Da conversa iniciada ao horário confirmado no lembrete.</p>
+          <div id="funil"></div>
+          <div class="funil-pe"><span>Fora do horário</span><span id="pe-fora">0 conversas</span><strong id="pe-fora-pct">0%</strong></div>
+        </div>
+        <div class="painel-card">
+          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 21h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Quando as conversas chegam</h3>
+          <p class="sub" id="horas-sub">Conversas por hora · hoje</p>
+          <div class="grafico-horas" id="grafico-horas" role="group" aria-label="Conversas por hora"></div>
+          <div class="hora-eixo" id="hora-eixo" aria-hidden="true"></div>
+          <p class="grafico-nota">O pico das 19h às 21h acontece depois que a loja fecha. É o horário em que mais gente procura banho e tosa para o dia seguinte.</p>
+        </div>
+        <div class="painel-card fila-card">
+          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Fila de atendimento</h3>
+          <p class="sub">Quem a IA chamou e há quanto tempo espera.</p>
+          <div class="fila">
+            <div class="fila-item"><span class="fila-avatar a">A</span><span class="fila-corpo"><b>Ana · Camila e Tofu</b><small>medicação antes do banho</small></span><span class="fila-tempo">2 min<small>de 5</small></span></div>
+            <div class="fila-item"><span class="fila-avatar b">L</span><span class="fila-corpo"><b>Léo · Joana e Mel</b><small>banho grande, hoje às 16h20</small></span><span class="fila-tempo">1 min<small>de 5</small></span></div>
+            <div class="fila-item"><span class="fila-avatar c">A</span><span class="fila-corpo"><b>Ana · Rafael e Bidu</b><small>retorno veterinário pendente</small></span><span class="fila-tempo">4 min<small>de 5</small></span></div>
+          </div>
+        </div>
+        <div class="insight" id="insight">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.8.6 1.2h6c0-.4.2-.9.6-1.2A6 6 0 0 0 12 3Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><b id="insight-titulo">A maior procura chega quando a loja está fechada.</b><p id="insight-texto">29 de 42 conversas (69%) chegaram fora do horário. O pico é entre 19h e 21h, quando a loja está fechada.</p></div>
+        </div>
+      </div>
+      <p class="definicoes">Como contar: conversa única por dia; agendamento é horário reservado na agenda; resolvido pela IA é conversa encerrada sem atendente. A loja atende das 8h às 18h; fora do horário é o que chega depois das 18h. A fila mostra o tempo de espera contra o limite combinado de 5 minutos. Todos os números desta página são fictícios.</p>
+    </div>
+  </section>
+
+  <section class="secao" id="como" aria-labelledby="como-titulo">
+    <div class="secao-topo">
+      <span class="selo-secao"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Por baixo do capô</span>
+      <h2 id="como-titulo">Como isso funciona no dia a dia.</h2>
+      <p>Quatro peças sustentam a conversa. Nenhuma delas depende de um celular ligado na recepção.</p>
+    </div>
+    <div class="como-grade">
+      <article class="como-card">
+        <span class="como-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.6 8.6 0 0 1-12.7 7.5L3 21l2-5.2A8.6 8.6 0 1 1 21 11.5Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="m8.5 11.5 2.2 2.2 4.8-4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>WhatsApp oficial</h3><p>WhatsApp Cloud API, a API oficial do WhatsApp, com número verificado e mensagens de modelo aprovadas. O atendimento não fica preso ao celular de plantão nem a um número pessoal.</p></div>
+      </article>
+      <article class="como-card">
+        <span class="como-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20M8 7h8M8 11h6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>
+        <div><h3>Base de conhecimento</h3><p>Serviços, preços, porte, pelagem, tempo de cada banho e as observações de cada pet. A IA responde pelo que está escrito na base, com a regra que usou.</p></div>
+      </article>
+      <article class="como-card">
+        <span class="como-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3 10h18M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="m8.5 15 2 2 4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Agenda e CRM</h3><p>A IA lê os horários livres da agenda que a loja já usa, reserva com o profissional certo e grava tutor, pet e histórico. Se a agenda não responde, ela não inventa horário: oferece espera ou chama a equipe.</p></div>
+      </article>
+      <article class="como-card">
+        <span class="como-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.7 4.3 6v6.1c0 4.6 3.2 7.9 7.7 9.2 4.5-1.3 7.7-4.6 7.7-9.2V6L12 2.7Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><rect x="9.2" y="10.4" width="5.6" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.4 10.4V9a1.6 1.6 0 0 1 3.2 0v1.4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span>
+        <div><h3>LGPD desde o primeiro “oi”</h3><p>O tutor sabe que fala com uma IA, autoriza o contato e pode pedir a exclusão da ficha. Os dados ficam no sistema da loja e no CRM, com retenção definida e acesso por perfil.</p></div>
+      </article>
+    </div>
+
+    <div class="fluxo" aria-label="Caminho de uma mensagem">
+      <div class="no"><span class="no-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.6 8.6 0 0 1-12.7 7.5L3 21l2-5.2A8.6 8.6 0 1 1 21 11.5Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg></span><span><b>WhatsApp</b><small>mensagem do tutor</small></span></div>
+      <div class="no"><span class="no-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></span><span><b>IA + base</b><small>entende e qualifica</small></span></div>
+      <div class="no"><span class="no-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3 10h18M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="m8.5 15 2 2 4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Agenda / CRM</b><small>consulta e reserva</small></span></div>
+      <div class="no"><span class="no-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span><b>Equipe</b><small>quando precisa de gente</small></span></div>
+    </div>
+
+    <div class="limites">
+      <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>O que ela não faz, e por que isso importa</h3>
+      <p class="introducao">Os limites são escritos na base de conhecimento, não deixados para o humor do modelo. É o que evita promessa que a loja não pode cumprir.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span><b>Não dá diagnóstico nem indica remédio.</b> Ferida, otite ou medicação param na IA e vão para a equipe.</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span><b>Não promete desconto, prazo ou horário</b> que não esteja na agenda e na tabela da loja.</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span><b>Não insiste depois de um “não”.</b> Encerra, registra o motivo e não manda novo lembrete.</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span><b>Não finge ser gente.</b> Se apresenta como assistente do Pelo Solto e diz quando a Ana ou o Léo assumem.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta-final" aria-labelledby="cta-titulo">
+    <div class="cta-caixa">
+      <div>
+        <h2 id="cta-titulo">Quer um atendimento que responde no WhatsApp e chama a equipe na hora certa?</h2>
+        <p>Eu monto a conversa, ligo na agenda e no CRM que você já usa e deixo a base de conhecimento na sua mão. Você acompanha tudo no painel.</p>
+      </div>
+      <div class="cta-acoes">
+        <a class="btn btn-rosa" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20Pelo%20Solto%20no%20seu%20portf%C3%B3lio%20e%20quero%20um%20atendimento%20com%20IA%20no%20WhatsApp." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg>
+          Falar com o Vinicius
+        </a>
+        <a class="secundario" href="/trabalhos/">Ver os outros exemplos</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="rodape-in">
+    <div>
+      <div class="rodape-marca">
+        <span class="logo-selo" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#2A2038"><ellipse cx="21" cy="25" rx="5.2" ry="6.8" transform="rotate(-18 21 25)"/><ellipse cx="32" cy="21" rx="5.2" ry="6.8"/><ellipse cx="43" cy="25" rx="5.2" ry="6.8" transform="rotate(18 43 25)"/></g><path d="M32 31c-8.4 0-14 6.1-14 11.7 0 4.2 3.1 7.3 7.2 7.3 3 0 4.9-2 6.8-2s3.8 2 6.8 2c4.1 0 7.2-3.1 7.2-7.3C46 37.1 40.4 31 32 31Z" fill="#E94F79"/></svg></span>
+        <span><b>Pelo Solto</b><small>pet shop de exemplo</small></span>
+      </div>
+      <p>O Pelo Solto é um pet shop fictício, criado para este projeto de exemplo. Nomes, pets, preços, conversas e números são inventados. Nenhum negócio real foi atendido por esta demonstração.</p>
+      <p class="rodape-assinatura">feito por <mark>Vinicius Candido</mark> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">vlfcandido.github.io</a></p>
+    </div>
+    <ul class="rodape-links">
+      <li><a href="/trabalhos/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 13h5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Outros trabalhos</a></li>
+      <li><a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20Pelo%20Solto%20no%20seu%20portf%C3%B3lio%20e%20quero%20um%20atendimento%20com%20IA%20no%20WhatsApp." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg>Falar no WhatsApp</a></li>
+      <li><a href="https://vlfcandido.github.io" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 12h17M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Portfólio</a></li>
+    </ul>
+  </div>
+  <div class="rodape-fim">
+    <span>Exemplo de portfólio, não um projeto feito para uma empresa.</span>
+    <span class="dados"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.7 4.3 6v6.1c0 4.6 3.2 7.9 7.7 9.2 4.5-1.3 7.7-4.6 7.7-9.2V6L12 2.7Z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Dados fictícios · feito com HTML, CSS e JavaScript</span>
+    <span>Visitas medidas de forma anônima, sem gravar o que é digitado.</span>
+    <a href="#inicio">Voltar ao topo</a>
+  </div>
+</footer>
+
+<a class="zap-flutuante" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20Pelo%20Solto%20no%20seu%20portf%C3%B3lio%20e%20quero%20um%20atendimento%20com%20IA%20no%20WhatsApp." target="_blank" rel="noopener" aria-label="Falar com Vinicius Candido no WhatsApp" title="Falar com Vinicius Candido no WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg>
+</a>
+
+<nav class="nav-mobile" aria-label="Navegação principal no celular">
+  <a href="#inicio" aria-current="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-5v-5H10v5H5a1 1 0 0 1-1-1v-8.5Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>Início</a>
+  <a href="#painel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Painel</a>
+  <a href="#como"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.7 2.2c-.8.5-1.2 1-1.2 2M12 17h.01" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Como</a>
+  <a class="wa" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20Pelo%20Solto%20no%20seu%20portf%C3%B3lio%20e%20quero%20um%20atendimento%20com%20IA%20no%20WhatsApp." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg>WhatsApp</a>
+</nav>
+
+<script>
+(function () {
+  "use strict";
+  var semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var thread = document.getElementById("conversa-thread");
+  var trilha = document.getElementById("trilha");
+  var passos = trilha ? trilha.querySelectorAll(".passo") : [];
+  var leitura = document.getElementById("passo-leitura");
+  var estadoZap = document.getElementById("zap-estado");
+  var geracao = 0;
+  var cenarioAtual = "banho";
+
+  var ICONE_PATA = '<svg viewBox="0 0 64 64" aria-hidden="true"><g fill="#2A2038"><ellipse cx="21" cy="25" rx="5.2" ry="6.8" transform="rotate(-18 21 25)"/><ellipse cx="32" cy="21" rx="5.2" ry="6.8"/><ellipse cx="43" cy="25" rx="5.2" ry="6.8" transform="rotate(18 43 25)"/></g><path d="M32 31c-8.4 0-14 6.1-14 11.7 0 4.2 3.1 7.3 7.2 7.3 3 0 4.9-2 6.8-2s3.8 2 6.8 2c4.1 0 7.2-3.1 7.2-7.3C46 37.1 40.4 31 32 31Z" fill="#E94F79"/></svg>';
+  var ICONE_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  var CENARIOS = {
+    banho: {
+      rotulo: "Banho e tosa",
+      mensagens: [
+        { de: "tutor", texto: "Oi! Vocês fazem banho e tosa do Tofu amanhã? Ele é shih-tzu, 7 kg.", hora: "20:47", passo: 0, atraso: 350 },
+        { de: "ia", texto: "Oi, Camila! Fazemos sim. Pela ficha, o Tofu fez banho + tosa higiênica há 31 dias. Quer o mesmo serviço?", hora: "20:47", passo: 1, atraso: 700 },
+        { de: "tutor", texto: "Isso. De manhã, antes das 10. A pele dele é sensível.", hora: "20:48", passo: 1, atraso: 750 },
+        { de: "ia", texto: "Anotei pele sensível: sem secador quente e shampoo neutro. Na agenda do Léo tenho 9h e 9h40. Às 9h ele fica pronto antes das 10h.", hora: "20:48", passo: 2, atraso: 800 },
+        { de: "tutor", texto: "9h tá ótimo.", hora: "20:49", passo: 2, atraso: 650 },
+        { de: "ia", texto: "Fechado. Reservei 9h com o Léo e deixei a observação na ficha do Tofu.", hora: "20:49", passo: 3, atraso: 750 },
+        { de: "card", hora: "20:49", passo: 3, atraso: 450, card: { servico: "Banho + tosa higiênica", quando: "Amanhã, 9h", quem: "Léo", pet: "Tofu", detalhe: "shih-tzu · 7 kg", preco: "R$ 95", duracao: "1h20", obs: "Pele sensível: sem secador quente, shampoo neutro." } },
+        { de: "ia", texto: "Vou te lembrar amanhã às 8h. Se precisar remarcar, é só responder aqui.", hora: "20:49", passo: 3, atraso: 600 },
+        { de: "tutor", texto: "Ah, ele está tomando remédio pra otite. Pode?", hora: "20:50", passo: 4, atraso: 800 },
+        { de: "ia", texto: "Essa eu não decido sozinha. Chamei a Ana, da equipe do Pelo Solto, para confirmar com você.", hora: "20:50", passo: 4, atraso: 750 },
+        { de: "sistema", texto: "<b>Ana, da equipe Pelo Solto, entrou na conversa</b> · fila de atendimento · espera 1 min", passo: 4, atraso: 500 },
+        { de: "equipe", texto: "Oi, Camila! Pode trazer sim. Vou avisar o Léo para não molhar a orelha e seguir a orientação da vet. A receita está no nome do Tofu?", hora: "20:51", passo: 4, atraso: 750 },
+        { de: "tutor", texto: "Está sim. Obrigada!", hora: "20:51", passo: 4, atraso: 500 },
+        { de: "sistema", texto: "Atendimento encerrado pela Ana às 20:52. O horário segue confirmado.", passo: 4, atraso: 550 },
+        { de: "divisor", texto: "Amanhã, 8h", passo: 4, atraso: 600 },
+        { de: "lembrete", texto: "Bom dia, Camila! O Tofu tem banho e tosa hoje às 9h, com o Léo. Pode confirmar?", hora: "8h00", passo: 4, atraso: 650 }
+      ]
+    },
+    "so-banho": {
+      rotulo: "Só banho",
+      mensagens: [
+        { de: "tutor", texto: "Oi! Tem banho pra hoje? A Nala tá cheia de areia da praia.", hora: "09:12", passo: 0, atraso: 350 },
+        { de: "ia", texto: "Oi! Tem sim. A Nala é golden, 28 kg, certo? Banho com secagem completa leva 1h40.", hora: "09:12", passo: 1, atraso: 700 },
+        { de: "tutor", texto: "É ela. Pode ser no fim da tarde?", hora: "09:13", passo: 1, atraso: 700 },
+        { de: "ia", texto: "Tenho 16h20 com a Ana e 17h40 com o Léo. O banho das 16h20 termina às 18h.", hora: "09:13", passo: 2, atraso: 750 },
+        { de: "tutor", texto: "16h20.", hora: "09:14", passo: 2, atraso: 550 },
+        { de: "ia", texto: "Reservei. Deixei na ficha: areia de praia, secagem completa e escovação.", hora: "09:14", passo: 3, atraso: 700 },
+        { de: "card", hora: "09:14", passo: 3, atraso: 450, card: { servico: "Banho completo", quando: "Hoje, 16h20", quem: "Ana", pet: "Nala", detalhe: "golden · 28 kg", preco: "R$ 120", duracao: "1h40", obs: "Areia de praia: secagem completa e escovação." } },
+        { de: "ia", texto: "Te lembro às 15h20. Qualquer coisa, responde aqui.", hora: "09:14", passo: 3, atraso: 600 },
+        { de: "sistema", texto: "<b>Resolvido pela IA</b> · nenhum atendente precisou entrar", passo: 3, atraso: 550 },
+        { de: "divisor", texto: "Hoje, 15h20", passo: 3, atraso: 550 },
+        { de: "lembrete", texto: "Oi, Camila! O banho da Nala é hoje às 16h20, com a Ana. Pode confirmar?", hora: "15h20", passo: 3, atraso: 600 }
+      ]
+    },
+    medicacao: {
+      rotulo: "É sobre medicação",
+      mensagens: [
+        { de: "tutor", texto: "Oi, o Bidu tá com uma ferida na pata. Vocês atendem?", hora: "18:02", passo: 0, atraso: 350 },
+        { de: "ia", texto: "Oi! O atendimento de banho, tosa, hidratação e táxi pet é por aqui. Ferida precisa de avaliação veterinária, e eu não faço diagnóstico. Vou chamar a Ana, da equipe.", hora: "18:02", passo: 1, atraso: 800 },
+        { de: "sistema", texto: "<b>Ana entrou na conversa</b> · fila de atendimento · espera 0 min", passo: 4, atraso: 500 },
+        { de: "resumo", texto: "<b>Resumo para a Ana</b>Bidu, 4 anos · tutor Rafael · ferida na pata. A IA não agendou e não indicou remédio.", passo: 4, atraso: 450 },
+        { de: "equipe", texto: "Oi, sou a Ana, do Pelo Solto. A gente não trata ferida aqui, mas posso indicar a clínica parceira e deixar o Bidu na fila de retorno quando ele estiver liberado.", hora: "18:03", passo: 4, atraso: 750 },
+        { de: "tutor", texto: "Pode ser, obrigado.", hora: "18:03", passo: 4, atraso: 500 },
+        { de: "equipe", texto: "Anotei o retorno para quando a vet liberar. Não marquei banho agora para não piorar a pata.", hora: "18:04", passo: 4, atraso: 700 },
+        { de: "sistema", texto: "<b>Encaminhado sem agendamento</b> · a IA não prometeu o que não podia", passo: 4, atraso: 550 }
+      ]
+    }
+  };
+
+  var PASSOS_TEXTO = ["o tutor pergunta", "a IA entende o pedido", "a agenda é consultada", "o horário é marcado e lembrado", "a equipe assume"];
+
+  function esperar(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  function rolarFim() {
+    thread.scrollTo({ top: thread.scrollHeight, behavior: semMovimento ? "auto" : "smooth" });
+  }
+
+  function marcarCenario(chave) {
+    cenarioAtual = chave;
+    var botoes = document.querySelectorAll("[data-cenario]");
+    for (var i = 0; i < botoes.length; i++) {
+      botoes[i].setAttribute("aria-pressed", botoes[i].getAttribute("data-cenario") === chave ? "true" : "false");
+    }
+  }
+
+  function atualizarPasso(n) {
+    if (!passos.length) return;
+    var i;
+    for (i = 0; i < passos.length; i++) {
+      passos[i].setAttribute("data-estado", i < n ? "feito" : i === n ? "atual" : "fila");
+    }
+    if (leitura) leitura.textContent = "Etapa " + (n + 1) + " de 5: " + PASSOS_TEXTO[n] + ".";
+  }
+
+  function elemento(tag, classe, html) {
+    var el = document.createElement(tag);
+    if (classe) el.className = classe;
+    if (html !== undefined) el.innerHTML = html;
+    return el;
+  }
+
+  function bolha(m) {
+    if (m.de === "sistema") return elemento("div", "msg-sistema", m.texto);
+    if (m.de === "divisor") return elemento("div", "divisor-dia", m.texto);
+    if (m.de === "resumo") return elemento("div", "resumo-ia", m.texto);
+    if (m.de === "card") {
+      var c = m.card;
+      var card = elemento("article", "cartao-agenda");
+      card.innerHTML = '<div class="ca-topo">' + ICONE_PATA + ' Agendamento confirmado</div>' +
+        '<div class="ca-corpo">' +
+        '<div class="ca-pet"><span class="ca-pet-selo">' + ICONE_PATA + '</span><span><b>' + c.pet + '</b><small>' + c.detalhe + '</small></span></div>' +
+        '<div class="ca-linhas"><div><span>Serviço</span>' + c.servico + '</div><div><span>Quando</span>' + c.quando + '</div><div><span>Com</span>' + c.quem + '</div><div><span>Valor</span>' + c.preco + ' · ' + c.duracao + '</div></div>' +
+        '<div class="ca-obs">' + c.obs + '</div></div>' +
+        '<span class="carimbo">' + ICONE_PATA + 'agendado</span>';
+      return card;
+    }
+    var el = elemento("div", "msg " + m.de);
+    var quem = m.de === "ia" ? "Pelo Solto · assistente" : m.de === "equipe" ? "Ana · equipe Pelo Solto" : m.de === "lembrete" ? "Pelo Solto · lembrete automático" : "";
+    if (quem) el.appendChild(elemento("span", "quem", quem));
+    var p = elemento("span", "", "");
+    p.textContent = m.texto;
+    el.appendChild(p);
+    if (m.de === "lembrete") {
+      var botoes = elemento("div", "botoes-wa");
+      var confirmar = elemento("button", "", "Confirmar presença");
+      confirmar.type = "button";
+      confirmar.setAttribute("data-acao", "confirmar");
+      var remarcar = elemento("button", "", "Quero remarcar");
+      remarcar.type = "button";
+      remarcar.setAttribute("data-acao", "remarcar");
+      botoes.appendChild(confirmar);
+      botoes.appendChild(remarcar);
+      el.appendChild(botoes);
+    }
+    if (m.hora) el.appendChild(elemento("span", "hora", m.hora + (m.de === "tutor" ? "" : ' ' + ICONE_CHECK)));
+    return el;
+  }
+
+  function digitando() {
+    var d = elemento("div", "digitando");
+    d.setAttribute("aria-label", "digitando");
+    d.innerHTML = "<i></i><i></i><i></i>";
+    return d;
+  }
+
+  async function tocar(chave, instantaneo) {
+    var minha = ++geracao;
+    var c = CENARIOS[chave];
+    if (!c) return;
+    marcarCenario(chave);
+    thread.innerHTML = "";
+    atualizarPasso(0);
+    if (estadoZap) estadoZap.textContent = "online · responde na hora";
+    var lista = c.mensagens;
+    for (var i = 0; i < lista.length; i++) {
+      var m = lista[i];
+      if (minha !== geracao) return;
+      if (!instantaneo) await esperar(m.atraso || 450);
+      if (minha !== geracao) return;
+      if (!instantaneo && i > 1 && (m.de === "ia" || m.de === "equipe")) {
+        if (estadoZap) estadoZap.textContent = m.de === "ia" ? "digitando…" : "Ana está digitando…";
+        var d = digitando();
+        thread.appendChild(d);
+        rolarFim();
+        await esperar(520);
+        if (minha !== geracao) return;
+        d.remove();
+        if (estadoZap) estadoZap.textContent = "online · responde na hora";
+      }
+      thread.appendChild(bolha(m));
+      if (typeof m.passo === "number") atualizarPasso(m.passo);
+      rolarFim();
+      if (instantaneo) continue;
+      if (m.de === "sistema" || m.de === "divisor") await esperar(160);
+    }
+  }
+
+  thread.addEventListener("click", function (ev) {
+    var alvo = ev.target.closest("[data-acao]");
+    if (!alvo) return;
+    var acao = alvo.getAttribute("data-acao");
+    var aviso = elemento("div", "msg-sistema", acao === "confirmar" ? "<b>Presença confirmada</b> · o horário segue reservado" : "<b>Remarcação pedida</b> · a equipe vai responder aqui");
+    thread.appendChild(aviso);
+    rolarFim();
+    alvo.closest(".botoes-wa").innerHTML = '<span style="font-size:.62rem;color:#5C6B62;font-weight:800">Resposta registrada</span>';
+  });
+
+  var cenariosBtns = document.querySelectorAll("[data-cenario]");
+  for (var k = 0; k < cenariosBtns.length; k++) {
+    cenariosBtns[k].addEventListener("click", function (ev) {
+      var chave = ev.currentTarget.getAttribute("data-cenario");
+      tocar(chave, semMovimento);
+    });
+  }
+
+  var verTudo = document.getElementById("ver-tudo");
+  if (verTudo) verTudo.addEventListener("click", function () { tocar(cenarioAtual, true); });
+  var rodar = document.getElementById("rodar");
+  if (rodar) rodar.addEventListener("click", function () { tocar(cenarioAtual, semMovimento); });
+
+  /* Inicia quando o telefone aparece, uma vez. */
+  var iniciou = false;
+  function iniciar() {
+    if (iniciou) return;
+    iniciou = true;
+    tocar("banho", semMovimento);
+  }
+  if ("IntersectionObserver" in window) {
+    var obs = new IntersectionObserver(function (entradas) {
+      for (var i = 0; i < entradas.length; i++) if (entradas[i].isIntersecting) { iniciar(); obs.disconnect(); }
+    }, { threshold: 0.35 });
+    obs.observe(document.querySelector(".telefone"));
+  } else {
+    iniciar();
+  }
+
+  /* ===== painel ===== */
+  var PERIODOS = {
+    hoje: {
+      nota: "Exemplo · terça-feira, 22 de setembro",
+      conversas: 42, agendamentos: 18, resolvidas: 78, resolvidasNum: 33, resposta: 8,
+      funil: [["Conversas iniciadas", 42], ["Pedido entendido", 31], ["Horário consultado", 24], ["Agendamentos", 18], ["Lembretes confirmados", 16]],
+      horas: [1, 1, 1, 1, 2, 1, 1, 2, 2, 1, 0, 12, 10, 7],
+      fora: 29, pico: "entre 19h e 21h", sub: "Conversas por hora · hoje"
+    },
+    ontem: {
+      nota: "Exemplo · segunda-feira, 21 de setembro",
+      conversas: 36, agendamentos: 15, resolvidas: 75, resolvidasNum: 27, resposta: 9,
+      funil: [["Conversas iniciadas", 36], ["Pedido entendido", 27], ["Horário consultado", 21], ["Agendamentos", 15], ["Lembretes confirmados", 13]],
+      horas: [1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 9, 7, 5],
+      fora: 21, pico: "entre 19h e 21h", sub: "Conversas por hora · ontem"
+    },
+    semana: {
+      nota: "Exemplo · 16 a 22 de setembro",
+      conversas: 268, agendamentos: 112, resolvidas: 81, resolvidasNum: 217, resposta: 7,
+      funil: [["Conversas iniciadas", 268], ["Pedido entendido", 197], ["Horário consultado", 151], ["Agendamentos", 112], ["Lembretes confirmados", 96]],
+      horas: [6, 7, 9, 8, 10, 9, 8, 11, 12, 11, 9, 62, 58, 48],
+      fora: 168, pico: "entre 19h e 21h", sub: "Conversas por hora · 7 dias"
+    }
+  };
+
+  var periodoCerrente = "hoje";
+  var funilEl = document.getElementById("funil");
+  var graficoEl = document.getElementById("grafico-horas");
+  var eixoEl = document.getElementById("hora-eixo");
+
+  function animarNumero(el, alvo, sufixo) {
+    if (!el) return;
+    if (semMovimento) { el.textContent = alvo + (sufixo || ""); return; }
+    var inicio = performance.now();
+    var duracao = 520;
+    function passo(t) {
+      var p = Math.min((t - inicio) / duracao, 1);
+      var suave = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(alvo * suave) + (sufixo || "");
+      if (p < 1) requestAnimationFrame(passo);
+    }
+    requestAnimationFrame(passo);
+  }
+
+  function montarFunil(funil) {
+    if (!funilEl) return;
+    var maior = funil[0][1];
+    funilEl.innerHTML = "";
+    funil.forEach(function (linha, i) {
+      var nome = linha[0], valor = linha[1];
+      var div = elemento("div", "funil-linha");
+      div.innerHTML = '<span class="funil-nome">' + nome + '</span><span class="funil-trilho"><span class="funil-barra" data-largura="' + (valor / maior * 100) + '"></span></span><span class="funil-valor">' + valor + '</span>';
+      funilEl.appendChild(div);
+      if (i < funil.length - 1) {
+        var queda = valor - funil[i + 1][1];
+        var q = elemento("div", "funil-queda", "−" + queda + (i === 0 ? " não descreveram o serviço" : i === 1 ? " sem horário que servisse" : i === 2 ? " não fecharam o horário" : " não confirmaram o lembrete"));
+        funilEl.appendChild(q);
+      }
+    });
+  }
+
+  function animarBarrasFunil() {
+    if (!funilEl) return;
+    var barras = funilEl.querySelectorAll(".funil-barra");
+    for (var i = 0; i < barras.length; i++) {
+      (function (b, atraso) {
+        setTimeout(function () { b.style.width = b.getAttribute("data-largura") + "%"; }, semMovimento ? 0 : atraso);
+      })(barras[i], i * 65);
+    }
+  }
+
+  function montarHoras(horas) {
+    if (!graficoEl || !eixoEl) return;
+    var maior = Math.max.apply(null, horas);
+    graficoEl.innerHTML = "";
+    eixoEl.innerHTML = "";
+    var pico = horas.indexOf(maior);
+    horas.forEach(function (v, i) {
+      var h = 8 + i;
+      var col = elemento("div", "hora" + (i === pico ? " pico" : ""));
+      col.setAttribute("tabindex", "0");
+      col.setAttribute("role", "img");
+      col.setAttribute("aria-label", h + "h: " + v + " conversas");
+      col.innerHTML = '<span class="hora-dica">' + h + "h · " + v + " conversas</span>" +
+        (i === pico ? '<span class="hora-pico">' + v + '</span>' : "") +
+        '<span class="hora-barra" data-altura="' + Math.max(3, v / maior * 100) + '"></span>';
+      graficoEl.appendChild(col);
+      var eixo = elemento("span", "", h + "h");
+      eixoEl.appendChild(eixo);
+    });
+  }
+
+  function animarBarrasHoras() {
+    if (!graficoEl) return;
+    var barras = graficoEl.querySelectorAll(".hora-barra");
+    for (var i = 0; i < barras.length; i++) {
+      (function (b, atraso) {
+        setTimeout(function () { b.style.height = b.getAttribute("data-altura") + "%"; }, semMovimento ? 0 : atraso);
+      })(barras[i], i * 32);
+    }
+  }
+
+  function renderPeriodo(chave, animar) {
+    var d = PERIODOS[chave];
+    if (!d) return;
+    periodoCerrente = chave;
+    var botoes = document.querySelectorAll("[data-periodo]");
+    for (var i = 0; i < botoes.length; i++) botoes[i].setAttribute("aria-pressed", botoes[i].getAttribute("data-periodo") === chave ? "true" : "false");
+    var nota = document.getElementById("filtro-nota");
+    if (nota) nota.textContent = d.nota;
+    var elConversas = document.querySelector('[data-kpi="conversas"]');
+    var elAgendamentos = document.querySelector('[data-kpi="agendamentos"]');
+    var elResolvidas = document.querySelector('[data-kpi="resolvidas"]');
+    var elResposta = document.querySelector('[data-kpi="resposta"]');
+    animarNumero(elConversas, d.conversas);
+    animarNumero(elAgendamentos, d.agendamentos);
+    animarNumero(elResolvidas, d.resolvidas, "%");
+    animarNumero(elResposta, d.resposta, " s");
+    var nConversas = document.querySelector('[data-kpi-nota="conversas"]');
+    var rotuloConversas = document.getElementById("rotulo-conversas");
+    var nAgendamentos = document.querySelector('[data-kpi-nota="agendamentos"]');
+    var nResolvidas = document.querySelector('[data-kpi-nota="resolvidas"]');
+    var nResposta = document.querySelector('[data-kpi-nota="resposta"]');
+    if (nConversas) nConversas.textContent = chave === "semana" ? "média de 38 por dia" : "conversas únicas no WhatsApp";
+    if (rotuloConversas) rotuloConversas.textContent = chave === "semana" ? "Conversas no período" : chave === "ontem" ? "Conversas de ontem" : "Conversas do dia";
+    if (nAgendamentos) nAgendamentos.textContent = chave === "semana" ? "16 por dia, em média" : "banho, tosa e hidratação";
+    if (nResolvidas) nResolvidas.textContent = d.resolvidasNum + " conversas sem atendente";
+    if (nResposta) nResposta.textContent = "primeira resposta, 24 h por dia";
+    montarFunil(d.funil);
+    montarHoras(d.horas);
+    var fora = document.getElementById("pe-fora");
+    var foraPct = document.getElementById("pe-fora-pct");
+    if (fora) fora.textContent = d.fora + " conversas";
+    if (foraPct) foraPct.textContent = Math.round(d.fora / d.conversas * 100) + "%";
+    var sub = document.getElementById("horas-sub");
+    if (sub) sub.textContent = d.sub;
+    var insTitulo = document.getElementById("insight-titulo");
+    var insTexto = document.getElementById("insight-texto");
+    if (insTitulo) insTitulo.textContent = "A maior procura chega quando a loja está fechada.";
+    if (insTexto) insTexto.textContent = d.fora + " de " + d.conversas + " conversas (" + Math.round(d.fora / d.conversas * 100) + "%) chegaram fora do horário. O pico é " + d.pico + ", quando a loja está fechada.";
+    if (animar) { animarBarrasFunil(); animarBarrasHoras(); }
+  }
+
+  var filtros = document.querySelectorAll("[data-periodo]");
+  for (var f = 0; f < filtros.length; f++) {
+    filtros[f].addEventListener("click", function (ev) {
+      renderPeriodo(ev.currentTarget.getAttribute("data-periodo"), true);
+    });
+  }
+
+  var painelIniciado = false;
+  function iniciarPainel() {
+    if (painelIniciado) return;
+    painelIniciado = true;
+    renderPeriodo("hoje", true);
+  }
+  var painelEl = document.getElementById("painel");
+  if (painelEl && "IntersectionObserver" in window) {
+    var obsPainel = new IntersectionObserver(function (entradas) {
+      for (var i = 0; i < entradas.length; i++) if (entradas[i].isIntersecting) { iniciarPainel(); obsPainel.disconnect(); }
+    }, { threshold: 0.18 });
+    obsPainel.observe(painelEl);
+  } else {
+    iniciarPainel();
+  }
+
+  /* ===== menu do celular ===== */
+  var botaoMenu = document.querySelector(".topo-menu");
+  var menu = document.getElementById("menu-mobile");
+  if (botaoMenu && menu) {
+    botaoMenu.addEventListener("click", function () {
+      var aberto = botaoMenu.getAttribute("aria-expanded") === "true";
+      botaoMenu.setAttribute("aria-expanded", aberto ? "false" : "true");
+      botaoMenu.setAttribute("aria-label", aberto ? "Abrir menu" : "Fechar menu");
+      menu.classList.toggle("aberto", !aberto);
+    });
+    menu.addEventListener("click", function (ev) {
+      if (ev.target.closest("a")) {
+        botaoMenu.setAttribute("aria-expanded", "false");
+        botaoMenu.setAttribute("aria-label", "Abrir menu");
+        menu.classList.remove("aberto");
+      }
+    });
+  }
+
+  /* ===== WhatsApp flutuante: recolhe quando o rodapé aparece, para não cobrir o "Voltar ao topo" ===== */
+  var flutuante = document.querySelector(".zap-flutuante");
+  var rodape = document.querySelector(".rodape");
+  if (flutuante && rodape && "IntersectionObserver" in window) {
+    var obsRodape = new IntersectionObserver(function (entradas) {
+      for (var i = 0; i < entradas.length; i++) flutuante.classList.toggle("recolhido", entradas[i].isIntersecting);
+    }, { threshold: 0.02 });
+    obsRodape.observe(rodape);
+  }
+
+  /* ===== seção atual no menu ===== */
+  var secoes = ["inicio", "painel", "como"];
+  var linksMenu = document.querySelectorAll(".topo-nav a, .nav-mobile a");
+  if ("IntersectionObserver" in window) {
+    var obsSecao = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var id = e.target.getAttribute("id");
+        for (var i = 0; i < linksMenu.length; i++) {
+          var href = linksMenu[i].getAttribute("href") || "";
+          var atual = href === "#" + id;
+          if (atual) linksMenu[i].setAttribute("aria-current", "true");
+          else linksMenu[i].removeAttribute("aria-current");
+        }
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    secoes.forEach(function (id) { var el = document.getElementById(id); if (el) obsSecao.observe(el); });
+  }
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
+</body>
+</html>

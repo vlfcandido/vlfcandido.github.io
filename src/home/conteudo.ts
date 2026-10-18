@@ -65,6 +65,11 @@ export const PECAS = [
     imagem: 'trabalhos/img/atletica-associados-exemplo.jpg', alt: 'Carteirinha digital da Atlética Maré Alta com QR code e validade',
     resumo: 'Carteirinha com QR que muda sozinho e Pix que renova a validade do associado.',
   },
+  {
+    slug: 'pet-shop-whatsapp-ia-exemplo', nome: 'Pelo Solto', href: 'trabalhos/pet-shop-whatsapp-ia-exemplo/',
+    imagem: 'trabalhos/img/pet-shop-whatsapp-ia-exemplo.jpg', alt: 'Pelo Solto com a conversa no WhatsApp e o agendamento do Tofu confirmado',
+    resumo: 'Atendimento no WhatsApp que consulta a agenda e chama a equipe quando precisa.',
+  },
   // Para acrescentar uma peça: a entrada aqui e o cartão em public/trabalhos/index.html (o teste confere os dois lados).
 ] as const
 
@@ -161,13 +166,13 @@ export function conteudoHome() {
       // passou a cortar o valor e os botões. Medido na captura: só as duas caixas de valor. Antes { x: 25.6, y: 71.2, l: 38.4, a: 9.6 }.
       alvo: { x: 26.3, y: 75.3, l: 20.4, a: 7.8 },
     },
-    // Vitrine das oito peças (18/10/2026): ocupa o lugar do antigo bloco de protótipo, que mostrava uma peça só.
-    // O argumento "veja antes de fechar" continua na primeira frase, agora sustentado pelas oito telas de exemplo.
+    // Vitrine das nove peças (18/10/2026): ocupa o lugar do antigo bloco de protótipo, que mostrava uma peça só.
+    // O argumento "veja antes de fechar" continua na primeira frase, agora sustentado pelas nove telas de exemplo.
     experimente: {
       titulo: NOME_PECAS,
-      lede: 'Veja o seu sistema funcionando antes de fechar. Oito sites de exemplo, com dados inventados, para abrir e mexer.',
+      lede: 'Veja o seu sistema funcionando antes de fechar. Nove sites de exemplo, com dados inventados, para abrir e mexer.',
       cta: 'Abrir e testar',
-      verTodas: 'Abrir e testar as oito',
+      verTodas: 'Abrir e testar as nove',
     },
     prototipo: {
       titulo: 'Veja o seu sistema funcionando antes de fechar.',
