@@ -1,0 +1,1774 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Novelo · catálogo com carrinho e pedido pronto no WhatsApp (exemplo)</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/catalogo-whatsapp-exemplo/">
+<meta name="theme-color" content="#231C2E">
+<meta name="description" content="Exemplo de trabalho: catálogo de produtos com carrinho, pedido montado no WhatsApp da loja e estoque ligado ao Bling, com reserva de 30 minutos, baixa automática e fila quando o Bling cai. Marca, produtos e valores são fictícios.">
+<meta property="og:title" content="Novelo · catálogo com carrinho e pedido pronto no WhatsApp (exemplo)">
+<meta property="og:description" content="Exemplo de trabalho: catálogo de produtos com carrinho, pedido montado no WhatsApp da loja e estoque ligado ao Bling, com reserva de 30 minutos, baixa automática e fila quando o Bling cai. Marca, produtos e valores são fictícios.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/catalogo-whatsapp-exemplo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Catálogo Novelo com carrinho e pedido pronto para enviar no WhatsApp">
+<meta property="og:url" content="https://vlfcandido.github.io/trabalhos/catalogo-whatsapp-exemplo/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-catalogo-whatsapp-exemplo");</script>
+<style>
+/* KIT:tokens ===== papel lavanda, aubergine e âmbar ===== */
+:root{
+  --bg:#F7F5F8;--surface:#FFFFFF;--surface2:#EDE8F0;--ink:#1D1A22;--muted:#615B6B;--line:#DFD8E5;
+  --brand:#5B2A86;--brand-ink:#FFFFFF;--brand-soft:#EDE2F7;--accent:#A55E12;--mango:#E3A63F;
+  --wa:#25D366;--wa-ink:#053122;--wa-soft:#DCF8C6;--wa-dark:#075E54;
+  /* a bolha do WhatsApp é clara nos dois temas (é assim no app); o chip muda de contraste */
+  --bolha-bg:#DCF8C6;--bolha-ink:#0E2416;--chip-wa-bg:#DCF8C6;--chip-wa-ink:#14532D;--msg-hora:#9FD5B4;
+  /* 15/10/2026: --ok e --warn escurecidos para passar o AA (antes #2E7D53 e #9A6512 davam 4,19:1 e 4,09:1
+     sobre os fundos .pill.ok/.pill.warn; agora 5,25:1 e 4,89:1 no texto de 11,5 px) */
+  --ok:#276B47;--ok-soft:#DCEFE3;--warn:#8A5A0F;--warn-soft:#F8E8C8;--bad:#B03A3A;--bad-soft:#F7DEDE;
+  --bar-bg:#231C2E;--bar-ink:#F4F0F7;--byline-ink:#FFFFFF;
+  --grid:rgba(29,26,34,.05);
+  --p1:#CFC2E0;--p2:#B4A2CE;--p3:#6E5E88;   /* cor padrão das ilustrações: nunca preto */
+  --f-d:"Bricolage Grotesque","Trebuchet MS",system-ui,-apple-system,sans-serif;   /* títulos */
+  --f-t:"Karla",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;              /* texto */
+  --f-m:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:40px;--s7:72px;
+  --r-s:8px;--r-m:16px;--r-l:24px;--r-p:999px;
+  --shadow:0 1px 0 rgba(29,26,34,.05),0 12px 30px -16px rgba(29,26,34,.32);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --head:56px;
+  --fita:28px;     /* faixa do autor: fica colada no cabeçalho, sempre visível */
+  --barra:60px;
+  color-scheme:light;
+}
+/* /KIT:tokens */
+/* KIT:tema ===== claro/escuro ===== */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151119;--surface:#1E1926;--surface2:#282130;--ink:#F0ECF5;--muted:#A79FB2;--line:#352E40;
+  --brand:#C79BEA;--brand-ink:#2A1040;--brand-soft:#33204A;--accent:#F0B268;--mango:#F2B65C;
+  --wa:#3FD97A;--wa-ink:#04240F;--wa-soft:#1E3A25;--wa-dark:#0B3B2E;
+  --bolha-bg:#DCF8C6;--bolha-ink:#0E2416;--chip-wa-bg:#1B4A31;--chip-wa-ink:#A9EBC4;--msg-hora:#9FD5B4;
+  --ok:#6FCB96;--ok-soft:#15301F;--warn:#E8B778;--warn-soft:#332609;--bad:#EE8A8A;--bad-soft:#3A1B1B;
+  --bar-bg:#0F0C13;--bar-ink:#F0ECF5;--byline-ink:#3A2107;   /* texto escuro: o branco sobre o âmbar do tema escuro dava 1,86:1 */
+  --grid:rgba(240,236,245,.045);
+  --shadow:0 1px 0 rgba(0,0,0,.4),0 14px 32px -16px rgba(0,0,0,.85);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151119;--surface:#1E1926;--surface2:#282130;--ink:#F0ECF5;--muted:#A79FB2;--line:#352E40;
+  --brand:#C79BEA;--brand-ink:#2A1040;--brand-soft:#33204A;--accent:#F0B268;--mango:#F2B65C;
+  --wa:#3FD97A;--wa-ink:#04240F;--wa-soft:#1E3A25;--wa-dark:#0B3B2E;
+  --bolha-bg:#DCF8C6;--bolha-ink:#0E2416;--chip-wa-bg:#1B4A31;--chip-wa-ink:#A9EBC4;--msg-hora:#9FD5B4;
+  --ok:#6FCB96;--ok-soft:#15301F;--warn:#E8B778;--warn-soft:#332609;--bad:#EE8A8A;--bad-soft:#3A1B1B;
+  --bar-bg:#0F0C13;--bar-ink:#F0ECF5;--byline-ink:#3A2107;   /* texto escuro: o branco sobre o âmbar do tema escuro dava 1,86:1 */
+  --grid:rgba(240,236,245,.045);
+  --shadow:0 1px 0 rgba(0,0,0,.4),0 14px 32px -16px rgba(0,0,0,.85);color-scheme:dark}
+/* /KIT:tema */
+/* KIT:base */
+*{box-sizing:border-box}
+[hidden]{display:none!important}   /* .card/.alert/.pc usam display:flex e venceriam o atributo */
+html{-webkit-text-size-adjust:100%;scrollbar-gutter:stable}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--f-t);overflow-x:hidden;padding-bottom:84px}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.08;letter-spacing:-.015em;font-weight:700}
+h1{font-size:clamp(30px,5.4vw,52px)}h2{font-size:clamp(24px,3.6vw,34px)}h3{font-size:20px}
+p{margin:0}a{color:inherit}img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:4px}
+[tabindex="-1"]:focus{outline:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 16px}
+@media(min-width:760px){.wrap{padding:0 32px}}
+.muted{color:var(--muted)}.small{font-size:14px}.mt{margin-top:var(--s4)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);padding:var(--s5);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:var(--r-p);border:1px solid transparent;font-weight:700;text-decoration:none;background:var(--brand);color:var(--brand-ink);transition:transform .15s var(--ease),box-shadow .2s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn.g{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* /KIT:base */
+/* KIT:faixa */
+.byline{position:sticky;top:0;z-index:52;height:var(--fita);display:flex;align-items:center;justify-content:center;gap:6px;background:var(--accent);color:var(--byline-ink);font-size:13px;padding:0 16px;line-height:1.2;white-space:nowrap;overflow:hidden}
+.byline a{color:inherit;font-weight:700;text-underline-offset:3px;display:inline-block;padding:15px 4px;margin:-15px 0}
+/* r3 (revisor 18/10): a faixa estourava 423 px em viewport de 390 px. No celular, o link do portfólio sai
+   e a fonte/gap encolhem; os três destinos que importam (mais trabalhos, WhatsApp e o nome) continuam visíveis. */
+@media(max-width:899px){:root{--fita:46px}.byline{gap:4px;font-size:12px;padding:0 8px}.byline .b-port{display:none}}
+.top{position:sticky;top:var(--fita);z-index:50;height:var(--head);background:var(--bar-bg);color:var(--bar-ink)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:100%}
+.top .logo{font:800 19px/1 var(--f-d);text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:9px;letter-spacing:-.02em;min-height:44px}
+.top .logo svg{width:28px;height:28px;flex:none}
+.nav{display:none;gap:4px}
+.nav a{text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:15px;opacity:.78;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center}
+.nav a[aria-current="page"]{opacity:1;background:rgba(255,255,255,.14)}
+@media(min-width:1000px){.nav{display:flex}}
+.tbtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:transparent;color:inherit;display:grid;place-items:center;position:relative;flex:none}
+/* /KIT:faixa */
+/* KIT:snap */
+html{scroll-padding-top:calc(var(--head) + var(--fita) + 8px)}
+@media(max-width:899px){
+  html{scroll-snap-type:y proximity}
+  .snap{scroll-snap-align:start;scroll-snap-stop:normal}
+}
+/* /KIT:snap */
+/* KIT:router */
+.tela{display:none}.tela.on{display:block}
+.tela>section{padding:var(--s6) 0}
+html.trocando,html.trocando body,html.folha,html.folha body{overflow:hidden;overscroll-behavior:none}
+html.trocando body{touch-action:none;pointer-events:none}
+#view{transition:opacity .14s ease-in}
+#view.sai{opacity:0}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.18s}
+/* /KIT:router */
+/* KIT:barra */
+.bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--surface);border-top:1px solid var(--line);padding:4px 2px env(safe-area-inset-bottom);box-shadow:0 -8px 24px -16px rgba(0,0,0,.4)}
+.bar button{flex:1;min-height:calc(var(--barra) - 8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;border-radius:var(--r-s);font-size:11.5px;font-weight:600;color:var(--muted);position:relative;padding:2px}
+.bar button[aria-current="page"]{color:var(--brand)}
+body{padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom) + 8px)}
+@media(min-width:900px){.bar{display:none}body{padding-bottom:84px}}
+/* /KIT:barra */
+/* KIT:assinatura ===== assinatura como etiqueta de preço, com o motivo da sacola que vira conversa ===== */
+.sig{display:inline-flex;align-items:center;gap:14px;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-p);padding:8px 22px 8px 8px}
+.sig-m{width:46px;height:46px;border-radius:50%;background:var(--bar-bg);display:grid;place-items:center;flex:none;color:var(--bar-ink)}
+.sig-m svg{width:27px;height:27px}
+.sig small{display:block;font-size:12px;color:var(--muted);line-height:1.2}
+.sig b{display:block;font:700 18px/1.2 var(--f-d)}
+.sig em{font-style:normal;font-size:13px;color:var(--brand);font-weight:700}
+/* /KIT:assinatura */
+/* KIT:whatsapp */
+.dev{position:fixed;isolation:isolate;right:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:10px;text-decoration:none;background:var(--ink);color:var(--bg);border-radius:var(--r-p);padding:7px 18px 7px 7px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45)}
+.dev .wa-c{width:40px;height:40px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;flex:none}
+.dev .wa-c svg{width:24px;height:24px}
+.dev b{display:block;font:700 15px/1.15 var(--f-d)}
+.dev small{display:block;font-size:11.5px;opacity:.7;line-height:1.2}
+@media(max-width:899px){.dev{right:12px;bottom:calc(var(--barra) + 12px + env(safe-area-inset-bottom));padding:5px}.dev span:last-child{display:none}}
+/* /KIT:whatsapp */
+/* KIT:rodape */
+footer{padding:var(--s6) 0 var(--s6);border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
+.aviso-med{flex-basis:100%;margin:0;font-size:12px;opacity:.85}
+/* /KIT:rodape */
+/* KIT:sheet */
+.sh-bg{position:fixed;inset:0;background:rgba(10,10,14,.5);z-index:79;opacity:0;pointer-events:none;transition:opacity .22s}
+.sh-bg.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--surface);border-radius:var(--r-l) var(--r-l) 0 0;padding:12px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .28s var(--ease);max-height:86vh;overflow:auto;visibility:hidden}
+.sheet.on{transform:none;visibility:visible}
+.sheet .grip{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
+@media(min-width:900px){.sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(560px,92vw);border-radius:var(--r-l);transform:translate(-50%,-46%);opacity:0}.sheet.on{transform:translate(-50%,-50%);opacity:1}.sheet .grip{display:none}}
+/* /KIT:sheet */
+/* KIT:anim */
+html.anim .rv{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(var(--i,0)*70ms)}
+html.anim .rv.in{opacity:1;transform:none}
+.barra-g{height:10px;border-radius:5px;background:var(--surface2);overflow:hidden}
+.barra-g i{display:block;height:100%;width:var(--w,50%);background:var(--brand);border-radius:5px}
+html.anim .barra-g i{width:0;transition:width .9s var(--ease) .1s}
+html.anim .rv.in .barra-g i,html.anim .barra-g.in i{width:var(--w,50%)}
+.sucesso{width:72px;height:72px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center}
+.sucesso svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+html.anim .sucesso{animation:pop .45s var(--ease)}
+html.anim .sucesso path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .45s var(--ease) .25s forwards}
+@keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--barra) + 76px);transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:var(--r-p);z-index:100;transition:.25s;font-size:15px;pointer-events:none;max-width:calc(100vw - 32px);text-align:center}
+.toast.on{transform:translate(-50%,0);opacity:1}
+/* /KIT:anim */
+/* KIT:skeleton */
+.sk{display:block;border-radius:var(--r-s);background:linear-gradient(90deg,var(--surface2) 25%,var(--line) 37%,var(--surface2) 63%);background-size:400% 100%;animation:sk 1.3s ease infinite;min-height:1em}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+/* /KIT:skeleton */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* ===================== PROJETO: Novelo — catálogo + WhatsApp + Bling ===================== */
+/* trama de tecido ao fundo (o "novelo" da marca) */
+.grade{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;mask-image:radial-gradient(120% 90% at 50% 0%,#000 40%,transparent 100%);
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%,#000 40%,transparent 100%)}
+#view,footer{position:relative;z-index:1}
+@media(max-width:599px){.so-pc{display:none}}
+@media(min-width:600px){.so-cel{display:none}}
+.rolx{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:thin}
+.rolx::-webkit-scrollbar{height:8px}
+.rolx::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.eyebrow{display:block;font:700 11.5px/1.35 var(--f-t);letter-spacing:.16em;text-transform:uppercase;color:var(--brand);margin-bottom:10px}
+.sh{max-width:66ch;margin-bottom:var(--s5)}
+.sh h2{margin-bottom:8px}
+.sh .sub{color:var(--muted);font-size:15.5px}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.row.nw{flex-wrap:nowrap}
+.hr{height:1px;background:var(--line);border:0;margin:var(--s5) 0}
+.hint{display:inline-flex;align-items:center;gap:8px;font:600 12.5px/1.3 var(--f-t);color:var(--muted);background:var(--surface2);border:1px dashed var(--line);border-radius:var(--r-p);padding:7px 13px}
+.hint svg{width:15px;height:15px;stroke-width:2;fill:none;stroke:currentColor;flex:none}
+.btn.sm{min-height:44px;padding:0 15px;font-size:14.5px}
+.btn.gh{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn.wa{background:var(--wa);color:var(--wa-ink);box-shadow:0 10px 24px -12px rgba(37,211,102,.8)}
+.btn.mg{background:var(--mango);color:#33210A}
+.btn.bl{width:100%}
+.pill{display:inline-flex;align-items:center;gap:6px;font:700 11.5px/1 var(--f-t);padding:6px 10px;border-radius:var(--r-p);background:var(--surface2);color:var(--muted);white-space:nowrap}
+.pill svg{width:13px;height:13px;stroke-width:2.2;fill:none;stroke:currentColor}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.br{background:var(--brand-soft);color:var(--brand)}
+.pill.wa{background:var(--chip-wa-bg);color:var(--chip-wa-ink)}
+.pill.on{background:var(--ink);color:var(--bg)}
+.mini{font-size:13px;color:var(--muted);line-height:1.5}
+.mini b,.mini strong{color:var(--ink)}
+.num{font-variant-numeric:tabular-nums}
+.hr-l{height:1px;background:var(--line);border:0;margin:12px 0}
+.g2{display:grid;gap:var(--s4);align-items:start}
+@media(min-width:900px){.g2{grid-template-columns:1.3fr .95fr}.g2.eq{grid-template-columns:1fr 1fr}}
+@media(min-width:980px){.g2.hero{grid-template-columns:1.05fr 1fr;gap:36px}}
+.g3{display:grid;gap:var(--s4);align-items:start}
+@media(min-width:760px){.g3{grid-template-columns:repeat(3,1fr)}}
+.g4{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:820px){.g4{grid-template-columns:repeat(4,1fr)}}
+.g2>*,.g3>*,.g4>*,.card,.pc,.ci{min-width:0}
+.col{display:grid;gap:var(--s4);align-content:start}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:820px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);padding:14px 16px;box-shadow:var(--shadow)}
+.kpi b{display:block;font:700 clamp(23px,3.6vw,30px)/1.15 var(--f-d);letter-spacing:-.02em}
+.kpi b span{display:inline;font:inherit;color:inherit;margin:0}
+.kpi span{display:block;font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:3px}
+.kpi .tag{display:block;font-size:11.5px;margin-top:6px}
+.kpi .tag b{display:inline;font:700 12.5px/1.4 var(--f-t);color:var(--ink);margin:0;letter-spacing:0}
+.alert{display:flex;gap:13px;padding:15px 16px;border-radius:var(--r-m);background:var(--warn-soft);border:1px solid var(--line);align-items:flex-start}
+.alert.bad{background:var(--bad-soft)}
+.alert.ok{background:var(--ok-soft)}
+.alert.br{background:var(--brand-soft)}
+.alert.wa{background:var(--wa-soft)}
+.alert .ai{width:34px;height:34px;border-radius:9px;background:var(--surface);display:grid;place-items:center;flex:none;color:var(--accent)}
+.alert>div>b{display:block;margin-bottom:4px}   /* só o título: o <b> dentro do .mini segue na linha */
+.alert .mini{margin-top:6px}
+.lst{list-style:none;margin:0;padding:0}
+.lst li{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px dashed var(--line)}
+.lst li:last-child{border-bottom:0}
+.lst .dt{font:600 12.5px/1.3 var(--f-t);color:var(--muted);flex:none;width:78px;padding-top:2px}
+.lst b{display:block}
+/* ===== vitrine ===== */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.rolx.chips{flex-wrap:nowrap;padding-bottom:8px}
+.chip{min-height:44px;padding:0 15px;border-radius:var(--r-p);border:1px solid var(--line);background:var(--surface);font:600 14px/1 var(--f-t);display:inline-flex;align-items:center;gap:7px;color:var(--muted);white-space:nowrap;flex:none}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.busca{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-p);padding:0 6px 0 14px;min-height:48px;box-shadow:var(--shadow)}
+.busca svg{width:19px;height:19px;flex:none;color:var(--muted);fill:none;stroke:currentColor;stroke-width:2}
+.busca input{flex:1;border:0;background:transparent;min-height:46px;outline:none;min-width:0}
+.grid-pr{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:700px){.grid-pr{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1000px){.grid-pr{grid-template-columns:repeat(4,1fr)}}
+.pc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .24s var(--ease),box-shadow .24s var(--ease);position:relative}
+@media(hover:hover){.pc:hover{transform:translateY(-5px);box-shadow:0 20px 36px -20px rgba(29,26,34,.5)}.pc:hover .pc-fig svg{transform:scale(1.06) rotate(-2deg)}}
+.pc-fig{aspect-ratio:4/3;display:grid;place-items:center;background:linear-gradient(160deg,var(--surface2),var(--surface));position:relative;overflow:hidden}
+.pc-fig svg{width:76%;height:76%;transition:transform .32s var(--ease)}
+.pc-tag{position:absolute;top:8px;left:8px;z-index:2}
+.pc-corpo{padding:12px;display:flex;flex-direction:column;gap:7px;flex:1}
+.pc-nome{font:700 15.5px/1.25 var(--f-d);letter-spacing:-.01em;min-height:2.5em}
+.pc-preco{font:700 18px/1 var(--f-t);font-variant-numeric:tabular-nums}
+.pc-acoes{display:flex;gap:8px;margin-top:auto;padding-top:4px}
+.pc-acoes .btn{flex:1;padding:0 10px}
+.vazio{text-align:center;padding:34px 18px;border:1px dashed var(--line);border-radius:var(--r-m);background:var(--surface)}
+.vazio svg{width:150px;height:auto;margin:0 auto 14px}
+/* ===== produto ===== */
+.galeria{display:grid;gap:10px}
+.gal-fig{aspect-ratio:1/1;border-radius:var(--r-m);background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;position:relative}
+.gal-fig svg{width:70%;height:70%}
+.gal-min{display:flex;gap:8px}
+.gal-min button{flex:1;aspect-ratio:1/1;border-radius:var(--r-s);border:1px solid var(--line);background:var(--surface2);display:grid;place-items:center;padding:6px}
+.gal-min button[aria-pressed="true"]{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+.gal-min svg{width:80%;height:80%}
+.vars{display:flex;gap:8px;flex-wrap:wrap}
+.cor{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;background:var(--surface)}
+.cor i{width:26px;height:26px;border-radius:50%;display:block;border:1px solid rgba(0,0,0,.15)}
+.cor[aria-pressed="true"]{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.tam{min-width:46px;min-height:44px;padding:0 12px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--surface);font-weight:700}
+.tam[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tam[disabled]{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.qtd{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:var(--r-p);background:var(--surface);overflow:hidden}
+.qtd button{width:44px;height:44px;border:0;background:transparent;display:grid;place-items:center}
+.qtd button:hover{background:var(--surface2)}
+.qtd b{min-width:34px;text-align:center;font-variant-numeric:tabular-nums}
+.qtd.sm button{width:36px;height:36px}
+.entrega-l{display:flex;gap:11px;align-items:flex-start;font-size:14px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.entrega-l>span{display:block;min-width:0}
+.entrega-l .mini{display:block;margin-top:3px}
+.entrega-l:last-child{border-bottom:0}
+.entrega-l svg{width:19px;height:19px;color:var(--brand);fill:none;stroke:currentColor;stroke-width:1.8;flex:none;margin-top:2px}
+/* ===== carrinho ===== */
+.ci{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px dashed var(--line)}
+.ci:last-child{border-bottom:0}
+.ci-fig{width:64px;height:64px;border-radius:var(--r-s);background:var(--surface2);display:grid;place-items:center;flex:none}
+.ci-fig svg{width:80%;height:80%}
+.ci-nome{font:700 15px/1.25 var(--f-d)}
+.ci-preco{font:700 15.5px/1.2 var(--f-t);font-variant-numeric:tabular-nums;text-align:right}
+.ci-rm{background:none;border:0;color:var(--muted);padding:6px;border-radius:8px}
+.ci-rm:hover{color:var(--bad);background:var(--bad-soft)}
+.resumo{display:grid;gap:var(--s4);align-content:start}
+@media(min-width:900px){.resumo .fixa{position:sticky;top:calc(var(--head) + var(--fita) + 14px)}}
+.frete-opt{display:flex;gap:11px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--surface);cursor:pointer}
+.frete-opt+.frete-opt{margin-top:8px}
+.frete-opt[data-on="1"]{border-color:var(--brand);background:var(--brand-soft)}
+.frete-opt input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--brand)}
+.frete-opt b{display:block;font-size:14.5px}
+.frete-opt .mini{margin-top:2px}
+.cep{display:flex;gap:8px;margin-top:10px}
+.cep input{flex:1;min-width:0;min-height:46px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--surface);padding:0 14px}
+.tot-l{display:flex;justify-content:space-between;gap:10px;padding:7px 0;font-size:15px}
+.tot-l.g{font:700 22px/1.2 var(--f-d);border-top:1px solid var(--line);margin-top:6px;padding-top:12px}
+/* ===== mensagem / whatsapp ===== */
+.msg{background:#0B3B34;border-radius:var(--r-m);padding:14px;position:relative;overflow:hidden}
+.msg-t{display:flex;align-items:center;gap:9px;color:#BDE8CF;font:700 12.5px/1 var(--f-t);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
+.msg-t svg{width:16px;height:16px;fill:currentColor}
+.bolha{background:var(--bolha-bg);color:var(--bolha-ink);border-radius:14px 14px 4px 14px;padding:12px 14px;max-width:560px;margin-left:auto;box-shadow:0 6px 18px -10px rgba(0,0,0,.5)}
+.bolha .ml{display:block;font:500 14px/1.62 var(--f-t);font-variant-numeric:tabular-nums;white-space:pre-wrap;word-break:break-word}
+.bolha .ml.v{height:9px}
+.bolha .ml b{font-weight:700}
+.bolha .ml.total{font-weight:700;font-size:14.5px}
+html.anim .toca .bolha .ml{opacity:0;transform:translateY(7px);animation:sobe .32s var(--ease) forwards;animation-delay:calc(var(--i,0)*85ms)}
+@keyframes sobe{to{opacity:1;transform:none}}
+.msg-hora{display:block;text-align:right;font:600 11px/1 var(--f-t);color:var(--msg-hora);margin-top:8px}
+.digit{display:inline-flex;gap:4px;align-items:center;background:var(--bolha-bg);border-radius:14px 14px 4px 14px;padding:12px 16px;margin-left:auto;width:max-content}
+.digit i{width:7px;height:7px;border-radius:50%;background:#7FA98F;display:block;animation:pisca 1.05s infinite}
+.digit i:nth-child(2){animation-delay:.16s}.digit i:nth-child(3){animation-delay:.32s}
+@keyframes pisca{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+/* ===== timeline / fluxo ===== */
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl li{display:grid;grid-template-columns:30px 1fr;gap:13px;padding:0 0 20px;position:relative}
+.tl li:not(:last-child):before{content:"";position:absolute;left:14px;top:30px;bottom:0;width:2px;background:var(--line)}
+.tl .no{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:700 12.5px/1 var(--f-t);background:var(--surface2);color:var(--muted);border:1px solid var(--line);position:relative;z-index:1}
+.tl li.feito .no{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.tl li.agora .no{background:var(--brand);color:#fff;border-color:transparent}
+.tl b{display:block;font-size:15.5px}
+.diag{min-width:900px;width:100%;height:auto}
+.diag .no-b{fill:var(--surface);stroke:var(--line);stroke-width:1.4}
+.diag .no-b.dest{stroke:var(--brand);stroke-width:2}
+.diag text{font:600 13px var(--f-t);fill:var(--ink)}
+.diag text.s{font:400 11.5px var(--f-t);fill:var(--muted)}
+.diag .seta{stroke:var(--line);stroke-width:2;fill:none}
+.diag .seta.dest{stroke:var(--brand)}
+.diag .arw{fill:var(--line)}.diag .arw.dest{fill:var(--brand)}
+html.anim .diag .seta{stroke-dasharray:150;stroke-dashoffset:150}
+html.anim .diag.in .seta{stroke-dashoffset:0;transition:stroke-dashoffset .6s var(--ease) var(--d,0s)}
+html.anim .diag .no-b{opacity:0;transition:opacity .35s var(--ease) var(--d,0s)}
+html.anim .diag.in .no-b{opacity:1}
+/* ===== tabelas ===== */
+.tb{width:100%;border-collapse:collapse;font-size:14px;min-width:720px}
+.tb td.mini{white-space:nowrap}   /* SKU não quebra no meio */
+.tb th{text-align:left;font:700 11.5px/1.3 var(--f-t);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:0 10px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tb td{padding:11px 10px;border-bottom:1px dashed var(--line);vertical-align:middle}
+.tb tr:last-child td{border-bottom:0}
+.tb .r{text-align:right;font-variant-numeric:tabular-nums}
+/* ===== pedidos / log ===== */
+.ped{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--surface);width:100%;text-align:left;transition:transform .18s var(--ease),border-color .18s}
+.ped+.ped{margin-top:8px}
+.ped:hover{transform:translateX(3px);border-color:var(--brand)}
+.ped .nm{display:block;font:700 15px/1.2 var(--f-d)}
+.ped .mini{display:block}
+.ped .vl{font:700 15px/1.2 var(--f-t);font-variant-numeric:tabular-nums;text-align:right}
+.log{list-style:none;margin:0;padding:0;font-size:13.5px}
+.log li{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
+.log li:last-child{border-bottom:0}
+.log .hr2{font:600 12.5px/1.4 var(--f-t);color:var(--muted);flex:none;width:52px;font-variant-numeric:tabular-nums}
+.log li b{display:block}
+.log li .mini{display:block;margin-top:2px}
+.swtch{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:600}
+.swtch input{width:22px;height:22px;accent-color:var(--brand)}
+.bdg{position:absolute;top:-3px;right:-3px;min-width:19px;height:19px;border-radius:10px;background:var(--mango);color:#33210A;font:700 11px/19px var(--f-t);text-align:center;padding:0 5px;font-style:normal}
+.bar .bdg{top:4px;right:calc(50% - 26px)}
+.voando{position:fixed;width:18px;height:18px;border-radius:50%;background:var(--mango);box-shadow:0 0 0 4px var(--mango);z-index:120;pointer-events:none;opacity:.95;transition:transform .42s var(--ease),opacity .42s var(--ease)}
+.girando svg{animation:gira .9s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.pulso{display:inline-flex;align-items:center;gap:7px;font:700 14px/1 var(--f-t);font-variant-numeric:tabular-nums;color:var(--accent)}
+.pulso .pt{width:9px;height:9px;border-radius:50%;background:var(--accent);animation:bate 1.6s var(--ease) infinite}
+@keyframes bate{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.4}}
+.zip{width:46px;height:46px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;flex:none}
+.zip svg{width:24px;height:24px}
+.hero-il{width:100%;height:auto}
+.fig-p{display:block}
+.pcard-selo{position:absolute;right:8px;bottom:8px;z-index:2}
+/* ===== correções da revisão r1 (15/10/2026) ===== */
+.ped>span:last-child{text-align:right}          /* no desktop o status segue alinhado à direita, como o valor */
+.ped .vl{white-space:nowrap}                    /* o valor nunca quebra no meio ("R$" de um lado, "171,70" do outro) */
+.dica-rolx{display:none}
+/* tabela larga dentro do card: sombra de corte avisando que há mais colunas à direita (funciona em qualquer largura) */
+.card .rolx{
+  background-image:linear-gradient(to right,var(--surface) 24px,rgba(255,255,255,0)),linear-gradient(to right,rgba(0,0,0,.13),rgba(0,0,0,0)),
+    linear-gradient(to left,var(--surface) 24px,rgba(255,255,255,0)),linear-gradient(to left,rgba(0,0,0,.13),rgba(0,0,0,0));
+  background-repeat:no-repeat;background-size:44px 100%,15px 100%,44px 100%,15px 100%;
+  background-position:0 0,0 0,100% 0,100% 0;background-attachment:local,scroll,local,scroll}
+@media(min-width:900px) and (max-width:1649px){
+  /* sem sobra de tela, o botão flutuante tapava a coluna de conteúdo (105 px a 1440, medido);
+     o rótulo só volta a partir de 1650 px, onde o encosto é 0 (a 1619, como estava previsto, ainda encostava) */
+  .dev{padding:5px}
+  .dev span:last-child{display:none}
+}
+@media(max-width:899px){
+  /* lista de pedidos e perguntas: no celular o valor desce para a linha de baixo, sem brigar com o texto */
+  .ped{grid-template-columns:auto 1fr;row-gap:8px;align-items:start}
+  .ped>span:last-child{grid-column:2;display:flex;justify-content:space-between;align-items:baseline;gap:10px;text-align:left}
+  .ped .vl,.ped .mini{text-align:left}
+  .ped[data-faq]>span:last-child{justify-content:flex-end;color:var(--brand);font-weight:700}   /* o "ver" vira pista de toque à direita */
+  /* alvos de toque de 44 px no polegar */
+  .btn.sm,.chip{min-height:44px}
+  .vars .cor{width:44px;height:44px}
+  .qtd.sm button{width:44px;height:44px}
+  .ci-rm{padding:12px}
+  .dica-rolx{display:block}
+}
+</style>
+</head>
+<body>
+<!-- KIT:faixa-html -->
+<div class="byline">Exemplo de Vinicius Candido · <a href="/trabalhos/">mais trabalhos</a><span class="b-port"> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">portfólio</a></span> · <a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Novelo%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp</a></div>
+<!-- /KIT:faixa-html -->
+
+<!-- ===== sprite de ícones e ilustrações de produto ===== -->
+<svg id="sp" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden" focusable="false">
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 8h12l1.2 12.2a1 1 0 0 1-1 1.1H5.8a1 1 0 0 1-1-1.1z"/><path d="M9 8V6.2a3 3 0 0 1 6 0V8"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M3 3.5h2.2l2.5 11.4h10.6L20.6 7H6.2"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1z"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M3.2 8 12 3.2 20.8 8v8L12 20.8 3.2 16z"/><path d="M3.2 8 12 12.8 20.8 8M12 12.8v8"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M20 11.5A8 8 0 0 0 6 6.4"/><path d="M4 12.5a8 8 0 0 0 14 5.1"/><path d="M20 4.8v6h-6M4 19.2v-6h6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l7 6-7 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5 9.5 17.5 19.5 7"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5 21 20H3z"/><path d="M12 10v4.4M12 17.4v.6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9.5 7V4.2h5V7M6.5 7l1 13h9l1-13"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.4"/><path d="M15.8 15.8 20.5 20.5"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.4 7-11.2A7 7 0 0 0 5 9.8C5 14.6 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.8V12.4l4.2 2.2"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M2.5 6h10.8v10H2.5z"/><path d="M13.3 9.4h4.6l3.1 3.6v3H13.3"/><circle cx="6.6" cy="18.4" r="1.9"/><circle cx="17" cy="18.4" r="1.9"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M4.5 9.5h15V20h-15z"/><path d="M3.2 9.5 5 4h14l1.8 5.5"/><path d="M10 20v-6h4v6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11.5" height="11.5" rx="2.2"/><path d="M4.8 15.2V6.2a2 2 0 0 1 2-2h9"/></symbol>
+  <symbol id="i-sync" viewBox="0 0 24 24"><path d="M20.4 11A8.4 8.4 0 0 0 5.8 6.4"/><path d="M3.6 13a8.4 8.4 0 0 0 14.6 4.6"/><path d="M20.4 4.6V11h-6.4M3.6 19.4V13h6.4"/></symbol>
+  <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M8 19.5h9.2a4.2 4.2 0 0 0 1.3-8.2A6.2 6.2 0 0 0 7.4 9.4"/><path d="M6.2 11.4A4.4 4.4 0 0 0 6 19.5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2.1 6 6 2.1-6 2.1-2.1 6-2.1-6-6-2.1 6-2.1z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.2 21c0-4.3 3.5-6.9 7.8-6.9s7.8 2.6 7.8 6.9"/></symbol>
+  <symbol id="i-marca" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11h14l-1.3 15H10.3z"/><path d="M12.4 11V9.2a3.6 3.6 0 0 1 7.2 0V11"/><path d="M20.5 20.5c0-3 2.6-4.4 2.6-2 0 1.5-2.6 2.4-2.6 2.4z" fill="currentColor" stroke="none"/></g></symbol>
+  <!-- ilustrações de produto: usam --p1 (cor), --p2 (detalhe), --p3 (traço) -->
+  <symbol id="p-camiseta" viewBox="0 0 120 120"><path d="M45 20h30l20 11-8 18-8-4v50H41V45l-8 4-8-18z" fill="var(--p1)" stroke="var(--p3)" stroke-width="2.5" stroke-linejoin="round"/><path d="M48 20c1 8 6 11 12 11s11-3 12-11" fill="none" stroke="var(--p3)" stroke-width="2.5" stroke-linecap="round"/></symbol>
+  <symbol id="p-bone" viewBox="0 0 120 120"><path d="M34 62c0-17 11.5-30 26-30s26 13 26 30z" fill="var(--p1)" stroke="var(--p3)" stroke-width="2.5" stroke-linejoin="round"/><path d="M34 62h50c10 0 18 3.4 18 8.4s-8 8.6-18 8.6H34z" fill="var(--p2)" stroke="var(--p3)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="60" cy="33" r="4.2" fill="var(--p2)" stroke="var(--p3)" stroke-width="2"/><path d="M60 40v22" stroke="var(--p3)" stroke-width="2" opacity=".45"/></symbol>
+  <symbol id="p-meia" viewBox="0 0 120 120"><path d="M42 20h16v46c9 2 14 7 14 14 0 8.5-6 13.5-14 13.5H42z" fill="var(--p1)" stroke="var(--p3)" stroke-width="2.5" stroke-linejoin="round"/><path d="M64 32h16v42c8 2 12 6 12 12 0 8.5-5 12.5-12 12.5H64z" fill="var(--p2)" stroke="var(--p3)" stroke-width="2.5" stroke-linejoin="round"/><path d="M42 34h16M64 45h16" stroke="var(--p3)" stroke-width="3" opacity=".45"/></symbol>
+  <symbol id="p-caneca" viewBox="0 0 120 120"><path d="M34 38h40v40a12 12 0 0 1-12 12H46a12 12 0 0 1-12-12z" fill="var(--p1)" stroke="var(--p3)" stroke-width="2.5" stroke-linejoin="round"/><path d="M74 50h7a12 12 0 0 1 0 24h-7" fill="none" stroke="var(--p3)" stroke-width="3"/><path d="M43 26c0-4.5 5-4.5 5-9M57 26c0-4.5 5-4.5 5-9" fill="none" stroke="var(--p2)" stroke-width="3" stroke-linecap="round"/><rect x="30" y="33" width="48" height="7" rx="3.5" fill="var(--p2)" stroke="var(--p3)" stroke-width="2"/></symbol>
+  <symbol id="p-sacola" viewBox="0 0 120 120"><path d="M34 44h52l-4.6 52a6 6 0 0 1-6 5.4H44.6a6 6 0 0 1-6-5.4z" fill="var(--p1)" stroke="var(--p3)" stroke-width="2.5" stroke-linejoin="round"/><path d="M48 44V34a12 12 0 0 1 24 0v10" fill="none" stroke="var(--p3)" stroke-width="3"/><path d="M44 66h32M44 78h22" stroke="var(--p2)" stroke-width="4.5" stroke-linecap="round"/></symbol>
+  <symbol id="p-caderno" viewBox="0 0 120 120"><rect x="34" y="24" width="52" height="72" rx="5" fill="var(--p1)" stroke="var(--p3)" stroke-width="2.5"/><rect x="44" y="24" width="6" height="72" fill="var(--p2)" opacity=".75"/><path d="M58 46h20M58 58h20M58 70h12" stroke="var(--p3)" stroke-width="3" stroke-linecap="round" opacity=".45"/></symbol>
+  <symbol id="p-cordao" viewBox="0 0 120 120"><path d="M40 26c0 26 8 40 20 46 12-6 20-20 20-46" fill="none" stroke="var(--p3)" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="80" r="9" fill="var(--p2)" stroke="var(--p3)" stroke-width="2.5"/><circle cx="46" cy="46" r="4.4" fill="var(--p1)" stroke="var(--p3)" stroke-width="2"/><circle cx="74" cy="46" r="4.4" fill="var(--p1)" stroke="var(--p3)" stroke-width="2"/><circle cx="52" cy="62" r="4.4" fill="var(--p1)" stroke="var(--p3)" stroke-width="2"/><circle cx="68" cy="62" r="4.4" fill="var(--p1)" stroke="var(--p3)" stroke-width="2"/></symbol>
+  <symbol id="p-necessaire" viewBox="0 0 120 120"><path d="M26 48h68v40a8 8 0 0 1-8 8H34a8 8 0 0 1-8-8z" fill="var(--p1)" stroke="var(--p3)" stroke-width="2.5" stroke-linejoin="round"/><path d="M26 57h68" stroke="var(--p3)" stroke-width="3"/><path d="M46 48c0-9 6-14.5 14-14.5S74 39 74 48" fill="none" stroke="var(--p3)" stroke-width="3"/><circle cx="94" cy="57" r="4.2" fill="var(--p2)" stroke="var(--p3)" stroke-width="2"/><path d="M94 57l7 7.5" stroke="var(--p3)" stroke-width="2.5" stroke-linecap="round"/></symbol>
+</svg>
+
+<!-- KIT:whatsapp-html -->
+<a class="dev" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Novelo%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius, desenvolvedor deste projeto, pelo WhatsApp"><span class="wa-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1z"/></svg></span><span><b>Falar com o Vinicius</b><small>quem fez este projeto</small></span></a>
+<!-- /KIT:whatsapp-html -->
+
+<!-- KIT:cabecalho -->
+<header class="top" role="banner"><div class="wrap">
+  <a class="logo" href="#vitrine" data-tela="vitrine"><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11h14l-1.3 15H10.3z"/><path d="M12.4 11V9.2a3.6 3.6 0 0 1 7.2 0V11"/><path d="M20.5 20.5c0-3 2.6-4.4 2.6-2 0 1.5-2.6 2.4-2.6 2.4z" fill="currentColor" stroke="none"/></svg>Novelo</a>
+  <nav class="nav" aria-label="Principal"><a href="#vitrine" data-tela="vitrine">Vitrine</a><a href="#produto" data-tela="produto">Produto</a><a href="#carrinho" data-tela="carrinho">Carrinho</a><a href="#painel" data-tela="painel">Painel da loja</a><a href="#estoque" data-tela="estoque">Estoque &amp; Bling</a><a href="#fluxo" data-tela="fluxo">Como funciona</a></nav>
+  <button class="tbtn" id="bt-carrinho-top" type="button" data-tela="carrinho" aria-label="Abrir o carrinho"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bag"/></svg><i class="bdg" id="bdg-top">3</i></button>
+  <button class="tbtn" id="tema" type="button" aria-label="Alternar tema claro e escuro"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+</div></header>
+<!-- /KIT:cabecalho -->
+
+<main id="view">
+
+<!-- ==================== 1. VITRINE ==================== -->
+<div class="tela on" data-tela="vitrine" data-titulo="Vitrine">
+  <section class="snap"><div class="wrap">
+    <div class="g2 hero">
+      <div>
+        <span class="eyebrow">Vitrine · <span id="vp-sync">catálogo atualizado às 09:41</span></span>
+        <h1 style="font-size:clamp(30px,4.6vw,46px)">O cliente monta o pedido aqui. No seu WhatsApp ele chega pronto.</h1>
+        <p class="muted mt" style="font-size:17px">Nada de "oi, quero esse, quanto fica?". O carrinho vira uma mensagem com item, cor, tamanho, quantidade, frete escolhido e total. Você confere, responde e fecha. O estoque sai do Bling e volta para o catálogo sozinho.</p>
+        <p class="mt" style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" type="button" id="bt-exemplo">Montar um pedido de exemplo <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <button class="btn gh" type="button" data-tela="pedido">Ver como ele chega no WhatsApp</button>
+        </p>
+        <p class="mt"><span class="hint"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-spark"/></svg>Loja de amostra com produtos de exemplo; os produtos reais entrariam no lugar</span></p>
+      </div>
+      <div>
+        <svg class="hero-il" viewBox="0 0 460 370" role="img" aria-labelledby="hi-t">
+          <title id="hi-t">Ilustração: um carrinho de compras vira uma mensagem pronta no WhatsApp da loja, com o estoque reservado por trinta minutos</title>
+          <ellipse cx="230" cy="190" rx="205" ry="150" fill="var(--brand-soft)"/>
+          <g>
+            <rect x="30" y="120" width="132" height="132" rx="18" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+            <path d="M50 156h92M50 186h64M50 216h78" stroke="var(--line)" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="140" cy="150" r="15" fill="var(--mango)"/>
+            <path d="M134 150l4.5 4.5 8-8" stroke="#33210A" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="96" y="242" text-anchor="middle" font-family="Karla, sans-serif" font-size="13" font-weight="700" fill="var(--muted)">carrinho</text>
+          </g>
+          <path d="M170 186c22 0 24-22 44-22" stroke="var(--brand)" stroke-width="2.4" fill="none" stroke-dasharray="6 6" stroke-linecap="round"/>
+          <path d="M210 158l6 6-6 6" stroke="var(--brand)" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <g>
+            <rect x="250" y="42" width="164" height="286" rx="24" fill="var(--surface)" stroke="var(--ink)" stroke-width="2.6"/>
+            <rect x="250" y="42" width="164" height="52" rx="24" fill="var(--wa-dark)"/>
+            <rect x="250" y="74" width="164" height="20" fill="var(--wa-dark)"/>
+            <circle cx="276" cy="68" r="13" fill="var(--mango)"/>
+            <text x="298" y="66" font-family="Karla, sans-serif" font-size="13.5" font-weight="700" fill="#EAF7EF">Novelo</text>
+            <text x="298" y="82" font-family="Karla, sans-serif" font-size="11" fill="#A9D6BC">online agora</text>
+            <rect x="272" y="112" width="118" height="76" rx="12" fill="var(--wa-soft)"/>
+            <path d="M284 130h80M284 146h94M284 162h54" stroke="#9CC7A9" stroke-width="7" stroke-linecap="round"/>
+            <rect x="272" y="202" width="86" height="46" rx="12" fill="var(--wa-soft)"/>
+            <path d="M284 218h52M284 232h34" stroke="#9CC7A9" stroke-width="7" stroke-linecap="round"/>
+            <rect x="320" y="262" width="82" height="34" rx="12" fill="var(--wa-dark)"/>
+            <text x="361" y="284" text-anchor="middle" font-family="Karla, sans-serif" font-size="13" font-weight="700" fill="#EAF7EF">R$ 171,70</text>
+          </g>
+          <g>
+            <rect x="24" y="286" width="220" height="46" rx="23" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+            <circle cx="50" cy="309" r="14" fill="var(--brand-soft)"/>
+            <path d="M50 302v7.5l5 3" stroke="var(--brand)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            <text x="74" y="306" font-family="Karla, sans-serif" font-size="12.5" font-weight="700" fill="var(--ink)">Reserva de 30 min</text>
+            <text x="74" y="321" font-family="Karla, sans-serif" font-size="11" fill="var(--muted)">a peça sai do catálogo só então</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="g4 mt" style="margin-top:32px">
+      <div class="kpi rv"><b><svg class="ico" viewBox="0 0 24 24" style="display:inline-block;vertical-align:-3px;color:var(--brand)" aria-hidden="true"><use href="#i-wa"/></svg> <span data-conta="1">1</span></b><span>mensagem por pedido, já com item, cor, tamanho e frete</span></div>
+      <div class="kpi rv" style="--i:1"><b><span data-conta="0">0</span></b><span>pergunta sua para descobrir o que o cliente quer</span></div>
+      <div class="kpi rv" style="--i:2"><b><span data-conta="30">30</span> min</b><span>de reserva da peça enquanto a conversa acontece</span></div>
+      <div class="kpi rv" style="--i:3"><b><span data-conta="15">15</span> min</b><span>entre o estoque mudar no Bling e o catálogo saber</span></div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="sh">
+      <h2>A vitrine</h2>
+      <p class="sub">O que está à venda é o que existe no Bling. Acabou a peça, ela sai daqui sozinha, e você não vende o que não tem.</p>
+    </div>
+    <div class="card rv" style="padding:16px">
+      <div class="busca"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-search"/></svg><input id="busca" type="search" placeholder="Buscar na vitrine (ex.: camiseta, caneca)" aria-label="Buscar produtos"></div>
+      <div class="rolx chips mt" id="chips" role="group" aria-label="Filtrar por categoria">
+        <button class="chip" type="button" data-cat="todos" aria-pressed="true">Tudo <span class="mini">8</span></button>
+        <button class="chip" type="button" data-cat="Vestuário" aria-pressed="false">Vestuário</button>
+        <button class="chip" type="button" data-cat="Acessórios" aria-pressed="false">Acessórios</button>
+        <button class="chip" type="button" data-cat="Casa" aria-pressed="false">Casa</button>
+        <button class="chip" type="button" data-cat="Papelaria" aria-pressed="false">Papelaria</button>
+      </div>
+    </div>
+
+    <div class="grid-pr mt" id="prateleira" style="margin-top:20px">
+      <article class="pc rv" data-id="camiseta" data-cat="Vestuário" data-nome="Camiseta Pima" data-preco="89.9" data-est="3" style="--p1:#E3D6BC;--p2:#CDBB98;--p3:#8C7A57">
+        <div class="pc-fig"><span class="pill warn pc-tag">últimas 3</span><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-camiseta"/></svg></div>
+        <div class="pc-corpo">
+          <span class="pc-nome">Camiseta Pima</span>
+          <span class="mini">Areia, Argila e Grafite · P ao GG</span>
+          <span class="pc-preco">R$ 89,90</span>
+          <span class="mini" id="est-camiseta"><b>3 em estoque</b> · 2 já separadas</span>
+          <div class="pc-acoes"><button class="btn sm" type="button" data-add="camiseta">Adicionar</button><button class="btn gh sm" type="button" data-tela="produto" data-prod="camiseta">Ver</button></div>
+        </div>
+      </article>
+
+      <article class="pc rv" style="--i:1;--p1:#A9B79C;--p2:#8C9C7E;--p3:#5C6A50" data-id="bone" data-cat="Acessórios" data-nome="Boné de Sarja" data-preco="79" data-est="6">
+        <div class="pc-fig"><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-bone"/></svg></div>
+        <div class="pc-corpo">
+          <span class="pc-nome">Boné de Sarja</span>
+          <span class="mini">Areia e Verde-musgo · tamanho único</span>
+          <span class="pc-preco">R$ 79,00</span>
+          <span class="mini" id="est-bone"><b>6 em estoque</b> · 1 já separada</span>
+          <div class="pc-acoes"><button class="btn sm" type="button" data-add="bone">Adicionar</button><button class="btn gh sm" type="button" data-tela="produto" data-prod="bone">Ver</button></div>
+        </div>
+      </article>
+
+      <article class="pc rv" style="--i:2;--p1:#CFC2E0;--p2:#B4A2CE;--p3:#6E5E88" data-id="meia" data-cat="Acessórios" data-nome="Meia Cano Alto" data-preco="34.9" data-est="14">
+        <div class="pc-fig"><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-meia"/></svg></div>
+        <div class="pc-corpo">
+          <span class="pc-nome">Meia Cano Alto <span class="mini">(par)</span></span>
+          <span class="mini">Cru e Lilás · 35 ao 44</span>
+          <span class="pc-preco">R$ 34,90</span>
+          <span class="mini" id="est-meia"><b>14 em estoque</b> · 4 já separadas</span>
+          <div class="pc-acoes"><button class="btn sm" type="button" data-add="meia">Adicionar</button><button class="btn gh sm" type="button" data-tela="produto" data-prod="meia">Ver</button></div>
+        </div>
+      </article>
+
+      <article class="pc rv" style="--i:3;--p1:#E8E2DA;--p2:#D6CCBF;--p3:#8A7E70" data-id="caneca" data-cat="Casa" data-nome="Caneca Esmaltada 300 ml" data-preco="49.9" data-est="11">
+        <div class="pc-fig"><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-caneca"/></svg></div>
+        <div class="pc-corpo">
+          <span class="pc-nome">Caneca Esmaltada 300 ml</span>
+          <span class="mini">Branca e Terracota</span>
+          <span class="pc-preco">R$ 49,90</span>
+          <span class="mini" id="est-caneca"><b>11 em estoque</b></span>
+          <div class="pc-acoes"><button class="btn sm" type="button" data-add="caneca">Adicionar</button><button class="btn gh sm" type="button" data-tela="produto" data-prod="caneca">Ver</button></div>
+        </div>
+      </article>
+
+      <article class="pc rv" data-id="sacola" data-cat="Acessórios" data-nome="Sacola de Algodão" data-preco="39" data-est="7" style="--p1:#E6DCC7;--p2:#D2C4A6;--p3:#8E7F62">
+        <div class="pc-fig"><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-sacola"/></svg></div>
+        <div class="pc-corpo">
+          <span class="pc-nome">Sacola de Algodão</span>
+          <span class="mini">Cru e Argila</span>
+          <span class="pc-preco">R$ 39,00</span>
+          <span class="mini" id="est-sacola"><b>7 em estoque</b></span>
+          <div class="pc-acoes"><button class="btn sm" type="button" data-add="sacola">Adicionar</button><button class="btn gh sm" type="button" data-tela="produto" data-prod="sacola">Ver</button></div>
+        </div>
+      </article>
+
+      <article class="pc rv" style="--i:1;--p1:#B9C7D6;--p2:#9AAEC2;--p3:#5D7089" data-id="caderno" data-cat="Papelaria" data-nome="Caderno Costurado A5" data-preco="56" data-est="5">
+        <div class="pc-fig"><span class="pill bad pc-tag">estoque baixo</span><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-caderno"/></svg></div>
+        <div class="pc-corpo">
+          <span class="pc-nome">Caderno Costurado A5</span>
+          <span class="mini">Azul e Areia · 160 páginas</span>
+          <span class="pc-preco">R$ 56,00</span>
+          <span class="mini" id="est-caderno" data-min="6"><b>5 em estoque</b> · mínimo 6</span>
+          <div class="pc-acoes"><button class="btn sm" type="button" data-add="caderno">Adicionar</button><button class="btn gh sm" type="button" data-tela="produto" data-prod="caderno">Ver</button></div>
+        </div>
+      </article>
+
+      <article class="pc rv" style="--i:2;--p1:#EBD3A0;--p2:#DDBE7E;--p3:#9A7E45" data-id="cordao" data-cat="Acessórios" data-nome="Cordão de Miçanga" data-preco="29.9" data-est="12">
+        <div class="pc-fig"><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-cordao"/></svg></div>
+        <div class="pc-corpo">
+          <span class="pc-nome">Cordão de Miçanga</span>
+          <span class="mini">Âmbar e Verde</span>
+          <span class="pc-preco">R$ 29,90</span>
+          <span class="mini" id="est-cordao"><b>12 em estoque</b></span>
+          <div class="pc-acoes"><button class="btn sm" type="button" data-add="cordao">Adicionar</button><button class="btn gh sm" type="button" data-tela="produto" data-prod="cordao">Ver</button></div>
+        </div>
+      </article>
+
+      <article class="pc rv" style="--i:3;--p1:#E0C4BC;--p2:#CCA79D;--p3:#8E6C62" data-id="necessaire" data-cat="Casa" data-nome="Necessaire de Lona" data-preco="74.9" data-est="4">
+        <div class="pc-fig"><span class="pill bad pc-tag">estoque baixo</span><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-necessaire"/></svg></div>
+        <div class="pc-corpo">
+          <span class="pc-nome">Necessaire de Lona</span>
+          <span class="mini">Rosa-argila e Grafite</span>
+          <span class="pc-preco">R$ 74,90</span>
+          <span class="mini" id="est-necessaire"><b>4 em estoque</b> · 1 já separada</span>
+          <div class="pc-acoes"><button class="btn sm" type="button" data-add="necessaire">Adicionar</button><button class="btn gh sm" type="button" data-tela="produto" data-prod="necessaire">Ver</button></div>
+        </div>
+      </article>
+
+      <div class="vazio" id="sem-resultado" hidden style="grid-column:1/-1">
+        <svg viewBox="0 0 220 150" aria-hidden="true"><circle cx="110" cy="70" r="52" fill="var(--surface2)"/><path d="M88 46h44l-4 58H92z" fill="var(--surface)" stroke="var(--line)" stroke-width="3"/><path d="M98 46V38a12 12 0 0 1 24 0v8" fill="none" stroke="var(--line)" stroke-width="3"/><path d="M60 118h100" stroke="var(--line)" stroke-width="3" stroke-dasharray="7 7"/><circle cx="168" cy="44" r="18" fill="var(--mango)"/><path d="M162 44h12M168 38v12" stroke="#33210A" stroke-width="3" stroke-linecap="round"/></svg>
+        <b style="font:700 18px/1.3 var(--f-d);display:block">Nada com esse nome</b>
+        <p class="mini mt">Tente "camiseta", "caneca" ou "sacola". O que não existe no Bling não aparece aqui.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="g2">
+      <div class="card rv br" style="background:var(--surface)">
+        <span class="eyebrow">O que muda no seu dia</span>
+        <h3 style="font-size:23px">Hoje a venda só fecha depois de seis perguntas suas. Amanhã chega pronta.</h3>
+        <ul class="lst mt">
+          <li><span class="pill bad"><svg aria-hidden="true"><use href="#i-alert"/></svg>hoje</span><span><b>"Qual cor? Qual tamanho? Quantas?"</b><span class="mini">Três mensagens só para descobrir o que a pessoa quer, e o cliente some no meio.</span></span></li>
+          <li><span class="pill bad"><svg aria-hidden="true"><use href="#i-alert"/></svg>hoje</span><span><b>"Fica quanto o frete?"</b><span class="mini">Você para a conversa, vai calcular, volta. Metade não volta.</span></span></li>
+          <li><span class="pill ok"><svg aria-hidden="true"><use href="#i-check"/></svg>no exemplo</span><span><b>Uma mensagem, tudo dentro</b><span class="mini">Item, cor, tamanho, quantidade, envio escolhido com o preço na frente e total somado.</span></span></li>
+          <li><span class="pill ok"><svg aria-hidden="true"><use href="#i-check"/></svg>no exemplo</span><span><b>Estoque que não mente</b><span class="mini">Vendeu, baixa no Bling; acabou, sai do catálogo. Você nunca promete peça que já saiu.</span></span></li>
+        </ul>
+        <p class="mt" style="margin-bottom:0"><button class="btn" type="button" data-tela="fluxo">Ver o caminho inteiro do pedido <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></button></p>
+      </div>
+      <div class="card rv" style="--i:1">
+        <h3 style="margin-bottom:10px">O que chega no WhatsApp</h3>
+        <p class="mini" style="margin-bottom:12px">Prévia real, montada com o que estiver no carrinho. Você não digita nada.</p>
+        <div class="msg"><span class="msg-t"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>Prévia da mensagem</span>
+          <div class="bolha" id="prev-vitrine"></div>
+        </div>
+        <p class="mini mt" style="margin-bottom:0"><b>A diferença toda está aqui.</b> Se o botão abrir o WhatsApp com "olá, tenho interesse", o trabalho continua sendo seu, e é isso que o botão entrega, sozinho.</p>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ==================== 2. PRODUTO ==================== -->
+<div class="tela" data-tela="produto" data-titulo="Produto">
+  <section class="snap"><div class="wrap">
+    <p><button class="btn gh sm" type="button" data-tela="vitrine"><svg class="ico" viewBox="0 0 24 24" style="transform:rotate(180deg)" aria-hidden="true"><use href="#i-arrow"/></svg> Voltar para a vitrine</button></p>
+    <div class="g2 eq mt" style="gap:28px">
+      <div class="galeria" id="galeria" style="--p1:#E3D6BC;--p2:#CDBB98;--p3:#8C7A57">
+        <div class="gal-fig" id="gal-fig">
+          <svg class="fig-p" viewBox="0 0 120 120" role="img" aria-labelledby="gp-t" id="gal-svg"><title id="gp-t">Ilustração do produto na cor escolhida</title><use href="#p-camiseta" id="gal-use"/></svg>
+          <span class="pill ok pcard-selo" id="gal-selo">1 disponível agora</span>
+        </div>
+        <div class="gal-min" role="group" aria-label="Outras vistas do produto">
+          <button type="button" aria-pressed="true" data-vista="frente" aria-label="Vista da frente"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#p-camiseta" id="gm1"/></svg></button>
+          <button type="button" aria-pressed="false" data-vista="detalhe" aria-label="Vista de detalhe" id="bt-vista-2"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#p-camiseta" id="gm2"/></svg></button>
+          <button type="button" aria-pressed="false" data-vista="embalagem" aria-label="Vista da embalagem"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#p-necessaire" id="gm3"/></svg></button>
+        </div>
+      </div>
+      <div>
+        <span class="eyebrow" id="pd-cat">Vestuário</span>
+        <h1 id="pd-nome" style="font-size:clamp(28px,4.4vw,40px)">Camiseta Pima</h1>
+        <p class="mini mt" id="pd-desc">Algodão pima penteado, gola reforçada, corte reto. Tingimento por lote: a cor da foto é a cor da peça.</p>
+        <div class="row nw mt" style="justify-content:flex-start;gap:10px">
+          <span class="pill ok"><svg aria-hidden="true"><use href="#i-check"/></svg>troca em 7 dias</span>
+          <span class="pill br"><svg aria-hidden="true"><use href="#i-box"/></svg>pronta entrega</span>
+        </div>
+        <p class="mt" style="font:700 34px/1 var(--f-d);font-variant-numeric:tabular-nums" id="pd-preco">R$ 89,90</p>
+        <p class="mini" id="pd-pix">R$ 85,41 no Pix · ou 3x de R$ 29,97 sem juros</p>
+
+        <hr class="hr-l">
+        <p class="mini" style="font-weight:700;color:var(--ink);margin-bottom:8px">Cor: <span id="pd-cor-nome">Areia</span></p>
+        <div class="vars" id="pd-cores" role="group" aria-label="Escolher a cor"></div>
+
+        <p class="mini mt" style="font-weight:700;color:var(--ink);margin-bottom:8px">Tamanho</p>
+        <div class="vars" id="pd-tams" role="group" aria-label="Escolher o tamanho"></div>
+
+        <div class="row nw mt" style="justify-content:flex-start;gap:14px">
+          <div class="qtd" role="group" aria-label="Quantidade">
+            <button type="button" id="pd-menos" aria-label="Diminuir quantidade"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-minus"/></svg></button>
+            <b id="pd-qtd" aria-live="polite">1</b>
+            <button type="button" id="pd-mais" aria-label="Aumentar quantidade"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></button>
+          </div>
+          <span class="mini" id="pd-estoque"><b>1 disponível</b> · 2 já separadas</span>
+        </div>
+
+        <p class="mt" style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" type="button" id="pd-add">Adicionar ao carrinho</button>
+          <button class="btn wa" type="button" id="pd-add-wa"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg> Fechar agora no WhatsApp</button>
+        </p>
+        <p class="mini mt"><span class="pulso"><span class="pt" aria-hidden="true"></span>Reserva de 30 min</span>. A peça fica guardada só enquanto a conversa acontece.</p>
+
+        <hr class="hr-l">
+        <div class="entrega-l"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-truck"/></svg><span><b>Envio escolhido antes de sair daqui</b><span class="mini">Retirada na loja (grátis), entrega em Curitiba por R$ 12,00 ou Correios calculado pelo seu CEP. O cliente vê o preço antes de decidir, não depois.</span></span></div>
+        <div class="entrega-l"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sync"/></svg><span><b>Estoque vindo do Bling</b><span class="mini" id="pd-sync">Conferido às 09:41. Se a última peça sair, o produto sai do catálogo na próxima conferência.</span></span></div>
+        <div class="entrega-l"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"/></svg><span><b>Quem atende é você</b><span class="mini">A mensagem já chega com tudo; sobra para você combinar pagamento e envio, não para descobrir o pedido.</span></span></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="sh"><h2>Quem compra junto</h2><p class="sub">Sugestão puxada do que já saiu nos últimos pedidos, e do que está em estoque de verdade.</p></div>
+    <div class="rolx"><div id="pd-relacionados" style="display:flex;gap:14px;min-width:max-content"></div></div>
+  </div></section>
+</div>
+
+<!-- ==================== 3. CARRINHO ==================== -->
+<div class="tela" data-tela="carrinho" data-titulo="Carrinho">
+  <section class="snap"><div class="wrap">
+    <span class="eyebrow">Carrinho · <span id="cr-qtd-txt">3 itens</span></span>
+    <h1 style="font-size:clamp(28px,4.6vw,42px)">Confira. A mensagem se monta sozinha.</h1>
+    <p class="muted mt" style="max-width:62ch">O cliente escolhe o envio aqui, com o preço na frente. O que sai no WhatsApp é isto que está do lado: nada para você redigitar.</p>
+
+    <div class="g2 mt" style="margin-top:24px">
+      <div>
+        <div class="card rv">
+          <h3 style="margin-bottom:4px">Seu pedido</h3>
+          <p class="mini" style="margin-bottom:6px">Quantidade e cor podem mudar até o envio da mensagem.</p>
+          <div id="ci-lista"></div>
+
+          <div class="vazio" id="ci-vazio" hidden>
+            <svg viewBox="0 0 220 150" aria-hidden="true"><circle cx="110" cy="72" r="54" fill="var(--surface2)"/><path d="M86 52h48l-4.4 62H90.4z" fill="var(--surface)" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/><path d="M96 52v-9a14 14 0 0 1 28 0v9" fill="none" stroke="var(--line)" stroke-width="3"/><path d="M56 126h108" stroke="var(--line)" stroke-width="3" stroke-dasharray="7 7"/><circle cx="164" cy="44" r="19" fill="var(--brand-soft)"/><path d="M157 44l5 5 9-9" stroke="var(--brand)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <b style="font:700 19px/1.3 var(--f-d);display:block">O carrinho está vazio</b>
+            <p class="mini mt">É assim que o cliente vê quando abre a loja pela primeira vez. Nada de tela em branco: uma explicação e o caminho de volta.</p>
+            <p class="mt" style="margin-bottom:0"><button class="btn" type="button" data-tela="vitrine">Voltar para a vitrine</button></p>
+          </div>
+        </div>
+
+        <div class="card rv mt" style="--i:1" id="card-envio">
+          <h3 style="margin-bottom:6px">Forma de envio</h3>
+          <p class="mini" style="margin-bottom:12px">A pergunta que hoje trava a conversa no WhatsApp: aqui ela tem preço e prazo, e o cliente decide sozinho.</p>
+          <label class="frete-opt" data-envio="retirada" data-on="0">
+            <input type="radio" name="envio" value="retirada">
+            <span><b>Retirar na loja (grátis)</b><span class="mini">Rua das Laranjeiras, 42 · Centro · de terça a sábado, das 9h às 18h</span></span>
+          </label>
+          <label class="frete-opt" data-envio="local" data-on="1">
+            <input type="radio" name="envio" value="local" checked>
+            <span><b>Entrega em Curitiba, R$ 12,00</b><span class="mini">1 a 2 dias úteis, combinada no chat. Grátis acima de R$ 199.</span></span>
+          </label>
+          <label class="frete-opt" data-envio="correios" data-on="0">
+            <input type="radio" name="envio" value="correios">
+            <span><b>Correios para todo o Brasil</b><span class="mini">PAC, 4 a 7 dias úteis. O valor sai do CEP, calcule aqui embaixo.</span></span>
+          </label>
+
+          <div class="cep">
+            <input id="cep" inputmode="numeric" autocomplete="postal-code" placeholder="CEP (ex.: 80530-000)" aria-label="CEP para calcular o frete">
+            <button class="btn gh" type="button" id="bt-cep">Calcular</button>
+          </div>
+          <p class="mini mt" id="cep-msg" role="status" aria-live="polite" style="margin-bottom:0">Informe o CEP para ver o frete dos Correios antes de mandar o pedido.</p>
+
+          <div id="frete-barra" class="mt">
+            <div class="row nw mini" style="margin-bottom:7px"><span id="fb-txt">Faltam R$ 39,30 para a entrega em Curitiba sair de graça</span><span id="fb-pct" class="num">80%</span></div>
+            <div class="barra-g" id="fb-barra" style="--w:80%"><i></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resumo">
+        <div class="fixa">
+          <div class="card rv">
+            <h3 style="margin-bottom:12px">Resumo</h3>
+            <div class="tot-l"><span class="muted">Subtotal</span><b class="num" id="rs-sub">R$ 159,70</b></div>
+            <div class="tot-l"><span class="muted" id="rs-envio-l">Entrega em Curitiba</span><b class="num" id="rs-envio">R$ 12,00</b></div>
+            <div class="tot-l g"><span>Total</span><span class="num" id="rs-tot">R$ 171,70</span></div>
+            <p class="mini mt" id="rs-pix">R$ 163,12 no Pix, se você quiser oferecer o desconto.</p>
+            <p class="mt" style="margin-bottom:8px"><button class="btn wa bl" type="button" id="bt-finalizar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg> Finalizar e ver a mensagem</button></p>
+            <p class="mini" style="text-align:center;margin-bottom:0">No site de verdade este botão abre o WhatsApp da loja com a mensagem pronta; aqui ele leva para a tela do pedido, com o teste de envio. A peça fica reservada por 30 minutos.</p>
+            <p class="mt" style="margin-bottom:0"><button class="btn gh bl sm" type="button" id="bt-copiar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg> Copiar a mensagem</button></p>
+          </div>
+
+          <div class="card rv mt" style="--i:1">
+            <span class="eyebrow">O que vai na mensagem</span>
+            <div class="msg" style="margin-top:6px"><span class="msg-t"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>Mensagem que o cliente envia</span>
+              <div class="bolha" id="prev-carrinho"></div>
+            </div>
+            <p class="mini mt" style="margin-bottom:0">Isso é atualizado a cada clique: mudou a quantidade ou o envio, muda a mensagem. Sem "oi, tudo bem?" e sem pedido pela metade.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ==================== 4. PEDIDO ENVIADO ==================== -->
+<div class="tela" data-tela="pedido" data-titulo="Pedido enviado">
+  <section class="snap"><div class="wrap">
+    <div class="g2" style="gap:28px">
+      <div>
+        <div class="row nw" style="justify-content:flex-start;gap:14px">
+          <span id="pd-ok" aria-hidden="true"></span>
+          <div>
+            <span class="eyebrow" style="margin:0">Pedido enviado</span>
+            <h1 style="font-size:clamp(26px,4.2vw,38px)">Chegou no WhatsApp da loja com tudo dentro.</h1>
+          </div>
+        </div>
+        <p class="muted mt">O cliente não digitou nada. A loja não vai perguntar nada. Se a conversa esfriar, o estoque volta sozinho para a prateleira em 30 minutos, e a peça não fica presa.</p>
+        <p class="mt" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <a class="btn wa" id="bt-wa-real" href="#" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg> Testar: enviar esta mensagem agora</a>
+          <button class="btn gh" type="button" data-tela="painel">Ver do lado da loja</button>
+        </p>
+        <p class="mini mt">O botão abre o WhatsApp com o pedido já escrito. No exemplo, ele cai no telefone de quem fez o projeto, e é assim que a mensagem chega do outro lado.</p>
+
+        <div class="alert ok mt" style="margin-top:24px">
+          <span class="ai" style="background:var(--surface);color:var(--ok)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg></span>
+          <div>
+            <b>Reserva ativa: <span class="pulso" id="res-tempo"><span class="pt" aria-hidden="true"></span>29:58</span></b>
+            <p class="mini">Enquanto estiver reservada, os 3 itens aparecem como indisponíveis para os outros clientes. Passados os 30 minutos sem resposta da loja, a reserva cai sozinha e o estoque volta.</p>
+            <p class="mini" style="margin-bottom:0">A baixa de verdade no Bling só acontece quando a loja confirma o pagamento. É isso que evita vender a mesma peça duas vezes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card rv" style="--i:1">
+        <span class="eyebrow">Na tela do cliente</span>
+        <div class="msg" id="chat"><span class="msg-t"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp · Novelo</span>
+          <div class="bolha" id="bolha-pedido"></div>
+          <span class="msg-hora" id="msg-hora">enviada às 09:52 · aguardando resposta</span>
+        </div>
+        <div class="mt" id="chat-digit"><div class="digit" aria-label="A loja está digitando"><i></i><i></i><i></i></div></div>
+        <p class="mini mt">Depois desta mensagem, o cliente não precisa abrir mais nada. A conversa segue no WhatsApp que ela já usa hoje.</p>
+      </div>
+    </div>
+
+    <div class="g2 mt" style="margin-top:36px">
+      <div class="card rv">
+        <h3 style="margin-bottom:6px">O que acontece depois</h3>
+        <p class="mini" style="margin-bottom:16px">Nenhuma etapa depende de alguém lembrar.</p>
+        <ul class="tl">
+          <li class="feito"><span class="no"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span><span><b>Mensagem enviada</b><span class="mini">09:52 · com item, cor, tamanho, envio e total. A loja recebe e o pedido já aparece no painel.</span></span></li>
+          <li class="agora"><span class="no">2</span><span><b>A loja confere e responde</b><span class="mini">A peça está reservada por 30 minutos. Se ninguém responder, o estoque volta sozinho e o pedido fica em "aguardando o cliente".</span></span></li>
+          <li><span class="no">3</span><span><b>Pagamento combinado no chat</b><span class="mini">Pix, cartão ou dinheiro na retirada. A loja marca como pago no painel, e é isso que libera a baixa.</span></span></li>
+          <li><span class="no">4</span><span><b>Vira pedido de venda no Bling</b><span class="mini">O estoque baixa de verdade e volta para o catálogo. Sem isso, a integração seria só enfeite: um carrinho no WhatsApp não muda estoque nenhum.</span></span></li>
+          <li><span class="no">5</span><span><b>Envio ou retirada</b><span class="mini">Com o endereço já na conversa quando for entrega, e sem endereço nenhum quando for retirada.</span></span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="card rv" style="--i:1">
+          <h3 style="margin-bottom:6px">Os estados que ninguém desenha</h3>
+          <p class="mini" style="margin-bottom:12px">Todo pedido passa por um destes. Se o site não prevê, quem resolve é você, no telefone.</p>
+          <ul class="lst">
+            <li><span class="pill warn">30 min</span><span><b>Cliente não paga</b><span class="mini">A reserva expira, o estoque volta e o painel avisa. Nada de peça presa.</span></span></li>
+            <li><span class="pill warn">CH</span><span><b>Cliente não responde</b><span class="mini">Fica 24 h em "aguardando o cliente" e fecha como perdido, com o motivo registrado.</span></span></li>
+            <li><span class="pill ok">1 clique</span><span><b>Arrependimento em 7 dias</b><span class="mini">A troca estorna a baixa no Bling, e o número do estoque volta certo.</span></span></li>
+            <li><span class="pill br">na hora</span><span><b>Acabou no meio</b><span class="mini">O item sai do catálogo na próxima conferência; quem já reservou é respeitado.</span></span></li>
+          </ul>
+        </div>
+        <div class="alert br rv" style="--i:2">
+          <span class="ai"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-spark"/></svg></span>
+          <div><b>O detalhe que decide a venda</b><p class="mini" style="margin-bottom:0">Todo mundo entrega o botão verde. O que faz o pedido fechar é o texto que chega depois dele, e o estoque que baixa <em>depois</em> do "sim". É onde a gente colocou o trabalho.</p></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ==================== 5. PAINEL DA LOJA ==================== -->
+<div class="tela" data-tela="painel" data-titulo="Painel da loja">
+  <section class="snap"><div class="wrap">
+    <div class="row" style="align-items:flex-end">
+      <div>
+        <span class="eyebrow">Painel da loja · quinta, 15 de outubro · atualizado às <span id="up-hora">09:41</span></span>
+        <h1 style="font-size:clamp(28px,4.6vw,42px)">Do "quero esse" ao estoque baixado, sem você digitar o pedido.</h1>
+      </div>
+      <p class="mt" style="margin:0"><span class="hint"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-spark"/></svg>Amostra com dados fictícios da loja</span></p>
+    </div>
+
+    <div class="kpis mt" style="margin-top:26px">
+      <div class="kpi rv"><b data-conta="7">7</b><span>pedidos hoje</span><span class="tag mini"><b>6 vieram pelo catálogo</b>, 1 digitado à mão</span></div>
+      <div class="kpi rv" style="--i:1"><b data-conta="1284.3" data-dec="2" data-pre="R$ ">R$ 1.284,30</b><span>vendido hoje</span><span class="tag mini">ticket médio de R$ 183,47</span></div>
+      <div class="kpi rv" style="--i:2"><b data-conta="1">1</b><span>esperando resposta sua</span><span class="tag mini">há 6 minutos, dentro dos 30 de reserva</span></div>
+      <div class="kpi rv" style="--i:3"><b data-conta="3">3</b><span>itens no mínimo do estoque</span><span class="tag mini">aviso antes de virar "esgotado"</span></div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="g2">
+      <div class="col">
+        <div class="card rv">
+          <div class="row"><h3>Pedidos que chegaram pelo WhatsApp</h3><span class="pill br" id="pn-cont">últimos 5 pedidos</span></div>
+          <p class="mini mt" style="margin-bottom:14px">Cada linha foi montada pelo cliente. Abra para ver o que ele escreveu e o que já foi feito.</p>
+          <button class="ped" type="button" data-ped="1042">
+            <span class="zip"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg></span>
+            <span><span class="nm">#1042 · Camila R.</span><span class="mini">1 Camiseta Pima (Areia, M) e 2 Meias · 09:52 · entrega em Curitiba</span></span>
+            <span><span class="vl">R$ 171,70</span><span class="mini">aguardando pagamento</span></span>
+          </button>
+          <button class="ped" type="button" data-ped="1041">
+            <span class="zip" style="background:var(--ok-soft);color:var(--ok)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>
+            <span><span class="nm">#1041 · Jonas P.</span><span class="mini">1 Boné de Sarja (Areia) · 09:31 · Correios PAC</span></span>
+            <span><span class="vl">R$ 103,90</span><span class="mini">pago · estoque baixado</span></span>
+          </button>
+          <button class="ped" type="button" data-ped="1040">
+            <span class="zip" style="background:var(--brand-soft);color:var(--brand)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-truck"/></svg></span>
+            <span><span class="nm">#1040 · Marina S.</span><span class="mini">1 Necessaire e 1 Caneca · 08:44 · Correios PAC</span></span>
+            <span><span class="vl">R$ 154,60</span><span class="mini">enviado</span></span>
+          </button>
+          <button class="ped" type="button" data-ped="1039">
+            <span class="zip" style="background:var(--surface2);color:var(--muted)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-store"/></svg></span>
+            <span><span class="nm">#1039 · Rafael T.</span><span class="mini">1 Camiseta Pima (Argila, G) · 08:20 · retirada</span></span>
+            <span><span class="vl">R$ 89,90</span><span class="mini">retirado na loja</span></span>
+          </button>
+          <button class="ped" type="button" data-ped="1038">
+            <span class="zip" style="background:var(--warn-soft);color:var(--warn)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg></span>
+            <span><span class="nm">#1038 · Bianca M.</span><span class="mini">1 Sacola e 1 Cordão · ontem 18:12 · frete grátis combinado no chat</span></span>
+            <span><span class="vl">R$ 68,90</span><span class="mini">enviado · margem apertada</span></span>
+          </button>
+          <p class="mini mt">Abrir um pedido mostra a mensagem como ela chegou, o que foi combinado e o botão que baixa o estoque.</p>
+        </div>
+
+        <div class="card rv" style="--i:1">
+          <h3>Entradas por dia</h3>
+          <p class="mini" style="margin-bottom:14px">Pedidos fechados pelo catálogo nos últimos 7 dias.</p>
+          <div style="display:grid;gap:12px">
+            <div><div class="row nw mini"><span>9/10</span><span class="num">3 pedidos</span></div><div class="barra-g mt" style="--w:43%"><i></i></div></div>
+            <div><div class="row nw mini"><span>10/10</span><span class="num">5 pedidos</span></div><div class="barra-g mt" style="--w:71%"><i></i></div></div>
+            <div><div class="row nw mini"><span>11/10</span><span class="num">7 pedidos</span></div><div class="barra-g mt" style="--w:100%"><i></i></div></div>
+            <div><div class="row nw mini"><span>12/10</span><span class="num">2 pedidos</span></div><div class="barra-g mt" style="--w:29%"><i></i></div></div>
+            <div><div class="row nw mini"><span>13/10</span><span class="num">4 pedidos</span></div><div class="barra-g mt" style="--w:57%"><i></i></div></div>
+            <div><div class="row nw mini"><span>14/10</span><span class="num">6 pedidos</span></div><div class="barra-g mt" style="--w:86%"><i></i></div></div>
+            <div><div class="row nw mini"><span>hoje</span><span class="num">7 pedidos</span></div><div class="barra-g mt" style="--w:100%"><i style="background:var(--mango)"></i></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card rv">
+          <h3 style="margin-bottom:6px">Quanto sobra em cada pedido</h3>
+          <p class="mini" style="margin-bottom:14px">O frete sai do seu bolso quando o pedido é pequeno. Aqui você vê isso <b>antes</b> de combinar no chat, não no fim do mês.</p>
+          <div class="rolx"><table class="tb">
+            <thead><tr><th>Pedido</th><th class="r">Vendido</th><th class="r">Frete</th><th class="r">Custo da peça</th><th class="r">Sobra</th></tr></thead>
+            <tbody>
+              <tr><td><b>#1039</b><span class="mini" style="display:block">retirada</span></td><td class="r num">R$ 89,90</td><td class="r num">R$ 0,00</td><td class="r num">R$ 41,00</td><td class="r num"><b>R$ 48,90</b><span class="mini">54%</span></td></tr>
+              <tr><td><b>#1041</b><span class="mini" style="display:block">PAC cobrado</span></td><td class="r num">R$ 103,90</td><td class="r num">R$ 24,90</td><td class="r num">R$ 38,00</td><td class="r num"><b>R$ 41,00</b><span class="mini">39%</span></td></tr>
+              <tr><td><b>#1040</b><span class="mini" style="display:block">PAC cobrado</span></td><td class="r num">R$ 154,60</td><td class="r num">R$ 29,80</td><td class="r num">R$ 58,00</td><td class="r num"><b>R$ 66,80</b><span class="mini">43%</span></td></tr>
+              <tr style="background:var(--warn-soft)"><td><b>#1038</b><span class="mini" style="display:block">frete grátis no chat</span></td><td class="r num">R$ 68,90</td><td class="r num">R$ 18,70<span class="mini" style="display:block">pago por você</span></td><td class="r num">R$ 30,50</td><td class="r num"><b>R$ 19,70</b><span class="mini">29%</span></td></tr>
+            </tbody>
+          </table></div>
+          <p class="mini" style="margin:10px 0 0"><b>Vendido</b> = o que o cliente pagou · <b>Frete</b> = o que saiu do seu bolso · <b>Sobra</b> = Vendido − Frete − Custo da peça.</p>
+          <div class="alert bad mt">
+            <span class="ai" style="background:var(--bad-soft);color:var(--bad)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg></span>
+            <div>
+              <b>O pedido #1038 saiu com 29% de sobra, e o frete de R$ 18,70 saiu do seu bolso.</b>
+              <p class="mini">Foi combinado "frete grátis" no chat, sem olhar a margem. No catálogo, o cliente vê "faltam R$ 130,10 para a entrega em Curitiba sair de graça" e compra mais uma peça em vez de você pagar o frete.</p>
+              <p class="mini" style="margin-bottom:0"><b>Com o catálogo, essa conversa não acontece no escuro.</b></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card rv" style="--i:1">
+          <h3 style="margin-bottom:6px">O que precisa de você hoje</h3>
+          <ul class="lst mt">
+            <li><span class="dt">30 min</span><span><b>Responder o pedido #1042</b><span class="mini">Reserva cai às 10:22. Sem resposta, o estoque volta e o pedido fica esperando o cliente.</span></span></li>
+            <li><span class="dt">hoje</span><span><b>Repor o Caderno Costurado A5</b><span class="mini">5 unidades, mínimo 6. Ao chegar no mínimo, o aviso aparece antes de a peça virar "esgotado", e você repõe sem correr.</span></span></li>
+            <li><span class="dt">hoje</span><span><b>Conferir a Necessaire de Lona</b><span class="mini">4 unidades, 1 reservada. Duas vendas e acaba.</span></span></li>
+          </ul>
+          <p class="mt" style="margin-bottom:0"><button class="btn gh bl sm" type="button" data-tela="estoque">Abrir o estoque e o Bling <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></button></p>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ==================== 6. ESTOQUE & BLING ==================== -->
+<div class="tela" data-tela="estoque" data-titulo="Estoque e Bling">
+  <section class="snap"><div class="wrap">
+    <div class="row" style="align-items:flex-end">
+      <div>
+        <span class="eyebrow">Estoque &amp; Bling</span>
+        <h1 style="font-size:clamp(26px,4.4vw,40px)">O estoque sai daqui. O catálogo só repete o que ele diz.</h1>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <span class="pill br" id="es-sync-pill"><svg aria-hidden="true"><use href="#i-sync"/></svg>última conferência às 09:41</span>
+        <button class="btn sm gh" type="button" id="bt-sync"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sync"/></svg> Conferir agora</button>
+      </div>
+    </div>
+    <p class="muted mt" style="max-width:70ch">Se um pedido do WhatsApp não virar pedido de venda no Bling, o estoque não baixa, e a loja vende de novo a peça que já saiu. É esse o caminho que está desenhado abaixo, item por item.</p>
+
+    <div class="alert wa mt" style="margin-top:22px" id="aviso-offline" hidden>
+      <span class="ai" style="background:var(--surface);color:var(--warn)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cloud-off"/></svg></span>
+      <div>
+        <b>Com o Bling fora do ar, o catálogo continua no ar</b>
+        <p class="mini">A loja segue vendendo com o <b>último estoque conhecido, das <span id="of-hora">09:41</span></b>, e diz isso na tela do produto. Os movimentos entram na fila e sobem sozinhos quando o Bling voltar. É melhor vender com um número de 10 minutos atrás do que ficar fora do ar, desde que ninguém esteja decidindo no escuro.</p>
+        <p class="mini" style="margin-bottom:0"><b>Fila agora: 3 movimentos</b> · nova tentativa a cada 5 minutos · ninguém precisa apertar nada.</p>
+      </div>
+    </div>
+
+    <div class="kpis mt" style="margin-top:26px">
+      <div class="kpi rv"><b data-conta="9">9</b><span>itens controlados no Bling</span><span class="tag mini">cada variação é um SKU próprio</span></div>
+      <div class="kpi rv" style="--i:1"><b data-conta="7">7</b><span>movimentos hoje</span><span class="tag mini">5 baixas e 2 reservas</span></div>
+      <div class="kpi rv" style="--i:2"><b data-conta="3">3</b><span>itens no mínimo</span><span class="tag mini">aviso antes de virar "esgotado"</span></div>
+      <div class="kpi rv" style="--i:3"><b data-conta="0">0</b><span>vendas de peça sem estoque</span><span class="tag mini">desde que a reserva entrou</span></div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="card rv">
+      <div class="row">
+        <div>
+          <h3>Do WhatsApp para o Bling</h3>
+          <p class="mini" style="margin-top:4px">Quatro passos. Nenhum deles é "lembrar de dar baixa".</p>
+        </div>
+        <span class="pill" id="es-fluxo-pill">tudo em dia</span>
+      </div>
+      <div class="rolx mt" style="margin-top:18px">
+        <svg class="diag rv" viewBox="0 0 940 210" role="img" aria-labelledby="dg-t">
+          <title id="dg-t">Diagrama: o cliente monta o carrinho, a mensagem chega pronta no WhatsApp, a loja confirma e o pedido vira pedido de venda no Bling, que baixa o estoque e atualiza o catálogo</title>
+          <defs>
+            <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" class="arw"/></marker>
+            <marker id="arwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" class="arw dest"/></marker>
+          </defs>
+          <g style="--d:0s"><rect class="no-b" x="14" y="52" width="190" height="104" rx="16"/><circle cx="42" cy="80" r="13" fill="var(--brand-soft)"/><text x="42" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="var(--brand)">1</text><text x="64" y="86">Cliente monta</text><text class="s" x="30" y="110">escolhe cor, tamanho</text><text class="s" x="30" y="128">e a forma de envio</text><text class="s" x="30" y="146">com o preço na frente</text></g>
+          <line class="seta" style="--d:.35s" x1="208" y1="104" x2="248" y2="104" marker-end="url(#arw)"/>
+          <g style="--d:.5s"><rect class="no-b dest" x="256" y="52" width="190" height="104" rx="16"/><circle cx="284" cy="80" r="13" fill="var(--brand)"/><text x="284" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text x="306" y="86">Mensagem pronta</text><text class="s" x="272" y="110">item, cor, tamanho,</text><text class="s" x="272" y="128">quantidade, envio</text><text class="s" x="272" y="146">e total já somado</text></g>
+          <line class="seta" style="--d:.85s" x1="450" y1="104" x2="490" y2="104" marker-end="url(#arw)"/>
+          <g style="--d:1s"><rect class="no-b" x="498" y="52" width="190" height="104" rx="16"/><circle cx="526" cy="80" r="13" fill="var(--brand-soft)"/><text x="526" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="var(--brand)">3</text><text x="548" y="86">Loja confirma</text><text class="s" x="514" y="110">pagamento combinado</text><text class="s" x="514" y="128">no chat, pedido de venda</text><text class="s" x="514" y="146">criado no Bling</text></g>
+          <line class="seta dest" style="--d:1.35s" x1="692" y1="104" x2="732" y2="104" marker-end="url(#arwd)"/>
+          <g style="--d:1.5s"><rect class="no-b" x="740" y="52" width="186" height="104" rx="16"/><circle cx="768" cy="80" r="13" fill="var(--mango)"/><text x="768" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#33210A">4</text><text x="790" y="86">Estoque baixa</text><text class="s" x="756" y="110">Bling devolve o número</text><text class="s" x="756" y="128">e a vitrine se atualiza</text><text class="s" x="756" y="146">em até 15 minutos</text></g>
+          <text class="s" x="470" y="188" text-anchor="middle">A reserva de 30 minutos protege os passos 2 e 3: ninguém compra a mesma peça enquanto a conversa acontece.</text>
+        </svg>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="g2" style="gap:24px">
+      <div class="card rv">
+        <div class="row"><h3>Estoque por variação</h3><span class="pill" id="es-ultima">conferido às 09:41</span></div>
+        <p class="mini mt" style="margin-bottom:12px">Cada cor e tamanho é um SKU. É assim que a peça não some sem ninguém perceber.</p>
+        <div class="rolx"><table class="tb" id="tab-est">
+          <thead><tr><th>Item</th><th>SKU</th><th class="r">Estoque</th><th class="r">Reservado</th><th class="r">Disponível</th><th>Situação</th></tr></thead>
+          <tbody>
+            <tr data-id="camiseta" data-cor="Areia" data-tam="M"><td><b>Camiseta Pima</b><span class="mini" style="display:block">Areia · M</span></td><td class="num mini">NOV-CAM-ARE-M</td><td class="r num js-est">3</td><td class="r num js-res">2</td><td class="r num js-disp"><b>1</b></td><td class="js-sit"><span class="pill bad">abaixo do mínimo (4)</span></td></tr>
+            <tr data-id="camiseta" data-cor="Argila" data-tam="M"><td><b>Camiseta Pima</b><span class="mini" style="display:block">Argila · M</span></td><td class="num mini">NOV-CAM-ARG-M</td><td class="r num js-est">5</td><td class="r num js-res">0</td><td class="r num js-disp"><b>5</b></td><td class="js-sit"><span class="pill ok">ok</span></td></tr>
+            <tr data-id="bone" data-cor="Areia" data-tam="Único"><td><b>Boné de Sarja</b><span class="mini" style="display:block">Areia</span></td><td class="num mini">NOV-BON-ARE</td><td class="r num js-est">6</td><td class="r num js-res">1</td><td class="r num js-disp"><b>5</b></td><td class="js-sit"><span class="pill ok">ok</span></td></tr>
+            <tr data-id="meia" data-cor="Cru" data-tam="Único"><td><b>Meia Cano Alto</b><span class="mini" style="display:block">Cru</span></td><td class="num mini">NOV-MEI-CRU</td><td class="r num js-est">14</td><td class="r num js-res">4</td><td class="r num js-disp"><b>10</b></td><td class="js-sit"><span class="pill ok">ok</span></td></tr>
+            <tr data-id="caneca" data-cor="Branca" data-tam="Único"><td><b>Caneca Esmaltada 300 ml</b><span class="mini" style="display:block">Branca</span></td><td class="num mini">NOV-CAN-300</td><td class="r num js-est">11</td><td class="r num js-res">0</td><td class="r num js-disp"><b>11</b></td><td class="js-sit"><span class="pill ok">ok</span></td></tr>
+            <tr data-id="sacola" data-cor="Cru" data-tam="Único"><td><b>Sacola de Algodão</b><span class="mini" style="display:block">Cru</span></td><td class="num mini">NOV-SAC-CRU</td><td class="r num js-est">7</td><td class="r num js-res">0</td><td class="r num js-disp"><b>7</b></td><td class="js-sit"><span class="pill ok">ok</span></td></tr>
+            <tr data-id="caderno" data-cor="Azul" data-tam="Único"><td><b>Caderno Costurado A5</b><span class="mini" style="display:block">Azul</span></td><td class="num mini">NOV-CAD-A5</td><td class="r num js-est">5</td><td class="r num js-res">0</td><td class="r num js-disp"><b>5</b></td><td class="js-sit"><span class="pill bad">abaixo do mínimo (6)</span></td></tr>
+            <tr data-id="cordao" data-cor="Âmbar" data-tam="Único"><td><b>Cordão de Miçanga</b><span class="mini" style="display:block">Âmbar</span></td><td class="num mini">NOV-COR-AMB</td><td class="r num js-est">12</td><td class="r num js-res">0</td><td class="r num js-disp"><b>12</b></td><td class="js-sit"><span class="pill ok">ok</span></td></tr>
+            <tr data-id="necessaire" data-cor="Rosa-argila" data-tam="Único"><td><b>Necessaire de Lona</b><span class="mini" style="display:block">Rosa-argila</span></td><td class="num mini">NOV-NEC-LON</td><td class="r num js-est">4</td><td class="r num js-res">1</td><td class="r num js-disp"><b>3</b></td><td class="js-sit"><span class="pill warn">no mínimo (4)</span></td></tr>
+          </tbody>
+        </table></div>
+        <p class="mini dica-rolx" style="margin:10px 0 0">Arraste a tabela para o lado para ver todas as colunas.</p>
+      </div>
+
+      <div class="col">
+        <div class="card rv">
+          <div class="row"><h3>Conferência com o Bling</h3><span class="pill">últimos 4 de 7 movimentos</span></div>
+          <p class="mini mt" style="margin-bottom:14px">Roda a cada 15 minutos, e também sempre que um pedido é confirmado.</p>
+          <label class="swtch" style="display:flex"><input type="checkbox" id="sw-offline"> Simular o Bling fora do ar</label>
+          <p class="mini mt">Ligue para ver o que acontece quando a integração cai: a loja continua vendendo, com o número e o horário à vista.</p>
+          <ol class="log mt" id="es-log">
+            <li><span class="hr2">09:41</span><span><b>Bling → catálogo</b><span class="mini">9 itens conferidos · 2 alterações de estoque (Camiseta Areia M: 4 → 3 · Caneca: 12 → 11)</span></span></li>
+            <li><span class="hr2">09:28</span><span><b>WhatsApp → Bling</b><span class="mini">Pedido #1039 confirmado · baixa de 1 un em NOV-CAM-ARG-M</span></span></li>
+            <li><span class="hr2">08:57</span><span><b>Reserva criada</b><span class="mini">1 un de NOV-BON-ARE separada por 30 min (pedido #1041)</span></span></li>
+            <li><span class="hr2">08:12</span><span><b>Bling → catálogo</b><span class="mini">9 itens conferidos · sem alteração</span></span></li>
+          </ol>
+        </div>
+
+        <div class="alert bad rv" style="--i:1">
+          <span class="ai" style="background:var(--bad-soft);color:var(--bad)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg></span>
+          <div>
+            <b>Sem a ponte, é aqui que a loja se queima</b>
+            <p class="mini">Um carrinho no WhatsApp não altera o Bling. Se o pedido do chat não virar pedido de venda lá dentro, a peça continua "disponível" e você vende duas vezes. Aí não é só o dinheiro: o cliente que já pagou é quem recebe o "acabou".</p>
+            <p class="mini" style="margin-bottom:0"><b>Por isso a baixa acontece no "sim", e não no clique do carrinho.</b></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ==================== 7. COMO FUNCIONA ==================== -->
+<div class="tela" data-tela="fluxo" data-titulo="Como funciona">
+  <section class="snap"><div class="wrap">
+    <span class="eyebrow">Como funciona</span>
+    <h1 style="max-width:22ch">Um catálogo pequeno, com três coisas que quase ninguém entrega.</h1>
+    <p class="muted mt" style="max-width:66ch">Não é loja virtual completa, e não precisa ser: o pedido continua fechando no WhatsApp, onde ele já fecha hoje. O que muda é o que chega lá e o que sobra para você fazer.</p>
+
+    <div class="g3 mt" style="margin-top:28px">
+      <div class="card rv">
+        <span class="pill br"><svg aria-hidden="true"><use href="#i-wa"/></svg>1</span>
+        <h3 class="mt" style="font-size:19px">A mensagem chega montada</h3>
+        <p class="mini mt">Item, cor, tamanho, quantidade, envio escolhido e total somado, tudo em uma mensagem. Você responde "fechado", não faz interrogatório.</p>
+      </div>
+      <div class="card rv" style="--i:1">
+        <span class="pill br"><svg aria-hidden="true"><use href="#i-truck"/></svg>2</span>
+        <h3 class="mt" style="font-size:19px">O envio tem preço antes</h3>
+        <p class="mini mt">Retirada, entrega local e Correios por CEP, com o valor na frente. Ninguém combina frete no escuro, e o pedido pequeno avisa quando o frete come a margem.</p>
+      </div>
+      <div class="card rv" style="--i:2">
+        <span class="pill br"><svg aria-hidden="true"><use href="#i-box"/></svg>3</span>
+        <h3 class="mt" style="font-size:19px">O estoque não mente</h3>
+        <p class="mini mt">Reserva de 30 minutos, baixa no Bling quando você confirma e fila quando o Bling cai. A peça que acabou sai da vitrine sozinha.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="sh"><h2>O que acontece quando dá errado</h2><p class="sub">É aqui que a maioria dos catálogos para: previu o caminho bonito e esqueceu os desvios. Todos estes já estão resolvidos dentro do projeto.</p></div>
+    <div class="card rv">
+      <div class="rolx"><table class="tb">
+        <thead><tr><th>Quando isso acontece</th><th>O que o sistema faz</th><th>O que você vê</th></tr></thead>
+        <tbody>
+          <tr><td><b>O Bling sai do ar</b></td><td>A loja continua vendendo com o último estoque conhecido. Os movimentos entram na fila e sobem sozinhos quando ele voltar.</td><td><span class="pill warn">"estoque de 09:41" + fila com 3 movimentos</span></td></tr>
+          <tr><td><b>O cliente não paga</b></td><td>Depois de 30 minutos a reserva cai e a peça volta para a prateleira. Nada fica preso no limbo.</td><td><span class="pill warn">aviso no painel: reserva expirada</span></td></tr>
+          <tr><td><b>Acaba no meio do pedido</b></td><td>Quem já reservou é respeitado; o item sai da vitrine na conferência seguinte, com o estoque real.</td><td><span class="pill br">produto marcado como esgotado</span></td></tr>
+          <tr><td><b>O cliente some</b></td><td>O pedido fica 24 h em "aguardando o cliente" e depois fecha como perdido, <b>com o motivo</b>.</td><td><span class="pill">motivo registrado, não apagado</span></td></tr>
+          <tr><td><b>Duas pessoas, última peça</b></td><td>Quem reserva primeiro leva. A segunda vê "esgotado" na hora, sem descobrir depois de pagar.</td><td><span class="pill ok">sem venda duplicada</span></td></tr>
+          <tr><td><b>Arrependimento em 7 dias</b></td><td>A troca estorna a baixa no Bling em um clique: o número do estoque volta certo.</td><td><span class="pill ok">1 clique</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="g2">
+      <div class="card rv">
+        <span class="eyebrow">Etapas</span>
+        <h2 style="font-size:26px">Dá para fazer por partes, começando pelo que já vende.</h2>
+        <p class="mini mt" style="margin-bottom:16px">Cada etapa funciona sozinha e põe a loja para vender no mesmo dia em que entra no ar.</p>
+        <ul class="tl">
+          <li class="agora"><span class="no">1</span><span><b>Vitrine e carrinho <span class="pill br">etapa 1</span></b><span class="mini">Seus produtos, cor, tamanho, quantidade e o resumo do pedido. Sem integração nenhuma. No ar rápido.</span></span></li>
+          <li><span class="no">2</span><span><b>A mensagem pronta no WhatsApp <span class="pill br">etapa 2</span></b><span class="mini">O botão que manda o pedido montado para o número da loja, com o envio e o total dentro.</span></span></li>
+          <li><span class="no">3</span><span><b>Estoque no Bling <span class="pill br">etapa 3</span></b><span class="mini">Conferência a cada 15 minutos, reserva de 30 e baixa quando você confirma o pagamento.</span></span></li>
+          <li><span class="no">4</span><span><b>Painel da loja <span class="pill br">opcional</span></b><span class="mini">Pedidos, margem por pedido e avisos de estoque. Opcional, depois que o fluxo já estiver rodando.</span></span></li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <div class="card rv" style="--i:1">
+          <h3 style="margin-bottom:6px">Perguntas que sempre aparecem</h3>
+          <p class="mini" style="margin-bottom:10px">Respostas curtas, sem jargão.</p>
+          <div style="display:grid;gap:8px">
+            <button class="ped" type="button" data-faq="1"><span class="zip"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg></span><span><span class="nm">Preciso pagar API do WhatsApp?</span><span class="mini">não, o pedido abre a conversa normal</span></span><span class="mini">ver</span></button>
+            <button class="ped" type="button" data-faq="2"><span class="zip"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cart"/></svg></span><span><span class="nm">Vou ter que cadastrar tudo de novo?</span><span class="mini">o catálogo nasce do que já está no Bling</span></span><span class="mini">ver</span></button>
+            <button class="ped" type="button" data-faq="3"><span class="zip"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-truck"/></svg></span><span><span class="nm">Como o frete é calculado?</span><span class="mini">por CEP, com a retirada sempre de graça</span></span><span class="mini">ver</span></button>
+            <button class="ped" type="button" data-faq="4"><span class="zip"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-loop"/></svg></span><span><span class="nm">E se eu mudar de sistema depois?</span><span class="mini">os produtos e o estoque são seus, e saem</span></span><span class="mini">ver</span></button>
+          </div>
+        </div>
+
+        <div class="alert br rv" style="--i:2">
+          <span class="ai"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-spark"/></svg></span>
+          <div><b>O detalhe que o projeto cobre</b>
+            <p class="mini">O pedido era um catálogo que manda para o WhatsApp. A parte que ninguém para para pensar é o que acontece nos 30 minutos seguintes, quando a peça some, o frete come a margem e o pedido do chat não baixa estoque nenhum.</p>
+            <p class="mini" style="margin-bottom:0"><b>É exatamente aí que este projeto trabalha.</b> E ele está aqui para você mexer e quebrar à vontade.</p></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+</main>
+
+<!-- KIT:bottomsheet-html -->
+<div class="sh-bg" id="sh-bg" data-fecha></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t" hidden><div class="grip"></div><div id="sh-c"></div></div>
+<!-- /KIT:bottomsheet-html -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- KIT:barra-html -->
+<nav class="bar" aria-label="Navegação inferior">
+  <button type="button" data-tela="vitrine"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-grid"/></svg>Vitrine</button>
+  <button type="button" data-tela="carrinho"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bag"/></svg>Carrinho<i class="bdg" id="bdg-bar">3</i></button>
+  <button type="button" data-tela="painel"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-store"/></svg>Painel</button>
+  <button type="button" data-tela="estoque"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-box"/></svg>Estoque</button>
+  <button type="button" data-tela="fluxo"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-loop"/></svg>Fluxo</button>
+</nav>
+<!-- /KIT:barra-html -->
+
+<!-- KIT:rodape-html -->
+<footer><div class="wrap">
+  <a class="sig" href="https://vlfcandido.github.io" target="_blank" rel="noopener" aria-label="Feito por Vinicius Candido, vlfcandido.github.io"><span class="sig-m"><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11h14l-1.3 15H10.3z"/><path d="M12.4 11V9.2a3.6 3.6 0 0 1 7.2 0V11"/><path d="M20.5 20.5c0-3 2.6-4.4 2.6-2 0 1.5-2.6 2.4-2.6 2.4z" fill="currentColor" stroke="none"/></svg></span><span><small>Feito por</small><b>Vinicius Candido</b><em>vlfcandido.github.io</em></span></a>
+  <p class="aviso-med">Novelo · marca, produtos e valores fictícios.</p>
+  <p class="aviso-med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
+</div></footer>
+<!-- /KIT:rodape-html -->
+
+<script>
+/* KIT:js ===== tema, roteador com troca travada, sheet, animações. */
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const html=document.documentElement,view=$('#view');
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!REDUCED)html.classList.add('anim');
+
+/* tema */
+const darkAgora=()=>html.dataset.theme?html.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+try{const t=localStorage.getItem('tema');if(t)html.dataset.theme=t}catch(e){}
+$('#tema').addEventListener('click',()=>{const n=darkAgora()?'light':'dark';html.dataset.theme=n;try{localStorage.setItem('tema',n)}catch(e){}});
+
+/* troca travada */
+const TROCA={on:false};
+const topo=()=>{html.style.scrollBehavior='auto';scrollTo(0,0);html.style.scrollBehavior=''};
+const focaTitulo=()=>{const t=$('.tela.on h1,.tela.on h2');if(!t)return;t.setAttribute('tabindex','-1');try{t.focus({preventScroll:true})}catch(e){}};
+const travar=()=>{TROCA.on=true;html.classList.add('trocando')},soltar=()=>{TROCA.on=false;html.classList.remove('trocando')};
+['touchmove','wheel'].forEach(ev=>addEventListener(ev,e=>{if(TROCA.on)e.preventDefault()},{passive:false}));
+document.addEventListener('click',e=>{if(TROCA.on){e.preventDefault();e.stopPropagation()}},true);
+function trocar(f){
+  if(TROCA.on)return;
+  if(REDUCED){f();topo();focaTitulo();return}
+  travar();const t=setTimeout(soltar,1200),fim=()=>{clearTimeout(t);soltar()};
+  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});v.updateCallbackDone.then(focaTitulo,focaTitulo);v.finished.then(fim,fim)}
+  else{view.classList.add('sai');setTimeout(()=>{f();topo();view.classList.remove('sai');focaTitulo();setTimeout(fim,320)},140)}
+}
+function mostrar(id){
+  const alvo=$(`.tela[data-tela="${id}"]`)||$('.tela');if(!alvo)return;
+  $$('.tela').forEach(t=>t.classList.toggle('on',t===alvo));
+  $$('[data-tela]').forEach(b=>{if(!b.classList.contains('tela')){if(b.dataset.tela===alvo.dataset.tela)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')}});
+  document.title=(alvo.dataset.titulo?alvo.dataset.titulo+' · ':'')+'Novelo · catálogo com pedido no WhatsApp';
+  observa();
+}
+window.ir=function(id){if(location.hash==='#'+id)return;trocar(()=>{history.pushState(null,'','#'+id);mostrar(id)})};
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-tela],a[data-tela]');if(!b)return;e.preventDefault();ir(b.dataset.tela)});
+addEventListener('popstate',()=>trocar(()=>mostrar(location.hash.slice(1))));
+
+/* bottom sheet */
+let sheetFoco=null;
+window.abrirSheet=function(conteudoHtml){const s=$('#sheet');$('#sh-c').innerHTML=conteudoHtml;sheetFoco=document.activeElement;s.hidden=false;html.classList.add('folha');requestAnimationFrame(()=>{s.classList.add('on');$('#sh-bg').classList.add('on');const h=$('#sh-c h3,#sh-c h2');if(h){h.id='sh-t';h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}})};
+window.fecharSheet=function(){const s=$('#sheet');s.classList.remove('on');$('#sh-bg').classList.remove('on');html.classList.remove('folha');setTimeout(()=>{s.hidden=true},REDUCED?0:280);if(sheetFoco&&sheetFoco.focus)sheetFoco.focus()};
+document.addEventListener('click',e=>{if(e.target.closest('[data-fecha]'))fecharSheet()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#sheet.on'))fecharSheet()});
+
+/* toast */
+window.toast=function(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)};
+
+/* animações */
+function conta(el){const alvo=parseFloat(el.dataset.conta),dec=+(el.dataset.dec||0),pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+  const fmt=v=>pre+v.toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+  if(REDUCED){el.textContent=fmt(alvo);return}
+  const t0=performance.now(),dur=900;(function passo(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=fmt(alvo*e);if(p<1)requestAnimationFrame(passo)})(t0)}
+let io=null;
+function observa(){
+  const els=$$('.tela.on .rv:not(.in),.tela.on [data-conta]:not([data-ok]),.tela.on .barra-g:not(.in)');
+  if(!('IntersectionObserver' in window)||REDUCED){els.forEach(el=>{el.classList.add('in');if(el.dataset.conta){el.dataset.ok=1;conta(el)}});return}
+  io=io||new IntersectionObserver(es=>es.forEach(x=>{if(!x.isIntersecting)return;const el=x.target;el.classList.add('in');if(el.dataset.conta&&!el.dataset.ok){el.dataset.ok=1;conta(el)}io.unobserve(el)}),{threshold:.2});
+  els.forEach(el=>io.observe(el));
+}
+window.sucessoHtml=()=>'<div class="sucesso" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>';
+
+addEventListener('DOMContentLoaded',()=>mostrar(location.hash.slice(1)||$('.tela').dataset.tela));
+if(document.readyState!=='loading')mostrar(location.hash.slice(1)||$('.tela').dataset.tela);
+})();
+</script>
+<!-- /KIT:js -->
+
+<script>
+/* ===== Novelo: catálogo, carrinho, mensagem e estoque ===== */
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FOCO=matchMedia('(min-width:900px)');          /* onde fica o ícone do carrinho */
+
+/* ---- catálogo de exemplo (preços, cores e estoque por SKU) ---- */
+const CAT={
+  camiseta:{nome:'Camiseta Pima',preco:89.9,cat:'Vestuário',silhueta:'camiseta',temTam:true,
+    desc:'Algodão pima penteado, gola reforçada, corte reto. Tingimento por lote: a cor da foto é a cor da peça.',
+    cores:{'Areia':['#E3D6BC','#CDBB98','#8C7A57'],'Argila':['#D9B49C','#C09878','#8A6647'],'Grafite':['#B9B7BD','#9A97A0','#5F5C66']},
+    tams:{'P':4,'M':9,'G':6,'GG':2},reservado:2},
+  bone:{nome:'Boné de Sarja',preco:79,cat:'Acessórios',silhueta:'bone',temTam:false,
+    desc:'Sarja de algodão, seis gomos, ajuste de fita na parte de trás. Aba curvada na medida.',
+    cores:{'Areia':['#A9B79C','#8C9C7E','#5C6A50'],'Verde-musgo':['#8E9A7E','#75835F','#4C573D']},reservado:1},
+  meia:{nome:'Meia Cano Alto',preco:34.9,cat:'Acessórios',silhueta:'meia',temTam:false,
+    desc:'Par de meias de cano alto em algodão penteado, punho que não marca. Vai do 35 ao 44.',
+    cores:{'Cru':['#CFC2E0','#B4A2CE','#6E5E88'],'Lilás':['#C9BCDD','#AC98C8','#63537D']},reservado:2},
+  caneca:{nome:'Caneca Esmaltada 300 ml',preco:49.9,cat:'Casa',silhueta:'caneca',temTam:false,
+    desc:'Esmalte brilhante, 300 ml, pode ir à lava-louças. Pequenas marcas do esmalte fazem parte da peça.',
+    cores:{'Branca':['#E8E2DA','#D6CCBF','#8A7E70'],'Terracota':['#D9A184','#C4855F','#8A5637']},reservado:0},
+  sacola:{nome:'Sacola de Algodão',preco:39,cat:'Acessórios',silhueta:'sacola',temTam:false,
+    desc:'Algodão cru grosso, alças reforçadas, cabe um notebook de 14 polegadas.',
+    cores:{'Cru':['#E6DCC7','#D2C4A6','#8E7F62'],'Argila':['#D6B49C','#C09A7C','#87634A']},reservado:0},
+  caderno:{nome:'Caderno Costurado A5',preco:56,cat:'Papelaria',silhueta:'caderno',temTam:false,
+    desc:'Costura à vista, 160 páginas de papel 90 g, abre plano na mesa.',
+    cores:{'Azul':['#B9C7D6','#9AAEC2','#5D7089'],'Areia':['#DCCFB4','#C6B593','#87795A']},reservado:0},
+  cordao:{nome:'Cordão de Miçanga',preco:29.9,cat:'Acessórios',silhueta:'cordao',temTam:false,
+    desc:'Miçanga de vidro montada à mão, fecho de gancho. Cada peça sai um pouco diferente.',
+    cores:{'Âmbar':['#EBD3A0','#DDBE7E','#9A7E45'],'Verde':['#B6CBAE','#98AF8F','#5E7355']},reservado:0},
+  necessaire:{nome:'Necessaire de Lona',preco:74.9,cat:'Casa',silhueta:'necessaire',temTam:false,
+    desc:'Lona encerada por fora, forro impermeável por dentro, zíper de metal.',
+    cores:{'Rosa-argila':['#E0C4BC','#CCA79D','#8E6C62'],'Grafite':['#B0AEB5','#918F99','#58565F']},reservado:1}
+};
+const ORDEM=['camiseta','bone','meia','caneca','sacola','caderno','cordao','necessaire'];
+const CATEGORIAS={'camiseta':'Vestuário','bone':'Acessórios','meia':'Acessórios','caneca':'Casa','sacola':'Acessórios','caderno':'Papelaria','cordao':'Acessórios','necessaire':'Casa'};
+const TAMS=['P','M','G','GG'];
+const FRETE_GRATIS=199, FRETE_LOCAL=12, BASE_CORREIOS=24.9;
+const LOJA='a Novelo';
+
+const brl=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+/* desconto do Pix em centavos: em ponto flutuante 95% de 171,70 dá 163,114999… e sairia R$ 163,11, contra os R$ 163,12 da conta exata */
+const pixDe=v=>Math.round(Math.round(v*100)*95/100)/100;
+const soNome=s=>s.replace(/^a /,'');
+
+/* ---- estado ---- */
+let carrinho=[
+  {id:'camiseta',cor:'Areia',tam:'M',qtd:1},
+  {id:'meia',cor:'Cru',tam:'Único',qtd:2}
+];
+let envio='local', cep='', freteCorreios=null;
+
+/* ---- estoque: uma fonte só para a vitrine, a tela do produto e a tabela de SKUs ----
+   EST[id] = estoque do produto no SKU principal dele (o primeiro da vitrine).
+   EST_SKU['id|cor|tam'] = estoque de um SKU que não é o principal (hoje só a Camiseta Argila·M).
+   RESERV_SKU['id|cor|tam'] = o que outros pedidos já separaram naquele SKU; a reserva do carrinho
+   entra em reservadoDe(), então as três telas mostram sempre o mesmo número. */
+const EST={'camiseta':3,'bone':6,'meia':14,'caneca':11,'sacola':7,'caderno':5,'cordao':12,'necessaire':4};
+const EST_SKU={'camiseta|Argila|M':5};
+const RESERV_SKU={'camiseta|Areia|M':1,'bone|Areia|Único':1,'meia|Cru|Único':2,'necessaire|Rosa-argila|Único':1};
+const MINIMO={'camiseta':4,'necessaire':4,'caderno':6};   /* estoque mínimo: abaixo dele, o aviso de reposição */
+const chaveSku=(id,cor,tam)=>id+'|'+cor+'|'+tam;
+const noCarrinho=(id,cor,tam)=>carrinho.filter(i=>i.id===id&&i.cor===cor&&i.tam===tam).reduce((s,i)=>s+i.qtd,0);
+const estoqueDe=(id,cor,tam)=>{const s=EST_SKU[chaveSku(id,cor,tam)];return s===undefined?EST[id]:s};
+const reservadoDe=(id,cor,tam)=>(RESERV_SKU[chaveSku(id,cor,tam)]||0)+noCarrinho(id,cor,tam);
+
+/* =============== vitrine =============== */
+const prateleira=$('#prateleira'),busca=$('#busca');
+let filtroCat='todos',filtroTxt='';
+function filtra(){
+  const t=filtroTxt.trim().toLowerCase();
+  let achou=0;
+  $$('.pc',prateleira).forEach(c=>{
+    const okCat=filtroCat==='todos'||c.dataset.cat===filtroCat;
+    const okTxt=!t||c.dataset.nome.toLowerCase().includes(t)||(c.dataset.cat||'').toLowerCase().includes(t);
+    const ok=okCat&&okTxt;c.hidden=!ok;if(ok)achou++;
+  });
+  $('#sem-resultado').hidden=achou>0;
+}
+$$('#chips .chip').forEach(b=>b.addEventListener('click',()=>{
+  $$('#chips .chip').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+  filtroCat=b.dataset.cat;filtra();
+}));
+busca.addEventListener('input',()=>{filtroTxt=busca.value;filtra()});
+filtra();
+
+/* =============== carrinho =============== */
+function item(id,cor,tam){return carrinho.find(i=>i.id===id&&i.cor===cor&&i.tam===tam)}
+function corPadrao(id){return Object.keys(CAT[id].cores)[0]}
+function tamPadrao(id){return CAT[id].temTam?'M':'Único'}
+function add(id,cor,tam,qtd,origem){
+  cor=cor||corPadrao(id);tam=tam||tamPadrao(id);qtd=qtd||1;
+  const ex=item(id,cor,tam);
+  if(ex)ex.qtd+=qtd;else carrinho.push({id,cor,tam,qtd});
+  pinta();
+  const alvo=FOCO.matches?$('#bt-carrinho-top'):$('#bdg-bar');
+  voar(origem,alvo);
+  badge();
+  toast(CAT[id].nome+' entrou no carrinho');
+}
+window.add=add;
+function removeItem(i){carrinho.splice(i,1);pinta();badge()}
+window.removeItem=removeItem;
+function mudaQtd(i,d){const it=carrinho[i];it.qtd=Math.max(1,it.qtd+d);pinta();badge()}
+window.mudaQtd=mudaQtd;
+
+function subtotal(){return carrinho.reduce((s,i)=>s+CAT[i.id].preco*i.qtd,0)}
+function freteAtual(){
+  if(envio==='retirada')return {valor:0,label:'Retirar na loja',det:'grátis'};
+  if(envio==='local'){const g=subtotal()>=FRETE_GRATIS;return {valor:g?0:FRETE_LOCAL,label:'Entrega em Curitiba',det:g?'grátis acima de R$ 199':brl(FRETE_LOCAL)}}
+  if(freteCorreios!=null)return {valor:freteCorreios,label:'Correios PAC',det:'4 a 7 dias úteis'};
+  return {valor:null,label:'Correios PAC',det:'calcule pelo CEP'};
+}
+function total(){const f=freteAtual();return f.valor==null?null:subtotal()+f.valor}
+
+function pinta(){
+  const vazio=!carrinho.length,lista=$('#ci-lista');
+  if(vazio){
+    lista.innerHTML='';lista.hidden=true;$('#ci-vazio').hidden=false;
+  }else{
+    lista.hidden=false;$('#ci-vazio').hidden=true;
+    lista.innerHTML=carrinho.map((i,n)=>{
+      const p=CAT[i.id],c=p.cores[i.cor]||Object.values(p.cores)[0];
+      return '<div class="ci">'+
+        '<span class="ci-fig" style="--p1:'+c[0]+';--p2:'+c[1]+';--p3:'+c[2]+'"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#p-'+p.silhueta+'"/></svg></span>'+
+        '<span><span class="ci-nome">'+p.nome+'</span><span class="mini" style="display:block">'+i.cor+(i.tam!=='Único'?' · '+i.tam:'')+'</span>'+
+        '<span class="qtd sm mt" style="margin-top:6px"><button type="button" aria-label="Diminuir" onclick="mudaQtd('+n+',-1)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-minus"/></svg></button><b>'+i.qtd+'</b><button type="button" aria-label="Aumentar" onclick="mudaQtd('+n+',1)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></button></span></span>'+
+        '<span style="text-align:right"><span class="ci-preco">'+brl(p.preco*i.qtd)+'</span>'+
+        '<button class="ci-rm" type="button" aria-label="Remover '+p.nome+'" onclick="removeItem('+n+')" style="display:block;margin-left:auto"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-trash"/></svg></button></span>'+
+      '</div>';
+    }).join('');
+  }
+  const sub=subtotal(),f=freteAtual(),tot=total();
+  $('#cr-qtd-txt').textContent=carrinho.reduce((s,i)=>s+i.qtd,0)+(carrinho.reduce((s,i)=>s+i.qtd,0)===1?' item':' itens');
+  $('#rs-sub').textContent=brl(sub);
+  /* carrinho vazio: sem forma de envio, sem frete e sem total — nada de "pedido" de R$ 12,00 sem peça nenhuma */
+  $('#card-envio').hidden=vazio;
+  $('#frete-barra').hidden=vazio;
+  if(vazio){
+    $('#rs-envio-l').textContent='a calcular';
+    $('#rs-envio').textContent=brl(0);
+    $('#rs-tot').textContent=brl(0);
+    $('#rs-pix').textContent='a calcular';
+  }else{
+    $('#rs-envio-l').textContent=f.label;
+    $('#rs-envio').textContent=f.valor==null?'a calcular':brl(f.valor);
+    $('#rs-tot').textContent=tot==null?'R$ 0,00':brl(tot);
+    $('#rs-pix').textContent=tot==null?'a calcular':brl(pixDe(tot))+' no Pix, se você quiser oferecer o desconto.';
+  }
+  /* barra do frete grátis */
+  const falta=Math.max(0,FRETE_GRATIS-sub),pct=Math.min(100,Math.round(sub/FRETE_GRATIS*100));
+  $('#fb-barra').style.setProperty('--w',pct+'%');
+  $('#fb-pct').textContent=pct+'%';
+  $('#fb-txt').textContent=falta>0?('Faltam '+brl(falta)+' para a entrega em Curitiba sair de graça'):'Entrega em Curitiba liberada com frete grátis';
+  $('#bt-finalizar').disabled=vazio;
+  $('#bt-copiar').disabled=vazio;
+  precos();
+  pintaEstoque();
+  pintaProd();
+  mensagens();
+}
+/* vitrine, tabela de SKUs e tela do produto saem todas daqui: um número por SKU, em toda tela */
+function pintaEstoque(){
+  ORDEM.forEach(id=>{
+    const el=$('#est-'+id);if(!el)return;
+    const cor=corPadrao(id),tam=tamPadrao(id),e=estoqueDe(id,cor,tam),r=reservadoDe(id,cor,tam),min=el.dataset.min;
+    el.innerHTML='<b>'+e+' em estoque</b>'+(r?' · '+r+' já separada'+(r===1?'':'s'):'')+(min?' · mínimo '+min:'');
+  });
+  $$('#tab-est tbody tr[data-id]').forEach(tr=>{
+    const id=tr.dataset.id,cor=tr.dataset.cor,tam=tr.dataset.tam;
+    const e=estoqueDe(id,cor,tam),r=reservadoDe(id,cor,tam),m=MINIMO[id];
+    tr.querySelector('.js-est').textContent=e;
+    tr.querySelector('.js-res').textContent=r;
+    tr.querySelector('.js-disp').innerHTML='<b>'+Math.max(0,e-r)+'</b>';
+    tr.querySelector('.js-sit').innerHTML=(!m||e>m)?'<span class="pill ok">ok</span>':(e===m?'<span class="pill warn">no mínimo ('+m+')</span>':'<span class="pill bad">abaixo do mínimo ('+m+')</span>');
+  });
+}
+function precos(){
+  const opt=$$('.frete-opt');
+  opt.forEach(o=>o.dataset.on=o.dataset.envio===envio?'1':'0');
+  const t=total();
+  const b=$('#bt-wa-real');
+  if(b)b.href='https://wa.me/5545936180413?text='+encodeURIComponent(textoMensagem());
+}
+/* linhas da mensagem — usadas na prévia, no copiar e no envio de teste */
+function textoMensagem(){
+  return linhasMensagem().map(l=>l.t==='i'?'• '+l.x:l.x).join('\n');
+}
+/* t:'i' = linha de item (marcador + negrito) · t:'b' = só negrito (o total) · sem t = texto simples */
+function linhaHtml(l){
+  if(l.x==='')return '<span class="ml v"></span>';
+  if(l.t==='i')return '<b>• '+esc(l.x)+'</b>';
+  if(l.t==='b')return '<b>'+esc(l.x)+'</b>';
+  return esc(l.x);
+}
+function linhasMensagem(){
+  /* carrinho vazio: uma linha só, no lugar de um "pedido" com frete de R$ 12,00 e nenhum item */
+  if(!carrinho.length)return [{x:'O carrinho está vazio. Escolha uma peça na vitrine.'}];
+  const sub=subtotal(),f=freteAtual(),tot=total();
+  const L=[];
+  L.push({x:'Olá! Vim pelo catálogo da '+soNome(LOJA)+'.'});
+  L.push({x:'Quero fechar este pedido:'});
+  L.push({x:''});
+  carrinho.forEach(i=>{
+    const p=CAT[i.id];
+    L.push({t:'i',x:i.qtd+'x '+p.nome+(i.tam!=='Único'?' · '+i.cor+', '+i.tam:' · '+i.cor)+', '+brl(p.preco*i.qtd)});
+  });
+  L.push({x:''});
+  L.push({x:'Subtotal: '+brl(sub)});
+  if(envio==='retirada')L.push({x:'Entrega: retiro na loja, grátis'});
+  else if(envio==='local')L.push({x:'Entrega: em Curitiba, '+(f.valor===0?'grátis (acima de R$ 199)':brl(f.valor))});
+  else L.push({x:'Entrega: Correios PAC para o CEP '+(cep||'a informar')+', '+(f.valor==null?'frete a calcular':brl(f.valor))});
+  L.push({t:'b',x:'Total: '+(tot==null?'a calcular':brl(tot))});
+  L.push({x:''});
+  if(envio==='retirada')L.push({x:'Meu nome é Camila R. e vou retirar na loja.'});
+  else if(envio==='local')L.push({x:'Meu nome é Camila R., eu passo o endereço aqui no chat.'});
+  else L.push({x:'Meu nome é Camila R.'+(cep?' e meu CEP é '+cep:' e eu passo o CEP aqui no chat')+'.'});
+  L.push({x:'Pagamento: combinar no chat (Pix, cartão ou dinheiro).'});
+  return L;
+}
+function mensagens(){
+  const L=linhasMensagem();
+  /* prévia da vitrine e do carrinho: sem animação, texto direto */
+  ['#prev-vitrine','#prev-carrinho'].forEach(s=>{const e=$(s);if(e)e.innerHTML=L.map(l=>'<span class="ml">'+linhaHtml(l)+'</span>').join('')});
+  /* no pedido: a mesma mensagem, se escrevendo linha por linha */
+  const b=$('#bolha-pedido');
+  if(b)b.innerHTML=L.map((l,i)=>'<span class="ml" style="--i:'+i+'">'+linhaHtml(l)+'</span>').join('');
+  const hr=$('#msg-hora');if(hr)hr.textContent='enviada às 09:52 · aguardando resposta';
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function badge(){
+  const n=carrinho.reduce((s,i)=>s+i.qtd,0);
+  ['#bdg-top','#bdg-bar'].forEach(s=>{const e=$(s);if(e){e.textContent=n;e.hidden=n===0}});
+}
+
+/* voar para o carrinho: o item sai do botão e some dentro da sacola */
+function voar(de,para){
+  if(REDUCED||!de||!para)return;
+  const a=de.getBoundingClientRect(),b=para.getBoundingClientRect();
+  const d=document.createElement('span');d.className='voando';
+  d.style.left=(a.left+a.width/2-9)+'px';d.style.top=(a.top+a.height/2-9)+'px';
+  document.body.appendChild(d);
+  requestAnimationFrame(()=>{d.style.transform='translate('+(b.left+b.width/2-(a.left+a.width/2))+'px,'+(b.top+b.height/2-(a.top+a.height/2))+'px) scale(.35)';d.style.opacity='.25'});
+  setTimeout(()=>d.remove(),480);
+}
+
+/* clique em "adicionar" em qualquer lugar */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-add]');if(!b)return;
+  const id=b.dataset.add;
+  add(id,corPadrao(id),tamPadrao(id),1,b);
+});
+
+/* clicar num cartão de produto abre a tela do produto escolhido (capture: roda antes do roteador) */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-prod]');if(!b)return;
+  abreProduto(b.dataset.prod);
+},true);
+
+/* pedido de exemplo */
+$('#bt-exemplo').addEventListener('click',()=>{
+  carrinho=[{id:'camiseta',cor:'Areia',tam:'M',qtd:1},{id:'meia',cor:'Cru',tam:'Único',qtd:2}];
+  envio='local';cep='';freteCorreios=null;
+  $('.frete-opt[data-envio="local"] input').checked=true;
+  pinta();badge();ir('carrinho');
+});
+
+/* envio */
+$$('.frete-opt').forEach(o=>o.addEventListener('click',()=>{
+  envio=o.dataset.envio;
+  o.querySelector('input').checked=true;
+  if(envio==='correios'&&freteCorreios==null){$('#cep-msg').innerHTML='<b>Falta o CEP</b> para o valor dos Correios entrar na mensagem.'}
+  pinta();
+}));
+/* CEP: calcula o frete com estados de carregando, erro e sucesso */
+$('#bt-cep').addEventListener('click',()=>{
+  const v=$('#cep').value.replace(/\D/g,'');
+  const m=$('#cep-msg');
+  if(v.length!==8){m.innerHTML='<b style="color:var(--bad)">CEP inválido.</b> Precisa ter 8 números. Confira e tente de novo.';return}
+  cep=v.slice(0,5)+'-'+v.slice(5);
+  m.innerHTML='<span class="sk" style="display:inline-block;width:190px;height:14px;vertical-align:-2px"></span> consultando os Correios…';
+  $('#bt-cep').disabled=true;
+  setTimeout(()=>{
+    freteCorreios=+(BASE_CORREIOS+(+v.slice(-1)%3)*4.1).toFixed(2);
+    envio='correios';$$('.frete-opt').forEach(o=>o.querySelector('input').checked=o.dataset.envio==='correios');
+    $('#bt-cep').disabled=false;
+    m.innerHTML='<b>PAC para '+cep+': '+brl(freteCorreios)+'</b> · 4 a 7 dias úteis. Já entrou na mensagem.';
+    pinta();
+  },700);
+});
+$('#cep').addEventListener('keydown',e=>{if(e.key==='Enter')$('#bt-cep').click()});
+
+/* copiar a mensagem */
+$('#bt-copiar').addEventListener('click',async()=>{
+  const t=textoMensagem();
+  try{await navigator.clipboard.writeText(t);toast('Mensagem copiada. Cole no WhatsApp')}
+  catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('Mensagem copiada')}catch(_){toast('Não deu para copiar aqui')}a.remove()}
+});
+
+/* finalizar: vai para a tela do pedido e reinicia a animação da mensagem */
+$('#bt-finalizar').addEventListener('click',()=>{
+  if(!carrinho.length)return;
+  ir('pedido');
+  setTimeout(tocaChat,260);
+});
+/* o botão do herói ("Ver como ele chega no WhatsApp") leva para a mesma tela: a mensagem se escreve lá também */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-tela="pedido"]');
+  if(!b||!carrinho.length)return;
+  setTimeout(tocaChat,260);
+});
+function tocaChat(){
+  const c=$('#chat');if(!c)return;
+  c.classList.remove('toca');void c.offsetWidth;
+  if(!REDUCED)c.classList.add('toca');
+}
+/* reserva de 30 minutos, contando de verdade */
+let reservaInicio=null;
+function iniciaReserva(){
+  if(reservaInicio)return;
+  reservaInicio=Date.now()+30*60*1000;
+  setInterval(()=>{
+    const el=$('#res-tempo');if(!el||!reservaInicio)return;
+    const s=Math.max(0,Math.round((reservaInicio-Date.now())/1000));
+    el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+  },1000);
+}
+
+/* =============== tela do produto =============== */
+let prodAtual='camiseta',prodCor='Areia',prodTam='M',prodQtd=1;
+function abreProduto(id){
+  if(!CAT[id])return;
+  prodAtual=id;prodCor=corPadrao(id);prodTam=tamPadrao(id);prodQtd=1;
+  const p=CAT[id];
+  $('#pd-nome').textContent=p.nome;
+  $('#pd-cat').textContent=CATEGORIAS[id];
+  $('#pd-desc').textContent=p.desc;
+  $('#pd-preco').textContent=brl(p.preco);
+  $('#pd-pix').textContent=brl(pixDe(p.preco))+' no Pix · ou 3x de '+brl(p.preco/3)+' sem juros';
+  $('#gal-use').setAttribute('href','#p-'+p.silhueta);
+  ['#gm1','#gm2'].forEach(s=>$(s).setAttribute('href','#p-'+p.silhueta));
+  $('#gm3').setAttribute('href','#p-necessaire');
+  $('#pd-qtd').textContent='1';
+  pintaCores();pintaTams();pintaProd();
+  montaRelacionados(id);
+}
+window.abreProduto=abreProduto;
+function pintaCores(){
+  const p=CAT[prodAtual];
+  $('#pd-cores').innerHTML=Object.keys(p.cores).map(n=>{
+    const c=p.cores[n];
+    return '<button class="cor" type="button" aria-pressed="'+(n===prodCor)+'" data-cor="'+n+'" aria-label="Cor '+n+'" title="'+n+'" style="--p1:'+c[0]+';--p2:'+c[1]+';--p3:'+c[2]+'"><i style="background:'+c[0]+'"></i></button>';
+  }).join('');
+  $$('#pd-cores .cor').forEach(b=>b.addEventListener('click',()=>{prodCor=b.dataset.cor;pintaCores();pintaProd()}));
+}
+function pintaTams(){
+  const p=CAT[prodAtual],box=$('#pd-tams');
+  if(!p.temTam){box.innerHTML='<button class="tam" type="button" aria-pressed="true" disabled>Tamanho único</button>';return}
+  box.innerHTML=TAMS.map(t=>{
+    const q=p.tams[t]||0;
+    return '<button class="tam" type="button" '+(q?'':'disabled ')+'aria-pressed="'+(t===prodTam)+'" data-tam="'+t+'">'+t+'</button>';
+  }).join('');
+  $$('#pd-tams .tam').forEach(b=>b.addEventListener('click',()=>{prodTam=b.dataset.tam;pintaTams();pintaProd()}));
+}
+function pintaProd(){
+  const p=CAT[prodAtual],c=p.cores[prodCor];
+  prodQtd=Math.max(1,Math.min(prodQtd,disponivel(prodAtual,prodCor,prodTam)));
+  $('#pd-qtd').textContent=prodQtd;
+  $('#pd-cor-nome').textContent=prodCor;
+  /* as variáveis vão na galeria inteira: as miniaturas herdam a mesma cor */
+  const fig=$('#galeria');fig.style.setProperty('--p1',c[0]);fig.style.setProperty('--p2',c[1]);fig.style.setProperty('--p3',c[2]);
+  const d=disponivel(prodAtual,prodCor,prodTam),r=reservadoDe(prodAtual,prodCor,prodTam);
+  $('#pd-estoque').innerHTML=d?('<b>'+d+' disponíve'+(d===1?'l':'is')+'</b>'+(r?' · '+r+' já separada'+(r===1?'':'s'):'')):'<b style="color:var(--bad)">Esgotado nesta combinação. Avise quando chegar</b>';
+  $('#gal-selo').textContent=d?(d+' disponíve'+(d===1?'l':'is')+' agora'):'esgotado';
+  $('#gal-selo').className='pill pcard-selo '+(d?'ok':'bad');   /* verde (--wa) só na ação de falar com a loja */
+  $('#pd-add').disabled=!d;
+}
+function disponivel(id,cor,tam){
+  const p=CAT[id];
+  if(p.temTam&&p.tams[tam]==null)return 0;
+  return Math.max(0,estoqueDe(id,cor,tam)-reservadoDe(id,cor,tam));
+}
+function montaRelacionados(id){
+  const box=$('#pd-relacionados');
+  box.innerHTML=ORDEM.filter(x=>x!==id).slice(0,4).map(x=>{
+    const p=CAT[x],c=p.cores[corPadrao(x)];
+    return '<button class="pc" type="button" data-prod="'+x+'" style="width:216px;flex:none;padding:0;text-align:left;--p1:'+c[0]+';--p2:'+c[1]+';--p3:'+c[2]+'">'+
+      '<span class="pc-fig"><svg class="fig-p" viewBox="0 0 120 120" aria-hidden="true"><use href="#p-'+p.silhueta+'"/></svg></span>'+
+      '<span class="pc-corpo"><span class="pc-nome">'+p.nome+'</span><span class="pc-preco">'+brl(p.preco)+'</span><span class="mini">'+EST[x]+' em estoque</span></span></button>';
+  }).join('');
+}
+$('#pd-menos').addEventListener('click',()=>{prodQtd=Math.max(1,prodQtd-1);pintaProd()});
+$('#pd-mais').addEventListener('click',()=>{const d=disponivel(prodAtual,prodCor,prodTam);prodQtd=Math.min(d||1,prodQtd+1);pintaProd()});
+$('#pd-add').addEventListener('click',e=>add(prodAtual,prodCor,prodTam,prodQtd,e.currentTarget));
+$('#pd-add-wa').addEventListener('click',e=>{add(prodAtual,prodCor,prodTam,prodQtd,e.currentTarget);setTimeout(()=>{ir('carrinho')},360)});
+$$('[data-vista]').forEach(b=>b.addEventListener('click',()=>{
+  $$('[data-vista]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+  const g=$('#gal-svg');
+  g.style.transform=b.dataset.vista==='frente'?'none':'scale(1.3)';
+  g.style.transition='transform .3s var(--ease)';
+}));
+
+/* =============== estoque & Bling =============== */
+let ultimaSync='09:41';
+$('#bt-sync').addEventListener('click',()=>{
+  const b=$('#bt-sync');if(b.dataset.rodando)return;
+  /* com o Bling fora do ar não existe "conferir": o movimento entra na fila e sobe sozinho */
+  if($('#sw-offline').checked){
+    toast('Sem contato com o Bling: o movimento entrou na fila e sobe sozinho');
+    $('#es-log').insertAdjacentHTML('afterbegin','<li><span class="hr2">agora</span><span><b>Fila</b><span class="mini">conferência adiada · 4 movimentos esperando o Bling voltar</span></span></li>');
+    return;
+  }
+  b.dataset.rodando='1';b.classList.add('girando');
+  b.lastChild.textContent=' Conferindo…';
+  $('#es-sync-pill').innerHTML='<svg aria-hidden="true"><use href="#i-sync"/></svg>conferindo com o Bling…';
+  setTimeout(()=>{
+    const h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    ultimaSync=h;
+    b.classList.remove('girando');delete b.dataset.rodando;
+    b.lastChild.textContent=' Conferir agora';
+    $('#es-sync-pill').innerHTML='<svg aria-hidden="true"><use href="#i-sync"/></svg>última conferência às '+h;
+    $('#es-ultima').textContent='conferido às '+h;
+    $('#vp-sync').textContent='catálogo atualizado às '+h;
+    $('#pd-sync').textContent='Conferido às '+h+'. Se a última peça sair, o produto sai do catálogo na próxima conferência.';
+    $('#of-hora').textContent=h;
+    $('#up-hora').textContent=h;
+    $('#es-log').insertAdjacentHTML('afterbegin','<li><span class="hr2">'+h+'</span><span><b>Bling → catálogo</b><span class="mini">9 itens conferidos · sem alteração</span></span></li>');
+    toast('Estoque conferido com o Bling às '+h);
+  },1100);
+});
+$('#sw-offline').addEventListener('change',e=>{
+  const on=e.target.checked;
+  $('#aviso-offline').hidden=!on;
+  $('#es-fluxo-pill').className='pill '+(on?'warn':'');
+  $('#es-fluxo-pill').textContent=on?'3 movimentos na fila':'tudo em dia';
+  $('#es-sync-pill').innerHTML=on?'<svg aria-hidden="true"><use href="#i-cloud-off"/></svg>sem contato com o Bling':'<svg aria-hidden="true"><use href="#i-sync"/></svg>última conferência às '+ultimaSync;
+  toast(on?'Bling desconectado: a loja segue com o estoque das '+ultimaSync:'Bling reconectado: a fila subiu sozinha');
+});
+
+/* =============== sheet: pedido e dúvidas =============== */
+const PEDIDOS={
+  '1042':{cliente:'Camila R.',hora:'09:52',total:'R$ 171,70',envio:'Entrega em Curitiba · R$ 12,00',status:'aguardando pagamento',
+    msg:['Olá! Vim pelo catálogo da Novelo.','Quero fechar este pedido:','','• 1x Camiseta Pima · Areia, M · R$ 89,90','• 2x Meia Cano Alto · Cru · R$ 69,80','','Subtotal: R$ 159,70','Entrega: em Curitiba, R$ 12,00','Total: R$ 171,70','','Meu nome é Camila R., eu passo o endereço aqui no chat.','Pagamento: combinar no chat (Pix, cartão ou dinheiro).'],
+    acao:'Marcar como pago e baixar o estoque'},
+  '1041':{cliente:'Jonas P.',hora:'09:31',total:'R$ 103,90',envio:'Correios PAC · CEP 81720-000',status:'pago',msg:['Olá! Vim pelo catálogo da Novelo.','Quero fechar este pedido:','','• 1x Boné de Sarja · Areia · R$ 79,00','','Subtotal: R$ 79,00','Entrega: Correios PAC para o CEP 81720-000, R$ 24,90','Total: R$ 103,90','','Meu nome é Jonas P. e meu CEP é 81720-000.','Pagamento: combinar no chat (Pix, cartão ou dinheiro).'],acao:'Já baixado no Bling'},
+  '1040':{cliente:'Marina S.',hora:'08:44',total:'R$ 154,60',envio:'Correios PAC · CEP 90040-060',status:'enviado',msg:['Olá! Vim pelo catálogo da Novelo.','Quero fechar este pedido:','','• 1x Necessaire de Lona · Rosa-argila · R$ 74,90','• 1x Caneca Esmaltada 300 ml · Branca · R$ 49,90','','Subtotal: R$ 124,80','Entrega: Correios PAC para o CEP 90040-060, R$ 29,80','Total: R$ 154,60','','Meu nome é Marina S. e meu CEP é 90040-060.','Pagamento: combinar no chat (Pix, cartão ou dinheiro).'],acao:'Baixa feita em 08:47'},
+  '1039':{cliente:'Rafael T.',hora:'08:20',total:'R$ 89,90',envio:'Retirada na loja',status:'retirado',msg:['Olá! Vim pelo catálogo da Novelo.','Quero fechar este pedido:','','• 1x Camiseta Pima · Argila, G · R$ 89,90','','Subtotal: R$ 89,90','Entrega: retiro na loja, grátis','Total: R$ 89,90','','Meu nome é Rafael T. e vou retirar na loja.','Pagamento: combinado no chat.'],acao:'Baixa feita em 08:28'},
+  '1038':{cliente:'Bianca M.',hora:'ontem 18:12',total:'R$ 68,90',envio:'Correios · frete grátis combinado no chat',status:'enviado',msg:['Olá! Vim pelo catálogo da Novelo.','Quero fechar este pedido:','','• 1x Sacola de Algodão · Cru · R$ 39,00','• 1x Cordão de Miçanga · Âmbar · R$ 29,90','','Subtotal: R$ 68,90','Entrega: Correios PAC, frete grátis','Total: R$ 68,90','','Meu nome é Bianca M. e meu CEP é 80010-000.','Pagamento: Pix.'],acao:'Baixa feita ontem às 18:20'}
+};
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-ped]');if(!b)return;
+  const p=PEDIDOS[b.dataset.ped];if(!p)return;
+  const linhas=p.msg.map(l=>l===''?'<span class="ml v"></span>':'<span class="ml">'+esc(l)+'</span>').join('');
+  abrirSheet('<h3>Pedido #'+b.dataset.ped+' · '+p.cliente+'</h3>'+
+    '<p class="mini">Chegou às '+p.hora+' · '+p.envio+' · <b>'+p.total+'</b> · '+p.status+'</p>'+
+    '<div class="msg mt" style="margin-top:14px"><span class="msg-t"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>Como a mensagem chegou</span><div class="bolha">'+linhas+'</div></div>'+
+    '<p class="mini mt">A loja não digitou nada disso. E o campo que importa é o próximo: é o "pago" que libera a baixa no Bling, sem ele, o estoque não mexe.</p>'+
+    '<p class="mt" style="display:grid;gap:8px;margin-bottom:0"><button class="btn wa bl" type="button" id="sh-baixa">'+p.acao+'</button><button class="btn gh bl" type="button" data-fecha>Fechar</button></p>');
+  const bt=$('#sh-baixa');
+  if(bt)bt.addEventListener('click',()=>{
+    if(/Já baixado|Baixa feita/.test(p.acao)){toast('Esse pedido já está certo no Bling');return}
+    bt.textContent='Baixando no Bling…';bt.disabled=true;
+    setTimeout(()=>{bt.innerHTML='Estoque baixado · catálogo atualizado';fecharSheet();toast('Baixa feita no Bling: o estoque do pedido #1042 saiu e o catálogo se atualiza na próxima conferência')},900);
+  });
+});
+const FAQ={
+  '1':'<h3>Preciso pagar alguma API do WhatsApp?</h3><p class="mini mt">Não. O pedido abre a conversa normal do WhatsApp da loja, no número que você já usa, sem API oficial e sem mensalidade. O que o sistema monta é o texto, e é ele que faz a diferença.</p><p class="mini mt">Se um dia você quiser responder automático, aí sim existe a API oficial, e o mesmo catálogo continua funcionando.</p><p class="mt" style="margin-bottom:0"><button class="btn gh bl" type="button" data-fecha>Entendi</button></p>',
+  '2':'<h3>Vou ter que cadastrar tudo de novo?</h3><p class="mini mt">Não. O catálogo nasce do que já está no Bling: produtos, variações e saldo. Você escreve só o texto de venda, as fotos e escolhe o que fica visível na vitrine.</p><p class="mini mt">Produto novo entra no Bling e aparece aqui na conferência seguinte.</p><p class="mt" style="margin-bottom:0"><button class="btn gh bl" type="button" data-fecha>Entendi</button></p>',
+  '3':'<h3>Como o frete entra na conta?</h3><p class="mini mt">São três caminhos: retirada na loja (sempre grátis), entrega local com valor fixo e Correios calculado pelo CEP, todos mostrados antes do cliente decidir.</p><p class="mini mt">O painel mostra quanto sobra em cada pedido, então pedido pequeno com frete caro aparece antes de virar prejuízo, e não no fim do mês.</p><p class="mt" style="margin-bottom:0"><button class="btn gh bl" type="button" data-fecha>Entendi</button></p>',
+  '4':'<h3>E se eu mudar de sistema depois?</h3><p class="mini mt">Os produtos, o estoque e os pedidos são seus, ficam em arquivo e saem com você quando quiser. Nada fica preso em plataforma fechada.</p><p class="mini mt">O código também fica no seu nome, com o acesso entregue no fim do projeto.</p><p class="mt" style="margin-bottom:0"><button class="btn gh bl" type="button" data-fecha>Entendi</button></p>'
+};
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-faq]');if(!b)return;
+  abrirSheet(FAQ[b.dataset.faq]);
+});
+
+/* =============== partida =============== */
+function primeiroDesenho(){
+  $('#up-hora').textContent='09:41';
+  prodAtual='camiseta';prodCor=corPadrao('camiseta');prodTam='M';prodQtd=1;
+  pintaCores();pintaTams();pintaProd();montaRelacionados('camiseta');
+  pinta();badge();
+}
+addEventListener('hashchange',()=>{
+  if(location.hash==='#pedido'){iniciaReserva();tocaChat()}
+});
+addEventListener('DOMContentLoaded',()=>{
+  primeiroDesenho();
+  if(location.hash==='#pedido'){iniciaReserva();setTimeout(tocaChat,260)}
+});
+if(document.readyState!=='loading'){primeiroDesenho();if(location.hash==='#pedido'){iniciaReserva();setTimeout(tocaChat,260)}}
+})();
+</script>
+<!-- /KIT:projeto -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
+</body>
+</html>

@@ -99,7 +99,7 @@
     background: var(--sol); color: var(--on-sol); box-shadow: var(--sombra-2);
     transition: transform var(--mov-padrao) var(--mola-volta), opacity var(--mov-toque) var(--mola);
     -webkit-tap-highlight-color: transparent; }
-  .flutuante[data-visivel="false"] { opacity: 0; transform: translateY(16px) scale(.6); pointer-events: none;
+  .flutuante[data-visivel="false"] { opacity: 0; transform: translateY(16px); pointer-events: none;
     transition: transform var(--mov-padrao) var(--mola), opacity var(--mov-toque) var(--mola); }
   .flutuante:active { transform: scale(.92); transition-duration: 0ms; }
   /* Microanimação de sucesso no toque: um anel sai do botão e some (a conversa abriu). */

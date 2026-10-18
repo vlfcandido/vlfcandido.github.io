@@ -1,0 +1,1432 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trama Atacado · loja WooCommerce para atacado de moda (exemplo)</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/loja-woocommerce-exemplo/">
+<meta name="theme-color" content="#141833">
+<meta name="description" content="Exemplo de trabalho: loja WooCommerce para atacado de moda, com grade por tamanho no celular, checkout de uma página e rastreamento GA4 e Meta CAPI sem duplicar, ligados ao ERP e ao WhatsApp. Marca, produtos e valores são fictícios.">
+<meta property="og:title" content="Trama Atacado · loja WooCommerce para atacado de moda (exemplo)">
+<meta property="og:description" content="Exemplo de trabalho: loja WooCommerce para atacado de moda, com grade por tamanho no celular, checkout de uma página e rastreamento GA4 e Meta CAPI sem duplicar, ligados ao ERP e ao WhatsApp. Marca, produtos e valores são fictícios.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/loja-woocommerce-exemplo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Loja Trama Atacado com grade de tamanhos e checkout de uma página">
+<meta property="og:url" content="https://vlfcandido.github.io/trabalhos/loja-woocommerce-exemplo/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-loja-woocommerce-exemplo");</script>
+<!-- /KIT:head -->
+<style>
+/* KIT:tokens ===== TROCAR POR PROJETO: cores, fontes, espaço, raio, sombra. Não reaproveite a paleta de outro cliente. ===== */
+:root{
+  --bg:#F6F5F2;--surface:#FFFFFF;--surface2:#EFEDE8;--ink:#1B1B1F;--muted:#5E5E68;--line:#DEDBD3;
+  --brand:#3B5BDB;--brand-ink:#FFFFFF;--brand-soft:#E3E9FF;--accent:#E8590C;
+  --ok:#2B8A3E;--ok-soft:#DDF3E2;--warn:#B5540B;--warn-soft:#FFEBD6;--bad:#C92A2A;--bad-soft:#FFE0E0;
+  --bar-bg:#1B1B1F;--bar-ink:#FFFFFF;
+  --f-d:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;   /* títulos */
+  --f-t:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;   /* texto */
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:40px;--s7:72px;
+  --r-s:8px;--r-m:16px;--r-l:24px;--r-p:999px;
+  --shadow:0 1px 0 rgba(0,0,0,.05),0 10px 28px -14px rgba(0,0,0,.28);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --head:56px;     /* altura do cabeçalho (usada no scroll-padding) */
+  --barra:60px;    /* altura da barra inferior mobile */
+  color-scheme:light;
+}
+/* /KIT:tokens */
+/* KIT:tema ===== claro/escuro: escuro automático, com botão que força (data-theme) ===== */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121317;--surface:#1B1D23;--surface2:#242730;--ink:#ECECF0;--muted:#A3A5B2;--line:#2E313B;
+  --brand:#7C96FF;--brand-ink:#0E1220;--brand-soft:#232B4D;--accent:#FF8A4C;
+  --ok:#5FD07A;--ok-soft:#173523;--warn:#FFA45C;--warn-soft:#3A2410;--bad:#FF7A7A;--bad-soft:#3F1A1A;
+  --bar-bg:#0B0C0F;--shadow:0 1px 0 rgba(0,0,0,.4),0 12px 30px -14px rgba(0,0,0,.8);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121317;--surface:#1B1D23;--surface2:#242730;--ink:#ECECF0;--muted:#A3A5B2;--line:#2E313B;
+  --brand:#7C96FF;--brand-ink:#0E1220;--brand-soft:#232B4D;--accent:#FF8A4C;
+  --ok:#5FD07A;--ok-soft:#173523;--warn:#FFA45C;--warn-soft:#3A2410;--bad:#FF7A7A;--bad-soft:#3F1A1A;
+  --bar-bg:#0B0C0F;--shadow:0 1px 0 rgba(0,0,0,.4),0 12px 30px -14px rgba(0,0,0,.8);color-scheme:dark}
+/* /KIT:tema */
+/* KIT:base ===== reset e tipografia ===== */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scrollbar-gutter:stable}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--f-t);overflow-x:hidden;padding-bottom:84px}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.1;letter-spacing:-.01em}
+h1{font-size:clamp(32px,6vw,56px)}h2{font-size:clamp(26px,4vw,38px)}h3{font-size:20px}
+p{margin:0}a{color:inherit}img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:4px}
+[tabindex="-1"]:focus{outline:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 16px}
+@media(min-width:760px){.wrap{padding:0 32px}}
+.muted{color:var(--muted)}.small{font-size:14px}.mt{margin-top:var(--s4)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);padding:var(--s5);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:var(--r-p);border:1px solid transparent;font-weight:700;text-decoration:none;background:var(--brand);color:var(--brand-ink);transition:transform .15s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn.g{background:transparent;color:var(--ink);border-color:var(--line)}
+.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* /KIT:base */
+/* KIT:faixa ===== faixa do autor, cabeçalho enxuto, marca d'água ===== */
+.byline{background:var(--accent);color:#fff;font-size:13px;text-align:center;padding:6px 16px;line-height:1.3}
+.byline a{color:inherit;font-weight:700;text-underline-offset:3px;display:inline-block;padding:15px 4px;margin:-15px 0}
+.top{position:sticky;top:0;z-index:50;height:var(--head);background:var(--bar-bg);color:var(--bar-ink)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:100%}
+.top .logo{font:800 18px/1 var(--f-d);text-decoration:none;margin-right:auto}
+.nav{display:none;gap:4px}
+.nav a{text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:15px;opacity:.8}
+.nav a[aria-current="page"]{opacity:1;background:rgba(255,255,255,.14)}
+@media(min-width:900px){.nav{display:flex}}
+.tbtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:transparent;color:inherit;display:grid;place-items:center}
+/* /KIT:faixa */
+/* KIT:snap ===== scroll snap suave (proximity) com folga do cabeçalho ===== */
+html{scroll-padding-top:calc(var(--head) + 8px)}
+@media(max-width:899px){
+  html{scroll-snap-type:y proximity}
+  .snap{scroll-snap-align:start;scroll-snap-stop:normal}
+}
+/* /KIT:snap */
+/* KIT:router ===== telas e troca travada ===== */
+.tela{display:none}.tela.on{display:block}
+.tela>section{padding:var(--s6) 0}
+html.trocando,html.trocando body,html.folha,html.folha body{overflow:hidden;overscroll-behavior:none}
+html.trocando body{touch-action:none;pointer-events:none}
+#view{transition:opacity .14s ease-in}
+#view.sai{opacity:0}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.18s}
+/* /KIT:router */
+/* KIT:barra ===== barra inferior mobile no polegar, com área segura ===== */
+.bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--surface);border-top:1px solid var(--line);padding:4px 2px env(safe-area-inset-bottom);box-shadow:0 -8px 24px -16px rgba(0,0,0,.4)}
+.bar button{flex:1;min-height:calc(var(--barra) - 8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--muted)}
+.bar button[aria-current="page"]{color:var(--brand)}
+body{padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom) + 8px)}
+@media(min-width:900px){.bar{display:none}body{padding-bottom:84px}}
+/* /KIT:barra */
+/* KIT:assinatura ===== assinatura do desenvolvedor: elemento visual + motivo próprio do projeto ===== */
+.sig{display:inline-flex;align-items:center;gap:14px;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-p);padding:8px 22px 8px 8px}
+.sig-m{width:46px;height:46px;border-radius:50%;background:var(--bar-bg);display:grid;place-items:center;flex:none;color:var(--bar-ink)}
+.sig-m span{font:800 17px/1 var(--f-d);letter-spacing:-.04em}
+.sig small{display:block;font-size:12px;color:var(--muted);line-height:1.2}
+.sig b{display:block;font:700 18px/1.2 var(--f-d)}
+.sig em{font-style:normal;font-size:13px;color:var(--brand);font-weight:700}
+/* /KIT:assinatura */
+/* KIT:whatsapp ===== botão flutuante (número fica só no href; nunca escrito em texto) ===== */
+.dev{position:fixed;isolation:isolate;right:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:10px;text-decoration:none;background:var(--ink);color:var(--bg);border-radius:var(--r-p);padding:7px 18px 7px 7px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45)}
+.dev .wa-c{width:40px;height:40px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;flex:none}
+.dev .wa-c svg{width:24px;height:24px}
+.dev b{display:block;font:700 15px/1.15 var(--f-d)}
+.dev small{display:block;font-size:11.5px;opacity:.7;line-height:1.2}
+@media(max-width:899px){.dev{right:12px;bottom:calc(var(--barra) + 12px + env(safe-area-inset-bottom));padding:5px}.dev span:last-child{display:none}}
+/* /KIT:whatsapp */
+/* KIT:rodape */
+footer{padding:var(--s6) 0 var(--s6);border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
+.aviso-med{flex-basis:100%;margin:0;font-size:12px;opacity:.85}
+/* /KIT:rodape */
+/* KIT:sheet ===== bottom sheet genérico (no desktop vira modal centralizado) ===== */
+.sh-bg{position:fixed;inset:0;background:rgba(10,10,14,.5);z-index:79;opacity:0;pointer-events:none;transition:opacity .22s}
+.sh-bg.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--surface);border-radius:var(--r-l) var(--r-l) 0 0;padding:12px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .28s var(--ease);max-height:86vh;overflow:auto;visibility:hidden}
+.sheet.on{transform:none;visibility:visible}
+.sheet .grip{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
+@media(min-width:900px){.sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(520px,92vw);border-radius:var(--r-l);transform:translate(-50%,-46%);opacity:0}.sheet.on{transform:translate(-50%,-50%);opacity:1}.sheet .grip{display:none}}
+/* /KIT:sheet */
+/* KIT:anim ===== utilitários de animação (só quando html.anim; reduced-motion desliga tudo) ===== */
+html.anim .rv{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(var(--i,0)*70ms)}
+html.anim .rv.in{opacity:1;transform:none}
+.barra-g{height:10px;border-radius:5px;background:var(--surface2);overflow:hidden}
+.barra-g i{display:block;height:100%;width:var(--w,50%);background:var(--brand);border-radius:5px}
+html.anim .barra-g i{width:0;transition:width .9s var(--ease) .1s}
+html.anim .rv.in .barra-g i,html.anim .barra-g.in i{width:var(--w,50%)}
+.sucesso{width:72px;height:72px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center}
+.sucesso svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+html.anim .sucesso{animation:pop .45s var(--ease)}
+html.anim .sucesso path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .45s var(--ease) .25s forwards}
+@keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--barra) + 76px);transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:var(--r-p);z-index:100;transition:.25s;font-size:15px;pointer-events:none}
+.toast.on{transform:translate(-50%,0);opacity:1}
+/* /KIT:anim */
+/* KIT:skeleton */
+.sk{display:block;border-radius:var(--r-s);background:linear-gradient(90deg,var(--surface2) 25%,var(--line) 37%,var(--surface2) 63%);background-size:400% 100%;animation:sk 1.3s ease infinite;min-height:1em}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+/* /KIT:skeleton */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* PROJETO: estilos próprios abaixo desta linha */
+/* ===== Trama Atacado: paleta denim, coral de ação, dourado de linha ===== */
+:root{
+  --bg:#F6F2EA;--surface:#FFFDF9;--surface2:#EEE8DC;--ink:#16182B;--muted:#5A5C70;--line:#E0D8C8;
+  --brand:#25307A;--brand-ink:#FFFFFF;--brand-soft:#E3E6F6;--accent:#C8452D;
+  --gold:#B88A2E;--gold-soft:#F4E9D2;
+  --ok:#23804A;--ok-soft:#DDF2E4;--warn:#A85A07;--warn-soft:#FCEBD3;--bad:#B42318;--bad-soft:#FDE3E0;
+  --bar-bg:#141833;--bar-ink:#F6F2EA;
+  --f-d:"Archivo",system-ui,sans-serif;--f-t:"DM Sans",system-ui,sans-serif;--f-m:"JetBrains Mono",ui-monospace,monospace;
+  --r-s:10px;--r-m:18px;--r-l:26px;
+  --shadow:0 1px 0 rgba(22,24,43,.04),0 14px 34px -18px rgba(22,24,43,.32);
+  --shadow-up:0 2px 0 rgba(22,24,43,.04),0 22px 44px -18px rgba(22,24,43,.42);
+  --head:60px;--barra:62px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1120;--surface:#171A2E;--surface2:#20243C;--ink:#EEEAF2;--muted:#A6A8BE;--line:#2C3050;
+  --brand:#9AA6FF;--brand-ink:#0F1120;--brand-soft:#232A55;--accent:#E0654D;
+  --gold:#E2B65B;--gold-soft:#3A2F17;
+  --ok:#5ED48B;--ok-soft:#14321F;--warn:#F2A94B;--warn-soft:#3A2710;--bad:#FF7F73;--bad-soft:#3E1A17;
+  --bar-bg:#090B16;--shadow:0 1px 0 rgba(0,0,0,.4),0 14px 32px -16px rgba(0,0,0,.85);--shadow-up:0 2px 0 rgba(0,0,0,.4),0 22px 44px -16px rgba(0,0,0,.9);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1120;--surface:#171A2E;--surface2:#20243C;--ink:#EEEAF2;--muted:#A6A8BE;--line:#2C3050;
+  --brand:#9AA6FF;--brand-ink:#0F1120;--brand-soft:#232A55;--accent:#E0654D;
+  --gold:#E2B65B;--gold-soft:#3A2F17;
+  --ok:#5ED48B;--ok-soft:#14321F;--warn:#F2A94B;--warn-soft:#3A2710;--bad:#FF7F73;--bad-soft:#3E1A17;
+  --bar-bg:#090B16;--shadow:0 1px 0 rgba(0,0,0,.4),0 14px 32px -16px rgba(0,0,0,.85);--shadow-up:0 2px 0 rgba(0,0,0,.4),0 22px 44px -16px rgba(0,0,0,.9);color-scheme:dark}
+h1,h2,h3{font-stretch:118%;font-weight:800;letter-spacing:-.02em}
+h1{font-size:clamp(34px,5.6vw,62px);line-height:1.02}
+h2{font-size:clamp(26px,3.4vw,40px)}
+.byline{background:var(--accent)}
+.mono{font-family:var(--f-m);font-size:.86em;letter-spacing:-.01em}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 var(--f-t);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.eyebrow::before{content:"";width:22px;height:0;border-top:2px dashed currentColor}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--muted);max-width:60ch}
+.btn{font-family:var(--f-t);transition:transform .18s var(--ease),box-shadow .18s var(--ease),background .18s}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-up)}
+.btn.c{background:var(--accent);color:#fff}
+.btn.sm{min-height:44px;padding:0 16px;font-size:14px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.card{transition:transform .22s var(--ease),box-shadow .22s var(--ease)}
+.card.hv:hover{transform:translateY(-4px);box-shadow:var(--shadow-up)}
+.grid{display:grid;gap:16px}
+@media(min-width:760px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
+.sec-h{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:20px}
+.sec-h p{max-width:56ch}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--surface2);color:var(--muted);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.b{background:var(--brand-soft);color:var(--brand)}.pill.g{background:var(--gold-soft);color:var(--gold)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.tela>section{padding:44px 0}
+.tela>section.tight{padding-top:20px}
+/* primeira seção não encaixa (a faixa do autor nunca é engolida no carregamento) */
+.tela>section:first-child{scroll-snap-align:none}
+
+/* ===== cabeçalho: logo, alternador de visão, navegação ===== */
+.top .wrap{gap:14px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo svg{width:34px;height:34px;flex:none}
+.logo b{font:800 19px/1 var(--f-d);font-stretch:125%;letter-spacing:-.02em}
+.logo small{display:block;font:600 10.5px/1 var(--f-t);letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-top:3px}
+.visao{display:none;background:rgba(255,255,255,.08);border-radius:999px;padding:3px}
+.visao button{min-height:36px;padding:0 14px;border:0;border-radius:999px;background:none;color:inherit;font-weight:700;font-size:13.5px;opacity:.75}
+.visao button[aria-pressed="true"]{background:var(--bar-ink);color:var(--bar-bg);opacity:1}
+.nav a{font-size:14.5px;padding:8px 11px;transition:background .18s,opacity .18s}
+.nav a:hover{opacity:1;background:rgba(255,255,255,.08)}
+.nav [data-g]{display:none}
+.top[data-g="cli"] .nav [data-g="cli"],.top[data-g="eq"] .nav [data-g="eq"]{display:inline-block}
+.site{display:none;font-size:13px;opacity:.8;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.4)}
+@media(min-width:900px){.visao{display:flex}}
+@media(min-width:1240px){.site{display:inline}}
+
+/* ===== ilustrações de peça ===== */
+.peca{position:relative;border-radius:var(--r-m);aspect-ratio:4/5;display:grid;place-items:center;overflow:hidden;background:var(--t,var(--surface2))}
+.peca svg{width:68%;height:auto;filter:drop-shadow(0 12px 14px rgba(22,24,43,.18));transition:transform .4s var(--ease)}
+.card.hv:hover .peca svg{transform:translateY(-4px) rotate(-2deg)}
+.peca .tag{position:absolute;left:10px;top:10px}
+.peca .tag2{position:absolute;right:10px;top:10px}
+.stitch{fill:none;stroke:rgba(255,255,255,.7);stroke-width:1.4;stroke-dasharray:3 3}
+
+/* ===== loja ===== */
+.hero{position:relative;overflow:hidden}
+.hero .wrap{display:grid;gap:28px;align-items:center}
+@media(min-width:900px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
+.hero-art{position:relative;max-width:440px;margin:0 auto;width:100%}
+.hero-art svg{width:100%;height:auto}
+.prova{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:22px;font-size:14px;color:var(--muted)}
+.prova b{color:var(--ink);font:800 20px/1 var(--f-d);font-stretch:112%;display:block}
+.consent{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:16px 18px;border-radius:var(--r-m);background:var(--surface);border:1px dashed var(--gold);margin-bottom:8px}
+.consent svg{width:42px;height:42px}
+.consent .acoes{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+@media(min-width:700px){.consent{grid-template-columns:auto 1fr auto;align-items:center}.consent .acoes{grid-column:auto}}
+.busca{position:relative}
+.busca input{width:100%;min-height:52px;border-radius:999px;border:1px solid var(--line);background:var(--surface);padding:0 18px 0 48px;font-size:16px}
+.busca svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none;scroll-snap-type:x proximity}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14.5px;scroll-snap-align:start;transition:background .18s,color .18s,border-color .18s}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filtros{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px}
+.filtros label{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:14px;font-weight:600;cursor:pointer}
+.filtros input{accent-color:var(--brand);width:18px;height:18px}
+.filtros select{min-height:44px;border-radius:999px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-size:14px;font-weight:600}
+.prods{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+@media(min-width:760px){.prods{grid-template-columns:repeat(3,1fr);gap:18px}}
+@media(min-width:1080px){.prods{grid-template-columns:repeat(4,1fr)}}
+.prod{padding:10px;cursor:pointer;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.prod h3{font:700 15.5px/1.25 var(--f-t);letter-spacing:0;font-stretch:100%}
+.prod .pr{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.prod .pr b{font:800 18px/1 var(--f-d);font-stretch:110%}
+.prod .pr small{color:var(--muted);font-size:12.5px}
+.prod .gr{font-size:12px;color:var(--muted)}
+.vazio{text-align:center;padding:36px 16px;grid-column:1/-1}
+.vazio svg{width:150px;margin:0 auto 12px}
+.carrossel{display:grid;grid-auto-flow:column;grid-auto-columns:min(42%,240px);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 14px;scrollbar-width:thin}
+.carrossel>*{scroll-snap-align:start}
+@media(max-width:759px){.carrossel{grid-auto-columns:64%}}
+.selos{display:grid;gap:12px}
+@media(min-width:760px){.selos{grid-template-columns:repeat(4,1fr)}}
+.selo{display:flex;gap:12px;align-items:center;padding:14px 16px}
+.selo svg{width:30px;height:30px;color:var(--gold);flex:none}
+.selo b{display:block;font-size:15px}
+.selo span{font-size:13px;color:var(--muted)}
+.depo{padding:20px}
+.depo p{font-size:15.5px}
+.depo footer,.depo .quem{border:0;padding:0;margin-top:12px;font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:10px}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;flex:none}
+
+/* ===== produto e grade ===== */
+.pdp{display:grid;gap:24px}
+@media(min-width:900px){.pdp{grid-template-columns:.9fr 1.1fr;align-items:start}}
+.pdp .peca{aspect-ratio:1/1}
+.cores{display:flex;gap:10px;margin:10px 0 4px}
+.cor{width:44px;height:44px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line);transition:box-shadow .18s,transform .18s}
+.cor[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink);transform:scale(1.06)}
+.grade{width:100%;border-collapse:separate;border-spacing:0 8px}
+.grade th{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);text-align:left;font-weight:700}
+.grade td{vertical-align:middle}
+.step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.step button{width:44px;height:44px;border:0;background:none;font-size:20px;font-weight:700;border-radius:50%}
+.step output{min-width:30px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
+.est{font-size:12px;color:var(--muted)}
+.est.baixo{color:var(--warn);font-weight:700}
+.minimo{margin-top:14px}
+.minimo .barra-g{height:12px}
+.minimo .barra-g i{background:linear-gradient(90deg,var(--gold),var(--accent));transition:width .35s var(--ease)!important}
+.tot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.tot b{font:800 26px/1 var(--f-d);font-stretch:110%}
+
+/* ===== checkout ===== */
+.ck{display:grid;gap:20px}
+@media(min-width:960px){.ck{grid-template-columns:1.25fr .75fr;align-items:start}}
+.passos{display:flex;gap:6px;margin-bottom:16px}
+.passos span{flex:1;height:6px;border-radius:3px;background:var(--surface2);position:relative;overflow:hidden}
+.passos span i{position:absolute;inset:0;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.passos span.ok i{transform:none}
+.campo{display:grid;gap:6px;margin-bottom:12px}
+.campo label{font-size:13.5px;font-weight:700}
+.campo input{min-height:50px;border-radius:12px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-size:16px}
+.campo .ok-i{font-size:12.5px;color:var(--ok);font-weight:600}
+.pag{display:grid;gap:10px}
+.pag label{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;min-height:60px;transition:border-color .18s,background .18s}
+.pag label:has(input:checked){border-color:var(--brand);background:var(--brand-soft)}
+.pag input{accent-color:var(--brand);width:20px;height:20px}
+.resumo .linha{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+.resumo .linha:last-child{border:0}
+.resumo .total{font:800 24px/1 var(--f-d);font-stretch:110%}
+.frete{margin:10px 0 4px;font-size:13.5px}
+.frete .barra-g i{background:var(--ok)}
+
+/* ===== minha conta ===== */
+.ped{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px}
+.ped .ic{width:46px;height:46px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center}
+.trilho{display:flex;gap:4px;margin-top:8px}
+.trilho i{flex:1;height:5px;border-radius:3px;background:var(--surface2)}
+.trilho i.on{background:var(--ok)}
+
+/* ===== equipe: painel ===== */
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:900px){.kpis{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:759px){.kpis.carrossel{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:62%}}
+.kpi{padding:18px}
+.kpi small{display:block;font-size:12.5px;color:var(--muted);font-weight:600}
+.kpi b{display:block;font:800 30px/1.1 var(--f-d);font-stretch:112%;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px}
+.tab{width:100%;border-collapse:collapse;font-size:14.5px}
+.tab th{text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 8px;border-bottom:1px solid var(--line)}
+.tab td{padding:12px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tab tr:last-child td{border-bottom:0}
+.rola{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.graf{display:flex;align-items:end;gap:10px;height:170px;padding-top:10px}
+.graf div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:end;font-size:12px;color:var(--muted)}
+.graf div i{width:100%;max-width:46px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--brand),color-mix(in srgb,var(--brand) 55%,var(--bg)));height:var(--h);transform-origin:bottom}
+html.anim .graf div i{transform:scaleY(0);transition:transform .7s var(--ease) calc(var(--i,0)*60ms)}
+html.anim .rv.in .graf div i{transform:none}
+.graf div.hoje i{background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--bg)))}
+.edit{display:grid;gap:10px}
+.edit .bloco{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;background:var(--surface)}
+.edit .bloco svg{color:var(--muted)}
+.edit .bloco b{font-size:14.5px}
+.tg{position:relative;width:52px;height:30px;flex:none;margin-left:auto}
+.tg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;z-index:1}
+.tg span{position:absolute;inset:0;border-radius:999px;background:var(--line);transition:background .2s}
+.tg span::after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .2s var(--ease)}
+.tg input:checked+span{background:var(--ok)}
+.tg input:checked+span::after{transform:translateX(22px)}
+
+/* ===== fio do pedido (assinatura) ===== */
+.fio-l{display:grid;gap:20px}
+@media(min-width:960px){.fio-l{grid-template-columns:320px 1fr;align-items:start}}
+.lista-p{display:grid;gap:8px}
+.lista-p button{display:grid;grid-template-columns:1fr auto;gap:2px 10px;text-align:left;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);min-height:60px;transition:border-color .18s,transform .18s}
+.lista-p button:hover{transform:translateX(3px)}
+.lista-p button[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.lista-p b{font-family:var(--f-m);font-size:14px}
+.lista-p small{grid-column:1;color:var(--muted);font-size:12.5px}
+.lista-p .pill{grid-row:1/3;grid-column:2;align-self:center}
+.fio{position:relative;padding:8px 0 4px}
+.fio svg.linha{position:absolute;left:23px;top:30px;width:4px;height:calc(100% - 60px);overflow:visible}
+.fio svg.linha path{stroke:var(--gold);stroke-width:2.4;fill:none;stroke-dasharray:6 5}
+.fio svg.linha .corre{stroke:var(--gold);stroke-dasharray:var(--L) var(--L);stroke-dashoffset:var(--L)}
+html.anim .fio.vai svg.linha .corre{transition:stroke-dashoffset 1.6s cubic-bezier(.5,0,.3,1)}
+.fio.vai svg.linha .corre{stroke-dashoffset:0}
+.no{position:relative;display:grid;grid-template-columns:50px 1fr;gap:14px;padding:10px 0}
+.no .bol{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--line);color:var(--muted);z-index:1;transition:background .3s,border-color .3s,color .3s,transform .3s var(--ease)}
+.no.ok .bol{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.no.fila .bol{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+html.anim .no.ok .bol{animation:pulo .38s var(--ease)}
+@keyframes pulo{0%{transform:scale(.8)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+.no h4{margin:4px 0 2px;font:700 16px/1.25 var(--f-t)}
+.no p{font-size:13.5px;color:var(--muted)}
+.no .hora{font-family:var(--f-m);font-size:12.5px;color:var(--ink);opacity:.8}
+.chave{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:10px;background:var(--gold-soft);color:var(--ink);font-family:var(--f-m);font-size:13px;border:1px dashed var(--gold)}
+.log{font-family:var(--f-m);font-size:12.5px;background:var(--bar-bg);color:#DCE0F5;border-radius:14px;padding:14px 16px;max-height:260px;overflow:auto;line-height:1.65}
+.log .ig{color:#F2C46B}.log .okk{color:#7EE2A2}.log .er{color:#FF968A}
+.log div{opacity:1}
+html.anim .log div.novo{animation:entra .35s var(--ease)}
+@keyframes entra{from{opacity:0;transform:translateY(6px)}}
+.sim{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ===== rastreamento ===== */
+.evt{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.evt:last-child{border:0}
+.evt code{font-family:var(--f-m);font-size:14px;font-weight:600}
+.evt small{grid-column:1;color:var(--muted);font-size:12.5px}
+.evt .vals{grid-row:1/3;grid-column:2;display:flex;gap:6px;flex-wrap:wrap;justify-content:end}
+.ao-vivo{min-height:120px}
+.ao-vivo .vazio-ev{color:#9AA0C4}
+.funil{display:grid;gap:10px}
+.funil .f{display:grid;grid-template-columns:170px 1fr 64px;gap:12px;align-items:center;font-size:13.5px}
+.funil .f code{font-family:var(--f-m);font-size:12.5px}
+.funil .f b{text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:520px){.funil .f{grid-template-columns:128px 1fr 46px;gap:8px}}
+.dedup{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center;text-align:center}
+.dedup .cx{padding:14px 8px;border-radius:14px;background:var(--surface2);font-size:13px}
+.dedup .cx b{display:block;font:800 20px/1.1 var(--f-d);font-stretch:110%}
+.dedup .cx.fim{background:var(--ok-soft);color:var(--ok)}
+.dedup svg{width:22px;color:var(--muted)}
+.cm{display:grid;grid-template-columns:1fr auto;gap:8px 12px;font-size:14px}
+.cm code{font-family:var(--f-m);font-size:13px}
+
+/* ===== saúde ===== */
+.gauge{text-align:center;padding:18px 12px}
+.gauge svg{width:120px;height:72px;margin:0 auto}
+.gauge .arco{fill:none;stroke:var(--surface2);stroke-width:10;stroke-linecap:round}
+.gauge .val{fill:none;stroke:var(--ok);stroke-width:10;stroke-linecap:round;stroke-dasharray:var(--a) 200}
+html.anim .gauge .val{stroke-dasharray:0 200;transition:stroke-dasharray 1s var(--ease) .15s}
+html.anim .rv.in .gauge .val{stroke-dasharray:var(--a) 200}
+.gauge b{display:block;font:800 24px/1 var(--f-d);font-stretch:110%;margin-top:4px}
+.gauge small{display:block;color:var(--muted);font-size:12.5px;margin-top:4px}
+.acesso td:not(:first-child){text-align:center}
+.cad{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%}
+.cad.s{background:var(--ok-soft);color:var(--ok)}.cad.n{background:var(--surface2);color:var(--muted)}.cad.l{background:var(--gold-soft);color:var(--gold)}
+.tl{display:grid;gap:0}
+.tl .it{display:grid;grid-template-columns:18px 1fr auto;gap:12px;align-items:start;padding:10px 0}
+.tl .it i{width:12px;height:12px;border-radius:50%;margin-top:5px;background:var(--ok)}
+.tl .it i.w{background:var(--warn)}.tl .it i.b{background:var(--bad)}
+.tl .it small{font-family:var(--f-m);font-size:12px;color:var(--muted)}
+
+/* ===== plano ===== */
+.fases{display:grid;gap:14px;counter-reset:f}
+.fase{display:grid;grid-template-columns:54px 1fr;gap:16px;padding:20px}
+.fase .n{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font:800 22px/1 var(--f-d);background:var(--surface2)}
+.fase.agora{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),var(--shadow)}
+.fase.agora .n{background:var(--accent);color:#fff}
+.fase ul{margin:10px 0 0;padding-left:18px;color:var(--muted);font-size:14.5px}
+.fase li{margin:3px 0}
+.hip{display:grid;grid-template-columns:1fr auto;gap:6px 14px;padding:16px;border-bottom:1px solid var(--line);align-items:center}
+.hip:last-child{border:0}
+.hip p{font-size:13.5px;color:var(--muted);grid-column:1}
+.hip .ice{grid-row:1/3;grid-column:2;text-align:center}
+.hip .ice b{display:block;font:800 22px/1 var(--f-d)}
+.hip .ice small{font-size:11px;color:var(--muted);letter-spacing:.08em}
+.hon{border-left:4px solid var(--gold);background:var(--gold-soft);border-radius:0 var(--r-m) var(--r-m) 0;padding:18px 20px}
+.mig{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.mig div{padding:12px 6px;border-radius:12px;background:var(--surface2)}
+.mig b{display:block;font:800 22px/1 var(--f-d);font-stretch:110%}
+.mig small{font-size:12px;color:var(--muted)}
+
+/* ===== assinatura: etiqueta de roupa com pesponto ===== */
+.sig-m{background:none;width:52px;height:52px}
+.sig-m svg{width:52px;height:52px}
+html.anim .sig:hover .sig-m svg{animation:balanca .6s var(--ease)}
+@keyframes balanca{30%{transform:rotate(-8deg)}60%{transform:rotate(5deg)}100%{transform:none}}
+footer .site2{font-size:14px}
+
+/* ===== mobile ===== */
+@media(max-width:899px){
+  .tela>section{padding:32px 0}
+  .hero .wrap{gap:18px}
+  .hero-art{max-width:300px}
+  .esconde-m{display:none}
+}
+@media(min-width:900px){.so-m{display:none}}
+.mais-g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mais-g button{display:flex;align-items:center;gap:10px;min-height:56px;padding:0 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:14.5px;text-align:left}
+.mais-g h4{grid-column:1/-1;margin:8px 0 0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+[hidden]{display:none!important}
+@media(min-width:760px){.kpis.carrossel{grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;grid-template-columns:repeat(2,1fr);padding:0}}
+@media(min-width:900px){.kpis.carrossel{grid-template-columns:repeat(4,1fr)}}
+html.anim .gauge.rv.in .val{stroke-dasharray:var(--a) 200}
+/* fio: pesponto entre os nós, costurado conforme cada etapa passa */
+.no:not(:last-of-type)::before,.no:not(:last-of-type)::after{content:"";position:absolute;left:24px;top:62px;height:calc(100% - 54px);border-left:2.4px dashed var(--line)}
+.no:not(:last-of-type)::after{border-left-color:var(--gold);transform:scaleY(0);transform-origin:top;transition:transform .3s var(--ease)}
+.no.ok:not(:last-of-type)::after{transform:none}
+.agulha{position:absolute;left:36px;top:18px;width:22px;height:22px;color:var(--gold);z-index:2;transition:top .3s var(--ease);pointer-events:none}
+.agulha svg{width:22px;height:22px}
+html.anim .hero-linha{stroke-dashoffset:0;animation:corre 14s linear infinite}
+@keyframes corre{to{stroke-dashoffset:-260}}
+html.anim .hero-min{transform-box:fill-box;transform-origin:left;animation:enche 2.4s var(--ease) .6s both}
+@keyframes enche{from{transform:scaleX(.15)}}
+
+.grid>*{min-width:0}
+.logo{min-height:44px}
+.visao button{min-height:44px}
+.nav a{min-height:44px;display:inline-flex!important;align-items:center}
+.top[data-g="cli"] .nav [data-g="eq"],.top[data-g="eq"] .nav [data-g="cli"]{display:none!important}
+.site{min-height:44px;align-items:center}
+@media(min-width:1240px){.site{display:inline-flex;border:0;text-decoration:underline dashed;text-underline-offset:4px}}
+.dedup2{display:grid;grid-template-columns:1fr 36px 1.1fr 28px 1fr;grid-template-areas:"a c d e f" "b c d e f";gap:8px 4px;align-items:stretch;text-align:center;margin-top:18px}
+.dedup2 .cx{padding:12px 6px;border-radius:14px;background:var(--surface2);font-size:12.5px;display:flex;flex-direction:column;justify-content:center}
+.dedup2 .cx b{display:block;font:800 18px/1.15 var(--f-d);font-stretch:110%}
+.dedup2 .cx.fim{background:var(--ok-soft);color:var(--ok)}
+.dedup2 .conv{width:100%;height:100%}
+.evt{grid-template-columns:1fr}
+.evt .vals{grid-row:auto;grid-column:1;justify-content:start;margin-top:6px}
+.funil .f small{color:var(--muted);font-weight:400;margin-left:4px}
+@media(max-width:959px){.lista-p{grid-auto-flow:column;grid-auto-columns:74%;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;scrollbar-width:none}.lista-p::-webkit-scrollbar{display:none}.lista-p button{scroll-snap-align:start}.lista-p button:hover{transform:none}}
+.fio-l>*,.ck>*,.pdp>*{min-width:0}
+.toast{width:max-content;max-width:calc(100vw - 32px);text-align:center}
+@media(max-width:899px){.prova{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12.5px;line-height:1.3}.prova b{font-size:18px;margin-bottom:4px}}
+@media(max-width:759px){#cwv{grid-template-columns:1fr 1fr;gap:10px}#cwv .gauge svg{width:100px;height:60px}#cwv .gauge b{font-size:20px}}
+#pagto label{grid-template-columns:auto auto 1fr}
+#pagto label svg{width:24px;height:24px;color:var(--brand)}
+@media(min-width:960px){.ck .resumo{position:sticky;top:calc(var(--head) + 16px)}}
+
+/* ===== r2 (revisão de detalhes de 15/10) ===== */
+/* modo escuro: círculo do hero, moldura do celular, borda das amostras de cor e bolha do WhatsApp */
+:root{--hero-c:var(--gold-soft);--moldura:transparent;--moldura-f:none;--sw-b:0 0 0 1px var(--line);--chat:#EFE7DC;--bolha:#D9FDD3;--bolha-ink:#111B21}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hero-c:color-mix(in srgb,var(--gold) 18%,var(--bg));--moldura:#2C3050;--moldura-f:drop-shadow(0 0 22px rgba(154,166,255,.22));--sw-b:0 0 0 1.5px var(--muted);--chat:#0B141A;--bolha:#005C4B;--bolha-ink:#E9EDEF}}
+:root[data-theme="dark"]{--hero-c:color-mix(in srgb,var(--gold) 18%,var(--bg));--moldura:#2C3050;--moldura-f:drop-shadow(0 0 22px rgba(154,166,255,.22));--sw-b:0 0 0 1.5px var(--muted);--chat:#0B141A;--bolha:#005C4B;--bolha-ink:#E9EDEF}
+.cor{box-shadow:var(--sw-b)}
+.amostra{width:14px;height:14px;border-radius:50%;box-shadow:var(--sw-b)}
+
+/* marca d'água inteira em 1440 e 1920 (antes cortava em "Vinicius Can") */
+
+/* faixa da dor, logo abaixo do hero (não fixa) */
+.tela>section.dores-s{padding:0}
+.dores-s{background:var(--bar-bg);color:var(--bar-ink);border-block:1px solid var(--line)}
+.dores{display:grid;grid-template-columns:repeat(3,1fr)}
+.dores button{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;text-align:left;background:none;border:0;color:inherit;padding:16px 18px;min-height:64px;transition:background .18s,transform .2s var(--ease)}
+.dores button+button{border-left:1px solid rgba(255,255,255,.1)}
+.dores button:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}
+.dores .ico{grid-row:1/3;color:var(--gold);width:24px;height:24px}
+.dores b{font:700 15.5px/1.25 var(--f-d);font-stretch:108%}
+.dores small{grid-column:2;font-size:12.5px;opacity:.75;line-height:1.35}
+.dores .seta{grid-row:1/3;grid-column:3;opacity:.5;transition:transform .2s var(--ease),opacity .2s}
+.dores button:hover .seta{transform:translateX(3px);opacity:1}
+@media(max-width:759px){
+  .dores-s .wrap{padding-right:0}
+  .dores{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:41%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .dores::-webkit-scrollbar{display:none}
+  .dores button{scroll-snap-align:start;grid-template-columns:1fr;align-content:start;padding:14px 12px}
+  .dores .ico{grid-row:auto;margin-bottom:4px}.dores small{grid-column:1}.dores .seta{display:none}
+}
+
+/* contador real de eventos no hero */
+.ev-chip{position:absolute;left:0;bottom:5%;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:13px;font-weight:600;box-shadow:var(--shadow-up);transition:transform .18s var(--ease)}
+.ev-chip:hover{transform:translateY(-2px)}
+.ev-chip b{font:800 16px/1 var(--f-m);color:var(--ok)}
+.ev-chip .dot{color:var(--ok)}
+html.anim .ev-chip .dot{animation:pisca 1.6s ease-in-out infinite}
+@keyframes pisca{50%{opacity:.25}}
+html.anim .ev-chip b.bump{display:inline-block;animation:pop .4s var(--ease)}
+@media(max-width:899px){.ev-chip{left:50%;transform:translateX(-50%);bottom:2%;white-space:nowrap}.ev-chip:hover{transform:translateX(-50%)}}
+
+/* WhatsApp no desktop: círculo de 56 px, texto só no hover/foco */
+@media(min-width:900px){
+  .dev{right:24px;bottom:24px;padding:8px;gap:0;transition:padding .28s var(--ease),gap .28s var(--ease)}
+  .dev>span:last-child{max-width:0;opacity:0;overflow:hidden;white-space:nowrap;transition:max-width .28s var(--ease),opacity .2s}
+  .dev:hover,.dev:focus-visible{gap:10px;padding-right:18px}
+  .dev:hover>span:last-child,.dev:focus-visible>span:last-child{max-width:220px;opacity:1}
+}
+
+/* toast no topo no desktop e com a folha aberta (não cobre a folha nem a grade) */
+@media(min-width:900px){.toast{top:calc(var(--head) + 36px);bottom:auto;transform:translate(-50%,-16px)}}
+html.folha .toast{top:calc(var(--head) + 16px);bottom:auto;transform:translate(-50%,-16px)}
+.toast.on,html.folha .toast.on{transform:translate(-50%,0)}
+
+/* checkout: resumo compacto antes dos blocos e faixa de fechamento no celular */
+.ck-m{display:none}
+@media(max-width:959px){.ck aside.resumo{display:none}.ck-m{display:block}.ck-m[hidden]{display:none}}
+.res-card{margin-bottom:16px;padding:16px 18px}
+.res-m{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.res-m .total{font:800 26px/1.05 var(--f-d);font-stretch:110%;white-space:nowrap}
+.res-card details{margin-top:10px;border-top:1px dashed var(--line);padding-top:4px}
+.res-card summary{min-height:44px;display:flex;align-items:center;font-weight:700;font-size:14.5px;cursor:pointer;color:var(--brand)}
+.res-card .frete{margin-top:8px}
+.fecha-m{margin-top:16px;padding:18px;border-radius:var(--r-m);background:var(--surface);border:1.5px solid var(--accent);box-shadow:var(--shadow)}
+.fecha-m .btn{width:100%;min-height:52px;font-size:16.5px;margin-top:14px}
+body[data-t="checkout"] .bar{display:none}
+@media(max-width:899px){body[data-t="checkout"]{padding-bottom:calc(16px + env(safe-area-inset-bottom))}body[data-t="checkout"] .dev{bottom:calc(12px + env(safe-area-inset-bottom))}body[data-t="checkout"] .toast{bottom:calc(76px + env(safe-area-inset-bottom))}}
+.resumo .linha>span:last-child{white-space:nowrap}
+.campo{align-content:start}
+.campo .ok-i,.campo .aj{min-height:18px;font-size:12.5px}
+.campo .aj{color:var(--muted)}
+
+/* alvos de toque e grade */
+.tg{height:44px}
+.tg span{inset:7px 0}
+table.grade{max-width:520px}
+
+/* painel com 5 indicadores */
+@media(min-width:760px){.kpis.carrossel{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1080px){.kpis.carrossel{grid-template-columns:repeat(5,minmax(0,1fr))}.kpis .kpi b{font-size:26px}}
+.kpi .pill{white-space:normal;line-height:1.3}
+
+/* saúde: 4 cards, antes/depois de plugins, gauge como meta */
+@media(min-width:1080px){.g4l{grid-template-columns:repeat(4,1fr)}}
+.pl-ab{display:flex;align-items:center;gap:10px}
+.pl-ab span{flex:1;text-align:center;padding:10px 6px;border-radius:12px;background:var(--surface2);font-size:12.5px;color:var(--muted)}
+.pl-ab span.fim{background:var(--ok-soft);color:var(--ok)}
+.pl-ab b{display:block;font:800 22px/1.1 var(--f-d);font-stretch:110%;color:var(--ink)}
+.pl-ab span.fim b{color:var(--ok)}
+.pl-ab .ico{color:var(--gold);flex:none}
+.gauge .meta-t{font:700 11px var(--f-t);fill:var(--ok);letter-spacing:.12em;text-transform:uppercase}
+.gauge .hoje{margin-top:8px}
+
+/* fio: botão da mensagem e folha com WhatsApp e e-mail */
+.no .txt{font-size:13.5px;color:var(--muted)}
+.no [data-msg]{margin-top:8px}
+.chave{flex-wrap:wrap}
+.wa-chat{background:var(--chat);border-radius:16px;padding:12px;display:grid;gap:8px}
+.wa-top{font:700 11px/1 var(--f-t);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.bolha{justify-self:start;max-width:92%;background:var(--bolha);color:var(--bolha-ink);padding:9px 12px 6px;border-radius:4px 14px 14px 14px;font-size:14.5px;line-height:1.45;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.bolha small{display:block;text-align:right;font-size:11px;opacity:.65;margin-top:2px}
+html.anim .sheet.on .bolha{animation:entra .35s var(--ease) both}
+html.anim .sheet.on .bolha+.bolha{animation-delay:.18s}
+.mail{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:var(--surface)}
+.mail .de{font-size:12.5px;color:var(--muted);border-bottom:1px dashed var(--line);padding-bottom:8px;margin-bottom:8px}
+.mail p{font-size:14px}
+</style>
+</head>
+<body>
+<!-- KIT:faixa-html -->
+<div class="byline">Exemplo de Vinicius Candido · <a href="/trabalhos/">mais trabalhos</a> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">portfólio</a> · <a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Trama%20Atacado%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp</a></div>
+<!-- /KIT:faixa-html -->
+<!-- KIT:whatsapp-html -->
+<!-- Trocar só o texto depois de ?text= (codificado). O número fica apenas neste href. -->
+<a class="dev" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Trama%20Atacado%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius, desenvolvedor deste projeto, pelo WhatsApp"><span class="wa-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg></span><span><b>Falar com o Vinicius</b><small>quem fez este projeto</small></span></a>
+<!-- /KIT:whatsapp-html -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+<symbol id="i-thread" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.4"/><circle cx="19" cy="12" r="2.4"/><circle cx="7" cy="19" r="2.4"/><path d="M7.2 7l9.6 4M16.8 13.2L9.2 18" stroke-dasharray="2 2.4"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+<symbol id="i-pix" viewBox="0 0 24 24"><path d="M12 3l4 4-4 4-4-4zM12 13l4 4-4 4-4-4zM3 12l4-4 4 4-4 4zM13 12l4-4 4 4-4 4z"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18M7 15h4"/></symbol>
+<symbol id="i-barcode" viewBox="0 0 24 24"><path d="M4 5v14M7 5v14M10 5v14M14 5v14M16 5v14M20 5v14"/></symbol>
+<symbol id="i-whats" viewBox="0 0 24 24"><path d="M4 20l1.3-3.8A8 8 0 1 1 8 19z"/><path d="M9 9.5c.3 2 2.5 4.3 4.8 4.8l1.2-1.3 1.8.9-.4 1.6c-3.6.4-7.4-3.4-7-7l1.6-.4.9 1.8z"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.6-4.4L4 8M4 4v4h4M4 13a8 8 0 0 0 14.6 4.4L20 16M20 20v-4h-4"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/></symbol>
+<symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.6-9 6 6 0 0 1 11.4 1.5A3.8 3.8 0 0 1 17.5 18z"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.4"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+<symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4 19a1.5 1.5 0 0 0 1.3 2h13.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7 15h10"/></symbol>
+<symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+<symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></symbol>
+</defs>
+</svg>
+
+<!-- KIT:cabecalho -->
+<header class="top" role="banner" data-g="cli"><div class="wrap">
+  <a class="logo" href="#loja" data-tela="loja" aria-label="Trama Atacado, início da loja">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="11" fill="#C8452D"/><g fill="none" stroke="#F6F2EA" stroke-width="3.2" stroke-linecap="round"><path d="M11 13h18"/><path d="M11 20h18" opacity=".55"/><path d="M11 27h18"/></g><g fill="none" stroke="#E2B65B" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="3 3.4"><path d="M16 9v22"/><path d="M24 9v22"/></g></svg>
+    <span><b>TRAMA</b><small>atacado de moda</small></span>
+  </a>
+  <div class="visao" role="group" aria-label="Escolher visão">
+    <button type="button" id="v-cli" aria-pressed="true">Lojista</button>
+    <button type="button" id="v-eq" aria-pressed="false">Equipe</button>
+  </div>
+  <nav class="nav" aria-label="Principal">
+    <a href="#loja" data-tela="loja" data-g="cli">Loja</a><a href="#produto" data-tela="produto" data-g="cli">Produto</a><a href="#checkout" data-tela="checkout" data-g="cli">Checkout</a><a href="#conta" data-tela="conta" data-g="cli">Minha conta</a>
+    <a href="#painel" data-tela="painel" data-g="eq">Painel</a><a href="#fio" data-tela="fio" data-g="eq">Fio do pedido</a><a href="#rastreio" data-tela="rastreio" data-g="eq">Rastreamento</a><a href="#saude" data-tela="saude" data-g="eq">Saúde</a><a href="#plano" data-tela="plano" data-g="eq">Plano</a>
+  </nav>
+  <a class="site" href="https://vlfcandido.github.io" target="_blank" rel="noopener">vlfcandido.github.io</a>
+  <button class="tbtn" id="tema" type="button" aria-label="Alternar tema claro e escuro"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+</div></header>
+<!-- /KIT:cabecalho -->
+
+<main id="view">
+<!-- ============ LOJA ============ -->
+<div class="tela on" data-tela="loja" data-titulo="Loja">
+  <section class="hero"><div class="wrap">
+    <div>
+      <span class="eyebrow rv">Atacado de moda · pronta entrega</span>
+      <h1 id="t-loja" class="rv" style="--i:1;margin-top:14px">Monte a grade da sua loja em 3 toques, direto do celular.</h1>
+      <p class="lead mt rv" style="--i:2">Busca que entende "vestido midi M", grade inteira numa tela e pedido mínimo à vista. E cada toque medido de verdade, porque conversão sem rastreamento não se prova.</p>
+      <div class="rv" style="--i:3;display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+        <button class="btn c" type="button" id="cta-vitrine"><svg class="ico"><use href="#i-grid"/></svg>Ver a coleção</button>
+        <button class="btn g" type="button" data-tela="fio"><svg class="ico"><use href="#i-thread"/></svg>Ver como cada pedido é seguido</button>
+      </div>
+      <div class="prova rv" style="--i:4">
+        <span><b data-conta="1240" data-suf="+">0</b>lojistas que recompram</span>
+        <span><b data-conta="4.8" data-dec="1">0</b>nota média nas avaliações</span>
+        <span><b data-conta="24" data-suf=" h">0</b>para despachar pedido pago</span>
+      </div>
+      <p class="small muted" style="margin-top:8px">Números de exemplo.</p>
+    </div>
+    <div class="hero-art rv" style="--i:2">
+      <svg viewBox="0 0 400 440" aria-hidden="true">
+        <defs><linearGradient id="hg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#25307A"/><stop offset="1" stop-color="#3B4AA8"/></linearGradient></defs>
+        <circle cx="210" cy="220" r="178" style="fill:var(--hero-c)"/>
+        <path d="M30 330 C 110 250, 170 420, 250 320 S 360 240, 390 300" fill="none" style="stroke:var(--gold)" stroke-width="3" stroke-dasharray="7 6" class="hero-linha"/>
+        <rect x="120" y="40" width="170" height="340" rx="30" fill="#141833" style="stroke:var(--moldura);filter:var(--moldura-f)" stroke-width="3"/>
+        <rect x="130" y="56" width="150" height="308" rx="20" fill="#F6F2EA"/>
+        <rect x="142" y="72" width="126" height="22" rx="11" fill="#E0D8C8"/>
+        <rect x="142" y="104" width="60" height="78" rx="10" fill="#E3E6F6"/><path d="M160 118h24l6 10-6 3v40h-24v-40l-6-3z" fill="url(#hg)"/>
+        <rect x="208" y="104" width="60" height="78" rx="10" fill="#F4E9D2"/><path d="M228 116h20l3 22 8 34h-42l8-34z" fill="#C8452D"/>
+        <rect x="142" y="190" width="60" height="78" rx="10" fill="#FDE3E0"/><path d="M162 202h20l4 64h-10l-4-40-4 40h-10z" fill="#3B4AA8"/>
+        <rect x="208" y="190" width="60" height="78" rx="10" fill="#DDF2E4"/><path d="M222 206h32l-4 12h-24z M226 218h24l6 40h-36z" fill="#23804A"/>
+        <rect x="142" y="282" width="126" height="40" rx="20" fill="#C8452D"/><text x="205" y="307" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="12.5" fill="#fff">Adicionar · 24 peças</text>
+        <rect x="142" y="332" width="126" height="10" rx="5" fill="#E0D8C8"/><rect x="142" y="332" width="96" height="10" rx="5" fill="#B88A2E" class="hero-min"/>
+        <g transform="translate(298 92)"><rect width="92" height="40" rx="12" fill="#FFFDF9" stroke="#E0D8C8"/><text x="12" y="25" font-family="JetBrains Mono,monospace" font-size="11" fill="#23804A">✓ purchase</text></g>
+        <g transform="translate(18 150)"><rect width="104" height="40" rx="12" fill="#FFFDF9" stroke="#E0D8C8"/><text x="12" y="25" font-family="JetBrains Mono,monospace" font-size="11" fill="#25307A">add_to_cart</text></g>
+        <g transform="translate(300 380)"><circle r="22" fill="#25D366"/><path d="M-9 9l2-6a10 10 0 1 1 4 4z" fill="none" stroke="#fff" stroke-width="2.4"/></g>
+      </svg>
+      <button class="ev-chip" type="button" data-tela="rastreio" aria-label="Ver os eventos medidos nesta visita"><span class="dot" aria-hidden="true"></span><b id="ev-n">0</b><span id="ev-s"> eventos até aqui · abra uma peça</span></button>
+    </div>
+  </div></section>
+
+  <!-- a dor do projeto logo abaixo do hero: conversão só se prova medindo -->
+  <section class="dores-s" aria-label="O que esta loja resolve"><div class="wrap"><div class="dores">
+    <button type="button" data-tela="rastreio"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg><b>Cada toque medido</b><small>view_item, add_to_cart, purchase sem duplicar</small><span class="seta" aria-hidden="true">→</span></button>
+    <button type="button" data-tela="fio"><svg class="ico" aria-hidden="true"><use href="#i-thread"/></svg><b>Nenhum pedido perdido</b><small>pago → Vestuar → WhatsApp com a mesma chave</small><span class="seta" aria-hidden="true">→</span></button>
+    <button type="button" data-tela="rastreio"><svg class="ico" aria-hidden="true"><use href="#i-flask"/></svg><b>Marco zero antes do layout</b><small>a melhora vem com prova</small><span class="seta" aria-hidden="true">→</span></button>
+  </div></div></section>
+
+  <section class="snap tight" id="vitrine"><div class="wrap">
+    <div class="consent rv" id="consent" role="region" aria-label="Privacidade e cookies">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" style="fill:var(--gold-soft)"/><path d="M24 4a20 20 0 1 0 20 20 7 7 0 0 1-8-7 7 7 0 0 1-7-8 5 5 0 0 1-5-5z" style="fill:var(--gold)" opacity=".85"/><circle cx="17" cy="22" r="2.6" fill="#16182B"/><circle cx="27" cy="31" r="2.6" fill="#16182B"/><circle cx="18" cy="33" r="1.8" fill="#16182B"/></svg>
+      <div><b>Privacidade em primeiro lugar (LGPD).</b><p class="small muted">Usamos cookies para medir a loja e mostrar ofertas. Você escolhe; o consent mode do Google e do Meta respeita a sua escolha.</p></div>
+      <div class="acoes"><button class="btn sm" type="button" data-consent="sim">Aceitar</button><button class="btn sm g" type="button" data-consent="nao">Só os necessários</button></div>
+    </div>
+    <div class="sec-h" style="margin-top:22px"><div><span class="eyebrow">Pronta entrega e encomenda</span><h2 style="margin-top:8px">Coleção verão</h2></div></div>
+    <div class="busca"><svg class="ico"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Busque por peça, cor ou tamanho (ex.: vestido M)" aria-label="Buscar produtos" autocomplete="off"></div>
+    <div class="chips mt" id="cats" role="group" aria-label="Categorias"></div>
+    <div class="filtros" aria-label="Filtros">
+      <select id="f-tam" aria-label="Filtrar por tamanho em estoque"><option value="">Tamanho em estoque</option><option>P</option><option>M</option><option>G</option><option>GG</option></select>
+      <select id="f-ord" aria-label="Ordenar"><option value="vend">Mais vendidos</option><option value="menor">Menor preço</option><option value="novo">Novidades</option></select>
+      <label><input type="checkbox" id="f-pe"> Só pronta entrega</label>
+      <span class="small muted" id="n-res" aria-live="polite"></span>
+    </div>
+    <div class="prods" id="prods"></div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="sec-h"><div><span class="eyebrow">Quem compra para revender</span><h2 style="margin-top:8px">Mais recomprados da semana</h2></div><p class="muted small">Arraste para o lado. A recompra é o termômetro do atacado.</p></div>
+    <div class="carrossel" id="recompra"></div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="selos">
+      <div class="card selo rv"><svg class="ico"><use href="#i-pix"/></svg><span><b>5% no Pix</b><span>desconto já aplicado no checkout</span></span></div>
+      <div class="card selo rv" style="--i:1"><svg class="ico"><use href="#i-truck"/></svg><span><b>Despacho em 24 h</b><span>rastreio chega no seu WhatsApp</span></span></div>
+      <div class="card selo rv" style="--i:2"><svg class="ico"><use href="#i-receipt"/></svg><span><b>Nota fiscal</b><span>emitida junto com o pedido</span></span></div>
+      <div class="card selo rv" style="--i:3"><svg class="ico"><use href="#i-shield"/></svg><span><b>Compra protegida</b><span>pagamento com antifraude</span></span></div>
+    </div>
+    <p class="small muted" style="margin-top:10px">Condições de exemplo; cada uma vira configuração da loja.</p>
+    <div class="grid g3 mt" style="margin-top:20px">
+      <figure class="card depo rv" style="margin:0"><p>"Faço o pedido entre um cliente e outro na loja. Escolho a grade inteira numa tela só."</p><div class="quem"><span class="av" style="background:#25307A">RM</span>Renata · loja em São Paulo</div></figure>
+      <figure class="card depo rv" style="--i:1;margin:0"><p>"O aviso de pagamento chega no WhatsApp na hora. Não preciso mandar comprovante para ninguém."</p><div class="quem"><span class="av" style="background:#C8452D">RC</span>Renata · revenda em Goiânia</div></figure>
+      <figure class="card depo rv" style="--i:2;margin:0"><p>"Repito o pedido do mês passado com um toque e só ajusto os tamanhos."</p><div class="quem"><span class="av" style="background:#23804A">PA</span>Paula · boutique em Fortaleza</div></figure>
+    </div>
+    <p class="small muted mt">Depoimentos de exemplo, mostram onde entra a prova social.</p>
+  </div></section>
+</div>
+
+<!-- ============ PRODUTO ============ -->
+<div class="tela" data-tela="produto" data-titulo="Produto">
+  <section><div class="wrap">
+    <button class="btn g sm" type="button" data-tela="loja" style="margin-bottom:16px">← Voltar à coleção</button>
+    <div class="pdp" id="pdp"></div>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="grid g3">
+      <div class="card rv"><span class="pill g">Por que a grade numa tela só</span><p class="mt small">No Vendizap, cada tamanho vira um clique e uma volta ao carrinho. Aqui o lojista preenche P, M, G e GG de uma vez e vê o pedido mínimo enchendo.</p></div>
+      <div class="card rv" style="--i:1"><span class="pill b">Estoque vem do Vestuar</span><p class="mt small">Quantidade por cor e tamanho sincronizada com o ERP. Grade sem estoque fica cinza antes de o lojista tentar, não depois.</p></div>
+      <div class="card rv" style="--i:2"><span class="pill ok">Evento medido</span><p class="mt small">Abrir esta página dispara <span class="mono">view_item</span>; adicionar a grade dispara <span class="mono">add_to_cart</span> com valor, itens e o mesmo id no Pixel e na CAPI.</p></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ CHECKOUT ============ -->
+<div class="tela" data-tela="checkout" data-titulo="Checkout">
+  <section><div class="wrap">
+    <button class="btn g sm" type="button" data-tela="loja" style="margin-bottom:16px">← Voltar à loja</button><br>
+    <span class="eyebrow">Checkout em uma página</span>
+    <h1 id="t-checkout" style="margin-top:12px;font-size:clamp(30px,4.4vw,48px)">Fechar pedido</h1>
+    <p class="lead mt">Três blocos, sem cadastro obrigatório antes, CNPJ preenche o endereço e o Pix já mostra o desconto.</p>
+    <p class="small muted" style="margin-top:6px">Pix, parcelas, frete e pedido mínimo são condições de exemplo; viram configuração da loja.</p>
+    <div class="ck mt" style="margin-top:24px">
+      <div>
+        <div class="card ck-m res-card" id="resumo-m" aria-label="Resumo do pedido"></div>
+        <div class="passos" aria-hidden="true"><span id="p1" class="ok"><i></i></span><span id="p2"><i></i></span><span id="p3"><i></i></span></div>
+        <div class="card">
+          <h3>1 · Seus dados</h3>
+          <div class="grid g2 mt">
+            <div class="campo"><label for="c-doc">CNPJ ou CPF</label><input id="c-doc" inputmode="numeric" value="12.345.678/0001-90"><span class="ok-i">✓ Loja encontrada: Boutique Exemplo</span></div>
+            <div class="campo"><label for="c-wa">WhatsApp para avisos</label><input id="c-wa" inputmode="tel" value="(11) 9 0000-0000"><span class="aj">pagamento, nota e rastreio chegam aqui</span></div>
+          </div>
+        </div>
+        <div class="card mt">
+          <h3>2 · Entrega</h3>
+          <div class="pag mt" id="entrega">
+            <label><input type="radio" name="ent" value="transp" checked><span><b>Transportadora</b><br><span class="small muted">3 a 5 dias úteis · rastreio no WhatsApp</span></span><b id="fr-t">R$ 45,00</b></label>
+            <label><input type="radio" name="ent" value="exp"><span><b>Expressa</b><br><span class="small muted">1 a 2 dias úteis</span></span><b>R$ 68,00</b></label>
+          </div>
+        </div>
+        <div class="card mt">
+          <h3>3 · Pagamento</h3>
+          <div class="pag mt" id="pagto">
+            <label><input type="radio" name="pg" value="pix"><svg class="ico"><use href="#i-pix"/></svg><span><b>Pix</b> <span class="pill ok">−5%</span><br><span class="small muted">aprovação na hora</span></span></label>
+            <label><input type="radio" name="pg" value="cartao"><svg class="ico"><use href="#i-card"/></svg><span><b>Cartão</b><br><span class="small muted">até 3x sem juros</span></span></label>
+            <label><input type="radio" name="pg" value="boleto"><svg class="ico"><use href="#i-barcode"/></svg><span><b>Boleto</b><br><span class="small muted">compensa em até 2 dias úteis</span></span></label>
+          </div>
+        </div>
+        <div class="ck-m fecha-m" id="fecha-m">
+          <div class="res-m"><div><span class="small muted" id="fecha-m-s">Total</span><br><span class="total" id="fecha-m-t"></span></div><span class="pill ok"><svg class="ico" style="width:14px;height:14px"><use href="#i-lock"/></svg>protegido</span></div>
+          <button class="btn c" type="button" data-fin><svg class="ico"><use href="#i-lock"/></svg>Finalizar pedido</button>
+          <p class="small muted" style="margin-top:10px">A confirmação chega no WhatsApp e no e-mail da loja.</p>
+        </div>
+      </div>
+      <aside class="card resumo" aria-label="Resumo do pedido">
+        <h3>Resumo</h3>
+        <div id="resumo" class="mt"></div>
+        <div class="frete" id="frete"></div>
+        <button class="btn c" type="button" data-fin style="width:100%;margin-top:14px"><svg class="ico"><use href="#i-lock"/></svg>Finalizar pedido</button>
+        <p class="small muted mt">Pagamento protegido. Ao finalizar, você recebe a confirmação no WhatsApp e no e-mail.</p>
+      </aside>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ MINHA CONTA ============ -->
+<div class="tela" data-tela="conta" data-titulo="Minha conta">
+  <section><div class="wrap">
+    <span class="eyebrow">Área do lojista</span>
+    <h1 id="t-conta" style="margin-top:12px;font-size:clamp(30px,4.4vw,48px)">Olá, Boutique Exemplo</h1>
+    <p class="lead mt">Tudo o que o lojista procura depois de comprar, sem precisar chamar ninguém: onde está o pedido, a nota e o boleto.</p>
+    <div class="grid g3 mt" style="margin-top:22px">
+      <button class="card hv rv" type="button" data-acao="repetir" style="text-align:left;border:1px solid var(--line)"><svg class="ico" style="width:28px;height:28px;color:var(--accent)"><use href="#i-refresh"/></svg><h3 class="mt">Repetir pedido do mês passado</h3><p class="small muted mt">A mesma grade do #TR-10391, para ajustar os tamanhos antes de revisar o pedido.</p></button>
+      <div class="card rv" style="--i:1"><svg class="ico" style="width:28px;height:28px;color:var(--brand)"><use href="#i-receipt"/></svg><h3 class="mt">Notas e boletos</h3><p class="small muted mt">Nota fiscal em PDF e XML assim que o Vestuar emite. Segunda via do boleto em um toque.</p></div>
+      <div class="card rv" style="--i:2"><svg class="ico" style="width:28px;height:28px;color:var(--ok)"><use href="#i-whats"/></svg><h3 class="mt">Avisos no WhatsApp</h3><p class="small muted mt">Pago, separado, despachado e entregue. Você escolhe quais quer receber.</p></div>
+    </div>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="sec-h"><h2>Meus pedidos</h2><span class="pill">o mais recente primeiro</span></div>
+    <div class="grid" id="meus"></div>
+  </div></section>
+</div>
+
+<!-- ============ PAINEL (equipe) ============ -->
+<div class="tela" data-tela="painel" data-titulo="Painel">
+  <section><div class="wrap">
+    <span class="eyebrow">Visão da equipe · WordPress limpo</span>
+    <h1 id="t-painel" style="margin-top:12px;font-size:clamp(30px,4.4vw,48px)">Hoje na loja</h1>
+    <p class="lead mt">Pedidos, estoque e relatórios numa tela só, tão direta quanto a do Vendizap. O resto do wp-admin fica escondido para quem não precisa.</p>
+    <div class="kpis carrossel mt" style="margin-top:22px">
+      <div class="card kpi rv"><small>Pedidos pagos hoje</small><b data-conta="37">0</b><span class="pill ok">+6 vs. ontem</span></div>
+      <div class="card kpi rv" style="--i:1"><small>Faturado hoje</small><b data-conta="28640" data-pre="R$ ">0</b><span class="pill b">ticket R$ 774</span></div>
+      <div class="card kpi rv" style="--i:2"><small>A separar</small><b data-conta="12">0</b><span class="pill warn">3 com mais de 4 h</span></div>
+      <div class="card kpi rv" style="--i:3"><small>Pedidos com falha</small><b data-conta="0">0</b><span class="pill ok">fio inteiro em todos</span></div>
+      <div class="card kpi rv" style="--i:4"><small>Pagamentos com falha</small><b data-conta="0">0</b><span class="pill ok">último incidente resolvido em 3 min</span></div>
+    </div>
+    <p class="small muted mt">Dados de exemplo.</p>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="grid g2">
+      <div class="card rv">
+        <div class="sec-h" style="margin-bottom:8px"><h3>Vendas · últimos 7 dias</h3><span class="pill">em R$ mil</span></div>
+        <div class="graf" id="graf"></div>
+      </div>
+      <div class="card rv" style="--i:1">
+        <div class="sec-h" style="margin-bottom:8px"><h3>Estoque baixo por grade</h3><span class="pill warn">vem do Vestuar</span></div>
+        <div class="rola"><table class="tab" id="baixo"></table></div>
+      </div>
+    </div>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="grid g2">
+      <div class="card rv">
+        <div class="sec-h" style="margin-bottom:8px"><h3>Pedidos recentes</h3><button class="btn g sm" type="button" data-tela="fio">Ver o fio</button></div>
+        <div class="rola"><table class="tab" id="recentes"></table></div>
+      </div>
+      <div class="card rv" style="--i:1">
+        <div class="sec-h" style="margin-bottom:8px"><h3>Vitrine editável pela equipe</h3><span class="pill g">sem código</span></div>
+        <p class="small muted">Blocos prontos: a equipe liga, desliga e troca a ordem. Nada de construtor pesado carregando no celular do cliente.</p>
+        <div class="edit mt">
+          <div class="bloco"><svg class="ico"><use href="#i-edit"/></svg><span><b>Faixa "Coleção verão"</b><br><span class="small muted">imagem + chamada</span></span><label class="tg"><input type="checkbox" checked aria-label="Mostrar faixa Coleção verão"><span></span></label></div>
+          <div class="bloco"><svg class="ico"><use href="#i-star"/></svg><span><b>Mais recomprados</b><br><span class="small muted">automático pelo histórico</span></span><label class="tg"><input type="checkbox" checked aria-label="Mostrar mais recomprados"><span></span></label></div>
+          <div class="bloco"><svg class="ico"><use href="#i-tag"/></svg><span><b>Liquida inverno</b><br><span class="small muted">agendado para 01/11</span></span><label class="tg"><input type="checkbox" aria-label="Mostrar liquida inverno"><span></span></label></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ FIO DO PEDIDO (o detalhe) ============ -->
+<div class="tela" data-tela="fio" data-titulo="Fio do pedido">
+  <section><div class="wrap">
+    <span class="eyebrow">Pagamento aprovado → Vestuar → WhatsApp → GA4 e Meta</span>
+    <h1 id="t-fio" style="margin-top:12px;font-size:clamp(30px,4.4vw,48px)">Um pedido, uma chave, quatro sistemas.</h1>
+    <p class="lead mt">"Evitar perdas entre pagamento aprovado, ERP e WhatsApp" pede mais do que um webhook. O gateway reenvia notificação, o ERP às vezes está fora do ar. Cada pedido carrega a mesma chave do começo ao fim: o que chega duas vezes é ignorado, o que falha entra numa fila e tenta de novo.</p>
+  </div></section>
+  <section class="snap tight"><div class="wrap">
+    <div class="fio-l">
+      <div>
+        <div class="lista-p" id="lista-p" role="group" aria-label="Pedidos"></div>
+        <p class="small muted mt">Dados de exemplo. Feche um pedido no checkout e ele aparece aqui.</p>
+      </div>
+      <div class="card">
+        <div class="sec-h" style="margin-bottom:6px"><div><h3 id="fio-t">Pedido</h3><p class="small muted" id="fio-s"></p></div><span class="chave" id="fio-k"></span></div>
+        <div class="fio" id="fio"></div>
+        <div class="sim mt">
+          <button class="btn g sm" type="button" id="s-reenvio"><svg class="ico"><use href="#i-refresh"/></svg>Simular reenvio do gateway</button>
+          <button class="btn g sm" type="button" id="s-queda"><svg class="ico"><use href="#i-alert"/></svg>Simular Vestuar fora do ar</button>
+        </div>
+        <div class="log mt" id="log" aria-live="polite" aria-label="Registro do webhook"></div>
+      </div>
+    </div>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="grid g3">
+      <div class="card rv"><svg class="ico" style="width:28px;height:28px;color:var(--gold)"><use href="#i-lock"/></svg><h3 class="mt">Trava de repetição</h3><p class="small muted mt">O id do pagamento trava a repetição; o nº do pedido vira a chave que segue para o Vestuar, o WhatsApp, o GA4 e o Meta. Notificação repetida devolve "já processado" e não cria pedido, aviso nem baixa de estoque em dobro.</p></div>
+      <div class="card rv" style="--i:1"><svg class="ico" style="width:28px;height:28px;color:var(--warn)"><use href="#i-refresh"/></svg><h3 class="mt">Fila que tenta de novo</h3><p class="small muted mt">Vestuar ou WhatsApp fora do ar não perdem pedido: ele espera na fila, tenta em 1, 5 e 15 minutos e avisa a equipe se não passar.</p></div>
+      <div class="card rv" style="--i:2"><svg class="ico" style="width:28px;height:28px;color:var(--ok)"><use href="#i-chart"/></svg><h3 class="mt">Compra contada uma vez</h3><p class="small muted mt">O mesmo número vai como <span class="mono">transaction_id</span> no GA4 e <span class="mono">event_id</span> no Pixel e na CAPI. O Meta junta os dois sinais e conta uma compra.</p></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ RASTREAMENTO ============ -->
+<div class="tela" data-tela="rastreio" data-titulo="Rastreamento">
+  <section><div class="wrap">
+    <span class="eyebrow">GTM · GA4 · Meta Pixel + CAPI · consent mode</span>
+    <h1 id="t-rastreio" style="margin-top:12px;font-size:clamp(30px,4.4vw,48px)">Primeiro medir, depois mudar.</h1>
+    <p class="lead mt">O Vendizap rastreia pouco, então ainda não existe um "antes" confiável. Se o layout mudar primeiro, nenhum ganho de conversão tem prova. Por isso o rastreamento entra antes e congela o marco zero.</p>
+  </div></section>
+  <section class="snap tight"><div class="wrap">
+    <div class="grid g2">
+      <div class="card rv" style="padding:6px 0">
+        <div class="sec-h" style="padding:14px 16px 0;margin-bottom:4px"><h3>Os 5 eventos pedidos</h3><span class="pill">validação</span></div>
+        <div id="eventos"></div>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="card rv" style="--i:1">
+          <div class="sec-h" style="margin-bottom:10px"><h3>Nesta visita, ao vivo</h3><span class="pill b" id="n-ev">0 eventos</span></div>
+          <div class="log ao-vivo" id="aovivo"></div>
+          <p class="small muted mt">Navegue pela loja, abra uma peça e feche um pedido: cada passo aparece aqui como no DebugView.</p>
+        </div>
+        <div class="card rv" style="--i:2">
+          <h3>Consent mode</h3>
+          <div class="cm mt" id="cm"></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="grid g2">
+      <div class="card rv">
+        <div class="sec-h" style="margin-bottom:12px"><h3>Funil · marco zero</h3><span class="pill g">semana 1, antes do layout</span></div>
+        <div class="funil" id="funil"></div>
+        <div class="grid g2 mt"><div class="card" style="padding:14px;box-shadow:none"><small class="muted">Conversão da visita à compra</small><b style="display:block;font:800 26px/1.1 var(--f-d)">3,2%</b></div><div class="card" style="padding:14px;box-shadow:none"><small class="muted">Maior perda</small><b style="display:block;font:800 18px/1.25 var(--f-d)">peça → sacola</b><small class="muted">primeiro alvo de teste</small></div></div>
+        <p class="small muted mt">Exemplo de leitura. Os números reais saem da primeira semana com o rastreamento no ar, e é contra eles que cada mudança vai ser comparada.</p>
+      </div>
+      <div class="card rv" style="--i:1">
+        <h3>1 compra, 2 sinais, 1 contada</h3>
+        <p class="small muted mt">O navegador manda pelo Pixel, o servidor manda pela CAPI (que funciona mesmo com bloqueador). Mesmo <span class="mono">event_id</span>, o Events Manager deduplica.</p>
+        <div class="dedup2 mt" aria-label="Pixel e CAPI mandam a mesma compra com o mesmo event_id; o Meta conta uma">
+          <div class="cx" style="grid-area:a"><b>Pixel</b>navegador</div>
+          <div class="cx" style="grid-area:b"><b>CAPI</b>servidor</div>
+          <svg class="conv" viewBox="0 0 40 100" preserveAspectRatio="none" aria-hidden="true" style="grid-area:c"><path d="M0 25 C 22 25, 18 50, 40 50 M0 75 C 22 75, 18 50, 40 50" fill="none" style="stroke:var(--gold)" stroke-width="2" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/></svg>
+          <div class="cx" style="grid-area:d"><b class="mono" style="font-size:14px">#TR-10482</b>mesmo event_id</div>
+          <svg class="conv" viewBox="0 0 40 100" preserveAspectRatio="none" aria-hidden="true" style="grid-area:e"><path d="M0 50 H40" fill="none" style="stroke:var(--gold)" stroke-width="2" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/></svg>
+          <div class="cx fim" style="grid-area:f"><b>1</b>compra contada</div>
+        </div>
+        <div class="grid g2 mt">
+          <div><span class="pill b">Públicos</span><p class="small muted mt">Viu peça e não comprou em 7 dias · abandonou checkout · comprou há 30 dias (recompra).</p></div>
+          <div><span class="pill b">Remarketing</span><p class="small muted mt">Catálogo dinâmico com o mesmo id do produto no GA4, Meta e WooCommerce.</p></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ SAÚDE ============ -->
+<div class="tela" data-tela="saude" data-titulo="Saúde">
+  <section><div class="wrap">
+    <span class="eyebrow">Performance · estabilidade · segurança</span>
+    <h1 id="t-saude" style="margin-top:12px;font-size:clamp(30px,4.4vw,48px)">A loja vigiada 24 horas.</h1>
+    <p class="lead mt">Quase todas as vendas vêm do celular, então velocidade é conversão. As metas abaixo são o alvo da reformulação; o número de hoje sai da auditoria do dia 1.</p>
+    <div class="grid g4 mt" style="margin-top:22px" id="cwv"></div>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="grid g2">
+      <div class="card rv">
+        <div class="sec-h" style="margin-bottom:6px"><h3>Quem pode mexer em quê</h3><span class="pill g">só o admin geral no financeiro</span></div>
+        <div class="rola"><table class="tab acesso" id="acesso"></table></div>
+        <p class="small muted mt">Trocar forma de pagamento, chave Pix ou credencial do gateway pede o admin geral e confirmação em dois fatores, e fica registrado.</p>
+      </div>
+      <div class="card rv" style="--i:1">
+        <div class="sec-h" style="margin-bottom:6px"><h3>Últimos alertas</h3><span class="pill ok"><span class="dot"></span>no ar</span></div>
+        <div class="tl" id="alertas"></div>
+      </div>
+    </div>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="grid g2 g4l">
+      <div class="card rv"><svg class="ico" style="width:28px;height:28px;color:var(--brand)"><use href="#i-flask"/></svg><h3 class="mt">Atualização em staging</h3><p class="small muted mt">WordPress, WooCommerce, tema e plugins sobem primeiro numa cópia, com teste de compra de ponta a ponta. Só depois vão para a loja.</p></div>
+      <div class="card rv" style="--i:1"><svg class="ico" style="width:28px;height:28px;color:var(--brand)"><use href="#i-cloud"/></svg><h3 class="mt">Backup e volta rápida</h3><p class="small muted mt">Banco a cada hora, arquivos todo dia, guardados fora do servidor. Plano de recuperação escrito e testado.</p></div>
+      <div class="card rv" style="--i:2"><svg class="ico" style="width:28px;height:28px;color:var(--brand)"><use href="#i-plug"/></svg><h3 class="mt">Menos plugins</h3><p class="small muted mt">Cada plugin é avaliado: pesado ou abandonado sai. O que faltar vira um plugin próprio, pequeno e só com o necessário.</p>
+        <div class="pl-ab mt" aria-label="Exemplo de auditoria: 38 plugins viram 14"><span><b>38</b>plugins</span><svg class="ico" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg><span class="fim"><b>14</b>plugins</span></div>
+        <p class="small muted" style="margin-top:8px">5 viram 1 plugin próprio · <i>exemplo de auditoria</i></p></div>
+      <div class="card rv" style="--i:3"><svg class="ico" style="width:28px;height:28px;color:var(--brand)"><use href="#i-zap"/></svg><h3 class="mt">Pronta para crescer</h3><p class="small muted mt">Cache de objeto, fila para os webhooks, CDN para as imagens e banco com índices para pedidos. A loja aguenta a campanha sem travar o checkout.</p></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ PLANO ============ -->
+<div class="tela" data-tela="plano" data-titulo="Plano">
+  <section><div class="wrap">
+    <span class="eyebrow">Como o projeto é conduzido</span>
+    <h1 id="t-plano" style="margin-top:12px;font-size:clamp(30px,4.4vw,48px)">Medir, migrar, reformular, melhorar todo mês.</h1>
+    <p class="lead mt">A ordem importa. Cada fase entrega algo que funciona sozinho e prepara a próxima.</p>
+    <div class="fases mt" style="margin-top:24px">
+      <div class="card fase agora rv"><span class="n">1</span><div><span class="pill c" style="background:var(--accent);color:#fff">primeiro passo · 3 dias</span><h3 class="mt">Auditoria e rastreamento</h3><ul><li>Auditoria do WooCommerce atual: plugins, velocidade, segurança, checkout</li><li>GTM estruturado, GA4 com os 5 eventos e Enhanced E-commerce</li><li>Meta Pixel + CAPI sem disparo duplicado, consent mode (LGPD)</li><li>Validação no Tag Assistant, DebugView e Events Manager · marco zero congelado</li></ul></div></div>
+      <div class="card fase rv" style="--i:1"><span class="n">2</span><div><h3>Migração do Vendizap e Vestuar</h3><ul><li>Todos os produtos, variações de cor e tamanho, fotos e redirecionamentos</li><li>Vestuar: produtos, estoque, preços, pedidos, status e nota fiscal</li><li>Fio do pedido com trava de repetição e fila</li></ul></div></div>
+      <div class="card fase rv" style="--i:2"><span class="n">3</span><div><h3>Reformulação para conversão</h3><ul><li>Layout leve e editável, vitrine com grade numa tela</li><li>Busca, filtros, checkout de uma página, Minha Conta</li><li>PageSpeed, Core Web Vitals, TTFB e hardening</li><li>WhatsApp e e-mail transacionais</li></ul></div></div>
+      <div class="card fase rv" style="--i:3"><span class="n">4</span><div><h3>Manutenção e CRO contínuo</h3><ul><li>Monitoramento 24/7, falha de pagamento atendida rápido</li><li>Atualizações em staging, backups e recuperação</li><li>Um teste de conversão por vez, medido contra o marco zero</li></ul></div></div>
+    </div>
+  </div></section>
+  <section class="snap"><div class="wrap">
+    <div class="grid g2">
+      <div class="card rv" style="padding:6px 0">
+        <div class="sec-h" style="padding:16px 16px 0;margin-bottom:0"><h3>Hipóteses de CRO para começar</h3><span class="pill">nota ICE</span></div>
+        <div id="hips"></div>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="card rv" style="--i:1">
+          <h3>Migração do catálogo</h3>
+          <p class="small muted mt">Importação em lote com conferência: o que entrar diferente do Vendizap aparece numa lista para revisar.</p>
+          <p class="small mt" style="font-weight:700">Meta da migração <span class="pill" style="margin-left:6px">conferida lote a lote</span></p>
+          <div class="mig" style="margin-top:8px"><div><b data-conta="100" data-suf="%">0</b><small>produtos</small></div><div><b data-conta="100" data-suf="%">0</b><small>cores e tamanhos</small></div><div><b data-conta="100" data-suf="%">0</b><small>links antigos redirecionados</small></div></div>
+        </div>
+        <div class="hon rv" style="--i:2">
+          <b>O que este exemplo não inventa</b>
+          <p class="small mt">Não há lojas de atacado com antes e depois de conversão para mostrar, e nenhum número é inventado. O caminho é medir primeiro, mudar uma coisa por vez e provar cada ganho contra o marco zero da própria loja.</p>
+        </div>
+        <div class="card rv" style="--i:3">
+          <h3>Operação contínua</h3>
+          <p class="small muted mt">Monitoramento 24/7, atualizações em staging, backups, correções, conferência mensal do rastreamento e um teste de CRO por mês.</p>
+          <a class="btn c mt" href="#loja" data-tela="loja"><svg class="ico"><use href="#i-bag"/></svg>Voltar para a loja</a>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+</main>
+
+<!-- KIT:bottomsheet-html -->
+<div class="sh-bg" id="sh-bg" data-fecha></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t" hidden><div class="grip"></div><div id="sh-c"></div></div>
+<!-- /KIT:bottomsheet-html -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- KIT:barra-html -->
+<nav class="bar" aria-label="Navegação inferior">
+  <button type="button" data-tela="loja"><svg class="ico"><use href="#i-home"/></svg>Loja</button>
+  <button type="button" data-tela="checkout"><svg class="ico"><use href="#i-bag"/></svg>Sacola</button>
+  <button type="button" data-tela="conta"><svg class="ico"><use href="#i-user"/></svg>Conta</button>
+  <button type="button" data-tela="fio"><svg class="ico"><use href="#i-thread"/></svg>Fio</button>
+  <button type="button" id="b-mais"><svg class="ico"><use href="#i-more"/></svg>Mais</button>
+</nav>
+<!-- /KIT:barra-html -->
+
+<!-- KIT:rodape-html -->
+<footer><div class="wrap">
+  <a class="sig" href="https://vlfcandido.github.io" target="_blank" rel="noopener" aria-label="Feito por Vinicius Candido, vlfcandido.github.io"><span class="sig-m"><svg viewBox="0 0 52 52" aria-hidden="true"><path d="M14 6h24l6 8v32H8V14z" style="fill:var(--bar-bg)"/><circle cx="26" cy="13" r="3" style="fill:var(--bg)"/><path d="M26 10C26 3 34 2 38 4" fill="none" style="stroke:var(--gold)" stroke-width="1.6"/><rect x="12" y="19" width="28" height="23" rx="3" fill="none" style="stroke:var(--gold)" stroke-width="1.4" stroke-dasharray="2.4 2.4"/><text x="26" y="36" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="800" font-size="13" style="fill:var(--bg);font-stretch:120%">VC</text></svg></span><span><small>Feito por</small><b>Vinicius Candido</b><em>vlfcandido.github.io</em></span></a>
+  <span class="small">Trama Atacado é uma marca fictícia. Dados de exemplo.</span>
+  <p class="aviso-med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
+</div></footer>
+<!-- /KIT:rodape-html -->
+
+<script>
+/* KIT:js ===== tema, roteador com troca travada, sheet, animações. Sem trabalho no carregamento além de ligar ouvintes. ===== */
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const html=document.documentElement,view=$('#view');
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!REDUCED)html.classList.add('anim');
+
+/* tema */
+const darkAgora=()=>html.dataset.theme?html.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+try{const t=localStorage.getItem('tema');if(t)html.dataset.theme=t}catch(e){}
+$('#tema').addEventListener('click',()=>{const n=darkAgora()?'light':'dark';html.dataset.theme=n;try{localStorage.setItem('tema',n)}catch(e){}});
+
+/* troca travada: trava rolagem e toque até a animação acabar; volta ao topo; foco no título */
+const TROCA={on:false};
+const topo=()=>{html.style.scrollBehavior='auto';scrollTo(0,0);html.style.scrollBehavior=''};
+const focaTitulo=()=>{const t=$('.tela.on h1,.tela.on h2');if(!t)return;t.setAttribute('tabindex','-1');try{t.focus({preventScroll:true})}catch(e){}};
+const travar=()=>{TROCA.on=true;html.classList.add('trocando')},soltar=()=>{TROCA.on=false;html.classList.remove('trocando')};
+['touchmove','wheel'].forEach(ev=>addEventListener(ev,e=>{if(TROCA.on)e.preventDefault()},{passive:false}));
+document.addEventListener('click',e=>{if(TROCA.on){e.preventDefault();e.stopPropagation()}},true);
+function trocar(f){
+  if(TROCA.on)return;
+  if(REDUCED){f();topo();focaTitulo();return}
+  travar();const t=setTimeout(soltar,1200),fim=()=>{clearTimeout(t);soltar()};
+  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});v.updateCallbackDone.then(focaTitulo,focaTitulo);v.finished.then(fim,fim)}
+  else{view.classList.add('sai');setTimeout(()=>{f();topo();view.classList.remove('sai');focaTitulo();setTimeout(fim,320)},140)}
+}
+
+/* roteador por hash: #id da tela */
+function mostrar(id){
+  const alvo=$(`.tela[data-tela="${id}"]`)||$('.tela');if(!alvo)return;
+  $$('.tela').forEach(t=>t.classList.toggle('on',t===alvo));
+  $$('[data-tela]').forEach(b=>{if(!b.classList.contains('tela')){if(b.dataset.tela===alvo.dataset.tela)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')}});
+  document.title=(alvo.dataset.titulo?alvo.dataset.titulo+' · ':'')+'Trama Atacado · loja de atacado';
+  if(window.aoMostrar)aoMostrar(alvo.dataset.tela);
+  observa();
+}
+window.ir=function(id){if(location.hash==='#'+id)return;trocar(()=>{history.pushState(null,'','#'+id);mostrar(id)})};
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-tela],a[data-tela]');if(!b)return;e.preventDefault();ir(b.dataset.tela)});
+addEventListener('popstate',()=>trocar(()=>mostrar(location.hash.slice(1))));
+
+/* bottom sheet */
+let sheetFoco=null;
+window.abrirSheet=function(conteudoHtml){const s=$('#sheet');$('#sh-c').innerHTML=conteudoHtml;sheetFoco=document.activeElement;s.hidden=false;html.classList.add('folha');requestAnimationFrame(()=>{s.classList.add('on');$('#sh-bg').classList.add('on');const h=$('#sh-c h3,#sh-c h2');if(h){h.id='sh-t';h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}})};
+window.fecharSheet=function(){const s=$('#sheet');s.classList.remove('on');$('#sh-bg').classList.remove('on');html.classList.remove('folha');setTimeout(()=>{s.hidden=true},REDUCED?0:280);if(sheetFoco&&sheetFoco.focus)sheetFoco.focus()};
+document.addEventListener('click',e=>{if(e.target.closest('[data-fecha]'))fecharSheet()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#sheet.on'))fecharSheet()});
+
+/* toast */
+window.toast=function(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)};
+
+/* animações: entrada ao rolar (.rv), números contando ([data-conta]), barras (.barra-g dentro de .rv) */
+function conta(el){const alvo=parseFloat(el.dataset.conta),dec=+(el.dataset.dec||0),pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+  const fmt=v=>pre+v.toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+  if(REDUCED){el.textContent=fmt(alvo);return}
+  const t0=performance.now(),dur=900;(function passo(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=fmt(alvo*e);if(p<1)requestAnimationFrame(passo)})(t0)}
+let io=null;
+function observa(){
+  const els=$$('.tela.on .rv:not(.in),.tela.on [data-conta]:not([data-ok]),.tela.on .barra-g:not(.in)');
+  if(!('IntersectionObserver' in window)||REDUCED){els.forEach(el=>{el.classList.add('in');if(el.dataset.conta){el.dataset.ok=1;conta(el)}});return}
+  io=io||new IntersectionObserver(es=>es.forEach(x=>{if(!x.isIntersecting)return;const el=x.target;el.classList.add('in');if(el.dataset.conta&&!el.dataset.ok){el.dataset.ok=1;conta(el)}io.unobserve(el)}),{threshold:.2});
+  els.forEach(el=>io.observe(el));
+}
+/* microanimação de sucesso: sucessoHtml() devolve o selo para colocar numa tela de confirmação */
+window.sucessoHtml=()=>'<div class="sucesso" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>';
+
+/* partida: só liga o que já existe na página */
+addEventListener('DOMContentLoaded',()=>mostrar(location.hash.slice(1)||$('.tela').dataset.tela));
+if(document.readyState!=='loading')mostrar(location.hash.slice(1)||$('.tela').dataset.tela);
+})();
+/* /KIT:js */
+</script>
+<script>
+/* PROJETO: Trama Atacado. Dados de exemplo e telas; nada roda no carregamento além de ligar ouvintes e montar as telas. */
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const brl=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const hora=()=>new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TAM=['P','M','G','GG'];
+
+/* ---------- ilustrações das peças (SVG próprio por modelagem) ---------- */
+const FORMAS={
+ camiseta:{d:'M40 18 L18 28 L6 52 L24 60 L32 46 L32 128 L88 128 L88 46 L96 60 L114 52 L102 28 L80 18 Q72 30 60 30 Q48 30 40 18Z',s:'M34 120 H86 M10 50 L24 56 M110 50 L96 56'},
+ cropped:{d:'M42 26 L24 34 L14 54 L30 60 L36 50 L36 92 L84 92 L84 50 L90 60 L106 54 L96 34 L78 26 Q70 36 60 36 Q50 36 42 26Z',s:'M46 44 V88 M56 46 V88 M66 46 V88 M76 44 V88'},
+ vestido:{d:'M48 12 L54 12 Q56 26 60 26 Q64 26 66 12 L72 12 L76 44 Q70 50 72 56 L102 130 L18 130 L48 56 Q50 50 44 44Z',s:'M46 56 H74 M24 122 H96'},
+ vestido2:{d:'M42 16 L26 24 L18 42 L32 48 L40 38 L38 56 L28 108 L92 108 L82 56 L80 38 L88 48 L102 42 L94 24 L78 16 Q70 26 60 26 Q50 26 42 16Z',s:'M39 56 H81 M32 100 H88',bolinhas:1},
+ calca:{d:'M34 10 L86 10 L94 132 L68 132 L60 50 L52 132 L26 132Z',s:'M34 20 H86 M60 20 V48 M42 24 Q46 34 54 34'},
+ saia:{d:'M40 26 L80 26 L104 116 L16 116Z',s:'M40 34 H80 M50 36 L38 114 M60 36 V114 M70 36 L82 114'},
+ jaqueta:{d:'M40 14 L16 24 L8 98 L24 100 L30 50 L32 120 L88 120 L90 50 L96 100 L112 98 L104 24 L80 14 L60 30Z',s:'M60 30 V120 M40 64 H52 V78 H40Z M68 64 H80 V78 H68Z M32 112 H88'},
+ macacao:{d:'M44 10 L52 10 L54 36 L66 36 L68 10 L76 10 L80 60 L90 132 L66 132 L60 76 L54 132 L30 132 L40 60Z',s:'M40 60 H80 M54 40 H66'},
+ moletom:{d:'M42 20 Q60 4 78 20 L100 30 L112 100 L96 104 L90 56 L90 124 L30 124 L30 56 L24 104 L8 100 L20 30Z',s:'M48 22 Q60 40 72 22 M44 92 H76 V112 H44Z M30 116 H90'}
+};
+function claro(hex){const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;return (r*299+g*587+b*114)/1000>165}
+function pecaSvg(forma,cor,rot){const f=FORMAS[forma];const st=claro(cor)?'rgba(22,24,43,.32)':'rgba(255,255,255,.62)';
+ let pt='';if(f.bolinhas){for(let y=62;y<104;y+=12)for(let x=42+(y%24?6:0);x<82;x+=12)pt+=`<circle cx="${x}" cy="${y}" r="2.2" fill="${st}"/>`}
+ return `<svg viewBox="0 0 120 140" role="img" aria-label="${esc(rot||'Ilustração da peça')}"><path d="${f.d}" fill="${cor}"/>${pt}<path d="${f.s}" fill="none" stroke="${st}" stroke-width="1.4" stroke-dasharray="3 3" stroke-linecap="round"/></svg>`}
+
+/* ---------- catálogo de exemplo ---------- */
+const CORES={terracota:'#C8452D',areia:'#D8C3A0',preto:'#22232B',jeans:'#3B4AA8',oliva:'#6B7A3A',off:'#EFE7D6',vinho:'#7A1F33',azul:'#2E6FB0',rosa:'#E59AA6'};
+const P=[
+ {id:'vmidi',n:'Vestido midi de linho',c:'Vestidos',f:'vestido',p:89.9,min:12,cores:['terracota','areia','preto'],pe:1,v:98,novo:0,rec:38},
+ {id:'cropped',n:'Blusa cropped canelada',c:'Blusas',f:'cropped',p:34.9,min:12,cores:['off','rosa','preto'],pe:1,v:120,novo:1,rec:52},
+ {id:'wide',n:'Calça wide leg jeans',c:'Calças',f:'calca',p:79.9,min:12,cores:['jeans','preto'],pe:1,v:91,novo:0,rec:44},
+ {id:'saia',n:'Saia midi plissada',c:'Saias',f:'saia',p:59.9,min:12,cores:['oliva','vinho','areia'],pe:1,v:64,novo:1,rec:21},
+ {id:'jaq',n:'Jaqueta jeans oversized',c:'Jaquetas',f:'jaqueta',p:119.9,min:6,cores:['jeans','preto'],pe:1,v:57,novo:0,rec:19},
+ {id:'basica',n:'Camiseta básica algodão',c:'Blusas',f:'camiseta',p:24.9,min:24,cores:['off','preto','oliva','azul'],pe:1,v:140,novo:0,rec:61},
+ {id:'macacao',n:'Macacão alfaiataria',c:'Macacões',f:'macacao',p:129.9,min:6,cores:['preto','vinho'],pe:1,v:33,novo:1,rec:12},
+ {id:'moletom',n:'Blusão moletom capuz',c:'Blusas',f:'moletom',p:69.9,min:12,cores:['areia','azul'],pe:0,v:40,novo:1,rec:9},
+ {id:'vcurto',n:'Vestido curto poá',c:'Vestidos',f:'vestido2',p:64.9,min:12,cores:['azul','preto','vinho'],pe:1,v:72,novo:0,rec:27},
+ {id:'camisa',n:'T-shirt de linho',c:'Blusas',f:'camiseta',p:42.9,min:12,cores:['areia','oliva','off'],pe:1,v:85,novo:0,rec:23},
+ {id:'saiajeans',n:'Saia jeans evasê',c:'Saias',f:'saia',p:54.9,min:12,cores:['jeans','preto'],pe:1,v:61,novo:0,rec:17},
+ {id:'pantalona',n:'Calça pantalona crepe',c:'Calças',f:'calca',p:74.9,min:12,cores:['vinho','preto','areia'],pe:1,v:69,novo:1,rec:14}
+];
+/* estoque por cor e tamanho (determinístico; alguns tamanhos zerados de propósito) */
+P.forEach((p,i)=>{p.est={};p.cores.forEach((c,j)=>{p.est[c]={};TAM.forEach((t,k)=>{const v=((i+1)*37+(j+1)*19+(k+1)*11)%41;p.est[c][t]=v<5?0:v})})});
+const byId=id=>P.find(p=>p.id===id);
+const corDe=k=>CORES[k];
+const NCOR={terracota:'Terracota',areia:'Areia',preto:'Preto',jeans:'Jeans',oliva:'Oliva',off:'Off-white',vinho:'Vinho',azul:'Azul',rosa:'Rosê'};
+const temPE=(p,t)=>p.pe&&(!t||p.cores.some(c=>p.est[c][t]>0));
+
+/* ---------- estado ---------- */
+/* a sacola nasce vazia: nada que o visitante não colocou (antes vinha com 12 vestidos) */
+const S={cat:'Todas',q:'',tam:'',ord:'vend',pe:false,prod:'vmidi',cor:null,grade:{},consent:'pendente',ev:[],
+ cart:[],pg:null,ent:'transp',seq:10483,pedSel:'TR-10482',bc:false,api:false,aviso:null};
+/* frete: transportadora R$ 45 abaixo de R$ 1.500 e grátis a partir daí; expressa sempre cobra */
+const FG=1500;
+const freteDe=sub=>S.ent==='exp'?68:(sub>=FG?0:45);
+/* novo checkout: begin_checkout e add_payment_info voltam a valer uma vez cada */
+const novoCk=()=>{S.bc=false;S.api=false};
+
+/* ---------- eventos medidos (simula o que o GTM manda) ---------- */
+function destino(){return S.consent==='sim'?'GA4 ✓ · Pixel ✓ · CAPI ✓':S.consent==='nao'?'GA4 ping sem cookie · Meta bloqueado (sem consentimento)':'aguardando consentimento · ping sem cookie'}
+function ev(nome,extra){const id=Math.random().toString(36).slice(2,6);const e={nome,h:hora(),id:extra&&extra.id||id,val:extra&&extra.val,info:extra&&extra.info||'',dest:destino()};S.ev.push(e);
+ if(!(extra&&extra.quieto))toast('✓ '+nome+(e.val?' · '+brl(e.val):'')+' · medido');renderAoVivo(true);chipEv()}
+/* contador do hero: lê S.ev, o mesmo log do "Nesta visita, ao vivo" */
+function chipEv(){const n=S.ev.length,b=$('#ev-n'),s=$('#ev-s');if(!b)return;b.textContent=n;s.textContent=n?(n===1?' evento medido nesta visita':' eventos medidos nesta visita'):' eventos até aqui · abra uma peça';
+ if(n&&!REDUCED){b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}}
+function linhaEv(e){return `<div class="novo"><span style="opacity:.6">${e.h}</span>  <span class="okk">${e.nome}</span>${e.val?'  value='+e.val.toFixed(2):''}${e.info?'  '+esc(e.info):''}  event_id=${esc(e.id)}<br><span style="opacity:.7">→ ${e.dest}</span></div>`}
+function renderAoVivo(soUltimo){const box=$('#aovivo');if(!box)return;$('#n-ev').textContent=S.ev.length+(S.ev.length===1?' evento':' eventos');
+ if(!S.ev.length){box.innerHTML='<div class="vazio-ev">Nenhum evento ainda nesta visita. Abra uma peça na loja.</div>';return}
+ if(soUltimo&&box.querySelector('.novo')){box.insertAdjacentHTML('beforeend',linhaEv(S.ev[S.ev.length-1]))}else box.innerHTML=S.ev.map(linhaEv).join('');box.scrollTop=box.scrollHeight}
+
+/* ---------- loja ---------- */
+function cardProd(p,i){const c=p.cores[0];const est=p.cores.reduce((a,k)=>a+TAM.reduce((b,t)=>b+p.est[k][t],0),0);
+ return `<button type="button" class="prod hv card rv" style="--i:${i%4}" data-prod="${p.id}" aria-label="${esc(p.n)}, ${brl(p.p)} por peça">
+  <div class="peca" style="--t:color-mix(in srgb,${corDe(c)} 18%,var(--surface2))">${pecaSvg(p.f,corDe(c),p.n)}
+   ${p.novo?'<span class="pill b tag">novo</span>':''}${p.pe?'':'<span class="pill warn tag2">sob encomenda</span>'}</div>
+  <h3>${esc(p.n)}</h3>
+  <div class="pr"><b>${brl(p.p)}</b><small>/peça</small></div>
+  <div class="gr">mín. ${p.min} pç · ${p.cores.length} cores · ${est} em estoque</div>
+  <div style="display:flex;gap:4px">${p.cores.map(k=>`<span class="amostra" style="background:${corDe(k)}"></span>`).join('')}</div>
+ </button>`}
+function filtra(){const q=S.q.trim().toLowerCase();const toks=q.split(/\s+/).filter(Boolean);
+ let l=P.filter(p=>(S.cat==='Todas'||p.c===S.cat)&&(!S.pe||p.pe)&&(!S.tam||p.cores.some(c=>p.est[c][S.tam]>0)));
+ if(toks.length)l=l.filter(p=>toks.every(t=>{const T=t.toUpperCase();if(TAM.includes(T))return p.cores.some(c=>p.est[c][T]>0);return (p.n+' '+p.c+' '+p.cores.map(k=>NCOR[k]).join(' ')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(t.normalize('NFD').replace(/[̀-ͯ]/g,''))}));
+ if(S.ord==='menor')l.sort((a,b)=>a.p-b.p);else if(S.ord==='novo')l.sort((a,b)=>b.novo-a.novo||b.v-a.v);else l.sort((a,b)=>b.v-a.v);return l}
+function renderLoja(){const cats=['Todas',...new Set(P.map(p=>p.c))];
+ $('#cats').innerHTML=cats.map(c=>`<button type="button" class="chip" aria-pressed="${c===S.cat}" data-cat="${c}">${c}</button>`).join('');
+ renderGrid();chipEv();
+ $('#recompra').innerHTML=[...P].sort((a,b)=>b.rec-a.rec).slice(0,6).map((p,i)=>cardProd(p,i).replace('</button>',`<span class="pill ok">recomprado por ${p.rec} lojas</span></button>`)).join('')}
+function renderGrid(){const l=filtra();$('#n-res').textContent=l.length+(l.length===1?' peça':' peças');
+ $('#prods').innerHTML=l.length?l.map(cardProd).join(''):`<div class="vazio"><svg viewBox="0 0 160 110" aria-hidden="true"><path d="M30 20 L130 20 L120 100 L40 100Z" style="fill:var(--surface2)"/><path d="M60 20 V12 A20 20 0 0 1 100 12 V20" fill="none" style="stroke:var(--line)" stroke-width="4"/><circle cx="80" cy="60" r="16" fill="none" style="stroke:var(--gold)" stroke-width="3" stroke-dasharray="5 4"/><path d="M92 72 L104 84" style="stroke:var(--gold)" stroke-width="4" stroke-linecap="round"/></svg><b>Nada com "${esc(S.q)}" nesse filtro.</b><p class="small muted mt">Tente outro tamanho ou limpe os filtros.</p><button class="btn g sm mt" type="button" id="limpar">Limpar filtros</button></div>`;
+ observaNovos()}
+let ioL=null;
+function observaNovos(){/* o kit observa ao trocar de tela; aqui observamos o que foi redesenhado na mesma tela */
+ const els=$$('.tela.on .rv:not(.in)');if(REDUCED||!('IntersectionObserver' in window)){els.forEach(el=>el.classList.add('in'));return}
+ ioL=ioL||new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');ioL.unobserve(x.target)}}),{threshold:.15});els.forEach(el=>ioL.observe(el))}
+
+/* ---------- produto ---------- */
+function abrirProd(id){S.prod=id;const p=byId(id);S.cor=p.cores[0];S.grade={};p.cores.forEach(c=>S.grade[c]={P:0,M:0,G:0,GG:0});ir('produto')}
+function totGrade(){return Object.values(S.grade).reduce((a,g)=>a+TAM.reduce((b,t)=>b+g[t],0),0)}
+function renderPdp(){const p=byId(S.prod);if(!S.cor||!p.cores.includes(S.cor)){S.cor=p.cores[0];S.grade={};p.cores.forEach(c=>S.grade[c]={P:0,M:0,G:0,GG:0})}
+ const g=S.grade[S.cor];const tot=totGrade();const falta=Math.max(0,p.min-tot);
+ $('#pdp').innerHTML=`<div class="peca" style="--t:color-mix(in srgb,${corDe(S.cor)} 20%,var(--surface2))" id="pdp-img">${pecaSvg(p.f,corDe(S.cor),p.n+' na cor '+NCOR[S.cor])}${p.pe?'<span class="pill ok tag"><span class="dot"></span>pronta entrega</span>':'<span class="pill warn tag">sob encomenda · 15 dias</span>'}</div>
+ <div>
+  <span class="eyebrow">${esc(p.c)}</span>
+  <h1 id="t-produto" style="margin-top:10px;font-size:clamp(28px,3.6vw,42px)">${esc(p.n)}</h1>
+  <p class="mt" style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><b style="font:800 30px/1 var(--f-d);font-stretch:110%">${brl(p.p)}</b><span class="muted">por peça · ${brl(p.p*.95)} no Pix</span></p>
+  <p class="small muted mt">Mínimo de ${p.min} peças deste modelo, misturando cores e tamanhos como quiser.</p>
+  <div class="mt"><b class="small">Cor: ${NCOR[S.cor]}</b><div class="cores" role="group" aria-label="Cores">${p.cores.map(k=>`<button type="button" class="cor" data-cor="${k}" aria-pressed="${k===S.cor}" aria-label="${NCOR[k]}" style="background:${corDe(k)}"></button>`).join('')}</div></div>
+  <table class="grade mt" aria-label="Grade de tamanhos da cor ${NCOR[S.cor]}"><thead><tr><th>Tamanho</th><th>Quantidade</th><th>Estoque</th></tr></thead><tbody>
+   ${TAM.map(t=>{const e=p.est[S.cor][t];return `<tr><td><b>${t}</b></td><td>${e?`<span class="step"><button type="button" data-q="-1" data-t="${t}" aria-label="Menos ${t}">−</button><output aria-live="polite">${g[t]}</output><button type="button" data-q="1" data-t="${t}" aria-label="Mais ${t}">+</button></span>`:'<span class="pill">esgotado na cor</span>'}</td><td><span class="est ${e&&e<10?'baixo':''}">${e?(e<10?'últimas '+e:e+' pç'):'avisar quando chegar'}</span></td></tr>`}).join('')}
+  </tbody></table>
+  <button type="button" class="btn g sm" id="sugerida"><svg class="ico"><use href="#i-grid"/></svg>Grade sugerida 1·2·2·1</button>
+  <div class="minimo"><div class="small" style="display:flex;justify-content:space-between"><span>${tot} de ${p.min} peças</span><span class="${falta?'muted':''}" style="${falta?'':'color:var(--ok);font-weight:700'}">${falta?'faltam '+falta:'mínimo atingido ✓'}</span></div><div class="barra-g in" style="margin-top:6px"><i style="--w:${Math.min(100,tot/p.min*100)}%"></i></div></div>
+  <div class="tot"><div><span class="small muted">Total da grade</span><br><b>${brl(tot*p.p)}</b></div><button type="button" class="btn c" id="add" ${tot?'':'disabled'}><svg class="ico"><use href="#i-bag"/></svg>Adicionar ${tot||''} peças</button></div>
+ </div>`}
+
+/* ---------- checkout ---------- */
+function totCart(){return S.cart.reduce((a,it)=>a+TAM.reduce((b,t)=>b+it.grade[t],0)*byId(it.pid).p,0)}
+function pcsCart(){return S.cart.reduce((a,it)=>a+TAM.reduce((b,t)=>b+it.grade[t],0),0)}
+function renderCk(){const sub=totCart(),desc=S.pg==='pix'?sub*.05:0,fr=freteDe(sub),tot=sub-desc+fr,n=pcsCart(),cheio=S.cart.length>0;
+ $('#fr-t').textContent=sub>=FG?'grátis ✓':brl(45);
+ const vazio=`<div class="vazio" style="padding:18px 0"><svg viewBox="0 0 160 110" aria-hidden="true"><path d="M40 34 L120 34 L112 100 L48 100Z" style="fill:var(--surface2)"/><path d="M62 34 V26 A18 18 0 0 1 98 26 V34" fill="none" style="stroke:var(--gold)" stroke-width="4" stroke-dasharray="6 5"/></svg><b>Sacola vazia</b><p class="small muted mt">Monte uma grade na loja ou repita a do mês passado.</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px"><button class="btn c sm" type="button" data-acao="repetir"><svg class="ico"><use href="#i-refresh"/></svg>Repetir pedido do mês passado</button><button class="btn g sm" type="button" data-tela="loja">Ir para a loja</button></div></div>`;
+ const freteH=!cheio?'':sub>=FG?'<span style="color:var(--ok);font-weight:700">✓ Frete grátis pela transportadora</span>':`Faltam <b>${brl(FG-sub)}</b> para frete grátis pela transportadora<div class="barra-g in" style="margin-top:6px"><i style="--w:${Math.min(100,sub/FG*100)}%"></i></div>`;
+ const linhas=!cheio?'':S.cart.map((it,i)=>{const p=byId(it.pid);const n=TAM.reduce((b,t)=>b+it.grade[t],0);return `<div class="linha"><span style="display:flex;gap:10px;align-items:center"><span class="peca" style="width:44px;aspect-ratio:1;border-radius:10px;--t:color-mix(in srgb,${corDe(it.cor)} 20%,var(--surface2))">${pecaSvg(p.f,corDe(it.cor),p.n)}</span><span>${esc(p.n)}<br><span class="small muted">${NCOR[it.cor]} · ${TAM.filter(t=>it.grade[t]).map(t=>t+':'+it.grade[t]).join(' ')}</span></span></span><span style="text-align:right">${brl(n*p.p)}<br><button type="button" class="small muted" data-rm="${i}" style="background:none;border:0;min-height:44px;text-decoration:underline">remover</button></span></div>`}).join('')+
+  `<div class="linha"><span>Subtotal · ${n} peças</span><span>${brl(sub)}</span></div>${desc?`<div class="linha" style="color:var(--ok)"><span>Desconto Pix 5%</span><span>− ${brl(desc)}</span></div>`:''}<div class="linha"><span>Frete · ${S.ent==='exp'?'expressa':'transportadora'}</span><span>${fr?brl(fr):'grátis'}</span></div><div class="linha"><b>Total</b><span class="total">${brl(tot)}</span></div>`;
+ $('#resumo').innerHTML=cheio?linhas:vazio;
+ $('#frete').innerHTML=freteH;
+ /* celular: total no topo (itens em <details>) e faixa de fechamento logo após o bloco 3 */
+ $('#resumo-m').innerHTML=cheio?`<div class="res-m"><div><span class="small muted">Total · ${n} peças</span><br><span class="total">${brl(tot)}</span></div><span class="small muted" style="text-align:right">${desc?'Pix −5% aplicado':'no Pix sai <span style="white-space:nowrap">'+brl(sub*.95+fr)+'</span>'}<br>frete ${fr?brl(fr):'grátis'}</span></div><div class="frete">${freteH}</div><details><summary>ver itens</summary><div class="resumo">${linhas}</div></details>`:vazio;
+ $('#fecha-m').hidden=!cheio;$('#fecha-m-t').textContent=brl(tot);$('#fecha-m-s').textContent='Total · '+n+' peças'+(desc?' · Pix −5%':'');
+ $$('[data-fin]').forEach(b=>b.disabled=!cheio);
+ $('#p2').classList.toggle('ok',true);$('#p3').classList.toggle('ok',!!S.pg)}
+/* entrar no checkout: begin_checkout uma vez por sacola; aviso pendente (ex.: repetir pedido) sai junto */
+function entrarCk(){renderCk();if(S.cart.length&&!S.bc){S.bc=true;ev('begin_checkout',{val:totCart(),quieto:!!S.aviso})}if(S.aviso){toast(S.aviso);S.aviso=null}}
+
+/* ---------- pedidos e fio ---------- */
+const NOS=[
+ {k:'pag',t:'Pagamento aprovado',ic:'i-pix'},
+ {k:'woo',t:'Pedido no WooCommerce',ic:'i-bag'},
+ {k:'erp',t:'Vestuar (ERP)',ic:'i-box'},
+ {k:'wa',t:'WhatsApp do lojista e da equipe',ic:'i-whats'},
+ {k:'med',t:'GA4 e Meta (Pixel + CAPI)',ic:'i-chart'},
+ {k:'log',t:'Etiqueta e transportadora',ic:'i-truck'}];
+/* uma chave de ponta a ponta (o nº do pedido) e a trava de repetição (o id do pagamento) */
+function txtNo(k,o){return {pag:`${o.pg} · ${brl(o.v)} · id do pagamento ${o.pay} vinculado ao pedido ${o.id} (trava de repetição)`,woo:'status "processando" · estoque reservado',erp:'pedido criado · baixa de estoque por grade · NF emitida',wa:'"Pedido '+o.id+' pago" para o lojista · "separar '+o.pcs+' peças" para a expedição',med:`purchase · transaction_id e event_id = ${o.id} · 1 compra contada`,log:'etiqueta gerada · código de rastreio enviado no WhatsApp'}[k]}
+function txtPend(k,o){return k==='log'&&o.st[4]==='ok'?'aguarda a separação · quando a etiqueta sair, o código de rastreio vai no WhatsApp':'aguardando a etapa anterior'}
+/* pedidos de exemplo: TR-10391 é o do mês passado (entregue, base do "repetir"); os de hoje ainda não saíram para a transportadora */
+const REP=[{pid:'vmidi',cor:'terracota',grade:{P:3,M:4,G:4,GG:1}},{pid:'vcurto',cor:'azul',grade:{P:2,M:4,G:4,GG:2}}];
+const PED=[
+ {id:'TR-10391',loja:'Boutique Exemplo',pg:'Pix',v:1764.72,pcs:24,pay:'pay_4K8R',h:'18/09',entregue:'23/09',itens:REP,st:['ok','ok','ok','ok','ok','ok'],hs:['18/09 14:03:11','18/09 14:03:11','18/09 14:03:13','18/09 14:03:14','18/09 14:03:14','19/09 10:20:05'],log:[['okk','18/09 14:03:11 POST /webhook/pagamento pay_4K8R → 200 processado'],['okk','19/09 10:20:05 etiqueta gerada · rastreio enviado no WhatsApp'],['okk','23/09 15:42:30 transportadora → entregue']]},
+ {id:'TR-10479',loja:'Ateliê Sol',pg:'Cartão 3x',v:2190.6,pcs:36,pay:'pay_8F2K',h:'09:47',st:['ok','ok','ok','ok','ok','pend'],hs:['09:47:31','09:47:31','09:47:34','09:47:35','09:47:35',''],log:[['okk','09:47:31 POST /webhook/pagamento pay_8F2K → 200 processado'],['ig','09:48:02 POST /webhook/pagamento pay_8F2K → 200 já processado (ignorado)'],['ig','09:52:31 POST /webhook/pagamento pay_8F2K → 200 já processado (ignorado)']]},
+ {id:'TR-10480',loja:'Flor de Lis Modas',pg:'Boleto',v:948.0,pcs:18,pay:'pay_2C9A',h:'10:05',st:['pend','pend','pend','pend','pend','pend'],hs:['','','','','',''],log:[['','10:05:12 boleto emitido · aguardando compensação (até 2 dias úteis)']]},
+ {id:'TR-10481',loja:'Mana Store',pg:'Pix',v:1567.4,pcs:30,pay:'pay_5T0E',h:'10:41',st:['ok','ok','ok','ok','ok','pend'],hs:['10:41:10','10:41:10','10:42:13','10:41:11','10:41:11',''],nota:'Vestuar não respondeu às 10:41:11. O lojista foi avisado na hora; o pedido esperou na fila e entrou no Vestuar na 2ª tentativa, 1 minuto depois.',log:[['okk','10:41:10 POST /webhook/pagamento pay_5T0E → 200 processado'],['er','10:41:11 Vestuar POST /pedidos → tempo esgotado · na fila, nova tentativa em 1 min'],['okk','10:41:11 WhatsApp → lojista avisado (não espera o Vestuar)'],['okk','10:42:13 Vestuar POST /pedidos → 201 criado (2ª tentativa)']]},
+ {id:'TR-10482',loja:'Boutique Exemplo',pg:'Pix',v:1069.86,pcs:12,pay:'pay_9H3D',h:'11:20',st:['ok','ok','ok','ok','ok','pend'],hs:['11:20:44','11:20:44','11:20:46','11:20:47','11:20:47',''],log:[['okk','11:20:44 POST /webhook/pagamento pay_9H3D → 200 processado']]}
+];
+let animFio=0;
+function renderLista(){$('#lista-p').innerHTML=[...PED].reverse().map(o=>{const pend=o.st[0]==='pend',fila=o.st.includes('fila');return `<button type="button" data-ped="${o.id}" aria-pressed="${o.id===S.pedSel}"><b>#${o.id}</b><small>${esc(o.loja)} · ${o.pg} · ${o.h}</small><span class="pill ${pend?'':fila?'warn':'ok'}">${pend?'aguardando':fila?'na fila':o.entregue?'entregue':'fio inteiro'}</span></button>`}).join('')}
+function renderFio(animar){const o=PED.find(x=>x.id===S.pedSel)||PED[PED.length-1];
+ $('#fio-t').textContent='Pedido #'+o.id;$('#fio-s').textContent=o.loja+' · '+o.pcs+' peças · '+brl(o.v);$('#fio-k').innerHTML='<svg class="ico" style="width:16px;height:16px"><use href="#i-lock"/></svg>chave '+o.id+' · pagamento '+o.pay;
+ $('#fio').innerHTML='<span class="agulha" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="19" cy="5" rx="2.4" ry="1.3" transform="rotate(-45 19 5)" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>'+NOS.map((n,i)=>`<div class="no" data-i="${i}"><span class="bol"><svg class="ico"><use href="#${n.ic}"/></svg></span><div><h4>${n.t}</h4><p class="hora" data-h></p><p class="txt">${o.st[i]==='pend'?txtPend(n.k,o):txtNo(n.k,o)}</p>${n.k==='wa'&&o.st[i]==='ok'?'<button class="btn g sm" type="button" data-msg><svg class="ico"><use href="#i-whats"/></svg>ver mensagem</button>':''}</div></div>`).join('')+(o.nota?`<p class="small" style="margin:8px 0 0 64px;color:var(--warn);font-weight:600">${esc(o.nota)}</p>`:'');
+ $('#log').innerHTML=o.log.map(([c,t])=>`<div class="${c}">${esc(t)}</div>`).join('');
+ const nos=$$('#fio .no');const ag=$('#fio .agulha');const id=++animFio;
+ /* hora só em etapa que já passou (ok) ou está na fila; pendente mostra "—" */
+ const aplica=i=>{const el=nos[i];const s=o.st[i];el.classList.remove('ok','fila');if(s==='ok')el.classList.add('ok');if(s==='fila')el.classList.add('fila');el.querySelector('[data-h]').textContent=(s==='ok'||s==='fila')?(o.hs[i]||''):'—';if(s!=='pend'&&ag)ag.style.top=(el.offsetTop+14)+'px'};
+ if(!animar||REDUCED){nos.forEach((_,i)=>aplica(i));return}
+ if(ag)ag.style.top=(nos[0].offsetTop+14)+'px';
+ nos.forEach((_,i)=>setTimeout(()=>{if(id===animFio)aplica(i)},180+i*300))}
+function logAdd(c,t){const l=$('#log');l.insertAdjacentHTML('beforeend',`<div class="${c} novo">${esc(t)}</div>`);l.scrollTop=l.scrollHeight;const o=PED.find(x=>x.id===S.pedSel);o&&o.log.push([c,t])}
+
+/* mensagens transacionais do pedido (WhatsApp do lojista, da expedição e e-mail) */
+function msgHtml(o){const hp=(o.hs[3]||'').slice(-8,-3);return `<h3>Mensagens do pedido #${o.id}</h3><p class="small muted mt">Saem sozinhas quando o pagamento é aprovado, com o mesmo nº do pedido. O texto é configurável pela equipe.</p>
+ <div class="wa-chat mt"><span class="wa-top">WhatsApp · lojista</span><div class="bolha">Oi, ${esc(o.loja)}! Pedido ${o.id} pago ✅<br>${o.pcs} peças · previsão de despacho amanhã.<br>Quando a etiqueta sair, o código de rastreio chega aqui.<small>${hp} ✓✓</small></div>
+ <span class="wa-top" style="margin-top:4px">WhatsApp · expedição</span><div class="bolha">Separar ${o.pcs} peças · #${o.id} · ${esc(o.loja)}<small>${hp} ✓✓</small></div></div>
+ <div class="mail mt"><div class="de">De: Trama Atacado · Para: e-mail do cadastro da loja</div><b>Pedido ${o.id} confirmado</b><p class="mt">Olá, ${esc(o.loja)}. Recebemos o pagamento do pedido <span style="white-space:nowrap">${o.id}</span> (${o.pcs} peças, ${brl(o.v)}). A nota fiscal segue assim que o Vestuar emitir, e o rastreio chega quando a etiqueta for gerada.</p></div>
+ <button class="btn g mt" type="button" data-fecha style="width:100%">Fechar</button>`}
+
+/* ---------- painel, rastreio, saúde, plano, conta ---------- */
+function renderPainel(){const d=[['qui',18.2],['sex',22.9],['sáb',14.1],['dom',6.3],['seg',25.8],['ter',21.4],['hoje',28.6]];const mx=30;
+ $('#graf').innerHTML=d.map(([n,v],i)=>`<div class="${n==='hoje'?'hoje':''}" style="--i:${i}"><b style="font-size:12px;color:var(--ink)">${v.toLocaleString('pt-BR')}</b><i style="--h:${v/mx*100}%"></i>${n}</div>`).join('');
+ const low=[['Vestido midi de linho','Terracota','M',4],['Calça wide leg jeans','Jeans','G',3],['Blusa cropped canelada','Rosê','P',6],['Camiseta básica algodão','Oliva','GG',2]];
+ $('#baixo').innerHTML='<thead><tr><th>Peça</th><th>Cor</th><th>Tam.</th><th>Resta</th></tr></thead><tbody>'+low.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td><b>${r[2]}</b></td><td><span class="pill warn">${r[3]} pç</span></td></tr>`).join('')+'</tbody>';
+ $('#recentes').innerHTML='<thead><tr><th>Pedido</th><th>Lojista</th><th>Valor</th><th>Status</th></tr></thead><tbody>'+[...PED].reverse().map(o=>`<tr><td class="mono">#${o.id}</td><td>${esc(o.loja)}</td><td>${brl(o.v)}</td><td><span class="pill ${o.st[0]==='pend'?'':'ok'}">${o.st[0]==='pend'?'aguardando':o.entregue?'entregue':'pago'}</span></td></tr>`).join('')+'</tbody>'}
+function renderRastreio(){const E=[['view_item','abriu a página da peça','item_id = SKU do Vestuar'],['add_to_cart','adicionou a grade','value, items[] com cor e tamanho'],['begin_checkout','entrou no checkout','value, coupon'],['add_payment_info','escolheu Pix, cartão ou boleto','payment_type'],['purchase','pagamento aprovado (servidor)','transaction_id = event_id = nº do pedido']];
+ $('#eventos').innerHTML=E.map(e=>`<div class="evt"><code>${e[0]}</code><small>${e[1]} · <span class="mono">${e[2]}</span></small><div class="vals"><span class="pill ok">Tag Assistant ✓</span><span class="pill ok">DebugView ✓</span><span class="pill ok">Events Manager ✓</span></div></div>`).join('');
+ renderAoVivo();renderCm();
+ const F=[['view_item',8420,100],['add_to_cart',1566,18.6],['begin_checkout',766,9.1],['add_payment_info',539,6.4],['purchase',269,3.2]];
+ $('#funil').innerHTML=F.map((f,i)=>`<div class="f"><code>${f[0]}${i?`<small>${f[2].toLocaleString('pt-BR')}%</small>`:''}</code><div class="barra-g"><i style="--w:${f[2]}%;background:${i===4?'var(--accent)':'var(--brand)'}"></i></div><b>${f[1].toLocaleString('pt-BR')}</b></div>`).join('')}
+function renderCm(){const g=S.consent==='sim';const L=[['ad_storage',g],['analytics_storage',g],['ad_user_data',g],['ad_personalization',g]];
+ $('#cm').innerHTML=L.map(([k,v])=>`<code>${k}</code><span class="pill ${v?'ok':'warn'}">${v?'granted':'denied'}</span>`).join('')+`<span class="small muted" style="grid-column:1/-1">${S.consent==='pendente'?'Padrão antes da escolha: tudo negado, só pings sem cookie.':S.consent==='sim'?'Lojista aceitou na loja: tags liberadas.':'Lojista escolheu só os necessários: GA4 modela, Meta não recebe.'}</span>`}
+function renderSaude(){const C=[['LCP','≤ 2,0 s','maior imagem visível',70],['INP','≤ 150 ms','resposta ao toque',78],['CLS','≤ 0,05','nada pulando na tela',88],['TTFB','≤ 0,4 s','servidor com cache',74]];
+ /* arco cheio verde = a meta; o número de hoje só existe depois da auditoria do dia 1 */
+ $('#cwv').innerHTML=C.map((c,i)=>`<div class="card gauge rv" style="--i:${i}"><svg viewBox="0 0 120 70" aria-hidden="true"><path class="arco" d="M14 62 A46 46 0 0 1 106 62" pathLength="100"/><path class="val" d="M14 62 A46 46 0 0 1 106 62" pathLength="100" style="--a:100"/><text class="meta-t" x="60" y="58" text-anchor="middle">meta</text></svg><span class="pill">${c[0]}</span><b>${c[1]}</b><small>meta no celular · ${c[2]}</small><span class="pill hoje"><span class="dot"></span>hoje: medido no dia 1</span></div>`).join('');
+ const R=['Ver e separar pedidos','Editar produtos e estoque','Editar a vitrine','Relatórios','Formas de pagamento, chave Pix e gateway','Usuários e permissões'];
+ const M=[['s','s','s','s'],['s','s','n','n'],['s','s','n','n'],['s','s','n','s'],['l','n','n','n'],['l','n','n','n']];
+ const ic={s:'<span class="cad s" title="pode"><svg class="ico" style="width:16px;height:16px"><use href="#i-check"/></svg></span>',n:'<span class="cad n" title="não pode">–</span>',l:'<span class="cad l" title="só o admin geral, com dois fatores"><svg class="ico" style="width:16px;height:16px"><use href="#i-lock"/></svg></span>'};
+ $('#acesso').innerHTML='<thead><tr><th>Ação</th><th>Admin geral</th><th>Gerente</th><th>Expedição</th><th>Atendimento</th></tr></thead><tbody>'+R.map((r,i)=>`<tr><td>${r}</td>${M[i].map(x=>`<td>${ic[x]}</td>`).join('')}</tr>`).join('')+'</tbody>';
+ const A=[['b','11:02','Gateway sem confirmar Pix há 6 min (3 pedidos). Aviso enviado para a equipe; consulta ativa ao gateway liberou os 3 às 11:05.'],['w','10:41','Vestuar sem resposta. Pedido #TR-10481 na fila, entrou na 2ª tentativa.'],['b','09:30','Usuário "atendimento" tentou abrir Formas de pagamento. Bloqueado e registrado.'],['','03:00','Backup diário concluído e copiado para fora do servidor.'],['','02:10','312 tentativas de login bloqueadas pelo limite por IP.'],['','ontem','Atualização do WooCommerce aprovada em staging com compra de teste.']];
+ $('#alertas').innerHTML=A.map(a=>`<div class="it"><i class="${a[0]}"></i><span class="small">${a[2]}</span><small>${a[1]}</small></div>`).join('')}
+function renderPlano(){const H=[['Grade numa tela só (P, M, G e GG de uma vez)','Menos toques até o add_to_cart. Mede: taxa view_item → add_to_cart.',8.3],['Pedido mínimo visível no card, antes do carrinho','Menos surpresa no checkout. Mede: begin_checkout → purchase.',7.7],['Desconto do Pix já calculado no resumo','Mais Pix, menos boleto que não compensa. Mede: purchase por payment_type.',7.3],['"Repetir último pedido" na Minha Conta','Recompra em menos passos. Mede: pedidos de recompra por mês.',7.0],['Depoimento de lojista da mesma região','Prova social onde a dúvida aparece. Mede: add_to_cart na página da peça.',6.3]];
+ $('#hips').innerHTML=H.map(h=>`<div class="hip"><b>${h[0]}</b><p>${h[1]}</p><div class="ice"><b>${h[2].toLocaleString('pt-BR')}</b><small>ICE</small></div></div>`).join('')}
+/* status coerente com o fio: hoje = separando (2/4); mês passado = entregue (4/4); boleto = aguardando (0/4) */
+function renderConta(){const meus=PED.filter(o=>o.loja==='Boutique Exemplo').reverse();const etapas=['pago','separado','enviado','entregue'];
+ $('#meus').innerHTML=meus.map((o,i)=>{const pend=o.st[0]==='pend',n=o.entregue?4:pend?0:2;
+  const st=o.entregue?'Entregue em '+o.entregue+' · rastreio veio no WhatsApp':pend?'Aguardando a compensação do boleto':'Separando · pago às '+o.h;
+  return `<div class="card ped rv" style="--i:${i}"><span class="ic"><svg class="ico"><use href="#i-box"/></svg></span><div><b class="mono">#${o.id}</b> <span class="small muted">· ${o.entregue?o.h:'hoje'} · ${o.pcs} peças · ${brl(o.v)}</span><div class="trilho" aria-label="Etapa: ${n?etapas[n-1]:'aguardando pagamento'}">${etapas.map((e,j)=>`<i class="${j<n?'on':''}"></i>`).join('')}</div><span class="small muted">${st}</span></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:end">${pend?'':`<button class="btn g sm" type="button" data-nf="${o.id}">NF</button>`}${o.entregue?`<button class="btn sm" type="button" data-acao="repetir">Repetir</button>`:''}</div></div>`}).join('')}
+
+/* ---------- ligação com o roteador do kit ---------- */
+window.aoMostrar=function(id){const eq=['painel','fio','rastreio','saude','plano'].includes(id);const top=$('.top');top.dataset.g=eq?'eq':'cli';$('#v-cli').setAttribute('aria-pressed',!eq);$('#v-eq').setAttribute('aria-pressed',eq);
+ document.body.dataset.t=id;
+ if(id==='loja')renderLoja();
+ if(id==='produto'){renderPdp();ev('view_item',{info:'item_id='+S.prod})}
+ if(id==='checkout')entrarCk();
+ if(id==='conta')renderConta();
+ if(id==='painel')renderPainel();
+ if(id==='fio'){renderLista();setTimeout(()=>renderFio(true),60)}
+ if(id==='rastreio')renderRastreio();
+ if(id==='saude')renderSaude();
+ if(id==='plano')renderPlano()};
+
+/* ---------- ouvintes ---------- */
+document.addEventListener('click',e=>{const t=e.target;let b;
+ if(b=t.closest('[data-prod]'))return abrirProd(b.dataset.prod);
+ if(b=t.closest('[data-cat]')){S.cat=b.dataset.cat;$$('#cats .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));return renderGrid()}
+ if(t.closest('#limpar')){S.q='';S.cat='Todas';S.tam='';S.pe=false;$('#q').value='';$('#f-tam').value='';$('#f-pe').checked=false;return renderLoja()}
+ if(t.closest('#cta-vitrine')){e.preventDefault();return $('#vitrine').scrollIntoView({behavior:REDUCED?'auto':'smooth'})}
+ if(b=t.closest('[data-consent]')){S.consent=b.dataset.consent;const c=$('#consent');c.style.transition='opacity .25s,transform .25s';c.style.opacity=0;c.style.transform='translateY(-6px)';setTimeout(()=>c.hidden=true,REDUCED?0:250);return toast(S.consent==='sim'?'Preferência salva: medição liberada':'Preferência salva: só o necessário')}
+ if(b=t.closest('.cor[data-cor]')){S.cor=b.dataset.cor;return renderPdp()}
+ if(b=t.closest('[data-q]')){const p=byId(S.prod),tm=b.dataset.t,g=S.grade[S.cor];g[tm]=Math.max(0,Math.min(p.est[S.cor][tm],g[tm]+ +b.dataset.q));if(+b.dataset.q>0&&g[tm]===p.est[S.cor][tm])toast('Estoque máximo desse tamanho');return renderPdp()}
+ if(t.closest('#sugerida')){const p=byId(S.prod),g=S.grade[S.cor];const s={P:1,M:2,G:2,GG:1};let m=Math.ceil(p.min/6);TAM.forEach(x=>g[x]=Math.min(p.est[S.cor][x],s[x]*m));return renderPdp()}
+ if(t.closest('#add')){const p=byId(S.prod),tot=totGrade();if(tot<p.min){return toast('Faltam '+(p.min-tot)+' peças para o mínimo deste modelo')}
+  Object.entries(S.grade).forEach(([c,g])=>{if(TAM.some(x=>g[x]))S.cart.push({pid:p.id,cor:c,grade:{...g}})});novoCk();ev('add_to_cart',{val:tot*p.p,info:'items='+tot});
+  S.grade={};p.cores.forEach(c=>S.grade[c]={P:0,M:0,G:0,GG:0});renderPdp();return abrirSheet(`${sucessoHtml()}<h3 class="mt">Grade na sacola</h3><p class="muted mt">${tot} peças de ${esc(p.n)}. A sacola tem ${pcsCart()} peças.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"><button class="btn c" type="button" data-fecha data-tela="checkout">Fechar pedido</button><button class="btn g" type="button" data-fecha data-tela="loja">Continuar comprando</button></div>`)}
+ if(b=t.closest('[data-rm]')){S.cart.splice(+b.dataset.rm,1);novoCk();return renderCk()}
+ if(t.closest('[data-fin]')){if(!S.pg){$('#pagto').scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});return toast('Escolha a forma de pagamento')}
+  const bts=$$('[data-fin]');bts.forEach(x=>{x.disabled=true;x.innerHTML='<span class="sk" style="width:18px;height:18px;border-radius:50%"></span>Confirmando pagamento…'});
+  setTimeout(()=>{const pg=S.pg,sub=totCart(),v=sub-(pg==='pix'?sub*.05:0)+freteDe(sub),id='TR-'+(S.seq++),agora=hora(),pay='pay_'+Math.random().toString(36).slice(2,6).toUpperCase();
+   PED.push({id,loja:'Boutique Exemplo',pg:{pix:'Pix',cartao:'Cartão 3x',boleto:'Boleto'}[pg],v,pcs:pcsCart(),pay,h:agora.slice(0,5),st:pg==='boleto'?Array(6).fill('pend'):['ok','ok','ok','ok','ok','pend'],hs:Array(6).fill(agora),log:[[pg==='boleto'?'':'okk',agora+(pg==='boleto'?' boleto emitido · aguardando compensação':' POST /webhook/pagamento '+pay+' → 200 processado')]]});
+   if(pg!=='boleto')ev('purchase',{val:v,id});S.cart=[];S.pg=null;novoCk();S.pedSel=id;$$('#pagto input').forEach(i=>i.checked=false);
+   bts.forEach(x=>x.innerHTML='<svg class="ico"><use href="#i-lock"/></svg>Finalizar pedido');renderCk();
+   abrirSheet(`${sucessoHtml()}<h3 class="mt">Pedido #${id} ${pg==='boleto'?'registrado':'confirmado'}</h3><p class="muted mt">A confirmação foi para o WhatsApp e o e-mail da loja. Na visão da equipe, dá para ver este pedido passando por cada sistema.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"><button class="btn c" type="button" data-fecha data-tela="fio"><svg class="ico"><use href="#i-thread"/></svg>Ver o fio deste pedido</button><button class="btn g" type="button" data-fecha data-tela="rastreio">Ver os eventos</button></div>`)},REDUCED?0:900);return}
+ if(t.closest('[data-acao="repetir"]')){const o=PED.find(x=>x.entregue&&x.loja==='Boutique Exemplo');S.cart=o.itens.map(it=>({...it,grade:{...it.grade}}));novoCk();S.aviso='Grade do pedido #'+o.id+', de '+o.h+', na sacola · begin_checkout medido';
+  if(location.hash==='#checkout')return entrarCk();return ir('checkout')}
+ if(t.closest('[data-msg]')){const o=PED.find(x=>x.id===S.pedSel);return abrirSheet(msgHtml(o))}
+ if(b=t.closest('[data-nf]'))return toast('Nota do pedido #'+b.dataset.nf+' baixada (PDF e XML)');
+ if(b=t.closest('[data-ped]')){S.pedSel=b.dataset.ped;$$('#lista-p button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderFio(true);if(innerWidth<960)$('#fio-t').closest('.card').scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'start'});return}
+ if(t.closest('#s-reenvio')){const o=PED.find(x=>x.id===S.pedSel);if(o.st[0]==='pend')return toast('Este pedido ainda não foi pago');logAdd('ig',hora()+' POST /webhook/pagamento '+o.pay+' → 200 já processado (ignorado)');return toast('Reenvio ignorado: nada em dobro no Vestuar nem no WhatsApp')}
+ /* Vestuar fora: só o nó do ERP vai para a fila; WhatsApp e GA4/Meta não esperam por ele */
+ if(t.closest('#s-queda')){const o=PED.find(x=>x.id===S.pedSel);if(o.st[0]==='pend')return toast('Este pedido ainda não foi pago');if(o.entregue)return toast('Este pedido já foi entregue; escolha um de hoje');const nos=$$('#fio .no');const sb=t.closest('#s-queda');sb.disabled=true;
+  /* horários relativos ao próprio pedido (fila 1 s depois do Woo, 2ª tentativa 1 min depois), como no TR-10481 */
+  const seg=(hms,s)=>{const [a,b2,c]=hms.slice(-8).split(':').map(Number),x=a*3600+b2*60+c+s;return [x/3600|0,(x%3600)/60|0,x%60].map(v=>String(v).padStart(2,'0')).join(':')};
+  const h1=seg(o.hs[1],1),h2=seg(o.hs[1],63),erp=nos[2],wa=nos[3];erp.classList.remove('ok');erp.classList.add('fila');erp.querySelector('[data-h]').textContent=h1;erp.querySelector('.txt').textContent='Vestuar não respondeu · pedido na fila, nova tentativa em 1 min (acelerado na demo)';
+  wa.querySelector('.txt').textContent='aviso enviado mesmo com o Vestuar fora; a baixa de estoque entra quando a fila passar';
+  logAdd('er',h1+' Vestuar POST /pedidos → tempo esgotado · na fila, nova tentativa em 1 min (acelerado na demo)');logAdd('okk',o.hs[3].slice(-8)+' WhatsApp → lojista avisado (não espera o Vestuar)');
+  setTimeout(()=>{logAdd('okk',h2+' Vestuar POST /pedidos → 201 criado (2ª tentativa) · baixa de estoque feita');erp.classList.remove('fila');erp.classList.add('ok');erp.querySelector('[data-h]').textContent=h2;erp.querySelector('.txt').textContent=txtNo('erp',o)+' · entrou na 2ª tentativa';
+   wa.querySelector('.txt').textContent='aviso enviado mesmo com o Vestuar fora · baixa de estoque feita às '+h2+', quando a fila passou';sb.disabled=false;toast('Lojista avisado na hora, Vestuar sincronizado na 2ª tentativa')},REDUCED?300:1800);return}
+ if(t.closest('#v-cli'))return ir('loja');
+ if(t.closest('#v-eq'))return ir('painel');
+ if(t.closest('#b-mais'))return abrirSheet(`<h3>Todas as telas</h3><div class="mais-g mt"><h4>Lojista</h4>${[['loja','i-home','Loja'],['produto','i-tag','Produto'],['checkout','i-bag','Checkout'],['conta','i-user','Minha conta']].map(x=>`<button type="button" data-fecha data-tela="${x[0]}"><svg class="ico"><use href="#${x[1]}"/></svg>${x[2]}</button>`).join('')}<h4>Equipe</h4>${[['painel','i-grid','Painel'],['fio','i-thread','Fio do pedido'],['rastreio','i-chart','Rastreamento'],['saude','i-gauge','Saúde'],['plano','i-map','Plano']].map(x=>`<button type="button" data-fecha data-tela="${x[0]}"><svg class="ico"><use href="#${x[1]}"/></svg>${x[2]}</button>`).join('')}</div>`)
+});
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.id==='f-tam'){S.tam=t.value;renderGrid()}
+ if(t.id==='f-ord'){S.ord=t.value;renderGrid()}
+ if(t.id==='f-pe'){S.pe=t.checked;renderGrid()}
+ /* add_payment_info sai uma vez por checkout; trocar a forma só atualiza a mesma linha do log */
+ if(t.name==='pg'){S.pg=t.value;renderCk();
+  if(!S.api){S.api=true;ev('add_payment_info',{info:'payment_type='+t.value})}
+  else{const e=[...S.ev].reverse().find(x=>x.nome==='add_payment_info');if(e)e.info='payment_type atualizado para '+t.value+' às '+hora()+' (sem novo evento)';renderAoVivo();toast('payment_type atualizado para '+t.value+' · sem novo evento')}}
+ if(t.name==='ent'){S.ent=t.value;renderCk()}});
+let tq;document.addEventListener('input',e=>{if(e.target.id==='q'){clearTimeout(tq);tq=setTimeout(()=>{S.q=e.target.value;renderGrid()},160)}});
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
+</body>
+</html>

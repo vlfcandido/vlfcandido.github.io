@@ -29,6 +29,36 @@ export const PECAS = [
     imagem: 'trabalhos/img/consultorio-exemplo.jpg', alt: 'Página inicial do Consultório Exemplo, com a busca de psicólogos',
     resumo: 'Terapia online em que perfil com CRP irregular sai da busca.',
   },
+  {
+    slug: 'escritorio-arquitetura-exemplo', nome: 'Atelier Linha', href: 'trabalhos/escritorio-arquitetura-exemplo/',
+    imagem: 'trabalhos/img/escritorio-arquitetura-exemplo.jpg', alt: 'Painel do Atelier Linha com os projetos por etapa e a margem de cada um',
+    resumo: 'Revisão fora do contrato vira hora sem cobrança, e aqui ela fica registrada.',
+  },
+  {
+    slug: 'plataforma-astrologia-exemplo', nome: 'Céu Interior', href: 'trabalhos/plataforma-astrologia-exemplo/',
+    imagem: 'trabalhos/img/plataforma-astrologia-exemplo.jpg', alt: 'Capa do parecer Céu Interior, com o mapa astral de exemplo e a nota da jornada',
+    resumo: 'Parecer de produto que mostra onde a venda de uma plataforma de astrologia trava.',
+  },
+  {
+    slug: 'catalogo-whatsapp-exemplo', nome: 'Novelo', href: 'trabalhos/catalogo-whatsapp-exemplo/',
+    imagem: 'trabalhos/img/catalogo-whatsapp-exemplo.jpg', alt: 'Vitrine do Novelo com o carrinho e a prévia do pedido no WhatsApp',
+    resumo: 'Catálogo em que o pedido chega montado no WhatsApp e o estoque baixa no Bling.',
+  },
+  {
+    slug: 'loja-woocommerce-exemplo', nome: 'Trama Atacado', href: 'trabalhos/loja-woocommerce-exemplo/',
+    imagem: 'trabalhos/img/loja-woocommerce-exemplo.jpg', alt: 'Loja Trama Atacado com a grade de tamanhos no celular e o checkout de uma página',
+    resumo: 'Loja de atacado com grade numa tela e cada pedido rastreado do Pix ao ERP.',
+  },
+  {
+    slug: 'consignacao-veiculos-exemplo', nome: 'Pátio Aberto', href: 'trabalhos/consignacao-veiculos-exemplo/',
+    imagem: 'trabalhos/img/consignacao-veiculos-exemplo.jpg', alt: 'Pátio Aberto com a busca de carros e a ficha clara de um anúncio',
+    resumo: 'Consignação de carros em que cada anúncio separa conferido, declarado e atenção.',
+  },
+  {
+    slug: 'atletica-associados-exemplo', nome: 'Atlética Maré Alta', href: 'trabalhos/atletica-associados-exemplo/',
+    imagem: 'trabalhos/img/atletica-associados-exemplo.jpg', alt: 'Carteirinha digital da Atlética Maré Alta com QR code e validade',
+    resumo: 'Carteirinha com QR que muda sozinho e Pix que renova a validade do associado.',
+  },
   // Para acrescentar uma peça: a entrada aqui e o cartão em public/trabalhos/index.html (o teste confere os dois lados).
 ] as const
 

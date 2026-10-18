@@ -1,0 +1,2054 @@
+<!doctype html>
+<html lang="pt-BR" data-ad="antes" data-mk="br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Céu Interior · parecer de produto e UX para plataforma de astrologia (exemplo)</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/plataforma-astrologia-exemplo/">
+<meta name="theme-color" content="#0E1430">
+<meta name="description" content="Exemplo de trabalho: parecer de produto e UX para uma plataforma fictícia de astrologia com astrólogo de IA, cobrindo arquitetura, jornada de compra, venda no chat, preços e Brasil versus EUA. Plataforma, pessoas e valores são fictícios.">
+<meta property="og:title" content="Céu Interior · parecer de produto e UX para plataforma de astrologia (exemplo)">
+<meta property="og:description" content="Exemplo de trabalho: parecer de produto e UX para uma plataforma fictícia de astrologia com astrólogo de IA, cobrindo arquitetura, jornada de compra, venda no chat, preços e Brasil versus EUA. Plataforma, pessoas e valores são fictícios.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/plataforma-astrologia-exemplo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Parecer de produto e UX da plataforma fictícia Céu Interior">
+<meta property="og:url" content="https://vlfcandido.github.io/trabalhos/plataforma-astrologia-exemplo/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-plataforma-astrologia-exemplo");</script>
+<!-- /KIT:head -->
+<style>
+/* KIT:tokens ===== Céu Interior: azul-noite, dourado suave, lilás de apoio ===== */
+:root{
+  --bg:#F6F3EC;--surface:#FFFFFF;--surface2:#EDE8DD;--ink:#141A33;--muted:#575D78;--line:#DCD5C6;
+  --brand:#1E2A5E;--brand-ink:#F6EFD9;--brand-soft:#E4E6F2;--accent:#9A6E28;
+  --ok:#2C7A5A;--ok-soft:#DCF0E6;--warn:#A86A12;--warn-soft:#FBEBD2;--bad:#A8364A;--bad-soft:#F8E0E4;
+  --bar-bg:#0E1430;--bar-ink:#F3EBD8;
+  --gold:#9A6E28;--gold-soft:#F4EAD4;--lil:#6A58B5;--lil-soft:#ECE8F8;
+  --f-d:"EB Garamond",Georgia,"Times New Roman",serif;   /* títulos */
+  --f-t:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;   /* texto */
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:48px;--s7:80px;
+  --r-s:10px;--r-m:18px;--r-l:28px;--r-p:999px;
+  --shadow:0 1px 0 rgba(20,26,51,.04),0 14px 34px -18px rgba(20,26,51,.32);
+  --shadow-up:0 2px 0 rgba(20,26,51,.04),0 22px 44px -18px rgba(20,26,51,.42);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --head:60px;
+  --barra:62px;
+  color-scheme:light;
+}
+/* /KIT:tokens */
+/* KIT:tema ===== claro/escuro ===== */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A0F24;--surface:#121A3A;--surface2:#1A2349;--ink:#ECE7F5;--muted:#A6ABC6;--line:#26305E;
+  --brand:#D9B76E;--brand-ink:#0B1024;--brand-soft:#2A2614;--accent:#D9B76E;
+  --ok:#62CF9E;--ok-soft:#123326;--warn:#F0B460;--warn-soft:#38270E;--bad:#F08A9B;--bad-soft:#3A1822;
+  --bar-bg:#070B1C;--gold:#D9B76E;--gold-soft:#2A2614;--lil:#B3A4F2;--lil-soft:#231F45;
+  --shadow:0 1px 0 rgba(0,0,0,.4),0 14px 34px -16px rgba(0,0,0,.85);--shadow-up:0 2px 0 rgba(0,0,0,.4),0 24px 48px -16px rgba(0,0,0,.95);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A0F24;--surface:#121A3A;--surface2:#1A2349;--ink:#ECE7F5;--muted:#A6ABC6;--line:#26305E;
+  --brand:#D9B76E;--brand-ink:#0B1024;--brand-soft:#2A2614;--accent:#D9B76E;
+  --ok:#62CF9E;--ok-soft:#123326;--warn:#F0B460;--warn-soft:#38270E;--bad:#F08A9B;--bad-soft:#3A1822;
+  --bar-bg:#070B1C;--gold:#D9B76E;--gold-soft:#2A2614;--lil:#B3A4F2;--lil-soft:#231F45;
+  --shadow:0 1px 0 rgba(0,0,0,.4),0 14px 34px -16px rgba(0,0,0,.85);--shadow-up:0 2px 0 rgba(0,0,0,.4),0 24px 48px -16px rgba(0,0,0,.95);color-scheme:dark}
+/* /KIT:tema */
+/* KIT:base */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scrollbar-gutter:stable}
+body{margin:0;font-feature-settings:"lnum" 1;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-t);overflow-x:hidden;padding-bottom:84px}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.08;letter-spacing:-.005em;font-weight:600}
+h1{font-size:clamp(38px,6.2vw,66px)}h2{font-size:clamp(30px,4.2vw,44px)}h3{font-size:24px}
+p{margin:0}a{color:inherit}img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--lil);outline-offset:2px;border-radius:4px}
+[tabindex="-1"]:focus{outline:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 16px}
+@media(min-width:760px){.wrap{padding:0 32px}}
+.muted{color:var(--muted)}.small{font-size:14px}.mt{margin-top:var(--s4)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);padding:var(--s5);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:var(--r-p);border:1px solid transparent;font-weight:600;text-decoration:none;background:var(--brand);color:var(--brand-ink);transition:transform .18s var(--ease),box-shadow .18s var(--ease)}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn:active{transform:scale(.97)}
+.btn.g{background:transparent;color:var(--ink);border-color:var(--line)}
+.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* /KIT:base */
+/* KIT:faixa */
+.byline{background:#070B1C;color:#CFC8E6;font-size:13px;text-align:center;padding:7px 16px;line-height:1.3;letter-spacing:.01em}
+.byline a{color:#E6CB8E;font-weight:600;text-underline-offset:3px;display:inline-block;padding:14px 4px;margin:-14px 0}
+.top{position:sticky;top:0;z-index:50;height:var(--head);background:var(--bar-bg);color:var(--bar-ink);border-bottom:1px solid rgba(217,183,110,.18)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:100%}
+.top .logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto;min-height:44px}
+.top .logo svg{width:32px;height:32px}
+.top .logo b{display:block;font:600 22px/1 var(--f-d);letter-spacing:.01em}
+.top .logo small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#D9B76E;margin-top:3px}
+.nav{display:none;gap:2px}
+.nav a{text-decoration:none;padding:9px 10px;border-radius:9px;font-weight:500;font-size:14px;opacity:.78;white-space:nowrap;transition:opacity .2s,background .2s;min-height:44px;display:inline-flex;align-items:center}
+.nav a:hover{opacity:1}
+.nav a[aria-current="page"]{opacity:1;background:rgba(217,183,110,.16);color:#F1DBA6}
+.tbtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(243,235,216,.25);background:transparent;color:inherit;display:grid;place-items:center}
+:root[data-theme="dark"] .wm span{opacity:.035}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wm span{opacity:.035}}
+/* /KIT:faixa */
+/* KIT:snap */
+html{scroll-padding-top:calc(var(--head) + 8px)}
+@media(max-width:899px){
+  html{scroll-snap-type:y proximity}
+  .snap{scroll-snap-align:start;scroll-snap-stop:normal}
+}
+/* /KIT:snap */
+/* KIT:router */
+.tela{display:none}.tela.on{display:block}
+.tela>section{padding:var(--s6) 0}
+html.trocando,html.trocando body,html.folha,html.folha body{overflow:hidden;overscroll-behavior:none}
+html.trocando body{touch-action:none;pointer-events:none}
+#view{transition:opacity .14s ease-in}
+#view.sai{opacity:0}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
+/* /KIT:router */
+/* KIT:barra */
+.bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--surface);border-top:1px solid var(--line);padding:4px 2px env(safe-area-inset-bottom);box-shadow:0 -8px 24px -16px rgba(0,0,0,.4)}
+.bar button{flex:1;min-height:calc(var(--barra) - 8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:0;border-radius:var(--r-s);font-size:11.5px;font-weight:600;color:var(--muted)}
+.bar button[aria-current="page"]{color:var(--gold)}
+.bar button.estrela .ico{color:var(--gold)}
+body{padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom) + 8px)}
+@media(min-width:1100px){.bar{display:none}body{padding-bottom:84px}}
+/* /KIT:barra */
+/* KIT:assinatura */
+.sig{display:inline-flex;align-items:center;gap:14px;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-p);padding:8px 24px 8px 8px;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.sig:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.sig-m{width:50px;height:50px;border-radius:50%;background:#0E1430;display:grid;place-items:center;flex:none;color:#D9B76E}
+.sig-m svg{width:34px;height:34px}
+.sig small{display:block;font-size:12px;color:var(--muted);line-height:1.2}
+.sig b{display:block;font:600 21px/1.15 var(--f-d)}
+.sig em{font-style:normal;font-size:13px;color:var(--gold);font-weight:600}
+/* /KIT:assinatura */
+/* KIT:whatsapp */
+.dev{position:fixed;isolation:isolate;right:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:10px;text-decoration:none;background:var(--ink);color:var(--bg);border-radius:var(--r-p);padding:7px 18px 7px 7px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45)}
+.dev .wa-c{width:42px;height:42px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;flex:none}
+.dev .wa-c svg{width:24px;height:24px}
+.dev b{display:block;font:600 15px/1.15 var(--f-t)}
+.dev small{display:block;font-size:11.5px;opacity:.7;line-height:1.2}
+@media(max-width:1099px){.dev{right:12px;bottom:calc(var(--barra) + 12px + env(safe-area-inset-bottom));padding:5px}.dev span:last-child{display:none}}
+.dev{transition:padding .25s var(--ease),box-shadow .25s}
+.dev.mini{padding:5px}.dev.mini span:last-child{display:none}
+.dev.mini:hover,.dev.mini:focus-visible{padding:7px 18px 7px 7px}.dev.mini:hover span:last-child,.dev.mini:focus-visible span:last-child{display:block}
+/* /KIT:whatsapp */
+/* KIT:rodape */
+footer{padding:var(--s6) 0 var(--s6);border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:20px 28px;justify-content:space-between;align-items:center}
+.aviso-med{flex-basis:100%;margin:0;font-size:12px;opacity:.85}
+/* /KIT:rodape */
+/* KIT:sheet */
+.sh-bg{position:fixed;inset:0;background:rgba(7,11,28,.55);z-index:79;opacity:0;pointer-events:none;transition:opacity .22s}
+.sh-bg.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--surface);border-radius:var(--r-l) var(--r-l) 0 0;padding:12px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .28s var(--ease);max-height:86vh;overflow:auto;visibility:hidden}
+.sheet.on{transform:none;visibility:visible}
+.sheet .grip{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
+@media(min-width:900px){.sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(520px,92vw);border-radius:var(--r-l);transform:translate(-50%,-46%);opacity:0}.sheet.on{transform:translate(-50%,-50%);opacity:1}.sheet .grip{display:none}}
+/* /KIT:sheet */
+/* KIT:anim */
+html.anim .rv{opacity:0;transform:translateY(16px);transition:opacity .55s var(--ease),transform .55s var(--ease);transition-delay:calc(var(--i,0)*70ms)}
+html.anim .rv.in{opacity:1;transform:none}
+.barra-g{height:10px;border-radius:5px;background:var(--surface2);overflow:hidden}
+.barra-g i{display:block;height:100%;width:var(--w,50%);background:var(--brand);border-radius:5px}
+html.anim .barra-g i{width:0;transition:width .9s var(--ease) .1s}
+html.anim .rv.in .barra-g i,html.anim .barra-g.in i{width:var(--w,50%)}
+.sucesso{width:72px;height:72px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center}
+.sucesso svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+html.anim .sucesso{animation:pop .45s var(--ease)}
+html.anim .sucesso path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .45s var(--ease) .25s forwards}
+@keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--barra) + 76px);transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:var(--r-p);z-index:100;transition:.25s;font-size:15px;pointer-events:none;max-width:min(92vw,520px);text-align:center}
+.toast.on{transform:translate(-50%,0);opacity:1}
+.toast{width:max-content}
+@media(max-width:640px){.toast.alto{bottom:auto;top:calc(var(--head) + 14px);transform:translate(-50%,-30px)}.toast.alto.on{transform:translate(-50%,0)}}
+/* /KIT:anim */
+/* KIT:skeleton */
+.sk{display:block;border-radius:var(--r-s);background:linear-gradient(90deg,var(--surface2) 25%,var(--line) 37%,var(--surface2) 63%);background-size:400% 100%;animation:sk 1.3s ease infinite;min-height:1em}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+/* /KIT:skeleton */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* PROJETO: estilos próprios abaixo desta linha */
+/* ===================== PROJETO: parecer Céu Interior ===================== */
+@media(min-width:1100px){.nav{display:flex}}
+@media(max-width:1099px){.nav{display:none}}
+@media(min-width:900px) and (max-width:1099px){body{padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom) + 8px)}}
+
+/* números: o EB Garamond desenha algarismos de estilo antigo por padrão; números grandes vão em Inter fino */
+.gauge .v,.stat b,.conv b,.ent .n,.it .n,.regras li::before,#doc .nn,.abas button .n,.d-preco b,.d-rec b,.d-h,.oferta .of-t{font-family:var(--f-t)!important;letter-spacing:-.03em}
+.gauge .v,.stat b,.conv b,.ent .n,.it .n,.regras li::before{font-weight:300!important}
+.d-h,.oferta .of-t{font-family:var(--f-d)!important;letter-spacing:0}
+.d-h.nm{font-family:var(--f-t)!important;font-weight:600;letter-spacing:-.02em}
+/* visibilidade antes/depois e Brasil/EUA */
+html:not([data-ad="depois"]) .so-depois{display:none!important}
+html[data-ad="depois"] .so-antes{display:none!important}
+html:not([data-mk="us"]) .so-us{display:none!important}
+html[data-mk="us"] .so-br{display:none!important}
+html.anim .so-antes,html.anim .so-depois,html.anim .so-br,html.anim .so-us{animation:aparece .4s var(--ease)}
+@keyframes aparece{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* céu: faixa noturna do topo de cada tela */
+.ceu{position:relative;overflow:hidden;background:radial-gradient(120% 140% at 85% -10%,#2A2F6B 0%,#141B44 38%,#0B1029 72%);color:#F3EBD8;isolation:isolate}
+.tela>section.ceu{padding:56px 0 52px}
+@media(max-width:899px){.hero-g .roda-w{width:min(360px,100%)}.hero-g{gap:30px}.roda-w figcaption{font-size:12.5px;margin-top:10px}}
+/* no celular o céu é ampliado (slice) e as constelações cruzariam títulos e a roda: ficam só as estrelas */
+@media(max-width:640px){#ceu .cn{display:none}#ceu .cs{opacity:.45}}
+.ceu .estrelas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.ceu>.estrelas.ex{display:none}
+/* celular: o céu em tamanho real (1200x420), empilhado, em vez de esticado pelo slice */
+@media(max-width:640px){.ceu>.estrelas{inset:auto;top:0;left:50%;width:1200px;max-width:none;height:420px;transform:translateX(-50%)}.ceu>.estrelas.ex{display:block}.ceu>.estrelas.e2{top:420px}.ceu>.estrelas.e3{top:840px}
+  .ceu.limpo>.estrelas{display:none}}
+/* céu redesenhado no celular sem as estrelas que cairiam sobre o texto */
+.est-m{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:hidden}
+.est-m circle{fill:#F3EBD8;opacity:.55}.est-m .e1{opacity:.35}.est-m .e2{opacity:.75}.est-m .cs{fill:#E6CB8E;opacity:.45}
+html.anim .est-m .e1{animation:cint 4.2s ease-in-out infinite}html.anim .est-m .e3{animation:cint 6s ease-in-out 1.4s infinite}
+@media(min-width:641px){.est-m{display:none}}
+#ceu .es{fill:#F3EBD8;opacity:.55}
+#ceu .es.e1{opacity:.35}#ceu .es.e2{opacity:.75}
+html.anim #ceu .es.e1{animation:cint 4.2s ease-in-out infinite}
+html.anim #ceu .es.e3{animation:cint 6s ease-in-out 1.4s infinite}
+@keyframes cint{0%,100%{opacity:.25}50%{opacity:.9}}
+#ceu .cn{fill:none;stroke:#D9B76E;stroke-width:.8;opacity:.4;stroke-dasharray:3 4}
+#ceu .cs{fill:#E6CB8E;opacity:.8}
+.ceu .muted,.ceu .lead{color:#C9C4DE}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.ceu .eyebrow{color:#E6CB8E}
+.eyebrow::before{content:"";width:26px;height:1px;background:currentColor;opacity:.7}
+.lead{font-size:18px;line-height:1.6;max-width:60ch;margin-top:18px}
+.cab{display:flex;flex-wrap:wrap;gap:22px 32px;align-items:flex-end;justify-content:space-between}
+.cab h1,.cab h2{margin-top:14px;max-width:22ch}
+.cab h1{font-size:clamp(34px,4.6vw,54px)}
+.tela>section.ceu:not(.hero){padding:44px 0 40px}
+.cab .lead{max-width:56ch}
+
+/* toggle antes/depois */
+.ad{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:var(--r-p);background:rgba(243,235,216,.08);border:1px solid rgba(243,235,216,.22);min-width:236px}
+.ad button{position:relative;z-index:1;min-height:44px;border:0;background:none;border-radius:var(--r-p);font-weight:600;font-size:15px;color:#C9C4DE;padding:0 18px;transition:color .25s}
+.ad i{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:var(--r-p);background:#B3A4F2;transition:transform .35s var(--ease),background .35s}
+.ad button[aria-pressed="true"]{color:#0B1029}
+.ad[data-m="depois"] i{transform:translateX(100%);background:#D9B76E}
+.ad.claro{background:var(--surface);border-color:var(--line)}
+.ad.claro button{color:var(--muted)}
+.ad.claro button[aria-pressed="true"]{color:#0B1029}
+.ad-w{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.ad-w small{font-size:12.5px;color:#C9C4DE}
+.ad button.pisca::after{content:"";position:absolute;inset:-3px;border-radius:var(--r-p);border:2px solid #D9B76E;opacity:0}
+html.anim .ad button.pisca::after{animation:pisca 1.8s ease-out 1.2s 3}
+@keyframes pisca{0%{opacity:.9;transform:scale(.92)}100%{opacity:0;transform:scale(1.12)}}
+
+/* tags e chips */
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:var(--r-p);background:var(--surface2);color:var(--muted);line-height:1.2}
+.tag.ruim{background:var(--bad-soft);color:var(--bad)}
+.tag.bom{background:var(--ok-soft);color:var(--ok)}
+.tag.ouro{background:var(--gold-soft);color:var(--gold)}
+.tag.lil{background:var(--lil-soft);color:var(--lil)}
+.tag .ico{width:15px;height:15px}
+.estimativa{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r-p);padding:4px 11px}
+
+/* herói */
+.hero-g{display:grid;gap:36px;align-items:center}
+@media(min-width:900px){.hero-g{grid-template-columns:1.08fr .92fr}}
+.hero h1{max-width:15ch;margin-top:16px;color:#FBF6EA}
+.hero h1 em{font-style:italic;color:#E6CB8E;font-weight:500}
+.lentes{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.lentes span{font-size:13px;padding:6px 12px;border-radius:var(--r-p);border:1px solid rgba(243,235,216,.24);color:#E5DFF2}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn.ouro{background:linear-gradient(180deg,#E6CB8E,#CFA95C);color:#0B1029;box-shadow:0 10px 26px -12px rgba(217,183,110,.8)}
+.btn.vid{background:rgba(243,235,216,.06);color:#F3EBD8;border-color:rgba(243,235,216,.3)}
+.ex-nota{display:flex;gap:10px;align-items:flex-start;margin-top:26px;font-size:13.5px;line-height:1.5;color:#BDB7D4;max-width:52ch}
+.ex-nota .ico{width:18px;height:18px;color:#B3A4F2;margin-top:1px}
+.roda-w{margin:0;justify-self:center;width:min(440px,100%)}
+.roda{width:100%;height:auto;overflow:visible}
+.roda .tr{fill:none;stroke:rgba(243,235,216,.5);stroke-width:1}
+.roda .r1{stroke:#D9B76E;stroke-width:1.4}
+.roda .r2{stroke:rgba(217,183,110,.55)}
+.roda .r3{stroke:rgba(179,164,242,.55)}
+.roda .eixo{stroke:rgba(243,235,216,.75);stroke-width:1.2}
+.roda .tq{fill:none;stroke:rgba(243,235,216,.32);stroke-width:.8}
+.roda .sg{fill:none;stroke:#E6CB8E;stroke-width:1;opacity:.9}
+.roda .hn{font:500 10px var(--f-t);fill:rgba(243,235,216,.55);text-anchor:middle}
+.roda .ax{font:600 10px var(--f-t);fill:#E6CB8E;letter-spacing:.1em}
+.roda .asp{stroke:rgba(179,164,242,.55);stroke-width:.9}
+.roda .asp.ouro{stroke:#D9B76E;stroke-width:1.1}
+.roda .p-ouro{fill:none;stroke:#E6CB8E;stroke-width:1.6}
+.roda .p-pt{fill:#E6CB8E}
+.roda .p-lil{fill:#C8BCF7;stroke:none}
+.roda .p-mar{fill:#F3EBD8}
+.roda .p-lil.cheio{fill:#B3A4F2}
+.roda .p-anel{fill:none;stroke:#E6CB8E;stroke-width:1.2}
+.roda .sat .p-ouro{fill:#D9B76E}
+.roda .halo{fill:rgba(217,183,110,.16);stroke:rgba(217,183,110,.6);stroke-width:.8}
+.roda .fundo-r{fill:#0D1231;opacity:.92}
+.roda-w figcaption small{display:block;margin-top:4px;font-size:11.5px;color:#9F99BC;letter-spacing:.01em}
+html.anim .roda-w.rv:not(.in) .roda *{animation-play-state:paused}
+html.anim .roda .tr{stroke-dasharray:1;stroke-dashoffset:1;animation:traco 1.5s var(--ease) forwards;animation-delay:var(--d)}
+html.anim .roda .tq{opacity:0;animation:surge .8s ease .6s forwards}
+html.anim .roda .sg{opacity:0;animation:surge .5s ease forwards;animation-delay:calc(.7s + var(--k)*60ms)}
+html.anim .roda .hn{opacity:0;animation:surge .5s ease forwards;animation-delay:calc(1.4s + var(--k)*45ms)}
+html.anim .roda .ax{opacity:0;animation:surge .5s ease 1.2s forwards}
+html.anim .roda .pl{opacity:0;transform-box:view-box;transform-origin:200px 200px;animation:planeta .9s var(--ease) forwards;animation-delay:var(--d)}
+html.anim .roda .halo{transform-box:fill-box;transform-origin:center;animation:halo 2.6s ease-in-out 3.6s infinite}
+@keyframes traco{to{stroke-dashoffset:0}}
+@keyframes surge{to{opacity:1}}
+@keyframes planeta{0%{opacity:0;transform:rotate(-55deg) scale(.35)}100%{opacity:1;transform:none}}
+@keyframes halo{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.35}}
+.roda-w figcaption{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:13.5px;line-height:1.5;color:#C9C4DE}
+.roda-w figcaption i{width:12px;height:12px;border-radius:50%;background:#D9B76E;box-shadow:0 0 0 4px rgba(217,183,110,.22);flex:none;margin-top:5px}
+
+/* blocos de conteúdo */
+.sec-t{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:28px}
+.sec-t h2{max-width:22ch;margin-top:10px}
+.sec-t p{max-width:56ch}
+.g2{display:grid;gap:20px}
+.g3{display:grid;gap:18px}
+@media(min-width:760px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}}
+.card.h{transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s}
+.card.h:hover{transform:translateY(-4px);box-shadow:var(--shadow-up);border-color:color-mix(in srgb,var(--gold) 40%,var(--line))}
+.ic-c{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);color:var(--gold);margin-bottom:16px}
+.ic-c .ico{width:24px;height:24px}
+.ic-c.lil{background:var(--lil-soft);color:var(--lil)}
+.card h3{margin-bottom:8px}
+.card p{color:var(--muted);font-size:15px}
+.num-g{font:600 15px var(--f-t);color:var(--gold);letter-spacing:.06em}
+
+/* carrossel no celular: próximo cartão pela metade */
+@media(max-width:759px){
+  .carr{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:0 -16px;padding:4px 16px 16px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .carr::-webkit-scrollbar{display:none}
+  .carr>*{flex:0 0 80%;scroll-snap-align:start}
+}
+.dica-carr{display:none;font-size:12.5px;color:var(--muted);margin-top:4px}
+@media(max-width:759px){.dica-carr{display:flex;align-items:center;gap:6px}}
+
+/* notas da jornada */
+.notas{display:grid;gap:18px;grid-template-columns:1fr 1fr;align-content:center}
+@media(max-width:559px){#curva .rot{font-size:15px}#curva .mk{font-size:16px}}
+.gauge{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.gauge svg{width:132px;height:132px}
+.gauge .fundo{fill:none;stroke:var(--surface2);stroke-width:10}
+.gauge .arc{fill:none;stroke-width:10;stroke-linecap:round;stroke-dasharray:326.7;stroke-dashoffset:var(--off);transform:rotate(-90deg);transform-origin:center}
+html.anim .gauge .arc{stroke-dashoffset:326.7;transition:stroke-dashoffset 1.4s var(--ease) .25s}
+html.anim .rv.in .gauge .arc,html.anim .gauge.rv.in .arc{stroke-dashoffset:var(--off)}
+.gauge .arc.a{stroke:var(--bad)}.gauge .arc.d{stroke:var(--gold)}
+.gauge .v{font:600 42px/1 var(--f-d)}
+.gauge .v small{font-size:18px;color:var(--muted)}
+.gauge-w{position:relative;width:132px;height:132px}
+.gauge-w .v{position:absolute;inset:0;display:grid;place-items:center}
+.gauge b{font-size:14px}
+
+/* funil */
+.fun{display:grid;gap:10px}
+.fl{display:grid;grid-template-columns:minmax(120px,190px) 1fr 74px;gap:14px;align-items:center}
+.fl-n{font-size:14.5px;font-weight:500}
+.fl-b{height:30px;border-radius:9px;background:var(--surface2);overflow:hidden}
+.fl-b i{display:block;height:100%;width:max(var(--wa),2%);background:linear-gradient(90deg,var(--lil),color-mix(in srgb,var(--lil) 70%,#fff));border-radius:9px;transition:width .8s var(--ease),background .5s}
+html[data-ad="depois"] .fl-b i{width:max(var(--wd),2%);background:linear-gradient(90deg,#B98B3A,#E2C482)}
+html.anim .fl:not(.in) .fl-b i{width:0}
+.fl-v{font:600 15px var(--f-t);text-align:right;font-feature-settings:"lnum" 1,"tnum" 1}
+.perda{display:flex;align-items:center;gap:8px;margin:-2px 0 2px;padding-left:0;font-size:13px;color:var(--bad);font-weight:500}
+.perda .ico{width:16px;height:16px}
+.perda.bom{color:var(--ok)}
+@media(min-width:760px){.perda{padding-left:204px}}
+@media(max-width:559px){.fl{grid-template-columns:1fr 64px;gap:4px 10px}.fl-n{grid-column:1/-1;font-size:13.5px}.fl-b{height:22px}}
+.conv{display:flex;flex-wrap:wrap;gap:16px 40px;align-items:baseline;margin-top:22px;padding-top:20px;border-top:1px dashed var(--line)}
+.conv b{font:600 46px/1 var(--f-d)}
+.conv .so-depois b{color:var(--gold)}
+
+/* entregas */
+.entregas{display:grid;gap:12px}
+@media(min-width:760px){.entregas{grid-template-columns:1fr 1fr}}
+.ent{display:flex;gap:16px;align-items:center;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px;min-height:76px;transition:transform .22s var(--ease),box-shadow .22s,border-color .22s}
+.ent:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--gold)}
+.ent .n{font:600 30px/1 var(--f-d);color:var(--gold);width:28px;flex:none}
+.ent b{display:block;font-size:15.5px}
+.ent small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.ent .ico{margin-left:auto;color:var(--muted)}
+
+/* próxima tela */
+.prox{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding:28px 0 8px;border-top:1px solid var(--line);margin-top:8px}
+.prox .btn{min-height:52px}
+.prox .ant{background:transparent;color:var(--muted);border-color:var(--line)}
+
+/* arquitetura */
+.arq-w{display:grid;gap:22px}
+@media(min-width:1000px){.arq-w{grid-template-columns:1fr 300px}}
+.arq-c{padding:14px}
+#arq{width:100%;height:auto;display:block}
+#arq .ed{fill:none;stroke-width:1.5}
+#arq .ed.ea{stroke:var(--bad);stroke-opacity:.5}
+#arq .ed.ed2{stroke:var(--lil);stroke-opacity:.8}
+#arq .ed.eo{stroke:var(--gold);stroke-width:2.6}
+#arq .nd rect{fill:var(--surface);stroke:var(--line);stroke-width:1.2;transition:fill .4s,stroke .4s}
+#arq .nd text{font:500 12.5px var(--f-t);fill:var(--ink);text-anchor:middle;dominant-baseline:central}
+#arq .nd.raiz rect{fill:#0E1430;stroke:#0E1430}
+#arq .nd.raiz text{fill:#F3EBD8}
+#arq .nd.pilar rect{fill:var(--gold-soft);stroke:var(--gold)}
+#arq .nd.pilar text{font-weight:700}
+#arq .nd.plano rect{fill:var(--gold);stroke:var(--gold)}
+#arq .nd.plano text{fill:#0B1029;font-weight:700}
+#arq .nd.venda rect{stroke:var(--bad);stroke-dasharray:4 3}
+@media(max-width:640px){#arq .nd text{font-size:11.5px}}
+#arq .rot{font:600 11px var(--f-t);fill:var(--gold);letter-spacing:.06em}
+.stats{display:grid;gap:12px}
+.stat{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line)}
+.stat b{font:600 34px/1 var(--f-d);min-width:56px}
+.stat span{font-size:14px;color:var(--muted);line-height:1.4}
+.so-antes .stat b{color:var(--bad)}
+.so-depois .stat b{color:var(--gold)}
+.leg{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;color:var(--muted);margin-top:10px}
+.leg i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+
+/* abas da jornada */
+.abas{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none;margin-bottom:18px}
+.abas::-webkit-scrollbar{display:none}
+.abas button{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border-radius:var(--r-p);border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14.5px;color:var(--muted);transition:background .25s,color .25s,border-color .25s}
+.abas button .n{font:600 17px/1 var(--f-d);color:var(--gold)}
+.abas button[aria-selected="true"]{background:#0E1430;color:#F3EBD8;border-color:#0E1430}
+:root[data-theme="dark"] .abas button[aria-selected="true"]{background:var(--gold);color:#0B1029;border-color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .abas button[aria-selected="true"]{background:var(--gold);color:#0B1029;border-color:var(--gold)}}
+.fluxo{display:none}.fluxo.on{display:grid}
+html.anim .fluxo.on{animation:aparece .35s var(--ease)}
+.fluxo{gap:28px;align-items:start}
+@media(min-width:860px){.fluxo{grid-template-columns:330px 1fr}}
+.achados-l{display:grid;gap:12px;align-content:start}
+.ach{display:flex;gap:14px;align-items:flex-start;padding:15px 16px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line)}
+.ach .pn{width:28px;height:28px;flex:none;border-radius:50%;display:grid;place-items:center;font:700 13px var(--f-t);background:var(--bad);color:#fff}
+.ach.ok .pn{background:var(--ok)}
+.ach b{display:block;font-size:15px}
+.ach p{font-size:14px;color:var(--muted);margin-top:2px}
+.ach-t{font:600 26px/1.15 var(--f-d);margin-bottom:4px}
+
+/* telefone */
+.fone{width:min(300px,100%);aspect-ratio:300/620;border-radius:44px;background:#05081A;padding:9px;box-shadow:0 30px 60px -24px rgba(7,11,28,.6),inset 0 0 0 1.5px #2A3160;position:relative;margin:0 auto}
+.tela-f{position:relative;height:100%;border-radius:36px;overflow:hidden;overflow:clip;display:flex;flex-direction:column;font-size:12.5px;line-height:1.45}
+.tela-f .ilha{position:absolute;top:10px;left:50%;width:86px;height:24px;margin-left:-43px;border-radius:14px;background:#000;z-index:6}
+.sb{height:44px;flex:none;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 6px;font-size:12px;font-weight:600}
+.sb .sb-i{display:flex;gap:4px;align-items:center}
+.sb .sb-i i{display:block;width:16px;height:8px;border:1.3px solid currentColor;border-radius:3px;opacity:.85}
+.pin{position:absolute;z-index:5;width:26px;height:26px;border-radius:50%;background:var(--bad);color:#fff;display:grid;place-items:center;font:700 12.5px var(--f-t);box-shadow:0 0 0 4px rgba(168,54,74,.25)}
+html.anim .pin{animation:pinpul 2.2s ease-in-out infinite}
+@keyframes pinpul{0%,100%{box-shadow:0 0 0 4px rgba(168,54,74,.25)}50%{box-shadow:0 0 0 9px rgba(168,54,74,.08)}}
+.pin.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(44,122,90,.25);animation:none!important}
+.pa{position:relative}
+.pin.r,.pin.l{top:50%;margin-top:-13px}
+.pin.r{right:-17px}.pin.l{left:-17px}
+.pin.in{position:static;flex:none}
+.a-campo:has(.pin.l){padding-left:17px}
+/* app genérico (antes) */
+.app-a{background:#FFFFFF;color:#2B2540}
+.app-a .sb{color:#2B2540}
+.a-top{padding:6px 18px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.a-top b{font-size:15px}
+.a-grad{background:linear-gradient(135deg,#7B3FE4,#C04BD8);color:#fff}
+.a-campo{margin:0 18px 7px;padding:7px 10px;border:1px solid #DCD6EA;border-radius:8px;color:#8A84A0;font-size:11.5px;display:flex;justify-content:space-between}
+.a-campo.ob{border-color:#E7A1B0}
+.a-btn{margin:8px 18px;min-height:40px;border-radius:10px;display:grid;place-items:center;background:#7B3FE4;color:#fff;font-weight:700;font-size:13px}
+.a-mini{margin:0 18px;font-size:10px;color:#9A94AE;text-align:center}
+.a-txt{padding:0 18px;color:#4A4460;font-size:12px}
+.a-txt p+p{margin-top:8px}
+.a-blur{margin:10px 18px;position:relative;border-radius:10px;overflow:hidden}
+.a-blur p{filter:blur(4px);font-size:12px;color:#4A4460;padding:8px}
+.a-blur>span:not(.pin){position:absolute;inset:0;display:grid;place-items:center;background:rgba(255,255,255,.35);font-weight:700;color:#7B3FE4;text-align:center;padding:10px}
+.a-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:0 12px}
+.a-col{border:1px solid #E1DCEE;border-radius:9px;padding:7px 5px;font-size:9.5px;color:#6A6484;text-align:center}
+.a-col b{display:block;font-size:11px;color:#2B2540}
+.a-col strong{display:block;font-size:13px;color:#7B3FE4;margin:4px 0}
+.a-col.dest{border-color:#7B3FE4;background:#F6F0FF}
+.a-col ul{list-style:none;margin:4px 0 0;padding:0;text-align:left}
+.a-col li{padding:1px 0;border-top:1px dashed #EEE}
+.a-abas{display:flex;gap:4px;padding:0 12px 8px}
+.a-abas>span:not(.pin){flex:1;text-align:center;font-size:10.5px;padding:6px 0;border-radius:8px;background:#F1EEF8;color:#6A6484;font-weight:600}
+.a-abas>span.on{background:#7B3FE4;color:#fff}
+/* app proposto (depois) */
+.app-d{background:radial-gradient(130% 70% at 80% 0%,#262C66 0%,#10163A 55%,#0B1029 100%);color:#F1EADB}
+.app-d .sb{color:#F1EADB}
+.d-pad{padding:6px 18px}
+.d-k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#E6CB8E;font-weight:600}
+.d-h{font:600 23px/1.12 var(--f-d);margin-top:6px;color:#FBF6EA}
+.d-campo{margin:10px 18px 0;padding:9px 12px;border:1px solid rgba(243,235,216,.18);border-radius:12px;background:rgba(243,235,216,.05)}
+.d-campo small{display:block;font-size:10px;color:#B8B2D0;letter-spacing:.04em}
+.d-campo b{display:block;font-size:14px;font-weight:600;margin-top:1px}
+.d-campo .sw{float:right;width:30px;height:18px;border-radius:9px;background:#D9B76E;position:relative;margin-top:2px}
+.d-campo .sw::after{content:"";position:absolute;right:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#0B1029}
+.d-btn{margin:12px 18px 0;min-height:42px;border-radius:var(--r-p);display:grid;place-items:center;background:linear-gradient(180deg,#E6CB8E,#CFA95C);color:#0B1029;font-weight:700;font-size:13px}
+.d-btn.s{background:transparent;border:1px solid rgba(243,235,216,.3);color:#F1EADB}
+.d-mini{margin:9px 18px 0;font-size:10.5px;color:#B8B2D0;text-align:center}
+.d-prog{display:flex;gap:5px;margin-top:10px}
+.d-prog i{flex:1;height:3px;border-radius:2px;background:rgba(243,235,216,.18)}
+.d-prog i.on{background:#D9B76E}
+.d-card{margin:8px 18px 0;padding:10px 12px;border-radius:14px;background:rgba(243,235,216,.06);border:1px solid rgba(243,235,216,.12)}
+.d-card b{display:block;font-size:12.5px;color:#E6CB8E}
+.d-card p{font-size:11.5px;color:#DDD6EA;margin-top:2px}
+.d-gancho{margin:10px 18px 0;padding:12px;border-radius:14px;background:linear-gradient(160deg,rgba(217,183,110,.22),rgba(179,164,242,.14));border:1px solid rgba(217,183,110,.45)}
+.d-gancho p{font-size:12px;color:#FBF6EA}
+.d-chips{display:flex;flex-direction:column;gap:6px;margin:10px 18px 0}
+.d-chips span{align-self:flex-start;font-size:11.5px;padding:7px 11px;border-radius:14px;border:1px solid rgba(217,183,110,.5);color:#F1DBA6}
+.d-qr{width:118px;height:118px;margin:12px auto 0;border-radius:10px;overflow:hidden}
+.d-preco{display:flex;justify-content:space-between;align-items:baseline;margin:10px 18px 0;padding:10px 12px;border-radius:12px;background:rgba(243,235,216,.06)}
+.d-preco b{font:600 20px var(--f-d);color:#FBF6EA}
+.d-rec{position:relative;margin:10px 18px 0;padding:12px;border-radius:14px;border:1.5px solid #D9B76E;background:rgba(217,183,110,.08)}
+.d-rec .sel{position:absolute;top:-9px;right:12px;font-size:9.5px;font-weight:700;letter-spacing:.06em;background:#D9B76E;color:#0B1029;padding:2px 8px;border-radius:8px}
+.d-rec b{font:600 18px var(--f-d)}
+.d-rec p{font-size:11px;color:#DDD6EA}
+.pay{margin:8px 18px 0;min-height:42px;border-radius:12px;display:grid;place-items:center;font-weight:700;font-size:13.5px}
+.pay.ap{background:#000;color:#fff;border:1px solid #444}
+.pay.gp{background:#fff;color:#1F1F1F}
+
+/* chat (tela-estrela) */
+.chat-g{display:grid;gap:32px;align-items:start}
+@media(min-width:960px){.chat-g{grid-template-columns:340px 1fr}}
+.fone-chat{width:min(320px,100%);aspect-ratio:320/650}
+.ch-top{display:flex;align-items:center;gap:9px;padding:4px 14px 10px;border-bottom:1px solid rgba(243,235,216,.1)}
+.ch-top .av{width:34px;height:34px;border-radius:50%;background:#0B1029;border:1px solid rgba(217,183,110,.6);display:grid;place-items:center;flex:none}
+.ch-top .av svg{width:24px;height:24px}
+.ch-top b{display:block;font-size:13.5px}
+.ch-top small{display:block;font-size:10.5px;color:#B8B2D0}
+.ch-top .pill{margin-left:auto;font-size:10px;font-weight:600;padding:4px 8px;border-radius:10px;background:rgba(217,183,110,.16);color:#F1DBA6;white-space:nowrap}
+.ch-msgs{flex:1;overflow-y:auto;padding:12px 12px 8px;display:flex;flex-direction:column;gap:8px;scrollbar-width:none;scroll-behavior:smooth}
+.ch-msgs::-webkit-scrollbar{display:none}
+.msg{max-width:86%;padding:9px 12px;border-radius:16px;font-size:12.5px;line-height:1.45}
+.msg.eu{align-self:flex-end;background:#D9B76E;color:#0B1029;border-bottom-right-radius:5px}
+.msg.ia{align-self:flex-start;background:rgba(243,235,216,.09);border:1px solid rgba(243,235,216,.1);border-bottom-left-radius:5px}
+.msg.ia em{font-style:normal;color:#E6CB8E;font-weight:600}
+.msg.sis{align-self:center;background:none;font-size:11px;color:#B8B2D0;padding:2px 8px}
+html.anim .msg:not(.vis){display:none}
+html.anim .msg.vis{animation:msgIn .38s var(--ease)}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+html[data-ad="antes"] .msg[data-modo="depois"],html[data-ad="depois"] .msg[data-modo="antes"]{display:none!important}
+.msg.cont{display:none}
+.msg.cont.vis{display:block!important}
+.mini-btn{display:block;margin-top:8px;min-height:38px;width:100%;border-radius:10px;border:0;background:#7B3FE4;color:#fff;font-weight:700;font-size:12px}
+.digita{display:none;align-self:flex-start;align-items:center;gap:4px;padding:10px 12px;border-radius:16px;background:rgba(243,235,216,.09);font-size:10.5px;color:#B8B2D0}
+.digita.on{display:inline-flex}
+.digita i{width:6px;height:6px;border-radius:50%;background:#E6CB8E;opacity:.4}
+html.anim .digita i{animation:pulo 1s ease-in-out infinite}
+html.anim .digita i:nth-child(2){animation-delay:.15s}html.anim .digita i:nth-child(3){animation-delay:.3s}
+@keyframes pulo{0%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+.digita span{margin-left:6px}
+.ch-in{display:flex;align-items:center;gap:8px;margin:6px 12px 14px;padding:0 6px 0 14px;min-height:42px;border-radius:var(--r-p);border:1px solid rgba(243,235,216,.18);color:#8F89AA;font-size:12px}
+.ch-in svg{margin-left:auto;width:30px;height:30px;padding:7px;border-radius:50%;background:#D9B76E;color:#0B1029}
+.oferta{align-self:stretch;max-width:100%;padding:13px;border-radius:16px;background:linear-gradient(160deg,rgba(217,183,110,.22),rgba(179,164,242,.12));border:1px solid rgba(217,183,110,.55);box-shadow:0 12px 28px -14px rgba(217,183,110,.6)}
+html.anim .oferta.vis{animation:oferta .55s var(--ease)}
+@keyframes oferta{0%{opacity:0;transform:translateY(26px) scale(.94)}70%{transform:translateY(-3px)}100%{opacity:1;transform:none}}
+.oferta .of-k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#E6CB8E;font-weight:700}
+.oferta .of-t{display:block;font:600 17px/1.2 var(--f-d);color:#FBF6EA;margin-top:4px}
+.oferta .of-s{font-size:11px;color:#DDD6EA;margin-top:3px}
+.oferta button{display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;border-radius:var(--r-p);font-weight:700;font-size:12.5px;margin-top:8px;border:0}
+.of-pix{background:linear-gradient(180deg,#E6CB8E,#CFA95C);color:#0B1029;position:relative}
+.of-pix.dica::after{content:"";position:absolute;inset:-4px;border-radius:var(--r-p);border:2px solid #E6CB8E;opacity:0}
+html.anim .of-pix.dica::after{animation:pisca 1.6s ease-out infinite}
+.of-sub{background:transparent;border:1px solid rgba(243,235,216,.32)!important;color:#F1EADB}
+.of-nao{background:none;color:#B8B2D0;font-weight:500!important;min-height:40px!important;margin-top:2px!important}
+.of-ok{display:none;align-items:center;gap:8px;margin-top:8px;padding:9px 12px;border-radius:12px;background:rgba(98,207,158,.14);color:#9BE3C1;font-weight:700;font-size:12.5px}
+.oferta.pago button{display:none}.oferta.pago .of-ok{display:flex}
+.oferta.pago .of-k{color:#9BE3C1}
+html.anim .oferta.pago .of-ok{animation:aparece .4s var(--ease)}
+.ov-precos{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .45s var(--ease)}
+.ov-precos.on{transform:none}
+.ov-precos:not(.on){visibility:hidden;transition:transform .45s var(--ease),visibility 0s .45s}
+.ov-precos.app-a .sb{color:#2B2540}
+.ovp-top{display:flex;align-items:center;gap:8px;padding:4px 12px 10px}
+.ovp-v{width:40px;height:40px;border-radius:50%;border:1px solid #E1DCEE;background:#fff;display:grid;place-items:center;color:#2B2540;font-size:18px}
+.ovp-n{margin:10px 14px 0;font-size:10.5px;color:#9A94AE;text-align:center}
+.ovp-frio{margin:10px 14px 0;padding:9px 10px;border-radius:10px;background:#FBEFF2;color:#A8364A;font-size:11px;font-weight:600;text-align:center}
+.pix-sh{position:absolute;left:0;right:0;bottom:0;z-index:5;background:#F7F3EA;color:#141A33;border-radius:24px 24px 0 0;padding:16px 16px 22px;transform:translateY(105%);transition:transform .4s var(--ease);text-align:center}
+.pix-sh.on{transform:none}
+.pix-sh b{display:block;font-size:14px}
+.pix-sh small{display:block;font-size:11px;color:#575D78;margin-top:3px}
+.pix-sh .d-qr{margin:10px auto}
+.pix-sh .sk{height:10px;width:60%;margin:10px auto 0}
+.pix-ok{display:none;flex-direction:column;align-items:center;gap:8px;padding:6px 0}
+.pix-sh.pago .pix-a{display:none}.pix-sh.pago .pix-ok{display:flex}
+.lado{display:grid;gap:22px}
+.curva-c{padding:18px 18px 14px}
+#curva{width:100%;height:auto}
+#curva .eixo{stroke:var(--line);stroke-width:1}
+#curva .grade{stroke:var(--line);stroke-width:1;stroke-dasharray:3 5}
+#curva .rot{font:500 11px var(--f-t);fill:var(--muted)}
+#curva .rot.f{font-weight:700}
+#curva .lin{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#curva .lin.a{stroke:var(--bad)}#curva .lin.d{stroke:var(--gold)}
+#curva .base{fill:none;stroke:var(--lil);stroke-width:3;stroke-linecap:round;opacity:.9}
+#curva .pico{fill:var(--gold)}
+#curva .mk{font:600 11.5px var(--f-t)}
+#curva .mk.a{fill:var(--bad)}#curva .mk.d{fill:var(--gold)}
+html.anim #curva .lin{stroke-dasharray:1;stroke-dashoffset:1;animation:traco 1.1s var(--ease) .15s forwards}
+.leit{padding:18px 20px;border-radius:var(--r-m);border-left:4px solid var(--bad);background:var(--bad-soft)}
+.leit.bom{border-left-color:var(--gold);background:var(--gold-soft)}
+.leit b{display:block;font:600 22px/1.2 var(--f-d);margin-bottom:6px}
+.leit p{font-size:15px}
+.regras{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:r}
+.regras li{counter-increment:r;display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line);font-size:15px}
+.regras li::before{content:counter(r);font:600 26px/1 var(--f-d);color:var(--gold);width:18px;flex:none}
+.regras li b{display:block}
+.regras li span{color:var(--muted);font-size:14px}
+
+/* preços */
+.esc-w{display:grid;gap:24px;align-items:start}
+@media(min-width:900px){.esc-w{grid-template-columns:1.15fr .85fr}}
+#escada{width:100%;height:auto}
+#escada .deg{transition:transform .3s var(--ease)}
+#escada .t1{font:600 21px var(--f-d);fill:var(--ink)}
+#escada .t2{font:500 12.5px var(--f-t);fill:var(--muted)}
+#escada .t3{font:700 14px var(--f-t);fill:var(--gold)}
+html.anim .rv #escada .deg{opacity:0;transform:translateY(24px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+html.anim .rv.in #escada .deg{opacity:1;transform:none}
+html.anim .rv.in #escada .deg:nth-of-type(2){transition-delay:.18s}
+html.anim .rv.in #escada .deg:nth-of-type(3){transition-delay:.36s}
+#escada .seta{fill:none;stroke:var(--gold);stroke-width:2;stroke-dasharray:5 5}
+html.anim #escada .seta{animation:formiga 1.2s linear infinite}
+@keyframes formiga{to{stroke-dashoffset:-10}}
+.moedas{display:grid;gap:12px}
+@media(min-width:760px){.moedas{grid-template-columns:repeat(3,1fr)}}
+.moeda{position:relative;padding:18px;border-radius:var(--r-m);background:var(--surface);border:1px dashed var(--bad)}
+.moeda h3{font-size:22px}
+.moeda ul{margin:10px 0 0;padding:0;list-style:none;font-size:14px;color:var(--muted)}
+.moeda li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--line)}
+.moeda li b{color:var(--ink);white-space:nowrap}
+.pergunta-q{margin-top:20px;padding:20px;border-radius:var(--r-m);background:var(--surface2)}
+.pergunta-q b{font:600 22px/1.2 var(--f-d)}
+.pergunta-q ul{margin:10px 0 0;padding-left:18px;color:var(--muted)}
+.tab-w{overflow-x:auto;border-radius:var(--r-m);border:1px solid var(--line);background:var(--surface)}
+table.tp{width:100%;border-collapse:collapse;min-width:620px;font-size:14.5px}
+.tp th,.tp td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line)}
+.tp thead th{font:600 19px var(--f-d);background:var(--surface2)}
+.tp thead th.rec{background:var(--gold-soft);color:var(--gold)}
+.tp td.rec{background:color-mix(in srgb,var(--gold-soft) 55%,transparent);font-weight:600}
+.tp tr:last-child td{border-bottom:0}
+.tp .ok{color:var(--ok);font-weight:700}
+.tp .no{color:var(--muted)}
+.ref{display:flex;gap:18px;align-items:flex-start}
+.tp-cards{display:none;gap:12px}
+/* escada no celular: degraus em HTML, legíveis (o SVG ficaria com letra de 6 px) */
+.esc-m{display:none;flex-direction:column;gap:10px}
+@media(max-width:640px){#escada{display:none}.esc-m{display:flex}}
+.esc-m .esc-k{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.dg{position:relative;padding:12px 14px;border-radius:14px;display:grid;gap:1px}
+.dg b{font:600 21px/1.1 var(--f-d)}
+.dg span{font-size:13px;color:var(--muted)}
+.dg em{font-style:normal;font-weight:700;font-size:14px;color:var(--gold);margin-top:3px}
+.dg.d3{margin-left:24%;background:var(--gold-soft);border:1.5px solid var(--gold)}
+.dg.d2{margin-left:12%;margin-right:12%;background:var(--lil-soft)}
+.dg.d1{margin-right:24%;background:var(--surface2)}
+.dg.d3::after,.dg.d2::after{content:"";position:absolute;left:-22px;bottom:-14px;width:18px;height:22px;border-left:2px dashed var(--gold);border-bottom:2px dashed var(--gold);border-bottom-left-radius:10px;transform:scaleY(-1)}
+html.anim .rv .dg{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+html.anim .rv.in .dg{opacity:1;transform:none}
+html.anim .rv.in .dg.d2{transition-delay:.15s}html.anim .rv.in .dg.d3{transition-delay:.3s}
+@media(max-width:640px){.tab-w{display:none}.tp-cards{display:grid}}
+.tpc{padding:18px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line)}
+.tpc.rec{border:1.5px solid var(--gold);background:color-mix(in srgb,var(--gold-soft) 60%,var(--surface));box-shadow:var(--shadow)}
+.tpc-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.tpc-h h3{font-size:24px;margin:0}
+.tpc-h b{font:600 16px var(--f-t);color:var(--gold)}
+.tpc ul{list-style:none;margin:10px 0 0;padding:0;font-size:14.5px}
+.tpc li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);color:var(--muted)}
+.tpc li b{color:var(--ink);font-weight:600;text-align:right}
+.tpc .tag{margin-bottom:10px}
+.ref .ic-c{margin:0;flex:none}
+
+/* mercados */
+.mk{display:inline-grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:var(--r-p);background:rgba(243,235,216,.08);border:1px solid rgba(243,235,216,.22)}
+.mk button{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 18px 0 8px;border-radius:var(--r-p);border:0;background:none;color:#C9C4DE;font-weight:600;transition:background .3s,color .3s}
+.mk button svg{width:34px;height:24px;border-radius:5px;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+.mk button[aria-pressed="true"]{background:#F3EBD8;color:#0B1029}
+.mk-g{display:grid;gap:26px;align-items:start}
+@media(min-width:960px){.mk-g{grid-template-columns:1fr 320px}}
+.mk-blocos{display:grid;gap:16px}
+@media(min-width:700px){.mk-blocos{grid-template-columns:1fr 1fr}}
+.mk-blocos .card h3{display:flex;align-items:center;gap:10px;font-size:22px}
+.mk-blocos .card h3 .ico{color:var(--gold)}
+.mk-blocos ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14.5px}
+.mk-blocos li+li{margin-top:5px}
+.mensagem{grid-column:1/-1;padding:26px;border-radius:var(--r-m);background:#0E1430;color:#F3EBD8;position:relative;overflow:hidden}
+.mensagem q{display:block;font:500 italic clamp(26px,3.4vw,36px)/1.2 var(--f-d);color:#FBF6EA;quotes:"“" "”"}
+.mensagem small{display:block;margin-top:10px;color:#C9C4DE;font-size:13.5px}
+.mensagem .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#E6CB8E;font-weight:600;margin-bottom:10px;display:block}
+.loc{display:flex;gap:12px;align-items:flex-start;margin-top:16px;padding:14px 16px;border-radius:var(--r-m);background:var(--lil-soft);color:var(--ink);font-size:14.5px}
+.loc .ico{color:var(--lil);margin-top:2px}
+
+/* prioridades */
+.pri-g{display:grid;gap:26px;align-items:start}
+@media(min-width:980px){.pri-g{grid-template-columns:400px 1fr}.pri-g .matriz-c{position:sticky;top:calc(var(--head) + 16px)}}
+#matriz{width:100%;height:auto}
+#matriz .q{fill:var(--surface2)}
+#matriz .q.ja{fill:var(--gold-soft)}
+#matriz .qt{font:600 12px var(--f-t);fill:var(--muted);letter-spacing:.05em}
+#matriz .qt.ja{fill:var(--gold)}
+#matriz .ax{font:500 11.5px var(--f-t);fill:var(--muted)}
+#matriz .pt{cursor:pointer}
+#matriz .pt circle.v{fill:#0E1430;stroke:var(--gold);stroke-width:2;transition:r .2s,fill .2s}
+#matriz .pt text{font:700 12.5px var(--f-t);fill:#F3EBD8;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+#matriz .pt .hit{fill:transparent}
+#matriz .pt:hover circle.v,#matriz .pt.on circle.v,#matriz .pt:focus-visible circle.v{fill:var(--gold);r:17}
+#matriz .pt.on text,#matriz .pt:hover text{fill:#0B1029}
+#matriz .pt:focus{outline:none}
+.acc{display:grid;gap:10px}
+.it{border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line);transition:border-color .3s,box-shadow .3s}
+.it.on{border-color:var(--gold);box-shadow:var(--shadow)}
+.it.flash{animation:flash 1s ease}
+@keyframes flash{0%{box-shadow:0 0 0 0 rgba(217,183,110,.7)}100%{box-shadow:0 0 0 14px rgba(217,183,110,0)}}
+.it>button{display:flex;gap:16px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:16px 18px;min-height:64px}
+.it .n{font:600 34px/1 var(--f-d);color:var(--gold);width:30px;flex:none}
+.it .tt{flex:1}
+.it .tt b{display:block;font-size:16px}
+.it .tt span{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.it .chev{transition:transform .3s var(--ease);color:var(--muted)}
+.it.on .chev{transform:rotate(180deg)}
+.it .corpo{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s var(--ease)}
+.it.on .corpo{grid-template-rows:1fr}
+.it .corpo>div{overflow:hidden}
+.it .corpo dl{margin:0;padding:0 18px 18px 64px;display:grid;gap:10px;font-size:14.5px}
+.it dt{font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.it dd{margin:2px 0 0;color:var(--muted)}
+@media(max-width:559px){.it .corpo dl{padding-left:18px}}
+
+/* entrega */
+.ent-g{display:grid;gap:28px;align-items:center}
+@media(min-width:900px){.ent-g{grid-template-columns:.9fr 1.1fr}}
+#doc{width:min(380px,100%);height:auto;margin:0 auto}
+#doc .pg{fill:var(--surface);stroke:var(--line);stroke-width:1.2}
+#doc .ln{stroke:var(--surface2);stroke-width:6;stroke-linecap:round}
+#doc .ln.o{stroke:var(--gold-soft)}
+#doc .tt{font:600 19px var(--f-d);fill:var(--ink)}
+#doc .tx{font:500 11px var(--f-t);fill:var(--muted)}
+#doc .nn{font:600 15px var(--f-d);fill:var(--gold)}
+html.anim .rv #doc .pg-b{transform:rotate(0) translate(0,0);transition:transform .8s var(--ease) .2s}
+html.anim .rv:not(.in) #doc .pg-b{transform:translate(30px,10px) rotate(0deg)}
+.linha-t{list-style:none;margin:0;padding:0;position:relative}
+.linha-t::before{content:"";position:absolute;left:19px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--gold),var(--lil))}
+.linha-t li{position:relative;display:flex;gap:16px;align-items:flex-start;padding:10px 0}
+.linha-t .d{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface);border:2px solid var(--gold);font:600 13px var(--f-t);color:var(--gold);z-index:1}
+.linha-t b{display:block;font-size:15.5px}
+.linha-t span{display:block;color:var(--muted);font-size:14.5px}
+.fim{text-align:center;padding:42px 20px;border-radius:var(--r-l)}
+.fim h2{max-width:20ch;margin:12px auto 0}
+.fim .ctas{justify-content:center}
+
+/* rodapé com selo */
+.foot-l{display:flex;flex-direction:column;gap:14px;max-width:560px}
+.foot-r{display:flex;align-items:center;gap:18px}
+.selo{width:112px;height:112px;flex:none;color:var(--gold)}
+.selo .gira{transform-origin:60px 60px}
+html.anim .selo .gira{animation:gira 36s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.selo text{font:600 9.6px var(--f-t);letter-spacing:.2em;fill:currentColor}
+.foot-r p{font-size:13.5px;max-width:34ch;margin:0}
+.mais-l{display:grid;gap:8px;margin-top:12px}
+.mais-l button{display:flex;align-items:center;gap:14px;min-height:52px;padding:0 16px;border-radius:var(--r-m);border:1px solid var(--line);background:var(--surface);text-align:left;font-weight:600}
+.mais-l button span{font:600 22px/1 var(--f-d);color:var(--gold);width:22px}
+.mais-l button[aria-current="page"]{border-color:var(--gold);background:var(--gold-soft)}
+.parte{font-size:12.5px;color:#C9C4DE;margin-top:16px}
+.parte b{color:#E6CB8E;font-weight:600}
+@media(max-width:559px){.tela>section.ceu{padding:40px 0 38px}.lead{font-size:16.5px}.ad{min-width:0;width:100%}.mk{width:100%}.mk button{justify-content:center;padding:0 12px 0 6px}}
+
+/* 15/10 r3: no desktop o toast fica no rodapé, fora do conteúdo */@media(min-width:1100px){.toast{bottom:24px!important;top:auto!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+<symbol id="ceu" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice">
+<circle class="es e0" cx="389" cy="63" r="0.7"/>
+<circle class="es e1" cx="87" cy="225" r="1.1"/>
+<circle class="es e2" cx="699" cy="382" r="0.9"/>
+<circle class="es e3" cx="45" cy="182" r="0.7"/>
+<circle class="es e0" cx="289" cy="231" r="0.7"/>
+<circle class="es e1" cx="992" cy="52" r="0.9"/>
+<circle class="es e2" cx="757" cy="245" r="0.7"/>
+<circle class="es e3" cx="693" cy="167" r="0.9"/>
+<circle class="es e0" cx="56" cy="361" r="1.1"/>
+<circle class="es e1" cx="503" cy="227" r="1.8"/>
+<circle class="es e2" cx="370" cy="343" r="0.9"/>
+<circle class="es e3" cx="124" cy="240" r="0.9"/>
+<circle class="es e0" cx="447" cy="230" r="0.7"/>
+<circle class="es e1" cx="677" cy="260" r="1.4"/>
+<circle class="es e2" cx="816" cy="180" r="1.1"/>
+<circle class="es e3" cx="559" cy="388" r="1.1"/>
+<circle class="es e0" cx="360" cy="334" r="0.9"/>
+<circle class="es e1" cx="98" cy="126" r="1.4"/>
+<circle class="es e2" cx="1050" cy="306" r="1.1"/>
+<circle class="es e3" cx="731" cy="31" r="1.8"/>
+<circle class="es e0" cx="502" cy="318" r="0.9"/>
+<circle class="es e1" cx="1120" cy="177" r="0.7"/>
+<circle class="es e2" cx="917" cy="241" r="1.1"/>
+<circle class="es e3" cx="408" cy="147" r="1.4"/>
+<circle class="es e0" cx="696" cy="192" r="0.7"/>
+<circle class="es e1" cx="1134" cy="199" r="0.7"/>
+<circle class="es e2" cx="73" cy="295" r="1.8"/>
+<circle class="es e3" cx="1192" cy="345" r="1.1"/>
+<circle class="es e0" cx="860" cy="373" r="1.1"/>
+<circle class="es e1" cx="27" cy="194" r="0.9"/>
+<circle class="es e2" cx="733" cy="207" r="0.9"/>
+<circle class="es e3" cx="922" cy="54" r="0.9"/>
+<circle class="es e0" cx="477" cy="385" r="1.4"/>
+<circle class="es e1" cx="97" cy="189" r="1.8"/>
+<circle class="es e2" cx="333" cy="58" r="1.4"/>
+<circle class="es e3" cx="1037" cy="117" r="1.4"/>
+<circle class="es e0" cx="1184" cy="287" r="1.4"/>
+<circle class="es e1" cx="1149" cy="63" r="0.9"/>
+<circle class="es e2" cx="182" cy="277" r="0.7"/>
+<circle class="es e3" cx="582" cy="247" r="1.1"/>
+<circle class="es e0" cx="338" cy="61" r="1.8"/>
+<circle class="es e1" cx="443" cy="238" r="0.9"/>
+<circle class="es e2" cx="829" cy="217" r="1.8"/>
+<circle class="es e3" cx="786" cy="311" r="1.4"/>
+<circle class="es e0" cx="1079" cy="328" r="1.8"/>
+<circle class="es e1" cx="471" cy="168" r="0.7"/>
+<circle class="es e2" cx="578" cy="168" r="0.9"/>
+<circle class="es e3" cx="81" cy="88" r="0.9"/>
+<circle class="es e0" cx="132" cy="252" r="0.7"/>
+<circle class="es e1" cx="0" cy="64" r="0.7"/>
+<circle class="es e2" cx="1139" cy="258" r="0.7"/>
+<circle class="es e3" cx="1049" cy="258" r="0.9"/>
+<circle class="es e0" cx="761" cy="401" r="1.8"/>
+<circle class="es e1" cx="437" cy="52" r="1.4"/>
+<circle class="es e2" cx="1192" cy="196" r="1.4"/>
+<circle class="es e3" cx="374" cy="61" r="1.1"/>
+<circle class="es e0" cx="888" cy="201" r="0.9"/>
+<circle class="es e1" cx="620" cy="86" r="1.8"/>
+<circle class="es e2" cx="434" cy="290" r="0.7"/>
+<circle class="es e3" cx="910" cy="125" r="0.7"/>
+<circle class="es e0" cx="835" cy="110" r="1.1"/>
+<circle class="es e1" cx="1090" cy="149" r="0.9"/>
+<circle class="es e2" cx="639" cy="327" r="1.1"/>
+<circle class="es e3" cx="764" cy="258" r="0.9"/>
+<circle class="es e0" cx="967" cy="344" r="0.9"/>
+<circle class="es e1" cx="240" cy="207" r="0.7"/>
+<circle class="es e2" cx="1188" cy="332" r="1.4"/>
+<circle class="es e3" cx="311" cy="291" r="1.1"/>
+<circle class="es e0" cx="537" cy="394" r="1.1"/>
+<circle class="es e1" cx="1146" cy="153" r="0.9"/>
+<circle class="es e2" cx="123" cy="197" r="1.1"/>
+<circle class="es e3" cx="245" cy="262" r="1.8"/>
+<circle class="es e0" cx="1009" cy="201" r="1.1"/>
+<circle class="es e1" cx="960" cy="36" r="0.7"/>
+<circle class="es e2" cx="1092" cy="329" r="0.9"/>
+<circle class="es e3" cx="574" cy="75" r="1.1"/>
+<circle class="es e0" cx="104" cy="397" r="1.4"/>
+<circle class="es e1" cx="556" cy="312" r="0.7"/>
+<circle class="es e2" cx="870" cy="71" r="0.9"/>
+<circle class="es e3" cx="33" cy="248" r="1.4"/>
+<circle class="es e0" cx="968" cy="61" r="1.8"/>
+<circle class="es e1" cx="1176" cy="276" r="1.1"/>
+<circle class="es e2" cx="187" cy="230" r="0.7"/>
+<circle class="es e3" cx="17" cy="408" r="0.7"/>
+<circle class="es e0" cx="632" cy="392" r="1.4"/>
+<circle class="es e1" cx="1184" cy="82" r="0.9"/>
+<circle class="es e2" cx="34" cy="89" r="1.8"/>
+<circle class="es e3" cx="289" cy="246" r="1.1"/>
+<circle class="es e0" cx="653" cy="350" r="0.7"/>
+<circle class="es e1" cx="1092" cy="149" r="1.4"/>
+<path class="cn" d="M880 60L930 92L990 84L1040 120L1010 170L950 160"/>
+<circle class="cs" cx="880" cy="60" r="2.2"/>
+<circle class="cs" cx="930" cy="92" r="2.2"/>
+<circle class="cs" cx="990" cy="84" r="2.2"/>
+<circle class="cs" cx="1040" cy="120" r="2.2"/>
+<circle class="cs" cx="1010" cy="170" r="2.2"/>
+<circle class="cs" cx="950" cy="160" r="2.2"/>
+<path class="cn" d="M120 300L170 260L230 280L260 330"/>
+<circle class="cs" cx="120" cy="300" r="2.2"/>
+<circle class="cs" cx="170" cy="260" r="2.2"/>
+<circle class="cs" cx="230" cy="280" r="2.2"/>
+<circle class="cs" cx="260" cy="330" r="2.2"/>
+<path class="cn" d="M560 40L610 70L660 50"/>
+<circle class="cs" cx="560" cy="40" r="2.2"/>
+<circle class="cs" cx="610" cy="70" r="2.2"/>
+<circle class="cs" cx="660" cy="50" r="2.2"/>
+</symbol>
+<symbol id="qr" viewBox="-2 -2 29 29"><rect x="-2" y="-2" width="29" height="29" rx="2" fill="#fff"/><path fill="#0E1430" d="M0 0h7v1h-7zM8 0h3v1h-3zM12 0h2v1h-2zM16 0h1v1h-1zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM16 1h1v1h-1zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM16 2h1v1h-1zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h2v1h-2zM13 3h3v1h-3zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM16 4h1v1h-1zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM11 5h1v1h-1zM14 5h2v1h-2zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h3v1h-3zM12 6h1v1h-1zM15 6h2v1h-2zM18 6h7v1h-7zM8 7h3v1h-3zM12 7h5v1h-5zM3 8h1v1h-1zM5 8h4v1h-4zM10 8h1v1h-1zM12 8h2v1h-2zM18 8h2v1h-2zM24 8h1v1h-1zM3 9h1v1h-1zM5 9h2v1h-2zM9 9h2v1h-2zM12 9h1v1h-1zM15 9h1v1h-1zM19 9h1v1h-1zM21 9h2v1h-2zM24 9h1v1h-1zM0 10h1v1h-1zM2 10h2v1h-2zM6 10h3v1h-3zM12 10h2v1h-2zM19 10h1v1h-1zM21 10h1v1h-1zM24 10h1v1h-1zM0 11h2v1h-2zM3 11h1v1h-1zM6 11h1v1h-1zM8 11h1v1h-1zM12 11h4v1h-4zM18 11h1v1h-1zM21 11h3v1h-3zM4 12h3v1h-3zM11 12h3v1h-3zM16 12h1v1h-1zM18 12h1v1h-1zM24 12h1v1h-1zM1 13h1v1h-1zM6 13h1v1h-1zM8 13h1v1h-1zM11 13h1v1h-1zM13 13h2v1h-2zM16 13h4v1h-4zM22 13h1v1h-1zM24 13h1v1h-1zM3 14h1v1h-1zM5 14h1v1h-1zM7 14h3v1h-3zM11 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM18 14h1v1h-1zM24 14h1v1h-1zM0 15h1v1h-1zM2 15h2v1h-2zM6 15h7v1h-7zM17 15h1v1h-1zM19 15h3v1h-3zM24 15h1v1h-1zM0 16h3v1h-3zM5 16h2v1h-2zM9 16h1v1h-1zM13 16h5v1h-5zM19 16h2v1h-2zM22 16h1v1h-1zM10 17h2v1h-2zM13 17h1v1h-1zM0 18h7v1h-7zM9 18h5v1h-5zM15 18h2v1h-2zM19 18h2v1h-2zM22 18h3v1h-3zM0 19h1v1h-1zM6 19h1v1h-1zM11 19h1v1h-1zM15 19h5v1h-5zM21 19h4v1h-4zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM8 20h4v1h-4zM13 20h1v1h-1zM16 20h3v1h-3zM21 20h1v1h-1zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM8 21h1v1h-1zM11 21h1v1h-1zM14 21h1v1h-1zM17 21h3v1h-3zM22 21h1v1h-1zM24 21h1v1h-1zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM9 22h3v1h-3zM13 22h1v1h-1zM16 22h1v1h-1zM21 22h1v1h-1zM24 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h1v1h-1zM10 23h2v1h-2zM13 23h2v1h-2zM16 23h2v1h-2zM19 23h1v1h-1zM22 23h2v1h-2zM0 24h7v1h-7zM8 24h2v1h-2zM11 24h1v1h-1zM13 24h1v1h-1zM15 24h1v1h-1zM17 24h1v1h-1zM19 24h5v1h-5z"/></symbol>
+<symbol id="i-seta" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-volta" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></symbol>
+<symbol id="i-mapa" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3.5v5M12 15.5v5M3.5 12h5M15.5 12h5"/></symbol>
+<symbol id="i-rota" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/></symbol>
+<symbol id="i-escada" viewBox="0 0 24 24"><path d="M4 19h5v-5h5V9h6"/><path d="M17 6l3 3-3 3"/></symbol>
+<symbol id="i-globo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.6 3.6 5.4 3.6 8.5s-1 5.9-3.6 8.5c-2.6-2.6-3.6-5.4-3.6-8.5S9.4 6.1 12 3.5z"/></symbol>
+<symbol id="i-lista" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><path d="M4 6.5l1 1 2-2M4 12l1 1 2-2M4 17.5l1 1 2-2"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 12h6M9 15.5h6"/></symbol>
+<symbol id="i-cadeado" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+<symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+<symbol id="i-video" viewBox="0 0 24 24"><rect x="3.5" y="6.5" width="12" height="11" rx="2.5"/><path d="M15.5 10.5l5-3v9l-5-3"/></symbol>
+<symbol id="i-alerta" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-estrela" viewBox="0 0 24 24"><path d="M12 3.5l2.2 6.3 6.3 2.2-6.3 2.2L12 20.5l-2.2-6.3L3.5 12l6.3-2.2z"/></symbol>
+<symbol id="i-moedas" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="5.5" ry="2.5"/><path d="M3.5 7v4c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5V7"/><path d="M9.5 16.5c.6 1.2 2.9 2 5.5 2 3 0 5.5-1.1 5.5-2.5v-4c0-1.2-1.7-2.2-4.2-2.4"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12.5" rx="2.5"/><path d="M3 10h18M7 15h4"/></symbol>
+<symbol id="i-mega" viewBox="0 0 24 24"><path d="M4 10v4h3l7 4.5v-13L7 10z"/><path d="M17.5 9a4 4 0 0 1 0 6"/></symbol>
+<symbol id="i-alvo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/></symbol>
+<symbol id="i-mais" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18.5" cy="12" r="1.3"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3.5l7 3v5.5c0 4.2-3 7.4-7 8.5-4-1.1-7-4.3-7-8.5V6.5z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-lua" viewBox="0 0 24 24"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/></symbol>
+<symbol id="b-br" viewBox="0 0 34 24"><rect width="34" height="24" fill="#1F8A4C"/><path d="M17 3.2L31 12 17 20.8 3 12z" fill="#F2C94C"/><circle cx="17" cy="12" r="5.6" fill="#1E3A8A"/><path d="M11.6 11.2c3.4-1 7.6-.6 10.8 1.4" stroke="#fff" stroke-width="1.1" fill="none"/></symbol>
+<symbol id="b-us" viewBox="0 0 34 24"><rect width="34" height="24" fill="#F5F1E8"/><path d="M0 0h34v2.6H0zM0 5.3h34v2.6H0zM0 10.6h34v2.6H0zM0 15.9h34v2.6H0zM0 21.2h34V24H0z" fill="#B23B3B"/><rect width="15" height="13" fill="#24366B"/><g fill="#fff"><circle cx="3.5" cy="3" r=".9"/><circle cx="7.5" cy="3" r=".9"/><circle cx="11.5" cy="3" r=".9"/><circle cx="5.5" cy="6.5" r=".9"/><circle cx="9.5" cy="6.5" r=".9"/><circle cx="3.5" cy="10" r=".9"/><circle cx="7.5" cy="10" r=".9"/><circle cx="11.5" cy="10" r=".9"/></g></symbol>
+<symbol id="marca" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12.5" fill="none" stroke="#D9B76E" stroke-width="1.4"/><g stroke="#D9B76E" stroke-width="1.1" stroke-linecap="round"><path d="M16 1.8v2.6M16 27.6v2.6M1.8 16h2.6M27.6 16h2.6M6 6l1.8 1.8M24.2 24.2L26 26M6 26l1.8-1.8M24.2 7.8L26 6"/></g><path d="M9 20.5l4.2-3.6 3.2 1.8 6.2-7.2" fill="none" stroke="#B3A4F2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22.6" cy="11.5" r="2.2" fill="#E6CB8E"/></symbol>
+</defs>
+</svg>
+<!-- KIT:faixa-html -->
+<div class="byline">Exemplo de Vinicius Candido · <a href="/trabalhos/">mais trabalhos</a> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">portfólio</a> · <a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20parecer%20C%C3%A9u%20Interior%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp</a></div>
+<!-- /KIT:faixa-html -->
+<!-- KIT:whatsapp-html -->
+<a class="dev" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20parecer%20C%C3%A9u%20Interior%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius, autor deste parecer de exemplo, pelo WhatsApp"><span class="wa-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg></span><span><b>Falar com o Vinicius</b><small>quem fez este parecer de exemplo</small></span></a>
+<!-- /KIT:whatsapp-html -->
+<!-- KIT:cabecalho -->
+<header class="top" role="banner"><div class="wrap">
+  <a class="logo" href="#resumo" data-tela="resumo" aria-label="Céu Interior, parecer de produto, início"><svg aria-hidden="true"><use href="#marca"/></svg><span><b>Céu Interior</b><small>parecer de produto</small></span></a>
+  <nav class="nav" aria-label="Principal"><a href="#resumo" data-tela="resumo">Resumo</a><a href="#arquitetura" data-tela="arquitetura">Arquitetura</a><a href="#jornada" data-tela="jornada">Jornada</a><a href="#chat" data-tela="chat">Venda no chat</a><a href="#mercados" data-tela="mercados">Brasil × EUA</a><a href="#precos" data-tela="precos">Preços</a><a href="#prioridades" data-tela="prioridades">Prioridades</a><a href="#entrega" data-tela="entrega">Entrega</a></nav>
+  <button class="tbtn" id="tema" type="button" aria-label="Alternar tema claro e escuro"><svg class="ico" aria-hidden="true"><use href="#i-lua"/></svg></button>
+</div></header>
+<!-- /KIT:cabecalho -->
+
+<main id="view">
+<!-- KIT:telas -->
+
+<!-- ============ 1. RESUMO ============ -->
+<div class="tela on" data-tela="resumo" data-titulo="Resumo do parecer">
+  <section class="ceu hero">
+    <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+    <div class="wrap hero-g">
+      <div>
+        <p class="eyebrow">Parecer de produto e UX · exemplo</p>
+        <h1 id="t-resumo">Antes de divulgar, a compra precisa estar <em>fácil</em>.</h1>
+        <p class="lead">Um exemplo de parecer de produto e UX feito sobre uma plataforma de astrologia fictícia, supondo cálculo próprio, com astrólogo de IA. O objetivo é mostrar onde a experiência de compra trava e como ela pode ficar mais clara, coesa e fácil de concluir.</p>
+        <div class="lentes" aria-label="Lentes do parecer"><span>Produto</span><span>Negócio</span><span>Marketing</span><span>IA conversacional</span></div>
+        <div class="ctas">
+          <button class="btn ouro" type="button" data-tela="chat">Ver onde a venda acontece<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button>
+          <button class="btn vid" type="button" data-tela="prioridades">Ir para a lista priorizada</button>
+        </div>
+        <p class="ex-nota"><svg class="ico" aria-hidden="true"><use href="#i-cadeado"/></svg><span>Exemplo com produto fictício, a Céu Interior (Inner Sky nos EUA). Plataforma, pessoas e valores são inventados.</span></p>
+      </div>
+      <figure class="roda-w rv">
+        <svg class="roda" viewBox="-6 -6 412 412" role="img" aria-label="Mapa astral de exemplo se desenhando, com Saturno destacado na casa 7">
+<circle class="fundo-r" cx="200" cy="200" r="190"/>
+<circle class="tr r1" style="--d:0.0s" pathLength="1" cx="200" cy="200" r="188"/>
+<circle class="tr r2" style="--d:0.15s" pathLength="1" cx="200" cy="200" r="168"/>
+<circle class="tr r2" style="--d:0.3s" pathLength="1" cx="200" cy="200" r="128"/>
+<circle class="tr r3" style="--d:0.45s" pathLength="1" cx="200" cy="200" r="62"/>
+<path class="tq" d="M211.71 32.41L212.27 24.43M197.06 32.03L196.99 28.03M182.43 32.92L181.60 24.96M167.94 35.09L167.17 31.16M153.69 38.51L151.48 30.82M139.79 43.16L138.35 39.43M126.35 49.01L122.84 41.82M113.47 56.00L111.41 52.57M101.25 64.09L96.54 57.62M89.78 73.21L87.15 70.19M79.15 83.30L73.39 77.75M69.43 94.28L66.33 91.76M60.72 106.06L54.09 101.59M53.06 118.56L49.56 116.62M46.52 131.67L39.21 128.42M41.15 145.31L37.37 144.01M36.99 159.36L29.23 157.43M34.07 173.73L30.12 173.10M32.41 188.29L24.43 187.73M32.03 202.94L28.03 203.01M32.92 217.57L24.96 218.40M35.09 232.06L31.16 232.83M38.51 246.31L30.82 248.52M43.16 260.21L39.43 261.65M49.01 273.65L41.82 277.16M56.00 286.53L52.57 288.59M64.09 298.75L57.62 303.46M73.21 310.22L70.19 312.85M83.30 320.85L77.75 326.61M94.28 330.57L91.76 333.67M106.06 339.28L101.59 345.91M118.56 346.94L116.62 350.44M131.67 353.48L128.42 360.79M145.31 358.85L144.01 362.63M159.36 363.01L157.43 370.77M173.73 365.93L173.10 369.88M188.29 367.59L187.73 375.57M202.94 367.97L203.01 371.97M217.57 367.08L218.40 375.04M232.06 364.91L232.83 368.84M246.31 361.49L248.52 369.18M260.21 356.84L261.65 360.57M273.65 350.99L277.16 358.18M286.53 344.00L288.59 347.43M298.75 335.91L303.46 342.38M310.22 326.79L312.85 329.81M320.85 316.70L326.61 322.25M330.57 305.72L333.67 308.24M339.28 293.94L345.91 298.41M346.94 281.44L350.44 283.38M353.48 268.33L360.79 271.58M358.85 254.69L362.63 255.99M363.01 240.64L370.77 242.57M365.93 226.27L369.88 226.90M367.59 211.71L375.57 212.27M367.97 197.06L371.97 196.99M367.08 182.43L375.04 181.60M364.91 167.94L368.84 167.17M361.49 153.69L369.18 151.48M356.84 139.79L360.57 138.35M350.99 126.35L358.18 122.84M344.00 113.47L347.43 111.41M335.91 101.25L342.38 96.54M326.79 89.78L329.81 87.15M316.70 79.15L322.25 73.39M305.72 69.43L308.24 66.33M293.94 60.72L298.41 54.09M281.44 53.06L283.38 49.56M268.33 46.52L271.58 39.21M254.69 41.15L255.99 37.37M240.64 36.99L242.57 29.23M226.27 34.07L226.90 30.12"/>
+<path class="tr r2" style="--d:0.55s" pathLength="1" d="M211.71 32.41L213.11 12.46M126.35 49.01L117.58 31.03M60.72 106.06L44.14 94.88M32.41 188.29L12.46 186.89M49.01 273.65L31.03 282.42M106.06 339.28L94.88 355.86M188.29 367.59L186.89 387.54M273.65 350.99L282.42 368.97M339.28 293.94L355.86 305.12M367.59 211.71L387.54 213.11M350.99 126.35L368.97 117.58M293.94 60.72L305.12 44.14"/>
+<path class="sg" style="--k:0" d="M166.03 22.17L169.43 28.37L162.63 28.37Z"/>
+<rect class="sg" style="--k:1" x="80.42" y="62.87" width="5.6" height="5.6" rx="1"/>
+<circle class="sg" style="--k:2" cx="31.70" cy="142.06" r="3"/>
+<path class="sg" style="--k:3" d="M19.87 233.97q1.8 -3 3.6 0t3.6 0"/>
+<path class="sg" style="--k:4" d="M65.67 313.68L69.07 319.88L62.27 319.88Z"/>
+<rect class="sg" style="--k:5" x="139.26" y="365.50" width="5.6" height="5.6" rx="1"/>
+<circle class="sg" style="--k:6" cx="233.97" cy="374.73" r="3"/>
+<path class="sg" style="--k:7" d="M311.38 334.33q1.8 -3 3.6 0t3.6 0"/>
+<path class="sg" style="--k:8" d="M368.30 254.84L371.70 261.04L364.90 261.04Z"/>
+<rect class="sg" style="--k:9" x="371.93" y="163.23" width="5.6" height="5.6" rx="1"/>
+<circle class="sg" style="--k:10" cx="334.33" cy="83.22" r="3"/>
+<path class="sg" style="--k:11" d="M252.54 31.70q1.8 -3 3.6 0t3.6 0"/>
+<path class="tr r3" style="--d:0.9s" pathLength="1" d="M148.46 234.46L93.59 271.14M178.75 258.24L156.12 320.24M241.46 246.10L285.60 295.17M256.83 224.78L317.33 251.16M251.54 165.54L306.41 128.86M221.25 141.76L243.88 79.76M158.54 153.90L114.40 104.83M143.17 175.22L82.67 148.84"/>
+<path class="tr eixo" style="--d:1.0s" pathLength="1" d="M2.00 200.00L398.00 200.00"/>
+<path class="tr eixo" style="--d:1.1s" pathLength="1" d="M246.54 392.45L153.46 7.55"/>
+<text class="hn" x="108.14" y="231.38" style="--k:0">1</text>
+<text class="hn" x="140.71" y="279.00" style="--k:1">2</text>
+<text class="hn" x="194.60" y="299.35" style="--k:2">3</text>
+<text class="hn" x="244.75" y="288.43" style="--k:3">4</text>
+<text class="hn" x="277.87" y="259.65" style="--k:4">5</text>
+<text class="hn" x="293.98" y="223.10" style="--k:5">6</text>
+<text class="hn" x="291.86" y="175.62" style="--k:6">7</text>
+<text class="hn" x="259.29" y="128.00" style="--k:7">8</text>
+<text class="hn" x="205.40" y="107.65" style="--k:8">9</text>
+<text class="hn" x="155.25" y="118.57" style="--k:9">10</text>
+<text class="hn" x="122.13" y="147.35" style="--k:10">11</text>
+<text class="hn" x="106.02" y="183.90" style="--k:11">12</text>
+<text class="ax" x="2" y="194">ASC</text>
+<text class="ax" x="159.46" y="17.55">MC</text>
+<path class="tr asp ouro" style="--d:2.70s" pathLength="1" d="M261.86 195.80L138.36 206.66"/>
+<path class="tr asp ouro" style="--d:2.82s" pathLength="1" d="M261.86 195.80L208.69 261.39"/>
+<path class="tr asp" style="--d:2.94s" pathLength="1" d="M260.65 187.11L211.65 260.90"/>
+<path class="tr asp" style="--d:3.06s" pathLength="1" d="M211.65 260.90L138.36 206.66"/>
+<path class="tr asp" style="--d:3.18s" pathLength="1" d="M260.65 187.11L239.79 247.55"/>
+<path class="tr asp" style="--d:3.30s" pathLength="1" d="M208.69 261.39L138.36 206.66"/>
+<path class="tr asp" style="--d:3.42s" pathLength="1" d="M192.66 261.56L261.95 202.52"/>
+<g class="pl" style="--d:1.60s"><title>Sol</title><circle class="p-ouro" cx="227.81" cy="345.36" r="7"/><circle class="p-pt" cx="227.81" cy="345.36" r="1.8"/></g>
+<g class="pl" style="--d:1.71s"><title>Lua</title><path class="p-lil" d="M346.72 162.32a6.5 6.5 0 1 0 0 13a5 5 0 1 1 0 -13z"/></g>
+<g class="pl" style="--d:1.82s"><title>Mercúrio</title><circle class="p-mar cheio" cx="182.49" cy="346.96" r="3.2"/></g>
+<g class="pl" style="--d:1.93s"><title>Vênus</title><circle class="p-lil cheio" cx="321.83" cy="284.03" r="4.4"/></g>
+<g class="pl" style="--d:2.04s"><title>Marte</title><circle class="p-mar cheio" cx="218.93" cy="333.67" r="4"/></g>
+<g class="pl" style="--d:2.15s"><title>Júpiter</title><circle class="p-lil cheio" cx="52.86" cy="215.90" r="5.2"/></g>
+<g class="pl sat" style="--d:2.26s"><title>Saturno</title><circle class="halo" cx="349.65" cy="189.83" r="11"/><circle class="p-ouro" cx="349.65" cy="189.83" r="5.4"/><ellipse class="p-anel" cx="349.65" cy="189.83" rx="10" ry="3.2" transform="rotate(-18 349.65 189.83)"/></g>
+<g class="pl" style="--d:2.37s"><title>Urano</title><circle class="p-lil cheio" cx="338.89" cy="205.64" r="3.4"/></g>
+<g class="pl" style="--d:2.48s"><title>Netuno</title><circle class="p-lil cheio" cx="332.34" cy="186.82" r="3.4"/></g>
+<g class="pl" style="--d:2.59s"><title>Plutão</title><circle class="p-mar cheio" cx="294.99" cy="313.50" r="3"/></g>
+        </svg>
+        <figcaption><i aria-hidden="true"></i><span>Saturno na casa 7, no mapa da usuária de exemplo. É nesse ponto da conversa que a leitura grátis termina e a vontade de pagar está no máximo.<small>Mapa calculado de verdade: Marina, 8/10/1989, 00h15, Curitiba. Swiss Ephemeris, casas Placidus. Saturno a 7°53′ de Capricórnio.</small></span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="snap">
+    <div class="wrap">
+      <div class="sec-t">
+        <div><p class="eyebrow">Nota da jornada</p><h2>Do primeiro acesso à compra, em uma nota.</h2></div>
+        <span class="estimativa"><svg class="ico" aria-hidden="true" style="width:15px;height:15px"><use href="#i-alerta"/></svg>Estimativa ilustrativa</span>
+      </div>
+      <div class="g2">
+        <div class="card notas rv">
+          <div class="gauge">
+            <div class="gauge-w"><svg viewBox="0 0 132 132" aria-hidden="true"><circle class="fundo" cx="66" cy="66" r="52"/><circle class="arc a" cx="66" cy="66" r="52" style="--off:150.3"/></svg><span class="v"><span><span data-conta="5.4" data-dec="1">5,4</span><small>/10</small></span></span></div>
+            <b>Antes</b><span class="muted small">compra espalhada, três moedas</span>
+          </div>
+          <div class="gauge">
+            <div class="gauge-w"><svg viewBox="0 0 132 132" aria-hidden="true"><circle class="fundo" cx="66" cy="66" r="52"/><circle class="arc d" cx="66" cy="66" r="52" style="--off:45.7"/></svg><span class="v"><span><span data-conta="8.6" data-dec="1">8,6</span><small>/10</small></span></span></div>
+            <b>Depois</b><span class="muted small">compra no momento certo</span>
+          </div>
+        </div>
+        <div class="card rv" style="--i:1">
+          <p class="num-g">COMO A NOTA É FEITA</p>
+          <h3 class="mt">Cinco critérios, peso igual</h3>
+          <div class="mt" style="display:grid;gap:12px">
+            <div><div class="small" style="display:flex;justify-content:space-between"><span>Clareza do que se compra</span><b>4 → 9</b></div><div class="barra-g" style="--w:90%"><i></i></div></div>
+            <div><div class="small" style="display:flex;justify-content:space-between"><span>Passos até pagar</span><b>5 → 9</b></div><div class="barra-g" style="--w:90%"><i></i></div></div>
+            <div><div class="small" style="display:flex;justify-content:space-between"><span>Contexto na hora da oferta</span><b>3 → 9</b></div><div class="barra-g" style="--w:90%"><i></i></div></div>
+            <div><div class="small" style="display:flex;justify-content:space-between"><span>Pagamento por mercado</span><b>6 → 8</b></div><div class="barra-g" style="--w:80%"><i></i></div></div>
+            <div><div class="small" style="display:flex;justify-content:space-between"><span>Liberdade antes da primeira oferta</span><b>9 → 8</b></div><div class="barra-g" style="--w:80%"><i></i></div></div>
+          </div>
+          <p class="small mt">A liberdade cai um ponto de propósito: no depois, a oferta aparece mais cedo, dentro da conversa. O ganho vem do lugar em que ela aparece.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="snap">
+    <div class="wrap">
+      <div class="sec-t"><div><p class="eyebrow">Os três achados principais</p><h2>O produto está pronto. A&nbsp;vitrine ainda não.</h2></div></div>
+      <div class="g3 carr">
+        <article class="card h rv"><div class="ic-c"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></div><p class="num-g">ACHADO 1</p><h3>A venda está no lugar errado</h3><p>A vontade de pagar chega ao pico dentro do chat, quando a leitura para num ponto de curiosidade. A compra está numa página de preços com três colunas, longe dali.</p></article>
+        <article class="card h rv" style="--i:1"><div class="ic-c lil"><svg class="ico" aria-hidden="true"><use href="#i-moedas"/></svg></div><p class="num-g">ACHADO 2</p><h3>Três moedas para uma decisão</h3><p>Créditos, assinatura e leitura avulsa disputam a mesma pessoa. Ela não sabe quanto custa uma pergunta, então adia.</p></article>
+        <article class="card h rv" style="--i:2"><div class="ic-c"><svg class="ico" aria-hidden="true"><use href="#i-globo"/></svg></div><p class="num-g">ACHADO 3</p><h3>Um checkout para dois países</h3><p>O Brasil compra com Pix e parcelado. Os EUA compram com Apple Pay, teste grátis e cancelamento visível. Um formulário só perde os dois.</p></article>
+      </div>
+      <p class="dica-carr"><svg class="ico" aria-hidden="true" style="width:16px;height:16px"><use href="#i-seta"/></svg>Deslize para ver os três</p>
+    </div>
+  </section>
+
+  <section class="snap">
+    <div class="wrap">
+      <div class="sec-t">
+        <div><p class="eyebrow">Funil do primeiro acesso à compra</p><h2>Onde se perde gente, a cada 10 mil visitas.</h2></div>
+        <div class="ad-w"><div class="ad claro" role="group" aria-label="Comparar antes e depois"><button type="button" data-v="antes" aria-pressed="true">Antes</button><button type="button" data-v="depois" aria-pressed="false">Depois</button><i aria-hidden="true"></i></div><span class="estimativa">Números de exemplo · estimativa ilustrativa</span></div>
+      </div>
+      <div class="card">
+        <div class="fun">
+          <div class="fl rv" style="--wa:100%;--wd:100%"><span class="fl-n">Primeiro acesso</span><span class="fl-b"><i></i></span><span class="fl-v">10.000</span></div>
+          <p class="perda so-antes"><svg class="ico" aria-hidden="true"><use href="#i-alerta"/></svg>69% saem no cadastro: oito campos antes de ver o mapa</p>
+          <p class="perda bom so-depois"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Data e cidade primeiro, conta só para salvar o mapa</p>
+          <div class="fl rv" style="--i:1;--wa:31%;--wd:43%"><span class="fl-n">Cadastro concluído</span><span class="fl-b"><i></i></span><span class="fl-v"><span class="so-antes">3.100</span><span class="so-depois">4.300</span></span></div>
+          <div class="fl rv" style="--i:2;--wa:23%;--wd:36%"><span class="fl-n">Leu a leitura grátis</span><span class="fl-b"><i></i></span><span class="fl-v"><span class="so-antes">2.300</span><span class="so-depois">3.600</span></span></div>
+          <div class="fl rv" style="--i:3;--wa:12%;--wd:27%"><span class="fl-n">Abriu o chat</span><span class="fl-b"><i></i></span><span class="fl-v"><span class="so-antes">1.200</span><span class="so-depois">2.700</span></span></div>
+          <p class="perda so-antes"><svg class="ico" aria-hidden="true"><use href="#i-alerta"/></svg>62% somem entre o chat e a página de preços: o contexto fica para trás</p>
+          <p class="perda bom so-depois"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>A oferta aparece dentro da conversa, no ponto de curiosidade</p>
+          <div class="fl rv" style="--i:4;--wa:4.5%;--wd:21%"><span class="fl-n"><span class="so-antes">Chegou aos preços</span><span class="so-depois">Viu a oferta no chat</span></span><span class="fl-b"><i></i></span><span class="fl-v"><span class="so-antes">450</span><span class="so-depois">2.100</span></span></div>
+          <div class="fl rv" style="--i:5;--wa:1.4%;--wd:4.2%"><span class="fl-n">Pagou</span><span class="fl-b"><i></i></span><span class="fl-v"><span class="so-antes">140</span><span class="so-depois">420</span></span></div>
+        </div>
+        <div class="conv">
+          <div class="so-antes"><b>1,4%</b><p class="muted small">das visitas viram compra</p></div>
+          <div class="so-depois"><b>4,2%</b><p class="muted small">das visitas viram compra, com o mesmo produto</p></div>
+          <p class="muted small" style="max-width:46ch">Em um projeto real, estes números saem dos eventos da plataforma. Se ainda não houver medição, a primeira recomendação é ligá-la antes de divulgar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="snap">
+    <div class="wrap">
+      <div class="sec-t"><div><p class="eyebrow">O que você pediu, onde está</p><h2>As seis entregas do parecer, uma por tela.</h2></div></div>
+      <div class="entregas">
+        <button class="ent rv" type="button" data-tela="arquitetura"><span class="n">1</span><span><b>Análise da arquitetura do produto</b><small>Produtos, navegação, hierarquia das ofertas e jornada</small></span><svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button>
+        <button class="ent rv" type="button" data-tela="jornada" style="--i:1"><span class="n">2</span><span><b>UX/UI dos fluxos principais</b><small>Cadastro, leitura grátis, chat, preços e checkout</small></span><svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button>
+        <button class="ent rv" type="button" data-tela="mercados" style="--i:2"><span class="n">3</span><span><b>Posicionamento Brasil e EUA</b><small>O que destacar e como divulgar em cada mercado</small></span><svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button>
+        <button class="ent rv" type="button" data-tela="precos" style="--i:3"><span class="n">4</span><span><b>Leitura crítica de preços e oferta</b><small>Escada de ofertas, âncora e o que confunde hoje</small></span><svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button>
+        <button class="ent rv" type="button" data-tela="prioridades" style="--i:4"><span class="n">5</span><span><b>Lista priorizada de melhorias</b><small>O que muda primeiro e por quê</small></span><svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button>
+        <button class="ent rv" type="button" data-tela="entrega" style="--i:5"><span class="n">6</span><span><b>Reunião de 60 minutos</b><small>Apresentação do parecer e confidencialidade</small></span><svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button>
+      </div>
+      <nav class="prox" aria-label="Próxima parte"><span class="muted small">Parte 1 de 8</span><button class="btn" type="button" data-tela="arquitetura">Próxima: Arquitetura<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button></nav>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 2. ARQUITETURA ============ -->
+<div class="tela" data-tela="arquitetura" data-titulo="Arquitetura do produto">
+  <section class="ceu">
+    <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+    <div class="wrap cab">
+      <div><p class="eyebrow">Entrega 1 · Arquitetura do produto</p><h1 id="t-arq">Treze portas para entrar. Nenhuma diz onde comprar.</h1><p class="lead">Como os produtos se organizam e se conectam. No antes, cada produto nasceu com a sua própria entrada no menu. No depois, tudo parte do mapa da pessoa e a compra tem um lugar só.</p><p class="parte">Parte <b>2</b> de 8</p></div>
+      <div class="ad-w"><div class="ad" role="group" aria-label="Comparar antes e depois"><button type="button" data-v="antes" aria-pressed="true">Antes</button><button type="button" data-v="depois" aria-pressed="false" class="pisca">Depois</button><i aria-hidden="true"></i></div><small>Toque em Depois e veja as linhas se reorganizarem</small></div>
+    </div>
+  </section>
+  <section class="snap">
+    <div class="wrap arq-w">
+      <div class="card arq-c">
+        <svg id="arq" viewBox="0 0 760 410" role="img" aria-label="Mapa de produtos e navegação da plataforma de exemplo, antes emaranhado e depois em hierarquia"></svg>
+        <div class="leg"><span class="so-antes"><i style="background:var(--bad);opacity:.6"></i>ligações soltas entre produtos</span><span class="so-depois"><i style="background:var(--lil)"></i>navegação</span><span class="so-depois"><i style="background:var(--gold)"></i>caminho da compra</span></div>
+      </div>
+      <div>
+        <div class="stats so-antes">
+          <div class="stat"><b>13</b><span>entradas no menu, todas no mesmo nível</span></div>
+          <div class="stat"><b>4</b><span>lugares que vendem: Loja, Créditos, Planos e Relatórios</span></div>
+          <div class="stat"><b>5</b><span>toques do chat até o pagamento</span></div>
+          <div class="stat"><b>0</b><span>ligações entre a leitura e a oferta</span></div>
+        </div>
+        <div class="stats so-depois">
+          <div class="stat"><b>4</b><span>entradas: Seu mapa, Entender, Conversar e Acompanhar</span></div>
+          <div class="stat"><b>1</b><span>lugar de compra (Plano) e a oferta dentro da conversa</span></div>
+          <div class="stat"><b>1</b><span>toque do chat até o pagamento</span></div>
+          <div class="stat"><b>3</b><span>pilares que respondem "o que eu faço aqui?"</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="snap">
+    <div class="wrap">
+      <div class="sec-t"><div><p class="eyebrow">Hierarquia das ofertas</p><h2>Três verbos organizam o produto inteiro.</h2></div><p class="muted">A pessoa não pensa em "relatório" ou "trânsito". Ela quer entender, conversar e acompanhar. O menu fala a língua dela.</p></div>
+      <div class="g3 carr">
+        <article class="card h rv"><div class="ic-c"><svg class="ico" aria-hidden="true"><use href="#i-mapa"/></svg></div><h3>Entender</h3><p>Mapa astral, sinastria e leituras avulsas. É onde nasce a primeira leitura grátis e a primeira compra pequena.</p></article>
+        <article class="card h rv" style="--i:1"><div class="ic-c lil"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></div><h3>Conversar</h3><p>O astrólogo de IA que já conhece o mapa. Aqui a vontade de pagar chega ao pico, então aqui mora a oferta contextual.</p></article>
+        <article class="card h rv" style="--i:2"><div class="ic-c"><svg class="ico" aria-hidden="true"><use href="#i-lua"/></svg></div><h3>Acompanhar</h3><p>Horóscopo do dia e trânsitos. É o motivo para voltar toda semana e o que sustenta a assinatura.</p></article>
+      </div>
+      <nav class="prox" aria-label="Navegação entre partes"><button class="btn ant" type="button" data-tela="resumo"><svg class="ico" aria-hidden="true"><use href="#i-volta"/></svg>Resumo</button><button class="btn" type="button" data-tela="jornada">Próxima: Jornada e fluxos<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button></nav>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 3. JORNADA ============ -->
+<div class="tela" data-tela="jornada" data-titulo="Jornada e fluxos">
+  <section class="ceu">
+    <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+    <div class="wrap cab">
+      <div><p class="eyebrow">Entrega 2 · UX/UI dos fluxos principais</p><h1 id="t-jor">Cinco telas entre a curiosidade e o pagamento.</h1><p class="lead">Cadastro, leitura grátis, chat, preços e checkout, cada um com os problemas marcados no antes e a proposta no depois. Os números vermelhos no celular apontam o que trava.</p><p class="parte">Parte <b>3</b> de 8</p></div>
+      <div class="ad-w"><div class="ad" role="group" aria-label="Comparar antes e depois"><button type="button" data-v="antes" aria-pressed="true">Antes</button><button type="button" data-v="depois" aria-pressed="false">Depois</button><i aria-hidden="true"></i></div><small>Vale para os cinco fluxos</small></div>
+    </div>
+  </section>
+  <section class="snap">
+    <div class="wrap">
+      <div class="abas" role="tablist" aria-label="Fluxos">
+        <button type="button" role="tab" id="ab-cad" aria-controls="fx-cad" aria-selected="true"><span class="n">1</span>Cadastro</button>
+        <button type="button" role="tab" id="ab-lei" aria-controls="fx-lei" aria-selected="false" tabindex="-1"><span class="n">2</span>Leitura grátis</button>
+        <button type="button" role="tab" id="ab-cha" aria-controls="fx-cha" aria-selected="false" tabindex="-1"><span class="n">3</span>Chat</button>
+        <button type="button" role="tab" id="ab-pre" aria-controls="fx-pre" aria-selected="false" tabindex="-1"><span class="n">4</span>Preços</button>
+        <button type="button" role="tab" id="ab-che" aria-controls="fx-che" aria-selected="false" tabindex="-1"><span class="n">5</span>Checkout</button>
+      </div>
+
+      <!-- cadastro -->
+      <div class="fluxo on" id="fx-cad" role="tabpanel" aria-labelledby="ab-cad">
+        <div>
+          <div class="fone so-antes"><div class="tela-f app-a"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="a-top"><b>Crie sua conta</b><span style="font-size:10px;color:#9A94AE">1 de 3</span></div>
+            <div class="a-campo pa"><span>Nome completo</span><span class="pin r">1</span></div>
+            <div class="a-campo"><span>E-mail</span></div>
+            <div class="a-campo pa"><span>Senha</span><span class="pin r">3</span></div>
+            <div class="a-campo"><span>Confirmar senha</span></div>
+            <div class="a-campo pa"><span>Data de nascimento</span><span>__/__/____</span><span class="pin l">4</span></div>
+            <div class="a-campo ob pa"><span>Hora de nascimento *</span><span>obrigatório</span><span class="pin l">2</span></div>
+            <div class="a-campo"><span>Cidade de nascimento</span></div>
+            <div class="a-campo"><span>Gênero</span><span>▾</span></div>
+            <div class="a-btn">Criar conta e continuar</div>
+            <p class="a-mini">ou entre com Google</p>
+                      </div></div>
+          <div class="fone so-depois"><div class="tela-f app-d"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="d-pad"><div class="d-prog"><i class="on"></i><i></i></div><p class="d-k" style="margin-top:14px">Seu mapa em 1 minuto</p><p class="d-h">Quando e onde você nasceu?</p></div>
+            <div class="d-campo pa"><small>DATA</small><b>8 de outubro de 1989</b><span class="pin ok r">✓</span></div>
+            <div class="d-campo"><small>CIDADE</small><b>Curitiba, PR, Brasil</b></div>
+            <div class="d-campo pa"><small>HORA <span style="opacity:.7">(opcional)</span></small><b>00:15 <span class="sw" aria-hidden="true"></span></b><span class="pin ok l">✓</span></div>
+            <p class="d-mini" style="text-align:left">Não sabe a hora? Usamos 12:00 e mostramos o que muda no seu mapa.</p>
+            <div class="d-btn">Ver meu mapa</div>
+            <p class="d-mini">Você salva o mapa depois, com Google ou Apple.</p>
+                      </div></div>
+        </div>
+        <div class="achados-l">
+          <div class="so-antes" style="display:grid;gap:12px">
+            <p class="ach-t">O que trava no cadastro</p>
+            <div class="ach"><span class="pn">1</span><div><b>Oito campos antes de qualquer valor</b><p>A pessoa ainda não viu nada do próprio mapa e já está preenchendo um formulário de banco.</p></div></div>
+            <div class="ach"><span class="pn">2</span><div><b>Hora de nascimento obrigatória</b><p>Muita gente não sabe a hora. Quem não sabe, abandona aqui ou inventa, e o mapa sai errado.</p></div></div>
+            <div class="ach"><span class="pn">3</span><div><b>Senha antes do valor</b><p>O login com Google ficou no rodapé, depois do botão principal.</p></div></div>
+            <div class="ach"><span class="pn">4</span><div><b>Data sem formato por país</b><p>Nos EUA, 04/10 é 10 de abril. Num produto de cálculo próprio, isso gera um mapa errado sem ninguém perceber.</p></div></div>
+          </div>
+          <div class="so-depois" style="display:grid;gap:12px">
+            <p class="ach-t">O que muda</p>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Três campos, e o mapa aparece</b><p>Conta só na hora de salvar, com Google ou Apple. O valor vem antes do compromisso.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Hora opcional, com honestidade</b><p>Sem a hora, usamos 12:00 e mostramos o que fica impreciso (ascendente e casas). Ninguém trava.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Data por extenso</b><p>"8 de outubro de 1989" no Brasil e "October 8, 1989" nos EUA. Some a ambiguidade do dia e do mês: 08/10 nos EUA seria 10 de agosto.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- leitura grátis -->
+      <div class="fluxo" id="fx-lei" role="tabpanel" aria-labelledby="ab-lei" hidden>
+        <div>
+          <div class="fone so-antes"><div class="tela-f app-a"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="a-top"><b>Sua leitura</b></div>
+            <div class="a-txt pa" style="padding-right:36px"><span class="pin" style="right:6px;top:0">1</span><p><b>Sol em Libra.</b> Librianos são pessoas equilibradas, diplomáticas e que valorizam a harmonia. Gostam de beleza e de relações justas.</p><p>Por serem regidos por Vênus, tendem a ser charmosos e sociáveis, mas podem ter dificuldade para tomar decisões.</p><p>No amor, buscam parceria e companheirismo. No trabalho, se destacam em funções que exigem</p></div>
+            <div class="a-blur pa" style="overflow:visible"><span class="pin l">2</span><p style="overflow:hidden;border-radius:10px">mediação e senso estético. A sua Lua em Capricórnio indica que, nas relações, você tende a assumir responsabilidades que não são suas e</p><span>Desbloqueie a leitura completa<br>Assine o Premium</span></div>
+            <div class="a-btn pa">Ver planos Premium<span class="pin r">3</span></div>
+          </div></div>
+          <div class="fone so-depois"><div class="tela-f app-d"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="d-pad"><p class="d-k">Leitura de boas-vindas</p><p class="d-h">Marina, seu mapa em três pontos</p></div>
+            <div class="d-card pa"><b>Sol em Libra, casa 3</b><p>Você decide melhor quando conversa. Pensar em voz alta é o seu método.</p><span class="pin ok r">✓</span></div>
+            <div class="d-card"><b>Lua em Capricórnio, casa 7</b><p>Nas relações, cuida de tudo antes de pedir ajuda, e cansa sem avisar ninguém.</p></div>
+            <div class="d-card"><b>Ascendente em Câncer</b><p>Acolhe primeiro, se mostra depois.</p></div>
+            <div class="d-gancho pa"><span class="pin ok l">✓</span><p>Tem um padrão nos seus relacionamentos que aparece com clareza no seu mapa. Quer conversar sobre ele?</p></div>
+            <div class="d-btn">Perguntar ao astrólogo</div>
+            <p class="d-mini">3 perguntas grátis</p>
+          </div></div>
+        </div>
+        <div class="achados-l">
+          <div class="so-antes" style="display:grid;gap:12px">
+            <p class="ach-t">O que trava na leitura grátis</p>
+            <div class="ach"><span class="pn">1</span><div><b>Texto de signo, não de mapa</b><p>Serve para qualquer pessoa de Libra. O cálculo próprio, que é o diferencial, não aparece.</p></div></div>
+            <div class="ach"><span class="pn">2</span><div><b>Bloqueio no meio da frase</b><p>O corte cai justo na parte pessoal e sem dizer o que vem depois. Parece truque, não curiosidade.</p></div></div>
+            <div class="ach"><span class="pn">3</span><div><b>Manda para o plano mais caro</b><p>O próximo passo natural é conversar sobre a leitura. O botão empurra para o Premium.</p></div></div>
+          </div>
+          <div class="so-depois" style="display:grid;gap:12px">
+            <p class="ach-t">O que muda</p>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Leitura com nome, casa e consequência</b><p>Três pontos curtos que só valem para ela. A precisão do cálculo vira prova.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Nada bloqueado na primeira leitura</b><p>A confiança vem antes da cobrança. O gancho é uma pergunta aberta, não um borrão.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>O próximo passo é o chat</b><p>A leitura termina convidando para a conversa, onde a venda vai acontecer com contexto.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- chat -->
+      <div class="fluxo" id="fx-cha" role="tabpanel" aria-labelledby="ab-cha" hidden>
+        <div>
+          <div class="fone so-antes"><div class="tela-f app-a"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="a-top a-grad" style="padding-top:10px"><b>Astrólogo IA</b><span class="pa" style="font-size:11px;background:rgba(255,255,255,.2);padding:3px 8px;border-radius:8px">Créditos: 24<span class="pin" style="left:-34px;top:50%;margin-top:-13px">2</span></span></div>
+            <div style="flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+              <div style="align-self:flex-start;background:#F1EEF8;padding:9px 12px;border-radius:14px;max-width:80%">Olá! Como posso ajudar?</div>
+              <div class="pa" style="margin:auto;text-align:center;color:#B5B0C6;font-size:11px">Nenhuma mensagem ainda<span class="pin" style="right:-36px;top:50%;margin-top:-13px">1</span></div>
+            </div>
+            <p class="a-mini pa">Cada mensagem consome 8 créditos<span class="pin l" style="left:-4px">3</span></p>
+            <div class="a-campo" style="margin:8px 14px 18px;min-height:40px;align-items:center"><span>Digite sua pergunta…</span></div>
+                      </div></div>
+          <div class="fone so-depois"><div class="tela-f app-d"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="ch-top"><span class="av"><svg aria-hidden="true"><use href="#marca"/></svg></span><div><b>Seu astrólogo</b><small>já leu o seu mapa</small></div><span class="pill pa" style="padding:4px 17px 4px 6px;font-size:9.5px">3 perguntas grátis<span class="pin ok" style="right:-11px;top:50%;margin-top:-13px">✓</span></span></div>
+            <div style="flex:1;padding:12px;display:flex;flex-direction:column;gap:8px">
+              <div class="msg ia vis pa" style="display:block">Oi, Marina. Já li o seu mapa. Vi uma Lua em Capricórnio na casa 7, bem forte. Por onde quer começar?<span class="pin ok" style="right:-36px;top:50%;margin-top:-13px">✓</span></div>
+              <div class="d-chips" style="margin:4px 0 0"><span>Por que repito o mesmo padrão no amor?</span><span>O que o meu mapa diz sobre trabalho?</span><span>Como vai ser o meu próximo mês?</span></div>
+            </div>
+            <div class="ch-in"><span>Escreva sua pergunta</span><svg aria-hidden="true" class="ico"><use href="#i-seta"/></svg></div>
+                      </div></div>
+        </div>
+        <div class="achados-l">
+          <div class="so-antes" style="display:grid;gap:12px">
+            <p class="ach-t">O que trava no chat</p>
+            <div class="ach"><span class="pn">1</span><div><b>Tela vazia</b><p>"Como posso ajudar?" joga o trabalho para a pessoa. Quem não sabe o que perguntar, fecha.</p></div></div>
+            <div class="ach"><span class="pn">2</span><div><b>"24 créditos" não diz nada</b><p>Ninguém sabe se dá para três perguntas ou trinta. A dúvida vira economia: ela pergunta menos.</p></div></div>
+            <div class="ach"><span class="pn">3</span><div><b>Custo por mensagem dá medo</b><p>"Cada mensagem consome 8 créditos" faz a pessoa medir as palavras, que é o oposto de uma boa conversa.</p></div></div>
+          </div>
+          <div class="so-depois" style="display:grid;gap:12px">
+            <p class="ach-t">O que muda</p>
+            <div class="ach ok"><span class="pn">✓</span><div><b>O astrólogo abre a conversa</b><p>Já sabe o mapa dela e começa por um ponto concreto. A IA mostra o cálculo próprio trabalhando.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Sugestões tiram o medo da tela vazia</b><p>Três perguntas prontas, escolhidas pelo mapa. A primeira mensagem sai em um toque.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Perguntas, não créditos</b><p>"3 perguntas grátis" se entende sem tabela. A moeda interna some da tela.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- preços -->
+      <div class="fluxo" id="fx-pre" role="tabpanel" aria-labelledby="ab-pre" hidden>
+        <div>
+          <div class="fone so-antes"><div class="tela-f app-a"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="a-top"><b>Escolha seu plano</b><span class="pin in">3</span></div>
+            <div class="a-abas pa" style="padding-right:44px"><span class="on">Planos</span><span>Créditos</span><span>Relatórios</span><span class="pin" style="right:10px;top:50%;margin-top:-17px">1</span></div>
+            <div class="a-cols">
+              <div class="a-col"><b>Básico</b><strong>R$ 19,90</strong>/mês<ul><li>30 créditos</li><li>Horóscopo</li><li>1 relatório</li></ul></div>
+              <div class="a-col dest"><b>Plus</b><strong>R$ 34,90</strong>/mês<ul><li>80 créditos</li><li>Horóscopo</li><li>3 relatórios</li><li>Sinastria*</li></ul></div>
+              <div class="a-col"><b>Premium</b><strong>R$ 59,90</strong>/mês<ul><li>200 créditos</li><li>Tudo do Plus</li><li>Relatórios*</li><li>Prioridade</li></ul></div>
+            </div>
+            <p class="a-mini pa" style="margin-top:8px;padding:0 6px 0 20px">*Sujeito a créditos adicionais. Créditos não acumulam.<span class="pin l" style="left:-12px">2</span></p>
+            <div class="a-btn">Assinar</div>
+          </div></div>
+          <div class="fone so-depois"><div class="tela-f app-d"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="d-pad pa"><span class="pin ok" style="right:16px;top:8px">✓</span><p class="d-k">Continue de onde parou</p><p class="d-h">Saturno na casa 7</p><p style="font-size:11.5px;color:#DDD6EA;margin-top:4px">A conversa sobre o padrão nos seus relacionamentos.</p></div>
+            <div class="d-rec"><span class="pin ok l" style="left:-19px">✓</span><span class="sel">RECOMENDADO</span><b>Assinatura</b><p>Todas as leituras, 60 perguntas por mês, previsões diárias</p><p style="margin-top:6px;font-size:13px;color:#FBF6EA"><b style="font-size:16px">R$ 29,90</b>/mês · ou R$ 239/ano</p></div>
+            <div class="d-preco"><span>Só esta leitura</span><b>R$ 14,90</b></div>
+            <div class="d-btn">Continuar com a assinatura</div>
+            <div class="d-btn s">Só esta leitura</div>
+            <p class="d-mini" style="text-decoration:underline">Comparar tudo</p>
+          </div></div>
+        </div>
+        <div class="achados-l">
+          <div class="so-antes" style="display:grid;gap:12px">
+            <p class="ach-t">O que trava nos preços</p>
+            <div class="ach"><span class="pn">1</span><div><b>Três abas, três moedas</b><p>Planos em reais, créditos em pacotes e relatórios avulsos. A pessoa precisa fazer conta para escolher.</p></div></div>
+            <div class="ach"><span class="pn">2</span><div><b>Planos parecidos demais</b><p>A diferença entre Plus e Premium está no asterisco. Quando a escolha é difícil, a decisão é adiar.</p></div></div>
+            <div class="ach"><span class="pn">3</span><div><b>A tela não lembra o que ela estava lendo</b><p>Chegou aqui vinda de uma conversa sobre Saturno. A página fala de créditos.</p></div></div>
+          </div>
+          <div class="so-depois" style="display:grid;gap:12px">
+            <p class="ach-t">O que muda</p>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Abre com o contexto</b><p>"Continue de onde parou" e o assunto da conversa no topo. A compra continua a leitura.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Um recomendado, uma alternativa</b><p>Assinatura em destaque e a leitura avulsa como saída honesta. A comparação completa existe, mas não é a porta de entrada.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Comparar tudo fica um toque abaixo</b><p>Quem quer a tabela completa encontra no rodapé, sem ela ser a porta de entrada. A escada inteira está em <button class="btn g" type="button" data-tela="precos" style="min-height:44px;padding:0 14px;font-size:14px;display:inline-flex;margin-top:6px">Preços e oferta</button></p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- checkout -->
+      <div class="fluxo" id="fx-che" role="tabpanel" aria-labelledby="ab-che" hidden>
+        <div>
+          <div class="fone so-antes"><div class="tela-f app-a"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="a-top"><b>Pagamento</b><span style="font-size:10px;color:#9A94AE">etapa 2 de 3</span></div>
+            <div class="a-campo pa"><span>Número do cartão</span><span class="pin r">2</span></div>
+            <div style="display:flex;gap:0"><div class="a-campo" style="flex:1;margin-right:4px"><span>Validade</span></div><div class="a-campo" style="flex:1;margin-left:4px"><span>CVV</span></div></div>
+            <div class="a-campo"><span>Nome impresso</span></div>
+            <div class="a-campo pa"><span>CPF</span><span class="pin r">3</span></div>
+            <div class="a-campo"><span>CEP</span></div>
+            <div class="a-campo pa"><span>Endereço</span><span class="pin r">1</span></div>
+            <div class="a-campo"><span>Número</span><span>Complemento</span></div>
+            <div class="a-btn">Continuar</div>
+            <p class="a-mini">Plano Plus · R$ 34,90/mês</p>
+                      </div></div>
+          <div class="fone so-depois"><div class="tela-f app-d"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+            <div class="d-pad"><p class="d-k">Leitura · Saturno na casa 7</p><p class="d-h nm">R$ 14,90</p></div>
+            <svg class="d-qr" aria-label="QR code Pix de exemplo" role="img"><use href="#qr"/></svg>
+            <div class="d-btn pa">Copiar código Pix<span class="pin ok r">✓</span></div>
+            <p class="d-mini">Aprovado na hora. A leitura continua sozinha.</p>
+            <div class="d-btn s">Pagar com cartão</div>
+            <p class="d-mini pa">Sem endereço. Sem cadastro novo.<span class="pin ok r">✓</span></p>
+          </div></div>
+        </div>
+        <div class="achados-l">
+          <div class="so-antes" style="display:grid;gap:12px">
+            <p class="ach-t">O que trava no checkout</p>
+            <div class="ach"><span class="pn">1</span><div><b>Três etapas e endereço</b><p>Produto digital não precisa de CEP nem de complemento. Cada campo é uma chance de desistir.</p></div></div>
+            <div class="ach"><span class="pn">2</span><div><b>Só cartão no Brasil</b><p>Sem Pix, quem não quer usar o cartão com um serviço novo fica de fora.</p></div></div>
+            <div class="ach"><span class="pn">3</span><div><b>O mesmo formulário para os EUA</b><p>Lá a expectativa é Apple Pay ou Google Pay, teste grátis e cancelamento claro.</p></div></div>
+          </div>
+          <div class="so-depois" style="display:grid;gap:12px">
+            <p class="ach-t">O que muda</p>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Uma tela</b><p>O preço, o que se leva e o botão. Nada de endereço para um produto digital.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Pix primeiro no Brasil</b><p>QR e "copia e cola", aprovado na hora. A leitura continua sozinha quando o pagamento cai.</p></div></div>
+            <div class="ach ok"><span class="pn">✓</span><div><b>Checkout próprio para os EUA</b><p>Troque entre os dois em <button class="btn g" type="button" data-tela="mercados" style="min-height:44px;padding:0 14px;font-size:14px;display:inline-flex;margin-top:6px">Brasil × EUA</button></p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="prox" aria-label="Navegação entre partes" style="margin-top:36px"><button class="btn ant" type="button" data-tela="arquitetura"><svg class="ico" aria-hidden="true"><use href="#i-volta"/></svg>Arquitetura</button><button class="btn" type="button" data-tela="chat">Próxima: A venda no chat<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button></nav>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 4. A VENDA NO CHAT (tela-estrela) ============ -->
+<div class="tela" data-tela="chat" data-titulo="A venda no chat">
+  <section class="ceu">
+    <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+    <div class="wrap cab">
+      <div><p class="eyebrow">O detalhe que muda tudo</p><h1 id="t-chat">Com astrólogo de IA, a venda acontece dentro do chat.</h1><p class="lead">Não na tela de preços. O pico de vontade de pagar é o instante em que a leitura grátis termina num ponto de curiosidade. Mandar a pessoa para uma página de três colunas nesse instante é esfriar quem estava pronta.</p><p class="parte">Parte <b>4</b> de 8 · tela principal do parecer</p></div>
+      <div class="ad-w"><div class="ad" role="group" aria-label="Comparar antes e depois"><button type="button" data-v="antes" aria-pressed="true">Antes</button><button type="button" data-v="depois" aria-pressed="false" class="pisca">Depois</button><i aria-hidden="true"></i></div><small>A conversa recomeça a cada troca</small></div>
+    </div>
+  </section>
+  <section class="snap">
+    <div class="wrap chat-g">
+      <div>
+        <div class="fone fone-chat"><div class="tela-f app-d" id="fchat"><span class="ilha"></span><div class="sb"><span>21:14</span><span class="sb-i"><i></i></span></div>
+          <div class="ch-top"><span class="av"><svg aria-hidden="true"><use href="#marca"/></svg></span><div><b>Seu astrólogo</b><small>leu o mapa da Marina</small></div><span class="pill" id="pill">Créditos: 8</span></div>
+          <div class="ch-msgs" id="chm" aria-live="polite">
+            <div class="msg eu">Por que eu sempre acabo em relações em que eu cuido de tudo sozinha?</div>
+            <div class="msg ia">Olhei o seu mapa, Marina. A sua <em>Lua em Capricórnio</em> fala de alguém que aprendeu cedo a dar conta de tudo, e isso aparece no jeito de amar também.</div>
+            <div class="msg ia">Mas tem um ponto que explica o padrão nos seus relacionamentos, e é aqui que fica interessante: o seu <em>Saturno está na casa 7</em>…</div>
+            <div class="msg ia">Quer que eu continue?</div>
+            <div class="msg sis" data-modo="antes">Seus créditos acabaram.</div>
+            <div class="msg ia" data-modo="antes">Para continuar, escolha um plano.<button class="mini-btn" type="button" id="ver-planos">Ver planos</button></div>
+            <div class="msg oferta" data-modo="depois">
+              <p class="of-k">Continuar esta leitura</p>
+              <b class="of-t">Saturno na casa 7: o padrão nos seus relacionamentos</b>
+              <p class="of-s">Leitura completa e mais 10 perguntas sobre ela</p>
+              <button class="of-pix" type="button" id="pagar">Continuar com Pix · R$ 14,90</button>
+              <button class="of-sub" type="button" id="assinar">Ou assine e libere tudo · R$ 29,90/mês</button>
+              <button class="of-nao" type="button" id="agora-nao">Agora não, me manda um resumo</button>
+              <p class="of-ok"><svg class="ico" aria-hidden="true" style="width:16px;height:16px"><use href="#i-check"/></svg>Leitura liberada · 10 perguntas</p>
+            </div>
+            <div class="msg ia cont" data-modo="depois">…então: o seu Saturno na casa 7 mostra que, para você, relação é compromisso sério desde cedo. Você escolhe quem parece seguro e acaba virando o lugar seguro da relação. Quer ver o que mudou desde o seu retorno de Saturno, em 2018?</div>
+            <div class="digita" id="digita" aria-hidden="true"><i></i><i></i><i></i><span>digitando…</span></div>
+          </div>
+          <div class="ch-in"><span>Escreva sua pergunta</span><svg aria-hidden="true" class="ico"><use href="#i-seta"/></svg></div>
+
+          <div class="ov-precos app-a" id="ovp" aria-hidden="true"><span class="ilha"></span><div class="sb"><span>21:15</span><span class="sb-i"><i></i></span></div>
+            <div class="ovp-top"><button class="ovp-v" type="button" id="ovp-voltar" aria-label="Voltar ao chat" tabindex="-1">‹</button><b style="font-size:15px">Escolha seu plano</b></div>
+            <div class="a-abas"><span class="on">Planos</span><span>Créditos</span><span>Relatórios</span></div>
+            <div class="a-cols">
+              <div class="a-col"><b>Básico</b><strong>R$ 19,90</strong>/mês<ul><li>30 créditos</li><li>Horóscopo</li></ul></div>
+              <div class="a-col dest"><b>Plus</b><strong>R$ 34,90</strong>/mês<ul><li>80 créditos</li><li>3 relatórios</li></ul></div>
+              <div class="a-col"><b>Premium</b><strong>R$ 59,90</strong>/mês<ul><li>200 créditos</li><li>Tudo do Plus</li></ul></div>
+            </div>
+            <p class="ovp-n">Pacotes de créditos a partir de R$ 19,90</p>
+            <p class="ovp-frio">Onde estava o Saturno na casa 7?</p>
+          </div>
+
+          <div class="pix-sh" id="pixsh" aria-live="polite">
+            <div class="pix-a"><b>Pix · R$ 14,90</b><small>Leitura: Saturno na casa 7</small><svg class="d-qr" aria-hidden="true"><use href="#qr"/></svg><small>Aguardando o pagamento…</small><span class="sk"></span></div>
+            <div class="pix-ok"><span id="pix-selo"></span><b>Pagamento confirmado</b><small>A leitura continua de onde parou</small></div>
+          </div>
+        </div></div>
+        <div style="display:flex;justify-content:center;margin-top:16px"><button class="btn g" type="button" id="repetir"><svg class="ico" aria-hidden="true"><use href="#i-rota"/></svg>Repetir a conversa</button></div>
+      </div>
+
+      <div class="lado">
+        <div class="card curva-c">
+          <p class="num-g">VONTADE DE PAGAR AO LONGO DA CONVERSA</p>
+          <svg id="curva" viewBox="0 0 540 250" role="img" aria-label="Curva de vontade de pagar: sobe até o ponto de curiosidade; no antes cai na página de preços, no depois a compra acontece no pico">
+            <line class="eixo" x1="30" y1="210" x2="520" y2="210"/>
+            <line class="grade" x1="30" y1="50" x2="520" y2="50"/>
+            <line class="grade" x1="30" y1="130" x2="520" y2="130"/>
+            <path class="base" d="M30 196C80 186 120 168 160 140S250 66 300 52"/>
+            <g class="so-antes"><path class="lin a" pathLength="1" d="M300 52C318 50 330 60 344 82C372 132 410 176 520 196"/><circle class="pico" cx="300" cy="52" r="6"/><text class="mk a" x="404" y="92">página de preços</text><text class="mk a" x="404" y="108">o contexto esfria</text></g>
+            <g class="so-depois"><path class="lin d" pathLength="1" d="M300 52C340 46 400 42 520 38"/><circle class="pico" cx="300" cy="52" r="7"/><text class="mk d" x="246" y="30">compra aqui · 1 toque</text></g>
+            <text class="rot" x="30" y="232">abre o chat</text>
+            <text class="rot" x="122" y="232">1ª resposta</text>
+            <text class="rot f" x="252" y="232">"quer que eu continue?"</text>
+            <text class="rot" x="452" y="232">depois</text>
+          </svg>
+          <p class="small muted">Curva ilustrativa. No parecer real, ela sai dos eventos da conversa: em que mensagem as pessoas param, em qual elas pagam.</p>
+        </div>
+        <div class="leit so-antes"><b>Antes: a pessoa sai da conversa para comprar.</b><p>"Ver planos" troca a frase sobre Saturno por três colunas, três abas e créditos. Ela precisa reaprender o produto no momento em que só queria saber o resto.</p></div>
+        <div class="leit bom so-depois"><b>Depois: a oferta continua a frase.</b><p>O cartão aparece dentro do chat, com o assunto dela no título e o preço do próximo passo, não do catálogo. Um toque no Pix e a leitura segue de onde parou.</p></div>
+        <ol class="regras">
+          <li><div><b>Oferecer no pico</b><span>No ponto de curiosidade, nunca antes da primeira resposta útil.</span></div></li>
+          <li><div><b>Vender o próximo passo</b><span>"Saturno na casa 7" vende. "Plano Plus" não.</span></div></li>
+          <li><div><b>Um toque, mesma tela</b><span>Pix no Brasil, Apple Pay nos EUA, sem sair da conversa.</span></div></li>
+          <li><div><b>A frase continua depois do pagamento</b><span>O "…então" é a prova de que a compra valeu.</span></div></li>
+          <li><div><b>Dizer não sem perder a pessoa</b><span>"Agora não" entrega um resumo grátis e a oferta volta no fim da próxima conversa.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  <section class="snap" style="padding-top:0">
+    <div class="wrap">
+      <nav class="prox" aria-label="Navegação entre partes"><button class="btn ant" type="button" data-tela="jornada"><svg class="ico" aria-hidden="true"><use href="#i-volta"/></svg>Jornada</button><button class="btn" type="button" data-tela="mercados">Próxima: Brasil × EUA<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button></nav>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 5. BRASIL × EUA ============ -->
+<div class="tela" data-tela="mercados" data-titulo="Brasil × EUA">
+  <section class="ceu">
+    <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+    <div class="wrap cab">
+      <div><p class="eyebrow">Entrega 3 · Posicionamento e mensagem</p><h1 id="t-mk">Dois mercados, dois jeitos de comprar.</h1><p class="lead">O produto é o mesmo. O que se destaca, onde se divulga e como se paga muda. Troque o mercado e a tela inteira troca, inclusive o checkout no idioma de cada um.</p><p class="parte">Parte <b>5</b> de 8</p></div>
+      <div class="mk" role="group" aria-label="Escolher mercado">
+        <button type="button" data-v="br" aria-pressed="true"><svg aria-hidden="true"><use href="#b-br"/></svg>Brasil</button>
+        <button type="button" data-v="us" aria-pressed="false"><svg aria-hidden="true"><use href="#b-us"/></svg>EUA</button>
+      </div>
+    </div>
+  </section>
+  <section class="snap">
+    <div class="wrap mk-g">
+      <div class="mk-blocos">
+        <div class="mensagem so-br"><svg class="estrelas" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.6"><use href="#ceu"/></svg><div style="position:relative"><span class="k">Mensagem principal · Brasil</span><q>Seu mapa astral, explicado numa conversa.</q><small>Apoio: "Pergunte o que você sempre quis saber. Ele já leu o seu mapa."</small></div></div>
+        <div class="mensagem so-us"><svg class="estrelas" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.6"><use href="#ceu"/></svg><div style="position:relative"><span class="k">Mensagem principal · EUA</span><q lang="en">Your birth chart, explained in a conversation.</q><small>Apoio: <span lang="en">"Private, on-demand, and it actually knows your chart."</span></small></div></div>
+
+        <div class="card rv"><h3><svg class="ico" aria-hidden="true"><use href="#i-alvo"/></svg>Posicionamento</h3>
+          <p class="so-br">Autoconhecimento em conversa, em português de gente. Acolhimento primeiro, técnica por baixo. A astrologia aqui é cultura popular: o tom é de amiga que entende muito, não de oráculo.</p>
+          <p class="so-us">Self-discovery e bem-estar, com privacidade. O público americano compara com apps de astrologia já conhecidos, então o diferencial a nomear é a conversa: um astrólogo que responde sobre o mapa dela, na hora.</p>
+        </div>
+        <div class="card rv" style="--i:1"><h3><svg class="ico" aria-hidden="true"><use href="#i-estrela"/></svg>O que destacar</h3>
+          <ul class="so-br"><li>Leitura grátis de verdade, sem borrão</li><li>Pix na hora e parcelamento no anual</li><li>"Perguntas" no lugar de créditos</li><li>Conversa privada, ninguém lê</li></ul>
+          <ul class="so-us"><li>7 dias grátis e "cancel anytime" escrito</li><li>Privacidade dos dados de nascimento</li><li>Precisão do cálculo próprio (hora e local)</li><li>Apple Pay e Google Pay</li></ul>
+        </div>
+        <div class="card rv" style="--i:2"><h3><svg class="ico" aria-hidden="true"><use href="#i-mega"/></svg>Como divulgar</h3>
+          <ul class="so-br"><li>Reels e TikTok com trechos de conversas (com autorização)</li><li>Parcerias com astrólogas e perfis de autoconhecimento</li><li>Mapa compartilhável no WhatsApp: o mapa vira convite</li><li>Busca orgânica por "mapa astral grátis" e "sinastria"</li></ul>
+          <ul class="so-us"><li>TikTok e criadores de astrologia</li><li>Pinterest com mapas visuais</li><li>Podcasts de bem-estar</li><li>App Store: página otimizada e avaliações</li></ul>
+        </div>
+        <div class="card rv" style="--i:3"><h3><svg class="ico" aria-hidden="true"><use href="#i-card"/></svg>Preço e pagamento</h3>
+          <ul class="so-br"><li>Preços terminados em ,90</li><li>Avulsa R$ 14,90 · assinatura R$ 29,90/mês</li><li>Anual R$ 239 em até 12x no cartão</li><li>Pix como primeiro botão</li></ul>
+          <ul class="so-us"><li>Preços terminados em .99</li><li>Single reading $4.99 · Premium $9.99/mo</li><li>Annual $79.99</li><li>Lembrete 2 dias antes do fim do teste</li></ul>
+        </div>
+        <div style="grid-column:1/-1">
+          <div class="loc so-br"><svg class="ico" aria-hidden="true"><use href="#i-alerta"/></svg><span><b>Detalhe de cálculo:</b> no Brasil a data se escreve dia/mês. A mesma tela nos EUA lê mês/dia. Por isso a recomendação escreve a data por extenso nos dois.</span></div>
+          <div class="loc so-us"><svg class="ico" aria-hidden="true"><use href="#i-alerta"/></svg><span><b>Detalhe de confiança:</b> nos EUA, renovação automática tem regras próprias em vários estados. Cancelamento visível e lembrete antes da cobrança também protegem o negócio.</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="fone so-br"><div class="tela-f app-d"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+          <div class="d-pad"><p class="d-k">Assinatura Céu Interior</p><p class="d-h">Tudo liberado, de onde você parou</p></div>
+          <div class="d-rec"><span class="sel">MAIS ESCOLHIDO</span><b>Anual · R$ 239</b><p>à vista no Pix ou em até 12x de R$ 19,92 no cartão</p></div>
+          <div class="d-preco"><span>Mensal</span><b>R$ 29,90</b></div>
+          <svg class="d-qr" style="width:96px;height:96px" aria-label="QR code Pix de exemplo" role="img"><use href="#qr"/></svg>
+          <div class="d-btn">Pagar com Pix · R$ 239 à vista</div>
+          <div class="d-card"><b>O que vem junto</b><p>Todas as leituras, 60 perguntas por mês ao astrólogo e previsões diárias.</p></div>
+          <p class="d-mini">Cancele quando quiser, direto no app.</p>
+        </div></div>
+        <div class="fone so-us" lang="en"><div class="tela-f app-d"><span class="ilha"></span><div class="sb"><span>9:41</span><span class="sb-i"><i></i></span></div>
+          <div class="d-pad"><p class="d-k">Inner Sky Premium</p><p class="d-h">Start your 7-day free trial</p></div>
+          <div class="d-rec"><span class="sel">FREE FOR 7 DAYS</span><b>$0.00 today</b><p>then $9.99/month · or $79.99/year</p></div>
+          <div class="d-card"><b>Cancel anytime</b><p>In Settings, in two taps. We'll remind you 2 days before your trial ends.</p></div>
+          <div class="pay ap">Apple Pay</div>
+          <div class="pay gp">Google Pay</div>
+          <div class="d-card"><b>What you get</b><p>Every reading, 60 questions a month with your AI astrologer and daily transits.</p></div>
+          <p class="d-mini">Your birth data stays private.</p>
+        </div></div>
+        <p class="small muted" style="text-align:center;margin-top:12px"><span class="so-br">Checkout do Brasil, em português</span><span class="so-us">Checkout dos EUA, em inglês</span></p>
+      </div>
+    </div>
+    <div class="wrap"><nav class="prox" aria-label="Navegação entre partes" style="margin-top:32px"><button class="btn ant" type="button" data-tela="chat"><svg class="ico" aria-hidden="true"><use href="#i-volta"/></svg>Venda no chat</button><button class="btn" type="button" data-tela="precos">Próxima: Preços e oferta<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button></nav></div>
+  </section>
+</div>
+
+<!-- ============ 6. PREÇOS ============ -->
+<div class="tela" data-tela="precos" data-titulo="Preços e oferta">
+  <section class="ceu">
+    <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+    <div class="wrap cab">
+      <div><p class="eyebrow">Entrega 4 · Leitura crítica de preços e oferta</p><h1 id="t-pre">Três moedas viram uma escada.</h1><p class="lead">Créditos, assinatura e leitura avulsa competem hoje pela mesma decisão. A proposta é uma escada com um próximo passo único: grátis, leitura avulsa, assinatura.</p><p class="parte">Parte <b>6</b> de 8</p></div>
+      <div class="ad-w"><div class="ad" role="group" aria-label="Comparar antes e depois"><button type="button" data-v="antes" aria-pressed="true">Antes</button><button type="button" data-v="depois" aria-pressed="false">Depois</button><i aria-hidden="true"></i></div></div>
+    </div>
+  </section>
+
+  <section class="snap so-antes">
+    <div class="wrap">
+      <div class="sec-t"><div><p class="eyebrow">Crítica do antes</p><h2>Nove opções em três moedas.</h2></div><p class="muted">Cada produto foi precificado no dia em que nasceu. Juntos, eles obrigam a pessoa a fazer conta.</p></div>
+      <div class="moedas">
+        <div class="moeda rv"><span class="tag ruim">moeda 1</span><h3 class="mt">Planos mensais</h3><ul><li>Básico<b>R$ 19,90</b></li><li>Plus<b>R$ 34,90</b></li><li>Premium<b>R$ 59,90</b></li></ul></div>
+        <div class="moeda rv" style="--i:1"><span class="tag ruim">moeda 2</span><h3 class="mt">Pacotes de créditos</h3><ul><li>50 créditos<b>R$ 19,90</b></li><li>120 créditos<b>R$ 39,90</b></li><li>300 créditos<b>R$ 79,90</b></li></ul></div>
+        <div class="moeda rv" style="--i:2"><span class="tag ruim">moeda 3</span><h3 class="mt">Relatórios avulsos</h3><ul><li>Sinastria<b>R$ 49,90</b></li><li>Revolução solar<b>R$ 39,90</b></li><li>Carreira<b>R$ 24,90</b></li></ul></div>
+      </div>
+      <div class="pergunta-q rv"><b>Quanto custa uma pergunta ao astrólogo?</b><ul><li>8 créditos, se você comprou um pacote;</li><li>"inclusa até 80 créditos" no Plus, que é a mesma coisa dita de outro jeito;</li><li>e a sinastria aparece como relatório de R$ 49,90 e também como item do Plus, com asterisco.</li></ul><p class="mt small muted">Quando a pergunta mais simples tem três respostas, a decisão vira "depois eu vejo".</p></div>
+    </div>
+  </section>
+
+  <section class="snap so-depois">
+    <div class="wrap">
+      <div class="sec-t"><div><p class="eyebrow">A escada de ofertas</p><h2>Um degrau por vez, sempre com o próximo à vista.</h2></div></div>
+      <div class="esc-w">
+        <div class="card rv" style="padding:18px">
+          <svg id="escada" viewBox="0 0 600 330" role="img" aria-label="Escada de ofertas: grátis, leitura avulsa e assinatura">
+            <g class="deg"><rect x="10" y="230" width="186" height="80" rx="14" fill="var(--surface2)"/><text class="t1" x="28" y="262">Grátis</text><text class="t2" x="28" y="284">mapa + 3 perguntas</text><text class="t3" x="28" y="302">R$ 0</text></g>
+            <g class="deg"><rect x="206" y="150" width="186" height="160" rx="14" fill="var(--lil-soft)"/><text class="t1" x="224" y="182">Leitura avulsa</text><text class="t2" x="224" y="204">1 tema + 10 perguntas</text><text class="t3" x="224" y="224">R$ 14,90</text></g>
+            <g class="deg"><rect x="402" y="60" width="188" height="250" rx="14" fill="var(--gold-soft)" stroke="var(--gold)" stroke-width="1.5"/><text class="t1" x="420" y="92">Assinatura</text><text class="t2" x="420" y="114">tudo, 60 perguntas/mês</text><text class="t3" x="420" y="134">R$ 29,90/mês</text><text class="t2" x="420" y="156">ou R$ 239/ano</text><g transform="translate(496 230)"><circle r="26" fill="none" stroke="var(--gold)" stroke-width="1.3"/><path d="M-10 2l7 7 13-15" fill="none" stroke="var(--gold)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+            <path class="seta" d="M100 222C115 170 165 150 206 150"/>
+            <path class="seta" d="M296 142C316 90 350 70 402 62"/>
+            <text class="t2" x="40" y="40">próximo passo único</text>
+            <path d="M40 48h120" stroke="var(--gold)" stroke-width="2"/>
+          </svg>
+          <div class="esc-m" role="img" aria-label="Escada de ofertas: grátis, leitura avulsa e assinatura">
+            <p class="esc-k">próximo passo único</p>
+            <div class="dg d3"><b>Assinatura</b><span>tudo, 60 perguntas/mês</span><em>R$ 29,90/mês · ou R$ 239/ano</em></div>
+            <div class="dg d2"><b>Leitura avulsa</b><span>1 tema + 10 perguntas</span><em>R$ 14,90</em></div>
+            <div class="dg d1"><b>Grátis</b><span>mapa + 3 perguntas</span><em>R$ 0</em></div>
+          </div>
+        </div>
+        <div style="display:grid;gap:14px">
+          <div class="card h rv"><div class="ref"><div class="ic-c"><svg class="ico" aria-hidden="true"><use href="#i-estrela"/></svg></div><div><h3>Referência: Spotify</h3><p>Separa gratuito, assinatura e upgrade sem deixar a próxima ação ambígua. Em qualquer tela existe um só convite para subir de degrau. É a lógica que a escada copia.</p></div></div></div>
+          <div class="card h rv" style="--i:1"><div class="ref"><div class="ic-c lil"><svg class="ico" aria-hidden="true"><use href="#i-alvo"/></svg></div><div><h3>Âncora</h3><p>Duas leituras avulsas já custam R$ 29,80, quase o preço da assinatura, que inclui todas. Da terceira em diante, a assinatura sai na frente. No anual, R$ 239 viram R$ 19,92 por mês.</p></div></div></div>
+          <div class="card h rv" style="--i:2"><div class="ref"><div class="ic-c"><svg class="ico" aria-hidden="true"><use href="#i-moedas"/></svg></div><div><h3>Créditos continuam por dentro</h3><p>O sistema pode seguir contando créditos. Na tela, eles viram "perguntas", que qualquer pessoa entende.</p></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="snap">
+    <div class="wrap">
+      <div class="sec-t"><div><p class="eyebrow">Tabela simples</p><h2>A comparação existe, mas não é a porta de entrada.</h2></div><span class="estimativa">Preços de exemplo</span></div>
+      <div class="tab-w rv">
+        <table class="tp">
+          <thead><tr><th scope="col"><span class="sr" style="font:500 13px var(--f-t);color:var(--muted)">O que inclui</span></th><th scope="col">Grátis</th><th scope="col">Leitura avulsa</th><th scope="col" class="rec">Assinatura</th></tr></thead>
+          <tbody>
+            <tr><td>Mapa astral completo, com cálculo próprio</td><td class="ok">✓</td><td class="ok">✓</td><td class="rec ok">✓</td></tr>
+            <tr><td>Leitura de boas-vindas</td><td class="ok">✓</td><td class="ok">✓</td><td class="rec ok">✓</td></tr>
+            <tr><td>Perguntas ao astrólogo de IA</td><td>3</td><td>10 sobre o tema</td><td class="rec">60 por mês</td></tr>
+            <tr><td>Leituras profundas (amor, carreira, sinastria)</td><td class="no">–</td><td>1 à escolha</td><td class="rec">Todas</td></tr>
+            <tr><td>Previsões e trânsitos</td><td>Da semana</td><td>Da semana</td><td class="rec">Diárias</td></tr>
+            <tr><td>Preço no Brasil</td><td>R$ 0</td><td>R$ 14,90</td><td class="rec">R$ 29,90/mês ou R$ 239/ano</td></tr>
+            <tr><td>Preço nos EUA</td><td>$0</td><td>$4.99</td><td class="rec">$9.99/mo, 7 dias grátis</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tp-cards" aria-label="Comparação dos planos">
+        <article class="tpc rec rv"><span class="tag ouro">Recomendado</span><div class="tpc-h"><h3>Assinatura</h3><b>R$ 29,90/mês</b></div><ul><li>Perguntas ao astrólogo<b>60 por mês</b></li><li>Leituras profundas<b>Todas</b></li><li>Previsões e trânsitos<b>Diárias</b></li><li>Mapa e leitura de boas-vindas<b>✓</b></li><li>No anual<b>R$ 239 (R$ 19,92/mês)</b></li><li>Nos EUA<b>$9.99/mo, 7 dias grátis</b></li></ul></article>
+        <article class="tpc rv" style="--i:1"><div class="tpc-h"><h3>Leitura avulsa</h3><b>R$ 14,90</b></div><ul><li>Perguntas ao astrólogo<b>10 sobre o tema</b></li><li>Leituras profundas<b>1 à escolha</b></li><li>Previsões e trânsitos<b>Da semana</b></li><li>Mapa e leitura de boas-vindas<b>✓</b></li><li>Nos EUA<b>$4.99</b></li></ul></article>
+        <article class="tpc rv" style="--i:2"><div class="tpc-h"><h3>Grátis</h3><b>R$ 0</b></div><ul><li>Perguntas ao astrólogo<b>3</b></li><li>Leituras profundas<b>–</b></li><li>Previsões e trânsitos<b>Da semana</b></li><li>Mapa e leitura de boas-vindas<b>✓</b></li><li>Nos EUA<b>$0</b></li></ul></article>
+      </div>
+      <nav class="prox" aria-label="Navegação entre partes" style="margin-top:28px"><button class="btn ant" type="button" data-tela="mercados"><svg class="ico" aria-hidden="true"><use href="#i-volta"/></svg>Brasil × EUA</button><button class="btn" type="button" data-tela="prioridades">Próxima: Lista priorizada<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button></nav>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 7. PRIORIDADES ============ -->
+<div class="tela" data-tela="prioridades" data-titulo="Lista priorizada">
+  <section class="ceu">
+    <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+    <div class="wrap cab">
+      <div><p class="eyebrow">Entrega 5 · Lista priorizada de melhorias</p><h1 id="t-pri">O que muda primeiro, e por quê.</h1><p class="lead">Primeiro o que está no caminho do dinheiro. Divulgação só depois que o funil fecha. Toque num ponto da matriz ou num item para abrir o detalhe.</p><p class="parte">Parte <b>7</b> de 8</p></div>
+    </div>
+  </section>
+  <section class="snap">
+    <div class="wrap pri-g">
+      <div class="matriz-c">
+        <div class="card" style="padding:16px">
+          <svg id="matriz" viewBox="0 0 400 330" role="group" aria-label="Matriz impacto por esforço">
+            <rect class="q ja" x="40" y="10" width="170" height="140" rx="10"/><rect class="q" x="214" y="10" width="170" height="140" rx="10"/>
+            <rect class="q" x="40" y="154" width="170" height="140" rx="10"/><rect class="q" x="214" y="154" width="170" height="140" rx="10"/>
+            <text class="qt ja" x="52" y="30">FAZER JÁ</text><text class="qt" x="226" y="30">PLANEJAR</text><text class="qt" x="52" y="284">ENCAIXAR</text><text class="qt" x="226" y="284">DEPOIS</text>
+            <text class="ax" x="212" y="318" text-anchor="middle">esforço →</text>
+            <text class="ax" x="16" y="152" text-anchor="middle" transform="rotate(-90 16 152)">impacto →</text>
+            <g id="pts"></g>
+          </svg>
+        </div>
+      </div>
+      <div class="acc" id="acc"></div>
+    </div>
+    <div class="wrap"><nav class="prox" aria-label="Navegação entre partes" style="margin-top:32px"><button class="btn ant" type="button" data-tela="precos"><svg class="ico" aria-hidden="true"><use href="#i-volta"/></svg>Preços</button><button class="btn" type="button" data-tela="entrega">Próxima: Como é a entrega<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></button></nav></div>
+  </section>
+</div>
+
+<!-- ============ 8. ENTREGA ============ -->
+<div class="tela" data-tela="entrega" data-titulo="Como é a entrega">
+  <section class="ceu">
+    <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+    <div class="wrap cab">
+      <div><p class="eyebrow">Entrega 6 · Parecer e reunião</p><h1 id="t-ent">O parecer real, sobre um produto de verdade.</h1><p class="lead">O mesmo formato deste exemplo, aplicado a uma plataforma real, depois do acordo de confidencialidade assinado.</p><p class="parte">Parte <b>8</b> de 8</p></div>
+    </div>
+  </section>
+  <section class="snap">
+    <div class="wrap ent-g">
+      <div class="rv">
+        <svg id="doc" viewBox="0 0 380 330" role="img" aria-label="Documento do parecer com as seis partes">
+          <g class="pg-b" transform="translate(48 22) rotate(6 140 150)"><rect class="pg" x="60" y="10" width="230" height="290" rx="12"/><path class="ln" d="M90 60h150M90 80h120M90 100h160"/></g>
+          <g><rect class="pg" x="40" y="20" width="240" height="296" rx="12"/>
+            <use href="#marca" x="62" y="40" width="30" height="30"/>
+            <text class="tt" x="100" y="62">Parecer de produto</text>
+            <text class="tx" x="62" y="92">Arquitetura, UX, mercados e preços</text>
+            <text class="nn" x="62" y="128">1</text><path class="ln o" d="M84 124h170"/>
+            <text class="nn" x="62" y="158">2</text><path class="ln" d="M84 154h150"/>
+            <text class="nn" x="62" y="188">3</text><path class="ln o" d="M84 184h160"/>
+            <text class="nn" x="62" y="218">4</text><path class="ln" d="M84 214h130"/>
+            <text class="nn" x="62" y="248">5</text><path class="ln o" d="M84 244h170"/>
+            <text class="nn" x="62" y="278">6</text><path class="ln" d="M84 274h110"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <ol class="linha-t">
+          <li class="rv"><span class="d">D0</span><div><b>Acordo de confidencialidade e acesso</b><span>O acordo é assinado antes do acesso ao produto.</span></div></li>
+          <li class="rv" style="--i:1"><span class="d">D1</span><div><b>Jornada percorrida como usuário novo</b><span>Do primeiro acesso à compra, no Brasil e nos EUA, com cada tela registrada.</span></div></li>
+          <li class="rv" style="--i:2"><span class="d">D2</span><div><b>Arquitetura, fluxos, chat e preços</b><span>Antes e depois de cada tela, com os problemas marcados.</span></div></li>
+          <li class="rv" style="--i:3"><span class="d">D3</span><div><b>Mercados e lista priorizada</b><span>Posicionamento, mensagem e canais de cada país, e a ordem do que muda.</span></div></li>
+          <li class="rv" style="--i:4"><span class="d">D4</span><div><b>Parecer entregue e reunião de 60 minutos</b><span>O parecer é apresentado tela por tela, por vídeo, e a ordem de execução fica decidida.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  <section class="snap">
+    <div class="wrap">
+      <div class="g3 carr">
+        <div class="card h rv"><div class="ic-c"><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg></div><h3>Documento</h3><p>As seis partes do parecer, com telas anotadas antes e depois e a lista priorizada.</p></div>
+        <div class="card h rv" style="--i:1"><div class="ic-c lil"><svg class="ico" aria-hidden="true"><use href="#i-video"/></svg></div><h3>Reunião de 60 min</h3><p>Remota. O parecer é apresentado e as dúvidas ficam respondidas.</p></div>
+        <div class="card h rv" style="--i:2"><div class="ic-c"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg></div><h3>Confidencialidade</h3><p>Nada do produto do cliente aparece em portfólio. Este exemplo usa uma marca inventada por isso.</p></div>
+      </div>
+      <p class="muted small mt" style="max-width:70ch">Quem faz: Vinicius Candido. 13 anos de software, hoje na frente de IA do Sicoob, e mais de 80 projetos de chatbot e IA conversacional.</p>
+      <div class="fim ceu mt" style="margin-top:36px">
+        <svg class="estrelas" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e2" aria-hidden="true"><use href="#ceu"/></svg><svg class="estrelas ex e3" aria-hidden="true"><use href="#ceu"/></svg>
+        <p class="eyebrow">Próximo passo</p>
+        <h2 style="color:#FBF6EA">O parecer começa pela jornada de compra, tela por tela.</h2>
+        <div class="ctas">
+          <a class="btn ouro" href="/trabalhos/">Ver mais exemplos<svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg></a>
+          <button class="btn vid" type="button" data-tela="resumo">Rever do início</button>
+        </div>
+      </div>
+      <nav class="prox" aria-label="Navegação entre partes" style="margin-top:28px"><button class="btn ant" type="button" data-tela="prioridades"><svg class="ico" aria-hidden="true"><use href="#i-volta"/></svg>Prioridades</button><button class="btn g" type="button" data-tela="chat">Rever a venda no chat</button></nav>
+    </div>
+  </section>
+</div>
+<!-- /KIT:telas -->
+</main>
+
+<!-- KIT:bottomsheet-html -->
+<div class="sh-bg" id="sh-bg" data-fecha></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t" hidden><div class="grip"></div><div id="sh-c"></div></div>
+<!-- /KIT:bottomsheet-html -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- KIT:barra-html -->
+<nav class="bar" aria-label="Navegação inferior">
+  <button type="button" data-tela="resumo"><svg class="ico" aria-hidden="true"><use href="#i-estrela"/></svg>Resumo</button>
+  <button type="button" data-tela="arquitetura"><svg class="ico" aria-hidden="true"><use href="#i-mapa"/></svg>Arquitetura</button>
+  <button type="button" data-tela="chat" class="estrela"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Venda</button>
+  <button type="button" data-tela="precos"><svg class="ico" aria-hidden="true"><use href="#i-escada"/></svg>Preços</button>
+  <button type="button" id="bt-mais"><svg class="ico" aria-hidden="true"><use href="#i-mais"/></svg>Mais</button>
+</nav>
+<!-- /KIT:barra-html -->
+
+<!-- KIT:rodape-html -->
+<footer><div class="wrap">
+  <div class="foot-l">
+    <a class="sig" href="https://vlfcandido.github.io" target="_blank" rel="noopener" aria-label="Parecer de exemplo feito por Vinicius Candido, vlfcandido.github.io"><span class="sig-m"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#marca"/></svg></span><span><small>Parecer de exemplo feito por</small><b>Vinicius Candido</b><em>vlfcandido.github.io</em></span></a>
+    <p class="small">Céu Interior é uma plataforma fictícia, criada só para este exemplo. Números e preços são ilustrativos.</p>
+  </div>
+  <div class="foot-r">
+    <svg class="selo" viewBox="0 0 120 120" aria-hidden="true">
+      <defs><path id="circ" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1 -92 0"/></defs>
+      <g class="gira"><text><textPath href="#circ">PARECER DE PRODUTO · VINICIUS CANDIDO ·</textPath></text></g>
+      <circle cx="60" cy="60" r="33" fill="none" stroke="currentColor" stroke-width=".8" opacity=".6"/>
+      <use href="#marca" x="42" y="42" width="36" height="36"/>
+    </svg>
+    <p>Assinado como um mapa: cada achado com a sua posição, cada recomendação com o seu porquê.</p>
+  </div>
+  <p class="aviso-med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
+</div></footer>
+<!-- /KIT:rodape-html -->
+
+<script>
+/* KIT:js ===== tema, roteador com troca travada, sheet, animações. Sem trabalho no carregamento além de ligar ouvintes. ===== */
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const html=document.documentElement,view=$('#view');
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!REDUCED)html.classList.add('anim');
+
+/* tema */
+const darkAgora=()=>html.dataset.theme?html.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+try{const t=localStorage.getItem('tema');if(t)html.dataset.theme=t}catch(e){}
+$('#tema').addEventListener('click',()=>{const n=darkAgora()?'light':'dark';html.dataset.theme=n;try{localStorage.setItem('tema',n)}catch(e){}});
+
+/* troca travada: trava rolagem e toque até a animação acabar; volta ao topo; foco no título */
+const TROCA={on:false};
+const topo=()=>{html.style.scrollBehavior='auto';scrollTo(0,0);html.style.scrollBehavior=''};
+const focaTitulo=()=>{const t=$('.tela.on h1,.tela.on h2');if(!t)return;t.setAttribute('tabindex','-1');try{t.focus({preventScroll:true})}catch(e){}};
+const travar=()=>{TROCA.on=true;html.classList.add('trocando')},soltar=()=>{TROCA.on=false;html.classList.remove('trocando')};
+['touchmove','wheel'].forEach(ev=>addEventListener(ev,e=>{if(TROCA.on)e.preventDefault()},{passive:false}));
+document.addEventListener('click',e=>{if(TROCA.on){e.preventDefault();e.stopPropagation()}},true);
+function trocar(f){
+  if(TROCA.on)return;
+  if(REDUCED){f();topo();focaTitulo();return}
+  travar();const t=setTimeout(soltar,1200),fim=()=>{clearTimeout(t);soltar()};
+  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});v.updateCallbackDone.then(focaTitulo,focaTitulo);v.finished.then(fim,fim)}
+  else{view.classList.add('sai');setTimeout(()=>{f();topo();view.classList.remove('sai');focaTitulo();setTimeout(fim,320)},140)}
+}
+
+/* roteador por hash: #id da tela */
+function mostrar(id){
+  const alvo=$(`.tela[data-tela="${id}"]`)||$('.tela');if(!alvo)return;
+  $$('.tela').forEach(t=>t.classList.toggle('on',t===alvo));
+  $$('[data-tela]').forEach(b=>{if(!b.classList.contains('tela')){if(b.dataset.tela===alvo.dataset.tela)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')}});
+  document.title=(alvo.dataset.titulo?alvo.dataset.titulo+' · ':'')+'Céu Interior · parecer de produto e UX';
+  observa();
+  document.dispatchEvent(new CustomEvent('tela',{detail:alvo.dataset.tela}));
+}
+window.ir=function(id){if(location.hash==='#'+id)return;trocar(()=>{history.pushState(null,'','#'+id);mostrar(id)})};
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-tela],a[data-tela]');if(!b)return;e.preventDefault();ir(b.dataset.tela)});
+addEventListener('popstate',()=>trocar(()=>mostrar(location.hash.slice(1))));
+
+/* bottom sheet */
+let sheetFoco=null;
+window.abrirSheet=function(conteudoHtml){const s=$('#sheet');$('#sh-c').innerHTML=conteudoHtml;sheetFoco=document.activeElement;s.hidden=false;html.classList.add('folha');requestAnimationFrame(()=>{s.classList.add('on');$('#sh-bg').classList.add('on');const h=$('#sh-c h3,#sh-c h2');if(h){h.id='sh-t';h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}})};
+window.fecharSheet=function(){const s=$('#sheet');s.classList.remove('on');$('#sh-bg').classList.remove('on');html.classList.remove('folha');setTimeout(()=>{s.hidden=true},REDUCED?0:280);if(sheetFoco&&sheetFoco.focus)sheetFoco.focus()};
+document.addEventListener('click',e=>{if(e.target.closest('[data-fecha]'))fecharSheet()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#sheet.on'))fecharSheet()});
+
+/* toast */
+window.toast=function(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)};
+
+/* animações: entrada ao rolar (.rv), números contando ([data-conta]), barras (.barra-g dentro de .rv) */
+function conta(el){const alvo=parseFloat(el.dataset.conta),dec=+(el.dataset.dec||0),pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+  const fmt=v=>pre+v.toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+  if(REDUCED){el.textContent=fmt(alvo);return}
+  const t0=performance.now(),dur=900;(function passo(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=fmt(alvo*e);if(p<1)requestAnimationFrame(passo)})(t0)}
+let io=null;
+function observa(){
+  const els=$$('.tela.on .rv:not(.in),.tela.on [data-conta]:not([data-ok]),.tela.on .barra-g:not(.in)');
+  if(!('IntersectionObserver' in window)||REDUCED){els.forEach(el=>{el.classList.add('in');if(el.dataset.conta){el.dataset.ok=1;conta(el)}});return}
+  io=io||new IntersectionObserver(es=>es.forEach(x=>{if(!x.isIntersecting)return;const el=x.target;el.classList.add('in');if(el.dataset.conta&&!el.dataset.ok){el.dataset.ok=1;conta(el)}io.unobserve(el)}),{threshold:.2});
+  els.forEach(el=>io.observe(el));
+}
+window.observa=observa;
+/* microanimação de sucesso */
+window.sucessoHtml=()=>'<div class="sucesso" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>';
+
+/* partida */
+addEventListener('DOMContentLoaded',()=>mostrar(location.hash.slice(1)||$('.tela').dataset.tela));
+if(document.readyState!=='loading')mostrar(location.hash.slice(1)||$('.tela').dataset.tela);
+})();
+/* /KIT:js */
+</script>
+<script>
+/* PROJETO: parecer Céu Interior. Só liga ouvintes; o trabalho acontece quando a tela aparece ou quando a pessoa toca. */
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const html=document.documentElement;
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const espera=ms=>new Promise(r=>setTimeout(r,REDUCED?0:ms));
+let telaAtual='';
+const CEL=matchMedia('(max-width:899px)');
+/* roda fn quando el estiver visível de verdade (≥35%); a chave cancela pedidos antigos */
+const VIS={};
+function quandoVisivel(chave,el,fn){
+  if(VIS[chave]){VIS[chave].disconnect();delete VIS[chave]}
+  if(!el)return;
+  if(!('IntersectionObserver' in window)||REDUCED){fn();return}
+  const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){io.disconnect();delete VIS[chave];fn()}},{threshold:.35});
+  VIS[chave]=io;io.observe(el);
+}
+/* no celular, ao tocar no Antes/Depois do topo, rola até o que muda */
+function alvoDaTela(id){
+  if(id==='arquitetura')return $('.arq-c');
+  if(id==='chat')return $('.fone-chat');
+  if(id==='jornada')return $('.tela.on .abas');
+  return $$('.tela.on .ceu ~ section').find(x=>x.getClientRects().length>0);
+}
+
+/* ---------- antes / depois (estado único para todas as telas) ---------- */
+function setAD(m){
+  if(html.dataset.ad===m)return;
+  html.dataset.ad=m;
+  $$('.ad').forEach(g=>{g.dataset.m=m;$$('button',g).forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.v===m));b.classList.remove('pisca')})});
+  if(telaAtual==='arquitetura')quandoVisivel('arq',$('#arq'),()=>ARQ.anima(m==='depois'?1:0));else ARQ.anima(m==='depois'?1:0);
+  if(telaAtual==='chat'){CHAT.para();CHAT.reseta();quandoVisivel('chat',$('#chm'),()=>CHAT.roda())}
+  if(window.observa)window.observa();
+}
+/* ---------- Brasil / EUA ---------- */
+function setMK(m){
+  html.dataset.mk=m;
+  $$('.mk button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===m)));
+  if(window.observa)window.observa();
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('.ad button');if(a){
+    setAD(a.dataset.v);
+    if(CEL.matches&&a.closest('.ceu')){const alvo=alvoDaTela(telaAtual);if(alvo)setTimeout(()=>alvo.scrollIntoView({block:telaAtual==='jornada'?'start':'center',behavior:REDUCED?'auto':'smooth'}),60)}
+    return}
+  const k=e.target.closest('.mk button');if(k){
+    setMK(k.dataset.v);
+    if(matchMedia('(max-width:640px)').matches){const f=$$('.tela.on .fone').find(x=>x.getClientRects().length>0);if(f)setTimeout(()=>f.scrollIntoView({block:'center',behavior:REDUCED?'auto':'smooth'}),60)}
+    return}
+});
+
+/* ---------- mapa de arquitetura: linhas emaranhadas que se reorganizam ---------- */
+const ARQ=(function(){
+  const N=[['Home','Seu mapa'],['Mapa astral','Entender'],['Chat IA','Conversar'],['Previsões','Acompanhar'],['Sinastria','Sinastria'],['Relatórios','Leituras avulsas'],['Horóscopo','Horóscopo do dia'],['Trânsitos','Trânsitos'],['Créditos','Créditos'],['Loja','Loja'],['Planos','Plano'],['Perfil','Conta'],['Conversas','Histórico']];
+  const CLS=['raiz','pilar','pilar','pilar','','','','','','','plano','',''];
+  const L={
+    desk:{vb:'0 0 760 410',w:120,h:34,
+      A:[[110,70],[520,330],[300,120],[660,90],[90,330],[430,220],[230,380],[690,250],[560,170],[180,210],[400,370],[650,370],[430,50]],
+      D:[[380,40],[140,145],[380,145],[635,145],[66,250],[194,250],[572,250],[698,250],[440,360],[440,360],[440,360],[690,40],[318,250]],
+      eA:[[0,1],[0,8],[0,3],[2,9],[2,7],[3,4],[4,8],[5,0],[5,11],[6,3],[6,12],[7,9],[8,10],[9,11],[10,2],[12,4],[1,6],[11,0],[9,5]],
+      eD:[[0,1],[0,2],[0,3],[1,4],[1,5],[3,6],[3,7],[2,12],[0,11],[2,10,1],[5,10]],
+      rot:[[454,304,'compra no contexto']]},
+    mob:{vb:'0 0 360 470',w:110,h:32,
+      A:[[70,40],[260,400],[180,130],[290,60],[60,300],[230,230],[110,420],[300,300],[270,160],[80,190],[180,340],[300,440],[150,60]],
+      D:[[140,34],[60,130],[180,130],[300,130],[60,220],[60,276],[300,220],[300,276],[180,410],[180,410],[180,410],[296,34],[180,220]],
+      eA:[[0,1],[0,8],[0,3],[2,9],[2,7],[3,4],[4,8],[5,0],[5,11],[6,3],[6,12],[7,9],[8,10],[9,11],[10,2],[12,4],[1,6],[11,0],[9,5]],
+      eD:[[0,1],[0,2],[0,3],[1,4],[4,5],[3,6],[6,7],[2,12],[0,11],[12,10,1],[5,10]],
+      rot:[[190,358,'compra no contexto']]}
+  };
+  const SOME=new Set([8,9]);
+  let svg,lay,t=0,montado=false,raf=0,mq;
+  const ns='http://www.w3.org/2000/svg';
+  const el=(n,a)=>{const e=document.createElementNS(ns,n);for(const k in a)e.setAttribute(k,a[k]);return e};
+  const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+  let eds=[],nds=[],rots=[];
+  function monta(){
+    svg=$('#arq');if(!svg)return;
+    mq=mq||matchMedia('(max-width:640px)');
+    lay=L[mq.matches?'mob':'desk'];
+    svg.setAttribute('viewBox',lay.vb);svg.innerHTML='';
+    const ge=el('g',{}),gn=el('g',{}),gr=el('g',{});
+    const mapa=new Map();
+    const chave=(i,j)=>i<j?i+'-'+j:j+'-'+i;
+    lay.eA.forEach(([i,j])=>mapa.set(chave(i,j),{i,j,a:1,d:0,o:0}));
+    lay.eD.forEach(([i,j,o])=>{const k=chave(i,j);const x=mapa.get(k)||{i,j,a:0};x.d=1;x.o=o?1:0;mapa.set(k,x)});
+    eds=[...mapa.values()].map(x=>{x.p=el('path',{class:'ed'});ge.appendChild(x.p);return x});
+    nds=N.map((n,k)=>{
+      const g=el('g',{class:'nd'});const r=el('rect',{x:-lay.w/2,y:-lay.h/2,width:lay.w,height:lay.h,rx:lay.h/2});
+      const ta=el('text',{});ta.textContent=n[0];const td=el('text',{});td.textContent=n[1];
+      g.append(r,ta,td);gn.appendChild(g);return {g,ta,td,k};
+    });
+    rots=lay.rot.map(([x,y,s])=>{const tx=el('text',{class:'rot',x,y});tx.textContent=s;gr.appendChild(tx);return tx});
+    svg.append(ge,gn,gr);montado=true;desenha();
+  }
+  function pos(k){const a=lay.A[k],d=lay.D[k],e=ease(t);return [a[0]+(d[0]-a[0])*e,a[1]+(d[1]-a[1])*e]}
+  function desenha(){
+    if(!montado)return;
+    const e=ease(t);
+    nds.forEach(n=>{
+      const [x,y]=pos(n.k);n.g.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+      n.ta.style.opacity=String(1-e);n.td.style.opacity=String(e);
+      const c=CLS[n.k];n.g.setAttribute('class','nd'+(t>.5&&c?' '+c:'')+(t<=.5&&[8,9,10,5].includes(n.k)?' venda':''));
+      n.g.style.opacity=SOME.has(n.k)?String(1-e):'1';
+    });
+    eds.forEach(x=>{
+      const [x1,y1]=pos(x.i),[x2,y2]=pos(x.j),my=(y1+y2)/2;
+      x.p.setAttribute('d',`M${x1.toFixed(1)} ${y1.toFixed(1)}C${x1.toFixed(1)} ${my.toFixed(1)} ${x2.toFixed(1)} ${my.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`);
+      const op=x.a&&x.d?1:x.a?1-e:e;x.p.style.opacity=op.toFixed(3);
+      x.p.setAttribute('class','ed '+(t>.5&&x.d?(x.o?'eo':'ed2'):'ea'));
+    });
+    rots.forEach(r=>r.style.opacity=String(Math.max(0,e*2-1)));
+  }
+  function anima(alvo){
+    if(!montado){t=alvo;return}
+    cancelAnimationFrame(raf);
+    if(REDUCED){t=alvo;desenha();return}
+    const t0=performance.now(),de=t,dur=1100;
+    (function passo(n){const p=Math.min(1,(n-t0)/dur);t=de+(alvo-de)*p;desenha();if(p<1)raf=requestAnimationFrame(passo)})(t0);
+  }
+  function liga(){
+    t=html.dataset.ad==='depois'?1:0;
+    if(!montado){monta();matchMedia('(max-width:640px)').addEventListener('change',()=>{montado=false;monta()})}
+    else desenha();
+  }
+  return {anima,liga};
+})();
+
+/* ---------- abas da jornada ---------- */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.abas [role=tab]');if(!b)return;
+  selAba(b);
+});
+function selAba(b){
+  const lista=$$('.abas [role=tab]');
+  lista.forEach(x=>{const on=x===b;x.setAttribute('aria-selected',String(on));x.tabIndex=on?0:-1;const p=document.getElementById(x.getAttribute('aria-controls'));if(p){p.hidden=!on;p.classList.toggle('on',on)}});
+  b.scrollIntoView({block:'nearest',inline:'center',behavior:REDUCED?'auto':'smooth'});
+}
+document.addEventListener('keydown',e=>{
+  const b=e.target.closest&&e.target.closest('.abas [role=tab]');if(!b)return;
+  const l=$$('.abas [role=tab]'),i=l.indexOf(b);
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const n=l[(i+(e.key==='ArrowRight'?1:-1)+l.length)%l.length];selAba(n);n.focus()}
+});
+
+/* ---------- conversa da tela-estrela ---------- */
+const CHAT=(function(){
+  let tk=0,dicaT=0;
+  const box=()=>$('#chm'),dig=()=>$('#digita');
+  const desce=()=>{const b=box();if(b)b.scrollTop=b.scrollHeight};
+  const pill=t=>{const p=$('#pill');if(p)p.textContent=t};
+  function limpa(){
+    $$('#chm .msg').forEach(m=>m.classList.remove('vis'));
+    const of=$('#chm .oferta');if(of)of.classList.remove('pago');
+    pill(html.dataset.ad==='antes'?'Créditos: 8':'3 de 3 grátis');
+    dig().classList.remove('on');
+    $('#ovp').classList.remove('on');$('#ovp').setAttribute('aria-hidden','true');$('#ovp-voltar').tabIndex=-1;
+    const p=$('#pixsh');p.classList.remove('on','pago');
+    $('#pagar').classList.remove('dica');clearTimeout(dicaT);
+    $('#pagar').disabled=false;
+  }
+  async function digita(my,ms){const d=dig();box().appendChild(d);d.classList.add('on');desce();await espera(ms);d.classList.remove('on');return my===tk}
+  async function roda(){
+    const my=++tk;limpa();
+    const modo=html.dataset.ad;
+    const lista=$$('#chm .msg').filter(m=>!m.classList.contains('cont')&&(!m.dataset.modo||m.dataset.modo===modo));
+    if(REDUCED){lista.forEach(m=>m.classList.add('vis'));if(modo==='antes')pill('Créditos: 0');desce();return}
+    await espera(500);if(my!==tk)return;
+    for(const m of lista){
+      if(m.classList.contains('ia')||m.classList.contains('oferta')){
+        const ms=m.classList.contains('oferta')?900:Math.min(1900,700+m.textContent.length*9);
+        if(!await digita(my,ms))return;
+      }else{await espera(450);if(my!==tk)return}
+      m.classList.add('vis');desce();
+      if(m.classList.contains('sis'))pill('Créditos: 0');
+      await espera(m.classList.contains('eu')?500:650);if(my!==tk)return;
+    }
+    if(modo==='antes'){await espera(1500);if(my!==tk)return;abrePrecos()}
+    else{dicaT=setTimeout(()=>{if(my===tk)$('#pagar').classList.add('dica')},2500)}
+  }
+  function abrePrecos(){const o=$('#ovp');o.classList.add('on');o.setAttribute('aria-hidden','false');$('#ovp-voltar').tabIndex=0}
+  async function paga(){
+    const my=++tk;$('#pagar').classList.remove('dica');$('#pagar').disabled=true;
+    const p=$('#pixsh');p.classList.remove('pago');p.classList.add('on');
+    await espera(1500);if(my!==tk)return;
+    $('#pix-selo').innerHTML=window.sucessoHtml();p.classList.add('pago');
+    await espera(1300);if(my!==tk)return;
+    p.classList.remove('on');
+    $('#chm .oferta').classList.add('pago');pill('10 perguntas');desce();
+    if(!await digita(my,1100))return;
+    $('#chm .msg.cont').classList.add('vis');desce();
+    await espera(1500);if(my!==tk)return;
+    if(window.toast){const t=$('#toast');t.classList.add('alto');toast('Compra feita sem sair da conversa.');setTimeout(()=>t.classList.remove('alto'),3000)}
+  }
+  document.addEventListener('click',e=>{
+    if(e.target.closest('#pagar')){paga();return}
+    if(e.target.closest('#assinar')){toast('Assinatura: o mesmo cartão, um toque, e a conversa segue.');return}
+    if(e.target.closest('#agora-nao')){toast('Ela recebe um resumo grátis. A oferta volta no fim da próxima conversa.');return}
+    if(e.target.closest('#ver-planos')){abrePrecos();return}
+    if(e.target.closest('#ovp-voltar')){const o=$('#ovp');o.classList.remove('on');o.setAttribute('aria-hidden','true');$('#ovp-voltar').tabIndex=-1;return}
+    if(e.target.closest('#repetir')){roda();return}
+  });
+  return {roda,reseta:limpa,para(){tk++;clearTimeout(dicaT)}};
+})();
+
+/* ---------- lista priorizada: matriz + cartões que se expandem ---------- */
+const PRI=[
+  {t:'Oferta contextual dentro do chat',i:'alto',e:'médio',x:.42,y:.94,m:'No ponto de curiosidade da leitura, um cartão com o assunto dela, o preço do próximo passo e Pix ou Apple Pay em um toque. Depois do pagamento, a frase continua.',p:'É onde a vontade de pagar está no pico. Todas as outras melhorias levam gente até aqui; esta converte quem já chegou.',c:'Conversas que chegam ao gancho e quantas compram nele. Tempo entre o gancho e o pagamento.'},
+  {t:'Escada única de preços',i:'alto',e:'baixo',x:.2,y:.86,m:'Grátis, leitura avulsa e assinatura, com um recomendado por tela. Créditos ficam no sistema; na tela, viram perguntas.',p:'Tira a decisão em três moedas. O produto não muda, só a vitrine, por isso o esforço é baixo.',c:'Cliques em "comparar tudo", tempo na tela de preços e escolha do anual.'},
+  {t:'Cadastro depois do mapa',i:'alto',e:'baixo',x:.32,y:.70,m:'Data, cidade e hora opcional mostram o mapa. Conta só para salvar, com Google ou Apple. Data escrita por extenso.',p:'É a maior perda do funil e a correção é de fluxo, não de tecnologia.',c:'Conclusão do primeiro passo e cadastros sem hora de nascimento.'},
+  {t:'Checkout por mercado',i:'alto',e:'médio-alto',x:.7,y:.8,m:'Brasil com Pix primeiro e parcelamento no anual. EUA com Apple Pay, Google Pay, 7 dias grátis e cancelamento visível.',p:'Cada país tem um jeito de confiar num pagamento. Um formulário único perde os dois.',c:'Abandono no checkout separado por país e por meio de pagamento.'},
+  {t:'Leitura grátis que termina num gancho',i:'médio',e:'baixo',x:.17,y:.50,m:'Três pontos pessoais e uma pergunta aberta que leva ao chat, sem borrão nem bloqueio.',p:'Alimenta a melhoria 1: mais gente chega ao chat já curiosa sobre o próprio mapa.',c:'Quem sai da leitura direto para o chat.'},
+  {t:'Créditos viram perguntas',i:'médio',e:'baixo',x:.08,y:.34,m:'Contador em perguntas no chat e na oferta. "Cada mensagem consome 8 créditos" sai da tela.',p:'Medo de gastar faz a pessoa perguntar menos, e perguntar menos é chegar menos ao gancho.',c:'Perguntas por usuário na primeira semana.'},
+  {t:'Navegação em quatro entradas',i:'médio',e:'médio',x:.58,y:.46,m:'Seu mapa, Entender, Conversar e Acompanhar. Loja, Créditos e Planos viram um só lugar: Plano.',p:'Treze entradas no mesmo nível escondem o que é principal. Mexe em várias telas, por isso vem depois.',c:'Uso de cada entrada e caminho até o chat.'},
+  {t:'Mensagem e página por mercado',i:'médio',e:'médio',x:.76,y:.52,m:'Uma página de entrada para o Brasil e outra para os EUA, cada uma com a sua mensagem e os seus destaques.',p:'É o último item de propósito: divulgar antes das melhorias 1 a 4 é pagar para trazer gente para um funil que vaza.',c:'Conversão por origem de tráfego e por país.'}
+];
+let priMontado=false;
+function montaPri(){
+  if(priMontado)return;priMontado=true;
+  const acc=$('#acc'),g=$('#pts');
+  acc.innerHTML=PRI.map((p,k)=>`<div class="it${k===0?' on':''}" id="it${k}"><button type="button" aria-expanded="${k===0}" aria-controls="cp${k}"><span class="n">${k+1}</span><span class="tt"><b>${p.t}</b><span><span class="tag ${p.i==='alto'?'ouro':'lil'}">impacto ${p.i}</span><span class="tag">esforço ${p.e}</span></span></span><svg class="ico chev" aria-hidden="true"><use href="#i-chev"/></svg></button><div class="corpo" id="cp${k}"><div><dl><div><dt>O que muda</dt><dd>${p.m}</dd></div><div><dt>Por quê</dt><dd>${p.p}</dd></div><div><dt>Como medir</dt><dd>${p.c}</dd></div></dl></div></div></div>`).join('');
+  const ns='http://www.w3.org/2000/svg';
+  g.innerHTML=PRI.map((p,k)=>{const x=40+p.x*344,y=294-p.y*250;return `<g class="pt${k===0?' on':''}" data-k="${k}" tabindex="0" role="button" aria-label="Item ${k+1}: ${p.t}"><circle class="hit" cx="${x}" cy="${y}" r="28"/><circle class="v" cx="${x}" cy="${y}" r="14"/><text x="${x}" y="${y}">${k+1}</text></g>`}).join('');
+}
+function abreItem(k,rolar){
+  $$('.it').forEach((it,i)=>{const on=i===k?!it.classList.contains('on')||rolar:false;it.classList.toggle('on',on);it.querySelector('button').setAttribute('aria-expanded',String(on))});
+  $$('#pts .pt').forEach((p,i)=>p.classList.toggle('on',i===k&&$('#it'+k).classList.contains('on')));
+  if(rolar){const it=$('#it'+k);it.classList.remove('flash');void it.offsetWidth;it.classList.add('flash');it.scrollIntoView({block:'center',behavior:REDUCED?'auto':'smooth'})}
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.it>button');if(b){abreItem(+b.parentElement.id.slice(2),false);return}
+  const p=e.target.closest('#pts .pt');if(p){abreItem(+p.dataset.k,true)}
+});
+document.addEventListener('keydown',e=>{const p=e.target.closest&&e.target.closest('#pts .pt');if(p&&(e.key==='Enter'||e.key===' ')){e.preventDefault();abreItem(+p.dataset.k,true)}});
+
+/* ---------- barra inferior: "Mais" ---------- */
+const TELAS=[['resumo','Resumo do parecer'],['arquitetura','Arquitetura do produto'],['jornada','Jornada e fluxos'],['chat','A venda no chat'],['mercados','Brasil × EUA'],['precos','Preços e oferta'],['prioridades','Lista priorizada'],['entrega','Como é a entrega']];
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#bt-mais'))return;
+  const at=location.hash.slice(1)||'resumo';
+  abrirSheet('<h3>Partes do parecer</h3><div class="mais-l">'+TELAS.map(([id,n],k)=>`<button type="button" data-tela="${id}" data-fecha${id===at?' aria-current="page"':''}><span>${k+1}</span>${n}</button>`).join('')+'</div>');
+});
+
+/* ---------- WhatsApp vira só o ícone depois que a pessoa rola ---------- */
+let waT=0;
+addEventListener('scroll',()=>{if(waT)return;waT=requestAnimationFrame(()=>{waT=0;const d=$('.dev');if(d)d.classList.toggle('mini',scrollY>240)})},{passive:true});
+
+/* ---------- celular: estrelas em tamanho real, longe do texto ---------- */
+const PEQ=matchMedia('(max-width:640px)');
+function limpaCeu(){
+  if(!PEQ.matches)return;
+  const base=$$('#ceu circle').map(c=>({x:+c.getAttribute('cx'),y:+c.getAttribute('cy'),r:+c.getAttribute('r'),k:c.getAttribute('class')}));
+  $$('.tela.on .ceu').forEach(sec=>{
+    const sr=sec.getBoundingClientRect();if(!sr.width)return;
+    if(sec.dataset.ceuW==String(Math.round(sr.width))+'x'+Math.round(sr.height))return;
+    const caixas=[];const w=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT);let t;
+    while(t=w.nextNode()){if(!t.textContent.trim()||t.parentElement.closest('svg'))continue;const rg=document.createRange();rg.selectNodeContents(t);for(const r of rg.getClientRects())caixas.push([r.left-sr.left-8,r.top-sr.top-6,r.right-sr.left+8,r.bottom-sr.top+6])}
+    sec.querySelectorAll('button,.btn,a,:scope>.wrap .ad,:scope>.wrap .mk,:scope>.wrap .lentes span,:scope>.wrap .roda-w,:scope>.wrap .eyebrow,:scope>.wrap .ex-nota').forEach(e=>{const r=e.getBoundingClientRect();caixas.push([r.left-sr.left-6,r.top-sr.top-6,r.right-sr.left+6,r.bottom-sr.top+6])});
+    const ox=(sr.width-1200)/2;let out='';
+    for(let ty=0;ty<sr.height;ty+=420)base.forEach(c=>{const x=ox+c.x,y=ty+c.y;if(x<0||x>sr.width||y>sr.height)return;
+      if(caixas.some(b=>x+c.r>=b[0]&&x-c.r<=b[2]&&y+c.r>=b[1]&&y-c.r<=b[3]))return;
+      out+=`<circle class="${c.k}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${c.r}"/>`});
+    let sv=sec.querySelector(':scope>.est-m');
+    if(!sv){sv=document.createElementNS('http://www.w3.org/2000/svg','svg');sv.setAttribute('class','est-m');sv.setAttribute('aria-hidden','true');sec.prepend(sv)}
+    sv.innerHTML=out;sec.classList.add('limpo');sec.dataset.ceuW=String(Math.round(sr.width))+'x'+Math.round(sr.height);
+  });
+}
+let ceuT=0;addEventListener('resize',()=>{clearTimeout(ceuT);ceuT=setTimeout(limpaCeu,200)});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{$$('.ceu').forEach(s=>delete s.dataset.ceuW);limpaCeu()});
+
+/* ---------- quando uma tela aparece ---------- */
+document.addEventListener('tela',e=>{
+  const id=e.detail;
+  const tt=$('#toast');if(tt)tt.classList.remove('on','alto');
+  if(telaAtual==='chat'&&id!=='chat')CHAT.para();
+  telaAtual=id;
+  if(id==='arquitetura')ARQ.liga();
+  if(id==='chat'){CHAT.reseta();quandoVisivel('chat',$('#chm'),()=>CHAT.roda())}
+  if(id==='prioridades')montaPri();
+  requestAnimationFrame(limpaCeu);
+});
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
+</body>
+</html>
