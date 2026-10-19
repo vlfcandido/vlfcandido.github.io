@@ -72,8 +72,9 @@ describe('conteúdo da home', () => {
     const doAgente = [
       AGENTE.rotulo, AGENTE.titulo, AGENTE.texto, AGENTE.honestidade, AGENTE.painelTitulo,
       AGENTE.chamadaRamo, AGENTE.contadorSingular, AGENTE.contadorPlural, AGENTE.perguntaRotulo,
-      AGENTE.perguntaExemplo, AGENTE.perguntaDica, AGENTE.perguntaBotao, AGENTE.demonstracao,
-      AGENTE.notaPergunta, AGENTE.cta, AGENTE.peca, AGENTE.preco, AGENTE.notaPreco, AGENTE.aoVivo,
+      AGENTE.perguntaExemplo, AGENTE.perguntaDica, AGENTE.perguntaBotao, AGENTE.perguntaBotaoOcupado,
+      AGENTE.demonstracao, AGENTE.iaVerdade, AGENTE.consultando,
+      AGENTE.notaPergunta, AGENTE.notaPerguntaIA, AGENTE.cta, AGENTE.peca, AGENTE.preco, AGENTE.notaPreco, AGENTE.aoVivo,
       ...RAMOS.flatMap((r) => [
         r.rotulo, r.negocio, r.descricao, r.foraDoHorario, r.mensagemWhatsapp,
         ...r.eventos.flatMap((e) => (e.tipo === 'acao' ? [e.rotulo, e.detalhe, e.hora] : [e.texto, e.hora])),

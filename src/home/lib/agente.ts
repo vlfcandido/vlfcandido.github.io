@@ -70,8 +70,16 @@ export interface ConteudoAgente {
   perguntaExemplo: string
   perguntaDica: string
   perguntaBotao: string
+  /** Texto do botão enquanto a IA real responde. */
+  perguntaBotaoOcupado: string
   demonstracao: string
+  /** Selo quando a resposta veio do Worker com IA de verdade (19/10/2026). */
+  iaVerdade: string
+  /** Texto de espera enquanto o Worker responde. */
+  consultando: string
   notaPergunta: string
+  /** Nota do campo quando a pergunta é enviada ao Worker. */
+  notaPerguntaIA: string
   cta: string
   peca: string
   preco: string
@@ -97,7 +105,8 @@ const PAUSA_FIM = 4.2
 /** Tempo em que o balão de "digitando" fica visível antes de cada resposta do agente, em segundos. */
 const DIGITANDO = 1.6
 
-/** Textos fixos da cena. */export const AGENTE: ConteudoAgente = {
+/** Textos fixos da cena. */
+export const AGENTE: ConteudoAgente = {
   rotulo: 'Agente no WhatsApp',
   titulo: 'Ele atende sozinho.',
   texto: 'Escolha o ramo e veja o atendimento acontecer. Um toque, nada para configurar.',
@@ -109,8 +118,12 @@ const DIGITANDO = 1.6
   perguntaExemplo: 'Quanto custa?',
   perguntaDica: 'Pergunte algo e veja o agente responder.',
   perguntaBotao: 'Perguntar',
+  perguntaBotaoOcupado: 'Perguntando…',
   demonstracao: 'demonstração',
+  iaVerdade: 'IA de verdade · respostas limitadas',
+  consultando: 'Consultando a IA…',
   notaPergunta: 'Resposta por palavra-chave. Nada é enviado.',
+  notaPerguntaIA: 'Sua pergunta vai para a IA do site. Nada é gravado.',
   cta: 'Quero isso no meu WhatsApp',
   peca: 'Ver o Pelo Solto inteiro',
   preco: 'R$ 590 + R$ 149/mês no lançamento. Depois, R$ 990 + R$ 199/mês.',
@@ -299,6 +312,43 @@ export function quadroDoRamo(ramo: Ramo, t: number, reduzido = false): Quadro {
     equipe: acoes.some((a) => a.equipe),
     fim: tempo >= ultimo.em,
   }
+}
+
+/**
+ * Índice da primeira fala que cabe inteira junto com as seguintes.
+ *
+ * A conversa do celular rola por dentro. Para não mostrar um balão cortado no topo, o componente rola até o
+ * começo da primeira fala cuja altura, somada às seguintes, cabe na área visível. Se nem a última fala couber,
+ * ela mesma é o começo da janela.
+ *
+ * @param alturas altura de cada fala, na ordem da conversa.
+ * @param alturaVisivel altura interna do celular.
+ * @param espaco espaço vertical entre duas falas (o `gap` da conversa).
+ * @returns índice da primeira fala da janela (0 quando a lista está vazia).
+ */
+export function inicioDaJanela(alturas: number[], alturaVisivel: number, espaco = 0): number {
+  if (alturas.length === 0) return 0
+  let soma = 0
+  for (let i = alturas.length - 1; i >= 0; i--) {
+    soma += alturas[i] + (i < alturas.length - 1 ? espaco : 0)
+    if (soma > alturaVisivel) return Math.min(i + 1, alturas.length - 1)
+  }
+  return 0
+}
+
+/**
+ * Nome acessível do selo de origem da resposta.
+ *
+ * O selo visual é decorativo para leitor de tela; este texto entra em `sr-only`, separado da resposta, para a
+ * leitura e a cópia não grudarem "demonstração" no começo da frase.
+ *
+ * @param fonte origem da resposta em exibição.
+ * @returns a frase que descreve a origem.
+ */
+export function rotuloDaFonte(fonte: 'ia' | 'simulado' | 'palavra-chave' | 'consultando'): string {
+  if (fonte === 'ia') return 'Resposta de IA de verdade.'
+  if (fonte === 'consultando') return 'Consultando.'
+  return 'Resposta de demonstração.'
 }
 
 /**

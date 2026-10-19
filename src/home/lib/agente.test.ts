@@ -5,9 +5,11 @@ import {
   RAMOS,
   RAMO_PADRAO,
   duracao,
+  inicioDaJanela,
   quadroDoRamo,
   ramoPorId,
   responderPergunta,
+  rotuloDaFonte,
   semAcento,
   type Acao,
   type Ramo,
@@ -83,8 +85,9 @@ describe('agente trabalhando sozinho', () => {
     const textos = [
       AGENTE.rotulo, AGENTE.titulo, AGENTE.texto, AGENTE.chamadaRamo, AGENTE.painelTitulo,
       AGENTE.contadorSingular, AGENTE.contadorPlural, AGENTE.perguntaRotulo, AGENTE.perguntaExemplo,
-      AGENTE.perguntaDica, AGENTE.perguntaBotao, AGENTE.demonstracao, AGENTE.cta, AGENTE.peca, AGENTE.preco,
-      AGENTE.notaPreco, AGENTE.honestidade, AGENTE.notaPergunta,
+      AGENTE.perguntaDica, AGENTE.perguntaBotao, AGENTE.perguntaBotaoOcupado, AGENTE.demonstracao,
+      AGENTE.iaVerdade, AGENTE.consultando, AGENTE.cta, AGENTE.peca, AGENTE.preco,
+      AGENTE.notaPreco, AGENTE.honestidade, AGENTE.notaPergunta, AGENTE.notaPerguntaIA,
       ...RAMOS.flatMap((r) => [
         r.rotulo, r.negocio, r.descricao, r.foraDoHorario, r.mensagemWhatsapp,
         ...r.eventos.flatMap((e) => (e.tipo === 'acao' ? [e.rotulo, e.detalhe, e.hora] : [e.texto, e.hora])),
@@ -197,5 +200,35 @@ describe('agente trabalhando sozinho', () => {
   it('o convite e o link secundário são os do brief', () => {
     expect(AGENTE.cta).toBe('Quero isso no meu WhatsApp')
     expect(AGENTE.peca).toBe('Ver o Pelo Solto inteiro')
+  })
+
+  it('a janela da conversa começa na primeira fala que cabe inteira', () => {
+    expect(inicioDaJanela([60, 60, 60, 60], 200)).toBe(1)
+    expect(inicioDaJanela([60, 60, 60, 60], 120)).toBe(2)
+    expect(inicioDaJanela([60, 60, 60], 500)).toBe(0)
+  })
+
+  it('conta o espaço entre as falas para não cortar o topo', () => {
+    expect(inicioDaJanela([60, 60, 60, 60], 200, 5)).toBe(1)
+    expect(inicioDaJanela([60, 60, 60, 60], 180, 5)).toBe(2)
+    expect(inicioDaJanela([60, 60, 60, 60], 130, 5)).toBe(2)
+  })
+
+  it('se nem a última fala cabe, mostra a última a partir do topo', () => {
+    expect(inicioDaJanela([60, 300], 150)).toBe(1)
+    expect(inicioDaJanela([], 100)).toBe(0)
+  })
+
+  it('dá nome acessível ao selo de origem, separado da resposta', () => {
+    expect(rotuloDaFonte('ia')).toBe('Resposta de IA de verdade.')
+    expect(rotuloDaFonte('simulado')).toBe('Resposta de demonstração.')
+    expect(rotuloDaFonte('palavra-chave')).toBe('Resposta de demonstração.')
+    expect(rotuloDaFonte('consultando')).toBe('Consultando.')
+  })
+
+  it('declara a IA de verdade com o limite de resposta, sem esconder a origem', () => {
+    expect(AGENTE.iaVerdade).toBe('IA de verdade · respostas limitadas')
+    expect(AGENTE.notaPerguntaIA).toMatch(/nada é gravado/i)
+    expect(AGENTE.notaPergunta).toMatch(/palavra-chave/i)
   })
 })

@@ -1,18 +1,22 @@
 // Agente trabalhando sozinho (18/10/2026): a coluna direita do hero mostra o atendimento acontecendo, sem pedir
 // que o visitante responda por ele. Um toque escolhe o ramo; a cena roda sozinha, em loop calmo. Todo o roteiro
-// sai de lib/agente.ts. Nada é gravado e nenhum texto digitado sai do navegador.
+// sai de lib/agente.ts. No site publicado (19/10/2026), a pergunta do visitante vai para o Worker de IA e nada
+// é gravado; em erro, tempo esgotado ou execução local, a resposta é por palavra-chave e não sai do navegador.
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { caminhoPublico } from '../lib/assets'
 import { medir } from '../lib/medir'
 import { linkWhatsapp } from '../lib/whatsapp'
+import { URL_DO_AGENTE, deveUsarRemoto, perguntarAoAgente } from './lib/agente-remoto'
 import {
   AGENTE,
   PECA_DO_AGENTE,
   RAMOS,
   RAMO_PADRAO,
   duracao,
+  inicioDaJanela,
   quadroDoRamo,
   ramoPorId,
+  rotuloDaFonte,
   responderPergunta,
   type Acao,
   type Ramo,
@@ -42,8 +46,9 @@ function acoesDe(ramo: Ramo): Acao[] {
  * Coluna direita do hero: o agente atendendo sozinho no WhatsApp.
  *
  * O visitante escolhe o ramo no máximo uma vez; o resto acontece sozinho. A cena pausa fora da tela, recomeça
- * ao trocar de ramo e, com `prefers-reduced-motion`, mostra o quadro final. O campo de pergunta é opcional e
- * responde por palavra-chave, sem enviar nada.
+ * ao trocar de ramo e, com `prefers-reduced-motion`, mostra o quadro final. O campo de pergunta é opcional: no
+ * site publicado, a pergunta vai para o Worker de IA, presa à ficha do ramo; em erro ou até 6 s sem resposta,
+ * cai na palavra-chave local. Nenhuma conversa é gravada.
  */
 export function Agente() {
   const base = import.meta.env.BASE_URL
@@ -53,10 +58,26 @@ export function Agente() {
   const [t, setT] = useState(() => (reduzido ? duracao(ramo) : 0))
   const [naTela, setNaTela] = useState(true)
   const [pergunta, setPergunta] = useState('')
-  const [resposta, setResposta] = useState<{ pergunta: string; texto: string; equipe: boolean } | null>(null)
+  const [resposta, setResposta] = useState<{
+    pergunta: string
+    texto: string
+    equipe: boolean
+    /** `ia` e `simulado` vêm do Worker; `palavra-chave` é o plano B local; `consultando` é a espera. */
+    fonte: 'ia' | 'simulado' | 'palavra-chave' | 'consultando'
+  } | null>(null)
+  const [respondendo, setRespondendo] = useState(false)
+  /**
+   * O hero só chama o Worker no site publicado. `?agente-real` força a tentativa no teste local, mas a chamada
+   * só passa se a origem local estiver em `ORIGENS` no Worker (ou se um proxy trocar a Origin).
+   */
+  const [remoto] = useState(
+    () => typeof window !== 'undefined' && deveUsarRemoto(window.location.hostname, window.location.search),
+  )
   const raiz = useRef<HTMLElement>(null)
   const conversa = useRef<HTMLDivElement>(null)
   const tAtual = useRef(t)
+  /** Identifica o pedido em voo: a resposta de um ramo antigo não sobrescreve o ramo atual. */
+  const pedido = useRef(0)
 
   const quadro = quadroDoRamo(ramo, t, reduzido)
   const acoes = acoesDe(ramo)
@@ -108,18 +129,38 @@ export function Agente() {
     return () => window.clearInterval(id)
   }, [naTela, reduzido, ramo])
 
-  // A conversa acompanha a última fala, rolando por dentro do celular (nunca a página).
+  // A conversa acompanha a última fala, rolando por dentro do celular (nunca a página). A janela começa numa
+  // fala inteira, para nenhum balão aparecer cortado no topo.
   useEffect(() => {
     const el = conversa.current
     if (!el) return
-    const reiniciou = quadro.mensagens.length <= 1
-    el.scrollTo({ top: el.scrollHeight, behavior: reduzido || reiniciou ? 'auto' : 'smooth' })
+    const id = requestAnimationFrame(() => {
+      const bolhas = [...el.querySelectorAll<HTMLElement>('.agente-fala')]
+      const espaco = Number.parseFloat(getComputedStyle(el).rowGap) || 0
+      const primeira = bolhas[inicioDaJanela(bolhas.map((b) => b.offsetHeight), el.clientHeight, espaco)]
+      if (!primeira || el.scrollHeight <= el.clientHeight) {
+        el.style.setProperty('--folga-conversa', '0px')
+        el.scrollTop = 0
+        return
+      }
+      // A fala escolhida vira o topo da janela. Quando o que sobra abaixo é menor que o celular, o navegador
+      // não deixaria rolar até ali; a folga temporária no pé dá o espaço exato e evita o balão cortado.
+      el.style.setProperty('--folga-conversa', '0px')
+      const alvo = primeira.offsetTop
+      const folga = Math.max(0, alvo + el.clientHeight - el.scrollHeight)
+      el.style.setProperty('--folga-conversa', `${Math.ceil(folga)}px`)
+      void el.scrollHeight
+      el.scrollTo({ top: alvo, behavior: 'auto' })
+    })
+    return () => cancelAnimationFrame(id)
   }, [quadro.mensagens.length, quadro.digitando, ramoId, reduzido])
 
   /** Troca o ramo, zera a cena e limpa a resposta anterior. */
   const escolherRamo = (id: RamoId) => {
     if (id === ramoId) return
     medir('hero_agente_ramo')
+    pedido.current += 1
+    setRespondendo(false)
     tAtual.current = 0
     setT(0)
     setRamoId(id)
@@ -127,14 +168,37 @@ export function Agente() {
     setResposta(null)
   }
 
-  /** Responde a pergunta do visitante com o roteiro do ramo, sem enviar nada para fora. */
-  const perguntar = (e: FormEvent) => {
+  /**
+   * Responde a pergunta do visitante.
+   *
+   * No site publicado, tenta a IA real do Worker e troca o selo para "IA de verdade". Em erro, tempo esgotado
+   * (6 s) ou fora do site, cai na resposta por palavra-chave do roteiro, que nunca sai do navegador.
+   */
+  const perguntar = async (e: FormEvent) => {
     e.preventDefault()
-    const r = responderPergunta(ramo, pergunta)
-    if (!r) return
+    if (respondendo) return
+    const texto = pergunta.trim()
+    const local = responderPergunta(ramo, texto)
+    if (!local) return
     medir('hero_agente_pergunta')
-    setResposta({ pergunta: pergunta.trim(), ...r })
     setPergunta('')
+    const id = ++pedido.current
+
+    if (!remoto) {
+      setResposta({ pergunta: texto, texto: local.texto, equipe: local.equipe, fonte: 'palavra-chave' })
+      return
+    }
+
+    setRespondendo(true)
+    setResposta({ pergunta: texto, texto: '', equipe: false, fonte: 'consultando' })
+    const remota = await perguntarAoAgente(URL_DO_AGENTE, ramo.id, texto)
+    if (id !== pedido.current) return
+    setRespondendo(false)
+    setResposta(
+      remota
+        ? { pergunta: texto, texto: remota.texto, equipe: remota.equipe, fonte: remota.origem }
+        : { pergunta: texto, texto: local.texto, equipe: local.equipe, fonte: 'palavra-chave' },
+    )
   }
 
   return (
@@ -237,7 +301,7 @@ export function Agente() {
         </aside>
       </div>
 
-      <form className="agente-pergunta" onSubmit={perguntar}>
+      <form className="agente-pergunta" onSubmit={perguntar} aria-busy={respondendo}>
         <label className="agente-pergunta-rotulo" htmlFor="agente-pergunta">{AGENTE.perguntaRotulo}</label>
         <p id="agente-pergunta-ajuda" className="sr-only">{AGENTE.perguntaDica}</p>
         <div className="agente-pergunta-linha">
@@ -251,19 +315,37 @@ export function Agente() {
             autoComplete="off"
             aria-describedby="agente-pergunta-ajuda"
           />
-          <button type="submit" className="agente-pergunta-botao">{AGENTE.perguntaBotao}</button>
+          <button type="submit" className="agente-pergunta-botao" disabled={respondendo}>
+            {respondendo ? AGENTE.perguntaBotaoOcupado : AGENTE.perguntaBotao}
+          </button>
         </div>
-        <div className="agente-resposta" data-vazia={!resposta} data-equipe={resposta?.equipe ?? false} aria-live="polite">
+        <div
+          className="agente-resposta"
+          data-vazia={!resposta}
+          data-equipe={resposta?.equipe ?? false}
+          data-consultando={resposta?.fonte === 'consultando'}
+          aria-live="polite"
+        >
           {resposta ? (
             <>
               <p className="agente-resposta-pergunta">Você perguntou · {resposta.pergunta}</p>
               <p className="agente-resposta-texto">
-                <span className="agente-demo">{AGENTE.demonstracao}</span>
-                {resposta.texto}
+                {resposta.fonte !== 'consultando' && (
+                  <>
+                    <span
+                      className={`agente-demo${resposta.fonte === 'ia' ? ' agente-demo-ia' : ''}`}
+                      aria-hidden="true"
+                    >
+                      {resposta.fonte === 'ia' ? AGENTE.iaVerdade : AGENTE.demonstracao}
+                    </span>
+                    <span className="sr-only">{rotuloDaFonte(resposta.fonte)} </span>
+                  </>
+                )}
+                {resposta.fonte === 'consultando' ? AGENTE.consultando : resposta.texto}
               </p>
             </>
           ) : (
-            <p className="agente-resposta-texto">{AGENTE.notaPergunta}</p>
+            <p className="agente-resposta-texto">{remoto ? AGENTE.notaPerguntaIA : AGENTE.notaPergunta}</p>
           )}
         </div>
       </form>
