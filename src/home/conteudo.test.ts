@@ -6,11 +6,11 @@ import { ONDE_TRABALHEI, empresasDiretas } from '../clientes'
 import { encontrarTermosProibidos } from '../lib/termos-proibidos'
 import { PROJETOS_NO_PRINT_ESTE_SITE, listarProjetos } from '../projetos'
 import { FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva } from './conteudo'
-import { PLANTAO, estadoInicial } from './lib/plantao'
+import { AGENTE, RAMOS } from './lib/agente'
 
 const c = conteudoHome()
 const tudo = JSON.stringify(c)
-const tudoVisivel = tudo + JSON.stringify(PLANTAO)
+const tudoVisivel = tudo + JSON.stringify(AGENTE) + JSON.stringify(RAMOS)
 
 describe('conteúdo da home', () => {
   it('tem exatamente 3 destaques, cada um com dor e detalhe', () => {
@@ -20,12 +20,12 @@ describe('conteúdo da home', () => {
       expect(d.detalhe.length).toBeGreaterThan(10)
     }
   })
-  // 18/10/2026 (brief do hero): preço passou a existir no resumo do plantão, com os valores reais da política de
+  // 18/10/2026 (brief do hero): preço passou a existir na cena do agente, com os valores reais da política de
   // 09/10. O resto da home continua sem preço, para não ancorar a conversa antes do escopo.
-  it('só o plantão tem preço, e é o da política', () => {
+  it('só o agente tem preço, e é o da política', () => {
     expect(tudo).not.toMatch(/R\$\s?\d/)
-    expect(PLANTAO.resumo.preco).toMatch(/R\$ 590 \+ R\$ 149\/mês no lançamento/)
-    expect(PLANTAO.resumo.preco).toMatch(/R\$ 990 \+ R\$ 199\/mês/)
+    expect(AGENTE.preco).toMatch(/R\$ 590 \+ R\$ 149\/mês no lançamento/)
+    expect(AGENTE.preco).toMatch(/R\$ 990 \+ R\$ 199\/mês/)
   })
   it('não tem termo proibido', () => expect(encontrarTermosProibidos(tudoVisivel)).toEqual([]))
   it('garantia é de 30 dias de correção', () => expect(c.garantia).toMatch(/30 dias de correção/))
@@ -69,22 +69,25 @@ describe('conteúdo da home', () => {
     expect(new Set(PECAS.map((x) => x.resumo)).size).toBe(PECAS.length)
   })
   it('nenhum dois-pontos nem travessão no texto da home (humanizer)', () => {
-    const doPlantao = [
-      PLANTAO.rotulo, PLANTAO.titulo, PLANTAO.texto, PLANTAO.honestidade,
-      ...estadoInicial().falas.map((f) => f.texto),
-      ...PLANTAO.regras.flatMap((r) => [r.nome, r.curto, r.texto]),
-      ...PLANTAO.passos.flatMap((p) => [p.mensagem, ...p.opcoes.flatMap((o) => [o.rotulo, o.resposta ?? '', o.nota ?? '', o.sistema ?? ''])]),
-      PLANTAO.resumo.rotulo, PLANTAO.resumo.titulo, PLANTAO.resumo.chamadaSegmento, PLANTAO.resumo.preco,
-      PLANTAO.resumo.notaPreco, PLANTAO.resumo.cta, PLANTAO.resumo.peca, PLANTAO.resumo.reiniciar,
-      ...PLANTAO.segmentos.map((s) => s.rotulo),
+    const doAgente = [
+      AGENTE.rotulo, AGENTE.titulo, AGENTE.texto, AGENTE.honestidade, AGENTE.painelTitulo,
+      AGENTE.chamadaRamo, AGENTE.contadorSingular, AGENTE.contadorPlural, AGENTE.perguntaRotulo,
+      AGENTE.perguntaExemplo, AGENTE.perguntaDica, AGENTE.perguntaBotao, AGENTE.demonstracao,
+      AGENTE.notaPergunta, AGENTE.cta, AGENTE.peca, AGENTE.preco, AGENTE.notaPreco, AGENTE.aoVivo,
+      ...RAMOS.flatMap((r) => [
+        r.rotulo, r.negocio, r.descricao, r.foraDoHorario, r.mensagemWhatsapp,
+        ...r.eventos.flatMap((e) => (e.tipo === 'acao' ? [e.rotulo, e.detalhe, e.hora] : [e.texto, e.hora])),
+        ...r.respostas.flatMap((x) => [x.resposta]),
+      ]),
     ]
     const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.prototipo.titulo, c.prototipo.texto,
       ...c.destaques.flatMap((d) => [d.dor, d.detalhe]), ...c.passos.flatMap((x) => [x.titulo, x.texto]), c.garantia,
       c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo, c.experimente.lede,
       c.ia.rotulo, c.ia.titulo, c.ia.lede, c.ia.exemplo.rotulo, c.ia.exemplo.titulo, c.ia.exemplo.texto,
       ...c.ia.frentes.flatMap((f) => [f.titulo, f.texto]), ...c.ia.provas.flatMap((p) => [p.nome, p.texto]),
-      c.trabalhos.titulo, c.trabalhos.lede, ...c.trabalhos.categorias.map((x) => x.rotulo), ...doPlantao]
-    for (const t of visivel) expect(t, t).not.toMatch(/[:—–]/)
+      c.trabalhos.titulo, c.trabalhos.lede, ...c.trabalhos.categorias.map((x) => x.rotulo), ...doAgente]
+    // O horário (02:14) é o único dois-pontos permitido: some antes da checagem.
+    for (const t of visivel) expect(t.replace(/\b\d{2}:\d{2}\b/g, ''), t).not.toMatch(/[:—–]/)
   })
   // 18/10/2026 (brief do dono): a home abre pela especialidade de IA e agentes, com prova e sem superlativo.
   it('a abertura traz o cargo no Sicoob, os 80 chatbots e o Claude', () => {

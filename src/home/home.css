@@ -99,152 +99,209 @@
 
   .titulo-bloco { font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem); line-height: 1.12; font-weight: 600; }
 
-  /* ---------------------------------------------------------------- Plantão do atendente (18/10/2026) */
-  /* A coluna direita do hero deixou de ser captura: o visitante escolhe a resposta do atendente em três decisões
-     reais do Pelo Solto. O cartão de tinta com a barra amarela é a força de cor do primeiro impacto; o carimbo de
-     regra é a assinatura. No celular, título, subtítulo e CTA vêm primeiro; o cartão entra logo abaixo e ocupa
-     ~300 px, com a conversa rolando por dentro. No PC, o painel ocupa a coluna direita com as quatro regras ao lado. */
+  /* ---------------------------------------------------------------- Agente trabalhando sozinho (18/10/2026) */
+  /* A coluna direita do hero mostra o atendimento acontecendo: o visitante escolhe o ramo no máximo uma vez e a
+     cena roda sozinha. O cartão de tinta com a barra amarela é a força de cor do primeiro impacto; os balões do
+     agente em amarelo e o painel de ações são a assinatura. No celular, título, subtítulo e CTA vêm primeiro; o
+     cartão entra logo abaixo, com o WhatsApp e a faixa de ações empilhados. No PC, os dois ficam lado a lado.
+     Alturas fixas: a cena não empurra o resto da página. */
   .promessa { display: flex; flex-direction: column; gap: 0; }
   .promessa-texto { order: 1; }
-  .promessa > .plantao { order: 2; margin-top: 28px; }
+  .promessa > .agente { order: 2; margin-top: 28px; }
   .promessa-numeros { order: 3; margin-top: 28px; }
   @media (min-width: 1024px) {
-    .promessa { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-      column-gap: 64px; align-items: start; }
+    .promessa { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+      column-gap: 56px; align-items: start; }
     .promessa-texto { grid-column: 1; grid-row: 1; }
-    .promessa > .plantao { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin-top: 0; }
+    .promessa > .agente { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin-top: 0; }
     .promessa-numeros { grid-column: 1; grid-row: 2; margin-top: 48px; }
   }
 
-  .plantao { position: relative; overflow: hidden; border: 1px solid #2a2620; border-radius: var(--raio-m);
-    background: #17150f; color: #f3efe6; padding: 18px 18px 16px; }
-  .plantao::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: var(--sol); }
-  @media (min-width: 640px) { .plantao { padding: 22px 22px 18px; } }
+  .agente { position: relative; overflow: hidden; border: 1px solid #2a2620; border-radius: var(--raio-m);
+    background: #17150f; color: #f3efe6; padding: 14px 14px 10px; }
+  .agente::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: var(--sol); }
+  /* O clarão amarelo no pé do cartão dá a força da marca sem competir com o texto. */
+  .agente::after { content: ""; position: absolute; inset: auto -20% -35% -20%; height: 55%; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--sol) 22%, transparent), transparent 68%); }
+  .agente > * { position: relative; z-index: 1; }
+  @media (min-width: 640px) { .agente { padding: 18px 20px 16px; } }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-tema="claro"]) .plantao { background: #0d0c0a; border-color: #3b3830; }
+    :root:not([data-tema="claro"]) .agente { background: #0d0c0a; border-color: #3b3830; }
   }
-  :root[data-tema="escuro"] .plantao { background: #0d0c0a; border-color: #3b3830; }
+  :root[data-tema="escuro"] .agente { background: #0d0c0a; border-color: #3b3830; }
 
-  .plantao-topo { display: grid; gap: 5px; }
-  @media (max-width: 639px) {
-    .plantao { padding: 14px 16px; }
-    .plantao-titulo { font-size: 1.4rem; }
-    .plantao-texto { font-size: 0.84rem; line-height: 1.35; }
-    .plantao-grade { margin-top: 12px; }
+  .agente-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .agente-rotulo { display: inline-flex; align-items: center; gap: 6px; font-size: 0.66rem; line-height: 1;
+    font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sol); }
+  .agente-vivo { width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--sol);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--sol) 55%, transparent); animation: agente-pulso 2s var(--mola) infinite; }
+  @keyframes agente-pulso {
+    0%, 70%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sol) 45%, transparent); }
+    35% { box-shadow: 0 0 0 5px transparent; }
   }
-  .plantao-rotulo { font-size: 0.7rem; line-height: 1; font-weight: 700; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--sol); }
-  .plantao-titulo { font-family: var(--fonte-titulo); font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  .agente-ao-vivo { color: #8f887a; font-weight: 600; letter-spacing: 0.08em; text-transform: none; }
+  @media (max-width: 479px) { .agente-ao-vivo { display: none; } }
+  .agente-hora { flex: none; padding: 3px 8px; border: 1px solid #3b3830; border-radius: var(--raio-pilula);
+    color: #f3efe6; font-size: 0.66rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .agente-periodo { color: #8f887a; }
+
+  .agente-titulo { margin-top: 5px; font-family: var(--fonte-titulo); font-size: clamp(1.45rem, 1.2rem + 0.8vw, 1.9rem);
     line-height: 1.04; font-weight: 600; color: #fffdf9; }
-  .plantao-texto { font-size: 0.88rem; line-height: 1.4; color: #c8c1b3; }
+  .agente-texto { margin-top: 3px; color: #c8c1b3; font-size: 0.8rem; line-height: 1.35; }
+  @media (max-width: 639px) { .agente-texto { display: none; } }
 
-  .plantao-grade { display: grid; gap: 14px; margin-top: 14px; }
-  @media (min-width: 1200px) { .plantao-grade { grid-template-columns: minmax(0, 1fr) 180px; align-items: start; } }
-
-  /* A folha de plantão tem altura fixa nos dois estados (conversa e resumo), para o hero não pular durante o jogo. */
-  .plantao-folha { display: flex; flex-direction: column; height: 290px; min-width: 0; overflow: hidden;
-    border: 1px solid #3b3830; border-radius: var(--raio-p); background: #0f0e0b; }
-  @media (min-width: 1024px) { .plantao-folha { height: 430px; } }
-
-  .plantao-cabecalho { display: flex; align-items: center; justify-content: space-between; gap: 8px;
-    padding: 6px 10px; border-bottom: 1px solid #3b3830; background: #17150f; }
-  .plantao-selo { display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border-radius: var(--raio-pilula);
-    background: var(--sol); color: #17150f; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-  .plantao-progresso { font-size: 0.68rem; color: #c8c1b3; font-variant-numeric: tabular-nums; }
-  /* Faixa compacta das quatro regras (celular e tablet): o painel lateral só existe a partir de 1200 px. */
-  .plantao-regras-linha { display: flex; flex-wrap: wrap; gap: 3px 9px; padding: 4px 10px;
-    border-bottom: 1px solid #3b3830; background: #14120e; color: #8f887a; font-size: 0.58rem;
-    letter-spacing: 0.03em; line-height: 1.2; }
-  .plantao-regras-linha span[data-ativa="true"] { color: var(--sol); font-weight: 700; }
-  .plantao-regras-linha b { color: var(--sol); font-weight: 700; }
-  @media (min-width: 1200px) { .plantao-regras-linha { display: none; } }
-  @media (max-width: 374px) { .plantao-texto { display: none; } }
-
-  .plantao-conversa { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 7px; padding: 10px;
-    overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #4a463e transparent; }
-  .plantao-fala { display: flex; flex-direction: column; gap: 2px; max-width: 90%; }
-  .plantao-fala-cliente { align-self: flex-start; align-items: flex-start; }
-  .plantao-fala-agente { align-self: flex-end; align-items: flex-end; }
-  .plantao-quem { font-size: 0.6rem; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #8f887a; }
-  .plantao-fala p { margin: 0; padding: 7px 9px; border-radius: 12px; font-size: 0.8rem; line-height: 1.38; }
-  .plantao-dica { display: none; }
-  @media (min-width: 640px) {
-    .plantao-dica { display: block; margin-top: auto; padding-top: 8px; color: #8f887a; font-size: 0.7rem; text-align: center; }
-  }
-  .plantao-fala-cliente p { background: #2a2620; color: #f3efe6; border-bottom-left-radius: 4px; }
-  .plantao-fala-agente p { background: #fffdf9; color: #17150f; border-bottom-right-radius: 4px; }
-  .plantao-carimbo { display: inline-block; padding: 1px 5px; border: 1px solid color-mix(in srgb, var(--sol) 60%, transparent);
-    border-radius: 2px; color: var(--sol); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.56rem; letter-spacing: 0.05em; text-transform: uppercase; transform: rotate(-1.5deg); }
-  .plantao-sistema { align-self: center; max-width: 94%; margin: 1px 0; padding: 5px 8px; border: 1px dashed #3b3830;
-    border-radius: var(--raio-p); color: #c8c1b3; font-size: 0.7rem; line-height: 1.35; text-align: center; }
-  .plantao-sistema-regra { display: block; margin-bottom: 1px; color: var(--sol); font-size: 0.56rem;
-    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-
-  .plantao-opcoes { display: grid; gap: 5px; padding: 6px 10px 8px; border-top: 1px solid #3b3830; background: #17150f; }
-  .plantao-opcao { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px;
-    padding: 6px 10px; border: 1px solid #4a463e; border-radius: var(--raio-p); background: #211f1a; color: #f3efe6;
-    font-size: 0.78rem; font-weight: 600; line-height: 1.25; text-align: left; cursor: pointer; }
-  .plantao-opcao:disabled { opacity: 0.5; border-style: dashed; cursor: not-allowed; }
-  .plantao-opcao-barrada { flex: none; color: var(--sol); font-size: 0.56rem; font-weight: 700;
-    letter-spacing: 0.04em; text-transform: uppercase; }
+  .agente-seletor { margin-top: 8px; }
+  .agente-chamada { color: #8f887a; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .agente-ramos { display: flex; gap: 4px; margin-top: 4px; overflow-x: auto; padding-bottom: 2px;
+    scrollbar-width: none; }
+  .agente-ramos::-webkit-scrollbar { display: none; }
+  .agente-ramo { flex: 1 0 auto; min-height: 44px; padding: 0 10px; border: 1px solid #4a463e; border-radius: var(--raio-pilula);
+    background: #211f1a; color: #f3efe6; font-size: 0.72rem; font-weight: 600; white-space: nowrap; cursor: pointer; }
+  .agente-ramo[aria-pressed="true"] { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
   @media (hover: hover) {
-    .plantao-opcao { transition: background-color var(--mov-toque) var(--mola), border-color var(--mov-toque) var(--mola),
-      transform var(--mov-toque) var(--mola), box-shadow var(--mov-toque) var(--mola); }
-    .plantao-opcao:not(:disabled):hover { border-color: var(--sol); background: #2a2620; transform: translateY(-1px);
-      box-shadow: 0 6px 14px -8px #000; }
-    .plantao-segmentos-botoes button, .plantao-reiniciar { transition: border-color var(--mov-toque) var(--mola),
-      background-color var(--mov-toque) var(--mola), color var(--mov-toque) var(--mola); }
-    .plantao-segmentos-botoes button:hover, .plantao-reiniciar:hover { border-color: var(--sol); color: var(--sol); }
-    .plantao-segmentos-botoes button[aria-pressed="true"]:hover { color: #17150f; }
+    .agente-ramo { transition: background-color var(--mov-toque) var(--mola), border-color var(--mov-toque) var(--mola),
+      color var(--mov-toque) var(--mola); }
+    .agente-ramo:hover { border-color: var(--sol); }
+    .agente-ramo[aria-pressed="true"]:hover { color: var(--on-sol); }
   }
-  .plantao-opcao:not(:disabled):active { transform: scale(0.99); }
+  .agente-ramo:active { transform: scale(0.98); }
 
-  .plantao-resumo { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 11px;
-    background: #0f0e0b; scrollbar-width: thin; scrollbar-color: #4a463e transparent; }
-  .plantao-resumo-rotulo { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sol); }
-  .plantao-resumo h3 { margin-top: 1px; font-family: var(--fonte-titulo); font-size: 1.05rem; line-height: 1.15; color: #fffdf9; }
-  .plantao-fatos { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 6px; }
-  .plantao-fatos li { display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px; border: 1px solid #3b3830;
-    border-radius: var(--raio-pilula); color: #c8c1b3; font-size: 0.62rem; line-height: 1.2; }
-  .plantao-fatos li[data-ok="true"] { color: #f3efe6; border-color: color-mix(in srgb, var(--sol) 45%, transparent); }
-  .plantao-fatos li > span[aria-hidden] { flex: none; color: var(--sol); }
-  .plantao-bloqueios { margin-top: 4px; color: #c8c1b3; font-size: 0.64rem; }
-  .plantao-segmentos { margin-top: 7px; }
-  .plantao-segmentos-titulo { color: #f3efe6; font-size: 0.68rem; font-weight: 600; }
-  .plantao-segmentos-botoes { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
-  .plantao-segmentos-botoes button { min-height: 44px; padding: 0 9px; border: 1px solid #4a463e; border-radius: var(--raio-pilula);
-    background: #211f1a; color: #f3efe6; font-size: 0.68rem; font-weight: 600; cursor: pointer; }
-  .plantao-segmentos-botoes button[aria-pressed="true"] { background: var(--sol); border-color: var(--sol); color: #17150f; }
-  .plantao-preco { margin-top: 7px; color: #f3efe6; font-size: 0.7rem; font-weight: 600; line-height: 1.35; }
-  .plantao-preco-nota { color: #c8c1b3; font-size: 0.62rem; line-height: 1.3; }
-  .plantao-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 7px; }
-  .plantao-cta { display: flex; width: 100%; min-height: 44px; justify-content: center; margin-top: 8px;
-    padding: 8px 14px; font-size: 0.8rem; }
-  /* O CTA do resumo fica no fluxo do resumo. Testei sticky no pé do cartão: ele cobria o preço no celular. O
-     resumo rola por dentro e a ação aparece logo depois do preço, sem esconder nada. */
-  .plantao-link { flex: 1 1 auto; justify-content: center; display: inline-flex; align-items: center; gap: 4px; min-height: 44px;
-    color: var(--sol); font-size: 0.7rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-  .plantao-reiniciar { flex: 0 1 auto; min-height: 44px; padding: 0 10px; border: 1px solid #4a463e; border-radius: var(--raio-pilula);
-    background: transparent; color: #c8c1b3; font-size: 0.68rem; font-weight: 600; cursor: pointer; }
+  .agente-cena { display: grid; gap: 8px; margin-top: 8px; }
+  @media (min-width: 1100px) {
+    .agente-cena { grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr); align-items: stretch; gap: 10px; }
+  }
 
-  .plantao-regras { color: #c8c1b3; }
-  .plantao-regras-titulo { color: var(--sol); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-  .plantao-regras ol { display: grid; gap: 6px; margin-top: 7px; padding: 0; list-style: none; }
-  .plantao-regras li { display: grid; grid-template-columns: 18px minmax(0, 1fr); column-gap: 6px;
-    padding: 6px 7px; border-left: 2px solid #3b3830; }
-  .plantao-regras li[data-ativa="true"] { border-left-color: var(--sol); background: #211f1a; }
-  .plantao-regra-numero { grid-row: span 2; color: var(--sol); font-family: var(--fonte-titulo); font-size: 1rem; line-height: 1; }
-  .plantao-regra-nome { color: #fffdf9; font-size: 0.8rem; font-weight: 600; line-height: 1.2; }
-  .plantao-regra-texto { color: #c8c1b3; font-size: 0.72rem; line-height: 1.32; }
-  .plantao-honestidade { margin-top: 9px; color: #c8c1b3; font-size: 0.7rem; line-height: 1.35; }
+  .agente-celular { display: flex; flex-direction: column; height: 200px; min-width: 0; overflow: hidden;
+    border: 1px solid #3b3830; border-radius: 14px; background: #0b141a; }
+  @media (min-width: 640px) { .agente-celular { height: 236px; } }
+  @media (min-width: 1100px) { .agente-celular { height: 276px; } }
 
-  /* O anel de foco do plantão é ajustado fora da camada, junto do anel global do .home (fim do arquivo): o fio
-     escuro padrão sumiria no cartão de tinta. */
-  @media (max-width: 1199px) { .plantao-regras { display: none; } }
+  .agente-celular-topo { display: flex; align-items: center; gap: 7px; padding: 6px 8px;
+    border-bottom: 1px solid #24343c; background: #111f26; }
+  .agente-avatar { display: grid; place-items: center; width: 25px; height: 25px; flex: none; border-radius: 50%;
+    background: var(--sol); color: var(--on-sol); font-size: 0.6rem; font-weight: 800; }
+  .agente-contato { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
+  .agente-contato strong { color: #f3efe6; font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; }
+  .agente-contato small { color: #8fb0a4; font-size: 0.54rem; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; }
+  .agente-selo { margin-left: auto; flex: none; padding: 2px 6px; border-radius: 4px;
+    background: color-mix(in srgb, var(--sol) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sol) 55%, transparent); color: var(--sol); font-size: 0.5rem;
+    font-weight: 800; letter-spacing: 0.1em; }
+
+  /* A máscara de 14 px suaviza o balão que fica cortado no topo quando a conversa rola. */
+  .agente-conversa { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 5px; padding: 14px 7px 7px;
+    overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #4a463e transparent;
+    -webkit-mask-image: linear-gradient(transparent 0, #000 14px); mask-image: linear-gradient(transparent 0, #000 14px); }
+  .agente-fala { max-width: 88%; animation: agente-entra 260ms var(--mola) both; }
+  .agente-fala-cliente { align-self: flex-start; }
+  .agente-fala-agente { align-self: flex-end; }
+  .agente-fala p { margin: 0; padding: 5px 8px 4px; border-radius: 10px; font-size: 0.72rem; line-height: 1.34;
+    overflow-wrap: anywhere; }
+  .agente-fala-cliente p { background: #202c33; color: #f3efe6; border-bottom-left-radius: 3px; }
+  .agente-fala-agente p { background: var(--sol); color: #17150f; border-bottom-right-radius: 3px; }
+  .agente-fala-hora { display: block; margin-top: 1px; font-size: 0.5rem; line-height: 1; text-align: right;
+    color: #8f887a; font-variant-numeric: tabular-nums; }
+  .agente-fala-agente .agente-fala-hora { color: #5f4a0a; }
+  @keyframes agente-entra {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .agente-digitando { align-self: flex-end; }
+  .agente-pontos { display: inline-flex; align-items: center; gap: 3px; padding: 8px 10px;
+    border-radius: 10px; border-bottom-right-radius: 3px; background: var(--sol); }
+  .agente-pontos i { width: 4px; height: 4px; border-radius: 50%; background: #17150f;
+    animation: agente-ponto 1s infinite ease-in-out; }
+  .agente-pontos i:nth-child(2) { animation-delay: 0.15s; }
+  .agente-pontos i:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes agente-ponto {
+    0%, 60%, 100% { opacity: 0.35; transform: none; }
+    30% { opacity: 1; transform: translateY(-2px); }
+  }
+  .agente-celular-pe { flex: none; padding: 3px 8px; border-top: 1px solid #24343c; color: #6d8a80;
+    font-size: 0.5rem; letter-spacing: 0.06em; text-transform: uppercase; text-align: center; }
+
+  .agente-painel { display: flex; flex-direction: column; min-width: 0; padding: 8px 9px;
+    border: 1px solid #3b3830; border-radius: 14px; background: #0f0e0b; }
+  @media (min-width: 1100px) { .agente-painel { padding: 10px 11px; } }
+  .agente-painel-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .agente-painel-titulo { color: var(--sol); font-size: 0.56rem; font-weight: 700; letter-spacing: 0.12em;
+    line-height: 1.2; text-transform: uppercase; }
+  .agente-contador { display: flex; align-items: baseline; gap: 4px; flex: none; }
+  .agente-contador-num { font-family: var(--fonte-titulo); font-size: 1.35rem; line-height: 0.8; color: var(--sol);
+    font-variant-numeric: tabular-nums; animation: agente-sobe 320ms var(--mola) both; }
+  @keyframes agente-sobe {
+    from { opacity: 0; transform: translateY(5px) scale(0.9); }
+    to { opacity: 1; transform: none; }
+  }
+  .agente-contador span { max-width: 76px; color: #8f887a; font-size: 0.53rem; line-height: 1.15; text-align: right; }
+
+  .agente-lista { display: grid; gap: 1px; margin-top: 7px; padding: 0; list-style: none; }
+  /* A linha apagada já ocupa o lugar: a ação só acende, sem empurrar a lista (CLS 0). */
+  .agente-acao { display: flex; align-items: center; gap: 5px; padding: 3px 5px; border-left: 2px solid transparent;
+    border-radius: 4px; opacity: 0.34;
+    transition: opacity 280ms linear, background-color 280ms linear, border-color 280ms linear; }
+  .agente-acao[data-visivel="true"] { opacity: 1; border-left-color: var(--sol); background: #1b1914; }
+  .agente-acao-icone { display: grid; place-items: center; width: 13px; height: 13px; flex: none;
+    border: 1px solid #4a463e; border-radius: 50%; color: transparent; font-size: 0.48rem; line-height: 1; }
+  .agente-acao[data-visivel="true"] .agente-acao-icone { border-color: var(--sol); background: var(--sol); color: #17150f; }
+  .agente-acao-texto { display: flex; flex-direction: column; flex: 1; min-width: 0; line-height: 1.16; }
+  .agente-acao-rotulo { color: #f3efe6; font-size: 0.62rem; font-weight: 600; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; }
+  .agente-acao-detalhe { color: #8f887a; font-size: 0.52rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .agente-acao-hora { flex: none; color: var(--sol); font-size: 0.52rem; font-variant-numeric: tabular-nums; }
+  .agente-acao[data-equipe="true"] { border-left-style: dashed; }
+  .agente-acao[data-equipe="true"] .agente-acao-icone { background: transparent; color: var(--sol); }
+  @media (max-width: 1099px) {
+    .agente-lista { display: flex; flex-wrap: wrap; gap: 3px; }
+    .agente-acao { flex: 1 1 calc(50% - 3px); border: 1px solid #2a2620; opacity: 0.5; }
+    .agente-acao[data-visivel="true"] { border-color: color-mix(in srgb, var(--sol) 50%, transparent); }
+    .agente-acao-detalhe { display: none; }
+    .agente-acao[data-equipe="true"] { flex-basis: 100%; }
+    .agente-acao[data-equipe="true"] .agente-acao-detalhe { display: block; }
+  }
+  .agente-painel-pe { margin-top: auto; padding-top: 6px; color: #6f6a5f; font-size: 0.52rem; line-height: 1.2;
+    letter-spacing: 0.02em; }
+
+  .agente-pergunta { margin-top: 8px; }
+  .agente-pergunta-rotulo { display: block; color: var(--sol); font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; }
+  .agente-pergunta-linha { display: flex; gap: 5px; margin-top: 4px; }
+  .agente-pergunta input { flex: 1; min-width: 0; min-height: 44px; padding: 0 10px; border: 1px solid #4a463e;
+    border-radius: var(--raio-p); background: #0f0e0b; color: #f3efe6; font-size: 0.8rem; }
+  .agente-pergunta input::placeholder { color: #8f887a; }
+  .agente-pergunta-botao { flex: none; min-height: 44px; padding: 0 13px; border: 1px solid color-mix(in srgb, var(--sol) 60%, transparent);
+    border-radius: var(--raio-p); background: #211f1a; color: var(--sol); font-size: 0.72rem; font-weight: 700; cursor: pointer; }
+  @media (hover: hover) {
+    .agente-pergunta-botao { transition: background-color var(--mov-toque) var(--mola), color var(--mov-toque) var(--mola); }
+    .agente-pergunta-botao:hover { background: var(--sol); color: var(--on-sol); }
+  }
+  .agente-resposta { min-height: 22px; margin-top: 5px; padding: 5px 7px; border-left: 2px solid #3b3830;
+    color: #c8c1b3; font-size: 0.66rem; line-height: 1.3; }
+  .agente-resposta[data-vazia="true"] { color: #8f887a; }
+  .agente-resposta[data-equipe="true"] { border-left-color: var(--sol); }
+  .agente-resposta-pergunta { color: #8f887a; font-size: 0.58rem; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; }
+  .agente-resposta-texto { margin-top: 2px; }
+  .agente-demo { display: inline-block; margin-right: 4px; padding: 1px 4px; border: 1px solid #4a463e;
+    border-radius: 3px; color: var(--sol); font-size: 0.48rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; vertical-align: 1px; }
+
+  .agente-fim { margin-top: 8px; }
+  .agente-cta { display: flex; width: 100%; min-height: 48px; justify-content: center; padding: 9px 14px; font-size: 0.82rem; }
+  .agente-fim-linha { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; margin-top: 4px; }
+  .agente-peca { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; color: var(--sol);
+    font-size: 0.7rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .agente-preco { flex: 1 1 100%; color: #8f887a; font-size: 0.58rem; line-height: 1.3; }
+  .agente-preco-nota { display: block; color: #6f6a5f; font-size: 0.58rem; }
+  .agente-honestidade { margin-top: 0; color: #6f6a5f; font-size: 0.64rem; line-height: 1.3; }
+
   @media (prefers-reduced-motion: reduce) {
-    .plantao-opcao, .plantao-opcao:active, .plantao-segmentos-botoes button, .plantao-cta, .plantao-link,
-    .plantao-reiniciar { transition: none; transform: none; box-shadow: none; }
+    .agente-vivo, .agente-fala, .agente-contador-num, .agente-pontos i { animation: none; }
+    .agente-acao, .agente-ramo, .agente-pergunta-botao, .agente-cta, .agente-peca { transition: none; transform: none; }
+    .agente-digitando { display: none; }
   }
 
   .cta { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 24px; border-radius: var(--raio-pilula);
@@ -529,5 +586,5 @@
 }
 .home .cta:focus-visible, .home .link-secundario:focus-visible { border-radius: var(--raio-pilula); }
 .home .cartao:focus-visible, .home .vitrine:focus-visible { border-radius: var(--raio-m); }
-/* No cartão de tinta do plantão, o fio de foco é escuro também no tema claro e no escuro. */
-.home .plantao :focus-visible { outline-color: var(--sol); box-shadow: 0 0 0 3px #17150f; }
+/* No cartão de tinta do agente, o fio de foco é escuro também no tema claro e no escuro. */
+.home .agente :focus-visible { outline-color: var(--sol); box-shadow: 0 0 0 3px #17150f; }

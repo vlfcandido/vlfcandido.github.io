@@ -173,8 +173,8 @@ export function conteudoHome() {
       // Rótulos dos números ('empresas de grande porte' virou 'empresas onde trabalhei' em 14/10/2026).
       rotulos: { anos: 'anos de software', empresas: 'empresas onde trabalhei', projetos: 'projetos e sites no portfólio' },
     },
-    // A antiga captura do painel no hero saiu em 18/10/2026: o espaço é do plantão do atendente (Plantao.tsx). A
-    // mesma tela continua na seção de IA e na vitrine, e nada saiu do ar.
+    // A antiga captura do painel no hero saiu em 18/10/2026: o espaço é do agente trabalhando sozinho (Agente.tsx).
+    // A mesma tela continua na seção de IA e na vitrine, e nada saiu do ar.
     // Seção "IA e agentes" (18/10/2026, brief do dono): a especialidade no centro, com o Pelo Solto como exemplo
     // principal e quatro provas reais do banco-provas.md. Tudo aqui é afirmação com linha no banco, sem superlativo.
     ia: {

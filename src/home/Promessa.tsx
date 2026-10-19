@@ -1,12 +1,12 @@
-// Bloco 1: a prova na frente. No celular, título, subtítulo e WhatsApp aparecem primeiro; o plantão do atendente vem
-// logo abaixo e os números fecham a tela. No PC, a coluna da esquerda leva texto e números, e o plantão ocupa a
-// direita. A captura estática do painel saiu do hero em 18/10/2026: ela continua na vitrine e na seção de IA.
+// Bloco 1: a prova na frente. No celular, título, subtítulo e WhatsApp aparecem primeiro; o agente trabalhando
+// sozinho vem logo abaixo e os números fecham a tela. No PC, a coluna da esquerda leva texto e números, e a cena
+// do agente ocupa a direita. O plantão interativo saiu do hero em 18/10/2026.
 import { useEffect, useRef, type RefObject } from 'react'
 import { WHATSAPP } from '../lib/whatsapp'
 import { FRASES_MARCADAS, conteudoHome, numerosDeProva } from './conteudo'
 import { partirNasFrases } from './lib/marcar'
+import { Agente } from './Agente'
 import { Marcacao } from './Marcacao'
-import { Plantao } from './Plantao'
 
 /**
  * Faz os números contarem de 0 até o valor (~600 ms) quando a linha assenta inteira na tela.
@@ -50,7 +50,7 @@ function useContagemAoAssentar(ref: RefObject<HTMLDivElement | null>) {
   }, [ref])
 }
 
-/** Primeiro bloco da home: prova, promessa, WhatsApp, números e o plantão do atendente. */
+/** Primeiro bloco da home: prova, promessa, WhatsApp, números e o agente trabalhando sozinho. */
 export function Promessa() {
   const { promessa } = conteudoHome()
   const n = numerosDeProva()
@@ -79,7 +79,7 @@ export function Promessa() {
           <span className="seta" aria-hidden="true">→</span>
         </a>
       </div>
-      <Plantao />
+      <Agente />
       <div ref={numeros} className="promessa-numeros grid max-w-xl grid-cols-3 gap-4 sm:gap-8">
         {itens.map((i) => (
           <div key={i.rotulo} className="flex flex-col gap-1 border-t border-linha pt-4">
