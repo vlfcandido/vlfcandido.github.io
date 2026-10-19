@@ -1,30 +1,35 @@
 // Agente trabalhando sozinho (18/10/2026): a coluna direita do hero mostra o atendimento acontecendo, sem pedir
 // que o visitante responda por ele. Um toque escolhe o ramo; a cena roda sozinha, em loop calmo. Todo o roteiro
-// sai de lib/agente.ts. No site publicado (19/10/2026), a pergunta do visitante vai para o Worker de IA e nada
-// é gravado; em erro, tempo esgotado ou execução local, a resposta é por palavra-chave e não sai do navegador.
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+// sai de lib/agente.ts. No celular (19/10/2026), o cartão inteiro cabe numa tela: a conversa mostra só as três
+// últimas falas, sem rolagem interna, e o painel vira progresso, passo atual e três linhas.
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { caminhoPublico } from '../lib/assets'
 import { medir } from '../lib/medir'
 import { linkWhatsapp } from '../lib/whatsapp'
-import { URL_DO_AGENTE, deveUsarRemoto, perguntarAoAgente } from './lib/agente-remoto'
 import {
   AGENTE,
   PECA_DO_AGENTE,
   RAMOS,
   RAMO_PADRAO,
   duracao,
-  inicioDaJanela,
+  falaQueSai,
   quadroDoRamo,
   ramoPorId,
-  rotuloDaFonte,
-  responderPergunta,
+  ultimasFalas,
   type Acao,
+  type Fala,
   type Ramo,
   type RamoId,
 } from './lib/agente'
 
 /** Intervalo do relógio da cena. A 120 ms a chegada das falas parece natural e o custo é baixo. */
 const PASSO_MS = 120
+
+/** Tempo da saída da fala antiga pelo topo, em milissegundos. Casa com a animação `agente-sai` do CSS. */
+const SAIDA_MS = 260
+
+/** Quantas falas cabem na janela fixa da conversa. */
+const FALAS_NA_JANELA = 3
 
 /** A pessoa pediu menos movimento no sistema. */
 function prefereMenosMovimento(): boolean {
@@ -46,9 +51,8 @@ function acoesDe(ramo: Ramo): Acao[] {
  * Coluna direita do hero: o agente atendendo sozinho no WhatsApp.
  *
  * O visitante escolhe o ramo no máximo uma vez; o resto acontece sozinho. A cena pausa fora da tela, recomeça
- * ao trocar de ramo e, com `prefers-reduced-motion`, mostra o quadro final. O campo de pergunta é opcional: no
- * site publicado, a pergunta vai para o Worker de IA, presa à ficha do ramo; em erro ou até 6 s sem resposta,
- * cai na palavra-chave local. Nenhuma conversa é gravada.
+ * ao trocar de ramo e, com `prefers-reduced-motion`, mostra o quadro final. A conversa tem altura fixa e mostra
+ * só as três últimas falas: as novas entram por baixo e as antigas saem pelo topo com fade, sem rolagem interna.
  */
 export function Agente() {
   const base = import.meta.env.BASE_URL
@@ -57,31 +61,31 @@ export function Agente() {
   const [reduzido, setReduzido] = useState(prefereMenosMovimento)
   const [t, setT] = useState(() => (reduzido ? duracao(ramo) : 0))
   const [naTela, setNaTela] = useState(true)
-  const [pergunta, setPergunta] = useState('')
-  const [resposta, setResposta] = useState<{
-    pergunta: string
-    texto: string
-    equipe: boolean
-    /** `ia` e `simulado` vêm do Worker; `palavra-chave` é o plano B local; `consultando` é a espera. */
-    fonte: 'ia' | 'simulado' | 'palavra-chave' | 'consultando'
-  } | null>(null)
-  const [respondendo, setRespondendo] = useState(false)
-  /**
-   * O hero só chama o Worker no site publicado. `?agente-real` força a tentativa no teste local, mas a chamada
-   * só passa se a origem local estiver em `ORIGENS` no Worker (ou se um proxy trocar a Origin).
-   */
-  const [remoto] = useState(
-    () => typeof window !== 'undefined' && deveUsarRemoto(window.location.hostname, window.location.search),
-  )
   const raiz = useRef<HTMLElement>(null)
-  const conversa = useRef<HTMLDivElement>(null)
+  /** Pilha da conversa: as falas ficam absolutas e só se deslocam por `translate`, para não gerar CLS. */
+  const pilha = useRef<HTMLDivElement>(null)
   const tAtual = useRef(t)
-  /** Identifica o pedido em voo: a resposta de um ramo antigo não sobrescreve o ramo atual. */
-  const pedido = useRef(0)
 
   const quadro = quadroDoRamo(ramo, t, reduzido)
   const acoes = acoesDe(ramo)
   const [, periodo] = ramo.foraDoHorario.split(' · ')
+
+  const visiveis = ultimasFalas(quadro.mensagens, FALAS_NA_JANELA)
+  /** Assinatura da janela: só muda quando entra ou sai fala, não a cada tique do relógio. */
+  const chaveJanela = visiveis.map((m) => `${m.tipo}:${m.em}:${m.texto}`).join('|')
+  const [saindo, setSaindo] = useState<Fala | null>(null)
+  const janelaAnterior = useRef<Fala[]>([])
+
+  const totalAcoes = acoes.length
+  const feitas = quadro.acoes.length
+  const progresso = totalAcoes > 0 ? (feitas / totalAcoes) * 100 : 0
+  /** Última ação já acesa: é o passo atual em destaque no painel compacto. */
+  const passoAtual = feitas > 0 ? quadro.acoes[feitas - 1].chave : null
+  /**
+   * No celular, três linhas sempre visíveis: com menos de três ações acesas, mostra as próximas apagadas, para
+   * o painel não abrir vazio; depois, as três últimas que acenderam.
+   */
+  const janelaAcoes = feitas >= 3 ? quadro.acoes.slice(-3) : acoes.slice(0, 3)
 
   // Visibilidade: fora da tela a cena pausa. A primeira metade vista é medida uma vez no Clarity.
   useEffect(() => {
@@ -129,77 +133,57 @@ export function Agente() {
     return () => window.clearInterval(id)
   }, [naTela, reduzido, ramo])
 
-  // A conversa acompanha a última fala, rolando por dentro do celular (nunca a página). A janela começa numa
-  // fala inteira, para nenhum balão aparecer cortado no topo.
+  // Janela da conversa: quando uma fala nova entra e a mais antiga sai, guarda a que saiu por um instante para
+  // ela desaparecer pelo topo com fade. Recomeço do ciclo e janela enchendo não animam saída.
   useEffect(() => {
-    const el = conversa.current
-    if (!el) return
-    const id = requestAnimationFrame(() => {
-      const bolhas = [...el.querySelectorAll<HTMLElement>('.agente-fala')]
-      const espaco = Number.parseFloat(getComputedStyle(el).rowGap) || 0
-      const primeira = bolhas[inicioDaJanela(bolhas.map((b) => b.offsetHeight), el.clientHeight, espaco)]
-      if (!primeira || el.scrollHeight <= el.clientHeight) {
-        el.style.setProperty('--folga-conversa', '0px')
-        el.scrollTop = 0
-        return
-      }
-      // A fala escolhida vira o topo da janela. Quando o que sobra abaixo é menor que o celular, o navegador
-      // não deixaria rolar até ali; a folga temporária no pé dá o espaço exato e evita o balão cortado.
-      el.style.setProperty('--folga-conversa', '0px')
-      const alvo = primeira.offsetTop
-      const folga = Math.max(0, alvo + el.clientHeight - el.scrollHeight)
-      el.style.setProperty('--folga-conversa', `${Math.ceil(folga)}px`)
-      void el.scrollHeight
-      el.scrollTo({ top: alvo, behavior: 'auto' })
-    })
-    return () => cancelAnimationFrame(id)
-  }, [quadro.mensagens.length, quadro.digitando, ramoId, reduzido])
+    const saiu = falaQueSai(janelaAnterior.current, visiveis)
+    janelaAnterior.current = visiveis
+    if (!saiu) return
+    setSaindo(saiu)
+    const id = window.setTimeout(() => setSaindo(null), SAIDA_MS)
+    return () => window.clearTimeout(id)
+    // `chaveJanela` resume a janela; as falas em si mudam de identidade a cada tique do relógio.
+  }, [chaveJanela])
 
-  /** Troca o ramo, zera a cena e limpa a resposta anterior. */
+  // A janela anda: cada fala é posicionada da última para a primeira, por `translate`, dentro da altura fixa.
+  // Posição absoluta + transform não é reflow, então a entrada e a saída não contam como layout shift.
+  useLayoutEffect(() => {
+    const el = pilha.current
+    if (!el) return
+    const bolhas = [...el.querySelectorAll<HTMLElement>('.agente-fala')]
+    let deslocamento = 0
+    for (let i = bolhas.length - 1; i >= 0; i--) {
+      bolhas[i].style.setProperty('--deslocamento', `${deslocamento}px`)
+      deslocamento += bolhas[i].offsetHeight + 5
+    }
+  }, [chaveJanela, saindo, quadro.digitando])
+
+  /** Troca o ramo e zera a cena. */
   const escolherRamo = (id: RamoId) => {
     if (id === ramoId) return
     medir('hero_agente_ramo')
-    pedido.current += 1
-    setRespondendo(false)
     tAtual.current = 0
     setT(0)
     setRamoId(id)
-    setPergunta('')
-    setResposta(null)
   }
 
-  /**
-   * Responde a pergunta do visitante.
-   *
-   * No site publicado, tenta a IA real do Worker e troca o selo para "IA de verdade". Em erro, tempo esgotado
-   * (6 s) ou fora do site, cai na resposta por palavra-chave do roteiro, que nunca sai do navegador.
-   */
-  const perguntar = async (e: FormEvent) => {
-    e.preventDefault()
-    if (respondendo) return
-    const texto = pergunta.trim()
-    const local = responderPergunta(ramo, texto)
-    if (!local) return
-    medir('hero_agente_pergunta')
-    setPergunta('')
-    const id = ++pedido.current
-
-    if (!remoto) {
-      setResposta({ pergunta: texto, texto: local.texto, equipe: local.equipe, fonte: 'palavra-chave' })
-      return
-    }
-
-    setRespondendo(true)
-    setResposta({ pergunta: texto, texto: '', equipe: false, fonte: 'consultando' })
-    const remota = await perguntarAoAgente(URL_DO_AGENTE, ramo.id, texto)
-    if (id !== pedido.current) return
-    setRespondendo(false)
-    setResposta(
-      remota
-        ? { pergunta: texto, texto: remota.texto, equipe: remota.equipe, fonte: remota.origem }
-        : { pergunta: texto, texto: local.texto, equipe: local.equipe, fonte: 'palavra-chave' },
-    )
-  }
+  /** Uma linha do painel. `chave` é explícita: a lista compacta usa slots fixos para não deslocar linhas. */
+  const itemDeAcao = (a: Acao, chave: string) => (
+    <li
+      key={chave}
+      className="agente-acao"
+      data-visivel={reduzido || a.em <= t}
+      data-equipe={a.equipe}
+      data-atual={a.chave === passoAtual}
+    >
+      <span className="agente-acao-icone" aria-hidden="true">{a.equipe ? '→' : '✓'}</span>
+      <span className="agente-acao-texto">
+        <span className="agente-acao-rotulo">{a.rotulo}</span>
+        <span className="agente-acao-detalhe">{a.detalhe}</span>
+      </span>
+      <span className="agente-acao-hora">{a.hora}</span>
+    </li>
+  )
 
   return (
     <section ref={raiz} className="agente" data-sem-parada aria-labelledby="agente-titulo">
@@ -219,8 +203,8 @@ export function Agente() {
       <p className="agente-texto">{AGENTE.texto}</p>
 
       <div className="agente-seletor">
-        <p className="agente-chamada" id="agente-ramos-rotulo">{AGENTE.chamadaRamo}</p>
-        <div className="agente-ramos" role="group" aria-labelledby="agente-ramos-rotulo">
+        <p className="agente-chamada" aria-hidden="true">{AGENTE.chamadaRamo}</p>
+        <div className="agente-ramos" role="group" aria-label={AGENTE.chamadaRamo}>
           {RAMOS.map((r) => (
             <button
               key={r.id}
@@ -247,14 +231,25 @@ export function Agente() {
           </div>
 
           <div
-            ref={conversa}
+            ref={pilha}
             className="agente-conversa"
             role="log"
             aria-live="off"
             aria-label="Conversa entre o cliente e o agente"
           >
-            {quadro.mensagens.map((m, i) => (
-              <div key={`${ramoId}-${i}-${m.em}`} className={`agente-fala agente-fala-${m.tipo}`}>
+            {saindo && (
+              <div
+                className={`agente-fala agente-fala-${saindo.tipo} agente-fala-sai`}
+                aria-hidden="true"
+              >
+                <p>
+                  {saindo.texto}
+                  <time className="agente-fala-hora">{saindo.hora}</time>
+                </p>
+              </div>
+            )}
+            {visiveis.map((m) => (
+              <div key={`${ramoId}-${m.em}-${m.texto}`} className={`agente-fala agente-fala-${m.tipo}`}>
                 <p>
                   {m.texto}
                   <time className="agente-fala-hora">{m.hora}</time>
@@ -262,13 +257,13 @@ export function Agente() {
               </div>
             ))}
             {quadro.digitando && (
-              <div className="agente-fala agente-fala-agente agente-digitando" aria-hidden="true">
+              <div key="digitando" className="agente-fala agente-fala-agente agente-digitando" aria-hidden="true">
                 <span className="agente-pontos"><i /><i /><i /></span>
               </div>
             )}
           </div>
 
-          <p className="agente-celular-pe" aria-hidden="true">WhatsApp · demonstração</p>
+          <p className="agente-celular-pe">WhatsApp · {AGENTE.demonstracao}</p>
         </div>
 
         <aside className="agente-painel" aria-label={AGENTE.painelTitulo}>
@@ -280,75 +275,26 @@ export function Agente() {
             </p>
           </div>
 
-          <ol className="agente-lista">
-            {acoes.map((a) => (
-              <li
-                key={a.chave}
-                className="agente-acao"
-                data-visivel={reduzido || a.em <= t}
-                data-equipe={a.equipe}
-              >
-                <span className="agente-acao-icone" aria-hidden="true">{a.equipe ? '→' : '✓'}</span>
-                <span className="agente-acao-texto">
-                  <span className="agente-acao-rotulo">{a.rotulo}</span>
-                  <span className="agente-acao-detalhe">{a.detalhe}</span>
-                </span>
-                <span className="agente-acao-hora">{a.hora}</span>
-              </li>
-            ))}
+          <div
+            className="agente-progresso"
+            role="progressbar"
+            aria-label="Passos concluídos"
+            aria-valuemin={0}
+            aria-valuemax={totalAcoes}
+            aria-valuenow={feitas}
+          >
+            <span style={{ width: `${progresso}%` }} />
+          </div>
+
+          <ol className="agente-lista agente-lista-ampla">
+            {acoes.map((a) => itemDeAcao(a, a.chave))}
+          </ol>
+          <ol className="agente-lista agente-lista-compacta" aria-label="Últimos passos">
+            {janelaAcoes.map((a, i) => itemDeAcao(a, `slot-${i}`))}
           </ol>
           <p className="agente-painel-pe">Ninguém online. Ele seguiu o combinado.</p>
         </aside>
       </div>
-
-      <form className="agente-pergunta" onSubmit={perguntar} aria-busy={respondendo}>
-        <label className="agente-pergunta-rotulo" htmlFor="agente-pergunta">{AGENTE.perguntaRotulo}</label>
-        <p id="agente-pergunta-ajuda" className="sr-only">{AGENTE.perguntaDica}</p>
-        <div className="agente-pergunta-linha">
-          <input
-            id="agente-pergunta"
-            type="text"
-            value={pergunta}
-            onChange={(e) => setPergunta(e.target.value)}
-            placeholder={AGENTE.perguntaExemplo}
-            maxLength={120}
-            autoComplete="off"
-            aria-describedby="agente-pergunta-ajuda"
-          />
-          <button type="submit" className="agente-pergunta-botao" disabled={respondendo}>
-            {respondendo ? AGENTE.perguntaBotaoOcupado : AGENTE.perguntaBotao}
-          </button>
-        </div>
-        <div
-          className="agente-resposta"
-          data-vazia={!resposta}
-          data-equipe={resposta?.equipe ?? false}
-          data-consultando={resposta?.fonte === 'consultando'}
-          aria-live="polite"
-        >
-          {resposta ? (
-            <>
-              <p className="agente-resposta-pergunta">Você perguntou · {resposta.pergunta}</p>
-              <p className="agente-resposta-texto">
-                {resposta.fonte !== 'consultando' && (
-                  <>
-                    <span
-                      className={`agente-demo${resposta.fonte === 'ia' ? ' agente-demo-ia' : ''}`}
-                      aria-hidden="true"
-                    >
-                      {resposta.fonte === 'ia' ? AGENTE.iaVerdade : AGENTE.demonstracao}
-                    </span>
-                    <span className="sr-only">{rotuloDaFonte(resposta.fonte)} </span>
-                  </>
-                )}
-                {resposta.fonte === 'consultando' ? AGENTE.consultando : resposta.texto}
-              </p>
-            </>
-          ) : (
-            <p className="agente-resposta-texto">{remoto ? AGENTE.notaPerguntaIA : AGENTE.notaPergunta}</p>
-          )}
-        </div>
-      </form>
 
       <div className="agente-fim">
         <a
@@ -370,14 +316,8 @@ export function Agente() {
             {AGENTE.peca}
             <span className="seta" aria-hidden="true">→</span>
           </a>
-          <p className="agente-preco">
-            {AGENTE.preco}
-            <span className="agente-preco-nota">{AGENTE.notaPreco}</span>
-          </p>
         </div>
       </div>
-
-      <p className="agente-honestidade">{AGENTE.honestidade}</p>
     </section>
   )
 }

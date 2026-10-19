@@ -20,12 +20,13 @@ describe('conteúdo da home', () => {
       expect(d.detalhe.length).toBeGreaterThan(10)
     }
   })
-  // 18/10/2026 (brief do hero): preço passou a existir na cena do agente, com os valores reais da política de
-  // 09/10. O resto da home continua sem preço, para não ancorar a conversa antes do escopo.
-  it('só o agente tem preço, e é o da política', () => {
+  // 19/10/2026 (brief do celular): o bloco de oferta saiu do hero. A home inteira fica sem preço, para não
+  // ancorar a conversa antes do escopo. Os valores que aparecem na conversa de demonstração são os do serviço,
+  // cobertos por agente.test.ts; os da oferta (590/149 e 990/199) não existem em lugar nenhum.
+  it('a oferta não tem preço na home nem no hero', () => {
     expect(tudo).not.toMatch(/R\$\s?\d/)
-    expect(AGENTE.preco).toMatch(/R\$ 590 \+ R\$ 149\/mês no lançamento/)
-    expect(AGENTE.preco).toMatch(/R\$ 990 \+ R\$ 199\/mês/)
+    expect(JSON.stringify(AGENTE)).not.toMatch(/R\$\s?\d/)
+    expect(JSON.stringify(AGENTE)).not.toMatch(/590|990|149|199/)
   })
   it('não tem termo proibido', () => expect(encontrarTermosProibidos(tudoVisivel)).toEqual([]))
   it('garantia é de 30 dias de correção', () => expect(c.garantia).toMatch(/30 dias de correção/))
@@ -70,15 +71,12 @@ describe('conteúdo da home', () => {
   })
   it('nenhum dois-pontos nem travessão no texto da home (humanizer)', () => {
     const doAgente = [
-      AGENTE.rotulo, AGENTE.titulo, AGENTE.texto, AGENTE.honestidade, AGENTE.painelTitulo,
-      AGENTE.chamadaRamo, AGENTE.contadorSingular, AGENTE.contadorPlural, AGENTE.perguntaRotulo,
-      AGENTE.perguntaExemplo, AGENTE.perguntaDica, AGENTE.perguntaBotao, AGENTE.perguntaBotaoOcupado,
-      AGENTE.demonstracao, AGENTE.iaVerdade, AGENTE.consultando,
-      AGENTE.notaPergunta, AGENTE.notaPerguntaIA, AGENTE.cta, AGENTE.peca, AGENTE.preco, AGENTE.notaPreco, AGENTE.aoVivo,
+      AGENTE.rotulo, AGENTE.titulo, AGENTE.texto, AGENTE.painelTitulo,
+      AGENTE.chamadaRamo, AGENTE.contadorSingular, AGENTE.contadorPlural,
+      AGENTE.demonstracao, AGENTE.cta, AGENTE.peca, AGENTE.aoVivo,
       ...RAMOS.flatMap((r) => [
         r.rotulo, r.negocio, r.descricao, r.foraDoHorario, r.mensagemWhatsapp,
         ...r.eventos.flatMap((e) => (e.tipo === 'acao' ? [e.rotulo, e.detalhe, e.hora] : [e.texto, e.hora])),
-        ...r.respostas.flatMap((x) => [x.resposta]),
       ]),
     ]
     const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.prototipo.titulo, c.prototipo.texto,

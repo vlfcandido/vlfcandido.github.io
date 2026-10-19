@@ -1,6 +1,7 @@
 // Agente trabalhando sozinho (18/10/2026): o hero deixa de pedir decisões e passa a mostrar o atendimento
-// acontecendo. Fonte única dos quatro roteiros, da linha do tempo, do painel de automação e das respostas
-// roteirizadas do campo "pergunte você também". Funções puras: nada roda ao importar.
+// acontecendo. Fonte única dos quatro roteiros, da linha do tempo e do painel de automação. O campo de pergunta
+// saiu em 19/10/2026: a cena roda sozinha e a honestidade mora no selo curto de demonstração.
+// Funções puras: nada roda ao importar.
 
 /** Os quatro ramos do seletor. */
 export type RamoId = 'pet' | 'clinica' | 'loja' | 'servicos'
@@ -35,16 +36,7 @@ export interface Acao {
 /** Um evento da cena, de fala ou de ação. */
 export type Evento = Fala | Acao
 
-/** Resposta roteirizada do campo de pergunta. */
-export interface RespostaRoteirizada {
-  /** Palavras que disparam a resposta, sem acento e em minúscula. Vazio marca a resposta padrão. */
-  chaves: string[]
-  resposta: string
-  /** A resposta não vem da base: o agente avisa que passou para a equipe. */
-  equipe: boolean
-}
-
-/** Um ramo completo, com conversa, automação e respostas ao visitante. */
+/** Um ramo completo, com conversa e automação. */
 export interface Ramo {
   id: RamoId
   rotulo: string
@@ -54,7 +46,6 @@ export interface Ramo {
   /** Mensagem pré-preenchida no wa.me, com o ramo do visitante. */
   mensagemWhatsapp: string
   eventos: Evento[]
-  respostas: RespostaRoteirizada[]
 }
 
 /** Todo o texto fixo da cena. */
@@ -66,25 +57,10 @@ export interface ConteudoAgente {
   painelTitulo: string
   contadorSingular: string
   contadorPlural: string
-  perguntaRotulo: string
-  perguntaExemplo: string
-  perguntaDica: string
-  perguntaBotao: string
-  /** Texto do botão enquanto a IA real responde. */
-  perguntaBotaoOcupado: string
+  /** Selo curto de honestidade: a cena é uma demonstração. */
   demonstracao: string
-  /** Selo quando a resposta veio do Worker com IA de verdade (19/10/2026). */
-  iaVerdade: string
-  /** Texto de espera enquanto o Worker responde. */
-  consultando: string
-  notaPergunta: string
-  /** Nota do campo quando a pergunta é enviada ao Worker. */
-  notaPerguntaIA: string
   cta: string
   peca: string
-  preco: string
-  notaPreco: string
-  honestidade: string
   aoVivo: string
 }
 
@@ -109,26 +85,14 @@ const DIGITANDO = 1.6
 export const AGENTE: ConteudoAgente = {
   rotulo: 'Agente no WhatsApp',
   titulo: 'Ele atende sozinho.',
-  texto: 'Escolha o ramo e veja o atendimento acontecer. Um toque, nada para configurar.',
+  texto: 'Escolha o ramo. O resto é com ele.',
   chamadaRamo: 'Veja no seu ramo',
   painelTitulo: 'O que ele fez sozinho',
   contadorSingular: 'resolvido sem ninguém tocar',
   contadorPlural: 'resolvidos sem ninguém tocar',
-  perguntaRotulo: 'Pergunte você também',
-  perguntaExemplo: 'Quanto custa?',
-  perguntaDica: 'Pergunte algo e veja o agente responder.',
-  perguntaBotao: 'Perguntar',
-  perguntaBotaoOcupado: 'Perguntando…',
   demonstracao: 'demonstração',
-  iaVerdade: 'IA de verdade · respostas limitadas',
-  consultando: 'Consultando a IA…',
-  notaPergunta: 'Resposta por palavra-chave. Nada é enviado.',
-  notaPerguntaIA: 'Sua pergunta vai para a IA do site. Nada é gravado.',
   cta: 'Quero isso no meu WhatsApp',
   peca: 'Ver o Pelo Solto inteiro',
-  preco: 'R$ 590 + R$ 149/mês no lançamento. Depois, R$ 990 + R$ 199/mês.',
-  notaPreco: 'Valores de 09/10/2026. O orçamento fecha depois do escopo.',
-  honestidade: 'Dados fictícios. O agente responde só o que está na base do negócio. Fora dela, chama a equipe.',
   aoVivo: 'trabalhando agora',
 }
 
@@ -161,14 +125,6 @@ export const RAMOS: Ramo[] = [
       { tipo: 'acao', chave: 'equipe', rotulo: 'Passou para a equipe', detalhe: 'Saúde do pet não é resposta do agente', em: 11.8, hora: '02:16', resolve: false, equipe: true },
       { tipo: 'agente', texto: 'Isso eu não consigo avaliar. Já chamei a equipe e o veterinário. Se for urgente, procure um veterinário agora.', em: 12.8, hora: '02:16' },
     ],
-    respostas: [
-      { chaves: ['preco', 'valor', 'quanto custa', 'quanto fica'], resposta: 'Banho e tosa para shih-tzu de 7 kg fica em R$ 95. O valor final depende do pelo e do estado do pet, e a equipe confirma na hora.', equipe: false },
-      { chaves: ['horario', 'abre', 'fecha', 'funciona'], resposta: 'Atendemos de segunda a sábado, das 8h às 19h. O agente responde no WhatsApp a qualquer hora.', equipe: false },
-      { chaves: ['onde', 'endereco', 'fica'], resposta: 'A loja fica na rua das Acácias, 210, no centro. O atendimento é com hora marcada.', equipe: false },
-      { chaves: ['lembrete', 'aviso', 'avisa'], resposta: 'O lembrete da véspera é automático, no mesmo WhatsApp da conversa.', equipe: false },
-      { chaves: ['pessoa', 'humano', 'equipe', 'atendente', 'falar com'], resposta: 'Quando a resposta não está na base, o agente chama a equipe. Nesta demonstração, o pedido não é enviado.', equipe: true },
-      { chaves: [], resposta: 'Essa eu não sei responder com segurança. Na versão real, eu passaria a sua pergunta para a equipe e ela responderia por aqui.', equipe: true },
-    ],
   },
   {
     id: 'clinica',
@@ -190,14 +146,6 @@ export const RAMOS: Ramo[] = [
       { tipo: 'cliente', texto: 'Estou com uma dor forte no peito. Pode ser grave?', em: 10.8, hora: '07:44' },
       { tipo: 'acao', chave: 'equipe', rotulo: 'Passou para a equipe', detalhe: 'Sintoma não é resposta do agente', em: 11.8, hora: '07:44', resolve: false, equipe: true },
       { tipo: 'agente', texto: 'Isso eu não consigo avaliar. Se a dor for forte ou estiver piorando, procure atendimento agora. A recepção já foi avisada.', em: 13, hora: '07:44' },
-    ],
-    respostas: [
-      { chaves: ['preco', 'valor', 'quanto custa', 'quanto fica'], resposta: 'A avaliação com a Dra. Paula fica em R$ 280. A recepção confirma antes da consulta.', equipe: false },
-      { chaves: ['horario', 'abre', 'fecha', 'funciona'], resposta: 'A clínica atende de segunda a sexta, das 8h às 18h. O agente responde a qualquer hora.', equipe: false },
-      { chaves: ['onde', 'endereco', 'fica'], resposta: 'A clínica fica na avenida Central, 45, sala 12.', equipe: false },
-      { chaves: ['dor', 'sintoma', 'remedio', 'doente', 'febre', 'urgencia'], resposta: 'Sintoma eu não consigo avaliar. A orientação é falar com a equipe e, se for urgente, procurar atendimento agora.', equipe: true },
-      { chaves: ['pessoa', 'humano', 'equipe', 'atendente', 'falar com'], resposta: 'Quando a resposta não está na base, o agente chama a equipe. Nesta demonstração, o pedido não é enviado.', equipe: true },
-      { chaves: [], resposta: 'Essa eu não sei responder com segurança. Na versão real, eu passaria a sua pergunta para a equipe e ela responderia por aqui.', equipe: true },
     ],
   },
   {
@@ -221,14 +169,6 @@ export const RAMOS: Ramo[] = [
       { tipo: 'acao', chave: 'equipe', rotulo: 'Passou para a equipe', detalhe: 'Cobrança é assunto da loja', em: 11.8, hora: '23:49', resolve: false, equipe: true },
       { tipo: 'agente', texto: 'Isso eu preciso passar para a equipe. Já avisei a loja e alguém te chama para resolver a cobrança.', em: 13, hora: '23:49' },
     ],
-    respostas: [
-      { chaves: ['preco', 'valor', 'quanto custa', 'quanto fica'], resposta: 'A jaqueta de sarja fica em R$ 189. Parcelamos em até 3 vezes sem juros.', equipe: false },
-      { chaves: ['horario', 'abre', 'fecha', 'funciona'], resposta: 'A loja do centro abre de segunda a sábado, das 9h às 18h.', equipe: false },
-      { chaves: ['onde', 'endereco', 'fica'], resposta: 'A loja do centro fica na rua das Palmeiras, 88.', equipe: false },
-      { chaves: ['troca', 'devolucao', 'devolver', 'tamanho'], resposta: 'A troca pode ser feita em até 30 dias, com a etiqueta. A equipe confirma o caso pelo WhatsApp.', equipe: false },
-      { chaves: ['pessoa', 'humano', 'equipe', 'atendente', 'falar com'], resposta: 'Quando a resposta não está na base, o agente chama a equipe. Nesta demonstração, o pedido não é enviado.', equipe: true },
-      { chaves: [], resposta: 'Essa eu não sei responder com segurança. Na versão real, eu passaria a sua pergunta para a equipe e ela responderia por aqui.', equipe: true },
-    ],
   },
   {
     id: 'servicos',
@@ -250,14 +190,6 @@ export const RAMOS: Ramo[] = [
       { tipo: 'cliente', texto: 'O vazamento é na parede. Quanto fica pra quebrar?', em: 10.8, hora: '06:41' },
       { tipo: 'acao', chave: 'equipe', rotulo: 'Passou para a equipe', detalhe: 'Orçamento de obra só depois da visita', em: 11.8, hora: '06:41', resolve: false, equipe: true },
       { tipo: 'agente', texto: 'Isso só dá para dizer depois de ver. O Diego avalia às 14h e a equipe te passa o orçamento fechado.', em: 13, hora: '06:41' },
-    ],
-    respostas: [
-      { chaves: ['preco', 'valor', 'quanto custa', 'quanto fica'], resposta: 'A visita de diagnóstico fica em R$ 120, abatidos no serviço. O orçamento da obra só depois da visita.', equipe: false },
-      { chaves: ['horario', 'abre', 'fecha', 'funciona'], resposta: 'Atendemos de segunda a sábado, das 8h às 18h. O agente responde a qualquer hora.', equipe: false },
-      { chaves: ['onde', 'endereco', 'fica'], resposta: 'A base fica na rua do Comércio, 31. O atendimento é no endereço do cliente.', equipe: false },
-      { chaves: ['urgencia', 'vazamento', 'agua', 'registro'], resposta: 'Se houver água corrente, feche o registro. Se houver risco elétrico, procure ajuda agora e a equipe continua com você pelo WhatsApp.', equipe: true },
-      { chaves: ['pessoa', 'humano', 'equipe', 'atendente', 'falar com'], resposta: 'Quando a resposta não está na base, o agente chama a equipe. Nesta demonstração, o pedido não é enviado.', equipe: true },
-      { chaves: [], resposta: 'Essa eu não sei responder com segurança. Na versão real, eu passaria a sua pergunta para a equipe e ela responderia por aqui.', equipe: true },
     ],
   },
 ]
@@ -315,63 +247,36 @@ export function quadroDoRamo(ramo: Ramo, t: number, reduzido = false): Quadro {
 }
 
 /**
- * Índice da primeira fala que cabe inteira junto com as seguintes.
+ * Recorta as últimas falas que ficam na janela fixa da conversa.
  *
- * A conversa do celular rola por dentro. Para não mostrar um balão cortado no topo, o componente rola até o
- * começo da primeira fala cuja altura, somada às seguintes, cabe na área visível. Se nem a última fala couber,
- * ela mesma é o começo da janela.
+ * O celular mostra só as três últimas falas, sem rolagem interna. As novas entram por baixo e as antigas saem
+ * pelo topo com fade, o que mantém a cena do mesmo tamanho do começo ao fim.
  *
- * @param alturas altura de cada fala, na ordem da conversa.
- * @param alturaVisivel altura interna do celular.
- * @param espaco espaço vertical entre duas falas (o `gap` da conversa).
- * @returns índice da primeira fala da janela (0 quando a lista está vazia).
+ * @param mensagens falas visíveis no instante da cena.
+ * @param max quantas falas cabem na janela.
+ * @returns as últimas falas, na ordem original.
  */
-export function inicioDaJanela(alturas: number[], alturaVisivel: number, espaco = 0): number {
-  if (alturas.length === 0) return 0
-  let soma = 0
-  for (let i = alturas.length - 1; i >= 0; i--) {
-    soma += alturas[i] + (i < alturas.length - 1 ? espaco : 0)
-    if (soma > alturaVisivel) return Math.min(i + 1, alturas.length - 1)
+export function ultimasFalas(mensagens: Fala[], max = 3): Fala[] {
+  if (max <= 0) return []
+  return mensagens.slice(-max)
+}
+
+/**
+ * Acha a fala que acabou de sair quando a janela da conversa anda uma posição.
+ *
+ * Compara a janela anterior com a atual. Só devolve uma fala quando a nova janela é exatamente a anterior sem a
+ * primeira e com uma nova no fim. No começo da cena (a janela ainda enchendo), no recomeço do ciclo e quando nada
+ * mudou, devolve `null`: nesses casos não há saída para animar.
+ *
+ * @param anterior falas que estavam na janela no quadro anterior.
+ * @param atual falas que estão na janela no quadro atual.
+ * @returns a fala que saiu, ou `null` quando a janela não andou uma posição.
+ */
+export function falaQueSai(anterior: Fala[], atual: Fala[]): Fala | null {
+  if (anterior.length === 0 || atual.length === 0) return null
+  if (anterior.length !== atual.length) return null
+  for (let i = 1; i < anterior.length; i++) {
+    if (anterior[i].texto !== atual[i - 1].texto) return null
   }
-  return 0
-}
-
-/**
- * Nome acessível do selo de origem da resposta.
- *
- * O selo visual é decorativo para leitor de tela; este texto entra em `sr-only`, separado da resposta, para a
- * leitura e a cópia não grudarem "demonstração" no começo da frase.
- *
- * @param fonte origem da resposta em exibição.
- * @returns a frase que descreve a origem.
- */
-export function rotuloDaFonte(fonte: 'ia' | 'simulado' | 'palavra-chave' | 'consultando'): string {
-  if (fonte === 'ia') return 'Resposta de IA de verdade.'
-  if (fonte === 'consultando') return 'Consultando.'
-  return 'Resposta de demonstração.'
-}
-
-/**
- * Tira acento e caixa para comparar a pergunta do visitante com as chaves do roteiro.
- *
- * @param texto texto original.
- * @returns texto sem acento e em minúscula.
- */
-export function semAcento(texto: string): string {
-  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
-}
-
-/**
- * Responde a pergunta do visitante só com o que está no roteiro do ramo.
- *
- * @param ramo roteiro em exibição.
- * @param pergunta texto digitado (pode vir com acento ou maiúscula).
- * @returns resposta e se ela passa para a equipe; `null` quando a pergunta está vazia.
- */
-export function responderPergunta(ramo: Ramo, pergunta: string): { texto: string; equipe: boolean } | null {
-  const texto = semAcento(pergunta).trim()
-  if (!texto) return null
-  const regra = ramo.respostas.find((r) => r.chaves.length > 0 && r.chaves.some((c) => texto.includes(semAcento(c))))
-    ?? ramo.respostas.find((r) => r.chaves.length === 0)
-  return regra ? { texto: regra.resposta, equipe: regra.equipe } : null
+  return anterior[0].texto === atual[atual.length - 1].texto ? null : anterior[0]
 }

@@ -5,15 +5,19 @@ import {
   RAMOS,
   RAMO_PADRAO,
   duracao,
-  inicioDaJanela,
+  falaQueSai,
   quadroDoRamo,
   ramoPorId,
-  responderPergunta,
-  rotuloDaFonte,
-  semAcento,
+  ultimasFalas,
   type Acao,
+  type Fala,
   type Ramo,
 } from './agente'
+
+/** Fala de teste, só com o que a janela da conversa olha. */
+function fala(texto: string, em = 0): Fala {
+  return { tipo: 'cliente', texto, em, hora: '02:14' }
+}
 
 /** Todas as ações de um ramo, na ordem do roteiro. */
 function acoes(r: Ramo): Acao[] {
@@ -84,14 +88,11 @@ describe('agente trabalhando sozinho', () => {
   it('não usa dois-pontos em prosa nem travessão em texto visível', () => {
     const textos = [
       AGENTE.rotulo, AGENTE.titulo, AGENTE.texto, AGENTE.chamadaRamo, AGENTE.painelTitulo,
-      AGENTE.contadorSingular, AGENTE.contadorPlural, AGENTE.perguntaRotulo, AGENTE.perguntaExemplo,
-      AGENTE.perguntaDica, AGENTE.perguntaBotao, AGENTE.perguntaBotaoOcupado, AGENTE.demonstracao,
-      AGENTE.iaVerdade, AGENTE.consultando, AGENTE.cta, AGENTE.peca, AGENTE.preco,
-      AGENTE.notaPreco, AGENTE.honestidade, AGENTE.notaPergunta, AGENTE.notaPerguntaIA,
+      AGENTE.contadorSingular, AGENTE.contadorPlural, AGENTE.demonstracao,
+      AGENTE.cta, AGENTE.peca, AGENTE.aoVivo,
       ...RAMOS.flatMap((r) => [
         r.rotulo, r.negocio, r.descricao, r.foraDoHorario, r.mensagemWhatsapp,
         ...r.eventos.flatMap((e) => (e.tipo === 'acao' ? [e.rotulo, e.detalhe, e.hora] : [e.texto, e.hora])),
-        ...r.respostas.flatMap((x) => [x.resposta, ...x.chaves]),
       ]),
     ]
     for (const t of textos) expect(semHorario(t), t).not.toMatch(/[:—–]/)
@@ -160,41 +161,35 @@ describe('agente trabalhando sozinho', () => {
     expect(quadroDoRamo(pet, -5)).toEqual(quadroDoRamo(pet, 0))
   })
 
-  it('responde preço, horário, endereço e o que foge da base', () => {
-    expect(responderPergunta(ramoPorId('pet'), 'Quanto custa o banho?')?.texto).toMatch(/R\$ 95/)
-    expect(responderPergunta(ramoPorId('clinica'), 'Vocês abrem sábado?')?.texto).toMatch(/segunda a sexta/)
-    expect(responderPergunta(ramoPorId('loja'), 'Onde fica a loja?')?.texto).toMatch(/rua das Palmeiras/)
-    expect(responderPergunta(ramoPorId('servicos'), 'Quanto custa a visita?')?.texto).toMatch(/R\$ 120/)
-  })
-
-  it('manda sintoma para a equipe e não inventa resposta', () => {
-    const r = responderPergunta(ramoPorId('clinica'), 'Estou com dor forte no peito')
-    expect(r?.equipe).toBe(true)
-    expect(r?.texto).toMatch(/não consigo avaliar/)
-  })
-
-  it('cai numa resposta honesta quando não conhece a pergunta', () => {
-    const r = responderPergunta(ramoPorId('pet'), 'Vocês atendem coelho?')
-    expect(r?.texto).toMatch(/passaria.*equipe/i)
-    expect(r?.equipe).toBe(true)
-  })
-
-  it('ignora pergunta vazia', () => {
-    expect(responderPergunta(ramoPorId('pet'), '   ')).toBeNull()
-    expect(responderPergunta(ramoPorId('pet'), '')).toBeNull()
-  })
-
-  it('normaliza acento e maiúscula na pergunta', () => {
-    expect(semAcento('HORÁRIO')).toBe('horario')
-    expect(responderPergunta(ramoPorId('pet'), 'QUAL O PREÇO?')?.texto).toMatch(/R\$ 95/)
-  })
-
   it('leva o ramo escolhido na mensagem do WhatsApp', () => {
     for (const r of RAMOS) {
       const link = linkWhatsapp(r.mensagemWhatsapp)
       expect(link.startsWith('https://wa.me/')).toBe(true)
-      expect(semAcento(decodeURIComponent(link))).toContain(semAcento(r.rotulo))
+      expect(decodeURIComponent(link).toLowerCase()).toContain(r.rotulo.toLowerCase())
     }
+  })
+
+  it('o hero não mostra preço, aviso longo nem campo de pergunta', () => {
+    const textos = JSON.stringify(AGENTE)
+    expect(textos).not.toMatch(/R\$/)
+    expect(textos).not.toMatch(/dados fictícios/i)
+    expect(textos).not.toMatch(/responde só o que está na base/i)
+    expect(AGENTE).not.toHaveProperty('preco')
+    expect(AGENTE).not.toHaveProperty('notaPreco')
+    expect(AGENTE).not.toHaveProperty('honestidade')
+    expect(AGENTE).not.toHaveProperty('perguntaRotulo')
+    expect(AGENTE).not.toHaveProperty('perguntaBotao')
+    expect(AGENTE).not.toHaveProperty('notaPergunta')
+  })
+
+  it('a oferta não tem preço; na conversa, só o valor do serviço', () => {
+    const valores = [...JSON.stringify(RAMOS).matchAll(/R\$\s?(\d+)/g)].map((m) => Number(m[1])).sort((a, b) => a - b)
+    expect(valores).toEqual([95, 120, 189])
+    expect(JSON.stringify(RAMOS)).not.toMatch(/590|990|149\/mês|199\/mês/)
+  })
+
+  it('a honestidade fica no selo curto de demonstração', () => {
+    expect(AGENTE.demonstracao).toBe('demonstração')
   })
 
   it('o convite e o link secundário são os do brief', () => {
@@ -202,33 +197,31 @@ describe('agente trabalhando sozinho', () => {
     expect(AGENTE.peca).toBe('Ver o Pelo Solto inteiro')
   })
 
-  it('a janela da conversa começa na primeira fala que cabe inteira', () => {
-    expect(inicioDaJanela([60, 60, 60, 60], 200)).toBe(1)
-    expect(inicioDaJanela([60, 60, 60, 60], 120)).toBe(2)
-    expect(inicioDaJanela([60, 60, 60], 500)).toBe(0)
+  it('mostra só as três últimas falas da conversa', () => {
+    const lista = ['f1', 'f2', 'f3', 'f4', 'f5'].map((t, i) => fala(t, i))
+    expect(ultimasFalas(lista).map((f) => f.texto)).toEqual(['f3', 'f4', 'f5'])
+    expect(ultimasFalas(lista, 2).map((f) => f.texto)).toEqual(['f4', 'f5'])
+    expect(ultimasFalas([fala('única')]).map((f) => f.texto)).toEqual(['única'])
+    expect(ultimasFalas([])).toEqual([])
   })
 
-  it('conta o espaço entre as falas para não cortar o topo', () => {
-    expect(inicioDaJanela([60, 60, 60, 60], 200, 5)).toBe(1)
-    expect(inicioDaJanela([60, 60, 60, 60], 180, 5)).toBe(2)
-    expect(inicioDaJanela([60, 60, 60, 60], 130, 5)).toBe(2)
+  it('acha a fala que sai quando a janela anda uma posição', () => {
+    const a = fala('f1')
+    const b = fala('f2')
+    const c = fala('f3')
+    const d = fala('f4')
+    expect(falaQueSai([a, b, c], [b, c, d])?.texto).toBe('f1')
+    expect(falaQueSai([b, c, d], [c, d, fala('f5')])?.texto).toBe('f2')
   })
 
-  it('se nem a última fala cabe, mostra a última a partir do topo', () => {
-    expect(inicioDaJanela([60, 300], 150)).toBe(1)
-    expect(inicioDaJanela([], 100)).toBe(0)
-  })
-
-  it('dá nome acessível ao selo de origem, separado da resposta', () => {
-    expect(rotuloDaFonte('ia')).toBe('Resposta de IA de verdade.')
-    expect(rotuloDaFonte('simulado')).toBe('Resposta de demonstração.')
-    expect(rotuloDaFonte('palavra-chave')).toBe('Resposta de demonstração.')
-    expect(rotuloDaFonte('consultando')).toBe('Consultando.')
-  })
-
-  it('declara a IA de verdade com o limite de resposta, sem esconder a origem', () => {
-    expect(AGENTE.iaVerdade).toBe('IA de verdade · respostas limitadas')
-    expect(AGENTE.notaPerguntaIA).toMatch(/nada é gravado/i)
-    expect(AGENTE.notaPergunta).toMatch(/palavra-chave/i)
+  it('não anima saída quando a conversa enche, repete ou recomeça', () => {
+    const a = fala('f1')
+    const b = fala('f2')
+    const c = fala('f3')
+    expect(falaQueSai([], [a])).toBeNull()
+    expect(falaQueSai([a], [a, b])).toBeNull()
+    expect(falaQueSai([a, b], [a, b, c])).toBeNull()
+    expect(falaQueSai([a, b, c], [a, b, c])).toBeNull()
+    expect(falaQueSai([a, b, c], [a])).toBeNull()
   })
 })
