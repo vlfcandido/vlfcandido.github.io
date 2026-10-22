@@ -108,7 +108,8 @@ export function Promessa() {
           {promessa.cta}
           <span className="seta" aria-hidden="true">→</span>
         </a>
-        <div ref={numeros} className="mt-10 grid max-w-xl grid-cols-3 gap-4 sm:gap-8">
+        {/* 21/10/2026 (decisão dele): no celular os números saem (repetem o título e as logos) para a animação caber. */}
+        <div ref={numeros} className="mt-10 hidden max-w-xl grid-cols-3 gap-4 sm:grid sm:gap-8">
           {itens.map((i) => (
             <div key={i.rotulo} className="flex flex-col gap-1 border-t border-linha pt-4">
               <span data-valor={i.valor} className="font-[family-name:var(--fonte-titulo)] text-4xl leading-none tabular-nums sm:text-5xl">

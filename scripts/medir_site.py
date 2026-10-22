@@ -18,7 +18,9 @@ from pathlib import Path
 
 LARGURAS = {"390": (390, 844), "1280": (1280, 800), "1440": (1440, 900)}
 TEMAS = ("light", "dark")
-ORCAMENTO = {"390": 4220, "1280": 3200}  # altura máxima do documento (plano, check 7)
+# Altura máxima do documento (plano, check 7). 21/10/2026 (decisão dele): 390 sobe de 4220 para 4600 com a animação
+# do topo no celular (~530 px), já descontada a linha de números que saiu do celular.
+ORCAMENTO = {"390": 4600, "1280": 3200}
 
 # Registra o CLS desde o início, antes de qualquer script da página.
 INIT_CLS = """
