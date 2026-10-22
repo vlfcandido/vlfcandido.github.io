@@ -77,7 +77,7 @@ function useCarrossel(trilho: RefObject<HTMLUListElement | null>, barra: RefObje
 function CartaoDestaque({ d, indice, assentado }: { d: Destaque; indice: number; assentado?: boolean }) {
   return (
     <li data-indice={indice}>
-      <a href={hrefDe(d.href)} className="cartao toque">
+      <a href={hrefDe(d.href)} className="cartao toque" data-rotulo="Ver o projeto">
         <div className="imagem-reservada relative aspect-[16/10] overflow-hidden border-b border-linha">
           <img
             src={caminhoPublico(import.meta.env.BASE_URL, d.imagem)}

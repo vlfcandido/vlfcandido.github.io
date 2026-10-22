@@ -4,6 +4,7 @@
 
 import { ONDE_TRABALHEI } from '../clientes'
 import { listarProjetos } from '../projetos'
+import { empregos } from '../trajetoria'
 
 /** Um trabalho em destaque, com a dor do cliente e o detalhe marcado à mão. */
 export interface Destaque { slug: string; nome: string; dor: string; detalhe: string; href: string; imagem: string; alt: string }
@@ -38,7 +39,8 @@ export const PECAS = [
  */
 export const FRASES_MARCADAS = {
   // Fix final (14/10/2026): duas marcas, uma por empresa. Antes 'Sicoob e Serasa Experian', um trecho só.
-  promessa: ['Sicoob', 'Serasa Experian'],
+  // 21/10/2026 (pedido dele): a Contabilizei entra como terceira marca. Antes: ['Sicoob', 'Serasa Experian'].
+  promessa: ['Sicoob', 'Serasa Experian', 'Contabilizei'],
   prototipo: 'antes de fechar',
   garantia: '30 dias de correção',
 } as const
@@ -49,6 +51,26 @@ export const FRASES_MARCADAS = {
  * escrito aqui; a Prefeitura de Franca (cliente da Vertigo) saiu e a Vertigo entrou (decisão dele).
  */
 export const SLUGS_EMPRESAS = ONDE_TRABALHEI
+
+/** Empresas da faixa de logos logo abaixo da promessa (21/10/2026, pedido dele: as três marcas no topo). */
+export const MARCAS_TOPO = ['sicoob', 'serasa-experian', 'contabilizei'] as const
+
+/** Evento que a faixa do topo dispara para a Trajetória abrir uma empresa (detail = slug). */
+export const EVENTO_ABRIR_EMPRESA = 'abrir-empresa'
+
+/** Currículo em PDF, relativo a public/; gerado por `npm run curriculo` a partir de trajetoria.ts. */
+export const CURRICULO_PDF = 'curriculo-vinicius-candido.pdf'
+
+/**
+ * Período de cada empresa do bloco "Trajetória", lido da fonte única do currículo (trajetoria.ts).
+ *
+ * @param slug empresa de `SLUGS_EMPRESAS`.
+ * @returns o período como no currículo; a Wiv, que não foi emprego, vira "Projetos freelance".
+ */
+export function periodoDe(slug: string): string | undefined {
+  if (slug === 'wiv') return 'Projetos freelance'
+  return empregos.find((e) => e.slug === slug)?.periodo
+}
 
 /**
  * Linha de cada empresa no bloco "Onde já trabalhei" quando o papel de clientes.ts não serve ao cliente de freela.
@@ -99,7 +121,9 @@ export function conteudoHome() {
       // Fix final (14/10/2026, revisor de detalhes): o título dizia `${n.anos} anos construindo sistemas para Sicoob e
       // Serasa Experian.`, e enganava. Os 13 anos são de carreira, o Sicoob é o emprego atual e a Serasa veio em 2025.
       // Fonte: config/privado/carreira/respostas-padrao.md (software total 13, empresa atual Sicoob, Serasa Experian).
-      titulo: `${n.anos} anos de software. Hoje no Sicoob, antes na Serasa Experian.`,
+      // 21/10/2026 (pedido dele): a Contabilizei entra no título. Antes: `${n.anos} anos de software. Hoje no Sicoob,
+      // antes na Serasa Experian.`
+      titulo: `${n.anos} anos de software. Hoje no Sicoob, antes na Serasa Experian e na Contabilizei.`,
       // 14/10/2026 (Task 10, humanizer): antes 'Agora para o seu negócio, cuidando até do detalhe que ninguém viu.'
       // (frase sem verbo e gerúndio pendurado). Fix final: 'Agora faço…' sugeria que ele saiu do Sicoob.
       subtitulo: 'Também faço o sistema do seu negócio e cuido até do detalhe que ninguém viu.',
@@ -108,20 +132,58 @@ export function conteudoHome() {
       // nem todas as 5 são de grande porte, e o bloco de logos se chama "Onde já trabalhei".
       rotulos: { anos: 'anos de software', empresas: 'empresas onde trabalhei', projetos: 'projetos no portfólio' },
     },
-    // Tela do 1º bloco no PC (decisão dele, 14/10/2026: "acaba a metade vazia"): um trabalho com o círculo
-    // de caneta em volta do detalhe. `alvo` é a caixa do detalhe na imagem, em % da largura e da altura.
-    vitrine: {
-      slug: 'liga-varzea',
-      href: 'trabalhos/liga-varzea/',
-      imagem: 'trabalhos/img/liga-varzea-detalhe.jpg',
-      alt: 'Painel da Liga Várzea com o valor da API ao lado do valor no banco, esperando conferência',
-      // 14/10/2026: legenda própria da tela do painel. Antes: 'A correção manual sobrevive à sincronização.', que
-      // repetia ao pé da letra o detalhe do 1º cartão logo abaixo.
-      // Task 10: antes 'O valor novo da API espera alguém conferir antes de trocar o do banco.'
-      legenda: 'Quando a API traz um número diferente, ele espera alguém conferir antes de entrar no banco.',
-      // 15/10/2026: a miniatura foi recapturada com o cabeçalho do site na peça (56 px; antes faixa de 44 px) e o círculo
-      // passou a cortar o valor e os botões. Medido na captura: só as duas caixas de valor. Antes { x: 25.6, y: 71.2, l: 38.4, a: 9.6 }.
-      alvo: { x: 26.3, y: 75.3, l: 20.4, a: 7.8 },
+    // 21/10/2026 (pedido dele: "desperdício de espaço"): a vitrine (print grande da Liga Várzea, só no PC) virou uma
+    // animação em 3 cenas, no PC e no celular. Antes: vitrine { slug 'liga-varzea', imagem
+    // 'trabalhos/img/liga-varzea-detalhe.jpg', legenda 'Quando a API traz um número diferente, ele espera alguém
+    // conferir antes de entrar no banco.', alvo { x: 26.3, y: 75.3, l: 20.4, a: 7.8 } }.
+    animacao: {
+      // 4ª versão (21/10/2026, pedido dele): uma cena só, sem abas. O site do café se monta e ganha vida com a automação
+      // do WhatsApp (o agente de IA atende e confirma o Pix). Antes: 3 cenas com abas (site, agentes, testes); as duas
+      // últimas saíram, e o agente e o "no ar" agora vivem dentro desta. No celular a cena tem layout próprio.
+      titulo: 'Um site sendo montado e atendendo pelo WhatsApp',
+      legenda: 'O site é montado peça por peça e já atende sozinho no WhatsApp.',
+      // Interação (21/10/2026, pedido dele: "mais interativo e inteligente"): clicar numa peça mostra como ela é feita,
+      // com o componente e o teste que garante o comportamento. Café fictício: o código é ilustrativo.
+      dica: { mouse: 'Clique numa peça para ver como ela é feita', toque: 'Toque numa peça para ver como ela é feita' },
+      inspecao: {
+        menu: { codigo: '<Menu fixo responsivo />', teste: 'vira menu de celular abaixo de 640 px' },
+        aberto: { codigo: '<StatusLoja horario={agenda} />', teste: 'mostra fechado fora do horário' },
+        titulo: { codigo: '<Titulo nivel={1} />', teste: 'lido primeiro pelo leitor de tela' },
+        texto: { codigo: '<Texto />', teste: 'linha com até 70 caracteres' },
+        botoes: { codigo: '<BotaoPedido canal="whatsapp" />', teste: 'abre o WhatsApp com o pedido escrito' },
+        prova: { codigo: '<Avaliacoes fonte="google" />', teste: 'contador sobe a cada pedido pago' },
+        celular: { codigo: '<AgenteIA revisor pix />', teste: 'só confirma depois do Pix compensado' },
+        c1: { codigo: '<Cardapio sync="planilha" />', teste: 'item esgotado some sozinho' },
+        c2: { codigo: '<CobrancaPix />', teste: 'confere o valor antes de confirmar' },
+        c3: { codigo: '<Entrega raio={3} />', teste: 'avisa o cliente quando sai' },
+      },
+      endereco: 'cafearoma.com.br',
+      status: 'No ar',
+      // Café fictício, sem nome real. Sem "R$": a home não mostra preço (teste do conteúdo).
+      site: {
+        marca: 'Café Aroma',
+        menu: ['Cardápio', 'Pedidos', 'Contato'],
+        acao: 'Pedir agora',
+        selo: 'Aberto agora, entrega em 30 min',
+        titulo: 'Seu café pedido pelo WhatsApp',
+        texto: 'Escolha no cardápio, pague por Pix e acompanhe a entrega.',
+        botoes: ['Fazer pedido', 'Ver cardápio'],
+        prova: 'nota 4,9',
+        pedidos: { antes: 128, depois: 129, rotulo: 'pedidos hoje' },
+        cartoes: [
+          { titulo: 'Cardápio online', texto: 'Sempre atualizado', icone: 'cardapio' },
+          { titulo: 'Pagamento por Pix', texto: 'Na própria conversa', icone: 'pix' },
+          { titulo: 'Entrega no bairro', texto: 'Com aviso no caminho', icone: 'entrega' },
+        ],
+        agente: 'Agente de IA',
+        conversa: [
+          { de: 'cliente', texto: 'Oi! Um cappuccino e dois pães de queijo' },
+          { de: 'loja', texto: 'Anotado! Te mandei o Pix aqui' },
+          { de: 'cliente', texto: 'Paguei!' },
+          { de: 'loja', texto: 'Pagamento confirmado, sai em 15 min' },
+        ],
+        aviso: 'Novo pedido recebido',
+      },
     },
     prototipo: {
       titulo: 'Veja o seu sistema funcionando antes de fechar.',
@@ -164,7 +226,13 @@ export function conteudoHome() {
       },
     ] satisfies Destaque[],
     // Fix final (14/10/2026): subtítulo para separar este bloco (empregos) dos "Casos em empresas" de #/projetos.
-    empresas: { titulo: 'Onde já trabalhei', subtitulo: 'As empresas onde trabalhei e o que fiz em cada uma.' },
+    // 21/10/2026 (pedido dele): o bloco vira a trajetória, com período e o currículo em PDF. Antes: titulo 'Onde já
+    // trabalhei' e subtitulo 'As empresas onde trabalhei e o que fiz em cada uma.'
+    empresas: {
+      titulo: 'Trajetória',
+      curriculo: { href: CURRICULO_PDF, texto: 'Baixar o currículo em PDF' },
+      faixa: 'Onde trabalho e trabalhei',
+    },
     // Fix final (14/10/2026): antes 'Trabalhos com o detalhe marcado'; o menu passou a chamar a seção de "Destaques".
     trabalhos: { titulo: 'Destaques, com o detalhe marcado', verTodos: 'Ver todos os projetos' },
     // 15/10/2026: botão do WhatsApp no fim do bloco, com a mensagem do passo 1.

@@ -65,8 +65,9 @@
   .home h1, .home h2, .home h3 { text-wrap: balance; }
   .home p { text-wrap: pretty; }
 
-  @media (max-width: 1023px) {
-    /* Uma tela por papel; o que sobra embaixo é a espiadinha da próxima. */
+  @media (max-width: 1023px) and (orientation: landscape) {
+    /* Uma tela por papel; o que sobra embaixo é a espiadinha da próxima. Só com a tela deitada: em monitor ou tablet em
+       pé (22/10/2026, monitor vertical dele) a altura de uma tela abria um vão vazio embaixo de cada seção. */
     .home > .tela { min-height: calc(100svh - var(--cabecalho) - var(--espiada)); display: flex; flex-direction: column; justify-content: center; }
   }
   @media (max-width: 767px) {
@@ -114,13 +115,15 @@
 
   /* Hover só com mouse (§13: nada no celular depende de hover). */
   @media (hover: hover) {
-    .cta, .link-secundario { transition: transform var(--mov-padrao) var(--mola-volta), box-shadow var(--mov-padrao) var(--mola); }
+    /* 22/10/2026: `translate` entra na transição para o puxão magnético (lib/vida.ts) andar com mola. */
+    .cta, .link-secundario { transition: transform var(--mov-padrao) var(--mola-volta), box-shadow var(--mov-padrao) var(--mola),
+      translate 260ms cubic-bezier(.34,1.56,.64,1); }
     .cta:hover { transform: translateY(-2px); box-shadow: var(--sombra-1); }
     .link-secundario:hover { transform: translateY(-2px); border-color: var(--fundo-suave); }
     .cta:hover .seta, .link-secundario:hover .seta { transform: translateX(4px); }
     .cartao { transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
     .cartao:hover { transform: translateY(-4px); box-shadow: var(--sombra-2); }
-    .cartao img { transition: transform var(--mov-lento) var(--mola); }
+    .cartao img { transition: transform var(--mov-lento) var(--mola), translate 400ms ease-out; }
     .cartao:hover img { transform: scale(1.02); }
     a:hover > .moldura-navegador { transform: translateY(-4px); box-shadow: var(--sombra-2); }
     .empresa:hover .logo-empresa { filter: none; opacity: 1; }
@@ -153,12 +156,247 @@
   .moldura-navegador .barra-janela { display: flex; align-items: center; gap: 8px; height: 32px; padding-inline: 16px; border-bottom: 1px solid var(--linha); background: var(--raso); }
   .moldura-navegador .barra-janela i { width: 8px; height: 8px; border-radius: var(--raio-pilula); background: var(--linha); }
 
-  /* Caixa do detalhe na tela da vitrine: o círculo de caneta ocupa a caixa inteira. */
-  .vitrine-alvo { position: absolute; }
-  .vitrine-alvo > .marcacao { display: block; width: 100%; height: 100%; }
-  .vitrine-alvo .marcacao-traco path { stroke-width: 4; }
+  /* Animação do topo (21/10/2026; antes, a vitrine com o print grande). Uma cena só: o site do Café Aroma (fictício)
+     se monta e atende pelo WhatsApp. Regra do movimento: o estado final é o estilo normal e cada keyframe descreve só o
+     começo (fill-mode backwards); o que é passageiro (cursor, "digitando", aviso) tem opacidade 0 no estilo normal.
+     Com reduced-motion a animação some e fica o quadro final. Linha do tempo em batidas, em s (--q de cada peça):
+       0–0,2 planta (todas as vagas juntas) · 0,25–0,35 menu e celular · 0,6–0,92 o hero em cascata · 1,15–1,31 cartões
+       · 1,5–2,8 cursor entra e clica a 2,38 (botão afunda e solta o anel) · 2,5 a mensagem do cliente sai junto com o
+       clique · 3,5 o agente manda o Pix (o ícone pulsa) · 4,1 "Paguei!" e o cartão do Pix acende · 5,0 confirmação, e
+       no mesmo instante o contador sobe, o aviso passa e a moto sai · 8,2–8,6 o site esmaece e a volta recomeça
+       (VOLTA em AnimacaoTrabalho.tsx).
+     PC: grade de 6 colunas em 16:10. Celular: palco em 4:5 e, quando o palco fica em pé (container query), o site
+     vira o layout de celular dele, numa coluna, com letra grande. Medidas em cqw do palco. */
+  .anim .barra-janela { gap: 6px; }
+  .anim-endereco { display: inline-flex; align-items: center; gap: 6px; margin-inline: auto; padding: 3px 14px; border-radius: var(--raio-pilula);
+    background: var(--papel-alto); border: 1px solid var(--linha); font-size: 0.75rem; color: var(--grafite); }
+  .anim-endereco svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+  .anim-no-ar { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 600; color: var(--mata); }
+  .anim-no-ar::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: a-pulsa 1.8s ease-in-out infinite; }
+  .anim-palco { position: relative; aspect-ratio: 16 / 10; overflow: hidden; container-type: size; }
+  @media (max-width: 639px) { .anim-palco { aspect-ratio: 4 / 5; } .anim .barra-janela i { display: none; } }
+
+  .anim-site { --s-fundo:#fbf6ef; --s-tinta:#2b1a10; --s-cafe:#7a4a2a; --s-creme:#f1e4d3; --s-laranja:#e8823a; --s-verde:#1f9d55;
+    --s-zap:#0b6b5c; --s-bolha:#dcf8c6; --s-linha:#e7dccd;
+    position: absolute; inset: 0; display: grid; gap: 1.5cqw 2.2cqw; padding: 3cqw 3.4cqw;
+    grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: 7cqw 4.6cqw auto auto 6.6cqw 4.4cqw minmax(0, 1fr);
+    grid-template-areas: "menu menu menu menu menu menu" "aberto aberto aberto aberto celular celular"
+      "titulo titulo titulo titulo celular celular" "texto texto texto texto celular celular"
+      "botoes botoes botoes botoes celular celular" "prova prova prova prova celular celular" "c1 c1 c2 c2 c3 c3";
+    background: var(--s-fundo); color: var(--s-tinta); font-size: 1.8cqw; line-height: 1.3; }
+  .a-vaga { position: relative; min-width: 0; min-height: 0; border-radius: 1.4cqw; outline: 1.5px dashed transparent; outline-offset: 2px;
+    animation: a-vaga-vive calc(var(--q) + 1s) ease-out; }
+  .a-vaga::before, .a-vaga::after { content: ""; position: absolute; background: var(--s-laranja); opacity: 0; pointer-events: none;
+    animation: a-guia .5s ease-out calc(var(--q) + .42s); }
+  .a-vaga::before { left: -100vw; right: -100vw; top: -1px; height: 1px; }
+  .a-vaga::after { top: -100vh; bottom: -100vh; left: -1px; width: 1px; }
+  .a-peca { position: relative; z-index: 1; height: 100%; border-radius: inherit; display: flex; align-items: center; gap: 1.2cqw;
+    animation: a-encaixa .7s cubic-bezier(.34,1.56,.64,1) var(--q) backwards; }
+
+  .a-menu { gap: 3cqw; padding: 0 1.6cqw; background: #fff; border-radius: 1.6cqw; box-shadow: 0 .3cqw 1.2cqw rgb(43 26 16 / .08); }
+  .a-marca { display: flex; align-items: center; gap: 1cqw; font-family: var(--fonte-titulo); font-size: 2.3cqw; white-space: nowrap; }
+  .a-logo { width: 3cqw; height: 3cqw; border-radius: 50% 50% 50% .6cqw; background: var(--s-cafe); box-shadow: inset -.7cqw -.6cqw 0 var(--s-laranja); }
+  .a-links { display: flex; gap: 2.4cqw; margin-left: auto; font-size: 1.6cqw; color: var(--s-cafe); }
+  .a-acao { padding: .9cqw 1.8cqw; border-radius: 99px; background: var(--s-tinta); color: #fff; font-size: 1.5cqw; font-weight: 600; white-space: nowrap; }
+  .a-hamburguer { display: none; }
+
+  .a-aberto-selo { display: inline-flex; align-items: center; gap: .9cqw; padding: .6cqw 1.4cqw; border-radius: 99px; font-size: 1.45cqw;
+    font-weight: 600; background: color-mix(in srgb, var(--s-verde) 12%, #fff); color: #13693a; white-space: nowrap; }
+  .a-aberto-selo i { width: 1.1cqw; height: 1.1cqw; border-radius: 50%; background: var(--s-verde); animation: a-pulsa 1.6s ease-in-out infinite; }
+  .a-h { font-family: var(--fonte-titulo); font-weight: 650; font-size: 5.2cqw; line-height: 1.02; letter-spacing: -0.02em; }
+  .a-p { font-size: 1.9cqw; color: var(--s-cafe); max-width: 40cqw; }
+  .a-btn { position: relative; padding: 1.3cqw 2.6cqw; border-radius: 99px; background: var(--s-laranja); color: #fff; font-weight: 700;
+    font-size: 1.7cqw; box-shadow: 0 .6cqw 1.4cqw rgb(232 130 58 / .35); white-space: nowrap; }
+  .a-btn1 { animation: a-aperta .3s ease-in-out 2.3s; }
+  /* Anel do clique, no mesmo instante em que o botão afunda. */
+  .a-btn1::after { content: ""; position: absolute; left: 66%; top: 58%; width: 1cqw; height: 1cqw; margin: -.5cqw; border-radius: 50%;
+    border: .4cqw solid #fff; opacity: 0; animation: a-anel .55s ease-out 2.38s; }
+  .a-btn2 { background: transparent; color: var(--s-tinta); box-shadow: inset 0 0 0 1.5px var(--s-linha); }
+  .a-cursor { position: absolute; z-index: 4; left: 62%; top: 52%; width: 2.6cqw; height: 2.6cqw; opacity: 0; overflow: visible;
+    filter: drop-shadow(0 .2cqw .3cqw rgb(0 0 0 / .35)); animation: a-cursor 1.4s cubic-bezier(.3,.7,.2,1) 1.5s; }
+  .a-cursor path { fill: var(--s-tinta); stroke: #fff; stroke-width: 1.4; stroke-linejoin: round; }
+
+  .a-prova { font-size: 1.45cqw; color: var(--s-cafe); white-space: nowrap; }
+  .a-rostos { display: flex; }
+  .a-rostos i { width: 3cqw; height: 3cqw; border-radius: 50%; border: .4cqw solid var(--s-fundo); margin-left: -1cqw; background: #c98b5e; }
+  .a-rostos i:first-child { margin-left: 0; background: #8a5a3b; } .a-rostos i:last-child { background: #e3b48c; }
+  .a-estrelas { color: #f2a516; font-size: 1.6cqw; letter-spacing: .1em; }
+  .a-pedidos { display: inline-flex; align-items: center; gap: .6cqw; margin-left: 1cqw; padding-left: 1.6cqw; border-left: 1px solid var(--s-linha);
+    font-size: 1.45cqw; color: var(--s-cafe); white-space: nowrap; }
+  .a-num { display: inline-flex; flex-direction: column; height: 1.3em; line-height: 1.3; overflow: hidden; font-weight: 700; color: var(--s-tinta);
+    font-variant-numeric: tabular-nums; }
+  .a-num > span { transform: translateY(-100%); animation: a-conta .45s cubic-bezier(.3,1.4,.5,1) 5.05s backwards; }
+
+  /* O celular não entra no cálculo da grade: ocupa a vaga dele por cima, senão a proporção estica as linhas. */
+  .a-celular { position: absolute; inset: 0; justify-content: center; }
+  .a-fone { position: relative; height: 100%; aspect-ratio: 9 / 17; margin-inline: auto; display: flex; flex-direction: column; overflow: hidden;
+    border-radius: 3cqw; border: 1cqw solid var(--s-tinta); background: #efe7dc; box-shadow: 0 2cqw 4cqw rgb(43 26 16 / .25); }
+  .a-fone-topo { display: flex; align-items: center; gap: .8cqw; padding: 1.6cqw 1.2cqw 1cqw; background: var(--s-zap); color: #fff;
+    font-size: 1.4cqw; font-weight: 600; white-space: nowrap; }
+  .a-fone-topo i { flex: none; width: 2.4cqw; height: 2.4cqw; border-radius: 50%; background: var(--s-laranja); }
+  .a-fone-topo small { display: none; }
+  /* A conversa some no fim da volta (a-limpa, 8,2 s): na volta seguinte só ela recomeça, com o site parado. */
+  .a-conversa { display: flex; flex-direction: column; gap: .9cqw; padding: 1.2cqw; animation: a-limpa .4s ease-in 8.2s forwards; }
+  .a-bolha { position: relative; max-width: 88%; padding: .8cqw 1.1cqw; border-radius: 1.2cqw; font-size: 1.3cqw; line-height: 1.25;
+    background: #fff; box-shadow: 0 .2cqw .4cqw rgb(0 0 0 / .08); animation: a-bolha .35s cubic-bezier(.25,1.4,.45,1) var(--t) backwards; }
+  .a-cliente { align-self: flex-end; background: var(--s-bolha); border-bottom-right-radius: .3cqw; transform-origin: right bottom; }
+  .a-loja { align-self: flex-start; border-bottom-left-radius: .3cqw; transform-origin: left bottom;
+    animation-delay: calc(var(--t) - .7s); }
+  .a-quem { display: block; margin-bottom: .2cqw; font-size: .82em; font-weight: 700; color: #0b6b5c; }
+  /* "digitando": cobre a bolha da loja nos 0,8 s antes do texto aparecer. */
+  .a-loja::after { content: "• • •"; position: absolute; inset: 0; display: grid; place-items: center; border-radius: inherit; background: #fff;
+    color: #9a8f84; letter-spacing: .1em; opacity: 0; animation: a-digita .7s steps(1) calc(var(--t) - .7s); }
+
+  .a-c1, .a-c2, .a-c3 { gap: 1.4cqw; padding: 0 1.6cqw; background: #fff; border-radius: 1.6cqw; box-shadow: 0 .3cqw 1.2cqw rgb(43 26 16 / .08); }
+  .a-c2 { animation: a-encaixa .7s cubic-bezier(.34,1.56,.64,1) var(--q) backwards, a-brilha 1.1s ease-out 4.1s; }
+  .a-icone { flex: none; width: 4.4cqw; height: 4.4cqw; padding: .9cqw; border-radius: 1.2cqw; background: var(--s-creme);
+    fill: none; stroke: var(--s-cafe); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .a-c2 .a-icone { background: color-mix(in srgb, var(--s-verde) 14%, #fff); stroke: #13693a; }
+  .a-c3 .a-icone { background: color-mix(in srgb, var(--s-laranja) 16%, #fff); stroke: #b85a1c; }
+  .a-icone-pix { animation: a-pulso .4s ease-in-out 3.5s, a-gira .7s cubic-bezier(.3,1.4,.5,1) 4.1s; }
+  .a-icone-entrega { animation: a-roda 1.1s ease-in-out 5s infinite; }
+  .a-cartao-texto { display: flex; flex-direction: column; min-width: 0; font-size: 1.35cqw; color: var(--s-cafe); }
+  .a-cartao-texto b { font-size: 1.6cqw; color: var(--s-tinta); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* O aviso cai do alto como notificação, ao lado do celular: em cima dele cobria o nome da loja. */
+  .a-aviso { position: absolute; z-index: 3; right: 35cqw; top: 10.5cqw; display: flex; align-items: center; gap: 1cqw; padding: 1.2cqw 1.8cqw;
+    border-radius: 1.4cqw; background: var(--s-tinta); color: #fff; font-size: 1.6cqw; font-weight: 600; opacity: 0;
+    box-shadow: 0 1.2cqw 3cqw rgb(43 26 16 / .35); animation: a-aviso 2.6s cubic-bezier(.25,1.3,.45,1) 5.1s; }
+  /* Volta seguinte (data-repete, 22/10/2026, "animações quebradas, fora de timing"): o site fica montado e só a vida
+     recomeça (cursor, clique, conversa, contador e aviso). Antes, o site inteiro se desmontava a cada 8,6 s. */
+  .anim-site[data-repete] .a-vaga, .anim-site[data-repete] .a-vaga::before, .anim-site[data-repete] .a-vaga::after,
+  .anim-site[data-repete] .a-peca { animation: none; }
+  .anim-site[data-repete] .a-c2 { animation: a-brilha 1.1s ease-out 4.1s; }
+  .a-aviso i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: var(--s-verde); }
+
+  /* Celular: o palco fica em pé e o site do café vira o layout de celular dele (uma coluna, letra grande, a conversa
+     dentro da página em vez do aparelho). Texto, prova e cartões ficam de fora para caber sem apertar. */
+  @container (orientation: portrait) {
+    .anim-site { gap: 2.6cqw; padding: 4cqw; font-size: 3.6cqw;
+      grid-template-columns: minmax(0, 1fr); grid-template-rows: 12cqw 7cqw auto 11cqw minmax(0, 1fr);
+      grid-template-areas: "menu" "aberto" "titulo" "botoes" "celular"; }
+    .anim-site .a-vaga:has(.a-texto, .a-prova, .a-c1, .a-c2, .a-c3) { display: none; }
+    .a-vaga { border-radius: 3cqw; }
+    .a-menu { padding: 0 3cqw; border-radius: 3cqw; }
+    .a-marca { font-size: 4.8cqw; gap: 2cqw; }
+    .a-logo { width: 6cqw; height: 6cqw; }
+    .a-links, .a-acao { display: none; }
+    .a-hamburguer { display: grid; gap: 1cqw; margin-left: auto; }
+    .a-hamburguer i { display: block; width: 5.4cqw; height: .7cqw; border-radius: 1cqw; background: var(--s-tinta); }
+    .a-aberto-selo { font-size: 3.2cqw; gap: 1.8cqw; padding: 1.2cqw 3cqw; }
+    .a-aberto-selo i { width: 2.2cqw; height: 2.2cqw; }
+    .a-h { font-size: 9.4cqw; }
+    .a-botoes { gap: 2.4cqw; }
+    .a-btn { font-size: 3.7cqw; padding: 2.4cqw 4.6cqw; }
+    .a-cursor { width: 6cqw; height: 6cqw; }
+    .a-celular { position: static; }
+    .a-fone { height: 100%; width: 100%; aspect-ratio: auto; border-width: 0; border-radius: 3cqw; box-shadow: 0 0 0 1px var(--s-linha);
+      background: #efe7dc; }
+    .a-fone-topo { gap: 2cqw; padding: 2.4cqw 3cqw; font-size: 3.6cqw; }
+    .a-fone-topo i { width: 5.4cqw; height: 5.4cqw; }
+    .a-fone-topo small { display: inline; margin-left: auto; padding: .6cqw 2cqw; border-radius: 99px; background: rgb(255 255 255 / .18);
+      font-size: 2.8cqw; font-weight: 600; }
+    .a-conversa { gap: 2cqw; padding: 3cqw; }
+    .a-bolha { font-size: 3.5cqw; padding: 1.8cqw 2.6cqw; border-radius: 3cqw; }
+    .a-cliente { border-bottom-right-radius: .8cqw; } .a-loja { border-bottom-left-radius: .8cqw; }
+    .a-quem { display: none; }
+    .a-aviso { left: 50%; right: auto; top: 3cqw; translate: -50% 0; gap: 2cqw; padding: 2.6cqw 4cqw; border-radius: 3cqw; font-size: 3.6cqw;
+      white-space: nowrap; }
+    .a-aviso i { width: 2.6cqw; height: 2.6cqw; }
+    .anim-palco .a-ficha { font-size: 3.2cqw; white-space: normal; width: max-content; max-width: 84cqw; padding: 2cqw 2.6cqw; border-radius: 2.2cqw; }
+    .anim-palco .a-inspetor { border-radius: 3cqw; }
+    .anim-palco .anim-dica { left: 50%; translate: -50% 0; bottom: 4cqw; font-size: 3.2cqw; padding: 1.8cqw 3.6cqw; white-space: nowrap; }
+  }
+
+  /* Interação com o mouse (useInclinacao): a janela inclina em 3D e um reflexo segue o ponteiro; cada peça anda na
+     sua profundidade (--d) e os botões magnéticos chegam perto do cursor. --px/--py vão de -1 a 1 e moram na moldura.
+     Usa `translate` (propriedade separada de `transform`), para não brigar com as animações de entrada. */
+  .anim .moldura-navegador { position: relative; transform: perspective(1400px) rotateX(calc(var(--py, 0) * -4deg)) rotateY(calc(var(--px, 0) * 5deg));
+    transition: transform 600ms cubic-bezier(.2,.7,.2,1), box-shadow 600ms ease; }
+  .anim .moldura-navegador[data-mouse] { transition-duration: 150ms, 600ms; box-shadow: var(--sombra-2); }
+  .anim .moldura-navegador::after { content: ""; position: absolute; inset: 0; z-index: 6; pointer-events: none; opacity: 0; border-radius: inherit;
+    background: radial-gradient(520px circle at var(--gx, 50%) var(--gy, 0%), rgb(255 255 255 / .22), transparent 45%); transition: opacity 400ms ease; }
+  .anim .moldura-navegador[data-mouse]::after { opacity: 1; }
+  .a-peca { translate: calc(var(--px, 0) * var(--d, 0) * -1px) calc(var(--py, 0) * var(--d, 0) * -1px); transition: translate 350ms ease-out; }
+  [data-magnetico] { translate: var(--mx, 0px) var(--my, 0px); transition: translate 250ms cubic-bezier(.34,1.56,.64,1); }
+  .a-vaga { cursor: pointer; transition: opacity 300ms ease, filter 300ms ease; }
+  .a-vaga[data-apagada] { opacity: .28; filter: saturate(.3); }
+  /* Com uma peça no inspetor a cena congela no quadro em que estava, sem o esmaecer do fim da volta. */
+  .anim-palco[data-inspecionando] .anim-site { animation: none; }
+  .anim-palco[data-inspecionando] .anim-site * , .anim-palco[data-inspecionando] .anim-site *::before,
+  .anim-palco[data-inspecionando] .anim-site *::after { animation-play-state: paused; }
+
+  /* Inspetor: a peça clicada ganha a caixa azul de quem inspeciona um site, com o componente e o teste. */
+  .a-inspetor { position: absolute; z-index: 5; pointer-events: none; border-radius: 1.4cqw; outline: 2px solid #4c8dff; outline-offset: 2px;
+    background: rgb(76 141 255 / .10); animation: a-insp .28s cubic-bezier(.34,1.56,.64,1); }
+  .a-ficha { position: absolute; left: 0; bottom: calc(100% + 1.4cqw); display: flex; flex-direction: column; gap: .5cqw; padding: 1.1cqw 1.5cqw;
+    border-radius: 1.1cqw; background: #15171c; color: #e8eaf0; font-size: 1.55cqw; line-height: 1.3; white-space: nowrap;
+    box-shadow: 0 1.4cqw 3cqw rgb(0 0 0 / .35); animation: a-ficha .3s cubic-bezier(.34,1.56,.64,1) .05s backwards; }
+  .a-ficha[data-embaixo] { bottom: auto; top: calc(100% + 1.4cqw); }
+  .a-ficha[data-direita] { left: auto; right: 0; }
+  .a-ficha code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; color: #8fd0ff; font-size: 1.05em; }
+  .a-ficha-teste { color: #8ee6a6; }
+  /* Dica: aparece com o mouse sobre a janela; no toque, passa uma vez depois que o site fica pronto. */
+  .anim-dica { position: absolute; z-index: 4; left: 2.4cqw; bottom: 2.4cqw; padding: .8cqw 1.8cqw; border-radius: 99px; pointer-events: none;
+    background: rgb(21 23 28 / .84); color: #fff; font-size: 1.45cqw; font-weight: 600; opacity: 0; transition: opacity 300ms ease; }
+  .anim:hover .anim-dica { opacity: 1; }
+  .anim-palco[data-inspecionando] .anim-dica { opacity: 0; }
+  .anim-dica-toque { display: none; }
+  @media (hover: none) {
+    .anim-dica-mouse { display: none; } .anim-dica-toque { display: inline; }
+    .anim-dica { animation: a-dica 3.2s ease 5.6s; }
+  }
+  @keyframes a-insp { from { opacity: 0; transform: scale(1.06); } }
+  @keyframes a-ficha { from { opacity: 0; transform: translateY(1cqw) scale(.94); } }
+  @keyframes a-dica { 0%, 100% { opacity: 0; } 12%, 85% { opacity: 1; } }
+
+  @keyframes a-encaixa {
+    0% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--giro)) scale(.94); filter: drop-shadow(0 2cqw 2.4cqw rgb(43 26 16 / .22)); }
+    30% { opacity: 1; }
+  }
+  @keyframes a-anel { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(9); } }
+  @keyframes a-pulso { 50% { transform: scale(1.18); } }
+  @keyframes a-limpa { to { opacity: 0; } }
+  @keyframes a-vaga-vive { 0% { outline-color: transparent; } 8%, 88% { outline-color: color-mix(in srgb, var(--s-cafe) 45%, transparent); } 100% { outline-color: transparent; } }
+  @keyframes a-guia { 0% { opacity: 0; } 25% { opacity: .9; } 100% { opacity: 0; } }
+  @keyframes a-cursor { 0% { opacity: 0; transform: translate(420%, 300%); } 15% { opacity: 1; } 55% { transform: none; }
+    62% { transform: scale(.8); } 70% { transform: none; } 85% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes a-aperta { 50% { transform: scale(.94); filter: brightness(.92); } }
+  @keyframes a-bolha { from { opacity: 0; transform: scale(.6); } }
+  @keyframes a-digita { 0%, 100% { opacity: 1; } }
+  @keyframes a-conta { from { transform: translateY(0); } }
+  @keyframes a-gira { from { transform: rotate(-180deg) scale(.6); } }
+  @keyframes a-brilha { 0% { box-shadow: 0 0 0 0 rgb(31 157 85 / .55), 0 .3cqw 1.2cqw rgb(43 26 16 / .08); }
+    100% { box-shadow: 0 0 0 2cqw rgb(31 157 85 / 0), 0 .3cqw 1.2cqw rgb(43 26 16 / .08); } }
+  @keyframes a-roda { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(12%); } }
+  @keyframes a-pulsa { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 45%, transparent); }
+    60% { box-shadow: 0 0 0 .5em color-mix(in srgb, currentColor 0%, transparent); } }
+  @keyframes a-aviso { 0% { opacity: 0; transform: translateY(-4cqw) scale(.92); } 15%, 85% { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(-2cqw); } }
+  @media (prefers-reduced-motion: reduce) { .anim *, .anim *::before, .anim *::after { animation: none !important; }
+    .anim .moldura-navegador, .a-peca, [data-magnetico] { transition: none; } }
 
   .numero-passo { font-family: var(--fonte-titulo); line-height: 1; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; color: var(--fundo); }
+  /* Passos que acendem (22/10/2026): ao rolar, uma linha de marca-texto enche o topo de cada passo, um depois do outro,
+     e o número acende junto (animação ligada à rolagem, sem JS). Com o mouse, o passo sob o cursor sobe e os outros
+     esperam. Navegador sem scroll-timeline fica como antes. */
+  .passo { position: relative; transition: opacity 300ms ease; }
+  .passo .numero-passo { display: inline-block; transition: transform 350ms cubic-bezier(.34,1.56,.64,1), color 300ms ease; }
+  .passo:nth-child(2) { --n: 1; } .passo:nth-child(3) { --n: 2; } .passo:nth-child(4) { --n: 3; } .passo:nth-child(5) { --n: 4; }
+  @supports (animation-timeline: view()) {
+    .passo::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 3px; border-radius: 2px; background: var(--sol);
+      transform-origin: left; animation: passo-enche linear both; animation-timeline: view();
+      animation-range: entry calc(30% + var(--n, 0) * 12%) cover calc(38% + var(--n, 0) * 6%); }
+    .passo .numero-passo { animation: passo-acende linear both; animation-timeline: view();
+      animation-range: entry calc(30% + var(--n, 0) * 12%) cover calc(38% + var(--n, 0) * 6%); }
+  }
+  @keyframes passo-enche { from { transform: scaleX(0); } }
+  @keyframes passo-acende { from { color: var(--linha); } }
+  @media (hover: hover) {
+    ol:has(> .passo:hover) > .passo:not(:hover) { opacity: .5; }
+    .passo:hover .numero-passo { transform: translateY(-4px) scale(1.12); }
+  }
+  @media (prefers-reduced-motion: reduce) { .passo::before, .passo .numero-passo { animation: none; } .passo .numero-passo { transition: none; } }
 
   /* Monograma no lugar da foto até ela existir (Task 8): mesmo quadro 4:5, layout final. */
   .quadro-retrato { aspect-ratio: 4 / 5; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--raso); overflow: hidden; }
@@ -189,6 +427,42 @@
   :root[data-tema="escuro"] .logo-empresa[data-clara="true"],
   :root[data-tema="escuro"] .empresa:hover .logo-empresa[data-clara="true"] { filter: grayscale(1) brightness(1.3); }
 
+  /* Trajetória interativa (22/10/2026). O botão da empresa herda o visual da linha; aberta, a logo ganha cor, as outras
+     apagam (PC) e o "feito" abre com a altura animada. No celular, o painel embaixo troca com um deslize curto. */
+  .empresa-botao { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; border-radius: var(--raio-p);
+    min-height: 44px; }
+  .trajetoria .empresa { transition: opacity 300ms ease; }
+  .trajetoria[data-foco] .empresa:not([data-aberta]) { opacity: .45; }
+  .empresa[data-aberta] .logo-empresa { filter: none; opacity: 1; transform: scale(1.06); }
+  .empresa .logo-empresa { transition: filter var(--mov-padrao) var(--mola), opacity var(--mov-padrao) var(--mola), transform 400ms cubic-bezier(.34,1.56,.64,1); }
+  .empresa-detalhe { grid-template-rows: 0fr; transition: grid-template-rows 420ms cubic-bezier(.2,.7,.2,1); }
+  .empresa[data-aberta] .empresa-detalhe { grid-template-rows: 1fr; }
+  .empresa-detalhe p { padding-left: calc(6rem + 16px); opacity: 0; transform: translateY(-4px); transition: opacity 300ms ease, transform 300ms ease; }
+  .empresa[data-aberta] .empresa-detalhe p { opacity: 1; transform: none; padding-bottom: 16px; transition-delay: 120ms; }
+  .empresa-painel-conteudo { margin-top: 16px; padding: 14px 16px; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--papel-alto);
+    border-left: 4px solid var(--sol); animation: painel-entra 360ms cubic-bezier(.2,.7,.2,1); }
+  @keyframes painel-entra { from { opacity: 0; transform: translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .empresa-detalhe, .empresa-detalhe p, .logo-empresa { transition: none; } .empresa-painel-conteudo { animation: none; } }
+  /* Peças vivas mais fundas: com a luz do mouse, a imagem cresce um pouco para o paralaxe não mostrar a borda. */
+  .cartao[data-vivendo] img, [data-vivo][data-vivendo] img { scale: 1.04; transition: transform var(--mov-lento) var(--mola), translate 400ms ease-out, scale 400ms ease-out; }
+
+  /* Faixa de marcas da promessa (21/10/2026): as três empresas do título, menores que no bloco da trajetória, numa
+     linha só até 360 px. A cor segue as regras de .logo-empresa acima (tinta no claro, invertida no escuro). */
+  .faixa-marcas { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; list-style: none; padding: 0; }
+  .faixa-marcas a { display: inline-flex; align-items: center; min-height: 44px; }
+  .faixa-marcas .logo-empresa { height: 26px; opacity: .9; }
+  .faixa-marcas .logo-empresa[data-slug="serasa-experian"] { height: 34px; }
+  /* O desenho da Contabilizei é largo e pesado: na mesma altura das outras, pesava o dobro na linha. */
+  .faixa-marcas .logo-empresa[data-slug="contabilizei"] { height: 21px; }
+  @media (hover: hover) { .faixa-marcas a:hover .logo-empresa { opacity: 1; } }
+  /* Celular: as três numa linha só a 390 px (antes a Contabilizei caía sozinha na segunda linha). */
+  @media (max-width: 767px) {
+    .faixa-marcas { gap: 8px 18px; flex-wrap: nowrap; }
+    .faixa-marcas .logo-empresa { height: 22px; }
+    .faixa-marcas .logo-empresa[data-slug="serasa-experian"] { height: 29px; }
+    .faixa-marcas .logo-empresa[data-slug="contabilizei"] { height: 18px; }
+  }
+
   /* O círculo de caneta ganha folga em volta da frase: abraça o texto sem riscar as letras. */
   /* 15/10/2026 (revisor, rodada 2): o traço cortava o pé da linha de cima e, a 390 px, chegava a 4 px da borda.
      Desce ~4 px e encolhe na horizontal. Antes: inset -32% -10%, width 120%, height 164%. */
@@ -209,4 +483,4 @@
   border-radius: var(--raio-p);
 }
 .home .cta:focus-visible, .home .link-secundario:focus-visible { border-radius: var(--raio-pilula); }
-.home .cartao:focus-visible, .home .vitrine:focus-visible { border-radius: var(--raio-m); }
+.home .cartao:focus-visible { border-radius: var(--raio-m); }

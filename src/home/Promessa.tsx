@@ -3,8 +3,11 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { caminhoPublico } from '../lib/assets'
 import { WHATSAPP } from '../lib/whatsapp'
-import { FRASES_MARCADAS, conteudoHome, numerosDeProva } from './conteudo'
+import { empresasDiretas, type EmpresaDireta } from '../clientes'
+import { logoClara } from '../components/Logo'
+import { EVENTO_ABRIR_EMPRESA, FRASES_MARCADAS, MARCAS_TOPO, conteudoHome, numerosDeProva } from './conteudo'
 import { partirNasFrases } from './lib/marcar'
+import { AnimacaoTrabalho } from './AnimacaoTrabalho'
 import { Marcacao } from './Marcacao'
 
 /**
@@ -49,39 +52,33 @@ function useContagemAoAssentar(ref: RefObject<HTMLDivElement | null>) {
   }, [ref])
 }
 
+// 21/10/2026: a Vitrine (print da Liga Várzea com o círculo de caneta, só no PC) saiu para a AnimacaoTrabalho.
+
 /**
- * Tela de um trabalho com o círculo de caneta em volta do detalhe (só no PC). A imagem é `lazy`: no celular a
- * vitrine fica em `display: none` e o navegador nem baixa o arquivo.
+ * Faixa com as logos das três marcas do título (21/10/2026, pedido dele). Cada logo leva à trajetória; o nome vai
+ * no texto alternativo, porque a faixa é o único lugar em que a logo aparece sem o nome ao lado.
  */
-function Vitrine() {
-  const { vitrine } = conteudoHome()
+function FaixaMarcas() {
   const base = import.meta.env.BASE_URL
-  const { x, y, l, a } = vitrine.alvo
+  const { empresas } = conteudoHome()
+  const marcas = MARCAS_TOPO.map((slug) => empresasDiretas.find((e) => e.slug === slug)).filter(
+    (e): e is EmpresaDireta & { logo: string } => Boolean(e?.logo),
+  )
   return (
-    <a href={caminhoPublico(base, vitrine.href)} className="vitrine toque hidden lg:block">
-      <figure>
-        <div className="moldura-navegador">
-          <div className="barra-janela" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </div>
-          <div className="imagem-reservada relative aspect-[1000/625]">
-            <img src={caminhoPublico(base, vitrine.imagem)} width={1000} height={625} alt={vitrine.alt} loading="lazy" decoding="async" className="block h-full w-full" />
-            <span className="vitrine-alvo" style={{ left: `${x}%`, top: `${y}%`, width: `${l}%`, height: `${a}%` }} aria-hidden="true">
-              <Marcacao tipo="circulo" semente={4}>
-                {''}
-              </Marcacao>
-            </span>
-          </div>
-        </div>
-        <figcaption className="mt-4 text-sm text-grafite">{vitrine.legenda}</figcaption>
-      </figure>
-    </a>
+    <ul className="faixa-marcas" aria-label={empresas.faixa}>
+      {marcas.map((e) => (
+        <li key={e.slug}>
+          {/* 22/10/2026: além de rolar até a Trajetória, abre a empresa clicada lá. */}
+          <a className="toque" href="#empresas" onClick={() => window.dispatchEvent(new CustomEvent(EVENTO_ABRIR_EMPRESA, { detail: e.slug }))}>
+            <img className="logo-empresa" data-slug={e.slug} data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.nome} height={28} decoding="async" />
+          </a>
+        </li>
+      ))}
+    </ul>
   )
 }
 
-/** Primeiro bloco da home: prova, promessa, WhatsApp e números; no PC, a vitrine ao lado. */
+/** Primeiro bloco da home: prova, promessa, marcas, animação do trabalho, WhatsApp e números. */
 export function Promessa() {
   const { promessa } = conteudoHome()
   const n = numerosDeProva()
@@ -105,11 +102,15 @@ export function Promessa() {
           )}
         </h1>
         <p className="mt-4 max-w-xl text-lg text-grafite sm:text-xl">{promessa.subtitulo}</p>
+        <FaixaMarcas />
+        {/* Celular: a animação entra entre as marcas e o botão; no PC ela fica na coluna da direita. */}
+        <AnimacaoTrabalho className="mt-6 lg:hidden" />
         <a className="cta toque mt-8" href={WHATSAPP} target="_blank" rel="noopener">
           {promessa.cta}
           <span className="seta" aria-hidden="true">→</span>
         </a>
-        <div ref={numeros} className="mt-12 grid max-w-xl grid-cols-3 gap-4 sm:gap-8">
+        {/* 21/10/2026 (decisão dele): no celular os números saem (repetem o título e as logos) para a animação caber. */}
+        <div ref={numeros} className="mt-10 hidden max-w-xl grid-cols-3 gap-4 sm:grid sm:gap-8">
           {itens.map((i) => (
             <div key={i.rotulo} className="flex flex-col gap-1 border-t border-linha pt-4">
               <span data-valor={i.valor} className="font-[family-name:var(--fonte-titulo)] text-4xl leading-none tabular-nums sm:text-5xl">
@@ -120,7 +121,7 @@ export function Promessa() {
           ))}
         </div>
       </div>
-      <Vitrine />
+      <AnimacaoTrabalho className="hidden lg:block" />
     </section>
   )
 }

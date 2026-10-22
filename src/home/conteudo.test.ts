@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs'
 import { ONDE_TRABALHEI, empresasDiretas } from '../clientes'
 import { encontrarTermosProibidos } from '../lib/termos-proibidos'
 import { PROJETOS_NO_PRINT_ESTE_SITE, listarProjetos } from '../projetos'
-import { FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva } from './conteudo'
+import { CURRICULO_PDF, FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, FRASES_MARCADAS, MARCAS_TOPO, PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva, periodoDe } from './conteudo'
 
 const c = conteudoHome()
 const tudo = JSON.stringify(c)
@@ -39,16 +39,12 @@ describe('conteúdo da home', () => {
     for (const d of c.destaques) expect(existsSync(`public/${d.imagem}`), d.imagem).toBe(true)
   })
   // 14/10/2026 (revisão da Task 5): no PC a mesma tela aparecia duas vezes (vitrine e 1º cartão; protótipo e 2º).
-  it('nenhuma tela se repete na home (vitrine, protótipo e destaques)', () => {
-    const telas = [c.vitrine.imagem, c.prototipo.imagem, ...c.destaques.map((d) => d.imagem)]
+  // 21/10/2026: a vitrine (print grande do topo) saiu para a animação; o teste segue valendo para protótipo e destaques.
+  it('nenhuma tela se repete na home (protótipo e destaques)', () => {
+    const telas = [c.prototipo.imagem, ...c.destaques.map((d) => d.imagem)]
     expect(new Set(telas).size).toBe(telas.length)
     for (const t of telas) expect(existsSync(`public/${t}`), t).toBe(true)
   })
-  it('a legenda da vitrine não repete o detalhe de um cartão', () => {
-    const legenda = c.vitrine.legenda.replace(/\.$/, '').toLowerCase()
-    for (const d of c.destaques) expect(d.detalhe.toLowerCase()).not.toContain(legenda)
-  })
-  // Task 10 (decisão do controlador): a retenção do pagamento só vale no 99Freelas; a garantia não a promete.
   it('a garantia não promete retenção de pagamento; a frase da plataforma nomeia o 99Freelas', () => {
     expect(c.garantia).not.toMatch(/retid|plataforma/i)
     expect(c.garantiaPlataforma).toMatch(/^No 99Freelas,/)
@@ -63,7 +59,7 @@ describe('conteúdo da home', () => {
     expect(new Set(PECAS.map((x) => x.resumo)).size).toBe(PECAS.length)
   })
   it('nenhum dois-pontos nem travessão no texto da home (humanizer)', () => {
-    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.vitrine.legenda, c.prototipo.titulo, c.prototipo.texto,
+    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.animacao.titulo, c.animacao.legenda, c.prototipo.titulo, c.prototipo.texto,
       ...c.destaques.flatMap((d) => [d.dor, d.detalhe]), ...c.passos.flatMap((x) => [x.titulo, x.texto]), c.garantia,
       c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo]
     for (const t of visivel) expect(t, t).not.toMatch(/[:—–]/)
@@ -102,4 +98,53 @@ describe('conteúdo da home', () => {
     expect(e?.via).toBe('NTT DATA')
     expect(e?.papel).toMatch(/pela NTT DATA/)
   })
+})
+
+// 21/10/2026 (pedido dele): Sicoob, Serasa Experian e Contabilizei em destaque no topo e o currículo no site.
+describe('marcas e trajetória na home', () => {
+  it('o título da promessa cita as três marcas, cada uma marcada à mão', () => {
+    for (const m of ['Sicoob', 'Serasa Experian', 'Contabilizei']) {
+      expect(c.promessa.titulo).toContain(m)
+      expect(FRASES_MARCADAS.promessa).toContain(m)
+    }
+  })
+  it('a faixa do topo tem as três empresas, todas com logo em public/', () => {
+    expect([...MARCAS_TOPO]).toEqual(['sicoob', 'serasa-experian', 'contabilizei'])
+    for (const slug of MARCAS_TOPO) {
+      const e = empresasDiretas.find((x) => x.slug === slug)
+      expect(e?.logo && existsSync(`public/${e.logo}`), slug).toBeTruthy()
+    }
+  })
+  it('todo emprego do bloco tem período vindo da trajetória (a Wiv é freelance)', () => {
+    for (const slug of SLUGS_EMPRESAS.filter((s) => s !== 'wiv')) expect(periodoDe(slug), slug).toMatch(/\d{4}/)
+    expect(periodoDe('wiv')).toBe('Projetos freelance')
+  })
+  it('o bloco leva ao currículo em PDF, que existe em public/', () => {
+    expect(c.empresas.curriculo.href).toBe(CURRICULO_PDF)
+    expect(existsSync(`public/${CURRICULO_PDF}`)).toBe(true)
+  })
+})
+
+// 21/10/2026 (pedido dele): no lugar do print grande, uma animação só (sem abas): o site se monta e atende no WhatsApp.
+describe('animação do topo', () => {
+  const a = c.animacao
+  it('é uma cena só, sem abas', () => expect('cenas' in a).toBe(false))
+  it('monta um site fictício completo (menu, título, 2 botões e 3 cartões)', () => {
+    expect(a.site.menu.length).toBeGreaterThanOrEqual(2)
+    expect(a.site.titulo.length).toBeGreaterThan(10)
+    expect(a.site.botoes).toHaveLength(2)
+    expect(a.site.cartoes).toHaveLength(3)
+  })
+  it('a conversa alterna cliente e loja, e quem responde é o agente', () => {
+    expect(a.site.conversa.map((m) => m.de)).toEqual(['cliente', 'loja', 'cliente', 'loja'])
+    expect(a.site.agente).toMatch(/agente/i)
+  })
+  it('toda peça do site tem o que mostrar ao ser inspecionada', () => {
+    for (const area of ['menu', 'aberto', 'titulo', 'texto', 'botoes', 'prova', 'celular', 'c1', 'c2', 'c3'] as const) {
+      expect(a.inspecao[area].codigo, area).toMatch(/^<.+\/>$/)
+      expect(a.inspecao[area].teste.length, area).toBeGreaterThan(10)
+    }
+  })
+  it('o contador de pedidos sobe um', () => expect(a.site.pedidos.depois).toBe(a.site.pedidos.antes + 1))
+  it('a legenda é frase de gente (sem dois-pontos nem travessão)', () => expect(a.legenda).not.toMatch(/[:—–]/))
 })

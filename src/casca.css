@@ -55,6 +55,75 @@
     background: var(--sol); transform: scaleX(0); transform-origin: left; transition: transform var(--mov-padrao) var(--mola); }
   .cabecalho-nav a[aria-current]::after { transform: scaleX(1); }
 
+  /* Vida do cabeçalho (21/10/2026, pedido dele: "dar vida pro resto do site, menu etc"). */
+  @media (min-width: 768px) {
+    /* Um marcador só, que desliza com mola até o item sob o mouse e volta para a seção à vista (useMarcador). No
+       celular o menu é em coluna e cada item mantém o seu traço. */
+    .cabecalho-nav ul { position: relative; }
+    .cabecalho-nav a::after { display: none; }
+    .cabecalho-nav ul::after { content: ""; position: absolute; left: 0; top: var(--ind-y, 0); width: var(--ind-w, 0); height: 3px;
+      border-radius: var(--raio-pilula); background: var(--sol); opacity: 0; pointer-events: none; transform: translateX(var(--ind-x, 0));
+      transition: transform 450ms cubic-bezier(.34,1.56,.64,1), width 450ms cubic-bezier(.34,1.56,.64,1), opacity 200ms ease; }
+    .cabecalho-nav ul[data-indicador]::after { opacity: 1; }
+    .cabecalho-nav ul[data-indicador="passando"]::after { opacity: .55; }
+    .cabecalho-nav a { transition: color var(--mov-toque) ease; }
+    .cabecalho-nav a:hover { color: var(--fundo); }
+  }
+  /* Entrada ao abrir a página, numa batida só com o título: a marca desliza, os itens descem em fila, o tema e o
+     WhatsApp chegam por último. Só opacity e transform (CLS 0). */
+  .cabecalho-marca { animation: cab-entra 600ms cubic-bezier(.2,.7,.2,1) both; }
+  .cabecalho-nav li { animation: cab-desce 500ms cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(120ms + var(--n, 0) * 60ms); }
+  .cabecalho-nav li:nth-child(2) { --n: 1; } .cabecalho-nav li:nth-child(3) { --n: 2; }
+  .cabecalho-nav li:nth-child(4) { --n: 3; } .cabecalho-nav li:nth-child(5) { --n: 4; }
+  .cabecalho .botao-tema { animation: cab-desce 500ms cubic-bezier(.2,.7,.2,1) 420ms both; }
+  .cabecalho .cta-compacta { position: relative; animation: cab-salta 600ms cubic-bezier(.34,1.56,.64,1) 480ms both; }
+  /* Ponto de "online" no WhatsApp: pulsa devagar, como quem está disponível. */
+  .cabecalho .cta-compacta::after { content: ""; position: absolute; top: 4px; right: 4px; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--mata); box-shadow: 0 0 0 2px var(--papel); animation: cab-online 2.4s ease-in-out 1.2s infinite; }
+  @keyframes cab-entra { from { opacity: 0; transform: translateX(-12px); } }
+  @keyframes cab-desce { from { opacity: 0; transform: translateY(-8px); } }
+  @keyframes cab-salta { from { opacity: 0; transform: scale(.8); } }
+  @keyframes cab-online { 0%, 100% { box-shadow: 0 0 0 2px var(--papel), 0 0 0 2px color-mix(in srgb, var(--mata) 50%, transparent); }
+    60% { box-shadow: 0 0 0 2px var(--papel), 0 0 0 8px color-mix(in srgb, var(--mata) 0%, transparent); } }
+  /* Rolando (do tablet para cima, onde o cabeçalho acompanha): ganha sombra e uma linha de marca-texto mostra quanto
+     da página já foi lida. Animação ligada à rolagem, sem JS; navegador sem suporte fica como antes. */
+  @supports (animation-timeline: scroll()) {
+    @media (min-width: 768px) {
+      .cabecalho { animation: cab-sombra linear both; animation-timeline: scroll(root); animation-range: 0 160px; }
+      .cabecalho::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--sol);
+        transform-origin: left; animation: cab-progresso linear both; animation-timeline: scroll(root); }
+    }
+  }
+  @keyframes cab-sombra { to { box-shadow: 0 10px 24px -18px rgb(23 21 15 / .45); } }
+  @keyframes cab-progresso { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .cabecalho, .cabecalho::after, .cabecalho-marca, .cabecalho-nav li, .cabecalho .botao-tema, .cabecalho .cta-compacta,
+    .cabecalho .cta-compacta::after { animation: none !important; }
+    .cabecalho-nav ul::after { transition: none; }
+  }
+
+  /* Vida com o mouse no site inteiro (22/10/2026, lib/vida.ts escreve as variáveis). Botões magnéticos andam até o
+     cursor; cartões e peças vivas ganham uma luz que segue o mouse e a imagem anda um pouco ao contrário, com
+     profundidade. `translate` é separado de `transform`, então não briga com o hover nem com a entrada ao rolar. */
+  .cta, .link-secundario { translate: var(--mx, 0px) var(--my, 0px); }
+  .cartao, [data-vivo] { position: relative; }
+  .cartao::after, [data-vivo]::after { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none;
+    opacity: 0; transition: opacity 300ms ease;
+    background: radial-gradient(420px circle at var(--lx, 50%) var(--ly, 0%), rgb(255 255 255 / .28), transparent 50%); }
+  .cartao[data-vivendo]::after, [data-vivo][data-vivendo]::after { opacity: 1; }
+  :root[data-tema="escuro"] .cartao::after, :root[data-tema="escuro"] [data-vivo]::after {
+    background: radial-gradient(420px circle at var(--lx, 50%) var(--ly, 0%), rgb(255 255 255 / .08), transparent 50%); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .cartao::after, :root:not([data-tema="claro"]) [data-vivo]::after {
+      background: radial-gradient(420px circle at var(--lx, 50%) var(--ly, 0%), rgb(255 255 255 / .08), transparent 50%); }
+  }
+  .cartao img, [data-vivo] img { translate: calc(var(--tx, 0) * -6px) calc(var(--ty, 0) * -6px); }
+  /* Rótulo que segue o cursor dentro da peça e diz o que o clique faz (data-rotulo). */
+  [data-rotulo]::before { content: attr(data-rotulo); position: absolute; z-index: 3; left: var(--lx, 50%); top: var(--ly, 50%); translate: 14px 16px;
+    padding: 6px 12px; border-radius: var(--raio-pilula); background: var(--fundo); color: var(--papel); font-size: 0.8125rem; font-weight: 600;
+    white-space: nowrap; pointer-events: none; opacity: 0; scale: .9; transition: opacity 200ms ease, scale 250ms cubic-bezier(.34,1.56,.64,1); }
+  [data-rotulo][data-vivendo]::before { opacity: 1; scale: 1; }
+
   /* Botão de tema: 44 px, ícone gira de leve na troca. */
   .botao-tema { display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--raio-pilula); color: var(--fundo-suave); }
   .botao-tema svg { transition: transform var(--mov-lento) var(--mola); }
