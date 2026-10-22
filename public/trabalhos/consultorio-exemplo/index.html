@@ -110,7 +110,7 @@ html.anim .rv-up.in .dr,html.anim .drawme .dr{animation:draw .45s var(--ease) .3
 @keyframes typ{0%,60%,100%{opacity:.25}30%{opacity:.85}}
 /* faixa do autor e contato do desenvolvedor */
 .byline{background:var(--sun);color:#2a2100;font-size:13px;text-align:center;padding:6px 16px;line-height:1.3}
-.byline a{color:#2a2100;font-weight:700;text-underline-offset:3px}
+.byline a{color:#2a2100;font-weight:700;text-underline-offset:3px;display:inline-block;padding:15px 4px;margin:-15px 0}
 .wm{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:45;overflow:hidden}
 .wm span{font-family:var(--f-d);font-weight:800;font-size:clamp(40px,8.5vw,128px);letter-spacing:-.03em;white-space:nowrap;color:var(--ink);opacity:.07;transform:rotate(-26deg);user-select:none}
 .dev{position:fixed;isolation:isolate;right:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:10px;text-decoration:none;background:var(--ink);color:var(--bg);border-radius:999px;padding:7px 18px 7px 7px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45);transition:transform .2s}
@@ -128,22 +128,22 @@ body{padding-bottom:84px}
 .barra-ex .wrap{display:flex;align-items:center;gap:10px;min-height:52px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
 .barra-ex-l{font-size:13px;opacity:.75;white-space:nowrap}
 .seg{display:flex;gap:4px;background:rgba(255,255,255,.1);padding:4px;border-radius:999px;overflow-x:auto;max-width:100%}
-.seg button{border:0;background:transparent;color:#fff;padding:7px 13px;border-radius:999px;cursor:pointer;font-size:14px;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.seg button{border:0;background:transparent;color:#fff;padding:7px 13px;border-radius:999px;cursor:pointer;font-size:14px;white-space:nowrap;display:flex;gap:6px;align-items:center;min-height:44px}
 .seg button[aria-pressed="true"]{background:#fff;color:#1F4239;font-weight:700}
 .seg svg{width:16px;height:16px}
 .barra-ex-r{margin-left:auto;display:flex;gap:8px;align-items:center}
 .tag-ex{font-size:12px;background:var(--sun);color:#2a2100;padding:3px 10px;border-radius:999px;font-weight:700;white-space:nowrap}
-.icon-btn{border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+.icon-btn{border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
 .icon-btn svg{width:18px;height:18px}
 @media(max-width:620px){.barra-ex-l{display:none}.barra-ex .wrap{gap:8px}.seg{order:3;width:100%}.seg button{flex:1;justify-content:center;padding:7px 8px}.seg button span.lbl-l{display:none}}
 
 /* site header */
 .site-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-d);font-weight:700;font-size:19px;text-decoration:none}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-d);font-weight:700;font-size:19px;text-decoration:none;min-height:44px}
 .brand small{display:block;font-family:var(--f-t);font-weight:400;font-size:12px;color:var(--muted);letter-spacing:0}
 .brand-mark{width:40px;height:40px;flex:none}
 .nav{display:none;gap:26px;font-size:15px}
-.nav a{text-decoration:none;color:var(--muted)}
+.nav a{text-decoration:none;color:var(--muted);min-height:44px;display:inline-flex;align-items:center}
 .nav a:hover{color:var(--ink)}
 @media(min-width:960px){.nav{display:flex}}
 
@@ -156,7 +156,7 @@ body{padding-bottom:84px}
 .btn-g{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
 .btn-g:hover{border-color:var(--ink)}
 .btn-wa{background:var(--wa);color:#fff}
-.btn-sm{padding:8px 14px;font-size:14px}
+.btn-sm{padding:8px 14px;font-size:14px;min-height:44px}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
 .btn.loading{pointer-events:none;opacity:.9}.btn.loading::before{content:"";width:14px;height:14px;border-radius:50%;background:currentColor;opacity:.85;animation:breathdot 2.4s ease-in-out infinite}
 .calm{display:flex;flex-direction:column;align-items:center;gap:14px;padding:46px 20px;text-align:center;color:var(--muted);grid-column:1/-1}
@@ -176,7 +176,7 @@ body{padding-bottom:84px}
 .finder{background:var(--surface);border-radius:var(--r-l);padding:10px;display:grid;gap:8px;box-shadow:var(--shadow);max-width:560px}
 @media(min-width:560px){.finder{grid-template-columns:1fr 1fr auto;border-radius:999px;padding:8px 8px 8px 22px}}
 .finder label{display:flex;flex-direction:column;font-size:12px;color:var(--muted);padding:4px 8px}
-.finder select{border:0;background:transparent;font-size:16px;padding:2px 0;font-weight:700;cursor:pointer;appearance:none}
+.finder select{border:0;background:transparent;font-size:16px;padding:2px 0;font-weight:700;cursor:pointer;appearance:none;min-height:44px}
 @media(min-width:560px){.finder label+label{border-left:1px solid var(--line);padding-left:16px}}
 .trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:26px;font-size:15px;color:var(--muted)}
 .trust span{display:flex;gap:8px;align-items:center}
@@ -215,6 +215,7 @@ section.band{padding:72px 0}
 @media(min-width:760px){.filters{grid-template-columns:repeat(4,1fr) auto;align-items:end}}
 .fld{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted)}
 .fld select,.fld input,.fld textarea{background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;color:var(--ink);font-size:16px;width:100%}
+.fld input[type=range]{min-height:44px;padding:0;border:0;background:transparent}
 .fld input[type=range]{padding:0;border:0;background:transparent;accent-color:var(--pine)}
 .fld select:focus,.fld input:focus,.fld textarea:focus{border-color:var(--pine);outline:none}
 .count{font-size:15px;color:var(--muted);margin-bottom:16px}
@@ -331,7 +332,7 @@ footer a{color:var(--pine);font-weight:700}
 .who-box small{color:var(--muted);font-size:13px}
 .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 @media(min-width:960px){.tabs{flex-direction:column}}
-.tabs button{border:0;background:transparent;padding:11px 14px;border-radius:12px;display:flex;gap:10px;align-items:center;cursor:pointer;white-space:nowrap;color:var(--muted);font-size:15px;text-align:left}
+.tabs button{border:0;background:transparent;padding:11px 14px;border-radius:12px;display:flex;gap:10px;align-items:center;cursor:pointer;white-space:nowrap;color:var(--muted);font-size:15px;text-align:left;min-height:44px}
 .tabs button svg{width:19px;height:19px;flex:none}
 .tabs button:hover{background:var(--surface)}
 .tabs button[aria-selected="true"]{background:var(--pine);color:var(--pine-ink);font-weight:700}
@@ -586,7 +587,7 @@ html.trocando body{touch-action:none;pointer-events:none}
  /* alvos de toque e campos sem zoom do iOS */
  .btn-sm{min-height:44px}
  .icon-btn{width:44px;height:44px}
- .seg button{min-height:40px}
+ .seg button{min-height:44px}
  .tchips button,.sw{min-height:44px}
  .copy input{font-size:16px}
  .copy .btn{min-height:46px}
@@ -651,41 +652,10 @@ body{padding-bottom:96px}
  .dev{width:56px;height:56px;padding:6px;right:12px;bottom:calc(var(--barra) + 12px + env(safe-area-inset-bottom))}.dev .wa-c{width:44px;height:44px}}
 </style>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-consultorio-exemplo");</script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
-<style id="vc-faixa-css">
-/* Cabeçalho do site: nome com o endereço, "Exemplos navegáveis" e WhatsApp, numa linha de 56 px. */
-.vc-faixa{--vc-papel:#f7f4ee;--vc-tinta:#17150f;--vc-suave:#5b564a;--vc-sol:#f6b90a;--vc-raso:#ece7db;position:relative;z-index:60;background:var(--vc-papel);color:var(--vc-tinta);border-bottom:1px solid #d9d3c3;font:500 15px/1.3 Inter,system-ui,sans-serif}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}}
-:root[data-theme="dark"] .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}
-/* Mesmo encaixe de rolagem que a faixa antiga tinha: sem isto o celular abria com a faixa fora da tela. */
-.vc-faixa{scroll-snap-align:start;scroll-snap-stop:normal}
-.vc-faixa-in{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:56px}
-@media(min-width:640px){.vc-faixa-in{padding:0 32px}}
-.vc-faixa a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;white-space:nowrap;border-radius:8px}
-.vc-marca{flex-direction:column;align-items:flex-start!important;justify-content:center;padding-right:8px}
-.vc-marca b{font:600 18px/1.2 Fraunces,Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em}
-.vc-marca small{font-size:12px;line-height:1.33;color:var(--vc-suave);letter-spacing:.01em}
-.vc-faixa-dir{display:flex;align-items:center;gap:8px}
-.vc-ex{padding:0 8px;font-weight:600}
-.vc-ex span{background:linear-gradient(var(--vc-sol),var(--vc-sol)) 0 100%/100% 3px no-repeat;transition:background-size .2s cubic-bezier(.2,.8,.2,1)}
-.vc-ex:hover span{background-size:100% 70%}
-.vc-zap{gap:8px;padding:0 16px 0 12px;border-radius:999px!important;background:var(--vc-sol);color:#17150f!important;font-weight:600}
-.vc-zap svg{width:18px;height:18px;flex:none}
-.vc-zap:hover{filter:brightness(1.05)}
-.vc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.vc-faixa a:focus-visible{outline:3px solid var(--vc-sol);outline-offset:2px}
-/* Celular: como no site, o WhatsApp do cabeçalho fica só com o ícone e a linha cabe em 390 px com alvos de 44 px. */
-@media(max-width:600px){.vc-zap{width:44px;padding:0;justify-content:center}.vc-zap-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
-/* Até 420 px (medido no checklist: a linha passava 10 px da borda a 390): nome e link um pouco menores. */
-@media(max-width:420px){.vc-faixa-in{gap:4px}.vc-marca b{font-size:16px}.vc-faixa{font-size:14px}.vc-ex{padding:0 6px}.vc-faixa-dir{gap:4px}}
-@media(max-width:360px){.vc-marca small{display:none}}
-@media(prefers-reduced-motion:reduce){.vc-ex span{transition:none}}
-</style>
-<style id="vc-sig-css">.sig small,.sig em{font-family:Inter,system-ui,sans-serif}.sig b{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:-.01em}.sig-m span{font-family:Fraunces,Georgia,serif;font-weight:600}</style>
 </head>
 <body>
 
-<header class="vc-faixa"><div class="vc-faixa-in"><a class="vc-marca" href="/" aria-label="Vinicius Candido, voltar para vlfcandido.github.io"><b>Vinicius Candido</b><small>vlfcandido.github.io</small></a><nav class="vc-faixa-dir" aria-label="Site do Vinicius"><a class="vc-ex" href="/trabalhos/"><span>Exemplos navegáveis</span></a><a class="vc-zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span class="vc-zap-t">WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></nav></div></header>
+<div class="byline">Exemplo de Vinicius Candido · <a href="/trabalhos/">mais trabalhos</a> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">portfólio</a> · <a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Consult%C3%B3rio%20Exemplo%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp</a></div>
 <a class="dev" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Consult%C3%B3rio%20Exemplo%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius, desenvolvedor deste projeto, pelo WhatsApp"><span class="wa-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg></span><span><b>Falar com o Vinicius</b><small>quem fez este projeto</small></span></a>
 <div class="barra-ex" role="region" aria-label="Controles do exemplo">
   <div class="wrap">
@@ -716,7 +686,7 @@ body{padding-bottom:96px}
 <footer>
   <div class="wrap">
     <span style="display:flex;gap:12px;align-items:center;max-width:46ch"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true" style="flex:none"><rect width="40" height="40" rx="12" fill="var(--pine)"/><path d="M11 25c0-6 4-10 9-10s9 4 9 10" fill="none" stroke="var(--pine-ink)" stroke-width="3" stroke-linecap="round"/><circle cx="20" cy="12" r="3.2" fill="var(--sun)"/><path d="M8 29h24" stroke="var(--pine-ink)" stroke-width="3" stroke-linecap="round"/></svg><span><b style="color:var(--ink)">Consultório Exemplo</b><br>Projeto de exemplo, navegável. Nomes, registros e valores são inventados.</span></span>
-    <a class="sig" href="/" aria-label="Feito por Vinicius Candido, vlfcandido.github.io"><span class="sig-m"><span>VC</span></span><span><small>Feito por</small><b>Vinicius Candido</b><em>vlfcandido.github.io</em></span></a>
+    <a class="sig" href="https://vlfcandido.github.io" target="_blank" rel="noopener" aria-label="Feito por Vinicius Candido, vlfcandido.github.io"><span class="sig-m"><span>VC</span></span><span><small>Feito por</small><b>Vinicius Candido</b><em>vlfcandido.github.io</em></span></a>
     <p class="aviso-med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
   </div>
 </footer>
@@ -968,7 +938,7 @@ function site(){
    <button class="btn btn-p btn-sm" data-go="paciente">Entrar</button></header></div>
   <section class="hero"><div class="wrap hero-g">
    <div>
-    <h1><span class="ln">Terapia que</span><span class="ln">cabe na sua</span><span class="ln">semana.</span></h1>
+    <h1><span class="ln">CRP irregular</span><span class="ln">sai da busca</span><span class="ln">sozinho.</span></h1>
     <p class="hero-sub">Escolha um psicólogo com registro conferido, marque o horário, pague pela plataforma e faça a sessão por vídeo no WhatsApp.</p>
     <p class="selo-nota">${ic('shieldc')}<span><b>Selo reconferido todo mês.</b> Perfil com CRP irregular sai da busca e tem a agenda pausada.</span></p>
     <form class="finder" id="finder"><label>O que você quer cuidar<select id="h-tema"><option value="">Qualquer tema</option>${temas.map(t=>`<option>${t}</option>`).join('')}</select></label>
@@ -1121,7 +1091,7 @@ const proxSex=n=>{let x=n+1;while(wdN(x)!==5)x++;return x};
 /* regra única de reconferência do CRP: varredura mensal, todo dia 10 de madrugada */
 const CRP_REGRA={hora:'01:12',ultima:'10/10/2026',proxima:'10/11/2026',diaTxt:'10/10'};
 /* sessões que o paciente já tinha feito antes do início da lista */
-const PAC_ANTES={'Paulo S.':3,'Elisa T.':0,'Bruno A.':3,'Lia F.':2,'Diego R.':1,'Júlia M.':0,'Ana C.':0,'Clara B.':1,'Otto P.':2,'Vera S.':5};
+const PAC_ANTES={'Paulo S.':3,'Elisa T.':0,'Bruno A.':3,'Lia F.':2,'Diego R.':1,'Helena M.':0,'Ana C.':0,'Clara B.':1,'Otto P.':2,'Vera S.':5};
 let _id=0;const K=(pac,psi,d,h,st,pg,x)=>Object.assign({id:'c'+(++_id),pac,psi,d,h,st,pg},x||{});
 const CONSULTAS=[
  /* Ana C. (a paciente do exemplo): sextas às 19h com a Marisa, antes disso uma sessão com a Lívia que foi remarcada */
@@ -1137,7 +1107,7 @@ const CONSULTAS=[
  /* meio de semana da Marisa */
  K('Lia F.',1,7,'19:00','realizada','pago'),K('Diego R.',1,7,'20:00','realizada','pago'),
  K('Clara B.',1,12,'19:00','agendada','pago'),K('Otto P.',1,14,'09:00','agendada','pago'),K('Vera S.',1,14,'19:00','agendada','pago'),
- K('Júlia M.',1,13,'10:00','pedido','pago',{ped:true}),K('Lia F.',1,15,'19:00','pedido','analise',{ped:true}),
+ K('Helena M.',1,13,'10:00','pedido','pago',{ped:true}),K('Lia F.',1,15,'19:00','pedido','analise',{ped:true}),
  /* outros psicólogos (ocupam os horários deles) */
  K('Carla P.',2,7,'19:00','realizada','pago',{fin:['Falta sem aviso contestada','Psicólogo enviou registro de tentativa de contato']}),
  K('Nina P.',2,14,'19:00','agendada','pago'),K('Caio R.',3,12,'09:00','agendada','pago'),

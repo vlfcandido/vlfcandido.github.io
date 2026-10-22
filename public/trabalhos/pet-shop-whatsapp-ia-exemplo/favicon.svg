@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pelo Solto">
+  <rect width="64" height="64" rx="16" fill="#FFC94A"/>
+  <g fill="#2A2038">
+    <ellipse cx="21" cy="25" rx="5.2" ry="6.8" transform="rotate(-18 21 25)"/>
+    <ellipse cx="32" cy="21" rx="5.2" ry="6.8"/>
+    <ellipse cx="43" cy="25" rx="5.2" ry="6.8" transform="rotate(18 43 25)"/>
+  </g>
+  <path d="M32 31c-8.4 0-14 6.1-14 11.7 0 4.2 3.1 7.3 7.2 7.3 3 0 4.9-2 6.8-2s3.8 2 6.8 2c4.1 0 7.2-3.1 7.2-7.3C46 37.1 40.4 31 32 31Z" fill="#E94F79"/>
+</svg>

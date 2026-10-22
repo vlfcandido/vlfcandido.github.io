@@ -39,11 +39,9 @@
      do cabeçalho. O encaixe do celular continua no começo de cada seção (um teste com o encaixe nos títulos
      prendia a 1ª tela: arrastos de 300 px voltavam sempre ao título da prova). */
   .alvo-secao { scroll-margin-top: 24px; }
-  /* CLS no celular (Task 10): com a fonte de reserva o título da prova cabe em 3 linhas e, com a Fraunces, em 5.
-     Como a 1ª tela centra o conteúdo, a troca de fonte puxava tudo 46 px para cima e empurrava o resto (CLS 0,08).
-     A altura das 5 linhas fica reservada; a troca acontece dentro da caixa do título. */
-  /* Fix final (14/10/2026): o título novo tem 4 linhas com a Fraunces a 390 px (antes 5); a reserva acompanha. */
-  @media (max-width: 639px) { .home #inicio h1 { min-height: 4lh; } }
+  /* CLS (18/10/2026): a reserva de 4lh saiu. Ela existia para a troca de fonte do Google Fonts, que agora é local e
+     entra no preload (src/identidade.css). Com a Fraunces desde o 1º paint, a reserva só deixava 43 px vazios a
+     390 px e 86 px entre 500 e 639 px, onde o título fecha em 3 e 2 linhas. Medido: CLS 0 em 390 e 1440. */
   /* Marca de chegada pelo menu: o marca-texto passa sob o texto do título (400 ms) e sai pela direita. Mostra que a
      pessoa chegou mesmo quando o bloco está na última linha do PC e o título não sobe até o topo. Fica no span do
      texto (inline, uma faixa por linha), para o traço ter o tamanho das palavras e não o da coluna. */
@@ -83,20 +81,263 @@
     .home > #como { padding-top: 24px; }
   }
   @media (min-width: 1024px) {
+    /* 18/10/2026: a seção de IA e agentes entra em faixa inteira logo depois da prova; a vitrine das nove peças vem
+       em seguida, e as empresas viram a faixa de fecho entre os projetos e o "Como funciona". Antes: "prototipo
+       prototipo empresas" e "como como quem". */
     .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;
-      grid-template-areas: "inicio inicio inicio" "prototipo prototipo empresas" "destaques destaques destaques" "como como quem"; }
+      grid-template-areas: "inicio inicio inicio" "ia ia ia" "vitrine vitrine vitrine" "destaques destaques destaques" "empresas empresas empresas" "como como quem"; }
     .home > .secao { padding-block: 56px; }
     .home > #inicio { grid-area: inicio; }
-    .home > #prototipo { grid-area: prototipo; }
+    .home > #ia { grid-area: ia; }
+    .home > #experimente { grid-area: vitrine; }
     .home > #empresas { grid-area: empresas; }
     .home > #destaques { grid-area: destaques; }
     .home > #como { grid-area: como; }
     .home > #quem { grid-area: quem; }
-    /* Blocos lado a lado: o da direita ganha um fio vertical em vez de ficar solto. */
-    .home > #empresas, .home > #quem { padding-left: 48px; margin-left: -24px; border-left: 1px solid var(--linha); }
+    /* O bloco ao lado do "Como funciona" ganha um fio vertical em vez de ficar solto. */
+    .home > #quem { padding-left: 48px; margin-left: -24px; border-left: 1px solid var(--linha); }
   }
 
   .titulo-bloco { font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem); line-height: 1.12; font-weight: 600; }
+
+  /* ---------------------------------------------------------------- Agente trabalhando sozinho (18/10/2026) */
+  /* A coluna direita do hero mostra o atendimento acontecendo: o visitante escolhe o ramo no máximo uma vez e a
+     cena roda sozinha. O cartão de tinta com a barra amarela é a força de cor do primeiro impacto; os balões do
+     agente em amarelo e o painel de ações são a assinatura. No celular, título, subtítulo e CTA vêm primeiro; o
+     cartão entra logo abaixo, com o WhatsApp e a faixa de ações empilhados. No PC, os dois ficam lado a lado.
+     Alturas fixas: a cena não empurra o resto da página. */
+  .promessa { display: flex; flex-direction: column; gap: 0; }
+  .promessa-texto { order: 1; }
+  .promessa > .agente { order: 2; margin-top: 28px; }
+  .promessa-numeros { order: 3; margin-top: 28px; }
+  @media (min-width: 1024px) {
+    .promessa { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+      column-gap: 56px; align-items: start; }
+    .promessa-texto { grid-column: 1; grid-row: 1; }
+    .promessa > .agente { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin-top: 0; }
+    .promessa-numeros { grid-column: 1; grid-row: 2; margin-top: 48px; }
+  }
+
+  .agente { position: relative; overflow: hidden; border: 1px solid #2a2620; border-radius: var(--raio-m);
+    background: #17150f; color: #f3efe6; padding: 14px 14px 10px; }
+  .agente::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: var(--sol); }
+  /* O clarão amarelo no pé do cartão dá a força da marca sem competir com o texto. */
+  .agente::after { content: ""; position: absolute; inset: auto -20% -35% -20%; height: 55%; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--sol) 22%, transparent), transparent 68%); }
+  .agente > * { position: relative; z-index: 1; }
+  @media (min-width: 640px) { .agente { padding: 18px 20px 16px; } }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .agente { background: #0d0c0a; border-color: #3b3830; }
+  }
+  :root[data-tema="escuro"] .agente { background: #0d0c0a; border-color: #3b3830; }
+
+  .agente-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .agente-rotulo { display: inline-flex; align-items: center; gap: 6px; font-size: 0.66rem; line-height: 1;
+    font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sol); }
+  .agente-vivo { width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--sol);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--sol) 55%, transparent); animation: agente-pulso 2s var(--mola) infinite; }
+  @keyframes agente-pulso {
+    0%, 70%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sol) 45%, transparent); }
+    35% { box-shadow: 0 0 0 5px transparent; }
+  }
+  .agente-ao-vivo { color: #8f887a; font-weight: 600; letter-spacing: 0.08em; text-transform: none; }
+  @media (max-width: 479px) { .agente-ao-vivo { display: none; } }
+  .agente-hora { flex: none; padding: 3px 8px; border: 1px solid #3b3830; border-radius: var(--raio-pilula);
+    color: #f3efe6; font-size: 0.66rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .agente-periodo { color: #8f887a; }
+
+  .agente-titulo { margin-top: 5px; font-family: var(--fonte-titulo); font-size: clamp(1.45rem, 1.2rem + 0.8vw, 1.9rem);
+    line-height: 1.04; font-weight: 600; color: #fffdf9; }
+  /* 19/10/2026: a frase do "um toque" também aparece no celular; antes ela sumia em telas pequenas. */
+  .agente-texto { margin-top: 4px; color: #c8c1b3; font-size: 0.8rem; line-height: 1.35; }
+  @media (max-width: 639px) { .agente-texto { font-size: 0.72rem; } }
+
+  .agente-seletor { margin-top: 9px; }
+  .agente-chamada { color: #8f887a; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .agente-ramos { display: flex; gap: 4px; margin-top: 4px; overflow-x: auto; padding-bottom: 2px;
+    scrollbar-width: none; }
+  .agente-ramos::-webkit-scrollbar { display: none; }
+  .agente-ramo { flex: 1 0 auto; min-height: 44px; padding: 0 10px; border: 1px solid #4a463e; border-radius: var(--raio-pilula);
+    background: #211f1a; color: #f3efe6; font-size: 0.72rem; font-weight: 600; white-space: nowrap; cursor: pointer; }
+  .agente-ramo[aria-pressed="true"] { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+  @media (hover: hover) {
+    .agente-ramo { transition: background-color var(--mov-toque) var(--mola), border-color var(--mov-toque) var(--mola),
+      color var(--mov-toque) var(--mola); }
+    .agente-ramo:hover { border-color: var(--sol); }
+    .agente-ramo[aria-pressed="true"]:hover { color: var(--on-sol); }
+  }
+  .agente-ramo:active { transform: scale(0.98); }
+
+  .agente-cena { display: grid; gap: 10px; margin-top: 10px; }
+  @media (min-width: 1100px) {
+    .agente-cena { grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr); align-items: stretch; gap: 12px; }
+  }
+
+  .agente-celular { display: flex; flex-direction: column; height: 232px; min-width: 0; overflow: hidden;
+    border: 1px solid #3b3830; border-radius: 14px; background: #0b141a; }
+  @media (min-width: 640px) { .agente-celular { height: 252px; } }
+  @media (min-width: 1100px) { .agente-celular { height: 292px; } }
+
+  .agente-celular-topo { display: flex; align-items: center; gap: 7px; padding: 6px 8px;
+    border-bottom: 1px solid #24343c; background: #111f26; }
+  .agente-avatar { display: grid; place-items: center; width: 25px; height: 25px; flex: none; border-radius: 50%;
+    background: var(--sol); color: var(--on-sol); font-size: 0.6rem; font-weight: 800; }
+  .agente-contato { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
+  .agente-contato strong { color: #f3efe6; font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; }
+  .agente-contato small { color: #8fb0a4; font-size: 0.58rem; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; }
+  .agente-selo { margin-left: auto; flex: none; padding: 2px 6px; border-radius: 4px;
+    background: color-mix(in srgb, var(--sol) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sol) 55%, transparent); color: var(--sol); font-size: 0.55rem;
+    font-weight: 800; letter-spacing: 0.1em; }
+
+  /* 19/10/2026 (brief do celular): altura fixa mostrando só as três últimas falas, sem rolagem interna. As novas
+     entram por baixo e as antigas saem pelo topo com fade (ver Agente.tsx). A máscara suaviza qualquer balão que
+     encoste na borda de cima. Cada fala é absoluta e anda só por `translate`: a janela muda sem reflow, CLS 0. */
+  .agente-conversa { position: relative; flex: 1; min-height: 0; padding: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12px);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 12px); }
+  .agente-fala { position: absolute; bottom: 6px; max-width: 88%; animation: agente-entra 260ms var(--mola) both;
+    translate: 0 calc(-1 * var(--deslocamento, 0px)); transition: translate 260ms var(--mola); }
+  /* A fala que sai já nasce na posição final (sem transição de `translate`) e some com fade. Não ocupa espaço. */
+  .agente-fala-sai { transition: none; animation: agente-sai 260ms var(--mola) both; }
+  @keyframes agente-sai {
+    from { opacity: 1; transform: none; }
+    to { opacity: 0; transform: translateY(-6px); }
+  }
+  .agente-fala-cliente { left: 7px; }
+  .agente-fala-agente { right: 7px; }
+  .agente-fala p { margin: 0; padding: 4px 8px 3px; border-radius: 10px; font-size: 0.72rem; line-height: 1.34;
+    overflow-wrap: anywhere; }
+  .agente-fala-cliente p { background: #202c33; color: #f3efe6; border-bottom-left-radius: 3px; }
+  .agente-fala-agente p { background: var(--sol); color: #17150f; border-bottom-right-radius: 3px; }
+  .agente-fala-hora { display: block; margin-top: 1px; font-size: 0.55rem; line-height: 1; text-align: right;
+    color: #a9a294; font-variant-numeric: tabular-nums; }
+  .agente-fala-agente .agente-fala-hora { color: #5f4a0a; }
+  @keyframes agente-entra {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .agente-digitando { align-self: flex-end; }
+  .agente-pontos { display: inline-flex; align-items: center; gap: 3px; padding: 8px 10px;
+    border-radius: 10px; border-bottom-right-radius: 3px; background: var(--sol); }
+  .agente-pontos i { width: 4px; height: 4px; border-radius: 50%; background: #17150f;
+    animation: agente-ponto 1s infinite ease-in-out; }
+  .agente-pontos i:nth-child(2) { animation-delay: 0.15s; }
+  .agente-pontos i:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes agente-ponto {
+    0%, 60%, 100% { opacity: 0.35; transform: none; }
+    30% { opacity: 1; transform: translateY(-2px); }
+  }
+  .agente-celular-pe { flex: none; padding: 3px 8px; border-top: 1px solid #24343c; color: #6d8a80;
+    font-size: 0.5rem; letter-spacing: 0.06em; text-transform: uppercase; text-align: center; }
+
+  .agente-painel { display: flex; flex-direction: column; min-width: 0; padding: 9px 10px;
+    border: 1px solid #3b3830; border-radius: 14px; background: #0f0e0b; }
+  @media (min-width: 1100px) { .agente-painel { padding: 11px 12px; } }
+  .agente-painel-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .agente-painel-titulo { flex: 1 1 auto; color: var(--sol); font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 0.1em; line-height: 1.2; text-transform: uppercase; }
+  .agente-contador { display: flex; align-items: baseline; gap: 5px; flex: none; }
+  .agente-contador-num { display: inline-block; width: 1.15em; font-family: var(--fonte-titulo); font-size: 1.5rem;
+    line-height: 0.8; color: var(--sol); text-align: right;
+    font-variant-numeric: tabular-nums; animation: agente-sobe 320ms var(--mola) both; }
+  @keyframes agente-sobe {
+    from { opacity: 0; transform: translateY(5px) scale(0.9); }
+    to { opacity: 1; transform: none; }
+  }
+  /* O rótulo do contador fica legível também no celular (antes, 0,53 rem e 76 px de largura). Largura fixa:
+     "resolvido" e "resolvidos" não podem empurrar o número e gerar layout shift. */
+  .agente-contador span { width: 96px; flex: none; color: #a9a294; font-size: 0.6rem; line-height: 1.15;
+    text-align: right; }
+
+  /* Barra de progresso da automação: passa a acompanhar os passos junto do contador. A largura anima em 300 ms,
+     dentro da faixa calma do brief. */
+  .agente-progresso { height: 3px; margin-top: 7px; border-radius: var(--raio-pilula); overflow: hidden;
+    background: #2a2620; }
+  .agente-progresso span { display: block; height: 100%; border-radius: inherit; background: var(--sol);
+    transition: width 300ms var(--mola); }
+
+  .agente-lista { display: grid; gap: 2px; margin-top: 8px; padding: 0; list-style: none; }
+  /* A linha apagada já ocupa o lugar: a ação só acende, sem empurrar a lista (CLS 0). O passo ainda apagado
+     mantém 0,52 de opacidade e texto maior, para dar para ler o que vem a seguir. */
+  .agente-acao { display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-left: 2px solid transparent;
+    border-radius: 4px; opacity: 0.7;
+    transition: opacity 280ms linear, background-color 280ms linear, border-color 280ms linear; }
+  .agente-acao[data-visivel="true"] { opacity: 1; border-left-color: var(--sol); background: #1b1914; }
+  .agente-acao-icone { display: grid; place-items: center; width: 14px; height: 14px; flex: none;
+    border: 1px solid #4a463e; border-radius: 50%; color: transparent; font-size: 0.52rem; line-height: 1; }
+  .agente-acao[data-visivel="true"] .agente-acao-icone { border-color: var(--sol); background: var(--sol); color: #17150f; }
+  .agente-acao-texto { display: flex; flex-direction: column; flex: 1; min-width: 0; line-height: 1.18; }
+  .agente-acao-rotulo { color: #f3efe6; font-size: 0.68rem; font-weight: 600; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; }
+  .agente-acao-detalhe { color: #c8c1b3; font-size: 0.62rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .agente-acao-hora { flex: none; color: var(--sol); font-size: 0.58rem; font-variant-numeric: tabular-nums; }
+  .agente-acao[data-equipe="true"] { border-left-style: dashed; }
+  .agente-acao[data-equipe="true"] .agente-acao-icone { background: transparent; color: var(--sol); }
+  @media (max-width: 1099px) {
+    .agente-lista { display: flex; flex-wrap: wrap; gap: 4px; }
+    .agente-acao { flex: 1 1 calc(50% - 4px); border: 1px solid #2a2620; opacity: 0.78; }
+    .agente-acao[data-visivel="true"] { border-color: color-mix(in srgb, var(--sol) 50%, transparent); }
+    .agente-acao-detalhe { display: none; }
+    .agente-acao[data-equipe="true"] { flex-basis: 100%; }
+    .agente-acao[data-equipe="true"] .agente-acao-detalhe { display: block; }
+  }
+  /* Só o celular usa a lista compacta; PC e tablet ficam com a completa. */
+  .agente-lista-compacta { display: none; }
+
+  /* 19/10/2026 (brief do celular): o cartão inteiro cabe numa tela. Título e subtítulo curtos, abas numa linha
+     só, painel com progresso, passo atual e as três últimas ações, CTA na mesma tela. Alvos de toque em 44 px. */
+  @media (max-width: 639px) {
+    .agente { padding: 12px 12px 10px; }
+    .agente-titulo { margin-top: 4px; font-size: 1.4rem; }
+    .agente-texto { margin-top: 2px; font-size: 0.72rem; }
+    .agente-seletor { margin-top: 8px; }
+    .agente-chamada { display: none; }
+    .agente-ramos { gap: 4px; margin-top: 0; padding-bottom: 0; overflow: visible; }
+    .agente-ramo { flex: 1 1 0; min-width: 0; padding: 0 4px; font-size: 0.66rem; }
+    .agente-cena { gap: 8px; margin-top: 8px; }
+    /* 260 px: as três falas do pior ramo (Clínica e Serviços) cabem inteiras a 360, com folga no topo. */
+    .agente-celular { height: 260px; }
+    .agente-painel { padding: 8px 9px; }
+    .agente-painel-topo { align-items: center; }
+    .agente-lista-ampla { display: none; }
+    .agente-lista-compacta { display: grid; gap: 2px; min-height: 96px; margin-top: 6px; align-content: start; }
+    .agente-acao { flex: none; padding: 3px 5px; border: 0; border-left: 2px solid transparent;
+      border-radius: 4px; opacity: 0.55; }
+    .agente-acao[data-visivel="true"] { border-left-color: color-mix(in srgb, var(--sol) 45%, transparent);
+      background: transparent; }
+    .agente-acao[data-atual="true"] { border-left-color: var(--sol); background: #1b1914; opacity: 1; }
+    /* O detalhe reserva a linha em todas as ações: a linha do passo atual não muda de altura ao acender. */
+    .agente-acao-detalhe { display: block; visibility: hidden; }
+    .agente-acao[data-atual="true"] .agente-acao-detalhe { visibility: visible; }
+    /* Passo ainda não aceso não mostra hora: o horário é do que já aconteceu. */
+    .agente-lista-compacta .agente-acao[data-visivel="false"] .agente-acao-hora { visibility: hidden; }
+    .agente-acao[data-equipe="true"] { border-left-style: dashed; }
+    .agente-painel-pe { display: none; }
+  }
+  .agente-painel-pe { margin-top: auto; padding-top: 7px; color: #8f887a; font-size: 0.58rem; line-height: 1.2;
+    letter-spacing: 0.02em; }
+
+  .agente-fim { margin-top: 10px; }
+  .agente-cta { display: flex; width: 100%; min-height: 48px; justify-content: center; padding: 9px 14px; font-size: 0.82rem; }
+  .agente-fim-linha { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; margin-top: 4px; }
+  .agente-peca { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; color: var(--sol);
+    font-size: 0.7rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  /* No celular o fim do cartão respira menos: entra depois das regras base, senão o valor maior vence. */
+  @media (max-width: 639px) {
+    .agente-fim { margin-top: 8px; }
+    .agente-fim-linha { margin-top: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .agente-vivo, .agente-fala, .agente-fala-sai, .agente-contador-num, .agente-pontos i { animation: none; }
+    .agente-fala { transition: none; }
+    .agente-acao, .agente-ramo, .agente-cta, .agente-peca, .agente-progresso span { transition: none; transform: none; }
+    .agente-digitando { display: none; }
+  }
 
   .cta { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 24px; border-radius: var(--raio-pilula);
     background: var(--sol); color: var(--on-sol); font-weight: 600; }
@@ -468,9 +709,178 @@
      Desce ~4 px e encolhe na horizontal. Antes: inset -32% -10%, width 120%, height 164%. */
   .marcacao-circulo .marcacao-traco { inset: -24% -6%; width: 112%; height: 160%; }
 
+  /* Vitrine das peças (18/10/2026): cada item é uma prova sobre a mesa, não uma caixa de SaaS. A moldura do navegador
+     levanta no hover; a ficha de papel embaixo fica no lugar e o marca-texto risca a dor do cartão apontado, focado
+     ou assentado no trilho do celular. */
+  @media (max-width: 1023px) { .home > #experimente { padding-top: 24px; } }
+  .vitrine-lede { max-width: 58ch; margin-top: 10px; font-size: 1.0625rem; line-height: 1.5; color: var(--fundo-suave); }
+  .vitrine-cta { margin-top: 12px; }
+  .vitrine-dica { margin-top: 8px; font-size: 0.875rem; color: var(--fundo-suave); }
+  .vitrine-trilho { display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 16px; overflow-x: auto;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+    margin: 20px -16px 0; padding: 4px max(16px, env(safe-area-inset-right)) 8px max(16px, env(safe-area-inset-left));
+    scroll-padding-inline: max(16px, env(safe-area-inset-left)); }
+  .vitrine-trilho::-webkit-scrollbar { display: none; }
+  .vitrine-trilho > * { scroll-snap-align: start; }
+  @media (min-width: 640px) { .vitrine-trilho { grid-auto-columns: 42%; gap: 24px; } }
+  @media (min-width: 1024px) {
+    .home > #experimente { padding-top: 40px; }
+    /* Título e promessa lado a lado, como a ficha e a prova numa mesa: a fileira de telas sobe para a primeira dobra. */
+    .vitrine-topo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; column-gap: 48px; }
+    .vitrine-lede { font-size: 1.125rem; max-width: 62ch; margin-top: 6px; }
+    .vitrine-trilho { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 24px;
+      overflow: visible; scroll-snap-type: none; margin: 20px 0 0; padding: 0; }
+    .vitrine-dica { display: none; }
+  }
+  .peca { min-width: 0; }
+  .peca-link { display: flex; flex-direction: column; height: 100%; }
+  .peca-janela { display: block; }
+  .peca-tela { position: relative; display: block; aspect-ratio: 1000 / 625; background: var(--raso); }
+  .peca-tela img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .peca-ficha { display: flex; flex: 1; flex-direction: column; gap: 8px; margin-top: 12px; padding-top: 12px;
+    border-top: 1px solid var(--linha); }
+  .peca-nome { font-family: var(--fonte-titulo); font-size: 1.3rem; line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; }
+  .peca-dor { flex: 1; font-size: 1rem; line-height: 1.45; color: var(--fundo-suave); }
+  /* O traço fica num span inline: assim ele risca cada linha do texto, como caneta de verdade, e não só a última. */
+  .peca-marca { background-image: linear-gradient(transparent 74%, color-mix(in srgb, var(--sol) 80%, transparent) 74%,
+      color-mix(in srgb, var(--sol) 80%, transparent) 96%, transparent 96%);
+    background-repeat: no-repeat; background-size: 0% 100%; background-position: left bottom;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    transition: background-size var(--mov-padrao) var(--mola); }
+  /* 18/10/2026 (revisor, rodada 1): no escuro, o amarelo cheio atrás de texto claro dava 1,29:1. O traço vira um
+     âmbar escuro que cobre a linha inteira: continua marca-texto e o texto claro passa AA (≈5,4:1). */
+  :root[data-tema="escuro"] .peca-marca {
+    background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--sol) 26%, transparent) 62%,
+      color-mix(in srgb, var(--sol) 26%, transparent) 94%, transparent 94%); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .peca-marca {
+      background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--sol) 26%, transparent) 62%,
+        color-mix(in srgb, var(--sol) 26%, transparent) 94%, transparent 94%); }
+  }
+  .peca-cta { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 4px;
+    padding: 0 16px; border: 1px solid var(--linha); border-radius: var(--raio-pilula); background: var(--papel-alto);
+    color: var(--fundo); font-family: var(--fonte-texto); font-weight: 600;
+    transition: background-color var(--mov-toque) var(--mola), border-color var(--mov-toque) var(--mola), color var(--mov-toque) var(--mola); }
+  /* Entrada da fileira na montagem: as provas se acomodam na mesa, com uma inclinação curta que assenta. O atraso
+     por cartão vem do estilo embutido (60 ms até o sexto). Em tela baixa, a revelação ao rolar da própria seção
+     continua valendo para quem só encontra a fileira depois de rolar. */
+  .vitrine .peca { animation: prova-entra var(--mov-lento) var(--mola) both; }
+  @keyframes prova-entra {
+    from { opacity: 0; transform: translateY(14px) rotate(-0.5deg); }
+  }
+  @media (max-width: 1023px) {
+    .vitrine .peca { animation-duration: var(--mov-padrao); }
+    @keyframes prova-entra { from { opacity: 0; transform: translateY(8px) rotate(-0.4deg); } }
+  }
+  /* O marca-texto risca a dor do cartão em que a pessoa para, aponta ou foca. */
+  .peca-assentada .peca-marca, .peca-link:focus-visible .peca-marca { background-size: 100% 100%; }
+  .peca-link:focus-visible .peca-cta { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+  @media (hover: hover) {
+    .peca-janela { transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
+    .peca-link:hover .peca-janela { transform: translateY(-6px); box-shadow: var(--sombra-2); }
+    .peca-link:hover .peca-marca { background-size: 100% 100%; }
+    .peca-link:hover .peca-cta { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+    .peca-link:hover .peca-cta .seta { transform: translateX(4px); }
+  }
+  .peca-link:active .peca-janela { transform: scale(0.985); }
+  /* Rótulo de categoria da peça (18/10/2026): separa site, sistema, loja e atendimento com IA sem apagar peça. */
+  .peca-categoria { align-self: flex-start; display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px;
+    border: 1px solid var(--linha); border-radius: var(--raio-pilula); background: var(--raso);
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fundo-suave); }
+
+  /* ---------------------------------------------------------------- IA e agentes (18/10/2026) */
+  /* O bloco existe para a cor ter força: um painel de tinta inteiro, com a barra de marca-texto no topo, a captura
+     do Pelo Solto e os números em amarelo. No escuro ele fica um tom abaixo da página, com fio de separação. */
+  .home > #ia { padding-block: 0; }
+  .ia-painel { position: relative; overflow: hidden; border: 1px solid #2a2620; border-radius: var(--raio-m);
+    background: #17150f; color: #f3efe6; padding: 36px 24px 32px; }
+  .ia-painel::before { content: ""; position: absolute; inset: 0 0 auto; height: 6px; background: var(--sol); }
+  @media (min-width: 640px) { .ia-painel { padding: 44px 40px 40px; } }
+  @media (min-width: 1024px) { .ia-painel { padding: 52px 56px 48px; } }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .ia-painel { background: #0d0c0a; border-color: #3b3830; }
+  }
+  :root[data-tema="escuro"] .ia-painel { background: #0d0c0a; border-color: #3b3830; }
+
+  .ia-topo { display: grid; gap: 10px; }
+  .ia-rotulo { font-size: 0.78rem; line-height: 1; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sol); }
+  .ia-titulo { font-size: clamp(2.3rem, 1.5rem + 3vw, 3.5rem); line-height: 1.02; font-weight: 600; color: #fffdf9; }
+  .ia-lede { max-width: 64ch; font-size: 1.0625rem; line-height: 1.55; color: #c8c1b3; }
+  @media (min-width: 1024px) {
+    .ia-topo { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: end; column-gap: 48px; }
+    .ia-rotulo { grid-column: 1 / -1; }
+    .ia-lede { font-size: 1.125rem; }
+  }
+
+  /* O exemplo principal: texto à esquerda, a conversa no WhatsApp à direita. No celular a captura vem primeiro
+     (18/10/2026, auditoria): antes a primeira tela da seção era só texto e a imagem do Pelo Solto começava a 1,6
+     telas do topo, escondendo justamente a prova que o dono quer mostrar. */
+  .ia-exemplo { display: grid; gap: 24px; margin-top: 28px; }
+  @media (max-width: 1023px) { .ia-exemplo-tela { order: -1; } }
+  @media (min-width: 1024px) {
+    .ia-exemplo { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: center; gap: 48px; margin-top: 40px; }
+  }
+  .ia-exemplo-rotulo { display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #c8c1b3; }
+  .ia-exemplo-rotulo > span:first-child { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px;
+    border-radius: var(--raio-pilula); background: var(--sol); color: #17150f; letter-spacing: 0.04em; }
+  .ia-exemplo h3 { margin-top: 12px; font-size: clamp(1.55rem, 1.2rem + 1.3vw, 2.35rem); line-height: 1.1; font-weight: 600; color: #fffdf9; }
+  .ia-exemplo-texto > p:not(.ia-exemplo-rotulo) { margin-top: 12px; font-size: 1rem; line-height: 1.55; color: #d8d2c4; }
+  .ia-exemplo-cta { margin-top: 20px; }
+  .ia-exemplo-tela { display: block; }
+  .ia-exemplo-tela .moldura-navegador { display: block; background: #fffdf9; border-color: #3b3830; box-shadow: 0 28px 56px -20px rgb(0 0 0 / 0.7); }
+  .ia-exemplo-tela .barra-janela { background: #e8dfcc; border-color: #d9d3c3; }
+  .ia-exemplo-tela img { display: block; width: 100%; height: auto; aspect-ratio: 1000 / 625; object-fit: cover; object-position: top; }
+  @media (hover: hover) {
+    .ia-exemplo-tela { transition: transform var(--mov-padrao) var(--mola); }
+    .ia-exemplo-tela:hover { transform: translateY(-4px); }
+    .ia-exemplo-tela:hover .moldura-navegador { box-shadow: 0 36px 64px -22px rgb(0 0 0 / 0.8); }
+  }
+
+  /* O que fazemos, em quatro frentes com fio de marca-texto em cima. */
+  .ia-frentes, .ia-provas { margin-top: 36px; padding-top: 22px; border-top: 1px solid #3b3830; }
+  .ia-subtitulo { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #c8c1b3; }
+  .ia-frentes ul, .ia-provas ul { display: grid; gap: 20px; margin-top: 16px; }
+  @media (min-width: 640px) {
+    .ia-frentes ul, .ia-provas ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; }
+  }
+  @media (min-width: 1024px) {
+    .ia-frentes ul, .ia-provas ul { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  .ia-frentes li { padding-top: 12px; border-top: 2px solid var(--sol); }
+  .ia-numero { font-family: var(--fonte-titulo); font-size: 1.05rem; line-height: 1; color: var(--sol); }
+  .ia-frentes h4 { margin-top: 6px; font-family: var(--fonte-titulo); font-size: 1.15rem; line-height: 1.2; font-weight: 600; color: #fffdf9; }
+  .ia-frentes li > p { margin-top: 6px; font-size: 0.95rem; line-height: 1.5; color: #c8c1b3; }
+  .ia-prova-nome { font-family: var(--fonte-titulo); font-size: 1.05rem; line-height: 1.2; font-weight: 600; color: var(--sol); }
+  .ia-prova-texto { margin-top: 5px; font-size: 0.92rem; line-height: 1.45; color: #c8c1b3; }
+
+  /* Foco do painel: o anel escuro global sumiria no fundo de tinta. */
+  .ia :focus-visible { outline-color: var(--sol); box-shadow: 0 0 0 3px #17150f; }
+  @media (prefers-reduced-motion: reduce) {
+    .ia-exemplo-tela, .ia-exemplo-tela:hover { transform: none; transition: none; }
+  }
+
+  /* Projetos (18/10/2026): a linha e os atalhos por tipo mantêm SaaS, sistemas e integrações à vista. */
+  .trabalhos-lede { max-width: 62ch; margin-top: 10px; font-size: 1.0625rem; line-height: 1.5; color: var(--fundo-suave); }
+  .trabalhos-categorias { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip-categoria { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px;
+    border: 1px solid var(--linha); border-radius: var(--raio-pilula); background: var(--papel-alto);
+    font-size: 0.9rem; font-weight: 600; color: var(--fundo); }
+  @media (hover: hover) {
+    .chip-categoria { transition: border-color var(--mov-padrao) var(--mola), background-color var(--mov-padrao) var(--mola); }
+    .chip-categoria:hover { border-color: var(--fundo); background: var(--raso); }
+  }
+  /* No cartão de peça de #/projetos o botão também acende com o cartão inteiro (o link esticado cobre a área). */
+  .cartao-projeto:focus-within .peca-cta { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+  @media (hover: hover) {
+    .cartao-projeto:hover .peca-cta { background: var(--sol); border-color: var(--sol); color: var(--on-sol); }
+  }
   @media (prefers-reduced-motion: reduce) {
     .toque, .toque:active, .cta:hover, .link-secundario:hover, .cartao:hover, a:hover > .moldura-navegador,
     .cartao:hover img, .cta:hover .seta, .link-secundario:hover .seta { transform: none; transition: none; }
+    .peca-janela, .peca-link:hover .peca-janela, .peca-link:active .peca-janela, .peca-marca { transition: none; }
+    .peca-link:hover .peca-janela, .peca-link:active .peca-janela { transform: none; }
+    .vitrine .peca { animation: none; }
   }
 }
 
@@ -483,4 +893,6 @@
   border-radius: var(--raio-p);
 }
 .home .cta:focus-visible, .home .link-secundario:focus-visible { border-radius: var(--raio-pilula); }
-.home .cartao:focus-visible { border-radius: var(--raio-m); }
+.home .cartao:focus-visible, .home .vitrine:focus-visible { border-radius: var(--raio-m); }
+/* No cartão de tinta do agente, o fio de foco é escuro também no tema claro e no escuro. */
+.home .agente :focus-visible { outline-color: var(--sol); box-shadow: 0 0 0 3px #17150f; }

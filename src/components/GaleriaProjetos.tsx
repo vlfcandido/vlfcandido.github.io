@@ -7,6 +7,7 @@ import { Logo, logoClara } from './Logo'
 import { Print, SeloFicticio } from './Print'
 import { comTransicao } from '../lib/transicao'
 import { caminhoPublico } from '../lib/assets'
+import { NOME_PECAS } from '../home/conteudo'
 import type { Peca } from '../home/lib/universo'
 
 type Filtro = TipoProjeto | 'todos'
@@ -150,12 +151,17 @@ function CartaoPeca({ peca }: { peca: Peca }) {
         <SeloFicticio />
       </div>
       <h3 className="mt-5 text-[1.3rem] leading-[1.25] font-semibold tracking-[0.004em]">
-        <a href={caminhoPublico(base, peca.href)} className="text-left group-hover:text-tinta after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none">
+        {/* 18/10/2026: o cartão diz o que acontece ao clicar, com a mesma ação da vitrine e da página /trabalhos/. */}
+        <a href={caminhoPublico(base, peca.href)} aria-label={`${peca.nome}: abrir e testar`} className="text-left group-hover:text-tinta after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none">
           {peca.nome}
         </a>
       </h3>
       {/* Task 10: antes as duas peças repetiam 'Exemplo navegável: dá para clicar e testar.' */}
       <p className="prosa mt-1.5 text-[1.06rem] leading-[1.55] text-grafite">{peca.resumo}</p>
+      <span className="peca-cta mt-4" aria-hidden="true">
+        Abrir e testar
+        <span className="seta">→</span>
+      </span>
     </article>
   )
 }
@@ -180,7 +186,9 @@ export function GaleriaProjetos({
   const { emEmpresas, proprios, outros } = separarGaleria(lista)
   const pecasVisiveis = filtro === 'todos' ? pecas : []
   const chips: { valor: Filtro; rotulo: string; total: number }[] = [
-    { valor: 'todos', rotulo: 'Todos', total: todos.length + pecas.length },
+    // 18/10/2026 (revisor, rodada 1): o chip conta só os casos; as peças têm a seção própria e não entram no filtro
+    // de tipo. Antes "Todos 25" somava 17 casos + 8 peças, o que fazia as peças parecerem projetos de cliente.
+    { valor: 'todos', rotulo: 'Todos', total: todos.length },
     ...(Object.keys(tiposProjeto) as TipoProjeto[]).map((t) => ({
       valor: t,
       rotulo: tiposProjeto[t],
@@ -203,7 +211,7 @@ export function GaleriaProjetos({
               type="button"
               aria-pressed={marcado}
               onClick={() => c.valor !== filtro && comTransicao(() => setFiltro(c.valor))}
-              className={`chip inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[0.95rem] font-medium whitespace-nowrap ${
+              className={`chip inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[0.95rem] font-medium whitespace-nowrap ${
                 marcado ? 'border-tinta bg-tinta text-nevoa' : 'border-linha bg-folha text-tinta hover:border-tinta hover:text-tinta'
               }`}
             >
@@ -216,14 +224,20 @@ export function GaleriaProjetos({
         })}
       </div>
       <p aria-live="polite" className="sr-only">
-        {lista.length + pecasVisiveis.length} projetos
+        {lista.length} projetos
+        {pecasVisiveis.length > 0 ? ` e ${pecasVisiveis.length} sites para testar` : ''}
       </p>
 
       {pecasVisiveis.length > 0 && (
         <section aria-labelledby="pecas-titulo" className="mt-12">
-          <h2 id="pecas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
-            Exemplos navegáveis
-          </h2>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2">
+            <h2 id="pecas-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
+              {NOME_PECAS}
+            </h2>
+            {/* 18/10/2026: a seção diz em uma linha que estas peças não são casos de cliente, para não confundir com a
+                galeria de projetos logo abaixo. */}
+            <p className="prosa max-w-[46ch] text-[1.08rem] text-grafite">Sites de exemplo, com dados inventados. Abra e mexa. Não são casos de cliente.</p>
+          </div>
           {/* 15/10/2026 (revisor, rodada 2): com 2 peças, 2 colunas (antes sempre 3, e a 3ª ficava vazia). */}
           <ul className={`mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 ${pecasVisiveis.length >= 3 ? 'lg:grid-cols-3' : ''}`}>
             {pecasVisiveis.map((p) => (

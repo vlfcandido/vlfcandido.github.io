@@ -92,8 +92,8 @@ export function Promessa() {
     { valor: n.projetos, rotulo: rotulos.projetos },
   ]
   return (
-    <section id="inicio" className="secao tela lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
-      <div>
+    <section id="inicio" className="secao promessa">
+      <div className="promessa-texto">
         <h1 className="text-[2.5rem] leading-[1.08] font-semibold sm:text-6xl lg:text-[3.5rem] xl:text-6xl">
           {titulo ? (
             titulo.map((p, i) => (p.marcado ? <Marcacao key={i} tipo="grifo">{p.texto}</Marcacao> : p.texto))

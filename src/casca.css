@@ -42,7 +42,7 @@
   .cabecalho .cta-compacta { grid-area: whats; }
 
   /* Navegação: no celular, todos os itens à vista em até duas linhas sob a marca, com alvos de 44 px (Task 10:
-     antes era uma linha rolável que cortava "Exemplos navegáveis" na borda, sem o dono perceber que rolava).
+     antes era uma linha rolável que cortava "Experimente ao vivo" na borda, sem o dono perceber que rolava).
      O texto do 1º item alinha com o nome (16 px). */
   .cabecalho-nav { grid-area: nav; min-width: 0; align-self: stretch; }
   .cabecalho-nav ul { display: flex; flex-wrap: wrap; height: 100%; align-items: center; gap: 0 4px; margin-inline: -8px; padding-bottom: 4px; }
@@ -168,7 +168,7 @@
     background: var(--sol); color: var(--on-sol); box-shadow: var(--sombra-2);
     transition: transform var(--mov-padrao) var(--mola-volta), opacity var(--mov-toque) var(--mola);
     -webkit-tap-highlight-color: transparent; }
-  .flutuante[data-visivel="false"] { opacity: 0; transform: translateY(16px) scale(.6); pointer-events: none;
+  .flutuante[data-visivel="false"] { opacity: 0; transform: translateY(16px); pointer-events: none;
     transition: transform var(--mov-padrao) var(--mola), opacity var(--mov-toque) var(--mola); }
   .flutuante:active { transform: scale(.92); transition-duration: 0ms; }
   /* Microanimação de sucesso no toque: um anel sai do botão e some (a conversa abriu). */
@@ -184,8 +184,10 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .flutuante, .flutuante[data-visivel="false"], .flutuante:active, .botao-tema svg, .botao-tema[data-tema="escuro"] svg,
-    .cabecalho-nav a::after { transform: none; transition: none; }
+    .flutuante, .flutuante[data-visivel="false"], .flutuante:active, .botao-tema svg, .botao-tema[data-tema="escuro"] svg { transform: none; transition: none; }
+    /* 18/10/2026: o traço fica estático, mas só no item atual; antes o `transform: none` mostrava a barra em todos. */
+    .cabecalho-nav a::after { transition: none; }
+    .cabecalho-nav a[aria-current]::after { transform: scaleX(1); }
     .cabecalho-nav[data-aberto="true"] li { animation: none; }
     .flutuante[data-enviado="true"]::after { animation: none; }
   }

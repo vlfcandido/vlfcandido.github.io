@@ -1,8 +1,7 @@
-// Bloco 4: os 3 trabalhos em destaque, com a dor do cliente e o detalhe marcado. No celular, carrossel com
+// Bloco 4: os 3 projetos em destaque, com a dor do cliente e o detalhe marcado. No celular, carrossel com
 // encaixe e indicador que anda com o dedo; o grifo desenha quando o cartão assenta. No PC, 3 colunas.
-// A galeria completa fica em #/projetos (decisão dele, 14/10/2026), e o botão não leva número.
+// 18/10/2026: só casos de trabalho real; as peças navegáveis saíram daqui para a vitrine "Experimente ao vivo".
 import { useEffect, useRef, useState, type RefObject } from 'react'
-import { SeloFicticio } from '../components/Print'
 import { caminhoPublico } from '../lib/assets'
 import { HASH_PROJETOS } from '../lib/rota'
 import { conteudoHome, type Destaque } from './conteudo'
@@ -88,8 +87,6 @@ function CartaoDestaque({ d, indice, assentado }: { d: Destaque; indice: number;
             decoding="async"
             className="block h-full w-full object-cover object-top"
           />
-          {/* Fix final (14/10/2026): as peças de /trabalhos/ perderam o "(exemplo)" do nome; o selo diz que é exemplo. */}
-          {d.href.startsWith('trabalhos/') && <SeloFicticio />}
         </div>
         <div className="flex flex-1 flex-col p-4 sm:p-6">
           <h3 className="text-xl font-semibold">{d.nome}</h3>
@@ -114,6 +111,16 @@ export function Trabalhos() {
   return (
     <section id="destaques" className="secao tela">
       <h2 className="titulo-bloco alvo-secao"><span className="titulo-texto">{trabalhos.titulo}</span></h2>
+      <p className="trabalhos-lede">{trabalhos.lede}</p>
+      {/* 18/10/2026: os atalhos por tipo deixam à vista os trabalhos que não cabem nos três destaques (SaaS,
+          sistemas, agentes, chatbots, sites e integrações). Cada um abre a galeria já filtrada. */}
+      <ul className="trabalhos-categorias" aria-label="Ver projetos por tipo">
+        {trabalhos.categorias.map((c) => (
+          <li key={c.filtro}>
+            <a className="chip-categoria toque" href={`#/projetos/tipo/${c.filtro}`}>{c.rotulo}</a>
+          </li>
+        ))}
+      </ul>
       <ul ref={trilho} className="carrossel mt-6 lg:mt-8">
         {destaques.map((d, i) => (
           <CartaoDestaque key={d.slug} d={d} indice={i} assentado={assentados ? assentados.has(i) : undefined} />

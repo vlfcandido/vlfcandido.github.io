@@ -60,20 +60,20 @@ svg{display:block}
 .top{position:sticky;top:0;z-index:30;background:var(--noite);color:#fff}
 .top .wrap{display:flex;align-items:center;gap:16px;height:60px}
 
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none;min-height:44px}
 .logo b{font:900 15px/1 var(--disp);letter-spacing:.02em;opacity:.85;display:none}
 @media(min-width:520px){.logo b{display:block}}
 .nav{display:none;gap:4px;margin-left:8px}
-.nav a{text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:15px;color:#C9D3E6}
+.nav a{text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:15px;color:#C9D3E6;min-height:44px;display:inline-flex;align-items:center}
 .nav a:hover{color:#fff;background:rgba(255,255,255,.07)}
 .nav a[aria-current="page"]{color:var(--noite);background:var(--sinal)}
 @media(min-width:860px){.nav{display:flex}}
 .top .sp{flex:1}
 .sbox{position:relative;flex:0 1 300px}
-.sbox input{width:100%;height:38px;border-radius:19px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);color:#fff;padding:0 14px 0 38px;font-size:15px}
+.sbox input{width:100%;height:44px;border-radius:22px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);color:#fff;padding:0 14px 0 38px;font-size:15px}
 .sbox input::placeholder{color:#93A1BC}
-.sbox .ico{position:absolute;left:12px;top:9px;color:#93A1BC}
-.tbtn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:transparent;display:grid;place-items:center;color:#fff;cursor:pointer;flex:none}
+.sbox .ico{position:absolute;left:12px;top:12px;color:#93A1BC}
+.tbtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:transparent;display:grid;place-items:center;color:#fff;cursor:pointer;flex:none}
 .sres{position:absolute;left:0;right:0;top:44px;background:var(--sf);color:var(--ink);border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden;display:none;min-width:260px}
 .sres a{display:flex;align-items:center;gap:10px;padding:10px 12px;text-decoration:none;border-top:1px solid var(--line)}
 .sres a:first-child{border-top:0}
@@ -118,9 +118,9 @@ main{min-height:70vh}
 .btn[disabled]{opacity:.45;cursor:default;filter:none}
 .btn.am{background:var(--sinal);color:#0E1B33}
 .btn.gh{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
-.btn.sm{height:34px;padding:0 12px;font-size:14px;border-radius:8px}
+.btn.sm{min-height:44px;padding:0 12px;font-size:14px;border-radius:8px}
 .on-dark .btn.gh{color:#fff;border-color:rgba(255,255,255,.3)}
-.lnk{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--sinal-t);text-decoration-thickness:3px;text-underline-offset:4px}
+.lnk{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--sinal-t);text-decoration-thickness:3px;text-underline-offset:4px;min-height:44px;display:inline-flex;align-items:center}
 .grid{display:grid;gap:16px}
 .grid>*,.card{min-width:0}
 .solta td{white-space:normal}.solta td:last-child{white-space:nowrap}
@@ -237,7 +237,7 @@ tbody tr:hover{background:var(--sf2)}
 .clas .sticky{position:sticky;left:0;background:var(--sf);z-index:1}
 .clas .sticky2{position:sticky;left:52px;background:var(--sf);z-index:1}
 .clas tbody tr:hover .sticky,.clas tbody tr:hover .sticky2{background:var(--sf2)}
-.clube{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700}
+.clube{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;min-height:44px}
 .clube:hover span{text-decoration:underline}
 .forma{display:inline-flex;gap:3px}
 .forma b{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font:700 11px/1 var(--txt);color:#fff}
@@ -691,7 +691,7 @@ html.trocando body{touch-action:none;pointer-events:none}
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-liga-varzea");</script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
 <style id="vc-faixa-css">
-/* Cabeçalho do site: nome com o endereço, "Exemplos navegáveis" e WhatsApp, numa linha de 56 px. */
+/* Cabeçalho do site: nome com o endereço, "Experimente ao vivo" e WhatsApp, numa linha de 56 px. */
 .vc-faixa{--vc-papel:#f7f4ee;--vc-tinta:#17150f;--vc-suave:#5b564a;--vc-sol:#f6b90a;--vc-raso:#ece7db;position:relative;z-index:60;background:var(--vc-papel);color:var(--vc-tinta);border-bottom:1px solid #d9d3c3;font:500 15px/1.3 Inter,system-ui,sans-serif}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}}
 :root[data-theme="dark"] .vc-faixa{--vc-papel:#161512;--vc-tinta:#f3efe6;--vc-suave:#b3ad9f;--vc-sol:#ffc83d;--vc-raso:#2a2823;border-bottom-color:#3b3830}
@@ -753,7 +753,7 @@ html.trocando body{touch-action:none;pointer-events:none}
  <symbol id="i-banco" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
 </svg>
 
-<header class="vc-faixa"><div class="vc-faixa-in"><a class="vc-marca" href="/" aria-label="Vinicius Candido, voltar para vlfcandido.github.io"><b>Vinicius Candido</b><small>vlfcandido.github.io</small></a><nav class="vc-faixa-dir" aria-label="Site do Vinicius"><a class="vc-ex" href="/trabalhos/"><span>Exemplos navegáveis</span></a><a class="vc-zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span class="vc-zap-t">WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></nav></div></header>
+<header class="vc-faixa"><div class="vc-faixa-in"><a class="vc-marca" href="/" aria-label="Vinicius Candido, voltar para vlfcandido.github.io"><b>Vinicius Candido</b><small>vlfcandido.github.io</small></a><nav class="vc-faixa-dir" aria-label="Site do Vinicius"><a class="vc-ex" href="/trabalhos/"><span>Experimente ao vivo</span></a><a class="vc-zap" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg><span class="vc-zap-t">WhatsApp</span><i class="vc-sr"> (abre em nova aba)</i></a></nav></div></header>
 <header class="top">
  <div class="wrap">
   <a class="logo" href="#/" aria-label="LVF, Liga Várzea FC, início">
@@ -1340,7 +1340,7 @@ V.home=function(){
  var C0=usa("C"),pub=C0.RPUB,est=C0.SEM[1],nPart=Object.keys(MB).length,nEv=0;Object.keys(MB).forEach(function(k){nEv+=MB[k].ev.length;});
  var h='<section class="hero on-dark"><div class="wrap">'+
  '<div><div style="display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap">'+selo()+sync(1)+'</div>'+
-  '<h1>Seus dados.<span>Sua base.</span></h1>'+
+  '<h1>A API erra.<span>A correção fica.</span></h1>'+
   '<p class="lead">O site consulta um banco relacional próprio, não a API. O fornecedor só abastece a base: dá para trocar de API sem reconstruir nada, e o que a equipe corrigiu à mão sobrevive a cada sincronização.</p>'+
   '<div class="origens" aria-label="Selos de origem"><span class="small">Todo número diz de onde veio</span><div>'+orig("api")+orig("bord")+orig("man")+orig("est")+'</div></div>'+
   '<div class="hsearch">'+ico("busca")+'<input id="q-hero" type="search" placeholder="Busque um clube, estádio ou jogador" aria-label="Busca" autocomplete="off"><div class="sres" id="r-hero"></div></div>'+

@@ -124,7 +124,7 @@ export const oferta: Oferta[] = [
     curto: 'Sistema e API sob medida',
     titulo: 'O sistema ou a API que nenhum app pronto faz',
     descricao: 'Quando nada pronto serve, construo o seu, com login, as regras do seu negócio e testes automáticos.',
-    antes: 'Três ferramentas pagas e nenhuma faz o que o processo pede.',
+    antes: 'Três ferramentas pagas e nenhuma faz o que a rotina pede.',
     depois: 'Um sistema só, do jeito que a operação funciona.',
     ramos: [],
   },

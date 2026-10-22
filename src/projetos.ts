@@ -88,11 +88,10 @@ const empresa = (slug: string): EmpresaDireta => {
 const prints = (slug: string) => printsDosCasos[slug] ?? []
 
 /**
- * Quantos projetos o print de "Este site" (public/prints/este-site.webp) mostra na prova da home. 15/10/2026 (revisor,
- * rodada 2): o print dizia 20 e o site 19. O teste compara com a contagem da fonte: mudou o número, recapture o print
- * da home em 1440x900 (1600x1000) e atualize aqui.
+ * Quantos projetos o print de "Este site" (public/prints/este-site.webp) mostra na prova da home. 18/10/2026: a peça
+ * do atendimento com IA subiu a contagem de 25 para 26, e o print foi recapturado da home em 1440x900 (1600x1000).
  */
-export const PROJETOS_NO_PRINT_ESTE_SITE = 19
+export const PROJETOS_NO_PRINT_ESTE_SITE = 26
 
 /**
  * Monta a lista da galeria. É função (e não constante) para nada rodar quando o módulo é importado.

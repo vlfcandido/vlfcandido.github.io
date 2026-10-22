@@ -1,0 +1,1507 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atlética Maré Alta · carteirinha digital e gestão de associados (exemplo)</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/atletica-associados-exemplo/">
+<meta name="theme-color" content="#0E3B2C">
+<meta name="description" content="Exemplo de trabalho: plataforma de atlética com carteirinha digital de QR dinâmico, Pix e cartão que renovam a validade sozinhos, modo portaria e painel financeiro da diretoria. Clube, atletas e valores são fictícios.">
+<meta property="og:title" content="Atlética Maré Alta · carteirinha digital e gestão de associados (exemplo)">
+<meta property="og:description" content="Exemplo de trabalho: plataforma de atlética com carteirinha digital de QR dinâmico, Pix e cartão que renovam a validade sozinhos, modo portaria e painel financeiro da diretoria. Clube, atletas e valores são fictícios.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/atletica-associados-exemplo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Carteirinha digital da Atlética Maré Alta com QR e validade atualizada">
+<meta property="og:url" content="https://vlfcandido.github.io/trabalhos/atletica-associados-exemplo/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-atletica-associados-exemplo");</script>
+<!-- /KIT:head -->
+<style>
+/* KIT:tokens ===== verde-mangue, lama clara, laranja-caranguejo e amarelo de torcida ===== */
+:root{
+  --bg:#F3F0E7;--surface:#FFFDF8;--surface2:#E9E4D6;--ink:#11231B;--muted:#56645C;--line:#D8D1BF;
+  --brand:#0E3B2C;--brand-ink:#F6F3EA;--brand-soft:#DCE9E0;--accent:#E8541C;--accent-soft:#FDE3D6;--sol:#FFC531;
+  --mangue:#1C6A4B;--mangue2:#2F8A63;
+  --ok:#1E8A4C;--ok-soft:#D9F2E1;--warn:#B76E00;--warn-soft:#FFEDC7;--bad:#C8321E;--bad-soft:#FBDCD5;
+  --bar-bg:#0E3B2C;--bar-ink:#F6F3EA;
+  --f-d:"Anton",Impact,"Arial Narrow",sans-serif;   /* títulos */
+  --f-t:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;   /* texto */
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:40px;--s7:72px;
+  --r-s:8px;--r-m:16px;--r-l:24px;--r-p:999px;
+  --shadow:0 1px 0 rgba(14,59,44,.06),0 16px 34px -20px rgba(14,59,44,.45);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --mola:cubic-bezier(.34,1.56,.64,1);
+  --head:60px;
+  --barra:62px;
+  --fita:29px;   /* faixa do autor; entra no scroll-padding para o snap não esconder a assinatura */
+  color-scheme:light;
+}
+/* /KIT:tokens */
+/* KIT:tema ===== claro/escuro ===== */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0C1712;--surface:#13221B;--surface2:#1B2E25;--ink:#EAF1EB;--muted:#9DB0A5;--line:#264034;
+  --brand:#3FBF84;--brand-ink:#06140E;--brand-soft:#173A2B;--accent:#FF7A45;--accent-soft:#3A1E12;--sol:#FFD25A;
+  --mangue:#2F8A63;--mangue2:#46A97C;
+  --ok:#4FD488;--ok-soft:#123222;--warn:#FFB84D;--warn-soft:#352610;--bad:#FF7B66;--bad-soft:#3B1913;
+  --bar-bg:#08110D;--bar-ink:#EAF1EB;--shadow:0 1px 0 rgba(0,0,0,.4),0 16px 34px -18px rgba(0,0,0,.85);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C1712;--surface:#13221B;--surface2:#1B2E25;--ink:#EAF1EB;--muted:#9DB0A5;--line:#264034;
+  --brand:#3FBF84;--brand-ink:#06140E;--brand-soft:#173A2B;--accent:#FF7A45;--accent-soft:#3A1E12;--sol:#FFD25A;
+  --mangue:#2F8A63;--mangue2:#46A97C;
+  --ok:#4FD488;--ok-soft:#123222;--warn:#FFB84D;--warn-soft:#352610;--bad:#FF7B66;--bad-soft:#3B1913;
+  --bar-bg:#08110D;--bar-ink:#EAF1EB;--shadow:0 1px 0 rgba(0,0,0,.4),0 16px 34px -18px rgba(0,0,0,.85);color-scheme:dark}
+/* /KIT:tema */
+/* KIT:base ===== reset e tipografia ===== */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scrollbar-gutter:stable}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--f-t);overflow-x:hidden;padding-bottom:84px}
+h1,h2,h3{font-family:var(--f-d);font-weight:400;margin:0;line-height:1.02;letter-spacing:.005em;text-transform:uppercase}
+h1{font-size:clamp(40px,7vw,84px)}h2{font-size:clamp(30px,4.4vw,48px)}h3{font-size:22px;letter-spacing:.02em}
+p{margin:0}a{color:inherit}img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+[tabindex="-1"]:focus{outline:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+@media(min-width:760px){.wrap{padding:0 32px}}
+.muted{color:var(--muted)}.small{font-size:14px}.mt{margin-top:var(--s4)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);padding:var(--s5);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:var(--r-p);border:1px solid transparent;font-weight:700;text-decoration:none;background:var(--brand);color:var(--brand-ink);transition:transform .18s var(--ease),box-shadow .18s var(--ease),background .18s}
+.btn:active{transform:scale(.97)}
+.btn.g{background:transparent;color:var(--ink);border-color:var(--line)}
+.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* /KIT:base */
+/* KIT:faixa ===== faixa do autor, cabeçalho enxuto, marca d'água ===== */
+.byline{background:var(--accent);color:#fff;font-size:13px;text-align:center;padding:6px 16px;line-height:1.3}
+.byline a{color:inherit;font-weight:700;text-underline-offset:3px;display:inline-block;padding:15px 4px;margin:-15px 0}
+.top{position:sticky;top:0;z-index:50;height:var(--head);background:var(--bar-bg);color:var(--bar-ink)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:100%}
+.top .logo{font:400 22px/1 var(--f-d);text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:10px;letter-spacing:.04em;min-height:44px}
+.nav{display:none;gap:4px}
+.nav a{text-decoration:none;padding:8px 13px;border-radius:8px;font-weight:600;font-size:15px;opacity:.78;transition:opacity .15s,background .15s;min-height:44px;display:inline-flex;align-items:center}
+.nav a:hover{opacity:1}
+.nav a[aria-current="page"]{opacity:1;background:rgba(255,255,255,.14)}
+@media(min-width:900px){.nav{display:flex}}
+.tbtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:transparent;color:inherit;display:grid;place-items:center}
+/* /KIT:faixa */
+/* KIT:snap ===== scroll snap suave (proximity) com folga do cabeçalho ===== */
+html{scroll-padding-top:calc(var(--fita) + var(--head) + 8px)}
+@media(max-width:899px){
+  :root{--fita:48px}   /* a faixa cresce no celular por causa dos alvos de 44 px */
+  html{scroll-snap-type:y proximity}
+  .snap{scroll-snap-align:start;scroll-snap-stop:normal}
+}
+/* /KIT:snap */
+/* KIT:router ===== telas e troca travada ===== */
+.tela{display:none}.tela.on{display:block}
+.tela>section{padding:var(--s6) 0}
+html.trocando,html.trocando body,html.folha,html.folha body{overflow:hidden;overscroll-behavior:none}
+html.trocando body{touch-action:none;pointer-events:none}
+#view{transition:opacity .14s ease-in}
+#view.sai{opacity:0}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.2s}
+/* /KIT:router */
+/* KIT:barra ===== barra inferior mobile no polegar, com área segura ===== */
+.bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--surface);border-top:1px solid var(--line);padding:4px 2px env(safe-area-inset-bottom);box-shadow:0 -8px 24px -16px rgba(0,0,0,.4)}
+.bar button{flex:1;min-height:calc(var(--barra) - 8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;border-radius:var(--r-s);font-size:11.5px;font-weight:700;color:var(--muted)}
+.bar button[aria-current="page"]{color:var(--accent)}
+body{padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom) + 8px)}
+@media(min-width:900px){.bar{display:none}body{padding-bottom:84px}}
+/* /KIT:barra */
+/* KIT:assinatura ===== assinatura: carteirinha de sócio do desenvolvedor ===== */
+.sig{display:inline-flex;align-items:center;gap:14px;text-decoration:none;background:linear-gradient(120deg,#0E3B2C,#1C6A4B);color:#F6F3EA;border-radius:16px;padding:10px 20px 10px 10px;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s var(--ease)}
+.sig:hover{transform:translateY(-3px) rotate(-.6deg)}
+.sig::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.22) 45%,rgba(255,197,49,.25) 52%,transparent 66%);background-size:250% 100%;animation:holo 4.5s linear infinite;pointer-events:none}
+.sig-m{width:52px;height:52px;border-radius:12px;background:#FFFDF8;display:grid;place-items:center;flex:none;color:#0E3B2C}
+.sig-m svg{width:40px;height:40px}
+.sig small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.75;line-height:1.2}
+.sig b{display:block;font:400 21px/1.15 var(--f-d);letter-spacing:.04em;text-transform:uppercase}
+.sig em{font-style:normal;font-size:13px;color:var(--sol);font-weight:700}
+.sig .sig-v{display:block;font-size:11px;opacity:.75}
+/* /KIT:assinatura */
+/* KIT:whatsapp ===== botão flutuante (número fica só no href; nunca escrito em texto) ===== */
+.dev{position:fixed;isolation:isolate;right:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:10px;text-decoration:none;background:var(--ink);color:var(--bg);border-radius:var(--r-p);padding:7px 18px 7px 7px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45);transition:transform .2s var(--ease)}
+.dev:hover{transform:translateY(-3px)}
+.dev .wa-c{width:42px;height:42px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;flex:none}
+.dev .wa-c svg{width:24px;height:24px}
+.dev b{display:block;font:700 15px/1.15 var(--f-t)}
+.dev small{display:block;font-size:11.5px;opacity:.7;line-height:1.2}
+@media(max-width:899px){.dev{right:12px;bottom:calc(var(--barra) + 12px + env(safe-area-inset-bottom));padding:5px}.dev span:last-child{display:none}.dev .wa-c{width:48px;height:48px}}
+/* /KIT:whatsapp */
+/* KIT:rodape */
+footer{padding:var(--s6) 0 var(--s6);border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 28px;justify-content:space-between;align-items:center}
+.aviso-med{flex-basis:100%;margin:0;font-size:12px;opacity:.85}
+/* /KIT:rodape */
+/* KIT:sheet ===== bottom sheet genérico (no desktop vira modal centralizado) ===== */
+.sh-bg{position:fixed;inset:0;background:rgba(6,18,12,.55);z-index:79;opacity:0;pointer-events:none;transition:opacity .22s}
+.sh-bg.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--surface);border-radius:var(--r-l) var(--r-l) 0 0;padding:12px 18px calc(20px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .28s var(--ease);max-height:88vh;overflow:auto;visibility:hidden}
+.sheet.on{transform:none;visibility:visible}
+.sheet .grip{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
+@media(min-width:900px){.sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(560px,92vw);border-radius:var(--r-l);transform:translate(-50%,-46%);opacity:0;padding:24px 28px}.sheet.on{transform:translate(-50%,-50%);opacity:1}.sheet .grip{display:none}}
+/* /KIT:sheet */
+/* KIT:anim ===== utilitários de animação (só quando html.anim; reduced-motion desliga tudo) ===== */
+html.anim .rv{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(var(--i,0)*70ms)}
+html.anim .rv.in{opacity:1;transform:none}
+.barra-g{height:10px;border-radius:5px;background:var(--surface2);overflow:hidden}
+.barra-g i{display:block;height:100%;width:var(--w,50%);background:var(--brand);border-radius:5px}
+html.anim .barra-g i{width:0;transition:width .9s var(--ease) .1s}
+html.anim .rv.in .barra-g i,html.anim .barra-g.in i{width:var(--w,50%)}
+.sucesso{width:72px;height:72px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center}
+.sucesso svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+html.anim .sucesso{animation:pop .45s var(--ease)}
+html.anim .sucesso path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .45s var(--ease) .25s forwards}
+@keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--barra) + 76px);transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:var(--r-p);z-index:100;transition:.25s;font-size:15px;pointer-events:none;max-width:92vw;text-align:center}
+.toast.on{transform:translate(-50%,0);opacity:1}
+/* /KIT:anim */
+/* KIT:skeleton */
+.sk{display:block;border-radius:var(--r-s);background:linear-gradient(90deg,var(--surface2) 25%,var(--line) 37%,var(--surface2) 63%);background-size:400% 100%;animation:sk 1.3s ease infinite;min-height:1em}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+/* /KIT:skeleton */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* PROJETO: estilos próprios abaixo desta linha */
+.kick{display:inline-flex;align-items:center;gap:8px;font:800 12px/1 var(--f-t);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.kick::before{content:"";width:22px;height:3px;border-radius:2px;background:currentColor}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--muted);max-width:60ch}
+.hl{color:var(--accent)}
+.btn.ac{background:var(--accent);color:#fff}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px -14px rgba(14,59,44,.6)}
+.btn.sm{min-height:44px;padding:0 16px;font-size:14px}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--s5)}
+.grid2{display:grid;gap:var(--s5)}
+@media(min-width:900px){.grid2{grid-template-columns:1fr 1fr;align-items:center}}
+.grid3{display:grid;gap:var(--s4)}
+@media(min-width:760px){.grid3{grid-template-columns:repeat(3,1fr)}}
+.lift{transition:transform .22s var(--ease),box-shadow .22s var(--ease)}
+.lift:hover{transform:translateY(-4px);box-shadow:0 22px 40px -22px rgba(14,59,44,.55)}
+.head-tela{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin-bottom:var(--s5)}
+.head-tela h1{font-size:clamp(36px,5vw,58px)}
+/* sub-abas de cada área */
+.seg{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:var(--r-p);width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none;margin-bottom:var(--s5)}
+.seg button{border:0;background:none;min-height:44px;padding:0 18px;border-radius:var(--r-p);font-weight:700;font-size:14px;color:var(--muted);white-space:nowrap;transition:background .2s,color .2s}
+.seg button[aria-current="page"]{background:var(--surface);color:var(--ink);box-shadow:0 2px 8px -4px rgba(0,0,0,.3)}
+.area-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:var(--r-p);background:var(--brand-soft);color:var(--brand)}
+:root[data-theme="dark"] .area-tag{color:var(--brand)}
+.area-tag.dir{background:var(--accent-soft);color:var(--accent)}
+/* status */
+.st{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:4px 10px;border-radius:var(--r-p);white-space:nowrap}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.ok{background:var(--ok-soft);color:var(--ok)}.st.warn{background:var(--warn-soft);color:var(--warn)}.st.bad{background:var(--bad-soft);color:var(--bad)}
+/* HERO */
+.hero{position:relative;overflow:hidden;background:radial-gradient(1200px 500px at 85% -10%,rgba(47,138,99,.35),transparent 60%),linear-gradient(180deg,#0E3B2C 0%,#0B3024 100%);color:#F6F3EA;padding:56px 0 0!important}
+.hero .lead{color:rgba(246,243,234,.78)}
+.hero h1 em{font-style:normal;color:var(--sol);display:inline-block}
+.hero .btn.g{color:#F6F3EA;border-color:rgba(246,243,234,.35)}
+.hero-g{display:grid;gap:36px;align-items:center}
+@media(min-width:960px){.hero-g{grid-template-columns:1.1fr .9fr}}
+.raizes{display:block;width:100%;height:120px;margin-top:40px}
+.caranguejo-anda{position:absolute;bottom:22px;left:0;width:54px;height:40px}
+html.anim .caranguejo-anda{animation:andar 18s linear infinite}
+html.anim .caranguejo-anda .perna{animation:perna .35s ease-in-out infinite alternate;transform-origin:center}
+@keyframes andar{0%{transform:translateX(-80px)}48%{transform:translateX(calc(100vw + 20px))}50%{transform:translateX(calc(100vw + 20px)) scaleX(-1)}98%{transform:translateX(-80px) scaleX(-1)}100%{transform:translateX(-80px)}}
+@keyframes perna{to{transform:translateY(-1.5px)}}
+.selos{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:14px;color:rgba(246,243,234,.8)}
+.selos span{display:inline-flex;align-items:center;gap:6px}
+.selos .ico{width:18px;height:18px;color:var(--sol)}
+/* CARTEIRINHA */
+.cart-palco{perspective:1200px;display:grid;place-items:center}
+.cart{position:relative;width:min(360px,100%);border-radius:26px;padding:20px;color:#F6F3EA;background:linear-gradient(160deg,#1C6A4B 0%,#0E3B2C 55%,#0A2A1F 100%);box-shadow:0 30px 60px -28px rgba(0,0,0,.65),inset 0 0 0 1px rgba(255,255,255,.08);overflow:hidden;display:flex;flex-direction:column;transition:transform .6s var(--ease),background .5s}
+.cart.vencida{background:linear-gradient(160deg,#5B2A20 0%,#3A1913 60%,#2A120E 100%)}
+.cart.aviso{background:linear-gradient(160deg,#6B5212 0%,#3F310B 60%,#2C2208 100%)}
+.cart .padrao{position:absolute;inset:0;opacity:.13;pointer-events:none}
+.cart-top{display:flex;align-items:center;gap:10px;position:relative}
+.cart-top b{font:400 19px/1 var(--f-d);letter-spacing:.06em}
+.cart-top small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+.cart-id{display:flex;gap:12px;align-items:center;margin-top:16px;position:relative}
+.foto{width:62px;height:62px;border-radius:16px;overflow:hidden;flex:none;background:#E9E4D6;box-shadow:0 0 0 3px rgba(255,255,255,.18)}
+.foto svg{width:100%;height:100%}
+.cart-id b{display:block;font-size:18px;line-height:1.15}
+.cart-id span{font-size:12.5px;opacity:.75;display:block}
+.cart-qr{position:relative;margin:16px auto 0;width:66%;aspect-ratio:1;background:#fff;border-radius:16px;padding:8px;display:grid;place-items:center}
+.cart-qr svg{width:100%;height:100%}
+html.anim .cart-qr.troca svg:first-child,html.anim .pix-qr.troca svg{animation:qrflip .38s var(--ease)}
+@keyframes qrflip{0%{transform:scale(.86);opacity:.2;filter:blur(2px)}100%{transform:none;opacity:1;filter:none}}
+.anel{position:absolute;inset:-6px;pointer-events:none}
+.anel circle{fill:none;stroke-width:3}
+.anel .t{stroke:rgba(255,255,255,.12)}
+.anel .p{stroke:var(--sol);stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 1s linear}
+.holo{position:relative;margin-top:14px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;font:700 12.5px/1 var(--f-t);letter-spacing:.04em;color:#0E3B2C;background:linear-gradient(105deg,#FFC531,#FFE7A0 30%,#7EE0B0 50%,#FFE7A0 70%,#FFC531);background-size:300% 100%;animation:holo 3s linear infinite}
+@keyframes holo{0%{background-position:0 0}100%{background-position:-300% 0}}
+.cart-rod{display:flex;justify-content:space-between;align-items:end;margin-top:auto;padding-top:18px;font-size:12px;position:relative}
+.cart-rod b{display:block;font-size:15px}
+.cart-rod span{opacity:.72}
+.cart-sit{position:absolute;top:18px;right:18px;font:800 11px/1 var(--f-t);letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;border-radius:var(--r-p);background:#1E8A4C;color:#fff;z-index:2}
+.cart.vencida .cart-sit{background:#C8321E}.cart.aviso .cart-sit{background:#FFC531;color:#2C2208}
+html.anim .cart.vira{animation:vira .8s var(--ease)}
+@keyframes vira{0%{transform:rotateY(0)}50%{transform:rotateY(90deg) scale(.96)}100%{transform:rotateY(0)}}
+.hero .cart{transform:rotate(3deg)}
+html.anim .hero .cart{animation:flutua 6s ease-in-out infinite}
+@keyframes flutua{0%,100%{transform:rotate(3deg) translateY(0)}50%{transform:rotate(2deg) translateY(-10px)}}
+/* print x real */
+.furo{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.passos{display:grid;gap:16px;margin-top:var(--s5)}
+@media(min-width:900px){.passos{grid-template-columns:repeat(4,1fr)}}
+.passo{position:relative;padding:20px;border-radius:var(--r-m);background:var(--bg);border:1px solid var(--line)}
+.passo .n{font:400 40px/1 var(--f-d);color:var(--line)}
+.passo svg.il{width:100%;height:110px;margin:6px 0 10px}
+.passo.bom{background:var(--brand);color:var(--brand-ink);border-color:transparent}
+.passo.bom .n{color:rgba(255,255,255,.25)}
+.passo.bom p{opacity:.85}
+.passo h3{font-size:20px;margin-bottom:6px}
+.passo p{font-size:15px;color:inherit;opacity:.8}
+/* cobertura dos pedidos */
+.pedidos{display:grid;gap:12px}
+@media(min-width:760px){.pedidos{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.pedidos{grid-template-columns:repeat(4,1fr)}}
+.ped{padding:18px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line)}
+.ped h3{font-size:19px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ped ul{list-style:none;padding:0;margin:0;display:grid;gap:7px;font-size:14.5px}
+.ped li{display:flex;gap:8px;align-items:flex-start}
+.ped li::before{content:"";flex:none;width:16px;height:16px;margin-top:3px;border-radius:50%;background:var(--ok-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.3l2.6 2.5L12 5.4' fill='none' stroke='%231E8A4C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+.ped button{all:unset;cursor:pointer;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.ped button:hover{text-decoration-color:var(--accent)}
+/* entradas */
+.portas{display:grid;gap:16px}
+@media(min-width:760px){.portas{grid-template-columns:repeat(3,1fr)}}
+.porta{display:flex;flex-direction:column;gap:10px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-l);padding:22px;cursor:pointer;position:relative;overflow:hidden}
+.porta svg.il{height:120px;width:100%}
+.porta b{font:400 26px/1 var(--f-d);text-transform:uppercase}
+.porta span{color:var(--muted);font-size:15px}
+.porta .ir{margin-top:auto;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:6px}
+.porta.dest{background:var(--brand);color:var(--brand-ink);border-color:transparent}
+.porta.dest span{color:rgba(246,243,234,.8)}.porta.dest .ir{color:var(--sol)}
+/* atleta */
+.atl-g{display:grid;gap:28px}
+@media(min-width:960px){.atl-g{grid-template-columns:400px 1fr;align-items:start}}
+.info-l{display:grid;gap:12px}
+.info-l .card{padding:18px 20px}
+.linha-i{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.linha-i:last-child{border-bottom:0}
+.linha-i span{color:var(--muted)}
+.prazo{display:flex;align-items:center;gap:14px}
+.prazo .dias{font:400 54px/1 var(--f-d);color:var(--warn)}
+.prazo.ok .dias{color:var(--ok)}.prazo.bad .dias{color:var(--bad)}
+.toggle-demo{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chipb{border:1px solid var(--line);background:var(--surface);border-radius:var(--r-p);min-height:44px;padding:0 14px;font-size:14px;font-weight:700;transition:background .15s,border-color .15s,transform .15s}
+.chipb:hover{transform:translateY(-1px)}
+.chipb[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dica{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);background:var(--surface2);border-radius:var(--r-m);padding:12px 14px}
+.dica .ico{color:var(--accent);margin-top:1px}
+/* renovar */
+.planos-esc{display:grid;gap:10px}
+.plano-r{display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--r-m);border:2px solid var(--line);background:var(--surface);cursor:pointer;transition:border-color .2s,transform .2s var(--ease)}
+.plano-r:hover{transform:translateY(-2px)}
+.plano-r input{position:absolute;opacity:0;pointer-events:none}
+.plano-r .rd{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center}
+.plano-r:has(input:checked){border-color:var(--accent)}
+.plano-r:has(input:checked) .rd{border-color:var(--accent)}
+.plano-r:has(input:checked) .rd::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.plano-r:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+.plano-r b{display:block}.plano-r small{color:var(--muted)}
+.plano-r .pr{margin-left:auto;font:400 26px/1 var(--f-d);white-space:nowrap}
+@media(max-width:620px){.plano-r .pr{font-size:22px}.plano-r{padding:14px 12px;gap:10px}}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.tabs button{border:0;background:none;min-height:46px;padding:0 16px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
+.pix-box{display:grid;gap:16px;align-items:center}
+.pix-box>*,.grid2>*,.atl-g>*,.port-g>*,.dash>*{min-width:0}
+@media(max-width:620px){.pix-qr{width:180px;margin:0 auto}}
+@media(max-width:899px){.tela>section{padding:24px 0}.hero{padding-top:36px!important}}
+@media(min-width:620px){.pix-box{grid-template-columns:170px 1fr}}
+.pix-qr{background:#fff;border-radius:14px;padding:10px;border:1px solid var(--line)}
+.copia{display:flex;gap:8px;align-items:center;background:var(--surface2);border-radius:var(--r-s);padding:6px 6px 6px 12px;font:500 13px/1.3 ui-monospace,Menlo,monospace;overflow:hidden}
+.copia span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.campo{display:grid;gap:6px;font-size:14px;font-weight:600}
+.campo input,.campo select{min-height:48px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--surface);padding:0 14px;font-weight:500}
+.campos{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.campos .full{grid-column:1/-1}
+.fluxo{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:0}
+.fluxo li{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;padding:10px 0;position:relative;opacity:.35;transition:opacity .3s}
+.fluxo li.feito{opacity:1}
+.fluxo li .b{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;background:var(--surface);position:relative;z-index:1}
+.fluxo li.feito .b{background:var(--ok);border-color:var(--ok);color:#fff}
+.fluxo li .b svg{width:14px;height:14px;opacity:0}
+.fluxo li.feito .b svg{opacity:1}
+.fluxo li:not(:last-child)::after{content:"";position:absolute;left:13px;top:38px;bottom:-10px;width:2px;background:var(--line)}
+.fluxo li.feito:not(:last-child)::after{background:var(--ok)}
+.fluxo time{font:600 12.5px/1 ui-monospace,Menlo,monospace;color:var(--muted);padding-top:7px}
+.fluxo b{display:block;font-size:15px}.fluxo small{color:var(--muted);font-size:13px}
+.mini-cart{display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--r-m);background:linear-gradient(120deg,#5B2A20,#3A1913);color:#fff;transition:background .6s}
+.mini-cart.ok{background:linear-gradient(120deg,#1C6A4B,#0E3B2C)}
+.mini-cart .foto{width:46px;height:46px;border-radius:12px}
+html.anim .mini-cart.vira{animation:vira .8s var(--ease)}
+.pincas{width:120px;height:70px;margin:0 auto}
+html.anim .pincas.bate .pl{animation:bateL .26s ease-in-out 4 alternate}
+html.anim .pincas.bate .pr2{animation:bateR .26s ease-in-out 4 alternate}
+@keyframes bateL{to{transform:rotate(16deg)}}
+@keyframes bateR{to{transform:rotate(-16deg)}}
+.pl{transform-origin:40px 50px}.pr2{transform-origin:80px 50px}
+/* histórico */
+.hist{display:grid;gap:10px}
+.hist-i{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:14px 16px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line)}
+.hist-i .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand)}
+.hist-i b{display:block}.hist-i small{color:var(--muted)}
+.hist-i .v{text-align:right;font-weight:800}
+.hist-i .v .st{margin-top:4px}
+html.anim .hist-i.novo{animation:entra .5s var(--mola)}
+@keyframes entra{0%{transform:translateY(-14px) scale(.97);opacity:0}100%{transform:none;opacity:1}}
+/* diretoria */
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:1000px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{padding:18px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line);position:relative;overflow:hidden}
+.kpi small{display:block;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi b{display:block;font:400 clamp(34px,4vw,46px)/1.05 var(--f-d);margin-top:6px}
+.kpi span{font-size:13px;color:var(--muted)}
+.kpi.ok b{color:var(--ok)}.kpi.warn b{color:var(--warn)}.kpi.bad b{color:var(--bad)}
+.kpi::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--line)}
+.kpi.ok::after{background:var(--ok)}.kpi.warn::after{background:var(--warn)}.kpi.bad::after{background:var(--bad)}
+.dash{display:grid;gap:16px;margin-top:16px}
+@media(min-width:1000px){.dash{grid-template-columns:1.5fr 1fr}}
+.graf{display:flex;align-items:flex-end;gap:10px;height:200px;padding-top:12px}
+.graf .c{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.graf .c i{display:block;width:100%;max-width:46px;border-radius:8px 8px 3px 3px;background:var(--mangue2);height:var(--h);transform-origin:bottom}
+.graf .c.at i{background:var(--accent)}
+html.anim .graf i{transform:scaleY(0);transition:transform .9s var(--mola);transition-delay:calc(var(--i,0)*80ms)}
+html.anim .rv.in .graf i{transform:scaleY(1)}
+.graf .c small{font-size:12px;color:var(--muted);font-weight:600}
+.graf .c em{font-style:normal;font-size:11.5px;font-weight:700}
+.donut-w{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.donut{width:150px;height:150px}
+.donut circle{fill:none;stroke-width:16}
+html.anim .donut .seg-d{transition:stroke-dasharray 1.1s var(--ease)}
+.leg{display:grid;gap:8px;font-size:14px}
+.leg span{display:flex;align-items:center;gap:8px}
+.leg i{width:12px;height:12px;border-radius:3px}
+.lista-v{display:grid;gap:0}
+.lista-v .li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.lista-v .li:last-child{border-bottom:0}
+.lista-v .foto{width:40px;height:40px;border-radius:12px;box-shadow:none}
+.lista-v b{display:block;font-size:15px}.lista-v small{color:var(--muted);font-size:13px}
+.lista-v .li .btn{margin-left:auto}
+.feed .li .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--ok-soft);color:var(--ok);flex:none}
+.card h3{margin-bottom:6px}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+/* associados */
+.filtros{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.busca{flex:1 1 220px;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-p);padding:0 14px;min-height:46px}
+.busca input{border:0;background:none;outline:none;flex:1;min-width:0;min-height:44px}
+.chipb .q{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:11px;background:var(--surface2);font-size:12px;margin-left:6px;color:var(--ink)}
+.chipb[aria-pressed="true"] .q{background:rgba(255,255,255,.2);color:inherit}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden}
+.tbl th{text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:12px 14px;background:var(--surface2)}
+.tbl td{padding:12px 14px;border-top:1px solid var(--line);font-size:15px;vertical-align:middle}
+.tbl tr.lin{cursor:pointer;transition:background .15s}
+.tbl tr.lin:hover{background:var(--bg)}
+.tbl .pes{display:flex;align-items:center;gap:10px}
+.tbl .foto{width:38px;height:38px;border-radius:11px;box-shadow:none}
+.tbl .pes small{display:block;color:var(--muted);font-size:12.5px}
+@media(max-width:759px){
+  .tbl thead{display:none}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl{background:none;border:0}
+  .tbl tr.lin{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);margin-bottom:10px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 10px}
+  .tbl td{border:0;padding:0}
+  .tbl td.pl-c,.tbl td.val-c{font-size:13.5px;color:var(--muted)}
+  .tbl td.st-c{grid-row:1;grid-column:2;align-self:center}
+  .tbl td.pes-c{grid-column:1}
+  .tbl td.ac-c{display:none}
+}
+.vazio{display:none;text-align:center;padding:30px 16px;color:var(--muted)}
+.vazio svg{width:120px;height:90px;margin:0 auto 10px}
+/* ficha */
+.ficha-top{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.ficha-top .foto{width:64px;height:64px;box-shadow:none}
+.acoes{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.cpf{font-family:ui-monospace,Menlo,monospace}
+.lgpd{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted);margin-top:12px}
+/* planos */
+.carrossel{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 14px;scrollbar-width:thin}
+.carrossel>*{scroll-snap-align:start}
+@media(max-width:759px){.carrossel{grid-auto-columns:78%;margin:0 -16px;padding:4px 16px 14px;scroll-padding:0 16px}}
+.plano-c{border-radius:var(--r-l);padding:22px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.plano-c .tp{font:400 28px/1 var(--f-d);text-transform:uppercase}
+.plano-c .pr{font:400 44px/1 var(--f-d);color:var(--accent)}
+.plano-c .pr small{font:600 14px var(--f-t);color:var(--muted)}
+.plano-c ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:14.5px}
+.plano-c li::before{content:"✓ ";color:var(--ok);font-weight:800}
+.plano-c .rodp{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px dashed var(--line);font-size:14px}
+.plano-c.dest{background:var(--brand);color:var(--brand-ink);border-color:transparent}
+.plano-c.dest .pr{color:var(--sol)}.plano-c.dest .pr small,.plano-c.dest .rodp{color:rgba(246,243,234,.8)}
+.plano-c.dest .rodp{border-color:rgba(255,255,255,.2)}
+.plano-c .faixa{position:absolute;top:16px;right:-34px;transform:rotate(35deg);background:var(--sol);color:#2C2208;font-size:11px;font-weight:800;padding:4px 40px;letter-spacing:.08em}
+.regua{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+@media(min-width:900px){.regua{grid-template-columns:repeat(5,1fr)}}
+.regua li{border-radius:var(--r-m);border:1px solid var(--line);background:var(--surface);padding:16px;position:relative}
+.regua .d{font:400 30px/1 var(--f-d)}
+.regua .canal{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 0}
+.regua li.bl{border-color:var(--bad);background:var(--bad-soft)}
+.sw{position:relative;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;cursor:pointer;min-height:44px}
+.sw input{position:absolute;opacity:0}
+.sw i{width:40px;height:24px;border-radius:12px;background:var(--line);position:relative;transition:background .2s}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s var(--mola)}
+.sw input:checked+i{background:var(--ok)}
+.sw input:checked+i::after{transform:translateX(16px)}
+.sw input:focus-visible+i{outline:3px solid var(--accent);outline-offset:2px}
+.wa-prev{background:#E7DED3;border-radius:var(--r-m);padding:16px;background-image:radial-gradient(rgba(0,0,0,.04) 1px,transparent 1px);background-size:12px 12px}
+:root[data-theme="dark"] .wa-prev{background-color:#0B141A}
+.bolha{background:#fff;color:#111;border-radius:4px 14px 14px 14px;padding:10px 12px;max-width:340px;font-size:14.5px;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+:root[data-theme="dark"] .bolha{background:#202C33;color:#E9EDEF}
+.bolha time{display:block;text-align:right;font-size:11px;opacity:.55;margin-top:4px}
+.bolha .lnk{color:#027EB5;font-weight:600}
+/* portaria */
+.port-g{display:grid;gap:28px}
+@media(min-width:960px){.port-g{grid-template-columns:400px 1fr;align-items:start}}
+.cel{width:min(370px,100%);margin:0 auto;border-radius:44px;padding:12px;background:#0A0F0C;box-shadow:0 30px 60px -26px rgba(0,0,0,.7),inset 0 0 0 2px #26302B}
+.cel-t{border-radius:34px;overflow:hidden;background:#0B1510;color:#fff;aspect-ratio:9/17.5;position:relative;display:flex;flex-direction:column}
+.cel-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 8px;font-size:12px;font-weight:700}
+.cel-bar .rede{display:flex;align-items:center;gap:6px}
+.cel-bar .rede i{width:8px;height:8px;border-radius:50%;background:#4FD488}
+.cel-bar .rede.off i{background:#FFB84D}
+.visor{position:relative;flex:1;margin:6px 16px;border-radius:24px;overflow:hidden;background:radial-gradient(circle at 50% 40%,#1D3329,#0B1510 70%)}
+.visor .festa{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.mira{position:absolute;left:50%;top:44%;width:58%;aspect-ratio:1;transform:translate(-50%,-50%)}
+.mira>svg{position:absolute;inset:0;width:100%;height:100%}
+.mira .lin{position:absolute;left:6%;right:6%;height:2px;background:linear-gradient(90deg,transparent,#FFC531,transparent);top:10%;box-shadow:0 0 12px #FFC531}
+html.anim .mira .lin{animation:varre 1.8s ease-in-out infinite alternate}
+@keyframes varre{to{top:88%}}
+.visor .instr{position:absolute;left:0;right:0;bottom:18px;text-align:center;font-size:13.5px;opacity:.85;padding:0 12px}
+.res{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:8px;opacity:0;pointer-events:none;transform:scale(1.04);transition:opacity .2s,transform .25s var(--ease)}
+.res.on{opacity:1;pointer-events:auto;transform:none}
+.res.ok{background:#14843F}.res.warn{background:#D99A00;color:#1E1600}.res.bad{background:#C8321E}
+.res .big{width:78px;height:78px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center}
+.res .big svg{width:44px;height:44px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+html.anim .res.on .big{animation:pop .4s var(--mola)}
+.res h3{font-size:34px;line-height:1}
+.res .foto{width:84px;height:84px;border-radius:20px;box-shadow:0 0 0 4px rgba(255,255,255,.35)}
+.res p{font-size:14.5px;opacity:.92}
+.res .renova{margin-top:6px;background:rgba(0,0,0,.22);border-radius:14px;padding:10px 12px;display:flex;gap:10px;align-items:center;text-align:left;font-size:13px}
+.res .renova svg{width:56px;height:56px;background:#fff;border-radius:8px;padding:3px;flex:none}
+.res .fechar{margin-top:8px;background:rgba(255,255,255,.18);color:inherit;border:0;border-radius:var(--r-p);min-height:44px;padding:0 20px;font-weight:800}
+.cel-rod{display:flex;justify-content:space-around;padding:10px 12px 16px;font-size:12px;opacity:.85;text-align:center}
+.cel-rod b{display:block;font:400 22px/1 var(--f-d)}
+.sims{display:grid;gap:10px}
+@media(min-width:620px){.sims{grid-template-columns:1fr 1fr}}
+.sim{display:flex;gap:12px;align-items:center;text-align:left;padding:14px;border-radius:var(--r-m);border:1px solid var(--line);background:var(--surface);min-height:64px}
+.sim .foto{width:44px;height:44px;border-radius:12px;box-shadow:none}
+.sim b{display:block;font-size:15px}.sim small{color:var(--muted);font-size:13px}
+.sim .dot{width:12px;height:12px;border-radius:50%;margin-left:auto;flex:none}
+.res-busca{display:grid;gap:8px;margin-top:10px}
+.res-busca button{display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:var(--r-m);border:1px solid var(--line);background:var(--surface);min-height:52px}
+.res-busca .foto{width:34px;height:34px;border-radius:10px;box-shadow:none}
+.res-busca .st{margin-left:auto}
+/* como funciona */
+.arq{width:100%;height:auto;max-height:360px}
+.perm{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--surface);border-radius:var(--r-m);overflow:hidden}
+.perm th,.perm td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:center}
+.perm th:first-child,.perm td:first-child{text-align:left}
+.perm thead th{background:var(--surface2);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.perm .s{color:var(--ok);font-weight:800}.perm .n{color:var(--muted)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-m)}
+.etapas{display:grid;gap:14px}
+@media(min-width:900px){.etapas{grid-template-columns:repeat(3,1fr)}}
+.etapa{border-radius:var(--r-l);padding:22px;background:var(--surface);border:1px solid var(--line);position:relative}
+.etapa .num{position:absolute;top:14px;right:18px;font:400 64px/1 var(--f-d);color:var(--surface2)}
+.etapa .vl{font:400 38px/1 var(--f-d);color:var(--accent)}
+.etapa ul{padding-left:18px;margin:10px 0 0;font-size:14.5px;display:grid;gap:4px}
+.custos{display:grid;gap:10px}
+.custo{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:14px 16px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line)}
+.custo .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand)}
+.custo b{display:block}.custo small{color:var(--muted);font-size:13.5px}
+.custo .v{font-weight:800;text-align:right;font-size:15px;line-height:1.2;white-space:nowrap}.custo .v small{font-weight:600;font-size:12px;color:var(--muted)}
+.prote{display:grid;gap:10px}
+@media(min-width:760px){.prote{grid-template-columns:repeat(2,1fr)}}
+.prote div{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line);font-size:14.5px}
+.prote .ico{color:var(--ok);width:22px;height:22px}
+.prote b{display:block}
+.gestao{display:grid;gap:18px;align-items:center}
+@media(min-width:900px){.gestao{grid-template-columns:260px 1fr}}
+.secao-alt{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.noite{background:#0B1510;color:#EAF1EB}
+.noite .lead{color:rgba(234,241,235,.75)}
+.noite-k{display:grid;gap:14px;grid-template-columns:repeat(2,1fr);margin-top:24px}
+@media(min-width:900px){.noite-k{grid-template-columns:repeat(4,1fr)}}
+.noite-k div{padding:18px;border-radius:var(--r-m);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+.noite-k b{display:block;font:400 44px/1 var(--f-d);color:var(--sol)}
+.noite-k span{font-size:14px;opacity:.8}
+.foot-ex{font-size:12.5px;color:var(--muted);margin-top:10px}
+.noite .foot-ex{color:rgba(234,241,235,.55)}
+/* R1: alvos de toque, cadastro/login, hero e portaria no celular, WhatsApp sem cobrir valores */
+.ped li button{min-height:44px;display:flex;align-items:center;width:100%}
+.ped li{align-items:center}.ped li::before{margin-top:0}
+.plano-r{min-height:60px}
+.sair{color:inherit;font-weight:800;text-underline-offset:3px;margin-left:6px;display:inline-flex;align-items:center;min-height:32px}
+.login-g{display:grid;gap:28px}
+@media(min-width:960px){.login-g{grid-template-columns:1fr 440px;align-items:center}}
+.login-il{width:100%;max-width:460px;height:auto;margin:0 auto}
+.login-c .tabs{margin-top:6px}
+.login-c .tabs button{white-space:nowrap;padding:0 12px}
+.login-c form{display:grid;gap:12px}
+.passos-l{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.passos-l li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;padding:12px;border-radius:var(--r-m);background:var(--surface2)}
+.passos-l .nb{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font:400 18px/1 var(--f-d)}
+.passos-l b{display:block;font-size:15px}.passos-l small{color:var(--muted);font-size:13.5px}
+.lnk-b{background:none;border:0;padding:0;min-height:44px;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.papeis{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:14px;margin-top:16px}
+.papeis .ico{color:var(--ok)}
+.hero-links{display:none}
+.tol{display:flex;gap:10px;align-items:center;margin-top:16px;padding:12px 16px;border-radius:var(--r-m);background:var(--bad-soft);color:var(--bad);font-weight:700;font-size:15px}
+.custo-tot{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 16px;border-radius:var(--r-m);background:var(--brand);color:var(--brand-ink);font-weight:700}
+.custo-tot b{font:400 22px/1.1 var(--f-d);letter-spacing:.02em;text-align:right}
+.fila-chips{display:none}
+@media(max-width:959px){
+  .hero-g{gap:14px}
+  .hero-t{display:contents}
+  .hero-t>.kick{order:1}.hero-t>h1{order:2}.hero-g>.cart-palco{order:3;margin:8px 0 4px}.hero-t>.lead{order:4}.hero-t>.ctas{order:5}.hero-t>.hero-links{order:6}.hero-t>.selos{order:7}
+  .hero h1{font-size:clamp(34px,10vw,48px);margin-top:4px!important}
+  .hero .cart{max-width:300px;padding:16px}
+  .hero .cart-qr{margin-top:12px;width:62%}
+  .hero .so-pc{display:none}
+  .hero .lead{margin-top:6px}
+  .hero .ctas{margin-top:6px}
+  .hero .ctas .btn.g{display:none}
+  .hero .ctas .btn{width:100%}
+  .hero-links{display:flex;gap:10px}
+  .hero-links .btn{flex:1;min-height:44px;padding:0 10px;font-size:14px;color:#F6F3EA;border-color:rgba(246,243,234,.35);background:transparent}
+}
+@media(max-width:899px){
+  .cart-rod{padding-right:64px}
+  .cel-rod{padding-right:64px}
+  #pos-pag .ctas{padding-right:60px}
+}
+@media(min-width:900px){
+  .dev{transition:transform .2s var(--ease),padding .25s var(--ease),gap .25s var(--ease)}
+  .dev>span:last-child{overflow:hidden;max-width:220px;transition:max-width .25s var(--ease),opacity .2s}
+  .dev.mini{padding:7px;gap:0}
+  .dev.mini>span:last-child{max-width:0;opacity:0}
+  .dev.mini::after{content:"Falar com o Vinicius";position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%);background:var(--ink);color:var(--bg);font-size:13px;font-weight:700;padding:6px 12px;border-radius:var(--r-p);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}
+  .dev.mini:hover::after,.dev.mini:focus-visible::after{opacity:1}
+}
+@media(max-width:599px){
+  .cel{width:100%;padding:0;background:none;box-shadow:none;border-radius:0}
+  .cel-t{aspect-ratio:auto;border-radius:24px;min-height:0}
+  .visor{min-height:min(50vh,400px);margin:4px 12px}
+  .fila-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 2px 4px;scroll-snap-type:x proximity}
+  .fila-chips button{flex:none;scroll-snap-align:start;display:flex;align-items:center;gap:8px;min-height:48px;padding:4px 14px 4px 4px;border-radius:var(--r-p);border:1px solid var(--line);background:var(--surface);font-size:13.5px;font-weight:700}
+  .fila-chips .foto{width:38px;height:38px;border-radius:50%;box-shadow:none}
+  .fila-chips .dot{width:10px;height:10px;border-radius:50%;flex:none}
+  .card-sims{display:none}
+  #t-port+.lead{display:none}
+}
+</style>
+</head>
+<body>
+<!-- KIT:faixa-html -->
+<div class="byline">Exemplo de Vinicius Candido · <a href="/trabalhos/">mais trabalhos</a> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">portfólio</a> · <a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Atl%C3%A9tica%20Mar%C3%A9%20Alta%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp</a></div>
+<!-- /KIT:faixa-html -->
+<!-- KIT:whatsapp-html -->
+<a class="dev" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Atl%C3%A9tica%20Mar%C3%A9%20Alta%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius, desenvolvedor deste projeto, pelo WhatsApp"><span class="wa-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg></span><span><b>Falar com o Vinicius</b><small>quem fez este projeto</small></span></a>
+<!-- /KIT:whatsapp-html -->
+<!-- KIT:cabecalho -->
+<header class="top" role="banner"><div class="wrap">
+  <a class="logo" href="#inicio" data-tela="inicio" aria-label="Atlética Maré Alta, início"><svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><use href="#crab-logo"/></svg>MARÉ ALTA</a>
+  <nav class="nav" aria-label="Principal">
+    <a href="#inicio" data-tela="inicio" data-g="inicio">Início</a>
+    <a href="#carteirinha" data-tela="carteirinha" data-g="atleta">Área do atleta</a>
+    <a href="#portaria" data-tela="portaria" data-g="portaria">Modo portaria</a>
+    <a href="#painel" data-tela="painel" data-g="diretoria">Diretoria</a>
+    <a href="#como" data-tela="como" data-g="como">Como funciona</a>
+  </nav>
+  <button class="tbtn" id="tema" type="button" aria-label="Alternar tema claro e escuro"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+</div></header>
+<!-- /KIT:cabecalho -->
+
+<!-- símbolos reaproveitados -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="crab-logo" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="16" fill="#E8541C"/>
+      <g fill="#FFFDF8">
+        <ellipse cx="32" cy="38" rx="15" ry="11"/>
+        <path d="M14 22c-4-1-6 3-5 6 1 2 4 3 6 2l3 4 3-2-3-4c2-2 1-5-1-6l-1 3-2-3z"/>
+        <path d="M50 22c4-1 6 3 5 6-1 2-4 3-6 2l-3 4-3-2 3-4c-2-2-1-5 1-6l1 3 2-3z"/>
+      </g>
+      <g stroke="#FFFDF8" stroke-width="2.6" stroke-linecap="round" fill="none"><path d="M18 42l-6 4M18 46l-5 6M46 42l6 4M46 46l5 6M26 28v-5M38 28v-5"/></g>
+      <circle cx="26" cy="22" r="2.6" fill="#0E3B2C"/><circle cx="38" cy="22" r="2.6" fill="#0E3B2C"/>
+      <path d="M27 40q5 4 10 0" stroke="#0E3B2C" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="raiz-p" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M0 60C10 40 20 40 30 60M30 60C40 40 50 40 60 60M15 0v20M45 0v24" stroke="#fff" stroke-width="1.4" fill="none"/></pattern>
+  </defs>
+</svg>
+
+<main id="view">
+<!-- KIT:telas -->
+
+<!-- ============ 1. INÍCIO ============ -->
+<div class="tela on" data-tela="inicio" data-g="inicio" data-titulo="Início">
+  <section class="hero snap">
+    <div class="wrap hero-g">
+      <div class="hero-t">
+        <span class="kick" style="color:var(--sol)">Plataforma da Atlética Maré Alta</span>
+        <h1 id="t-inicio" style="margin-top:14px">Carteirinha vencida <em>não passa</em> mais na porta</h1>
+        <p class="lead mt"><span class="so-pc">O atleta paga no Pix ou no cartão e a carteirinha se renova sozinha. Na entrada da festa, a diretoria aponta o celular e vê verde ou vermelho na hora. </span>Até o print da carteirinha de um amigo perde a validade em 30 segundos.</p>
+        <div class="ctas">
+          <button class="btn ac" type="button" data-tela="carteirinha">Ver a carteirinha<span class="so-pc">&nbsp;do atleta</span></button>
+          <button class="btn g" type="button" data-tela="portaria">Abrir o modo portaria</button>
+          <button class="btn g" type="button" data-tela="painel">Painel da diretoria</button>
+        </div>
+        <div class="hero-links"><button class="btn" type="button" data-tela="portaria">Modo portaria</button><button class="btn" type="button" data-tela="painel">Diretoria</button></div>
+        <div class="selos"><span><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Dados protegidos e permissões separadas</span><span><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>Pix e cartão</span><span><svg class="ico" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Celular e computador</span></div>
+      </div>
+      <div class="cart-palco">
+        <div class="cart" id="cart-hero" aria-label="Exemplo de carteirinha digital com QR que muda a cada 30 segundos">
+          <svg class="padrao" aria-hidden="true"><rect width="100%" height="100%" fill="url(#raiz-p)"/></svg>
+          <span class="cart-sit">Em dia</span>
+          <div class="cart-top"><svg width="38" height="38" viewBox="0 0 64 64" aria-hidden="true"><use href="#crab-logo"/></svg><div><small>Atlética</small><b>MARÉ ALTA</b></div></div>
+          <div class="cart-id"><div class="foto" data-av="1"></div><div><b>Marina Couto</b><span>Medicina Veterinária · sócia nº 0214</span></div></div>
+          <div class="cart-qr" data-qr="hero"><svg viewBox="0 0 29 29"></svg></div>
+          <div class="holo"><span data-relogio>--:--:--</span><span>novo QR em <b data-cont>30</b>s</span></div>
+          <div class="cart-rod"><div><span>Plano</span><b>Semestral 2026.2</b></div><div style="text-align:right"><span>Válida até</span><b>28/02/2027</b></div></div>
+        </div>
+      </div>
+    </div>
+    <svg class="raizes" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 70C120 40 220 90 360 64S620 30 760 60s300 40 420 10 200-30 260-10V120H0z" fill="#0A2A1F"/>
+      <g stroke="#2F8A63" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7">
+        <path d="M140 66c10-30 30-50 20-70M140 66c-14-18-30-26-40-50M150 60c26-10 40-30 46-56"/>
+        <path d="M620 46c6-26 22-40 14-60M620 46c-18-12-34-14-42-40"/>
+        <path d="M1080 52c10-26 28-36 22-58M1080 52c-16-14-30-18-36-44M1092 48c22-6 36-22 40-48"/>
+      </g>
+      <path d="M0 96C200 80 360 110 540 96s380-20 560-4 260 10 340 0V120H0z" fill="var(--bg)"/>
+    </svg>
+    <svg class="caranguejo-anda" viewBox="0 0 54 40" aria-hidden="true">
+      <g fill="#E8541C"><ellipse cx="27" cy="24" rx="13" ry="9"/><path d="M8 12c-4 0-5 4-3 6s5 1 6-1l3 4 2-2-3-4c1-2 0-4-2-4l-1 2z"/><path d="M46 12c4 0 5 4 3 6s-5 1-6-1l-3 4-2-2 3-4c-1-2 0-4 2-4l1 2z"/></g>
+      <g class="perna" stroke="#E8541C" stroke-width="2.4" stroke-linecap="round"><path d="M15 27l-7 4M16 31l-5 6M39 27l7 4M38 31l5 6"/></g>
+      <circle cx="22" cy="14" r="2.4" fill="#11231B"/><circle cx="32" cy="14" r="2.4" fill="#11231B"/><path d="M22 16v3M32 16v3" stroke="#E8541C" stroke-width="2"/>
+    </svg>
+  </section>
+
+  <section class="furo snap">
+    <div class="wrap">
+      <span class="kick rv">O furo que quase ninguém vê</span>
+      <h2 class="rv" style="--i:1;margin-top:12px;max-width:22ch">Conferir a validade no servidor fecha metade do furo. A outra metade é o print que passa no grupo.</h2>
+      <p class="lead mt rv" style="--i:2">O QR consulta a situação atual, para que carteirinha vencida não seja aceita. Só que uma carteirinha em dia também vira problema quando alguém tira print e manda no grupo. Por isso o QR daqui muda sozinho.</p>
+      <div class="passos">
+        <div class="passo rv" style="--i:1"><span class="n">01</span>
+          <svg class="il" viewBox="0 0 200 110" aria-hidden="true"><rect x="70" y="6" width="60" height="100" rx="10" fill="var(--surface)" stroke="var(--ink)" stroke-width="2.5"/><rect x="80" y="22" width="40" height="40" rx="4" fill="var(--ink)" opacity=".85"/><rect x="86" y="28" width="10" height="10" fill="var(--surface)"/><rect x="104" y="28" width="10" height="10" fill="var(--surface)"/><rect x="86" y="46" width="10" height="10" fill="var(--surface)"/><path d="M40 30l18 10M40 60l18-6M160 30l-18 10M160 60l-18-6" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="100" y="82" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ok)">EM DIA</text></svg>
+          <h3>Sócio em dia tira print</h3><p>A carteirinha comum é uma imagem fixa. O QR dela vale igual hoje e daqui a um mês.</p></div>
+        <div class="passo rv" style="--i:2"><span class="n">02</span>
+          <svg class="il" viewBox="0 0 200 110" aria-hidden="true"><rect x="12" y="8" width="108" height="36" rx="14" fill="#DCF8C6" stroke="#11231B" stroke-width="2"/><rect x="22" y="16" width="20" height="20" rx="3" fill="#11231B"/><rect x="26" y="20" width="5" height="5" fill="#DCF8C6"/><rect x="33" y="27" width="5" height="5" fill="#DCF8C6"/><path d="M50 21h58M50 30h38" stroke="#11231B" stroke-width="3" stroke-linecap="round" opacity=".45"/><g fill="none" stroke="var(--accent)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M128 26c18 0 26 10 26 26"/><path d="M146 46l8 8 8-8"/></g><rect x="44" y="64" width="108" height="36" rx="14" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><rect x="54" y="72" width="20" height="20" rx="3" fill="var(--ink)"/><rect x="58" y="76" width="5" height="5" fill="var(--surface)"/><rect x="65" y="83" width="5" height="5" fill="var(--surface)"/><path d="M82 77h58M82 86h36" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" opacity=".45"/><circle cx="176" cy="82" r="15" fill="var(--accent)"/><text x="176" y="87" text-anchor="middle" font-family="Inter,system-ui" font-size="13" font-weight="800" fill="#fff">×5</text></svg>
+          <h3>Manda no grupo</h3><p>Um print passa por cinco celulares numa noite. Ninguém da portaria tem como saber.</p></div>
+        <div class="passo rv" style="--i:3"><span class="n">03</span>
+          <svg class="il" viewBox="0 0 200 110" aria-hidden="true"><rect x="30" y="8" width="86" height="98" rx="6" fill="var(--surface2)" stroke="var(--ink)" stroke-width="2.5"/><path d="M30 106V18l40 10v78z" fill="var(--mangue)" opacity=".9"/><circle cx="63" cy="64" r="3" fill="#FFC531"/><text x="73" y="22" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="11" fill="var(--ink)" letter-spacing=".5">FESTA</text><g transform="translate(84 46)"><circle cx="12" cy="0" r="9" fill="var(--accent)"/><path d="M0 50c0-24 5-38 12-38s12 14 12 38" fill="var(--accent)"/><rect x="17" y="24" width="12" height="6" rx="2" fill="#FFC531" stroke="var(--ink)" stroke-width="1.2"/></g><g transform="translate(140 30)"><path d="M0 30h22" stroke="var(--bad)" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 5"/><circle cx="36" cy="30" r="16" fill="var(--bad-soft)" stroke="var(--bad)" stroke-width="2.5"/><text x="36" y="35" text-anchor="middle" font-family="Inter,system-ui" font-size="13" font-weight="900" fill="var(--bad)">R$</text><circle cx="50" cy="16" r="9" fill="var(--bad)"/><path d="M46.5 12.5l7 7M53.5 12.5l-7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></g></svg>
+          <h3>Entra com desconto</h3><p>Quem não pagou o sócio entra como sócio, e o dinheiro que sustentaria a gestão fica na porta.</p></div>
+        <div class="passo bom rv" style="--i:4"><span class="n">04</span>
+          <svg class="il" viewBox="0 0 200 110" aria-hidden="true"><rect x="70" y="6" width="60" height="100" rx="10" fill="#FFFDF8"/><rect x="80" y="20" width="40" height="40" rx="4" fill="#0E3B2C"/><circle cx="100" cy="40" r="26" fill="none" stroke="#FFC531" stroke-width="3" stroke-dasharray="120 60"/><rect x="80" y="70" width="40" height="10" rx="4" fill="#FFC531"/><text x="100" y="96" text-anchor="middle" font-size="9" font-weight="800" fill="#0E3B2C">23:41:07</text><path d="M30 70l10 10 20-24" stroke="#FFC531" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>Aqui o QR muda a cada 30&nbsp;s</h3><p>Com hora ao vivo e foto na tela. Print antigo aparece vermelho na portaria como "QR expirado".</p></div>
+      </div>
+      <div class="ctas rv"><button class="btn ac" type="button" data-tela="portaria" data-sim="print">Testar um print na portaria</button></div>
+    </div>
+  </section>
+
+  <section class="snap">
+    <div class="wrap">
+      <span class="kick rv">Três entradas, três pessoas</span>
+      <h2 class="rv" style="--i:1;margin:12px 0 24px">Cada um vê só o que é dele</h2>
+      <div class="portas">
+        <button class="porta lift rv" type="button" data-tela="login" style="--i:1">
+          <svg class="il" viewBox="0 0 220 120" aria-hidden="true"><circle cx="110" cy="64" r="50" fill="var(--brand-soft)"/><rect x="82" y="14" width="56" height="96" rx="10" fill="#1C6A4B"/><circle cx="110" cy="40" r="10" fill="#FFC531"/><rect x="94" y="58" width="32" height="32" rx="4" fill="#fff"/><path d="M100 64h6v6h-6zM114 64h6v6h-6zM100 78h6v6h-6zM112 76h8v8h-8z" fill="#0E3B2C"/><path d="M40 90l14-20 10 14M170 30l8 12M160 96l16-6" stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+          <b>Área do atleta</b><span>Carteirinha com QR, plano, situação, validade, renovação pelo Pix e histórico de pagamentos.</span><span class="ir">Entrar como atleta →</span></button>
+        <button class="porta dest lift rv" type="button" data-tela="portaria" style="--i:2">
+          <svg class="il" viewBox="0 0 220 120" aria-hidden="true"><rect x="20" y="20" width="60" height="90" rx="6" fill="none" stroke="#FFC531" stroke-width="3"/><path d="M80 20l-20 8v74l20 8" fill="#1C6A4B"/><rect x="118" y="16" width="54" height="96" rx="10" fill="#14843F"/><path d="M132 62l10 10 18-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="196" cy="30" r="5" fill="#FF7A45"/><circle cx="34" cy="10" r="3" fill="#FFC531"/><circle cx="104" cy="8" r="4" fill="#7EE0B0"/></svg>
+          <b>Modo portaria</b><span>No celular da diretoria. Leu, ficou verde, amarelo ou vermelho. Funciona com a internet ruim da festa.</span><span class="ir">Abrir a portaria →</span></button>
+        <button class="porta lift rv" type="button" data-tela="painel" style="--i:3">
+          <svg class="il" viewBox="0 0 220 120" aria-hidden="true"><rect x="26" y="18" width="168" height="90" rx="10" fill="var(--surface2)"/><rect x="40" y="70" width="18" height="26" rx="3" fill="#2F8A63"/><rect x="66" y="56" width="18" height="40" rx="3" fill="#2F8A63"/><rect x="92" y="40" width="18" height="56" rx="3" fill="#E8541C"/><circle cx="154" cy="58" r="24" fill="none" stroke="#2F8A63" stroke-width="10" stroke-dasharray="110 151"/><circle cx="154" cy="58" r="24" fill="none" stroke="#C8321E" stroke-width="10" stroke-dasharray="14 151" stroke-dashoffset="-110"/><path d="M40 32h60" stroke="var(--muted)" stroke-width="4" stroke-linecap="round"/></svg>
+          <b>Área da diretoria</b><span>Associados em dia, pendentes e atrasados, planos, lembretes automáticos e relatórios financeiros.</span><span class="ir">Entrar como diretoria →</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="noite snap">
+    <div class="wrap">
+      <span class="kick rv" style="color:var(--sol)">Uma noite de festa com a plataforma (exemplo)</span>
+      <h2 class="rv" style="--i:1;margin-top:12px;max-width:22ch">Quem é barrado na porta pode renovar ali mesmo, na fila</h2>
+      <p class="lead mt rv" style="--i:2">A tela vermelha da portaria já mostra um Pix de renovação. O atleta paga no celular, a carteirinha fica verde em segundos e ele entra. Quem ia embora vira receita.</p>
+      <div class="noite-k">
+        <div class="rv" style="--i:1"><b data-conta="184">0</b><span>entradas conferidas</span></div>
+        <div class="rv" style="--i:2"><b data-conta="0">0</b><span>carteirinhas vencidas aceitas</span></div>
+        <div class="rv" style="--i:3"><b data-conta="11">0</b><span>renovações pagas na fila</span></div>
+        <div class="rv" style="--i:4"><b data-conta="2">0</b><span>prints barrados</span></div>
+      </div>
+      <p class="foot-ex rv">Números ilustrativos, para mostrar o que o painel da diretoria registra em cada evento.</p>
+    </div>
+  </section>
+
+  <section class="snap">
+    <div class="wrap">
+      <span class="kick rv">As partes do sistema</span>
+      <h2 class="rv" style="--i:1;margin:12px 0 24px">Cada parte do sistema tem uma tela aqui</h2>
+      <div class="pedidos">
+        <div class="ped rv" style="--i:1"><h3>Área do atleta</h3><ul>
+          <li><button type="button" data-tela="login">Cadastro e login individual</button></li>
+          <li><button type="button" data-tela="carteirinha">Carteirinha digital com QR Code</button></li>
+          <li><button type="button" data-tela="carteirinha">Plano, situação e validade</button></li>
+          <li><button type="button" data-tela="historico">Histórico de pagamentos</button></li></ul></div>
+        <div class="ped rv" style="--i:2"><h3>Área da diretoria</h3><ul>
+          <li><button type="button" data-tela="associados">Cadastro e gestão de associados</button></li>
+          <li><button type="button" data-tela="planos">Cadastro e gestão de planos</button></li>
+          <li><button type="button" data-tela="associados">Em dia, pendentes e atrasados</button></li>
+          <li><button type="button" data-tela="painel">Pagamentos, vencimentos e inadimplência</button></li>
+          <li><button type="button" data-tela="painel">Painel e relatórios financeiros</button></li></ul></div>
+        <div class="ped rv" style="--i:3"><h3>Pagamentos</h3><ul>
+          <li><button type="button" data-tela="renovar">Pix e cartão de crédito</button></li>
+          <li><button type="button" data-tela="renovar">Confirmação automática</button></li>
+          <li><button type="button" data-tela="renovar">Validade atualizada sozinha</button></li>
+          <li><button type="button" data-tela="planos">Lembretes de vencimento</button></li>
+          <li><button type="button" data-tela="portaria">QR consulta a situação atual</button></li></ul></div>
+        <div class="ped rv" style="--i:4"><h3>Orçamento e custos</h3><ul>
+          <li><button type="button" data-tela="como">Dados protegidos e permissões</button></li>
+          <li><button type="button" data-tela="como">Tecnologias e custos recorrentes</button></li>
+          <li><button type="button" data-tela="como">Acesso admin e dados da atlética</button></li></ul></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ 1b. ATLETA · CADASTRO E LOGIN ============ -->
+<div class="tela" data-tela="login" data-g="atleta" data-titulo="Entrar">
+  <section class="snap"><div class="wrap">
+    <div class="login-g">
+      <div class="rv">
+        <span class="area-tag">Cadastro e login individual</span>
+        <h1 id="t-login" style="margin-top:10px;font-size:clamp(36px,5vw,58px)">Cada atleta com a sua conta</h1>
+        <p class="lead mt">Login próprio, com e-mail ou CPF e senha. Ninguém usa a conta de outro, e a carteirinha só abre no celular de quem é dono dela.</p>
+        <svg class="login-il mt" viewBox="0 0 460 260" aria-hidden="true"><circle cx="230" cy="140" r="110" fill="var(--brand-soft)"/><rect x="150" y="30" width="120" height="216" rx="20" fill="#0E3B2C"/><rect x="160" y="48" width="100" height="180" rx="10" fill="#FFFDF8"/><circle cx="210" cy="86" r="18" fill="#C68A62"/><path d="M192 82c0-12 8-18 18-18s18 6 18 18c-5-5-11-7-18-7s-13 2-18 7z" fill="#2A1A12"/><path d="M180 132c3-16 14-24 30-24s27 8 30 24z" fill="#E8541C"/><rect x="174" y="146" width="72" height="14" rx="7" fill="#E9E4D6"/><rect x="174" y="166" width="72" height="14" rx="7" fill="#E9E4D6"/><circle cx="182" cy="173" r="3" fill="#11231B"/><circle cx="190" cy="173" r="3" fill="#11231B"/><circle cx="198" cy="173" r="3" fill="#11231B"/><circle cx="206" cy="173" r="3" fill="#11231B"/><rect x="174" y="190" width="72" height="22" rx="11" fill="#E8541C"/><g transform="translate(300 60)"><rect width="110" height="70" rx="12" fill="#1C6A4B"/><circle cx="24" cy="30" r="12" fill="#FFC531"/><path d="M44 24h46M44 36h30" stroke="#F6F3EA" stroke-width="5" stroke-linecap="round" opacity=".8"/><rect x="12" y="50" width="40" height="8" rx="4" fill="#7EE0B0"/></g><g transform="translate(40 150)"><rect width="96" height="60" rx="12" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/><rect x="14" y="16" width="30" height="28" rx="6" fill="none" stroke="#1E8A4C" stroke-width="3"/><path d="M20 16v-6a9 9 0 0 1 18 0v6" fill="none" stroke="#1E8A4C" stroke-width="3"/><path d="M56 24h28M56 36h18" stroke="var(--muted)" stroke-width="4" stroke-linecap="round"/></g><path d="M276 92c10 0 16 4 22 10M140 178c6 0 10-2 14-6" stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="4 6"/></svg>
+      </div>
+      <div class="card login-c rv" style="--i:1">
+        <div class="tabs" role="tablist" aria-label="Acesso"><button type="button" role="tab" aria-selected="true" data-ltab="entrar">Entrar</button><button type="button" role="tab" aria-selected="false" data-ltab="primeiro">1º acesso</button><button type="button" role="tab" aria-selected="false" data-ltab="esqueci">Esqueci a senha</button></div>
+        <div data-lpainel="entrar">
+          <form onsubmit="return false">
+            <label class="campo">E-mail ou CPF<input autocomplete="username" placeholder="lucas@email.com ou 000.000.000-00" value="lucas.almeida@email.com"></label>
+            <label class="campo">Senha<input type="password" autocomplete="current-password" value="marealta2026" placeholder="Sua senha"></label>
+            <button class="btn ac" type="button" data-tela="carteirinha" style="width:100%">Entrar</button>
+          </form>
+          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;margin-top:4px"><button class="lnk-b" type="button" data-ltab-ir="esqueci">Esqueci a senha</button><button class="lnk-b" type="button" data-ltab-ir="primeiro">É meu primeiro acesso</button></div>
+        </div>
+        <div data-lpainel="primeiro" hidden>
+          <p class="small muted" style="margin-bottom:12px">A diretoria cadastra o sócio e o sistema manda um convite por e-mail. Daí são três passos:</p>
+          <ol class="passos-l">
+            <li><span class="nb">1</span><span><b>Abrir o convite</b><small>o link chega no e-mail que a diretoria cadastrou</small></span></li>
+            <li><span class="nb">2</span><span><b>Criar a senha</b><small>e aceitar o uso dos dados (LGPD)</small></span></li>
+            <li><span class="nb">3</span><span><b>Enviar a foto da carteirinha</b><small>é a foto que a portaria vê ao ler o QR</small></span></li>
+          </ol>
+          <button class="btn ac mt" type="button" style="width:100%" data-toast="Convite reenviado para o e-mail cadastrado (ilustrativo).">Reenviar meu convite</button>
+        </div>
+        <div data-lpainel="esqueci" hidden>
+          <form onsubmit="return false">
+            <label class="campo">E-mail cadastrado<input type="email" autocomplete="email" placeholder="lucas@email.com"></label>
+            <button class="btn ac" type="button" style="width:100%" data-toast="Link para criar uma senha nova enviado (vale por 30 minutos).">Enviar link de nova senha</button>
+          </form>
+          <p class="small muted mt">O link vale por 30 minutos. Ninguém da diretoria vê nem troca a sua senha.</p>
+        </div>
+        <div class="papeis"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>Atleta entra aqui, diretoria entra com o papel dela, cada um vê só o que é dele. <button class="lnk-b" type="button" data-tela="painel">Entrar como diretoria</button></span></div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ 2. ATLETA · CARTEIRINHA ============ -->
+<div class="tela" data-tela="carteirinha" data-g="atleta" data-titulo="Minha carteirinha">
+  <section class="snap"><div class="wrap">
+    <div class="head-tela"><div><span class="area-tag">Área do atleta · logado como Lucas · <a class="sair" href="#login" data-tela="login">Sair</a></span><h1 id="t-cart" style="margin-top:10px">Minha carteirinha</h1></div></div>
+    <div class="seg" role="navigation" aria-label="Área do atleta"><button type="button" data-tela="carteirinha" data-sub>Carteirinha</button><button type="button" data-tela="renovar" data-sub>Renovar</button><button type="button" data-tela="historico" data-sub>Pagamentos</button></div>
+    <div class="atl-g">
+      <div class="cart-palco">
+        <div class="cart aviso" id="cart-lucas">
+          <svg class="padrao" aria-hidden="true"><rect width="100%" height="100%" fill="url(#raiz-p)"/></svg>
+          <span class="cart-sit" data-sit>Vence em 5 dias</span>
+          <div class="cart-top"><svg width="38" height="38" viewBox="0 0 64 64" aria-hidden="true"><use href="#crab-logo"/></svg><div><small>Atlética</small><b>MARÉ ALTA</b></div></div>
+          <div class="cart-id"><div class="foto" data-av="0"></div><div><b>Lucas Almeida</b><span>Engenharia Civil · sócio nº 0187</span></div></div>
+          <div class="cart-qr" data-qr="lucas"><svg viewBox="0 0 29 29"></svg><svg class="anel" viewBox="0 0 100 100" aria-hidden="true"><circle class="t" cx="50" cy="50" r="48"/><circle class="p" cx="50" cy="50" r="48" stroke-dasharray="301.6" stroke-dashoffset="0" data-anel/></svg></div>
+          <div class="holo"><span data-relogio>--:--:--</span><span>novo QR em <b data-cont>30</b>s</span></div>
+          <div class="cart-rod"><div><span>Plano</span><b data-plano>Anual 2025/26</b></div><div style="text-align:right"><span>Válida até</span><b data-valida></b></div></div>
+        </div>
+      </div>
+      <div class="info-l">
+        <div class="card rv">
+          <div class="prazo" id="prazo"><span class="dias" data-dias>5</span><div><b data-prazo-t>dias para vencer</b><p class="small muted" data-prazo-s></p></div></div>
+          <div class="ctas" style="margin-top:14px"><button class="btn ac" type="button" data-tela="renovar" id="btn-renovar">Renovar agora pelo Pix</button></div>
+        </div>
+        <div class="card rv" style="--i:1">
+          <h3>Minha associação</h3>
+          <div class="linha-i"><span>Situação</span><b><span class="st warn" data-st>Vence em 5 dias</span></b></div>
+          <div class="linha-i"><span>Plano contratado</span><b data-plano>Anual 2025/26</b></div>
+          <div class="linha-i"><span>Válida de / até</span><b data-periodo></b></div>
+          <div class="linha-i"><span>Matrícula</span><b>2024.2-0187</b></div>
+          <div class="linha-i"><span>Último pagamento</span><b data-ult-pag>R$ 130,00 · Pix</b></div>
+        </div>
+        <div class="card rv" style="--i:2">
+          <h3>Simular a situação</h3>
+          <p class="small muted">Para testar: troque a situação, veja a carteirinha mudar e depois leia o QR dela na portaria.</p>
+          <div class="toggle-demo" role="group" aria-label="Simular situação da carteirinha">
+            <button class="chipb" type="button" data-sit-demo="aviso" aria-pressed="true">Vence em 5 dias</button>
+            <button class="chipb" type="button" data-sit-demo="ok" aria-pressed="false">Em dia</button>
+            <button class="chipb" type="button" data-sit-demo="vencida" aria-pressed="false">Vencida</button>
+          </div>
+          <button class="btn g sm mt" type="button" data-tela="portaria" data-sim="lucas">Ver na portaria →</button>
+          <div class="dica mt"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>A faixa dourada se move e o relógio corre. Num print os dois ficam parados, e o QR do print expira em 30 segundos.</span></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ 3. ATLETA · RENOVAR ============ -->
+<div class="tela" data-tela="renovar" data-g="atleta" data-titulo="Renovar associação">
+  <section class="snap"><div class="wrap">
+    <div class="head-tela"><div><span class="area-tag">Área do atleta · logado como Lucas · <a class="sair" href="#login" data-tela="login">Sair</a></span><h1 id="t-ren" style="margin-top:10px">Renovar</h1></div></div>
+    <div class="seg" role="navigation" aria-label="Área do atleta"><button type="button" data-tela="carteirinha" data-sub>Carteirinha</button><button type="button" data-tela="renovar" data-sub>Renovar</button><button type="button" data-tela="historico" data-sub>Pagamentos</button></div>
+    <div class="grid2" style="align-items:start">
+      <div class="card rv">
+        <h3>1 · Escolha o plano</h3>
+        <div class="planos-esc mt" role="radiogroup" aria-label="Planos">
+          <label class="plano-r"><input type="radio" name="pl" value="anual" data-v="130" data-ate="" data-anual="1" data-nome="Anual 2026/27" checked><span class="rd"></span><span><b>Anual</b><small>até <span data-anual-ate></span> · sai R$ 10,83 por mês</small></span><span class="pr">R$ 130</span></label>
+          <label class="plano-r"><input type="radio" name="pl" value="sem" data-v="75" data-ate="28/02/2027" data-nome="Semestral 2026.2"><span class="rd"></span><span><b>Semestral 2026.2</b><small>até 28/02/2027</small></span><span class="pr">R$ 75</span></label>
+        </div>
+        <p class="small muted mt">O plano Calouro aparece só para quem entrou no semestre atual.</p>
+      </div>
+      <div class="card rv" style="--i:1" id="pag-card">
+        <h3>2 · Pague</h3>
+        <div class="tabs" role="tablist" aria-label="Forma de pagamento"><button type="button" role="tab" aria-selected="true" data-tab="pix">Pix</button><button type="button" role="tab" aria-selected="false" data-tab="cartao">Cartão de crédito</button></div>
+        <div data-painel="pix">
+          <div class="pix-box">
+            <div class="pix-qr" data-qr="pix"><svg viewBox="0 0 29 29"></svg></div>
+            <div>
+              <p><b>R$ <span data-valor>130,00</span></b> · expira em <b data-expira>10:00</b></p>
+              <p class="small muted" style="margin:6px 0 10px">Abra o app do banco, escolha Pix e leia o QR ou cole o código.</p>
+              <div class="copia"><span>00020126580014br.gov.bcb.pix0136a1f4c2e8-marealta-0187-26275204000053039865406130.005802BR</span><button class="btn sm" type="button" id="copiar">Copiar</button></div>
+            </div>
+          </div>
+          <button class="btn ac mt" type="button" id="simular-pix" style="width:100%">Simular: paguei no app do banco</button>
+        </div>
+        <div data-painel="cartao" hidden>
+          <div class="campos">
+            <label class="campo full">Número do cartão<input inputmode="numeric" placeholder="0000 0000 0000 0000" autocomplete="off"></label>
+            <label class="campo">Validade<input placeholder="MM/AA" autocomplete="off"></label>
+            <label class="campo">CVV<input inputmode="numeric" placeholder="123" autocomplete="off"></label>
+            <label class="campo full">Parcelas<select><option>1x de R$ 130,00</option><option>2x de R$ 65,00</option></select></label>
+          </div>
+          <p class="small muted mt">Os dados do cartão vão direto para o gateway de pagamento. A atlética nunca guarda o número do cartão.</p>
+          <button class="btn ac mt" type="button" id="simular-cartao" style="width:100%">Simular pagamento no cartão</button>
+        </div>
+        <ol class="fluxo" id="fluxo" aria-live="polite" hidden></ol>
+        <div id="pos-pag" hidden class="mt"></div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ 4. ATLETA · HISTÓRICO ============ -->
+<div class="tela" data-tela="historico" data-g="atleta" data-titulo="Histórico de pagamentos">
+  <section class="snap"><div class="wrap">
+    <div class="head-tela"><div><span class="area-tag">Área do atleta · logado como Lucas · <a class="sair" href="#login" data-tela="login">Sair</a></span><h1 id="t-hist" style="margin-top:10px">Meus pagamentos</h1></div><button class="btn g sm" type="button" data-toast="Comprovante em PDF gerado (só ilustrativo).">Baixar comprovantes</button></div>
+    <div class="seg" role="navigation" aria-label="Área do atleta"><button type="button" data-tela="carteirinha" data-sub>Carteirinha</button><button type="button" data-tela="renovar" data-sub>Renovar</button><button type="button" data-tela="historico" data-sub>Pagamentos</button></div>
+    <div class="hist" id="hist"></div>
+    <p class="foot-ex">Pagamento recusado no cartão fica registrado, mas não muda a carteirinha. Só o pagamento confirmado pelo gateway renova a validade.</p>
+  </div></section>
+</div>
+
+<!-- ============ 5. PORTARIA ============ -->
+<div class="tela" data-tela="portaria" data-g="portaria" data-titulo="Modo portaria">
+  <section class="snap"><div class="wrap">
+    <div class="head-tela"><div><span class="area-tag dir">Diretoria · papel portaria</span><h1 id="t-port" style="margin-top:10px">Modo portaria</h1><p class="lead mt">Para a pessoa da diretoria que fica na entrada da festa ou do jogo. Tela grande, cor forte, som e vibração. Nada de ler texto miúdo no escuro.</p></div></div>
+    <div class="port-g">
+      <div>
+        <div class="cel" aria-label="Celular da portaria">
+          <div class="cel-t">
+            <div class="cel-bar"><span data-relogio-c>23:41</span><span class="rede" id="rede"><i></i><span>online</span></span></div>
+            <div class="visor">
+              <svg class="festa" viewBox="0 0 300 400" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="luz1"><stop offset="0" stop-color="#E8541C" stop-opacity=".7"/><stop offset="1" stop-color="#E8541C" stop-opacity="0"/></radialGradient><radialGradient id="luz2"><stop offset="0" stop-color="#3FBF84" stop-opacity=".6"/><stop offset="1" stop-color="#3FBF84" stop-opacity="0"/></radialGradient></defs><circle cx="60" cy="60" r="110" fill="url(#luz1)"/><circle cx="250" cy="120" r="120" fill="url(#luz2)"/><g fill="#06100B"><circle cx="40" cy="330" r="22"/><path d="M10 400c0-40 14-56 30-56s30 16 30 56"/><circle cx="250" cy="320" r="24"/><path d="M218 400c0-44 16-60 32-60s32 16 32 60"/><circle cx="150" cy="350" r="18"/><path d="M126 400c0-30 10-40 24-40s24 10 24 40"/></g></svg>
+              <div class="mira"><svg viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="#FFC531" stroke-width="3.5" stroke-linecap="round"><path d="M2 24V10a8 8 0 0 1 8-8h14M76 2h14a8 8 0 0 1 8 8v14M98 76v14a8 8 0 0 1-8 8H76M24 98H10a8 8 0 0 1-8-8V76"/></svg><span class="lin"></span></div>
+              <p class="instr">Aponte para o QR da carteirinha</p>
+              <div class="res" id="res" role="status" aria-live="assertive"></div>
+            </div>
+            <div class="cel-rod"><div><b data-n-ent>184</b>entradas</div><div><b data-n-bar>3</b>barradas</div><div><b data-n-ren>11</b>renovaram na fila</div></div>
+          </div>
+        </div>
+        <div class="fila-chips" id="fila-chips" role="group" aria-label="Quem está na fila"></div>
+      </div>
+      <div style="display:grid;gap:18px">
+        <div class="card rv card-sims">
+          <div class="card-h"><h3>Teste a leitura</h3><span class="small muted">toque em quem está na fila</span></div>
+          <div class="sims" id="sims"></div>
+        </div>
+        <div class="card rv" style="--i:1">
+          <div class="card-h"><h3>Plano B: sem QR</h3><span class="small muted">o atleta está sem bateria ou sem o app</span></div>
+          <label class="busca"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="busca-port" placeholder="Nome ou final do CPF" aria-label="Buscar associado por nome ou CPF"></label>
+          <div class="res-busca" id="res-busca"></div>
+        </div>
+        <div class="card rv" style="--i:2">
+          <div class="card-h"><h3>Internet ruim na festa</h3>
+            <label class="sw"><input type="checkbox" id="offline"><i></i>Simular sem internet</label></div>
+          <p class="small muted">O QR é assinado digitalmente. Sem sinal, o celular da portaria confere a assinatura e a validade que baixou no início da noite, e manda as entradas para o servidor quando a rede volta. A fila não para.</p>
+          <p class="small mt" id="off-msg" hidden><span class="st warn">Offline · 3 entradas aguardando sincronizar</span></p>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ 6. DIRETORIA · PAINEL ============ -->
+<div class="tela" data-tela="painel" data-g="diretoria" data-titulo="Painel da diretoria">
+  <section class="snap"><div class="wrap">
+    <div class="head-tela"><div><span class="area-tag dir">Diretoria · papel financeiro</span><h1 id="t-painel" style="margin-top:10px">Painel</h1></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn g sm" type="button" data-toast="Relatório do mês exportado em planilha (ilustrativo).">Exportar planilha</button><button class="btn sm" type="button" data-toast="Relatório financeiro em PDF gerado (ilustrativo).">Relatório em PDF</button></div></div>
+    <div class="seg" role="navigation" aria-label="Área da diretoria"><button type="button" data-tela="painel" data-sub>Painel</button><button type="button" data-tela="associados" data-sub>Associados</button><button type="button" data-tela="planos" data-sub>Planos e lembretes</button></div>
+    <div class="kpis">
+      <div class="kpi rv"><small>Associados ativos</small><b data-conta="312">0</b><span>+28 desde agosto</span></div>
+      <div class="kpi ok rv" style="--i:1"><small>Em dia</small><b data-conta="251">0</b><span>80% do total</span></div>
+      <div class="kpi warn rv" style="--i:2"><small>Pendentes</small><b data-conta="34">0</b><span>vencem em 7 dias ou Pix gerado sem pagar</span></div>
+      <div class="kpi bad rv" style="--i:3"><small>Atrasados</small><b data-conta="27">0</b><span>inadimplência de 8,7%</span></div>
+    </div>
+    <div class="dash">
+      <div class="card rv">
+        <div class="card-h"><h3>Receita por mês</h3><span class="small muted">Pix + cartão, já sem a taxa do gateway</span></div>
+        <div class="graf" role="img" id="graf-rec" aria-label="Receita dos últimos seis meses">
+          <div class="c" style="--i:0"><em>3,1k</em><i style="--h:25%"></i><small data-mes="-5">mai</small></div>
+          <div class="c" style="--i:1"><em>2,4k</em><i style="--h:19%"></i><small data-mes="-4">jun</small></div>
+          <div class="c" style="--i:2"><em>1,9k</em><i style="--h:15%"></i><small data-mes="-3">jul</small></div>
+          <div class="c" style="--i:3"><em>12,6k</em><i style="--h:100%"></i><small data-mes="-2">ago</small></div>
+          <div class="c" style="--i:4"><em>6,2k</em><i style="--h:49%"></i><small data-mes="-1">set</small></div>
+          <div class="c at" style="--i:5"><em>4,8k</em><i style="--h:38%"></i><small data-mes="0">out</small></div>
+        </div>
+        <p class="foot-ex">* <span data-mes-nome="0">outubro</span> até hoje (<span data-dt="0" data-f="c"></span>). O pico é a volta às aulas, com a chegada dos calouros.</p>
+      </div>
+      <div class="card rv" style="--i:1">
+        <h3>Situação dos associados</h3>
+        <div class="donut-w mt">
+          <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="251 em dia, 34 pendentes, 27 atrasados"><circle cx="60" cy="60" r="46" stroke="var(--surface2)"/><circle class="seg-d" cx="60" cy="60" r="46" stroke="var(--ok)" data-arco="251" transform="rotate(-90 60 60)"/><circle class="seg-d" cx="60" cy="60" r="46" stroke="var(--warn)" data-arco="34" data-ini="251" transform="rotate(-90 60 60)"/><circle class="seg-d" cx="60" cy="60" r="46" stroke="var(--bad)" data-arco="27" data-ini="285" transform="rotate(-90 60 60)"/><text x="60" y="58" text-anchor="middle" font-family="Anton,Impact" font-size="24" fill="var(--ink)">312</text><text x="60" y="74" text-anchor="middle" font-size="10" fill="var(--muted)">associados</text></svg>
+          <div class="leg"><span><i style="background:var(--ok)"></i>Em dia · 251</span><span><i style="background:var(--warn)"></i>Pendentes · 34</span><span><i style="background:var(--bad)"></i>Atrasados · 27</span><button class="btn g sm" type="button" data-tela="associados" data-filtro="atrasado" style="margin-top:4px">Ver atrasados</button></div>
+        </div>
+      </div>
+      <div class="card rv" style="--i:2">
+        <div class="card-h"><h3>Vencem nos próximos 7 dias</h3><span class="small muted">34 associados</span></div>
+        <div class="lista-v" id="vencem"></div>
+        <button class="btn g sm mt" type="button" id="lembrar-todos">Enviar lembrete para os 34</button>
+      </div>
+      <div class="card rv feed" style="--i:3">
+        <div class="card-h"><h3>Confirmados automaticamente</h3><span class="small muted">ninguém da diretoria precisou conferir</span></div>
+        <div class="lista-v" id="feed"></div>
+      </div>
+    </div>
+    <div class="card rv mt">
+      <div class="card-h"><h3>Fechamento de <span data-mes-nome="0">outubro</span> (até hoje)</h3><span class="small muted">o que entra no relatório financeiro</span></div>
+      <div class="linha-i"><span>Recebido bruto</span><b>R$ 5.020,00</b></div>
+      <div class="linha-i"><span>Taxas do gateway (Pix e cartão)</span><b>− R$ 205,00</b></div>
+      <div class="linha-i"><span>Recebido líquido</span><b>R$ 4.815,00</b></div>
+      <div class="linha-i"><span>A receber dos pendentes (se todos renovarem)</span><b class="hl">R$ 3.140,00</b></div>
+      <div class="linha-i"><span>Em atraso</span><b style="color:var(--bad)">R$ 2.385,00</b></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ 7. DIRETORIA · ASSOCIADOS ============ -->
+<div class="tela" data-tela="associados" data-g="diretoria" data-titulo="Associados">
+  <section class="snap"><div class="wrap">
+    <div class="head-tela"><div><span class="area-tag dir">Diretoria · papel financeiro</span><h1 id="t-assoc" style="margin-top:10px">Associados</h1></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn g sm" type="button" id="importar">Importar planilha atual</button><button class="btn ac sm" type="button" id="novo-assoc">+ Novo associado</button></div></div>
+    <div class="seg" role="navigation" aria-label="Área da diretoria"><button type="button" data-tela="painel" data-sub>Painel</button><button type="button" data-tela="associados" data-sub>Associados</button><button type="button" data-tela="planos" data-sub>Planos e lembretes</button></div>
+    <div class="filtros" role="group" aria-label="Filtrar associados">
+      <label class="busca"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="busca-assoc" placeholder="Buscar por nome ou curso" aria-label="Buscar associado"></label>
+      <button class="chipb" type="button" data-f="todos" aria-pressed="true">Todos<span class="q">312</span></button>
+      <button class="chipb" type="button" data-f="ok" aria-pressed="false">Em dia<span class="q">251</span></button>
+      <button class="chipb" type="button" data-f="warn" aria-pressed="false">Pendentes<span class="q">34</span></button>
+      <button class="chipb" type="button" data-f="bad" aria-pressed="false">Atrasados<span class="q">27</span></button>
+    </div>
+    <table class="tbl" aria-label="Lista de associados">
+      <thead><tr><th>Associado</th><th>Plano</th><th>Válida até</th><th>Situação</th><th></th></tr></thead>
+      <tbody id="tb-assoc"></tbody>
+    </table>
+    <div class="vazio" id="vazio"><svg viewBox="0 0 120 90" aria-hidden="true"><ellipse cx="60" cy="80" rx="40" ry="6" fill="var(--surface2)"/><g fill="var(--accent)" opacity=".85"><ellipse cx="60" cy="56" rx="20" ry="14"/><path d="M34 38c-5 0-7 5-4 8s7 1 8-1l4 5 3-2-4-5c1-3 0-5-3-5l-1 2z"/><path d="M86 38c5 0 7 5 4 8s-7 1-8-1l-4 5-3-2 4-5c-1-3 0-5 3-5l1 2z"/></g><circle cx="54" cy="44" r="3" fill="var(--ink)"/><circle cx="66" cy="44" r="3" fill="var(--ink)"/><path d="M54 62q6-4 12 0" stroke="var(--ink)" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><b>Ninguém com esse nome por aqui.</b><p class="small">Confira a grafia ou busque pelo curso.</p></div>
+    <p class="foot-ex" id="mostrando">Mostrando 14 de 312 associados (amostra). Toque num nome para abrir a ficha.</p>
+  </div></section>
+</div>
+
+<!-- ============ 8. DIRETORIA · PLANOS E LEMBRETES ============ -->
+<div class="tela" data-tela="planos" data-g="diretoria" data-titulo="Planos e lembretes">
+  <section class="snap"><div class="wrap">
+    <div class="head-tela"><div><span class="area-tag dir">Diretoria · papel presidente</span><h1 id="t-planos" style="margin-top:10px">Planos e lembretes</h1></div><button class="btn ac sm" type="button" id="novo-plano">+ Novo plano</button></div>
+    <div class="seg" role="navigation" aria-label="Área da diretoria"><button type="button" data-tela="painel" data-sub>Painel</button><button type="button" data-tela="associados" data-sub>Associados</button><button type="button" data-tela="planos" data-sub>Planos e lembretes</button></div>
+    <div class="carrossel" id="planos-c"></div>
+  </div></section>
+  <section class="snap secao-alt"><div class="wrap">
+    <span class="kick rv">Lembretes automáticos</span>
+    <h2 class="rv" style="--i:1;margin:12px 0 8px">Ninguém da diretoria precisa cobrar no privado</h2>
+    <p class="lead rv" style="--i:2;margin-bottom:22px">A régua roda sozinha a partir da validade de cada carteirinha. Quem paga sai da régua na hora.</p>
+    <ol class="regua">
+      <li class="rv" style="--i:1"><span class="d">D−7</span><p class="canal">WhatsApp</p><p class="small">"Sua carteirinha vence dia <span data-dt="7" data-f="d"></span>. Renove pelo Pix em 1 minuto."</p><label class="sw"><input type="checkbox" checked><i></i>ligado</label></li>
+      <li class="rv" style="--i:2"><span class="d">D−3</span><p class="canal">E-mail</p><p class="small">Lembrete com o link de pagamento e o plano atual.</p><label class="sw"><input type="checkbox" checked><i></i>ligado</label></li>
+      <li class="rv" style="--i:3"><span class="d">D0</span><p class="canal">WhatsApp</p><p class="small">"Vence hoje". Leva o Pix copia e cola pronto.</p><label class="sw"><input type="checkbox" checked><i></i>ligado</label></li>
+      <li class="rv" style="--i:4"><span class="d">D+2</span><p class="canal">WhatsApp e e-mail</p><p class="small">"Sua carteirinha venceu e já aparece vermelha na portaria. Renove pelo Pix e ela volta na hora."</p><label class="sw"><input type="checkbox" checked><i></i>ligado</label></li>
+      <li class="bl rv" style="--i:5"><span class="d">D+5</span><p class="canal">Financeiro</p><p class="small">Entra na lista de atrasados do financeiro. Na portaria ela já estava vermelha desde D+1.</p></li>
+    </ol>
+    <p class="tol rv"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Tolerância na portaria: 0 dia. Venceu ontem, hoje aparece vermelha (a diretoria pode mudar).</span></p>
+    <div class="grid2 mt" style="align-items:start">
+      <div class="wa-prev rv"><div class="bolha">Oi, Lucas! 🦀 Sua carteirinha da Maré Alta vence dia <span data-dt="5" data-f="c"></span>. Renove em 1 minuto pelo Pix e continue com desconto nas festas e nos jogos: <span class="lnk">marealta.app/renovar</span><time>09:00</time></div></div>
+      <div class="card rv" style="--i:1"><h3>Quem recebe hoje</h3><div class="linha-i"><span>D−7 (vencem <span data-dt="7" data-f="c"></span>)</span><b>12 pessoas</b></div><div class="linha-i"><span>D−3 (vencem <span data-dt="3" data-f="c"></span>)</span><b>9 pessoas</b></div><div class="linha-i"><span>D0 (vencem hoje)</span><b>4 pessoas</b></div><div class="linha-i"><span>D+2 (venceram <span data-dt="-2" data-f="c"></span>)</span><b>3 pessoas</b></div><p class="foot-ex">Os textos são editáveis pela diretoria. O envio por WhatsApp usa a API oficial, então não bloqueia o número da atlética.</p></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ 9. COMO FUNCIONA ============ -->
+<div class="tela" data-tela="como" data-g="como" data-titulo="Como funciona">
+  <section class="snap"><div class="wrap">
+    <span class="kick">Por dentro</span>
+    <h1 id="t-como" style="margin-top:12px;font-size:clamp(36px,5vw,58px)">Como funciona e quanto custa operar</h1>
+    <p class="lead mt">Tecnologias, segurança, custos recorrentes, permissões e acesso da atlética.</p>
+    <div class="card rv mt">
+      <h3>O caminho de um Pix até a portaria</h3>
+      <svg class="arq mt" viewBox="0 0 900 300" role="img" aria-label="Atleta paga no gateway, o gateway avisa o sistema por webhook, o sistema grava no banco de dados e a carteirinha e a portaria leem a validade atualizada">
+        <g font-family="Inter,system-ui" font-size="14" font-weight="700" text-anchor="middle">
+          <rect x="20" y="40" width="160" height="90" rx="16" fill="var(--brand-soft)"/><text x="100" y="80" fill="var(--ink)">Atleta</text><text x="100" y="102" font-weight="500" font-size="12" fill="var(--muted)">celular ou computador</text>
+          <rect x="250" y="40" width="180" height="90" rx="16" fill="var(--accent-soft)"/><text x="340" y="80" fill="var(--ink)">Gateway</text><text x="340" y="102" font-weight="500" font-size="12" fill="var(--muted)">Asaas ou Mercado Pago</text>
+          <rect x="500" y="40" width="180" height="90" rx="16" fill="#0E3B2C"/><text x="590" y="80" fill="#F6F3EA">Sistema Next.js</text><text x="590" y="102" font-weight="500" font-size="12" fill="#B9CFC2">regras, permissões, lembretes</text>
+          <rect x="730" y="40" width="150" height="90" rx="16" fill="var(--surface2)"/><text x="805" y="80" fill="var(--ink)">PostgreSQL</text><text x="805" y="102" font-weight="500" font-size="12" fill="var(--muted)">dados da atlética</text>
+          <rect x="420" y="200" width="200" height="80" rx="16" fill="#14843F"/><text x="520" y="236" fill="#fff">Portaria e carteirinha</text><text x="520" y="256" font-weight="500" font-size="12" fill="#D9F2E1">leem a validade atual</text>
+          <text x="215" y="30" font-size="12" fill="var(--muted)">paga Pix/cartão</text><text x="465" y="30" font-size="12" fill="var(--muted)">webhook assinado</text><text x="705" y="30" font-size="12" fill="var(--muted)">grava</text>
+        </g>
+        <g stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="8 8" class="fluxo-arq"><path d="M180 85h66"/><path d="M430 85h66"/><path d="M680 85h46"/><path d="M590 130v66"/></g>
+      </svg>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="grid2" style="align-items:start">
+      <div class="rv">
+        <h2 style="margin-bottom:14px">Tecnologias</h2>
+        <div class="custos">
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span><div><b>Next.js (React)</b><small>um sistema só, que abre bem no celular e no computador</small></div></div>
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><div><b>PostgreSQL</b><small>banco de dados com backup diário</small></div></div>
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><div><b>Asaas ou Mercado Pago</b><small>Pix, cartão e confirmação automática por webhook</small></div></div>
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></span><div><b>WhatsApp oficial e e-mail</b><small>para a régua de lembretes</small></div></div>
+        </div>
+      </div>
+      <div class="rv" style="--i:1">
+        <h2 style="margin-bottom:14px">Custos recorrentes</h2>
+        <div class="custos">
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><path d="M3 15a4 4 0 0 1 4-4 6 6 0 0 1 11.6 1.5A3.5 3.5 0 0 1 18 19H7a4 4 0 0 1-4-4z"/></svg></span><div><b>Hospedagem e banco</b><small>começa no plano gratuito e sobe só se o uso crescer</small></div><span class="v">R$ 0 a R$ 60<br><small>por mês no começo</small></span></div>
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><div><b>Gateway de pagamento</b><small>sem mensalidade, a taxa é descontada de cada pagamento. Asaas: Pix R$ 1,99, cartão 2,99% + R$ 0,49. Mercado Pago: Pix 0,99%, cartão de 3,99% a 4,98% conforme o prazo de recebimento (tabelas públicas de out/2026)</small></div><span class="v">por pagamento</span></div>
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z"/></svg></span><div><b>Manutenção</b><small>sem mensalidade obrigatória; ajuste novo entra como melhoria combinada</small></div><span class="v">R$ 0<br><small>por mês</small></span></div>
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><div><b>Domínio .com.br</b><small>tabela do Registro.br, renovação anual</small></div><span class="v">R$ 40<br><small>por ano</small></span></div>
+          <div class="custo"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></span><div><b>WhatsApp oficial</b><small>cobrado por conversa pela Meta; dá para começar só com e-mail, sem custo</small></div><span class="v">opcional</span></div>
+          <div class="custo-tot"><span>No começo</span><b>R$ 0 a R$ 60 por mês<br><small style="font:600 13px var(--f-t);opacity:.8">mais as taxas por pagamento</small></b></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="snap secao-alt"><div class="wrap">
+    <h2 class="rv" style="margin-bottom:8px">Dados protegidos e permissões</h2>
+    <p class="lead rv" style="--i:1;margin-bottom:20px">Cada papel vê só o que precisa. Quem fica na portaria não vê CPF nem pagamentos.</p>
+    <div class="tbl-wrap rv" style="--i:2"><table class="perm">
+      <thead><tr><th>O que pode</th><th>Atleta</th><th>Portaria</th><th>Financeiro</th><th>Presidente</th></tr></thead>
+      <tbody>
+        <tr><td>Ter a própria carteirinha (a diretoria também é sócia)</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><td>Ler QR e ver situação (verde, amarelo, vermelho)</td><td class="n">—</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><td>Ver e editar associados e pagamentos</td><td class="n">—</td><td class="n">—</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><td>Relatórios financeiros</td><td class="n">—</td><td class="n">—</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><td>Criar planos, régua de lembretes e papéis</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="s">✓</td></tr>
+      </tbody></table></div>
+    <div class="prote mt">
+      <div class="rv"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span><b>Senhas com hash e conexão segura</b>ninguém, nem a diretoria, vê a senha do atleta</span></div>
+      <div class="rv" style="--i:1"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><path d="M4 20L20 4"/></svg><span><b>CPF e telefone mascarados</b>aparecem inteiros só para quem tem o papel certo</span></div>
+      <div class="rv" style="--i:2"><svg class="ico" viewBox="0 0 24 24"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg><span><b>Registro de quem fez o quê</b>baixa manual de pagamento fica com nome e hora</span></div>
+      <div class="rv" style="--i:3"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span><b>LGPD</b>aceite no cadastro, e o atleta pode pedir os próprios dados ou a exclusão</span></div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="gestao">
+      <svg viewBox="0 0 260 180" aria-hidden="true" class="rv"><circle cx="130" cy="96" r="78" fill="var(--brand-soft)"/><circle cx="70" cy="70" r="16" fill="#1C6A4B"/><path d="M44 150c0-34 12-50 26-50s26 16 26 50" fill="#1C6A4B"/><circle cx="190" cy="70" r="16" fill="var(--accent)"/><path d="M164 150c0-34 12-50 26-50s26 16 26 50" fill="var(--accent)"/><rect x="104" y="92" width="52" height="34" rx="6" fill="#FFC531" transform="rotate(-8 130 109)"/><path d="M118 104h24M118 112h16" stroke="#2C2208" stroke-width="3" stroke-linecap="round" transform="rotate(-8 130 109)"/><text x="130" y="30" text-anchor="middle" font-family="Anton,Impact" font-size="16" fill="var(--ink)">GESTÃO 2026 → 2027</text></svg>
+      <div class="rv" style="--i:1">
+        <h2>O sistema é da atlética, não de uma pessoa</h2>
+        <p class="lead mt">A diretoria muda todo ano. Por isso o acesso de administrador fica numa conta da atlética, e passar a gestão é trocar os papéis: o presidente novo entra, o antigo sai, e nada se perde. Código, banco de dados e conta do gateway ficam no nome da atlética, com exportação dos dados a qualquer momento.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="snap"><div class="wrap">
+    <div class="ctas rv"><button class="btn ac" type="button" data-tela="carteirinha">Testar a carteirinha</button><button class="btn g" type="button" data-tela="portaria">Testar a portaria</button></div>
+  </div></section>
+</div>
+
+<!-- /KIT:telas -->
+</main>
+
+<!-- KIT:bottomsheet-html -->
+<div class="sh-bg" id="sh-bg" data-fecha></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t" hidden><div class="grip"></div><div id="sh-c"></div></div>
+<!-- /KIT:bottomsheet-html -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- KIT:barra-html -->
+<nav class="bar" aria-label="Navegação inferior">
+  <button type="button" data-tela="inicio" data-g="inicio"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg>Início</button>
+  <button type="button" data-tela="carteirinha" data-g="atleta"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.5 1.7-2 3-2s2.4.5 3 2M14 10h4M14 13h3"/></svg>Atleta</button>
+  <button type="button" data-tela="portaria" data-g="portaria"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></svg>Portaria</button>
+  <button type="button" data-tela="painel" data-g="diretoria"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Diretoria</button>
+  <button type="button" data-tela="como" data-g="como"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg>Como é</button>
+</nav>
+<!-- /KIT:barra-html -->
+
+<!-- KIT:rodape-html -->
+<footer><div class="wrap">
+  <a class="sig" href="https://vlfcandido.github.io" target="_blank" rel="noopener" aria-label="Feito por Vinicius Candido, vlfcandido.github.io"><span class="sig-m"><svg viewBox="0 0 29 29" aria-hidden="true" id="sig-qr"></svg></span><span><small>Carteirinha do dev · nº 001</small><b>Vinicius Candido</b><em>vlfcandido.github.io</em><span class="sig-v">projeto de exemplo</span></span></a>
+  <p style="margin:0;font-size:14px">Atlética Maré Alta · dados de exemplo. Nomes, valores e números são fictícios.</p>
+  <p class="aviso-med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
+</div></footer>
+<!-- /KIT:rodape-html -->
+
+<script>
+/* KIT:js ===== tema, roteador com troca travada, sheet, animações. Sem trabalho no carregamento além de ligar ouvintes. ===== */
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const html=document.documentElement,view=$('#view');
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!REDUCED)html.classList.add('anim');
+
+/* tema */
+const darkAgora=()=>html.dataset.theme?html.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+try{const t=localStorage.getItem('tema');if(t)html.dataset.theme=t}catch(e){}
+$('#tema').addEventListener('click',()=>{const n=darkAgora()?'light':'dark';html.dataset.theme=n;try{localStorage.setItem('tema',n)}catch(e){}});
+
+/* troca travada: trava rolagem e toque até a animação acabar; volta ao topo; foco no título */
+const TROCA={on:false};
+const topo=()=>{html.style.scrollBehavior='auto';scrollTo(0,0);html.style.scrollBehavior=''};
+const focaTitulo=()=>{const t=$('.tela.on h1,.tela.on h2');if(!t)return;t.setAttribute('tabindex','-1');try{t.focus({preventScroll:true})}catch(e){}};
+const travar=()=>{TROCA.on=true;html.classList.add('trocando')},soltar=()=>{TROCA.on=false;html.classList.remove('trocando')};
+['touchmove','wheel'].forEach(ev=>addEventListener(ev,e=>{if(TROCA.on)e.preventDefault()},{passive:false}));
+document.addEventListener('click',e=>{if(TROCA.on){e.preventDefault();e.stopPropagation()}},true);
+function trocar(f){
+  if(TROCA.on)return;
+  if(REDUCED){f();topo();focaTitulo();return}
+  travar();const t=setTimeout(soltar,1200),fim=()=>{clearTimeout(t);soltar()};
+  if(document.startViewTransition){const v=document.startViewTransition(()=>{f();topo()});v.updateCallbackDone.then(focaTitulo,focaTitulo);v.finished.then(fim,fim)}
+  else{view.classList.add('sai');setTimeout(()=>{f();topo();view.classList.remove('sai');focaTitulo();setTimeout(fim,320)},140)}
+}
+
+/* roteador por hash: #id da tela */
+function mostrar(id){
+  const alvo=$(`.tela[data-tela="${id}"]`)||$('.tela');if(!alvo)return;
+  if($('#sheet.on'))fecharSheet();
+  $$('.tela').forEach(t=>t.classList.toggle('on',t===alvo));
+  $$('[data-tela]').forEach(b=>{if(!b.classList.contains('tela')){const igual=b.dataset.g?b.dataset.g===alvo.dataset.g:b.dataset.tela===alvo.dataset.tela;if(igual)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')}});
+  document.title=(alvo.dataset.titulo?alvo.dataset.titulo+' · ':'')+'Atlética Maré Alta · carteirinha e associados';
+  observa();
+  if(window.aoMostrar)window.aoMostrar(alvo.dataset.tela);
+}
+window.ir=function(id){if(location.hash==='#'+id)return;trocar(()=>{history.pushState(null,'','#'+id);mostrar(id)})};
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-tela],a[data-tela]');if(!b)return;e.preventDefault();if(window.antesDeIr)window.antesDeIr(b);ir(b.dataset.tela)});
+addEventListener('popstate',()=>trocar(()=>mostrar(location.hash.slice(1))));
+
+/* bottom sheet */
+let sheetFoco=null;
+window.abrirSheet=function(conteudoHtml){const s=$('#sheet');$('#sh-c').innerHTML=conteudoHtml;sheetFoco=document.activeElement;s.hidden=false;html.classList.add('folha');requestAnimationFrame(()=>{s.classList.add('on');$('#sh-bg').classList.add('on');const h=$('#sh-c h3,#sh-c h2');if(h){h.id='sh-t';h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}})};
+window.fecharSheet=function(){const s=$('#sheet');s.classList.remove('on');$('#sh-bg').classList.remove('on');html.classList.remove('folha');setTimeout(()=>{s.hidden=true},REDUCED?0:280);if(sheetFoco&&sheetFoco.focus)sheetFoco.focus()};
+document.addEventListener('click',e=>{if(e.target.closest('[data-fecha]'))fecharSheet()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#sheet.on'))fecharSheet()});
+
+/* toast */
+window.toast=function(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)};
+
+/* animações: entrada ao rolar (.rv), números contando ([data-conta]), barras (.barra-g dentro de .rv) */
+function conta(el){const alvo=parseFloat(el.dataset.conta),dec=+(el.dataset.dec||0),pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+  const fmt=v=>pre+v.toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+  if(REDUCED){el.textContent=fmt(alvo);return}
+  const t0=performance.now(),dur=900;(function passo(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=fmt(alvo*e);if(p<1)requestAnimationFrame(passo)})(t0)}
+let io=null;
+function observa(){
+  const els=$$('.tela.on .rv:not(.in),.tela.on [data-conta]:not([data-ok]),.tela.on .barra-g:not(.in)');
+  if(!('IntersectionObserver' in window)||REDUCED){els.forEach(el=>{el.classList.add('in');if(el.dataset.conta){el.dataset.ok=1;conta(el)}});return}
+  io=io||new IntersectionObserver(es=>es.forEach(x=>{if(!x.isIntersecting)return;const el=x.target;el.classList.add('in');if(el.dataset.conta&&!el.dataset.ok){el.dataset.ok=1;conta(el)}if(window.aoEntrar)window.aoEntrar(el);io.unobserve(el)}),{threshold:.2});
+  els.forEach(el=>io.observe(el));
+}
+window.observa=observa;
+/* microanimação de sucesso: sucessoHtml() devolve o selo para colocar numa tela de confirmação */
+window.sucessoHtml=()=>'<div class="sucesso" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>';
+
+/* partida: só liga o que já existe na página */
+addEventListener('DOMContentLoaded',()=>mostrar(location.hash.slice(1)||$('.tela').dataset.tela));
+if(document.readyState!=='loading')mostrar(location.hash.slice(1)||$('.tela').dataset.tela);
+})();
+/* /KIT:js */
+</script>
+<script>
+/* PROJETO: comportamento próprio da Atlética Maré Alta. Só liga ouvintes e desenha quando a tela aparece. */
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- datas: tudo derivado de hoje (nenhuma data fixa no exemplo) ---------- */
+const doisD=n=>String(n).padStart(2,'0');
+let _hoje=null;
+function hoje(){if(!_hoje){_hoje=new Date();_hoje.setHours(12,0,0,0)}return _hoje}
+function dia(off,anos){const d=new Date(hoje());d.setDate(d.getDate()+off);if(anos)d.setFullYear(d.getFullYear()+anos);return d}
+function fmtD(d,f){const c=`${doisD(d.getDate())}/${doisD(d.getMonth()+1)}`;return f==='c'?c:f==='d'?String(d.getDate()):`${c}/${d.getFullYear()}`}
+const dt=(off,f,anos)=>fmtD(dia(off,anos),f);
+function hm(min){const d=new Date(Date.now()+min*60000);return `${doisD(d.getHours())}:${doisD(d.getMinutes())}`}
+const MES_N=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const mesRel=k=>new Date(hoje().getFullYear(),hoje().getMonth()+k,1).getMonth();
+let datasOk=false;
+function preencheDatas(){if(datasOk)return;datasOk=true;
+  $$('[data-dt]').forEach(e=>e.textContent=dt(+e.dataset.dt,e.dataset.f||'l',+(e.dataset.ano||0)));
+  $$('[data-mes]').forEach(e=>{const k=+e.dataset.mes;e.textContent=MES_N[mesRel(k)].slice(0,3)+(k===0?'*':'')});
+  $$('[data-mes-nome]').forEach(e=>e.textContent=MES_N[mesRel(+e.dataset.mesNome)]);
+  const g=$('#graf-rec');if(g)g.setAttribute('aria-label','Receita dos últimos seis meses: '+$$('.c',g).map(c=>`${MES_N[mesRel(+$('small',c).dataset.mes)]} ${$('em',c).textContent.replace('k',' mil')}`).join(', ')+', o mês atual até hoje');
+  const an=$('input[data-anual]');if(an)an.dataset.ate=dt(5,'l',1);$$('[data-anual-ate]').forEach(e=>e.textContent=dt(5,'l',1));
+  ASSOC.forEach(a=>{if(a.o!==undefined)a.v=dt(a.o)});
+  HIST[HIST.length-4].d=`${dt(5,'l',-1)} · Pix`;
+  iniciaEstado()}
+
+/* ---------- avatares ilustrados (dados de exemplo) ---------- */
+const PELE=['#C68A62','#8D5A3B','#F1C7A5','#E0A57E','#5E3B26','#D9A07A','#B07450','#F3D1B5'];
+const CABELO=['#2A1A12','#120C08','#7A4A22','#3B2416','#0D0907','#B8732E','#1E140E','#5A3A20'];
+const FUNDO=['#DCE9E0','#FDE3D6','#FFEDC7','#E3E0F5','#D9F2E1','#F5DCE6','#DDEBF3','#EFE8D8'];
+function avatar(i){i=i%8;const longo=i%2===1;
+  return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="${FUNDO[i]}"/>${longo?`<path d="M14 40c0-20 6-30 18-30s18 10 18 30v14H14z" fill="${CABELO[i]}"/>`:''}<path d="M10 64c2-12 10-18 22-18s20 6 22 18z" fill="${['#0E3B2C','#E8541C','#1C6A4B','#E8541C'][i%4]}"/><rect x="27" y="38" width="10" height="10" rx="3" fill="${PELE[i]}"/><ellipse cx="32" cy="30" rx="12" ry="13" fill="${PELE[i]}"/>${longo?`<path d="M19 28c0-10 6-15 13-15s13 5 13 15c-4-5-9-7-13-7s-9 2-13 7z" fill="${CABELO[i]}"/>`:`<path d="M20 26c0-8 5-12 12-12s12 4 12 12c-3-3-7-5-12-5s-9 2-12 5z" fill="${CABELO[i]}"/>`}<circle cx="27.5" cy="31" r="1.5" fill="#1a120c"/><circle cx="36.5" cy="31" r="1.5" fill="#1a120c"/><path d="M28.5 36.5q3.5 2.6 7 0" stroke="#7a3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>`}
+function pinta(r=document){$$('[data-av]',r).forEach(el=>{if(!el.dataset.pin){el.innerHTML=avatar(+el.dataset.av);el.dataset.pin=1}})}
+
+/* ---------- QR ilustrativo determinístico (módulos a partir de uma semente) ---------- */
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function qrConteudo(seed,cor='#0E3B2C'){const n=25,r=rng(seed);let d='';
+  const reservado=(x,y)=>(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9)||(x>9&&x<15&&y>9&&y<15);
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){if(reservado(x,y))continue;if(r()>.52)d+=`M${x+2} ${y+2}h1v1h-1z`}
+  const f=(x,y)=>`<rect x="${x+2.5}" y="${y+2.5}" width="6" height="6" rx="1.2" fill="none" stroke="${cor}" stroke-width="1"/><rect x="${x+4}" y="${y+4}" width="3" height="3" rx=".6" fill="${cor}"/>`;
+  return `<rect width="29" height="29" fill="#fff"/><path d="${d}" fill="${cor}"/>${f(0,0)}${f(n-7,0)}${f(0,n-7)}<rect x="12" y="12" width="5" height="5" rx="1.2" fill="#E8541C"/>`}
+function desenhaQR(el,seed){const s=el.querySelector('svg');if(!s)return;s.innerHTML=qrConteudo(seed);el.classList.remove('troca');void el.offsetWidth;el.classList.add('troca')}
+
+/* ---------- relógio da carteirinha: só roda com a carteirinha na tela ---------- */
+let tick=null,ultimaJanela=-1;
+function passo(){const d=new Date(),seg=d.getSeconds(),jan=Math.floor(d.getTime()/30000),resta=30-(seg%30);
+  $$('.tela.on [data-relogio]').forEach(e=>e.textContent=`${doisD(d.getDate())}/${doisD(d.getMonth()+1)} · ${doisD(d.getHours())}:${doisD(d.getMinutes())}:${doisD(seg)}`);
+  $$('.tela.on [data-cont]').forEach(e=>e.textContent=resta);
+  $$('.tela.on [data-anel]').forEach(e=>e.style.strokeDashoffset=(301.6*(1-resta/30)).toFixed(1));
+  if(jan!==ultimaJanela){ultimaJanela=jan;$$('.tela.on [data-qr="hero"],.tela.on [data-qr="lucas"]').forEach((q,k)=>desenhaQR(q,jan*7+k*991+(SIT==='vencida'?5:0)))}
+  const c=$('[data-relogio-c]');if(c)c.textContent=`${doisD(d.getHours())}:${doisD(d.getMinutes())}`}
+function ligaRelogio(){ultimaJanela=-1;if(!tick){tick=setInterval(passo,1000)}passo()}
+function desligaRelogio(){clearInterval(tick);tick=null}
+
+/* ---------- dados de exemplo ---------- */
+const ASSOC=[
+ {n:'Lucas Almeida',c:'Engenharia Civil',p:'Anual',o:5,v:'',s:'warn',st:'Vence em 5 dias',a:0,cpf:'187',val:130},
+ {n:'Marina Couto',c:'Medicina Veterinária',p:'Semestral 2026.2',v:'28/02/2027',s:'ok',st:'Em dia',a:1,cpf:'214',val:75},
+ {n:'Rafael Nunes',c:'Direito',p:'Anual',o:-16,v:'',s:'bad',st:'Atrasado 16 dias',a:2,cpf:'051',val:130},
+ {n:'Bia Tavares',c:'Psicologia',p:'Calouro 2026.2',v:'28/02/2027',s:'ok',st:'Em dia',a:3,cpf:'902',val:60},
+ {n:'João Pedro Lima',c:'Educação Física',p:'Anual',v:'14/03/2027',s:'ok',st:'Em dia',a:4,cpf:'338',val:130},
+ {n:'Camila Rocha',c:'Odontologia',p:'Semestral 2026.2',o:3,v:'',s:'warn',st:'Vence em 3 dias',a:5,cpf:'477',val:75},
+ {n:'Thiago Mendes',c:'Engenharia de Software',p:'Semestral 2026.1',o:-46,v:'',s:'bad',st:'Atrasado 46 dias',a:6,cpf:'620',val:75},
+ {n:'Ana Luísa Prado',c:'Arquitetura',p:'Anual',v:'02/08/2027',s:'ok',st:'Em dia',a:7,cpf:'119',val:130},
+ {n:'Gabriel Souza',c:'Administração',p:'Calouro 2026.2',v:'28/02/2027',s:'ok',st:'Em dia',a:2,cpf:'745',val:60},
+ {n:'Larissa Melo',pix:2,c:'Nutrição',p:'Semestral 2026.2',o:6,v:'',s:'warn',st:'Vence em 6 dias',a:3,cpf:'560',val:75},
+ {n:'Pedro Henrique Dias',c:'Engenharia Mecânica',p:'Anual',v:'09/05/2027',s:'ok',st:'Em dia',a:0,cpf:'283',val:130},
+ {n:'Isabela Freitas',c:'Farmácia',p:'Semestral 2026.1',o:-31,v:'',s:'bad',st:'Atrasado 31 dias',a:5,cpf:'394',val:75},
+ {n:'Diego Martins',c:'Agronomia',p:'Anual',v:'27/01/2027',s:'ok',st:'Em dia',a:6,cpf:'806',val:130},
+ {n:'Sofia Ribeiro',c:'Medicina',p:'Semestral 2026.2',v:'28/02/2027',s:'ok',st:'Em dia',a:7,cpf:'431',val:75}
+];
+const HIST=[
+ {t:'Anual 2025/26',d:'',v:'R$ 130,00',s:'ok',st:'Pago'},
+ {t:'Semestral 2025.1',d:'03/03/2025 · Cartão em 2x',v:'R$ 75,00',s:'ok',st:'Pago'},
+ {t:'Calouro 2024.2',d:'14/08/2024 · Pix',v:'R$ 60,00',s:'ok',st:'Pago'},
+ {t:'Calouro 2024.2',d:'14/08/2024 · Cartão',v:'R$ 60,00',s:'bad',st:'Recusado pelo banco'}
+];
+const PLANOS=[
+ {t:'Calouro',pr:60,per:'semestral',ben:['Só no 1º semestre do curso','Desconto nas festas e nos jogos','Kit calouro na retirada'],at:96},
+ {t:'Semestral',pr:75,per:'por semestre',ben:['Desconto nas festas e nos jogos','Prioridade na venda de ingressos','Carteirinha com QR dinâmico'],at:118},
+ {t:'Anual',pr:130,per:'por ano',ben:['Tudo do semestral','Sai R$ 10,83 por mês','Desconto nos produtos da atlética'],at:98,dest:1}
+];
+const ic={pix:'<svg class="ico" viewBox="0 0 24 24"><path d="M12 3l9 9-9 9-9-9z"/><path d="M8 12l4 4 4-4-4-4z"/></svg>',card:'<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>',x:'<svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>'};
+
+/* ---------- carteirinha do Lucas: estados ---------- */
+let SIT='aviso',ESTADO={};
+function iniciaEstado(){ESTADO={plano:'Anual 2025/26',valida:dt(5),periodo:`${dt(5,'l',-1)} a ${dt(5)}`,ult:`R$ 130,00 · Pix · ${dt(5,'l',-1)}`,pago:false}}
+/* o simulador mostra um exemplo coerente de cada situação sem mexer no que já foi pago */
+function dadosSit(s){
+  if(s==='ok')return ESTADO.pago?ESTADO:{plano:'Anual 2026/27',valida:dt(5,'l',1),periodo:`${dt(5)} a ${dt(5,'l',1)}`,ult:`R$ 130,00 · Pix · ${dt(0)}`};
+  if(s==='vencida')return {plano:'Anual 2025/26',valida:dt(-1),periodo:`${dt(-1,'l',-1)} a ${dt(-1)}`,ult:`R$ 130,00 · Pix · ${dt(-1,'l',-1)}`};
+  return {plano:'Anual 2025/26',valida:dt(5),periodo:`${dt(5,'l',-1)} a ${dt(5)}`,ult:`R$ 130,00 · Pix · ${dt(5,'l',-1)}`}}
+function aplicaSit(s,animar){SIT=s;const c=$('#cart-lucas');if(!c)return;preencheDatas();const D=dadosSit(s);
+  c.classList.remove('aviso','vencida');if(s!=='ok')c.classList.add(s);
+  const txt={ok:'Em dia',aviso:'Vence em 5 dias',vencida:'Vencida'}[s];
+  $('[data-sit]',c).textContent=txt;
+  const stEl=$('[data-st]');stEl.className='st '+({ok:'ok',aviso:'warn',vencida:'bad'}[s]);stEl.textContent=s==='vencida'?'Venceu em '+D.valida:txt;
+  const pz=$('#prazo');pz.className='prazo '+({ok:'ok',aviso:'',vencida:'bad'}[s]);
+  if(s==='ok'){$('[data-dias]').textContent=D.valida.slice(0,5);$('[data-prazo-t]').textContent='válida até '+D.valida;$('[data-prazo-s]').textContent='Tudo certo. A gente avisa antes de vencer.';$('#btn-renovar').textContent='Ver meus pagamentos';$('#btn-renovar').dataset.tela='historico'}
+  else if(s==='vencida'){$('[data-dias]').textContent='0';$('[data-prazo-t]').textContent='carteirinha vencida';$('[data-prazo-s]').textContent='Na portaria aparece vermelho desde o dia seguinte ao vencimento. Renove pelo Pix e ela volta a valer na hora.';$('#btn-renovar').textContent='Renovar agora pelo Pix';$('#btn-renovar').dataset.tela='renovar'}
+  else{$('[data-dias]').textContent='5';$('[data-prazo-t]').textContent='dias para vencer';$('[data-prazo-s]').textContent=`Renove até ${dt(5,'c')} para continuar com desconto nas festas e nos jogos. Quem renova antes não perde os dias que faltam.`;$('#btn-renovar').textContent='Renovar agora pelo Pix';$('#btn-renovar').dataset.tela='renovar'}
+  $$('[data-plano]').forEach(e=>e.textContent=D.plano);$$('[data-valida]').forEach(e=>e.textContent=D.valida);$('[data-periodo]').textContent=D.periodo;$('[data-ult-pag]').textContent=D.ult;
+  $$('[data-sit-demo]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sitDemo===s));
+  if(animar&&!REDUCED){c.classList.remove('vira');void c.offsetWidth;c.classList.add('vira')}
+  ultimaJanela=-1;passo()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sit-demo]');if(b)aplicaSit(b.dataset.sitDemo,true)});
+
+/* ---------- histórico ---------- */
+function desenhaHist(novo){const h=$('#hist');if(!h)return;
+  h.innerHTML=HIST.map((x,i)=>`<div class="hist-i${novo&&i===0?' novo':''}"><span class="ic">${x.d.includes('Pix')?ic.pix:x.s==='bad'?ic.x:ic.card}</span><div><b>${x.t}</b><small>${x.d}</small></div><div class="v">${x.v}<br><span class="st ${x.s}">${x.st}</span></div></div>`).join('')}
+
+/* ---------- renovar ---------- */
+const plSel=()=>$('input[name="pl"]:checked');
+document.addEventListener('change',e=>{if(e.target.name==='pl'){const v=+e.target.dataset.v;$('[data-valor]').textContent=v.toFixed(2).replace('.',',');desenhaQR($('[data-qr="pix"]'),v*13)}});
+document.addEventListener('click',e=>{const t=e.target.closest('[data-tab]');if(!t)return;$$('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b===t));$$('[data-painel]').forEach(p=>p.hidden=p.dataset.painel!==t.dataset.tab)});
+let expira=null;
+function ligaExpira(){clearInterval(expira);let s=600;expira=setInterval(()=>{s--;const el=$('[data-expira]');if(el)el.textContent=`${doisD(Math.floor(s/60))}:${doisD(s%60)}`;if(s<=0)clearInterval(expira)},1000)}
+function hora(off){const d=new Date(Date.now()+off*1000);return `${doisD(d.getHours())}:${doisD(d.getMinutes())}:${doisD(d.getSeconds())}`}
+let pagando=false;
+function pagar(metodo){if(pagando)return;pagando=true;preencheDatas();const p=plSel(),v=p.dataset.v,nome=p.dataset.nome,anual=!!p.dataset.anual;
+  /* renovar antes não perde dias: o anual soma a partir do vencimento atual (ou de hoje, se já venceu) */
+  const base=SIT==='vencida'?0:5,ate=anual?dt(base,'l',1):p.dataset.ate,inicio=anual?dt(base):dt(0);
+  const passos=[
+    [metodo==='pix'?`Pix de R$ ${v},00 recebido`:`Cartão aprovado · R$ ${v},00`,'no gateway de pagamento'],
+    ['Pagamento confirmado sozinho','o gateway avisou o sistema (webhook com assinatura conferida)'],
+    [`Validade atualizada: ${ate}`,anual&&base?`plano ${nome} · os 5 dias que faltavam não se perdem`:`plano ${nome}`],
+    ['Lembretes reagendados','o próximo aviso sai 7 dias antes do novo vencimento'],
+    ['Carteirinha em dia','na portaria já aparece verde']];
+  const fl=$('#fluxo');fl.hidden=false;
+  fl.innerHTML=passos.map((x,i)=>`<li><span class="b"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span><div><b>${x[0]}</b><small>${x[1]}</small></div><time>${hora(i)}</time></li>`).join('');
+  $$('[data-painel]').forEach(pn=>pn.hidden=true);$('#pag-card .tabs').hidden=true;
+  const lis=$$('li',fl),gap=REDUCED?0:520;
+  lis.forEach((li,i)=>setTimeout(()=>li.classList.add('feito'),gap*(i+1)));
+  setTimeout(()=>{
+    ESTADO={plano:nome,valida:ate,periodo:`${inicio} a ${ate}`,ult:`R$ ${v},00 · ${metodo==='pix'?'Pix':'Cartão'} · ${dt(0)}`,pago:true};
+    HIST.unshift({t:nome,d:`${dt(0)} · ${metodo==='pix'?'Pix':'Cartão'}`,v:`R$ ${v},00`,s:'ok',st:'Pago',novo:1});
+    aplicaSit('ok',false);desenhaHist(true);
+    const pos=$('#pos-pag');pos.hidden=false;
+    pos.innerHTML=`<svg class="pincas bate" viewBox="0 0 120 70" aria-hidden="true"><g class="pl"><path d="M40 50L22 20c-6-2-12 4-10 10 2 5 8 6 12 3l-4-8 6 6z" fill="#E8541C"/></g><g class="pr2"><path d="M80 50l18-30c6-2 12 4 10 10-2 5-8 6-12 3l4-8-6 6z" fill="#E8541C"/></g><ellipse cx="60" cy="54" rx="22" ry="12" fill="#E8541C"/><circle cx="53" cy="46" r="2.6" fill="#11231B"/><circle cx="67" cy="46" r="2.6" fill="#11231B"/><path d="M54 57q6 4 12 0" stroke="#11231B" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
+      <div class="mini-cart" id="mini"><div class="foto" data-av="0"></div><div><b>Lucas Almeida</b><br><small data-mini>${SIT==='vencida'?'Estava vencida':'Vencia em 5 dias'}</small></div><span class="st" style="margin-left:auto;background:rgba(255,255,255,.18);color:#fff" data-mini-st>Renovando…</span></div>
+      <p class="small muted mt">Nenhuma pessoa da diretoria precisou conferir comprovante. O e-mail de confirmação já saiu.</p>
+      <div class="ctas" style="margin-top:12px"><button class="btn ac" type="button" data-tela="carteirinha">Ver minha carteirinha</button><button class="btn g" type="button" data-tela="historico">Ver pagamentos</button><button class="btn g" type="button" id="refazer">Testar de novo</button></div>`;
+    pinta(pos);
+    if(innerWidth<900)pos.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});
+    setTimeout(()=>{const m=$('#mini');if(!m)return;m.classList.add('ok','vira');$('[data-mini]').textContent='Válida até '+ate;$('[data-mini-st]').textContent='Em dia';try{navigator.vibrate&&navigator.vibrate(40)}catch(e){}},REDUCED?0:450);
+    toast('Pagamento confirmado. Carteirinha em dia até '+ate);
+  },gap*(passos.length+1));
+}
+function resetaPag(){pagando=false;$('#fluxo').hidden=true;$('#fluxo').innerHTML='';$('#pos-pag').hidden=true;$('#pag-card .tabs').hidden=false;$$('[data-tab]').forEach((b,i)=>b.setAttribute('aria-selected',i===0));$$('[data-painel]').forEach(p=>p.hidden=p.dataset.painel!=='pix');
+  iniciaEstado();while(HIST[0]&&HIST[0].novo)HIST.shift();aplicaSit('aviso',false);desenhaHist(false);desenhaQR($('[data-qr="pix"]'),+plSel().dataset.v*13);ligaExpira()}
+document.addEventListener('click',e=>{if(e.target.closest('#simular-pix'))pagar('pix');else if(e.target.closest('#simular-cartao'))pagar('cartao');else if(e.target.closest('#refazer'))resetaPag();else if(e.target.closest('#copiar')){try{navigator.clipboard&&navigator.clipboard.writeText('pix-ficticio-exemplo-marealta')}catch(err){}toast('Código Pix copiado (fictício)')}});
+
+/* ---------- portaria ---------- */
+function sims(){return [
+ {k:'ok',a:1,n:'Marina Couto',sub:'Semestral · válida até 28/02/2027',cor:'var(--ok)'},
+ {k:'warn',a:5,n:'Camila Rocha',sub:'vence em 3 dias',cor:'var(--warn)'},
+ {k:'bad',a:2,n:'Rafael Nunes',sub:`venceu em ${dt(-16,'c')}`,cor:'var(--bad)'},
+ {k:'print',a:1,n:'Print da carteirinha da Marina',sub:`QR gerado às ${hm(-137)}`,cor:'var(--bad)'},
+ {k:'dup',a:4,n:'João Pedro Lima',sub:'mesmo QR, segunda leitura',cor:'var(--warn)'}
+]}
+const NUM={ent:184,bar:3,ren:11};
+function contaPort(){$('[data-n-ent]').textContent=NUM.ent;$('[data-n-bar]').textContent=NUM.bar;$('[data-n-ren]').textContent=NUM.ren}
+let ctxA=null;
+function bip(ok){try{ctxA=ctxA||new (window.AudioContext||window.webkitAudioContext)();const o=ctxA.createOscillator(),g=ctxA.createGain();o.type='sine';o.frequency.value=ok?880:220;g.gain.setValueAtTime(.0001,ctxA.currentTime);g.gain.exponentialRampToValueAtTime(.15,ctxA.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,ctxA.currentTime+(ok?.18:.45));o.connect(g).connect(ctxA.destination);o.start();o.stop(ctxA.currentTime+.5)}catch(e){}try{navigator.vibrate&&navigator.vibrate(ok?60:[120,60,120])}catch(e){}}
+const OK_I='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',X_I='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',A_I='<svg viewBox="0 0 24 24"><path d="M12 7v6M12 17h.01"/></svg>';
+let renovPend=null;
+const PRINT_I='<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#E9E4D6"/><rect x="18" y="8" width="28" height="48" rx="5" fill="#fff" stroke="#11231B" stroke-width="2.5"/><rect x="24" y="18" width="16" height="16" fill="#11231B"/><path d="M14 46l10-6M50 46l-10-6" stroke="#C8321E" stroke-width="3" stroke-linecap="round"/></svg>';
+function ler(k){const r=$('#res');if(!r)return;preencheDatas();const s=k==='lucas'?{k,a:0,n:'Lucas Almeida'}:sims().find(x=>x.k===k);if(!s)return;const off=$('#offline')&&$('#offline').checked;const tagOff=off?'<p style="font-size:12px;opacity:.8">validado offline pela assinatura do QR</p>':'';
+  /* a carteirinha do Lucas vem do simulador da área do atleta, com a situação escolhida lá */
+  if(k==='lucas')k={ok:'lucas-ok',aviso:'lucas-aviso',vencida:'lucas-venc'}[SIT];
+  const D=dadosSit(SIT),foto=`<div class="foto">${avatar(s.a)}</div>`,renova=`<div class="renova"><svg viewBox="0 0 29 29">${qrConteudo(4242)}</svg><span><b>Renovar aqui na fila</b><br>Ele paga o Pix no celular e a tela fica verde.</span></div><button class="fechar" type="button" id="renovou">Simular: ele pagou o Pix</button>`;
+  let h='';
+  if(k==='ok'||k==='lucas-ok'){h=`<div class="big">${OK_I}</div><h3>Pode entrar</h3>${foto}<p><b>${s.n}</b><br>Em dia · válida até ${k==='ok'?'28/02/2027':D.valida}</p>${tagOff}`;r.className='res ok on';NUM.ent++;bip(true)}
+  else if(k==='warn'||k==='lucas-aviso'){const n=k==='warn'?3:5;h=`<div class="big">${OK_I}</div><h3>Pode entrar</h3>${foto}<p><b>${s.n}</b><br>Vence em ${n} dias (${dt(n,'c')}). Avise que o lembrete já foi.</p>${tagOff}`;r.className='res warn on';NUM.ent++;bip(true)}
+  else if(k==='bad'||k==='lucas-venc'){h=`<div class="big">${X_I}</div><h3>Vencida</h3>${foto}<p><b>${s.n}</b><br>Venceu em ${k==='bad'?dt(-16):D.valida}</p>${renova}`;r.className='res bad on';NUM.bar++;renovPend=s;bip(false)}
+  else if(k==='print'){h=`<div class="big">${X_I}</div><h3>QR expirado</h3><p><b>Esse código foi gerado às ${hm(-137)}</b><br>e vale só 30 segundos. Provavelmente é print.</p><p style="font-size:13px">Peça para a pessoa abrir a carteirinha no app. Se for a Marina, o QR novo passa.</p>`;r.className='res bad on';NUM.bar++;bip(false)}
+  else if(k==='dup'){h=`<div class="big">${A_I}</div><h3>Já entrou</h3>${foto}<p><b>${s.n}</b><br>Entrada registrada às ${hm(-29)}. Confira o rosto antes de liberar.</p>`;r.className='res warn on';bip(false)}
+  h+=(k==='bad'||k==='lucas-venc')?'':`<button class="fechar" type="button" id="prox">Próximo da fila</button>`;
+  r.innerHTML=h;contaPort();
+  if(off){NUM.sync=(NUM.sync||3)+1;const m=$('#off-msg');if(m)m.innerHTML=`<span class="st warn">Offline · ${NUM.sync} entradas aguardando sincronizar</span>`}}
+const verCel=()=>{const c=$('.cel');if(c&&innerWidth<960)c.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:innerWidth<600?'start':'center'})};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ler]');if(b){ler(b.dataset.ler);verCel()}
+  if(e.target.closest('#prox')){$('#res').className='res'}
+  if(e.target.closest('#renovou')&&renovPend){const r=$('#res');NUM.ren++;NUM.ent++;NUM.bar=Math.max(0,NUM.bar-1);r.className='res ok on';r.innerHTML=`<div class="big">${OK_I}</div><h3>Renovou. Pode entrar</h3><div class="foto">${avatar(renovPend.a)}</div><p><b>${renovPend.n}</b><br>Pix confirmado agora · válida até ${dt(0,'l',1)}</p><button class="fechar" type="button" id="prox">Próximo da fila</button>`;contaPort();bip(true);renovPend=null}});
+function desenhaSims(){const el=$('#sims');if(!el||el.dataset.ok)return;el.dataset.ok=1;const L=sims();
+  el.innerHTML=L.map(s=>`<button class="sim lift" type="button" data-ler="${s.k}"><span class="foto">${s.k==='print'?PRINT_I:avatar(s.a)}</span><span><b>${s.n}</b><small>${s.sub}</small></span><span class="dot" style="background:${s.cor}"></span></button>`).join('');
+  /* no celular a fila vira chips logo abaixo do visor: toca e vê o resultado sem rolar */
+  const fc=$('#fila-chips');if(fc)fc.innerHTML=L.map(s=>`<button type="button" data-ler="${s.k}" aria-label="${s.n}, ${s.sub}"><span class="foto">${s.k==='print'?PRINT_I:avatar(s.a)}</span>${s.k==='print'?'Print':s.n.split(' ')[0]}<span class="dot" style="background:${s.cor}"></span></button>`).join('')}
+document.addEventListener('input',e=>{if(e.target.id==='busca-port'){const q=e.target.value.trim().toLowerCase();const out=$('#res-busca');if(!q){out.innerHTML='';return}
+  const r=ASSOC.filter(a=>a.n.toLowerCase().includes(q)||a.cpf.includes(q)).slice(0,4);
+  out.innerHTML=r.length?r.map(a=>`<button type="button" data-busca-l="${a.s}" data-n="${a.n}"><span class="foto">${avatar(a.a)}</span><span><b>${a.n}</b><br><small class="muted">CPF ***.***.${a.cpf}-** · ${a.c}</small></span><span class="st ${a.s}">${a.s==='ok'?'Em dia':a.s==='warn'?'Vence logo':'Vencida'}</span></button>`).join(''):'<p class="small muted">Ninguém encontrado. Confira o nome ou peça um documento.</p>'}
+  if(e.target.id==='busca-assoc')filtra()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-busca-l]');if(!b)return;const s=b.dataset.buscaL;toast(s==='bad'?`${b.dataset.n}: vencida. Mostre o Pix de renovação.`:`${b.dataset.n}: pode entrar. Entrada registrada pela busca.`);if(s!=='bad'){NUM.ent++;contaPort()}});
+document.addEventListener('change',e=>{if(e.target.id==='offline'){const off=e.target.checked;const r=$('#rede');r.classList.toggle('off',off);$('span',r).textContent=off?'sem rede':'online';$('#off-msg').hidden=!off;if(!off){toast(`${NUM.sync||3} entradas sincronizadas com o servidor`);NUM.sync=0}}});
+
+/* ---------- diretoria: painel ---------- */
+function desenhaPainel(){const v=$('#vencem');if(v&&!v.dataset.ok){v.dataset.ok=1;
+  v.innerHTML=ASSOC.filter(a=>a.s==='warn').sort((a,b)=>a.o-b.o).map(a=>`<div class="li"><span class="foto">${avatar(a.a)}</span><div><b>${a.n}</b><small>${a.p} · vence ${a.v.slice(0,5)}</small></div><button class="btn g sm" type="button" data-lembrar="${a.n}">Lembrar</button></div>`).join('')}
+  const f=$('#feed');if(f&&!f.dataset.ok){f.dataset.ok=1;
+  f.innerHTML=[['Ana Luísa Prado','Anual · Pix','R$ 130,00','há 25 min'],['Bia Tavares','Calouro · Cartão','R$ 60,00','há 2 h'],['Diego Martins','Anual · Pix','R$ 130,00','ontem 22:15'],['Sofia Ribeiro','Semestral · Pix','R$ 75,00','ontem 19:30']].map(x=>`<div class="li"><span class="ic"><svg class="ico" viewBox="0 0 24 24"><use href="#i-check"/></svg></span><div><b>${x[0]} · ${x[2]}</b><small>${x[1]} · ${x[3]}</small></div></div>`).join('')}
+  $$('.donut .seg-d').forEach(c=>{const C=2*Math.PI*46,tot=312,len=C*(+c.dataset.arco/tot),ini=C*(+(c.dataset.ini||0)/tot);c.style.strokeDashoffset=-ini;c.style.strokeDasharray=REDUCED?`${len} ${C}`:`0 ${C}`;if(!REDUCED)requestAnimationFrame(()=>requestAnimationFrame(()=>{c.style.strokeDasharray=`${len} ${C}`}))})}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-lembrar]');if(b){b.textContent='Enviado ✓';b.disabled=true;toast(`Lembrete enviado para ${b.dataset.lembrar} por WhatsApp e e-mail`)}
+  if(e.target.closest('#lembrar-todos')){const t=e.target.closest('#lembrar-todos');t.textContent='Lembrete enviado para 34 ✓';t.disabled=true;toast('34 lembretes na fila de envio')}
+  const tt=e.target.closest('[data-toast]');if(tt)toast(tt.dataset.toast)});
+
+/* ---------- diretoria: associados ---------- */
+let FILTRO='todos';
+function linhas(){const tb=$('#tb-assoc');if(!tb)return;tb.innerHTML=ASSOC.map((a,i)=>`<tr class="lin" data-i="${i}" data-s="${a.s}" tabindex="0"><td class="pes-c"><span class="pes"><span class="foto">${avatar(a.a)}</span><span><b>${a.n}</b><small>${a.c}</small></span></span></td><td class="pl-c">${a.p}</td><td class="val-c">${a.v}</td><td class="st-c"><span class="st ${a.s}">${a.st}</span></td><td class="ac-c"><svg class="ico" viewBox="0 0 24 24" style="color:var(--muted)"><path d="M9 6l6 6-6 6"/></svg></td></tr>`).join('');filtra()}
+function filtra(){const q=($('#busca-assoc')||{}).value?.trim().toLowerCase()||'';let n=0;
+  $$('#tb-assoc tr').forEach(tr=>{const a=ASSOC[+tr.dataset.i];const ok=(FILTRO==='todos'||a.s===FILTRO)&&(!q||a.n.toLowerCase().includes(q)||a.c.toLowerCase().includes(q));tr.hidden=!ok;if(ok)n++});
+  $('#vazio').style.display=n?'none':'block';
+  const tot={todos:312,ok:251,warn:34,bad:27}[FILTRO];$('#mostrando').textContent=`Mostrando ${n} de ${tot} associados (amostra). Toque num nome para abrir a ficha.`}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(b){FILTRO=b.dataset.f;$$('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));filtra()}
+  const tr=e.target.closest('tr.lin');if(tr)ficha(+tr.dataset.i)});
+document.addEventListener('keydown',e=>{const tr=e.target.closest&&e.target.closest('tr.lin');if(tr&&(e.key==='Enter'||e.key===' ')){e.preventDefault();ficha(+tr.dataset.i)}});
+window.antesDeIr=function(b){if(b.dataset.filtro){const m={atrasado:'bad'};FILTRO=m[b.dataset.filtro]||'todos';setTimeout(()=>{$$('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.f===FILTRO));filtra()},0)}
+  if(b.dataset.sim)setTimeout(()=>{ler(b.dataset.sim);verCel()},700)};
+function ficha(i){const a=ASSOC[i];
+  abrirSheet(`<div class="ficha-top"><span class="foto">${avatar(a.a)}</span><div><h3>${a.n}</h3><span class="small muted">${a.c}</span><br><span class="st ${a.s}" style="margin-top:6px">${a.st}</span></div></div>
+  <div class="linha-i"><span>Plano</span><b>${a.p} · R$ ${a.val},00</b></div>
+  <div class="linha-i"><span>Válida até</span><b>${a.v}</b></div>
+  <div class="linha-i"><span>CPF</span><b class="cpf">***.***.${a.cpf}-**</b></div>
+  <div class="linha-i"><span>WhatsApp</span><b class="cpf">(**) 9****-**${a.cpf.slice(1)}</b></div>
+  ${a.pix?`<div class="linha-i"><span>Pagamento</span><b style="color:var(--warn)">Pix gerado há ${a.pix} dias, não pago</b></div>`:''}
+  <div class="linha-i"><span>Último lembrete</span><b>${a.s==='ok'?'nenhum pendente':(new Date().getHours()>=9?'hoje, 09:00':'ontem, 09:00')}</b></div>
+  <div class="acoes"><button class="btn ac sm" type="button" data-lembrar="${a.n}">Enviar lembrete</button><button class="btn g sm" type="button" id="baixa" data-n="${a.n}">Dar baixa manual</button><button class="btn g sm" type="button" data-toast="Edição de cadastro (ilustrativo).">Editar</button><button class="btn g sm" type="button" data-fecha>Fechar</button></div>
+  <p class="lgpd"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>CPF e telefone completos só para o papel financeiro, com registro de quem abriu.</p>`)}
+document.addEventListener('click',e=>{const b=e.target.closest('#baixa');if(!b)return;$('#sh-c').innerHTML=`<div style="display:grid;justify-items:center;text-align:center;gap:10px;padding:10px 0">${sucessoHtml()}<h3>Baixa registrada</h3><p class="small muted">Pagamento em dinheiro de ${b.dataset.n} lançado por "Financeiro · você" às ${hora(0).slice(0,5)}. A carteirinha já está em dia.</p><button class="btn" type="button" data-fecha>Fechar</button></div>`});
+document.addEventListener('click',e=>{if(e.target.closest('#novo-assoc'))abrirSheet(`<h3>Novo associado</h3><p class="small muted" style="margin:6px 0 14px">Ele recebe um convite por e-mail para criar a senha e enviar a foto da carteirinha.</p><div class="campos"><label class="campo full">Nome completo<input placeholder="Nome do atleta"></label><label class="campo">Curso<input placeholder="Ex.: Direito"></label><label class="campo">Plano<select><option>Calouro · R$ 60</option><option>Semestral · R$ 75</option><option>Anual · R$ 130</option></select></label><label class="campo full">E-mail<input type="email" placeholder="email@exemplo.com"></label></div><div class="acoes"><button class="btn ac" type="button" id="salvar-assoc">Enviar convite</button><button class="btn g" type="button" data-fecha>Cancelar</button></div>`);
+  if(e.target.closest('#salvar-assoc'))$('#sh-c').innerHTML=`<div style="display:grid;justify-items:center;text-align:center;gap:10px;padding:10px 0">${sucessoHtml()}<h3>Convite enviado</h3><p class="small muted">Assim que ele pagar, a carteirinha nasce em dia.</p><button class="btn" type="button" data-fecha>Fechar</button></div>`;
+  if(e.target.closest('#importar'))abrirSheet(`<h3>Importar a planilha atual</h3><p class="small muted" style="margin:8px 0 14px">Se a diretoria controla hoje os sócios numa planilha, ela entra de uma vez. O sistema lê nome, curso, plano e validade, e mostra o que precisa de conferência antes de gravar.</p><div class="linha-i"><span>Linhas lidas</span><b>312</b></div><div class="linha-i"><span>Prontas para importar</span><b style="color:var(--ok)">298</b></div><div class="linha-i"><span>Para conferir (e-mail faltando ou data estranha)</span><b style="color:var(--warn)">14</b></div><div class="acoes"><button class="btn ac" type="button" data-fecha data-toast="298 associados importados (ilustrativo).">Importar as 298</button><button class="btn g" type="button" data-fecha>Agora não</button></div>`);
+  if(e.target.closest('#novo-plano'))abrirSheet(`<h3>Novo plano</h3><div class="campos" style="margin-top:14px"><label class="campo full">Nome<input placeholder="Ex.: Jogos 2027"></label><label class="campo">Valor<input inputmode="decimal" placeholder="R$ 0,00"></label><label class="campo">Validade<select><option>6 meses</option><option>12 meses</option><option>Data fixa</option></select></label><label class="campo full">Quem pode contratar<select><option>Todos os atletas</option><option>Só calouros</option><option>Só convidados da diretoria</option></select></label></div><div class="acoes"><button class="btn ac" type="button" id="salvar-plano">Criar plano</button><button class="btn g" type="button" data-fecha>Cancelar</button></div>`);
+  if(e.target.closest('#salvar-plano'))$('#sh-c').innerHTML=`<div style="display:grid;justify-items:center;text-align:center;gap:10px;padding:10px 0">${sucessoHtml()}<h3>Plano criado</h3><p class="small muted">Ele já aparece na tela de renovar dos atletas.</p><button class="btn" type="button" data-fecha>Fechar</button></div>`});
+
+/* ---------- planos ---------- */
+function desenhaPlanos(){const el=$('#planos-c');if(!el||el.dataset.ok)return;el.dataset.ok=1;
+  el.innerHTML=PLANOS.map((p,i)=>`<div class="plano-c lift${p.dest?' dest':''} rv" style="--i:${i}">${p.dest?'<span class="faixa">MAIS VENDIDO</span>':''}<span class="tp">${p.t}</span><span class="pr">R$ ${p.pr}<small> ${p.per}</small></span><ul>${p.ben.map(b=>`<li>${b}</li>`).join('')}</ul><div class="rodp"><span>${p.at} ativos</span><button class="btn ${p.dest?'ac':'g'} sm" type="button" data-toast="Edição do plano ${p.t} (ilustrativo).">Editar</button></div></div>`).join('');observa()}
+
+/* ---------- assinatura ---------- */
+function sig(){const s=$('#sig-qr');if(s&&!s.dataset.ok){s.dataset.ok=1;s.innerHTML=qrConteudo(2026)}}
+
+/* ---------- ao trocar de tela ---------- */
+/* ---------- login: abas ---------- */
+function abaLogin(id){$$('[data-ltab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.ltab===id));$$('[data-lpainel]').forEach(p=>p.hidden=p.dataset.lpainel!==id)}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ltab],[data-ltab-ir]');if(b)abaLogin(b.dataset.ltab||b.dataset.ltabIr)});
+
+/* ---------- WhatsApp compacto no computador depois de rolar (não cobre valores à direita) ---------- */
+let devMini=null;
+addEventListener('scroll',()=>{const m=innerWidth>=900&&scrollY>600;if(m!==devMini){devMini=m;const d=$('.dev');if(d)d.classList.toggle('mini',m)}},{passive:true});
+
+window.aoMostrar=function(id){pinta();sig();preencheDatas();
+  if(id==='inicio'||id==='carteirinha')ligaRelogio();else if(id!=='portaria')desligaRelogio();
+  if(id==='portaria'){desenhaSims();contaPort();ligaRelogio()}
+  if(id==='carteirinha')aplicaSit(SIT,false);
+  if(id==='renovar'){if(!pagando){desenhaQR($('[data-qr="pix"]'),+plSel().dataset.v*13);ligaExpira()}}
+  if(id==='historico')desenhaHist(false);
+  if(id==='painel')desenhaPainel();
+  if(id==='associados'&&!$('#tb-assoc').children.length)linhas();
+  if(id==='planos')desenhaPlanos()};
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
+</body>
+</html>

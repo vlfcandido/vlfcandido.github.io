@@ -38,7 +38,7 @@ export function Empresas() {
       {/* Celular: 3 + 2 logos numa coluna de até 296 px, alinhada à esquerda: agora as logos são botões e o canto de
           baixo à direita fica livre para o WhatsApp flutuante (antes, centradas na largura toda). */}
       <ul
-        className="trajetoria mt-4 flex max-w-[296px] flex-wrap gap-x-4 gap-y-4 sm:grid sm:max-w-none sm:grid-cols-5 lg:mt-8 lg:grid-cols-1 lg:gap-y-0"
+        className="trajetoria mt-4 flex max-w-[296px] flex-wrap gap-x-4 gap-y-4 sm:grid sm:max-w-none sm:grid-cols-5 lg:mt-8 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-0"
         data-foco={aberta ?? undefined}
         onPointerLeave={(ev) => ev.pointerType === 'mouse' && setAberta(null)}
       >

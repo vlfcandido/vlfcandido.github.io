@@ -6,7 +6,8 @@
 
 /**
  * Cartões que entram em sequência: os trabalhos e os passos da home nova (14/10/2026) e os da galeria de projetos.
- * Antes: '.pacote, .cartao-caso, .cartao-projeto, li:has(> .logo-botao)' (home antiga e galeria).
+ * As peças da vitrine têm entrada própria na montagem (home.css), porque a fileira já nasce dentro da primeira dobra.
+ * Antes: '.pacote, .cartao-caso, .cartao-projeto, li:has(> .logo-botao)'.
  */
 export const CARTOES = '.cartao, .passo, .cartao-projeto'
 

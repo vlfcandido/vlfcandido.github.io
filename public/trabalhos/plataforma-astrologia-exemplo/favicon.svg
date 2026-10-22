@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Céu Interior">
+  <title>Céu Interior</title>
+  <rect width="64" height="64" rx="14" fill="#0E1430"/>
+  <circle cx="32" cy="32" r="21" fill="none" stroke="#D9B76E" stroke-width="2.4"/>
+  <g stroke="#D9B76E" stroke-width="2" stroke-linecap="round">
+    <path d="M32 6.5v4M32 53.5v4M6.5 32h4M53.5 32h4M14 14l2.6 2.6M47.4 47.4L50 50M14 50l2.6-2.6M47.4 16.6L50 14"/>
+  </g>
+  <path d="M20 40l7.4-6.4 5.6 3.2 10.4-12" fill="none" stroke="#B3A4F2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="43.6" cy="24.6" r="3.8" fill="#E6CB8E"/>
+</svg>
