@@ -7,9 +7,9 @@
      sai destes números. Celular: 2 linhas (marca e ações; navegação no polegar). PC: 1 linha. */
   .cabecalho { --linha-1: 56px; --linha-nav: 48px; position: relative; z-index: 20; border-bottom: 1px solid var(--linha);
     background: var(--papel); }
-  /* No celular o cabeçalho estático é a 1ª parada do encaixe por seção: sem isto, o html (scroll-snap proximity)
-     encaixava a página no #inicio ao abrir e o cabeçalho nascia fora da tela. */
-  @media (max-width: 767px) { .cabecalho { scroll-snap-align: start; } }
+  /* 22/10/2026: o cabeçalho deixou de ser parada do encaixe no celular. Com a animação, o topo passou de uma tela
+     (1056 px em 844) e a parada no cabeçalho puxava de volta todo arrasto curto: a página não saía do topo. O #inicio
+     segue sem parada, então nada encaixa ao abrir. Antes: `.cabecalho { scroll-snap-align: start; }` abaixo de 768 px. */
   /* Fix final (14/10/2026): no celular, uma linha (marca, tema, WhatsApp e Menu) e a navegação recolhida embaixo.
      Antes: "marca tema whats" / "nav nav nav", com a navegação sempre aberta em duas linhas. */
   .cabecalho-grade { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; grid-template-areas: "marca tema whats menu" "nav nav nav nav";

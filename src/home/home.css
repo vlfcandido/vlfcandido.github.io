@@ -31,7 +31,9 @@
        useParadaPorTela (Inicio.tsx): depois de um toque, a página assenta no começo da tela seguinte no sentido do
        dedo. A prova não tem parada própria: o cabeçalho é a parada do topo e a prova cabe inteira com ele.
        Antes: `html { scroll-snap-type: y proximity }` em toda rota do celular e a prova com parada própria. */
-    html:has(.home) { scroll-snap-type: y proximity; }
+    /* 22/10/2026: sem encaixe vertical. Com o topo animado (1056 px) e a seção de IA (2061 px), as seções passaram de
+       uma tela; o navegador fazia do fim de cada uma uma parada e a rolagem grudava (medido: a roda parava em y=2330).
+       Antes: `html:has(.home) { scroll-snap-type: y proximity; }`. As âncoras ficam para os links do menu. */
     .home > .secao { scroll-snap-align: start; }
     .home > #inicio { scroll-snap-align: none; }
   }

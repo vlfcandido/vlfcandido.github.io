@@ -9,12 +9,11 @@ import { Promessa } from '../home/Promessa'
 import { QuemSou } from '../home/QuemSou'
 import { Trabalhos } from '../home/Trabalhos'
 import { Vitrine } from '../home/Vitrine'
-import { useParadaPorTela } from '../home/useParadaPorTela'
 
 /** Página principal: só compõe os blocos, na ordem de leitura do celular. */
 export function PaginaInicio() {
-  // Celular: depois de um toque, a página assenta no começo de uma tela (fix final, 14/10/2026).
-  useParadaPorTela()
+  // 22/10/2026: sem a parada por tela no celular (useParadaPorTela). As seções passaram de uma tela (a de IA tem
+  // 2061 px em 844) e o salto depois do toque levava para o começo da seção no meio da leitura.
   return (
     <div className="home">
       <Promessa />
