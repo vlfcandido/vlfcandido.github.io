@@ -11,7 +11,8 @@ import { conteudoHome } from './conteudo'
 
 /**
  * Duração de uma volta, em ms. Coreografia em batidas (21/10/2026, pedido dele: "as coisas acontecerem mais juntas"):
- * montagem até 1,9 s, clique a 2,4 s, conversa de 2,5 a 5,0 s, confirmação a 5,0 s, quadro pronto e saída suave a 8,2 s.
+ * montagem até 1,9 s, clique a 2,4 s, conversa de 2,5 a 5,0 s, confirmação a 5,0 s e a conversa some a 8,2 s. Da segunda
+ * volta em diante o site fica montado e só a conversa recomeça.
  */
 const VOLTA = 8600
 
@@ -86,11 +87,12 @@ const ICONES: Record<string, ReactNode> = {
  * O site do café: as peças, a conversa no celular, o cursor e o aviso de pedido novo.
  *
  * @param props.foco área aberta no inspetor, ou `null`.
+ * @param props.repete `true` da segunda volta em diante: o site já está montado e só a conversa recomeça.
  */
-function SiteDoCafe({ foco }: { foco: string | null }) {
+function SiteDoCafe({ foco, repete }: { foco: string | null; repete: boolean }) {
   const { site } = conteudoHome().animacao
   return (
-    <div className="anim-site" aria-hidden="true">
+    <div className="anim-site" aria-hidden="true" data-repete={repete || undefined}>
       <Peca area="menu" foco={foco} fundo={3} quando={0.25} de={[0, -70, 0]}>
         <b className="a-marca"><i className="a-logo" />{site.marca}</b>
         <span className="a-links">{site.menu.map((m) => <span key={m}>{m}</span>)}</span>
@@ -242,7 +244,7 @@ export function AnimacaoTrabalho({ className = '' }: { className?: string }) {
         </div>
         {/* Clique numa peça abre o inspetor; é um enfeite de ponteiro sobre uma cena decorativa (aria-hidden). */}
         <div ref={ref} className="anim-palco" data-inspecionando={inspecao ? '' : undefined} onClick={inspecionar}>
-          <SiteDoCafe key={volta} foco={inspecao?.area ?? null} />
+          <SiteDoCafe key={volta} repete={volta > 0} foco={inspecao?.area ?? null} />
           {inspecao && ficha && (
             <div className="a-inspetor" aria-hidden="true"
               style={{ left: `${inspecao.x}%`, top: `${inspecao.y}%`, width: `${inspecao.l}%`, height: `${inspecao.a}%` }}>
