@@ -139,6 +139,21 @@ export function conteudoHome() {
       // últimas saíram, e o agente e o "no ar" agora vivem dentro desta. No celular a cena tem layout próprio.
       titulo: 'Um site sendo montado e atendendo pelo WhatsApp',
       legenda: 'O site é montado peça por peça e já atende sozinho no WhatsApp.',
+      // Interação (21/10/2026, pedido dele: "mais interativo e inteligente"): clicar numa peça mostra como ela é feita,
+      // com o componente e o teste que garante o comportamento. Café fictício: o código é ilustrativo.
+      dica: { mouse: 'Clique numa peça para ver como ela é feita', toque: 'Toque numa peça para ver como ela é feita' },
+      inspecao: {
+        menu: { codigo: '<Menu fixo responsivo />', teste: 'vira menu de celular abaixo de 640 px' },
+        aberto: { codigo: '<StatusLoja horario={agenda} />', teste: 'mostra fechado fora do horário' },
+        titulo: { codigo: '<Titulo nivel={1} />', teste: 'lido primeiro pelo leitor de tela' },
+        texto: { codigo: '<Texto />', teste: 'linha com até 70 caracteres' },
+        botoes: { codigo: '<BotaoPedido canal="whatsapp" />', teste: 'abre o WhatsApp com o pedido escrito' },
+        prova: { codigo: '<Avaliacoes fonte="google" />', teste: 'contador sobe a cada pedido pago' },
+        celular: { codigo: '<AgenteIA revisor pix />', teste: 'só confirma depois do Pix compensado' },
+        c1: { codigo: '<Cardapio sync="planilha" />', teste: 'item esgotado some sozinho' },
+        c2: { codigo: '<CobrancaPix />', teste: 'confere o valor antes de confirmar' },
+        c3: { codigo: '<Entrega raio={3} />', teste: 'avisa o cliente quando sai' },
+      },
       endereco: 'cafearoma.com.br',
       status: 'No ar',
       // Café fictício, sem nome real. Sem "R$": a home não mostra preço (teste do conteúdo).

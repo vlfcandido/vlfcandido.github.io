@@ -139,6 +139,12 @@ describe('animação do topo', () => {
     expect(a.site.conversa.map((m) => m.de)).toEqual(['cliente', 'loja', 'cliente', 'loja'])
     expect(a.site.agente).toMatch(/agente/i)
   })
+  it('toda peça do site tem o que mostrar ao ser inspecionada', () => {
+    for (const area of ['menu', 'aberto', 'titulo', 'texto', 'botoes', 'prova', 'celular', 'c1', 'c2', 'c3'] as const) {
+      expect(a.inspecao[area].codigo, area).toMatch(/^<.+\/>$/)
+      expect(a.inspecao[area].teste.length, area).toBeGreaterThan(10)
+    }
+  })
   it('o contador de pedidos sobe um', () => expect(a.site.pedidos.depois).toBe(a.site.pedidos.antes + 1))
   it('a legenda é frase de gente (sem dois-pontos nem travessão)', () => expect(a.legenda).not.toMatch(/[:—–]/))
 })
