@@ -102,6 +102,28 @@
     .cabecalho-nav ul::after { transition: none; }
   }
 
+  /* Vida com o mouse no site inteiro (22/10/2026, lib/vida.ts escreve as variáveis). Botões magnéticos andam até o
+     cursor; cartões e peças vivas ganham uma luz que segue o mouse e a imagem anda um pouco ao contrário, com
+     profundidade. `translate` é separado de `transform`, então não briga com o hover nem com a entrada ao rolar. */
+  .cta, .link-secundario { translate: var(--mx, 0px) var(--my, 0px); }
+  .cartao, [data-vivo] { position: relative; }
+  .cartao::after, [data-vivo]::after { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none;
+    opacity: 0; transition: opacity 300ms ease;
+    background: radial-gradient(420px circle at var(--lx, 50%) var(--ly, 0%), rgb(255 255 255 / .28), transparent 50%); }
+  .cartao[data-vivendo]::after, [data-vivo][data-vivendo]::after { opacity: 1; }
+  :root[data-tema="escuro"] .cartao::after, :root[data-tema="escuro"] [data-vivo]::after {
+    background: radial-gradient(420px circle at var(--lx, 50%) var(--ly, 0%), rgb(255 255 255 / .08), transparent 50%); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .cartao::after, :root:not([data-tema="claro"]) [data-vivo]::after {
+      background: radial-gradient(420px circle at var(--lx, 50%) var(--ly, 0%), rgb(255 255 255 / .08), transparent 50%); }
+  }
+  .cartao img, [data-vivo] img { translate: calc(var(--tx, 0) * -6px) calc(var(--ty, 0) * -6px); }
+  /* Rótulo que segue o cursor dentro da peça e diz o que o clique faz (data-rotulo). */
+  [data-rotulo]::before { content: attr(data-rotulo); position: absolute; z-index: 3; left: var(--lx, 50%); top: var(--ly, 50%); translate: 14px 16px;
+    padding: 6px 12px; border-radius: var(--raio-pilula); background: var(--fundo); color: var(--papel); font-size: 0.8125rem; font-weight: 600;
+    white-space: nowrap; pointer-events: none; opacity: 0; scale: .9; transition: opacity 200ms ease, scale 250ms cubic-bezier(.34,1.56,.64,1); }
+  [data-rotulo][data-vivendo]::before { opacity: 1; scale: 1; }
+
   /* Botão de tema: 44 px, ícone gira de leve na troca. */
   .botao-tema { display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--raio-pilula); color: var(--fundo-suave); }
   .botao-tema svg { transition: transform var(--mov-lento) var(--mola); }

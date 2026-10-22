@@ -23,7 +23,7 @@ function Retrato({ alt }: { alt: string }) {
   const conjunto = (ext: string) => FOTO_LARGURAS.map((l) => `${caminhoPublico(base, `${FOTO_BASE}-${l}.${ext}`)} ${l}w`).join(', ')
   const tamanhos = '(min-width: 1024px) 80px, 96px'
   return (
-    <picture className="avatar-retrato block">
+    <picture className="avatar-retrato block" data-vivo>
       <source type="image/avif" srcSet={conjunto('avif')} sizes={tamanhos} />
       <source type="image/webp" srcSet={conjunto('webp')} sizes={tamanhos} />
       <img src={caminhoPublico(base, `${FOTO_BASE}-210.jpg`)} srcSet={conjunto('jpg')} sizes={tamanhos} width={210} height={210} alt={alt} loading="lazy" decoding="async" className="block h-full w-full object-cover" />

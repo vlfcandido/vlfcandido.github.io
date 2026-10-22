@@ -5,6 +5,7 @@ import { Rodape } from './components/Rodape'
 import { HASH_PROJETOS, chaveDaPagina, hashAtual, movimentoDaTroca, projetoDoHash, rotaDoHash, secaoDoHash, separarConsultaDoHash, type Rota } from './lib/rota'
 import { irParaSecao } from './lib/destino'
 import { iniciarRevelacao } from './lib/revelar'
+import { iniciarVida } from './lib/vida'
 import { comTransicao } from './lib/transicao'
 import { PaginaInicio } from './paginas/Inicio'
 import { PaginaProjetos } from './paginas/Projetos'
@@ -117,6 +118,8 @@ export function App() {
   // Entrada das seções ao rolar: refaz a lista a cada página ou case (o DOM novo ainda não foi observado).
   const pagina = projetoDoHash(hash) ?? rota
   useEffect(() => iniciarRevelacao(document.getElementById('conteudo') ?? document), [pagina])
+  // Botões magnéticos e peças que reagem ao mouse (22/10/2026): um ouvinte só, para o site inteiro.
+  useEffect(() => iniciarVida(), [])
   return (
     <>
       <a

@@ -5,7 +5,7 @@ import { caminhoPublico } from '../lib/assets'
 import { WHATSAPP } from '../lib/whatsapp'
 import { empresasDiretas, type EmpresaDireta } from '../clientes'
 import { logoClara } from '../components/Logo'
-import { FRASES_MARCADAS, MARCAS_TOPO, conteudoHome, numerosDeProva } from './conteudo'
+import { EVENTO_ABRIR_EMPRESA, FRASES_MARCADAS, MARCAS_TOPO, conteudoHome, numerosDeProva } from './conteudo'
 import { partirNasFrases } from './lib/marcar'
 import { AnimacaoTrabalho } from './AnimacaoTrabalho'
 import { Marcacao } from './Marcacao'
@@ -68,7 +68,8 @@ function FaixaMarcas() {
     <ul className="faixa-marcas" aria-label={empresas.faixa}>
       {marcas.map((e) => (
         <li key={e.slug}>
-          <a className="toque" href="#empresas">
+          {/* 22/10/2026: além de rolar até a Trajetória, abre a empresa clicada lá. */}
+          <a className="toque" href="#empresas" onClick={() => window.dispatchEvent(new CustomEvent(EVENTO_ABRIR_EMPRESA, { detail: e.slug }))}>
             <img className="logo-empresa" data-slug={e.slug} data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.nome} height={28} decoding="async" />
           </a>
         </li>

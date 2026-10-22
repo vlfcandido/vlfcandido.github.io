@@ -55,6 +55,9 @@ export const SLUGS_EMPRESAS = ONDE_TRABALHEI
 /** Empresas da faixa de logos logo abaixo da promessa (21/10/2026, pedido dele: as três marcas no topo). */
 export const MARCAS_TOPO = ['sicoob', 'serasa-experian', 'contabilizei'] as const
 
+/** Evento que a faixa do topo dispara para a Trajetória abrir uma empresa (detail = slug). */
+export const EVENTO_ABRIR_EMPRESA = 'abrir-empresa'
+
 /** Currículo em PDF, relativo a public/; gerado por `npm run curriculo` a partir de trajetoria.ts. */
 export const CURRICULO_PDF = 'curriculo-vinicius-candido.pdf'
 

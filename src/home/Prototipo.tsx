@@ -34,7 +34,8 @@ export function Prototipo() {
         </a>
       </div>
       <a href={href} className="toque block rounded-[var(--raio-m)]" tabIndex={-1} aria-hidden="true">
-        <div className="moldura-navegador">
+        {/* 22/10/2026: peça viva (luz e profundidade com o mouse) e rótulo que segue o cursor dizendo o que o clique faz. */}
+        <div className="moldura-navegador" data-vivo data-rotulo="Abrir o exemplo e clicar">
           <div className="barra-janela">
             <i />
             <i />

@@ -114,13 +114,15 @@
 
   /* Hover só com mouse (§13: nada no celular depende de hover). */
   @media (hover: hover) {
-    .cta, .link-secundario { transition: transform var(--mov-padrao) var(--mola-volta), box-shadow var(--mov-padrao) var(--mola); }
+    /* 22/10/2026: `translate` entra na transição para o puxão magnético (lib/vida.ts) andar com mola. */
+    .cta, .link-secundario { transition: transform var(--mov-padrao) var(--mola-volta), box-shadow var(--mov-padrao) var(--mola),
+      translate 260ms cubic-bezier(.34,1.56,.64,1); }
     .cta:hover { transform: translateY(-2px); box-shadow: var(--sombra-1); }
     .link-secundario:hover { transform: translateY(-2px); border-color: var(--fundo-suave); }
     .cta:hover .seta, .link-secundario:hover .seta { transform: translateX(4px); }
     .cartao { transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
     .cartao:hover { transform: translateY(-4px); box-shadow: var(--sombra-2); }
-    .cartao img { transition: transform var(--mov-lento) var(--mola); }
+    .cartao img { transition: transform var(--mov-lento) var(--mola), translate 400ms ease-out; }
     .cartao:hover img { transform: scale(1.02); }
     a:hover > .moldura-navegador { transform: translateY(-4px); box-shadow: var(--sombra-2); }
     .empresa:hover .logo-empresa { filter: none; opacity: 1; }
@@ -368,6 +370,26 @@
     .anim .moldura-navegador, .a-peca, [data-magnetico] { transition: none; } }
 
   .numero-passo { font-family: var(--fonte-titulo); line-height: 1; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; color: var(--fundo); }
+  /* Passos que acendem (22/10/2026): ao rolar, uma linha de marca-texto enche o topo de cada passo, um depois do outro,
+     e o número acende junto (animação ligada à rolagem, sem JS). Com o mouse, o passo sob o cursor sobe e os outros
+     esperam. Navegador sem scroll-timeline fica como antes. */
+  .passo { position: relative; transition: opacity 300ms ease; }
+  .passo .numero-passo { display: inline-block; transition: transform 350ms cubic-bezier(.34,1.56,.64,1), color 300ms ease; }
+  .passo:nth-child(2) { --n: 1; } .passo:nth-child(3) { --n: 2; } .passo:nth-child(4) { --n: 3; } .passo:nth-child(5) { --n: 4; }
+  @supports (animation-timeline: view()) {
+    .passo::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 3px; border-radius: 2px; background: var(--sol);
+      transform-origin: left; animation: passo-enche linear both; animation-timeline: view();
+      animation-range: entry calc(30% + var(--n, 0) * 12%) cover calc(38% + var(--n, 0) * 6%); }
+    .passo .numero-passo { animation: passo-acende linear both; animation-timeline: view();
+      animation-range: entry calc(30% + var(--n, 0) * 12%) cover calc(38% + var(--n, 0) * 6%); }
+  }
+  @keyframes passo-enche { from { transform: scaleX(0); } }
+  @keyframes passo-acende { from { color: var(--linha); } }
+  @media (hover: hover) {
+    ol:has(> .passo:hover) > .passo:not(:hover) { opacity: .5; }
+    .passo:hover .numero-passo { transform: translateY(-4px) scale(1.12); }
+  }
+  @media (prefers-reduced-motion: reduce) { .passo::before, .passo .numero-passo { animation: none; } .passo .numero-passo { transition: none; } }
 
   /* Monograma no lugar da foto até ela existir (Task 8): mesmo quadro 4:5, layout final. */
   .quadro-retrato { aspect-ratio: 4 / 5; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--raso); overflow: hidden; }
@@ -397,6 +419,25 @@
   }
   :root[data-tema="escuro"] .logo-empresa[data-clara="true"],
   :root[data-tema="escuro"] .empresa:hover .logo-empresa[data-clara="true"] { filter: grayscale(1) brightness(1.3); }
+
+  /* Trajetória interativa (22/10/2026). O botão da empresa herda o visual da linha; aberta, a logo ganha cor, as outras
+     apagam (PC) e o "feito" abre com a altura animada. No celular, o painel embaixo troca com um deslize curto. */
+  .empresa-botao { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; border-radius: var(--raio-p);
+    min-height: 44px; }
+  .trajetoria .empresa { transition: opacity 300ms ease; }
+  .trajetoria[data-foco] .empresa:not([data-aberta]) { opacity: .45; }
+  .empresa[data-aberta] .logo-empresa { filter: none; opacity: 1; transform: scale(1.06); }
+  .empresa .logo-empresa { transition: filter var(--mov-padrao) var(--mola), opacity var(--mov-padrao) var(--mola), transform 400ms cubic-bezier(.34,1.56,.64,1); }
+  .empresa-detalhe { grid-template-rows: 0fr; transition: grid-template-rows 420ms cubic-bezier(.2,.7,.2,1); }
+  .empresa[data-aberta] .empresa-detalhe { grid-template-rows: 1fr; }
+  .empresa-detalhe p { padding-left: calc(6rem + 16px); opacity: 0; transform: translateY(-4px); transition: opacity 300ms ease, transform 300ms ease; }
+  .empresa[data-aberta] .empresa-detalhe p { opacity: 1; transform: none; padding-bottom: 16px; transition-delay: 120ms; }
+  .empresa-painel-conteudo { margin-top: 16px; padding: 14px 16px; border: 1px solid var(--linha); border-radius: var(--raio-m); background: var(--papel-alto);
+    border-left: 4px solid var(--sol); animation: painel-entra 360ms cubic-bezier(.2,.7,.2,1); }
+  @keyframes painel-entra { from { opacity: 0; transform: translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .empresa-detalhe, .empresa-detalhe p, .logo-empresa { transition: none; } .empresa-painel-conteudo { animation: none; } }
+  /* Peças vivas mais fundas: com a luz do mouse, a imagem cresce um pouco para o paralaxe não mostrar a borda. */
+  .cartao[data-vivendo] img, [data-vivo][data-vivendo] img { scale: 1.04; transition: transform var(--mov-lento) var(--mola), translate 400ms ease-out, scale 400ms ease-out; }
 
   /* Faixa de marcas da promessa (21/10/2026): as três empresas do título, menores que no bloco da trajetória, numa
      linha só até 360 px. A cor segue as regras de .logo-empresa acima (tinta no claro, invertida no escuro). */
