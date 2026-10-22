@@ -7,6 +7,7 @@ import { empresasDiretas, type EmpresaDireta } from '../clientes'
 import { logoClara } from '../components/Logo'
 import { FRASES_MARCADAS, MARCAS_TOPO, conteudoHome, numerosDeProva } from './conteudo'
 import { partirNasFrases } from './lib/marcar'
+import { AnimacaoTrabalho } from './AnimacaoTrabalho'
 import { Marcacao } from './Marcacao'
 
 /**
@@ -51,37 +52,7 @@ function useContagemAoAssentar(ref: RefObject<HTMLDivElement | null>) {
   }, [ref])
 }
 
-/**
- * Tela de um trabalho com o círculo de caneta em volta do detalhe (só no PC). A imagem é `lazy`: no celular a
- * vitrine fica em `display: none` e o navegador nem baixa o arquivo.
- */
-function Vitrine() {
-  const { vitrine } = conteudoHome()
-  const base = import.meta.env.BASE_URL
-  const { x, y, l, a } = vitrine.alvo
-  return (
-    <a href={caminhoPublico(base, vitrine.href)} className="vitrine toque hidden lg:block">
-      <figure>
-        <div className="moldura-navegador">
-          <div className="barra-janela" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </div>
-          <div className="imagem-reservada relative aspect-[1000/625]">
-            <img src={caminhoPublico(base, vitrine.imagem)} width={1000} height={625} alt={vitrine.alt} loading="lazy" decoding="async" className="block h-full w-full" />
-            <span className="vitrine-alvo" style={{ left: `${x}%`, top: `${y}%`, width: `${l}%`, height: `${a}%` }} aria-hidden="true">
-              <Marcacao tipo="circulo" semente={4}>
-                {''}
-              </Marcacao>
-            </span>
-          </div>
-        </div>
-        <figcaption className="mt-4 text-sm text-grafite">{vitrine.legenda}</figcaption>
-      </figure>
-    </a>
-  )
-}
+// 21/10/2026: a Vitrine (print da Liga Várzea com o círculo de caneta, só no PC) saiu para a AnimacaoTrabalho.
 
 /**
  * Faixa com as logos das três marcas do título (21/10/2026, pedido dele). Cada logo leva à trajetória; o nome vai
@@ -106,7 +77,7 @@ function FaixaMarcas() {
   )
 }
 
-/** Primeiro bloco da home: prova, promessa, marcas, WhatsApp e números; no PC, a vitrine ao lado. */
+/** Primeiro bloco da home: prova, promessa, marcas, animação do trabalho, WhatsApp e números. */
 export function Promessa() {
   const { promessa } = conteudoHome()
   const n = numerosDeProva()
@@ -131,6 +102,8 @@ export function Promessa() {
         </h1>
         <p className="mt-4 max-w-xl text-lg text-grafite sm:text-xl">{promessa.subtitulo}</p>
         <FaixaMarcas />
+        {/* Celular: a animação entra entre as marcas e o botão; no PC ela fica na coluna da direita. */}
+        <AnimacaoTrabalho className="mt-6 lg:hidden" />
         <a className="cta toque mt-8" href={WHATSAPP} target="_blank" rel="noopener">
           {promessa.cta}
           <span className="seta" aria-hidden="true">→</span>
@@ -146,7 +119,7 @@ export function Promessa() {
           ))}
         </div>
       </div>
-      <Vitrine />
+      <AnimacaoTrabalho className="hidden lg:block" />
     </section>
   )
 }

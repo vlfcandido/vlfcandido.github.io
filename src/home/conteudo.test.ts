@@ -39,16 +39,12 @@ describe('conteúdo da home', () => {
     for (const d of c.destaques) expect(existsSync(`public/${d.imagem}`), d.imagem).toBe(true)
   })
   // 14/10/2026 (revisão da Task 5): no PC a mesma tela aparecia duas vezes (vitrine e 1º cartão; protótipo e 2º).
-  it('nenhuma tela se repete na home (vitrine, protótipo e destaques)', () => {
-    const telas = [c.vitrine.imagem, c.prototipo.imagem, ...c.destaques.map((d) => d.imagem)]
+  // 21/10/2026: a vitrine (print grande do topo) saiu para a animação; o teste segue valendo para protótipo e destaques.
+  it('nenhuma tela se repete na home (protótipo e destaques)', () => {
+    const telas = [c.prototipo.imagem, ...c.destaques.map((d) => d.imagem)]
     expect(new Set(telas).size).toBe(telas.length)
     for (const t of telas) expect(existsSync(`public/${t}`), t).toBe(true)
   })
-  it('a legenda da vitrine não repete o detalhe de um cartão', () => {
-    const legenda = c.vitrine.legenda.replace(/\.$/, '').toLowerCase()
-    for (const d of c.destaques) expect(d.detalhe.toLowerCase()).not.toContain(legenda)
-  })
-  // Task 10 (decisão do controlador): a retenção do pagamento só vale no 99Freelas; a garantia não a promete.
   it('a garantia não promete retenção de pagamento; a frase da plataforma nomeia o 99Freelas', () => {
     expect(c.garantia).not.toMatch(/retid|plataforma/i)
     expect(c.garantiaPlataforma).toMatch(/^No 99Freelas,/)
@@ -63,7 +59,7 @@ describe('conteúdo da home', () => {
     expect(new Set(PECAS.map((x) => x.resumo)).size).toBe(PECAS.length)
   })
   it('nenhum dois-pontos nem travessão no texto da home (humanizer)', () => {
-    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.vitrine.legenda, c.prototipo.titulo, c.prototipo.texto,
+    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.animacao.titulo, ...c.animacao.cenas.flatMap((x) => [x.rotulo, x.legenda]), c.prototipo.titulo, c.prototipo.texto,
       ...c.destaques.flatMap((d) => [d.dor, d.detalhe]), ...c.passos.flatMap((x) => [x.titulo, x.texto]), c.garantia,
       c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo]
     for (const t of visivel) expect(t, t).not.toMatch(/[:—–]/)
@@ -127,4 +123,33 @@ describe('marcas e trajetória na home', () => {
     expect(c.empresas.curriculo.href).toBe(CURRICULO_PDF)
     expect(existsSync(`public/${CURRICULO_PDF}`)).toBe(true)
   })
+})
+
+// 21/10/2026 (pedido dele): no lugar do print grande, uma animação em 3 cenas (site, agentes, testes).
+describe('animação do topo', () => {
+  it('tem 3 cenas, na ordem site, agentes e testes', () =>
+    expect(c.animacao.cenas.map((x) => x.id)).toEqual(['site', 'agentes', 'testes']))
+  it('cada cena tem rótulo curto e legenda própria', () => {
+    for (const x of c.animacao.cenas) {
+      expect(x.rotulo.length).toBeLessThanOrEqual(18)
+      expect(x.legenda.length).toBeGreaterThan(20)
+    }
+    expect(new Set(c.animacao.cenas.map((x) => x.legenda)).size).toBe(3)
+  })
+  it('a cena dos agentes tem orquestrador, revisor e ao menos 2 agentes', () => {
+    const nos = c.animacao.agentes
+    expect(nos.orquestrador).toBeTruthy()
+    expect(nos.revisor).toBeTruthy()
+    expect(nos.especialistas.length).toBeGreaterThanOrEqual(2)
+  })
+  it('a cena do site monta um site fictício completo (menu, título, botão e 3 cartões)', () => {
+    const x = c.animacao.site
+    expect(x.menu.length).toBeGreaterThanOrEqual(2)
+    expect(x.titulo.length).toBeGreaterThan(10)
+    expect(x.botoes).toHaveLength(2)
+    expect(x.cartoes).toHaveLength(3)
+    expect(x.conversa.length).toBeGreaterThanOrEqual(3)
+  })
+  it('a cena dos testes não inventa número', () =>
+    expect(JSON.stringify(c.animacao.testes)).not.toMatch(/\d/))
 })

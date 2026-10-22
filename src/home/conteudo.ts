@@ -129,20 +129,58 @@ export function conteudoHome() {
       // nem todas as 5 são de grande porte, e o bloco de logos se chama "Onde já trabalhei".
       rotulos: { anos: 'anos de software', empresas: 'empresas onde trabalhei', projetos: 'projetos no portfólio' },
     },
-    // Tela do 1º bloco no PC (decisão dele, 14/10/2026: "acaba a metade vazia"): um trabalho com o círculo
-    // de caneta em volta do detalhe. `alvo` é a caixa do detalhe na imagem, em % da largura e da altura.
-    vitrine: {
-      slug: 'liga-varzea',
-      href: 'trabalhos/liga-varzea/',
-      imagem: 'trabalhos/img/liga-varzea-detalhe.jpg',
-      alt: 'Painel da Liga Várzea com o valor da API ao lado do valor no banco, esperando conferência',
-      // 14/10/2026: legenda própria da tela do painel. Antes: 'A correção manual sobrevive à sincronização.', que
-      // repetia ao pé da letra o detalhe do 1º cartão logo abaixo.
-      // Task 10: antes 'O valor novo da API espera alguém conferir antes de trocar o do banco.'
-      legenda: 'Quando a API traz um número diferente, ele espera alguém conferir antes de entrar no banco.',
-      // 15/10/2026: a miniatura foi recapturada com o cabeçalho do site na peça (56 px; antes faixa de 44 px) e o círculo
-      // passou a cortar o valor e os botões. Medido na captura: só as duas caixas de valor. Antes { x: 25.6, y: 71.2, l: 38.4, a: 9.6 }.
-      alvo: { x: 26.3, y: 75.3, l: 20.4, a: 7.8 },
+    // 21/10/2026 (pedido dele: "desperdício de espaço"): a vitrine (print grande da Liga Várzea, só no PC) virou uma
+    // animação em 3 cenas, no PC e no celular. Antes: vitrine { slug 'liga-varzea', imagem
+    // 'trabalhos/img/liga-varzea-detalhe.jpg', legenda 'Quando a API traz um número diferente, ele espera alguém
+    // conferir antes de entrar no banco.', alvo { x: 26.3, y: 75.3, l: 20.4, a: 7.8 } }.
+    animacao: {
+      titulo: 'Do rascunho ao sistema no ar',
+      cenas: [
+        { id: 'site', rotulo: 'Site', legenda: 'O site é montado peça por peça, cada uma encaixada no lugar certo.' },
+        { id: 'agentes', rotulo: 'Agentes de IA', legenda: 'Os agentes dividem o atendimento e um revisor confere antes de responder.' },
+        { id: 'testes', rotulo: 'Testes', legenda: 'Nada vai para o ar sem os testes passarem antes.' },
+      ],
+      // Cena do site (21/10/2026, 2ª versão, pedido dele): um site fictício que se monta peça por peça, cada caixa
+      // encaixando no seu lugar com guias de alinhamento. Antes: rascunho a lápis + print da Liga Várzea em cortina,
+      // que ele achou "ridícula". Negócio fictício, sem nome real.
+      // 3ª versão (21/10/2026, "o site montado ainda não tá legal"): landing completa com selo, prova social, celular com
+      // o pedido no WhatsApp e o aviso de pedido novo no fim. Sem "R$": a home não mostra preço (teste do conteúdo).
+      site: {
+        marca: 'Café Aroma',
+        menu: ['Cardápio', 'Pedidos', 'Contato'],
+        acao: 'Pedir agora',
+        selo: 'Aberto agora, entrega em 30 min',
+        titulo: 'Seu café pedido pelo WhatsApp',
+        texto: 'Escolha no cardápio, pague por Pix e acompanhe a entrega.',
+        botoes: ['Fazer pedido', 'Ver cardápio'],
+        prova: 'nota 4,9 de quem já pediu',
+        cartoes: [
+          { titulo: 'Cardápio online', texto: 'Sempre atualizado', icone: 'cardapio' },
+          { titulo: 'Pagamento por Pix', texto: 'Na própria conversa', icone: 'pix' },
+          { titulo: 'Entrega no bairro', texto: 'Com aviso no caminho', icone: 'entrega' },
+        ],
+        conversa: [
+          { de: 'cliente', texto: 'Oi! Um cappuccino e dois pães de queijo' },
+          { de: 'loja', texto: 'Anotado. Te mandei o Pix aqui' },
+          { de: 'cliente', texto: 'Paguei!' },
+          { de: 'loja', texto: 'Pedido confirmado, sai em 15 min' },
+        ],
+        aviso: 'Novo pedido recebido',
+      },
+      // Nós da cena dos agentes, no formato do vendedor de IA da Contabilizei (orquestrador, especialistas, revisor).
+      agentes: {
+        entrada: 'Oi, quero saber o preço',
+        orquestrador: 'Orquestrador',
+        especialistas: ['Vendas', 'Dúvidas', 'Cobrança'],
+        revisor: 'Revisor',
+        saida: 'Resposta conferida',
+      },
+      // Sem número: a contagem real de testes muda a cada projeto e não vai inventada na home.
+      testes: {
+        linhas: ['agenda confirma o horário', 'revisor barra resposta sem fonte', 'pagamento por Pix conciliado', 'tela funciona no celular'],
+        resumo: 'todos os testes passaram',
+        selo: 'No ar',
+      },
     },
     prototipo: {
       titulo: 'Veja o seu sistema funcionando antes de fechar.',
