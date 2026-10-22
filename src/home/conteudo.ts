@@ -4,6 +4,7 @@
 
 import { ONDE_TRABALHEI } from '../clientes'
 import { listarProjetos } from '../projetos'
+import { empregos } from '../trajetoria'
 
 /** Um trabalho em destaque, com a dor do cliente e o detalhe marcado à mão. */
 export interface Destaque { slug: string; nome: string; dor: string; detalhe: string; href: string; imagem: string; alt: string }
@@ -38,7 +39,8 @@ export const PECAS = [
  */
 export const FRASES_MARCADAS = {
   // Fix final (14/10/2026): duas marcas, uma por empresa. Antes 'Sicoob e Serasa Experian', um trecho só.
-  promessa: ['Sicoob', 'Serasa Experian'],
+  // 21/10/2026 (pedido dele): a Contabilizei entra como terceira marca. Antes: ['Sicoob', 'Serasa Experian'].
+  promessa: ['Sicoob', 'Serasa Experian', 'Contabilizei'],
   prototipo: 'antes de fechar',
   garantia: '30 dias de correção',
 } as const
@@ -49,6 +51,23 @@ export const FRASES_MARCADAS = {
  * escrito aqui; a Prefeitura de Franca (cliente da Vertigo) saiu e a Vertigo entrou (decisão dele).
  */
 export const SLUGS_EMPRESAS = ONDE_TRABALHEI
+
+/** Empresas da faixa de logos logo abaixo da promessa (21/10/2026, pedido dele: as três marcas no topo). */
+export const MARCAS_TOPO = ['sicoob', 'serasa-experian', 'contabilizei'] as const
+
+/** Currículo em PDF, relativo a public/; gerado por `npm run curriculo` a partir de trajetoria.ts. */
+export const CURRICULO_PDF = 'curriculo-vinicius-candido.pdf'
+
+/**
+ * Período de cada empresa do bloco "Trajetória", lido da fonte única do currículo (trajetoria.ts).
+ *
+ * @param slug empresa de `SLUGS_EMPRESAS`.
+ * @returns o período como no currículo; a Wiv, que não foi emprego, vira "Projetos freelance".
+ */
+export function periodoDe(slug: string): string | undefined {
+  if (slug === 'wiv') return 'Projetos freelance'
+  return empregos.find((e) => e.slug === slug)?.periodo
+}
 
 /**
  * Linha de cada empresa no bloco "Onde já trabalhei" quando o papel de clientes.ts não serve ao cliente de freela.
@@ -99,7 +118,9 @@ export function conteudoHome() {
       // Fix final (14/10/2026, revisor de detalhes): o título dizia `${n.anos} anos construindo sistemas para Sicoob e
       // Serasa Experian.`, e enganava. Os 13 anos são de carreira, o Sicoob é o emprego atual e a Serasa veio em 2025.
       // Fonte: config/privado/carreira/respostas-padrao.md (software total 13, empresa atual Sicoob, Serasa Experian).
-      titulo: `${n.anos} anos de software. Hoje no Sicoob, antes na Serasa Experian.`,
+      // 21/10/2026 (pedido dele): a Contabilizei entra no título. Antes: `${n.anos} anos de software. Hoje no Sicoob,
+      // antes na Serasa Experian.`
+      titulo: `${n.anos} anos de software. Hoje no Sicoob, antes na Serasa Experian e na Contabilizei.`,
       // 14/10/2026 (Task 10, humanizer): antes 'Agora para o seu negócio, cuidando até do detalhe que ninguém viu.'
       // (frase sem verbo e gerúndio pendurado). Fix final: 'Agora faço…' sugeria que ele saiu do Sicoob.
       subtitulo: 'Também faço o sistema do seu negócio e cuido até do detalhe que ninguém viu.',
@@ -164,7 +185,14 @@ export function conteudoHome() {
       },
     ] satisfies Destaque[],
     // Fix final (14/10/2026): subtítulo para separar este bloco (empregos) dos "Casos em empresas" de #/projetos.
-    empresas: { titulo: 'Onde já trabalhei', subtitulo: 'As empresas onde trabalhei e o que fiz em cada uma.' },
+    // 21/10/2026 (pedido dele): o bloco vira a trajetória, com período e o currículo em PDF. Antes: titulo 'Onde já
+    // trabalhei' e subtitulo 'As empresas onde trabalhei e o que fiz em cada uma.'
+    empresas: {
+      titulo: 'Trajetória',
+      subtitulo: 'Do emprego atual para trás, com o que fiz em cada um.',
+      curriculo: { href: CURRICULO_PDF, texto: 'Baixar o currículo em PDF' },
+      faixa: 'Onde trabalho e trabalhei',
+    },
     // Fix final (14/10/2026): antes 'Trabalhos com o detalhe marcado'; o menu passou a chamar a seção de "Destaques".
     trabalhos: { titulo: 'Destaques, com o detalhe marcado', verTodos: 'Ver todos os projetos' },
     // 15/10/2026: botão do WhatsApp no fim do bloco, com a mensagem do passo 1.

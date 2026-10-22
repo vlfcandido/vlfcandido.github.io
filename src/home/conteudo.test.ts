@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs'
 import { ONDE_TRABALHEI, empresasDiretas } from '../clientes'
 import { encontrarTermosProibidos } from '../lib/termos-proibidos'
 import { PROJETOS_NO_PRINT_ESTE_SITE, listarProjetos } from '../projetos'
-import { FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva } from './conteudo'
+import { CURRICULO_PDF, FOTO_BASE, FOTO_LARGURAS, FOTO_PRONTA, FRASES_MARCADAS, MARCAS_TOPO, PECAS, SLUGS_EMPRESAS, conteudoHome, numerosDeProva, periodoDe } from './conteudo'
 
 const c = conteudoHome()
 const tudo = JSON.stringify(c)
@@ -101,5 +101,30 @@ describe('conteúdo da home', () => {
     const e = empresasDiretas.find((x) => x.slug === 'serasa-experian')
     expect(e?.via).toBe('NTT DATA')
     expect(e?.papel).toMatch(/pela NTT DATA/)
+  })
+})
+
+// 21/10/2026 (pedido dele): Sicoob, Serasa Experian e Contabilizei em destaque no topo e o currículo no site.
+describe('marcas e trajetória na home', () => {
+  it('o título da promessa cita as três marcas, cada uma marcada à mão', () => {
+    for (const m of ['Sicoob', 'Serasa Experian', 'Contabilizei']) {
+      expect(c.promessa.titulo).toContain(m)
+      expect(FRASES_MARCADAS.promessa).toContain(m)
+    }
+  })
+  it('a faixa do topo tem as três empresas, todas com logo em public/', () => {
+    expect([...MARCAS_TOPO]).toEqual(['sicoob', 'serasa-experian', 'contabilizei'])
+    for (const slug of MARCAS_TOPO) {
+      const e = empresasDiretas.find((x) => x.slug === slug)
+      expect(e?.logo && existsSync(`public/${e.logo}`), slug).toBeTruthy()
+    }
+  })
+  it('todo emprego do bloco tem período vindo da trajetória (a Wiv é freelance)', () => {
+    for (const slug of SLUGS_EMPRESAS.filter((s) => s !== 'wiv')) expect(periodoDe(slug), slug).toMatch(/\d{4}/)
+    expect(periodoDe('wiv')).toBe('Projetos freelance')
+  })
+  it('o bloco leva ao currículo em PDF, que existe em public/', () => {
+    expect(c.empresas.curriculo.href).toBe(CURRICULO_PDF)
+    expect(existsSync(`public/${CURRICULO_PDF}`)).toBe(true)
   })
 })
