@@ -189,6 +189,23 @@
   :root[data-tema="escuro"] .logo-empresa[data-clara="true"],
   :root[data-tema="escuro"] .empresa:hover .logo-empresa[data-clara="true"] { filter: grayscale(1) brightness(1.3); }
 
+  /* Faixa de marcas da promessa (21/10/2026): as três empresas do título, menores que no bloco da trajetória, numa
+     linha só até 360 px. A cor segue as regras de .logo-empresa acima (tinta no claro, invertida no escuro). */
+  .faixa-marcas { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; list-style: none; padding: 0; }
+  .faixa-marcas a { display: inline-flex; align-items: center; min-height: 44px; }
+  .faixa-marcas .logo-empresa { height: 26px; opacity: .9; }
+  .faixa-marcas .logo-empresa[data-slug="serasa-experian"] { height: 34px; }
+  /* O desenho da Contabilizei é largo e pesado: na mesma altura das outras, pesava o dobro na linha. */
+  .faixa-marcas .logo-empresa[data-slug="contabilizei"] { height: 21px; }
+  @media (hover: hover) { .faixa-marcas a:hover .logo-empresa { opacity: 1; } }
+  /* Celular: as três numa linha só a 390 px (antes a Contabilizei caía sozinha na segunda linha). */
+  @media (max-width: 767px) {
+    .faixa-marcas { gap: 8px 18px; flex-wrap: nowrap; }
+    .faixa-marcas .logo-empresa { height: 22px; }
+    .faixa-marcas .logo-empresa[data-slug="serasa-experian"] { height: 29px; }
+    .faixa-marcas .logo-empresa[data-slug="contabilizei"] { height: 18px; }
+  }
+
   /* O círculo de caneta ganha folga em volta da frase: abraça o texto sem riscar as letras. */
   /* 15/10/2026 (revisor, rodada 2): o traço cortava o pé da linha de cima e, a 390 px, chegava a 4 px da borda.
      Desce ~4 px e encolhe na horizontal. Antes: inset -32% -10%, width 120%, height 164%. */

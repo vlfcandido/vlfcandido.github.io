@@ -3,7 +3,9 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { caminhoPublico } from '../lib/assets'
 import { WHATSAPP } from '../lib/whatsapp'
-import { FRASES_MARCADAS, conteudoHome, numerosDeProva } from './conteudo'
+import { empresasDiretas, type EmpresaDireta } from '../clientes'
+import { logoClara } from '../components/Logo'
+import { FRASES_MARCADAS, MARCAS_TOPO, conteudoHome, numerosDeProva } from './conteudo'
 import { partirNasFrases } from './lib/marcar'
 import { Marcacao } from './Marcacao'
 
@@ -81,7 +83,30 @@ function Vitrine() {
   )
 }
 
-/** Primeiro bloco da home: prova, promessa, WhatsApp e números; no PC, a vitrine ao lado. */
+/**
+ * Faixa com as logos das três marcas do título (21/10/2026, pedido dele). Cada logo leva à trajetória; o nome vai
+ * no texto alternativo, porque a faixa é o único lugar em que a logo aparece sem o nome ao lado.
+ */
+function FaixaMarcas() {
+  const base = import.meta.env.BASE_URL
+  const { empresas } = conteudoHome()
+  const marcas = MARCAS_TOPO.map((slug) => empresasDiretas.find((e) => e.slug === slug)).filter(
+    (e): e is EmpresaDireta & { logo: string } => Boolean(e?.logo),
+  )
+  return (
+    <ul className="faixa-marcas" aria-label={empresas.faixa}>
+      {marcas.map((e) => (
+        <li key={e.slug}>
+          <a className="toque" href="#empresas">
+            <img className="logo-empresa" data-slug={e.slug} data-clara={logoClara(e.slug)} src={caminhoPublico(base, e.logo)} alt={e.nome} height={28} decoding="async" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/** Primeiro bloco da home: prova, promessa, marcas, WhatsApp e números; no PC, a vitrine ao lado. */
 export function Promessa() {
   const { promessa } = conteudoHome()
   const n = numerosDeProva()
@@ -105,11 +130,12 @@ export function Promessa() {
           )}
         </h1>
         <p className="mt-4 max-w-xl text-lg text-grafite sm:text-xl">{promessa.subtitulo}</p>
+        <FaixaMarcas />
         <a className="cta toque mt-8" href={WHATSAPP} target="_blank" rel="noopener">
           {promessa.cta}
           <span className="seta" aria-hidden="true">→</span>
         </a>
-        <div ref={numeros} className="mt-12 grid max-w-xl grid-cols-3 gap-4 sm:gap-8">
+        <div ref={numeros} className="mt-10 grid max-w-xl grid-cols-3 gap-4 sm:gap-8">
           {itens.map((i) => (
             <div key={i.rotulo} className="flex flex-col gap-1 border-t border-linha pt-4">
               <span data-valor={i.valor} className="font-[family-name:var(--fonte-titulo)] text-4xl leading-none tabular-nums sm:text-5xl">

@@ -4,9 +4,12 @@
 import { empresasDiretas, type EmpresaDireta } from '../clientes'
 import { logoClara } from '../components/Logo'
 import { caminhoPublico } from '../lib/assets'
-import { LINHA_EMPRESA, SLUGS_EMPRESAS, conteudoHome } from './conteudo'
+import { LINHA_EMPRESA, SLUGS_EMPRESAS, conteudoHome, periodoDe } from './conteudo'
 
-/** Terceiro bloco da home: as empresas onde ele trabalhou, na ordem de `SLUGS_EMPRESAS`. */
+// 21/10/2026 (pedido dele): o bloco vira "Trajetória", com o período de cada empresa (trajetoria.ts) e o link do
+// currículo em PDF. Antes: "Onde já trabalhei", só logo, nome e papel.
+
+/** Terceiro bloco da home: a trajetória, empresa por empresa, na ordem de `SLUGS_EMPRESAS`, e o currículo. */
 export function Empresas() {
   const base = import.meta.env.BASE_URL
   const { empresas: textos } = conteudoHome()
@@ -16,9 +19,8 @@ export function Empresas() {
   return (
     <section id="empresas" className="secao">
       <h2 className="titulo-bloco alvo-secao"><span className="titulo-texto">{textos.titulo}</span></h2>
-      {/* 15/10/2026 (revisor, rodada 2): o subtítulo promete "o que fiz em cada uma", que só aparece do PC para cima
-          (no celular o papel fica para leitor de tela). Antes ele aparecia em toda largura. */}
-      <p className="mt-2 hidden text-base text-grafite lg:block">{textos.subtitulo}</p>
+      {/* 21/10/2026: sem subtítulo; com o período ao lado de cada empresa ele só repetia o título e estourava o
+          orçamento de rolagem a 1280 px (3257 > 3200). Antes: <p hidden lg:block>{textos.subtitulo}</p>. */}
       {/* Celular: 3 + 2 logos centradas (antes grade de 3 colunas, que deixava a 2ª linha torta, com vão à direita). */}
       <ul className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-4 sm:grid sm:grid-cols-5 lg:mt-8 lg:grid-cols-1 lg:gap-y-0">
         {empresas.map((e) => (
@@ -33,11 +35,16 @@ export function Empresas() {
             {e.via && <p aria-hidden="true" className="mt-1 text-center text-[0.7rem] leading-tight text-grafite sm:text-left lg:hidden">pela {e.via}</p>}
             <div className={e.logo ? 'sr-only lg:not-sr-only lg:min-w-0' : 'min-w-0'}>
               <p className="text-sm font-semibold">{e.nome}</p>
+              {/* No celular o período fica para leitor de tela (orçamento de rolagem); a lista completa está no PDF. */}
+              <p className="text-xs tabular-nums text-grafite">{periodoDe(e.slug)}</p>
               <p className="text-sm leading-snug text-grafite">{LINHA_EMPRESA[e.slug as keyof typeof LINHA_EMPRESA] ?? e.papel}</p>
             </div>
           </li>
         ))}
       </ul>
+      <a className="link-secundario toque mt-4" href={caminhoPublico(base, textos.curriculo.href)} download>
+        {textos.curriculo.texto}
+      </a>
     </section>
   )
 }

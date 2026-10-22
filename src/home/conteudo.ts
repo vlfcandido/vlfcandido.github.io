@@ -189,7 +189,6 @@ export function conteudoHome() {
     // trabalhei' e subtitulo 'As empresas onde trabalhei e o que fiz em cada uma.'
     empresas: {
       titulo: 'Trajetória',
-      subtitulo: 'Do emprego atual para trás, com o que fiz em cada um.',
       curriculo: { href: CURRICULO_PDF, texto: 'Baixar o currículo em PDF' },
       faixa: 'Onde trabalho e trabalhei',
     },
