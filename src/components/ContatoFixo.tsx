@@ -44,6 +44,9 @@ function cobreTexto(botao: HTMLElement): boolean {
       let n = 0
       for (let t = andador.nextNode(); t && n < 400; t = andador.nextNode(), n++) {
         if (!t.textContent?.trim()) continue
+        // Texto só para leitor de tela (sr-only, recortado em 1 px) não aparece: não conta como coberto. 22/10/2026: o
+        // nome das empresas da Trajetória escondia o botão na parada dos Destaques, sem nada visível embaixo.
+        if (t.parentElement?.closest('.sr-only')) continue
         const faixa = document.createRange()
         faixa.selectNodeContents(t)
         for (const q of faixa.getClientRects()) {
