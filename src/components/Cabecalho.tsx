@@ -1,6 +1,6 @@
 // Cabeçalho do site novo (14/10/2026). Antes: régua de profundidade da Maré (níveis com cotas, fileira de chips
 // no celular e régua lateral fixa em tela larga), apagada junto com src/lib/niveis.ts (ver git log).
-import { useEffect, useId, useState, type MouseEvent } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState, type MouseEvent, type RefObject } from 'react'
 import { flushSync } from 'react-dom'
 import { perfil } from '../conteudo'
 import { caminhoPublico } from '../lib/assets'
@@ -49,6 +49,42 @@ function useSecaoAVista(ativo: boolean): string | null {
 }
 
 /**
+ * Marcador único de marca-texto que desliza entre os itens do menu (21/10/2026, pedido dele: "dar vida pro menu"):
+ * vai até o item sob o mouse e volta para o item da seção à vista. Escreve a posição e a largura em variáveis CSS da
+ * lista (`--ind-x`, `--ind-y`, `--ind-w`) e o estado em `data-indicador` ("atual", "passando" ou ausente); o desenho e a mola
+ * ficam em casca.css. No celular (menu em coluna) o CSS ignora o marcador e usa o traço de cada item.
+ *
+ * @param lista ref da `<ul>` do menu.
+ * @param atual id do item da página ou seção atual (`data-id` do link), ou `null`.
+ * @param passando id do item sob o mouse, ou `null`.
+ */
+function useMarcador(lista: RefObject<HTMLUListElement | null>, atual: string | null, passando: string | null) {
+  const [largura, setLargura] = useState(0)
+  useEffect(() => {
+    const aoMudar = () => setLargura(window.innerWidth)
+    window.addEventListener('resize', aoMudar)
+    return () => window.removeEventListener('resize', aoMudar)
+  }, [])
+  useLayoutEffect(() => {
+    const ul = lista.current
+    if (!ul) return
+    const alvo = passando ?? atual
+    const link = alvo ? ul.querySelector<HTMLElement>(`a[data-id="${alvo}"]`) : null
+    if (!link) {
+      delete ul.dataset.indicador
+      return
+    }
+    // Medido contra a própria lista: o `li` com animação de entrada vira o offsetParent e o offsetLeft dava 0.
+    const caixa = link.getBoundingClientRect()
+    const base = ul.getBoundingClientRect()
+    ul.style.setProperty('--ind-x', `${caixa.left - base.left + 8}px`)
+    ul.style.setProperty('--ind-w', `${caixa.width - 16}px`)
+    ul.style.setProperty('--ind-y', `${caixa.bottom - base.top - 11}px`)
+    ul.dataset.indicador = passando && passando !== atual ? 'passando' : 'atual'
+  }, [lista, atual, passando, largura])
+}
+
+/**
  * Clique numa âncora que já está no endereço não dispara `hashchange`, e o item parecia quebrado (Task 10): a
  * rolagem é feita aqui mesmo, sem mexer no histórico.
  *
@@ -88,6 +124,9 @@ export function Cabecalho({ rota }: { rota: Rota }) {
     return () => window.removeEventListener('keydown', aoTeclar)
   }, [aberto])
   const fechar = () => setAberto(false)
+  const lista = useRef<HTMLUListElement>(null)
+  const [passando, setPassando] = useState<string | null>(null)
+  useMarcador(lista, rota === 'projetos' ? 'projetos' : secao, passando)
   return (
     <header className="cabecalho md:sticky md:top-0">
       <div className="cabecalho-grade mx-auto max-w-7xl px-4 sm:px-8">
@@ -108,10 +147,10 @@ export function Cabecalho({ rota }: { rota: Rota }) {
           Menu
         </button>
         <nav id={idNav} aria-label="Seções" className="cabecalho-nav" data-aberto={aberto}>
-          <ul>
+          <ul ref={lista} onMouseLeave={() => setPassando(null)}>
             {SECOES.map((s) => (
               <li key={s.id}>
-                <a href={`#${s.id}`} aria-current={secao === s.id ? 'location' : undefined} onClick={(e) => {
+                <a href={`#${s.id}`} data-id={s.id} onMouseEnter={() => setPassando(s.id)} aria-current={secao === s.id ? 'location' : undefined} onClick={(e) => {
                     // 15/10/2026 (medir_site, check 13): o menu aberto empurra a página; a rolagem da mesma âncora
                     // era medida com ele aberto e o título parava ~200 px acima da tela. Fecha de forma síncrona antes.
                     flushSync(fechar)
@@ -123,13 +162,15 @@ export function Cabecalho({ rota }: { rota: Rota }) {
             ))}
             {/* Task 10: a galeria completa no menu (antes só se chegava a ela pelo botão do bloco de trabalhos). */}
             <li>
-              <a href={HASH_PROJETOS} aria-current={rota === 'projetos' ? 'page' : undefined} onClick={fechar}>
+              <a href={HASH_PROJETOS} data-id="projetos" onMouseEnter={() => setPassando('projetos')} aria-current={rota === 'projetos' ? 'page' : undefined} onClick={fechar}>
                 Projetos
               </a>
             </li>
             {/* Peças navegáveis (HTML estático em public/trabalhos/), na mesma aba: elas têm volta própria. */}
             <li>
-              <a href={caminhoPublico(import.meta.env.BASE_URL, 'trabalhos/')}>Exemplos navegáveis</a>
+              <a href={caminhoPublico(import.meta.env.BASE_URL, 'trabalhos/')} data-id="exemplos" onMouseEnter={() => setPassando('exemplos')}>
+                Exemplos navegáveis
+              </a>
             </li>
           </ul>
         </nav>
