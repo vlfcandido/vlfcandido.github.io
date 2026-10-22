@@ -153,133 +153,173 @@
   .moldura-navegador .barra-janela { display: flex; align-items: center; gap: 8px; height: 32px; padding-inline: 16px; border-bottom: 1px solid var(--linha); background: var(--raso); }
   .moldura-navegador .barra-janela i { width: 8px; height: 8px; border-radius: var(--raio-pilula); background: var(--linha); }
 
-  /* Animação do topo (21/10/2026; antes, a vitrine com o print grande). Regra do movimento: o estado final é o estilo
-     normal e cada keyframe só descreve o começo, com fill-mode backwards. Com reduced-motion a animação some e fica
-     o quadro final de cada cena. --i é a ordem do elemento dentro da cena. */
+  /* Animação do topo (21/10/2026; antes, a vitrine com o print grande). Uma cena só: o site do Café Aroma (fictício)
+     se monta e atende pelo WhatsApp. Regra do movimento: o estado final é o estilo normal e cada keyframe descreve só o
+     começo (fill-mode backwards); o que é passageiro (cursor, "digitando", aviso) tem opacidade 0 no estilo normal.
+     Com reduced-motion a animação some e fica o quadro final. Linha do tempo em batidas, em s (--q de cada peça):
+       0–0,2 planta (todas as vagas juntas) · 0,25–0,35 menu e celular · 0,6–0,92 o hero em cascata · 1,15–1,31 cartões
+       · 1,5–2,8 cursor entra e clica a 2,38 (botão afunda e solta o anel) · 2,5 a mensagem do cliente sai junto com o
+       clique · 3,5 o agente manda o Pix (o ícone pulsa) · 4,1 "Paguei!" e o cartão do Pix acende · 5,0 confirmação, e
+       no mesmo instante o contador sobe, o aviso passa e a moto sai · 8,2–8,6 o site esmaece e a volta recomeça
+       (VOLTA em AnimacaoTrabalho.tsx).
+     PC: grade de 6 colunas em 16:10. Celular: palco em 4:5 e, quando o palco fica em pé (container query), o site
+     vira o layout de celular dele, numa coluna, com letra grande. Medidas em cqw do palco. */
   .anim .barra-janela { gap: 6px; }
-  .anim-abas { display: flex; gap: 4px; margin-left: auto; }
-  .anim-aba { min-height: 28px; padding: 2px 10px; border-radius: var(--raio-pilula); font-size: 0.75rem; color: var(--grafite);
-    background: transparent; border: 1px solid transparent; cursor: pointer; }
-  .anim-aba[aria-pressed="true"] { background: var(--sol); color: var(--on-sol); font-weight: 600; }
-  .anim-aba:focus-visible { outline: 2px solid var(--tinta); outline-offset: 2px; }
-  /* O palco tem a proporção da tela real (1000 x 625), para a cena do site não cortar nada. */
+  .anim-endereco { display: inline-flex; align-items: center; gap: 6px; margin-inline: auto; padding: 3px 14px; border-radius: var(--raio-pilula);
+    background: var(--papel-alto); border: 1px solid var(--linha); font-size: 0.75rem; color: var(--grafite); }
+  .anim-endereco svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+  .anim-no-ar { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 600; color: var(--mata); }
+  .anim-no-ar::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: a-pulsa 1.8s ease-in-out infinite; }
   .anim-palco { position: relative; aspect-ratio: 16 / 10; overflow: hidden; container-type: size; }
-  .anim-agentes, .anim-testes { padding: 16px; }
-  @media (min-width: 1024px) { .anim-agentes, .anim-testes { padding: 28px; } }
+  @media (max-width: 639px) { .anim-palco { aspect-ratio: 4 / 5; } .anim .barra-janela i { display: none; } }
 
-  /* Cena 1: a landing do Café Aroma (fictício) montada por peças. Tempos: 0–0,6 s a planta (vagas tracejadas);
-     0,7–3,9 s as peças chegam, encaixam com mola e as guias piscam; 3,8–5,2 s o pedido chega no WhatsApp do celular;
-     5,4 s o aviso de pedido novo passa. Paleta própria do café, fixa nos dois temas (é a tela do site de um cliente).
-     Medidas em cqw do palco (o container): a cena escala igual no PC e no celular. */
   .anim-site { --s-fundo:#fbf6ef; --s-tinta:#2b1a10; --s-cafe:#7a4a2a; --s-creme:#f1e4d3; --s-laranja:#e8823a; --s-verde:#1f9d55;
     --s-zap:#0b6b5c; --s-bolha:#dcf8c6; --s-linha:#e7dccd;
     position: absolute; inset: 0; display: grid; gap: 1.5cqw 2.2cqw; padding: 3cqw 3.4cqw;
     grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: 7cqw 4.6cqw auto auto 6.6cqw 4.4cqw minmax(0, 1fr);
-    grid-template-areas: "menu menu menu menu menu menu" "aberto aberto aberto aberto celular celular" "titulo titulo titulo titulo celular celular"
-      "texto texto texto texto celular celular" "botoes botoes botoes botoes celular celular" "prova prova prova prova celular celular" "c1 c1 c2 c2 c3 c3";
-    background: var(--s-fundo); color: var(--s-tinta); font-size: 1.8cqw; line-height: 1.3; }
-  /* A vaga tracejada vive até a peça encaixar e some; no quadro final só fica o site. */
+    grid-template-areas: "menu menu menu menu menu menu" "aberto aberto aberto aberto celular celular"
+      "titulo titulo titulo titulo celular celular" "texto texto texto texto celular celular"
+      "botoes botoes botoes botoes celular celular" "prova prova prova prova celular celular" "c1 c1 c2 c2 c3 c3";
+    background: var(--s-fundo); color: var(--s-tinta); font-size: 1.8cqw; line-height: 1.3; animation: a-volta 8.6s linear; }
   .a-vaga { position: relative; min-width: 0; min-height: 0; border-radius: 1.4cqw; outline: 1.5px dashed transparent; outline-offset: 2px;
-    animation: a-vaga-vive calc(1.7s + var(--i) * 260ms) ease-out; }
+    animation: a-vaga-vive calc(var(--q) + 1s) ease-out; }
   .a-vaga::before, .a-vaga::after { content: ""; position: absolute; background: var(--s-laranja); opacity: 0; pointer-events: none;
-    animation: a-guia .6s ease-out calc(1.05s + var(--i) * 260ms); }
+    animation: a-guia .5s ease-out calc(var(--q) + .42s); }
   .a-vaga::before { left: -100vw; right: -100vw; top: -1px; height: 1px; }
   .a-vaga::after { top: -100vh; bottom: -100vh; left: -1px; width: 1px; }
   .a-peca { position: relative; z-index: 1; height: 100%; border-radius: inherit; display: flex; align-items: center; gap: 1.2cqw;
-    animation: a-encaixa .62s cubic-bezier(.25,1.4,.45,1) calc(.7s + var(--i) * 260ms) backwards; }
+    animation: a-encaixa .7s cubic-bezier(.34,1.56,.64,1) var(--q) backwards; }
 
   .a-menu { gap: 3cqw; padding: 0 1.6cqw; background: #fff; border-radius: 1.6cqw; box-shadow: 0 .3cqw 1.2cqw rgb(43 26 16 / .08); }
   .a-marca { display: flex; align-items: center; gap: 1cqw; font-family: var(--fonte-titulo); font-size: 2.3cqw; white-space: nowrap; }
-  .a-logo { width: 3cqw; height: 3cqw; border-radius: 50% 50% 50% .6cqw; background: var(--s-cafe);
-    box-shadow: inset -.7cqw -.6cqw 0 var(--s-laranja); }
+  .a-logo { width: 3cqw; height: 3cqw; border-radius: 50% 50% 50% .6cqw; background: var(--s-cafe); box-shadow: inset -.7cqw -.6cqw 0 var(--s-laranja); }
   .a-links { display: flex; gap: 2.4cqw; margin-left: auto; font-size: 1.6cqw; color: var(--s-cafe); }
   .a-acao { padding: .9cqw 1.8cqw; border-radius: 99px; background: var(--s-tinta); color: #fff; font-size: 1.5cqw; font-weight: 600; white-space: nowrap; }
+  .a-hamburguer { display: none; }
 
-  .a-selo-site { display: inline-flex; align-items: center; gap: .9cqw; padding: .6cqw 1.4cqw; border-radius: 99px; font-size: 1.45cqw;
+  .a-aberto-selo { display: inline-flex; align-items: center; gap: .9cqw; padding: .6cqw 1.4cqw; border-radius: 99px; font-size: 1.45cqw;
     font-weight: 600; background: color-mix(in srgb, var(--s-verde) 12%, #fff); color: #13693a; white-space: nowrap; }
-  .a-selo-site i { width: 1.1cqw; height: 1.1cqw; border-radius: 50%; background: var(--s-verde); box-shadow: 0 0 0 .5cqw color-mix(in srgb, var(--s-verde) 25%, transparent); }
+  .a-aberto-selo i { width: 1.1cqw; height: 1.1cqw; border-radius: 50%; background: var(--s-verde); animation: a-pulsa 1.6s ease-in-out infinite; }
   .a-h { font-family: var(--fonte-titulo); font-weight: 650; font-size: 5.2cqw; line-height: 1.02; letter-spacing: -0.02em; }
   .a-p { font-size: 1.9cqw; color: var(--s-cafe); max-width: 40cqw; }
-  .a-btn { padding: 1.3cqw 2.6cqw; border-radius: 99px; background: var(--s-laranja); color: #fff; font-weight: 700; font-size: 1.7cqw;
-    box-shadow: 0 .6cqw 1.4cqw rgb(232 130 58 / .35); white-space: nowrap; }
+  .a-btn { position: relative; padding: 1.3cqw 2.6cqw; border-radius: 99px; background: var(--s-laranja); color: #fff; font-weight: 700;
+    font-size: 1.7cqw; box-shadow: 0 .6cqw 1.4cqw rgb(232 130 58 / .35); white-space: nowrap; }
+  .a-btn1 { animation: a-aperta .3s ease-in-out 2.3s; }
+  /* Anel do clique, no mesmo instante em que o botão afunda. */
+  .a-btn1::after { content: ""; position: absolute; left: 66%; top: 58%; width: 1cqw; height: 1cqw; margin: -.5cqw; border-radius: 50%;
+    border: .4cqw solid #fff; opacity: 0; animation: a-anel .55s ease-out 2.38s; }
   .a-btn2 { background: transparent; color: var(--s-tinta); box-shadow: inset 0 0 0 1.5px var(--s-linha); }
+  .a-cursor { position: absolute; z-index: 4; left: 62%; top: 52%; width: 2.6cqw; height: 2.6cqw; opacity: 0; overflow: visible;
+    filter: drop-shadow(0 .2cqw .3cqw rgb(0 0 0 / .35)); animation: a-cursor 1.4s cubic-bezier(.3,.7,.2,1) 1.5s; }
+  .a-cursor path { fill: var(--s-tinta); stroke: #fff; stroke-width: 1.4; stroke-linejoin: round; }
+
   .a-prova { font-size: 1.45cqw; color: var(--s-cafe); white-space: nowrap; }
   .a-rostos { display: flex; }
   .a-rostos i { width: 3cqw; height: 3cqw; border-radius: 50%; border: .4cqw solid var(--s-fundo); margin-left: -1cqw; background: #c98b5e; }
   .a-rostos i:first-child { margin-left: 0; background: #8a5a3b; } .a-rostos i:last-child { background: #e3b48c; }
   .a-estrelas { color: #f2a516; font-size: 1.6cqw; letter-spacing: .1em; }
+  .a-pedidos { display: inline-flex; align-items: center; gap: .6cqw; margin-left: 1cqw; padding-left: 1.6cqw; border-left: 1px solid var(--s-linha);
+    font-size: 1.45cqw; color: var(--s-cafe); white-space: nowrap; }
+  .a-num { display: inline-flex; flex-direction: column; height: 1.3em; line-height: 1.3; overflow: hidden; font-weight: 700; color: var(--s-tinta);
+    font-variant-numeric: tabular-nums; }
+  .a-num > span { transform: translateY(-100%); animation: a-conta .45s cubic-bezier(.3,1.4,.5,1) 5.05s backwards; }
 
   /* O celular não entra no cálculo da grade: ocupa a vaga dele por cima, senão a proporção estica as linhas. */
   .a-celular { position: absolute; inset: 0; justify-content: center; }
   .a-fone { position: relative; height: 100%; aspect-ratio: 9 / 17; margin-inline: auto; display: flex; flex-direction: column; overflow: hidden;
     border-radius: 3cqw; border: 1cqw solid var(--s-tinta); background: #efe7dc; box-shadow: 0 2cqw 4cqw rgb(43 26 16 / .25); }
   .a-fone-topo { display: flex; align-items: center; gap: .8cqw; padding: 1.6cqw 1.2cqw 1cqw; background: var(--s-zap); color: #fff;
-    font-size: 1.4cqw; font-weight: 600; }
-  .a-fone-topo i { width: 2.4cqw; height: 2.4cqw; border-radius: 50%; background: var(--s-laranja); }
+    font-size: 1.4cqw; font-weight: 600; white-space: nowrap; }
+  .a-fone-topo i { flex: none; width: 2.4cqw; height: 2.4cqw; border-radius: 50%; background: var(--s-laranja); }
+  .a-fone-topo small { display: none; }
   .a-conversa { display: flex; flex-direction: column; gap: .9cqw; padding: 1.2cqw; }
-  .a-bolha { max-width: 88%; padding: .8cqw 1.1cqw; border-radius: 1.2cqw; font-size: 1.3cqw; line-height: 1.25; background: #fff;
-    box-shadow: 0 .2cqw .4cqw rgb(0 0 0 / .08); animation: a-bolha .35s cubic-bezier(.25,1.4,.45,1) calc(3.8s + var(--k) * 450ms) backwards; }
+  .a-bolha { position: relative; max-width: 88%; padding: .8cqw 1.1cqw; border-radius: 1.2cqw; font-size: 1.3cqw; line-height: 1.25;
+    background: #fff; box-shadow: 0 .2cqw .4cqw rgb(0 0 0 / .08); animation: a-bolha .35s cubic-bezier(.25,1.4,.45,1) var(--t) backwards; }
   .a-cliente { align-self: flex-end; background: var(--s-bolha); border-bottom-right-radius: .3cqw; transform-origin: right bottom; }
-  .a-loja { align-self: flex-start; border-bottom-left-radius: .3cqw; transform-origin: left bottom; }
+  .a-loja { align-self: flex-start; border-bottom-left-radius: .3cqw; transform-origin: left bottom;
+    animation-delay: calc(var(--t) - .7s); }
+  .a-quem { display: block; margin-bottom: .2cqw; font-size: .82em; font-weight: 700; color: #0b6b5c; }
+  /* "digitando": cobre a bolha da loja nos 0,8 s antes do texto aparecer. */
+  .a-loja::after { content: "• • •"; position: absolute; inset: 0; display: grid; place-items: center; border-radius: inherit; background: #fff;
+    color: #9a8f84; letter-spacing: .1em; opacity: 0; animation: a-digita .7s steps(1) calc(var(--t) - .7s); }
 
   .a-c1, .a-c2, .a-c3 { gap: 1.4cqw; padding: 0 1.6cqw; background: #fff; border-radius: 1.6cqw; box-shadow: 0 .3cqw 1.2cqw rgb(43 26 16 / .08); }
+  .a-c2 { animation: a-encaixa .7s cubic-bezier(.34,1.56,.64,1) var(--q) backwards, a-brilha 1.1s ease-out 4.1s; }
   .a-icone { flex: none; width: 4.4cqw; height: 4.4cqw; padding: .9cqw; border-radius: 1.2cqw; background: var(--s-creme);
     fill: none; stroke: var(--s-cafe); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .a-c2 .a-icone { background: color-mix(in srgb, var(--s-verde) 14%, #fff); stroke: #13693a; }
   .a-c3 .a-icone { background: color-mix(in srgb, var(--s-laranja) 16%, #fff); stroke: #b85a1c; }
+  .a-icone-pix { animation: a-pulso .4s ease-in-out 3.5s, a-gira .7s cubic-bezier(.3,1.4,.5,1) 4.1s; }
+  .a-icone-entrega { animation: a-roda 1.1s ease-in-out 5s infinite; }
   .a-cartao-texto { display: flex; flex-direction: column; min-width: 0; font-size: 1.35cqw; color: var(--s-cafe); }
   .a-cartao-texto b { font-size: 1.6cqw; color: var(--s-tinta); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  .a-aviso { position: absolute; z-index: 3; right: 3.4cqw; bottom: 3cqw; display: flex; align-items: center; gap: 1cqw; padding: 1.2cqw 1.8cqw;
+  /* O aviso cai do alto como notificação, sobre o topo do celular, sem cobrir a conversa. */
+  .a-aviso { position: absolute; z-index: 3; right: 2.2cqw; top: 10.5cqw; display: flex; align-items: center; gap: 1cqw; padding: 1.2cqw 1.8cqw;
     border-radius: 1.4cqw; background: var(--s-tinta); color: #fff; font-size: 1.6cqw; font-weight: 600; opacity: 0;
-    box-shadow: 0 1.2cqw 3cqw rgb(43 26 16 / .35); animation: a-aviso 1.6s cubic-bezier(.25,1.3,.45,1) 5.5s; }
+    box-shadow: 0 1.2cqw 3cqw rgb(43 26 16 / .35); animation: a-aviso 2.6s cubic-bezier(.25,1.3,.45,1) 5.1s; }
   .a-aviso i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: var(--s-verde); }
 
-  @keyframes a-encaixa {
-    0% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--giro)) scale(1.06); filter: drop-shadow(0 2cqw 2cqw rgb(0 0 0 / .2)); }
-    25% { opacity: 1; }
+  /* Celular: o palco fica em pé e o site do café vira o layout de celular dele (uma coluna, letra grande, a conversa
+     dentro da página em vez do aparelho). Texto, prova e cartões ficam de fora para caber sem apertar. */
+  @container (orientation: portrait) {
+    .anim-site { gap: 2.6cqw; padding: 4cqw; font-size: 3.6cqw;
+      grid-template-columns: minmax(0, 1fr); grid-template-rows: 12cqw 7cqw auto 11cqw minmax(0, 1fr);
+      grid-template-areas: "menu" "aberto" "titulo" "botoes" "celular"; }
+    .anim-site .a-vaga:has(.a-texto, .a-prova, .a-c1, .a-c2, .a-c3) { display: none; }
+    .a-vaga { border-radius: 3cqw; }
+    .a-menu { padding: 0 3cqw; border-radius: 3cqw; }
+    .a-marca { font-size: 4.8cqw; gap: 2cqw; }
+    .a-logo { width: 6cqw; height: 6cqw; }
+    .a-links, .a-acao { display: none; }
+    .a-hamburguer { display: grid; gap: 1cqw; margin-left: auto; }
+    .a-hamburguer i { display: block; width: 5.4cqw; height: .7cqw; border-radius: 1cqw; background: var(--s-tinta); }
+    .a-aberto-selo { font-size: 3.2cqw; gap: 1.8cqw; padding: 1.2cqw 3cqw; }
+    .a-aberto-selo i { width: 2.2cqw; height: 2.2cqw; }
+    .a-h { font-size: 9.4cqw; }
+    .a-botoes { gap: 2.4cqw; }
+    .a-btn { font-size: 3.7cqw; padding: 2.4cqw 4.6cqw; }
+    .a-cursor { width: 6cqw; height: 6cqw; }
+    .a-celular { position: static; }
+    .a-fone { height: 100%; width: 100%; aspect-ratio: auto; border-width: 0; border-radius: 3cqw; box-shadow: 0 0 0 1px var(--s-linha);
+      background: #efe7dc; }
+    .a-fone-topo { gap: 2cqw; padding: 2.4cqw 3cqw; font-size: 3.6cqw; }
+    .a-fone-topo i { width: 5.4cqw; height: 5.4cqw; }
+    .a-fone-topo small { display: inline; margin-left: auto; padding: .6cqw 2cqw; border-radius: 99px; background: rgb(255 255 255 / .18);
+      font-size: 2.8cqw; font-weight: 600; }
+    .a-conversa { gap: 2cqw; padding: 3cqw; }
+    .a-bolha { font-size: 3.5cqw; padding: 1.8cqw 2.6cqw; border-radius: 3cqw; }
+    .a-cliente { border-bottom-right-radius: .8cqw; } .a-loja { border-bottom-left-radius: .8cqw; }
+    .a-quem { display: none; }
+    .a-aviso { left: 50%; right: auto; top: 3cqw; translate: -50% 0; gap: 2cqw; padding: 2.6cqw 4cqw; border-radius: 3cqw; font-size: 3.6cqw;
+      white-space: nowrap; }
+    .a-aviso i { width: 2.6cqw; height: 2.6cqw; }
   }
+
+  @keyframes a-encaixa {
+    0% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--giro)) scale(.94); filter: drop-shadow(0 2cqw 2.4cqw rgb(43 26 16 / .22)); }
+    30% { opacity: 1; }
+  }
+  @keyframes a-volta { 0% { opacity: 0; } 2% { opacity: 1; } 95% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes a-anel { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(9); } }
+  @keyframes a-pulso { 50% { transform: scale(1.18); } }
   @keyframes a-vaga-vive { 0% { outline-color: transparent; } 8%, 88% { outline-color: color-mix(in srgb, var(--s-cafe) 45%, transparent); } 100% { outline-color: transparent; } }
   @keyframes a-guia { 0% { opacity: 0; } 25% { opacity: .9; } 100% { opacity: 0; } }
+  @keyframes a-cursor { 0% { opacity: 0; transform: translate(420%, 300%); } 15% { opacity: 1; } 55% { transform: none; }
+    62% { transform: scale(.8); } 70% { transform: none; } 85% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes a-aperta { 50% { transform: scale(.94); filter: brightness(.92); } }
   @keyframes a-bolha { from { opacity: 0; transform: scale(.6); } }
-  @keyframes a-aviso { 0% { opacity: 0; transform: translateY(3cqw) scale(.9); } 18%, 82% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-1cqw); } }
-  @keyframes a-mostra { from { opacity: 0; } }
-
-  /* Cena 2: agentes. Coluna de nós ligados por fios; o caminho escolhido acende em marca-texto, na ordem. */
-  .anim-agentes { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 0; font-size: 0.78rem; }
-  .a-msg { padding: 4px 12px; border-radius: 12px; background: var(--raso); border: 1px solid var(--linha); }
-  .a-entrada { border-bottom-left-radius: 4px; animation: a-surge .4s var(--mov-ease) .1s backwards; }
-  .a-saida { border-bottom-right-radius: 4px; background: color-mix(in srgb, var(--mata) 18%, var(--papel-alto));
-    animation: a-surge .4s var(--mov-ease) calc(.4s + var(--i) * 550ms) backwards; }
-  .a-fio { display: block; width: 1.5px; height: 12px; background: var(--grafite); transform-origin: top;
-    animation: a-desce .3s linear calc(.35s + var(--i) * 550ms) backwards; }
-  .a-no { padding: 3px 10px; border-radius: var(--raio-pilula); border: 1px solid var(--linha); color: var(--grafite); background: var(--papel-alto); }
-  .a-no.a-ativo { color: var(--on-sol); background: var(--sol); border-color: var(--sol); font-weight: 600;
-    animation: a-acende .35s var(--mov-ease) calc(.4s + var(--i) * 550ms) backwards; }
-  .a-especialistas { display: flex; gap: 6px; }
-  .a-ok { color: var(--mata); font-weight: 700; }
-  .a-no.a-ativo .a-ok { color: inherit; }
-  @media (min-width: 1024px) { .anim-agentes { font-size: 0.95rem; } .a-fio { height: 22px; } .a-especialistas { gap: 10px; } }
-
-  /* Cena 3: testes. As linhas passam uma a uma, o resumo fecha e o selo carimba por cima. */
-  .anim-testes { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 6px; font-size: 0.8rem; }
-  .anim-testes ul { display: grid; gap: 4px; list-style: none; padding: 0; margin: 0; }
-  .anim-testes li { animation: a-surge .3s var(--mov-ease) calc(.2s + var(--i) * 380ms) backwards; }
-  .a-resumo { font-weight: 600; padding-top: 6px; border-top: 1px solid var(--linha);
-    animation: a-surge .3s var(--mov-ease) calc(.2s + var(--i) * 380ms) backwards; }
-  .a-selo { position: absolute; right: 5%; top: 10%; padding: 6px 16px; border: 2.5px solid var(--tinta); border-radius: 8px;
-    font-family: var(--fonte-titulo); font-size: 1.4rem; font-weight: 700; background: var(--sol); color: var(--on-sol); transform: rotate(-6deg);
-    animation: a-carimbo .35s cubic-bezier(.3,1.6,.5,1) 2.5s backwards; }
-  @media (min-width: 1024px) { .anim-testes { font-size: 1.05rem; gap: 12px; } .anim-testes ul { gap: 10px; } .a-selo { font-size: 2rem; } }
-
-  @keyframes a-rabisco { from { transform: scaleX(0); opacity: 0; } }
-  @keyframes a-pinta { from { opacity: 0; } }
-  @keyframes a-traco { from { stroke-dashoffset: 1; } }
-  @keyframes a-surge { from { opacity: 0; transform: translateY(6px); } }
-  @keyframes a-desce { from { transform: scaleY(0); } }
-  @keyframes a-acende { from { background: var(--papel-alto); color: var(--grafite); border-color: var(--linha); } }
-  @keyframes a-carimbo { from { opacity: 0; transform: rotate(-6deg) scale(1.8); } }
-  @media (prefers-reduced-motion: reduce) { .anim-palco *, .anim-palco *::after { animation: none !important; } }
+  @keyframes a-digita { 0%, 100% { opacity: 1; } }
+  @keyframes a-conta { from { transform: translateY(0); } }
+  @keyframes a-gira { from { transform: rotate(-180deg) scale(.6); } }
+  @keyframes a-brilha { 0% { box-shadow: 0 0 0 0 rgb(31 157 85 / .55), 0 .3cqw 1.2cqw rgb(43 26 16 / .08); }
+    100% { box-shadow: 0 0 0 2cqw rgb(31 157 85 / 0), 0 .3cqw 1.2cqw rgb(43 26 16 / .08); } }
+  @keyframes a-roda { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(12%); } }
+  @keyframes a-pulsa { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 45%, transparent); }
+    60% { box-shadow: 0 0 0 .5em color-mix(in srgb, currentColor 0%, transparent); } }
+  @keyframes a-aviso { 0% { opacity: 0; transform: translateY(-4cqw) scale(.92); } 15%, 85% { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(-2cqw); } }
+  @media (prefers-reduced-motion: reduce) { .anim *, .anim *::before, .anim *::after { animation: none !important; } }
 
   .numero-passo { font-family: var(--fonte-titulo); line-height: 1; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; color: var(--fundo); }
 

@@ -134,17 +134,14 @@ export function conteudoHome() {
     // 'trabalhos/img/liga-varzea-detalhe.jpg', legenda 'Quando a API traz um número diferente, ele espera alguém
     // conferir antes de entrar no banco.', alvo { x: 26.3, y: 75.3, l: 20.4, a: 7.8 } }.
     animacao: {
-      titulo: 'Do rascunho ao sistema no ar',
-      cenas: [
-        { id: 'site', rotulo: 'Site', legenda: 'O site é montado peça por peça, cada uma encaixada no lugar certo.' },
-        { id: 'agentes', rotulo: 'Agentes de IA', legenda: 'Os agentes dividem o atendimento e um revisor confere antes de responder.' },
-        { id: 'testes', rotulo: 'Testes', legenda: 'Nada vai para o ar sem os testes passarem antes.' },
-      ],
-      // Cena do site (21/10/2026, 2ª versão, pedido dele): um site fictício que se monta peça por peça, cada caixa
-      // encaixando no seu lugar com guias de alinhamento. Antes: rascunho a lápis + print da Liga Várzea em cortina,
-      // que ele achou "ridícula". Negócio fictício, sem nome real.
-      // 3ª versão (21/10/2026, "o site montado ainda não tá legal"): landing completa com selo, prova social, celular com
-      // o pedido no WhatsApp e o aviso de pedido novo no fim. Sem "R$": a home não mostra preço (teste do conteúdo).
+      // 4ª versão (21/10/2026, pedido dele): uma cena só, sem abas. O site do café se monta e ganha vida com a automação
+      // do WhatsApp (o agente de IA atende e confirma o Pix). Antes: 3 cenas com abas (site, agentes, testes); as duas
+      // últimas saíram, e o agente e o "no ar" agora vivem dentro desta. No celular a cena tem layout próprio.
+      titulo: 'Um site sendo montado e atendendo pelo WhatsApp',
+      legenda: 'O site é montado peça por peça e já atende sozinho no WhatsApp.',
+      endereco: 'cafearoma.com.br',
+      status: 'No ar',
+      // Café fictício, sem nome real. Sem "R$": a home não mostra preço (teste do conteúdo).
       site: {
         marca: 'Café Aroma',
         menu: ['Cardápio', 'Pedidos', 'Contato'],
@@ -153,33 +150,21 @@ export function conteudoHome() {
         titulo: 'Seu café pedido pelo WhatsApp',
         texto: 'Escolha no cardápio, pague por Pix e acompanhe a entrega.',
         botoes: ['Fazer pedido', 'Ver cardápio'],
-        prova: 'nota 4,9 de quem já pediu',
+        prova: 'nota 4,9',
+        pedidos: { antes: 128, depois: 129, rotulo: 'pedidos hoje' },
         cartoes: [
           { titulo: 'Cardápio online', texto: 'Sempre atualizado', icone: 'cardapio' },
           { titulo: 'Pagamento por Pix', texto: 'Na própria conversa', icone: 'pix' },
           { titulo: 'Entrega no bairro', texto: 'Com aviso no caminho', icone: 'entrega' },
         ],
+        agente: 'Agente de IA',
         conversa: [
           { de: 'cliente', texto: 'Oi! Um cappuccino e dois pães de queijo' },
-          { de: 'loja', texto: 'Anotado. Te mandei o Pix aqui' },
+          { de: 'loja', texto: 'Anotado! Te mandei o Pix aqui' },
           { de: 'cliente', texto: 'Paguei!' },
-          { de: 'loja', texto: 'Pedido confirmado, sai em 15 min' },
+          { de: 'loja', texto: 'Pagamento confirmado, sai em 15 min' },
         ],
         aviso: 'Novo pedido recebido',
-      },
-      // Nós da cena dos agentes, no formato do vendedor de IA da Contabilizei (orquestrador, especialistas, revisor).
-      agentes: {
-        entrada: 'Oi, quero saber o preço',
-        orquestrador: 'Orquestrador',
-        especialistas: ['Vendas', 'Dúvidas', 'Cobrança'],
-        revisor: 'Revisor',
-        saida: 'Resposta conferida',
-      },
-      // Sem número: a contagem real de testes muda a cada projeto e não vai inventada na home.
-      testes: {
-        linhas: ['agenda confirma o horário', 'revisor barra resposta sem fonte', 'pagamento por Pix conciliado', 'tela funciona no celular'],
-        resumo: 'todos os testes passaram',
-        selo: 'No ar',
       },
     },
     prototipo: {

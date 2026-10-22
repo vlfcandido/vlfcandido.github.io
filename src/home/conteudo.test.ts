@@ -59,7 +59,7 @@ describe('conteúdo da home', () => {
     expect(new Set(PECAS.map((x) => x.resumo)).size).toBe(PECAS.length)
   })
   it('nenhum dois-pontos nem travessão no texto da home (humanizer)', () => {
-    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.animacao.titulo, ...c.animacao.cenas.flatMap((x) => [x.rotulo, x.legenda]), c.prototipo.titulo, c.prototipo.texto,
+    const visivel = [c.promessa.titulo, c.promessa.subtitulo, c.animacao.titulo, c.animacao.legenda, c.prototipo.titulo, c.prototipo.texto,
       ...c.destaques.flatMap((d) => [d.dor, d.detalhe]), ...c.passos.flatMap((x) => [x.titulo, x.texto]), c.garantia,
       c.garantiaPlataforma, ...c.quemSou.texto, c.chamada.titulo]
     for (const t of visivel) expect(t, t).not.toMatch(/[:—–]/)
@@ -125,31 +125,20 @@ describe('marcas e trajetória na home', () => {
   })
 })
 
-// 21/10/2026 (pedido dele): no lugar do print grande, uma animação em 3 cenas (site, agentes, testes).
+// 21/10/2026 (pedido dele): no lugar do print grande, uma animação só (sem abas): o site se monta e atende no WhatsApp.
 describe('animação do topo', () => {
-  it('tem 3 cenas, na ordem site, agentes e testes', () =>
-    expect(c.animacao.cenas.map((x) => x.id)).toEqual(['site', 'agentes', 'testes']))
-  it('cada cena tem rótulo curto e legenda própria', () => {
-    for (const x of c.animacao.cenas) {
-      expect(x.rotulo.length).toBeLessThanOrEqual(18)
-      expect(x.legenda.length).toBeGreaterThan(20)
-    }
-    expect(new Set(c.animacao.cenas.map((x) => x.legenda)).size).toBe(3)
+  const a = c.animacao
+  it('é uma cena só, sem abas', () => expect('cenas' in a).toBe(false))
+  it('monta um site fictício completo (menu, título, 2 botões e 3 cartões)', () => {
+    expect(a.site.menu.length).toBeGreaterThanOrEqual(2)
+    expect(a.site.titulo.length).toBeGreaterThan(10)
+    expect(a.site.botoes).toHaveLength(2)
+    expect(a.site.cartoes).toHaveLength(3)
   })
-  it('a cena dos agentes tem orquestrador, revisor e ao menos 2 agentes', () => {
-    const nos = c.animacao.agentes
-    expect(nos.orquestrador).toBeTruthy()
-    expect(nos.revisor).toBeTruthy()
-    expect(nos.especialistas.length).toBeGreaterThanOrEqual(2)
+  it('a conversa alterna cliente e loja, e quem responde é o agente', () => {
+    expect(a.site.conversa.map((m) => m.de)).toEqual(['cliente', 'loja', 'cliente', 'loja'])
+    expect(a.site.agente).toMatch(/agente/i)
   })
-  it('a cena do site monta um site fictício completo (menu, título, botão e 3 cartões)', () => {
-    const x = c.animacao.site
-    expect(x.menu.length).toBeGreaterThanOrEqual(2)
-    expect(x.titulo.length).toBeGreaterThan(10)
-    expect(x.botoes).toHaveLength(2)
-    expect(x.cartoes).toHaveLength(3)
-    expect(x.conversa.length).toBeGreaterThanOrEqual(3)
-  })
-  it('a cena dos testes não inventa número', () =>
-    expect(JSON.stringify(c.animacao.testes)).not.toMatch(/\d/))
+  it('o contador de pedidos sobe um', () => expect(a.site.pedidos.depois).toBe(a.site.pedidos.antes + 1))
+  it('a legenda é frase de gente (sem dois-pontos nem travessão)', () => expect(a.legenda).not.toMatch(/[:—–]/))
 })
