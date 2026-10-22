@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vinicius Candido, currículo</title>
+<meta name="description" content="Currículo de Vinicius Candido, engenheiro de IA sênior no Sicoob." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap" />
+<style>
+  :root { --papel:#f7f4ee; --folha:#fffdf9; --tinta:#17150f; --grafite:#4a463e; --linha:#ddd5c6; --sol:#f6b90a; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--papel); color: var(--tinta); font: 400 15px/1.55 'Inter', Arial, sans-serif; padding: 32px 16px; }
+  main { max-width: 720px; margin: 0 auto; background: var(--folha); padding: 48px 56px; border: 1px solid var(--linha); }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; letter-spacing: -0.01em; font-weight: 600; }
+  h1 { font-size: 2.4rem; line-height: 1.05; }
+  .cargo-topo { margin-top: 6px; font-size: 1.05rem; color: var(--grafite); }
+  .contato { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 0.9rem; }
+  .contato a { color: var(--tinta); text-underline-offset: 3px; }
+  .resumo { margin-top: 24px; font-size: 1.02rem; max-width: 62ch; }
+  mark { background: linear-gradient(transparent 45%, var(--sol) 45%, var(--sol) 88%, transparent 88%); color: inherit; padding: 0 2px; }
+  h2 { margin-top: 36px; padding-bottom: 6px; border-bottom: 1px solid var(--linha); font-size: 1.3rem; }
+  article { padding: 14px 0; border-bottom: 1px solid var(--linha); break-inside: avoid; }
+  article:last-child { border-bottom: 0; }
+  article header { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  h3 { font-size: 1.1rem; }
+  .local { font-family: 'Inter', Arial, sans-serif; font-weight: 400; font-size: 0.9rem; color: var(--grafite); }
+  .periodo { font-size: 0.88rem; color: var(--grafite); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .paralelo { font-style: italic; }
+  .cargo { font-weight: 600; margin-top: 2px; }
+  .atual h3 { box-shadow: inset 0 -0.35em 0 var(--sol); display: inline; }
+  dl { margin-top: 12px; display: grid; grid-template-columns: 9.5rem 1fr; gap: 8px 16px; }
+  dt { font-weight: 600; }
+  dd { margin: 0; }
+  @media (max-width: 600px) { main { padding: 28px 20px; } dl { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 8px; } }
+  @page { size: A4; margin: 12mm 0; }
+  @media print {
+    body { background: #fff; padding: 0; font-size: 9.4pt; line-height: 1.42; }
+    main { border: 0; padding: 0 16mm; max-width: none; background: #fff; }
+    h1 { font-size: 22pt; } .resumo { margin-top: 14px; } h2 { margin-top: 14px; font-size: 12pt; } article { padding: 6px 0; }
+    dl { margin-top: 8px; gap: 4px 16px; }
+    .contato a { text-decoration: none; }
+    .contato a[href^="http"]::after { content: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Vinicius Candido</h1>
+  <p class="cargo-topo">Engenheiro de IA sênior, 13 anos de software</p>
+  <p class="contato"><a href="https://vlfcandido.github.io/">vlfcandido.github.io</a><a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20seu%20site%20e%20queria%20conversar%20sobre%20um%20projeto.">Conversar no WhatsApp</a></p>
+  <p class="resumo">Sou engenheiro de IA sênior no <mark>Sicoob</mark>, onde lidero tecnicamente a frente de IA de investimentos. Antes, fui arquiteto sênior de IA na <mark>Contabilizei</mark> e líder técnico de um squad na <mark>Serasa Experian</mark>, pela NTT DATA. São 13 anos de software, de ERP de varejo em Java a sistemas com agentes de IA em produção.</p>
+  <h2>Experiência</h2>
+  <article class="atual">
+      <header><h3>Sicoob</h3><p class="periodo">mai/2026 até hoje</p></header>
+      <p class="cargo">Engenheiro de IA sênior e tech lead</p>
+      <p>Lidero tecnicamente a frente de IA de investimentos: três agentes que montam a simulação de carteira para os consultores das cooperativas.</p>
+    </article>
+  <article>
+      <header><h3>Contabilizei</h3><p class="periodo">2025 a mar/2026</p></header>
+      <p class="cargo">Arquiteto Sênior de IA</p>
+      <p>Vendedor de IA no WhatsApp com um orquestrador e 8 agentes. Trabalhei no backend, na passagem automática para o time humano e nas integrações com WhatsApp e CRM.</p>
+    </article>
+  <article>
+      <header><h3>Serasa Experian</h3><p class="periodo">fev/2025 a ago/2025 <span class="paralelo">Em paralelo à Contabilizei</span></p></header>
+      <p class="cargo">Engenheiro de IA sênior</p>
+      <p>Responsável técnico por um squad que atuou em cerca de 300 aplicações, corrigindo vulnerabilidades e padronizando CI/CD.</p>
+    </article>
+  <article>
+      <header><h3>Vertigo</h3><p class="periodo">set/2021 a jan/2025</p></header>
+      <p class="cargo">Tech lead de IA conversacional</p>
+      <p>Liderei a entrega de chatbots em modelo de consultoria e a certificação da empresa como parceira oficial Blip.</p>
+    </article>
+  <article>
+      <header><h3>Sovis</h3><p class="periodo">abr/2019 a set/2021</p></header>
+      <p class="cargo">Desenvolvedor full stack sênior</p>
+      <p>APIs em Java com Spring Boot, front-end em Vue.js e app em Flutter, com TDD e CI/CD.</p>
+    </article>
+  <article>
+      <header><h3>Festval</h3><p class="periodo">2017 a 2019</p></header>
+      <p class="cargo">Engenheiro de software Java</p>
+      <p>Sistemas de varejo em Java e SQL.</p>
+    </article>
+  <article>
+      <header><h3>Linx</h3><p class="periodo">2013 a 2017</p></header>
+      <p class="cargo">Engenheiro de software Java</p>
+      <p>ERP de varejo em Java e SQL.</p>
+    </article>
+  <h2>Projetos freelance</h2>
+  <article>
+      <header><h3>Wiv</h3></header>
+      <p>No Waizer, a plataforma que analisa as conversas dos chatbots, construí o backend da análise e a camada de IA que classifica intenção, abandono e qualidade do robô. Também liderei projetos de clientes da Wiv.</p>
+    </article>
+  <h2>Competências</h2>
+  <dl>
+    <dt>IA e agentes</dt><dd>Agentes e sistemas multiagente, RAG, LangGraph, Google ADK, Vertex AI, Claude Code, avaliação com Ragas e DeepEval</dd>
+    <dt>Back-end</dt><dd>Python e FastAPI, Java e Spring, Node.js, PostgreSQL, Redis, Docker, Google Cloud</dd>
+    <dt>Front-end e apps</dt><dd>React, Vue.js, Flutter</dd>
+    <dt>Atendimento</dt><dd>Chatbots na Blip, WhatsApp pela API oficial, integração com CRM e ERP</dd>
+  </dl>
+</main>
+</body>
+</html>
