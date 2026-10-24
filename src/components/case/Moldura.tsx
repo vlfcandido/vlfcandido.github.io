@@ -9,9 +9,15 @@ import { Logo } from '../Logo'
 
 // Moldura comum da página de case: o que é igual em todos os projetos. A variedade fica na peça principal.
 
-/** Como a origem do projeto aparece no cabeçalho. */
+/**
+ * Como a origem do projeto aparece no cabeçalho.
+ *
+ * 23/10/2026 (correção visual): a origem `cliente` caía em "Em empresa", o que é falso para o trabalho feito por
+ * fora de uma empresa. Cada uma das três origens de `ItemProjeto` tem o seu rótulo, o mesmo dos grupos da galeria.
+ */
 function rotuloOrigem(item: ItemProjeto): string {
   if (item.origem === 'proprio') return 'Projeto próprio'
+  if (item.origem === 'cliente') return 'Para cliente'
   return item.participacao ? 'Participação em empresa' : 'Em empresa'
 }
 

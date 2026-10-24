@@ -39,6 +39,10 @@ describe('peça mesa de diagnóstico', () => {
     expect(html.toLowerCase()).not.toContain('duas lojas carregam')
   })
 
+  it('não usa travessão no meio da frase', () => {
+    expect(html).not.toMatch(/[—–]/)
+  })
+
   it('não é clicável', () => {
     expect(html).not.toContain('<button')
     expect(html).not.toContain('<a ')

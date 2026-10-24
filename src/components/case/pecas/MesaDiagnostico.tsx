@@ -144,7 +144,7 @@ export function MesaDiagnostico(_props: PecaProps) {
               ))}
             </ul>
             <p className="prosa mt-4 text-[1rem] leading-relaxed">
-              São instrumentos de alto ticket — cada produto escondido é uma venda de milhares de reais parada no
+              São instrumentos de alto ticket. Cada produto escondido é uma venda de milhares de reais parada no
               depósito.
             </p>
             <span className="mesa-origem mt-3">catálogo do ERP × vitrine, 20/10</span>
