@@ -3,6 +3,7 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { caminhoPublico } from '../lib/assets'
 import { WHATSAPP } from '../lib/whatsapp'
+import { LINKEDIN } from '../visuais'
 import { empresasDiretas, type EmpresaDireta } from '../clientes'
 import { logoClara } from '../components/Logo'
 import { EVENTO_ABRIR_EMPRESA, FRASES_MARCADAS, MARCAS_TOPO, conteudoHome, numerosDeProva } from './conteudo'
@@ -106,10 +107,17 @@ export function Promessa() {
         {/* 23/10/2026 (decisão do dono, home "muito gigante"): a animação saiu do celular, onde sozinha ocupava 531 px
             e empurrava a abertura para 1.056. Ela continua no PC, na coluna da direita. No celular ficam o título, a
             faixa de marcas, o WhatsApp e os números de prova. */}
-        <a className="cta toque mt-5" href={WHATSAPP} target="_blank" rel="noopener">
-          {promessa.cta}
-          <span className="seta" aria-hidden="true">→</span>
-        </a>
+        {/* 23/10/2026 (decisão do dono): o LinkedIn volta para a abertura, ao lado do WhatsApp. */}
+        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <a className="cta toque" href={WHATSAPP} target="_blank" rel="noopener">
+            {promessa.cta}
+            <span className="seta" aria-hidden="true">→</span>
+          </a>
+          <a className="link-secundario toque" href={LINKEDIN} target="_blank" rel="noopener">
+            LinkedIn
+            <span className="seta" aria-hidden="true">↗</span>
+          </a>
+        </div>
         <div ref={numeros} className="mt-5 grid max-w-xl grid-cols-3 gap-4 sm:mt-8 sm:gap-8">
           {itens.map((i) => (
             <div key={i.rotulo} className="flex flex-col gap-1 border-t border-linha pt-3 sm:pt-4">
