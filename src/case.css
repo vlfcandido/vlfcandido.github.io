@@ -428,10 +428,143 @@
   }
 }
 
+/* ---------- Lojas virtuais: mesa de diagnóstico ---------- */
+/* O trilho é decorativo (aria-hidden): a faixa e as duas perdas são texto fora dele, legível. */
+.mesa-passos {
+  display: grid;
+  gap: 1.25rem;
+}
+.mesa-passo {
+  border-top: 2px solid var(--linha);
+  padding-top: 0.75rem;
+}
+.mesa-passo-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-bottom: 0.4rem;
+  border-radius: 999px;
+  background: var(--tinta);
+  color: var(--nevoa);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.mesa-elos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  font-size: 0.92rem;
+}
+.mesa-elo {
+  border: 1px solid var(--linha);
+  border-radius: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  background: var(--papel);
+}
+.mesa-elo:not(:last-child)::after {
+  content: "→";
+  margin-left: 0.5rem;
+  color: var(--grafite);
+}
+.mesa-trilho {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 1.4rem;
+}
+.mesa-trilho::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--linha);
+  transform-origin: left center;
+}
+.mesa-ponto,
+.mesa-corte {
+  position: relative;
+  display: block;
+}
+.mesa-ponto {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: var(--mar);
+  box-shadow: 0 0 0 3px var(--folha);
+}
+.mesa-corte {
+  width: 3px;
+  height: 1.1rem;
+  background: var(--coral);
+  transform: rotate(18deg);
+}
+.mesa-risco {
+  display: block;
+  width: 0.9rem;
+  height: 2px;
+  margin-top: 0.55em;
+  background: var(--coral);
+  transform: rotate(-18deg);
+}
+.mesa-origem {
+  display: block;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  color: var(--grafite);
+}
+.mesa-visivel .mesa-trilho::before {
+  animation: mesa-trilho-entra 0.7s ease-out both;
+}
+.mesa-visivel .mesa-ponto {
+  animation: mesa-ponto-entra 0.45s ease-out both;
+}
+.mesa-visivel .mesa-corte {
+  animation: mesa-corte-entra 0.45s ease-out both;
+}
+/* Span a span: ponto (1), corte (2), ponto (3), corte (4), ponto (5). */
+.mesa-visivel .mesa-ponto:nth-of-type(3) {
+  animation-delay: 0.25s;
+}
+.mesa-visivel .mesa-ponto:nth-of-type(5) {
+  animation-delay: 0.5s;
+}
+@keyframes mesa-trilho-entra {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes mesa-ponto-entra {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+@keyframes mesa-corte-entra {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 640px) {
+  .mesa-passos {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .log-nova,
   .ficha-preenchido,
-  .relogio-ponto {
+  .relogio-ponto,
+  .mesa-visivel .mesa-trilho::before,
+  .mesa-visivel .mesa-ponto,
+  .mesa-visivel .mesa-corte {
     animation: none;
   }
   .cota-agua,

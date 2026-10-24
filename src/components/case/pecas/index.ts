@@ -11,6 +11,7 @@ import { FichaLaboratorio } from './FichaLaboratorio'
 import { FichaLead } from './FichaLead'
 import { FolhaEspecime } from './FolhaEspecime'
 import { FunilQualificacao } from './FunilQualificacao'
+import { MesaDiagnostico } from './MesaDiagnostico'
 import { ModalAprovacao } from './ModalAprovacao'
 import { RaioX } from './RaioX'
 import { RecorteImprensa } from './RecorteImprensa'
@@ -41,4 +42,5 @@ export const PECAS: Record<IdPeca, ComponentType<PecaProps>> = {
   'funil-qualificacao': FunilQualificacao,
   'relogio-lead': RelogioLead,
   'barras-status': BarrasStatus,
+  'mesa-diagnostico': MesaDiagnostico,
 }

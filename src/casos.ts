@@ -24,6 +24,7 @@ export type IdPeca =
   | 'funil-qualificacao'
   | 'relogio-lead'
   | 'barras-status'
+  | 'mesa-diagnostico'
 
 /** Número da régua: sem origem não existe (a origem é obrigatória no tipo e conferida no teste). */
 export interface NumeroCase {
