@@ -40,38 +40,42 @@ function Cartao({ item, aoAbrir }: CartaoProps) {
   const moldura = 'moldura-logo overflow-hidden rounded-md border border-linha bg-folha shadow-[6px_6px_0_var(--linha)]'
   return (
     <article className="cartao-projeto group relative flex h-full flex-col">
-      <div className="relative">
-        {mostra === 'diagrama' && item.diagrama ? (
-          <div className={`${moldura} flex aspect-[16/10] items-center px-2`}>
-            <DiagramaMare id={item.diagrama} modo="largo" className="w-full" />
-          </div>
-        ) : mostra === 'capa' && item.capa ? (
-          <div className={`${moldura} relative aspect-[16/10]`}>
-            <CapaProjeto capa={item.capa} sizes="(min-width: 1024px) 400px, (min-width: 640px) 46vw, 92vw" className="h-full" />
-            {item.capa.ficticio && <SeloFicticio />}
-          </div>
-        ) : item.print ? (
-          <Print print={item.print} />
-        ) : (
-          // 14/10/2026 (fix final): a logo também em 16/10 (antes 16/7 sem capa), para toda imagem de cartão ter a mesma
-          // proporção e os títulos de uma linha da grade alinharem.
-          // 15/10/2026 (revisor, rodada 2: "logo pequeno num quadro vazio parece capa que não carregou"): a logo cresce
-          // para ~55% do quadro. Antes: className "max-h-11 max-w-[170px]".
-          <div className={`${moldura} flex aspect-[16/10] items-center justify-center px-8`}>
-            {empresa && <Logo cliente={empresa} className="logo-cartao h-16 max-w-[55%] sm:h-20" />}
-          </div>
-        )}
-        {verso && temFrente && (
-          <button
-            type="button"
-            aria-pressed={noVerso}
-            onClick={() => setNoVerso((v) => !v)}
-            className="absolute right-2 bottom-2 z-10 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta hover:border-tinta hover:text-tinta"
-          >
-            {noVerso ? rotuloFrente : rotuloVerso}
-          </button>
-        )}
-      </div>
+      {/* 23/10/2026: trabalho para cliente entra sem print, sem logo, sem capa e sem desenho. Sem nada para mostrar,
+          o quadro sai de cena; um quadro vazio lia como imagem que não carregou. */}
+      {temFrente && (
+        <div className="relative">
+          {mostra === 'diagrama' && item.diagrama ? (
+            <div className={`${moldura} flex aspect-[16/10] items-center px-2`}>
+              <DiagramaMare id={item.diagrama} modo="largo" className="w-full" />
+            </div>
+          ) : mostra === 'capa' && item.capa ? (
+            <div className={`${moldura} relative aspect-[16/10]`}>
+              <CapaProjeto capa={item.capa} sizes="(min-width: 1024px) 400px, (min-width: 640px) 46vw, 92vw" className="h-full" />
+              {item.capa.ficticio && <SeloFicticio />}
+            </div>
+          ) : item.print ? (
+            <Print print={item.print} />
+          ) : (
+            // 14/10/2026 (fix final): a logo também em 16/10 (antes 16/7 sem capa), para toda imagem de cartão ter a mesma
+            // proporção e os títulos de uma linha da grade alinharem.
+            // 15/10/2026 (revisor, rodada 2: "logo pequeno num quadro vazio parece capa que não carregou"): a logo cresce
+            // para ~55% do quadro. Antes: className "max-h-11 max-w-[170px]".
+            <div className={`${moldura} flex aspect-[16/10] items-center justify-center px-8`}>
+              {empresa && <Logo cliente={empresa} className="logo-cartao h-16 max-w-[55%] sm:h-20" />}
+            </div>
+          )}
+          {verso && (
+            <button
+              type="button"
+              aria-pressed={noVerso}
+              onClick={() => setNoVerso((v) => !v)}
+              className="absolute right-2 bottom-2 z-10 rounded-full border border-linha bg-folha/95 px-3 py-1.5 text-[0.85rem] leading-none font-semibold text-tinta hover:border-tinta hover:text-tinta"
+            >
+              {noVerso ? rotuloFrente : rotuloVerso}
+            </button>
+          )}
+        </div>
+      )}
       {/* 15/10/2026: caso de cliente atendido por uma empresa onde ele trabalhava (fonte única ONDE_TRABALHEI). */}
       {contratante && (
         <p className="mt-5 text-[0.85rem] font-semibold tracking-[0.02em] text-grafite">Cliente da {contratante.nome}</p>
@@ -167,8 +171,9 @@ function CartaoPeca({ peca }: { peca: Peca }) {
 }
 
 /**
- * Galeria da página de projetos: chips de filtro por tipo e três seções no mesmo padrão de card:
- * "Em empresas", "Projetos próprios" e, no fim, "Outros projetos em empresas" (só participação). O clique abre o case do projeto (quem chama cuida do hash).
+ * Galeria da página de projetos: chips de filtro por tipo e quatro seções no mesmo padrão de card:
+ * "Em empresas", "Para clientes", "Projetos próprios" e, no fim, "Outros projetos em empresas" (só participação).
+ * O clique abre o case do projeto (quem chama cuida do hash).
  */
 export function GaleriaProjetos({
   aoAbrir,
@@ -183,7 +188,7 @@ export function GaleriaProjetos({
   const todos = useMemo(listarProjetos, [])
   const [filtro, setFiltro] = useState<Filtro>(filtroInicial ?? 'todos')
   const lista = filtrarProjetos(todos, filtro)
-  const { emEmpresas, proprios, outros } = separarGaleria(lista)
+  const { emEmpresas, clientes, proprios, outros } = separarGaleria(lista)
   const pecasVisiveis = filtro === 'todos' ? pecas : []
   const chips: { valor: Filtro; rotulo: string; total: number }[] = [
     // 18/10/2026 (revisor, rodada 1): o chip conta só os casos; as peças têm a seção própria e não entram no filtro
@@ -267,8 +272,26 @@ export function GaleriaProjetos({
         </section>
       )}
 
+      {/* 23/10/2026: "Para clientes" entre as empresas e os próprios: trabalho feito para cliente, por fora de
+          empresa, com o mesmo card das outras seções. */}
+      {clientes.length > 0 && (
+        <section aria-labelledby="clientes-titulo" className={emEmpresas.length > 0 ? 'mt-24 border-t border-linha pt-14' : 'mt-12'}>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2">
+            <h2 id="clientes-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
+              Para clientes
+            </h2>
+            <p className="prosa max-w-[44ch] text-[1.08rem] text-grafite">
+              Trabalhos entregues direto para quem é dono do negócio, fora de uma empresa.
+            </p>
+          </div>
+          <div className="mt-10">
+            <Grade itens={clientes} aoAbrir={aoAbrir} />
+          </div>
+        </section>
+      )}
+
       {proprios.length > 0 && (
-        <section aria-labelledby="proprios-titulo" className={emEmpresas.length > 0 ? 'mt-24 border-t border-linha pt-14' : 'mt-12'}>
+        <section aria-labelledby="proprios-titulo" className={emEmpresas.length > 0 || clientes.length > 0 ? 'mt-24 border-t border-linha pt-14' : 'mt-12'}>
           <h2 id="proprios-titulo" className="text-[1.9rem] leading-[1.15] font-bold tracking-[0.004em] sm:text-[2.3rem]">
             Projetos próprios
           </h2>

@@ -49,6 +49,13 @@ describe('página de case', () => {
     casos.filter((c) => ilustrativas.includes(c.peca)).forEach((c) => expect(c.ficticio?.trim(), c.slug).toBeTruthy())
   })
 
+  it('o case de loja virtual usa a peça de diagnóstico e régua com origem', () => {
+    const l = caso('loja-virtual')
+    expect(l.peca).toBe('mesa-diagnostico')
+    expect(l.regua.length).toBeGreaterThan(0)
+    l.regua.forEach((n) => expect(n.origem.trim()).not.toBe(''))
+  })
+
   it('projeto próprio que não está no ar diz o que falta', () =>
     itens
       .filter((i) => i.origem === 'proprio' && i.status !== 'producao' && i.slug !== 'nexus-quant')

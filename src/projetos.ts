@@ -31,8 +31,8 @@ export type StatusProjeto = 'producao' | 'mvp' | 'prototipo' | 'estudo'
 export interface ItemProjeto {
   /** Também é o fim da rota compartilhável: `#/projetos/<slug>`. */
   slug: string
-  /** `proprio` vai para a galeria; `empresa`, para a faixa "Em empresas". */
-  origem: 'proprio' | 'empresa'
+  /** `proprio` vai para a galeria; `empresa`, para a faixa "Em empresas"; `cliente`, para "Para clientes". */
+  origem: 'proprio' | 'empresa' | 'cliente'
   /**
    * `true` quando ele só participou do projeto, sem liderar (decisão dele, 08/10/2026: Ecovita e Minu).
    * Vai para "Outros projetos em empresas", no fim da página, sem destaque.
@@ -90,8 +90,10 @@ const prints = (slug: string) => printsDosCasos[slug] ?? []
 /**
  * Quantos projetos o print de "Este site" (public/prints/este-site.webp) mostra na prova da home. 18/10/2026: a peça
  * do atendimento com IA subiu a contagem de 25 para 26, e o print foi recapturado da home em 1440x900 (1600x1000).
+ * 23/10/2026: a loja virtual entrou como trabalho para cliente (27). O print segue o de 18/10, sem recaptura: o
+ * número que ele mostra é o da data em que foi tirado.
  */
-export const PROJETOS_NO_PRINT_ESTE_SITE = 26
+export const PROJETOS_NO_PRINT_ESTE_SITE = 27
 
 /**
  * Monta a lista da galeria. É função (e não constante) para nada rodar quando o módulo é importado.
@@ -318,6 +320,26 @@ export function listarProjetos(): ItemProjeto[] {
     },
     // previsao-tempo-chatbot e api-premios-filmes removidos em 08/10/2026 (M16): estudos pequenos.
     {
+      // 23/10/2026: trabalho para cliente, sem print e sem link de código (a loja é do cliente). A peça do case é
+      // a mesa de diagnóstico: o que entrou no escopo saiu de achado medido, não de pacote pronto.
+      slug: 'loja-virtual',
+      origem: 'cliente',
+      nome: 'Lojas virtuais: diagnóstico e integração',
+      resultado: 'Catálogo, ERP e vitrine falando a mesma língua.',
+      tipos: ['integracoes', 'sistemas'],
+      status: 'producao',
+      etiquetas: ['Olist · Tiny', 'Tray · WooCommerce', 'GTM · GA4'],
+      stack: ['Tray', 'WooCommerce', 'Olist DS Lite', 'Tiny', 'API REST do Woo (wc/v3)', 'GTM e GA4', 'Python'],
+      problema: 'Catálogo de instrumentos de alto valor: a maior parte tem estoque e está fora da vitrine.',
+      feito:
+        'Leitura pública, acesso ao painel, achado confirmado, escopo e orçamento fechados por mensagem. Integração, automação e animação de vitrine entregues por inteiro, com a entrega pelo WhatsApp.',
+      numeros: [
+        'Quase 17 mil produtos no catálogo e cerca de 2 mil na vitrine',
+        'Mais de 3 mil com estoque e sem poder vender',
+        'GTM e GA4 contando a mesma compra',
+      ],
+    },
+    {
       slug: 'sicoob',
       origem: 'empresa',
       nome: 'Sicoob',
@@ -454,24 +476,27 @@ export function listarProjetos(): ItemProjeto[] {
   ]
 }
 
-/** As três seções da galeria, na ordem da página. */
+/** As quatro seções da galeria, na ordem da página. */
 export interface SecoesGaleria {
   /** Casos de empresa que liderei ou fiz: sobem para o topo (M11, 08/10/2026). */
   emEmpresas: ItemProjeto[]
+  /** Trabalhos para cliente, feitos por fora de empresa (23/10/2026): entre as empresas e os próprios. */
+  clientes: ItemProjeto[]
   proprios: ItemProjeto[]
   /** Casos em que só participei (Ecovita, Minu): no fim, sem destaque. */
   outros: ItemProjeto[]
 }
 
 /**
- * Separa a lista (já filtrada) nas três seções da galeria, mantendo a ordem de `listarProjetos`.
+ * Separa a lista (já filtrada) nas quatro seções da galeria, mantendo a ordem de `listarProjetos`.
  *
  * @param itens projetos a exibir.
- * @returns "Em empresas", "Projetos próprios" e "Outros projetos em empresas".
+ * @returns "Em empresas", "Para clientes", "Projetos próprios" e "Outros projetos em empresas".
  */
 export function separarGaleria(itens: ItemProjeto[]): SecoesGaleria {
   return {
     emEmpresas: itens.filter((i) => i.origem === 'empresa' && !i.participacao),
+    clientes: itens.filter((i) => i.origem === 'cliente'),
     proprios: itens.filter((i) => i.origem === 'proprio'),
     outros: itens.filter((i) => i.origem === 'empresa' && i.participacao),
   }

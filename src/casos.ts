@@ -82,6 +82,45 @@ const MATERIA_WIV = 'https://www.mobiletime.com.br/noticias/12/06/2026/wiv-5-mil
 export function listarCasos(): CaseDetalhe[] {
   return [
     {
+      // 23/10/2026: trabalho para cliente, com a mesa de diagnóstico como peça. Sem valor e sem prazo no laudo:
+      // preço de proposta de cliente não é conteúdo público.
+      slug: 'loja-virtual',
+      peca: 'mesa-diagnostico',
+      tituloPeca: 'Como o diagnóstico virou orçamento',
+      legendaPeca: 'Cada bloco do escopo sai de um achado medido na loja.',
+      status: { texto: 'Entregue · automação completa', tom: 'vivo' },
+      regua: [
+        {
+          valor: '17 mil',
+          rotulo: 'produtos no catálogo · cerca de 2 mil na vitrine',
+          origem: 'catálogo do ERP × vitrine, 20/10/2026',
+        },
+        { valor: 'mais de 3 mil', rotulo: 'com estoque e sem poder vender', origem: 'catálogo do ERP × vitrine, 20/10/2026' },
+        { valor: '2', rotulo: 'lojas com GTM e GA4 na mesma visita', origem: 'leitura pública das duas lojas, 22/10/2026' },
+      ],
+      papel: {
+        meu: 'Diagnóstico, escopo, orçamento e a automação entregue.',
+        resto: 'A loja é do cliente; o catálogo e o ERP são de fornecedores dele.',
+      },
+      historia: [
+        {
+          titulo: 'O anúncio',
+          texto:
+            'O anúncio chegou por uma plataforma de freelas, com a loja descrita em uma linha. Antes de falar em valor, marquei a conversa que daria o diagnóstico.',
+        },
+        {
+          titulo: 'Acesso e varredura',
+          texto:
+            'Com a autorização de quem responde pela loja, abri o painel e li o catálogo do ERP. Depois veio a varredura: produto a produto, o que está cadastrado, o que tem estoque e o que aparece na vitrine.',
+        },
+        {
+          titulo: 'O laudo virou escopo',
+          texto:
+            'O laudo mostrou a cadeia travada em dois elos e a mesma compra contada duas vezes. Cada achado virou um bloco de escopo, fechado por mensagem, e a entrega foi inteira pelo WhatsApp.',
+        },
+      ],
+    },
+    {
       slug: 'sicoob',
       peca: 'recorte-imprensa',
       tituloPeca: 'O que a matéria publicou',

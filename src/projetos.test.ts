@@ -74,6 +74,18 @@ describe('galeria de projetos', () => {
     for (const s of ['nexus-quant', 'app-score', 'aprovaos', 'este-site', 'design-system-mare']) expect(slugs, s).toContain(s)
     expect(filtrarProjetos(itens, 'frontend').every((i) => i.origem === 'proprio')).toBe(true)
   })
+  // 23/10/2026: cliente novo, com diagnóstico como peça; sem print e sem link de código.
+  it('loja virtual entra como trabalho para cliente, sem print e sem link de código', () => {
+    const l = porSlug('loja-virtual')!
+    expect(l.origem).toBe('cliente')
+    expect(l.print).toBeUndefined()
+    expect(l.repositorio).toBeUndefined()
+  })
+  it('a galeria tem a seção de clientes, separada dos próprios e das empresas', () => {
+    const s = separarGaleria(itens)
+    expect(s.clientes.map((i) => i.slug)).toContain('loja-virtual')
+    expect(s.proprios.map((i) => i.slug)).not.toContain('loja-virtual')
+  })
   it('app de score: prova de conceito, sem link de código e sem citar país do cliente', () => {
     const a = porSlug('app-score')!
     expect(a.status).toBe('prototipo')
@@ -114,8 +126,11 @@ describe('galeria de projetos', () => {
       secoes.outros.forEach((i) => expect(JSON.stringify(i).toLowerCase(), i.slug).not.toMatch(/lider/))
     })
     it('Serasa não é card de projeto', () => expect(porSlug('serasa-experian')).toBeUndefined())
-    it('as três seções somam a galeria inteira', () =>
-      expect(secoes.emEmpresas.length + secoes.proprios.length + secoes.outros.length).toBe(itens.length))
+    // 23/10/2026: a seção "Para clientes" entra na soma, entre as empresas e os próprios.
+    it('as seções somam a galeria inteira', () =>
+      expect(secoes.emEmpresas.length + secoes.clientes.length + secoes.proprios.length + secoes.outros.length).toBe(
+        itens.length,
+      ))
     it('chips na ordem do juiz e sem "trading"', () => {
       expect(Object.keys(tiposProjeto)).toEqual(['integracoes', 'sistemas', 'frontend', 'chatbot', 'agentes', 'dados'])
       expect(tiposProjeto.dados).toBe('Dados e tempo real')

@@ -14,10 +14,10 @@ export function PaginaProjetos({ hash }: { hash: string }) {
   const itens = useMemo(listarProjetos, [])
   // As peças navegáveis entram no topo da galeria: o total da página bate com o número da prova (14/10/2026).
   const { pecas } = useMemo(() => universoDeProjetos(), [])
-  // Ordem de leitura da galeria (Em empresas, próprios, outros), para o "anterior" e o "próximo" do case.
+  // Ordem de leitura da galeria (Em empresas, Para clientes, próprios, outros), para o "anterior" e o "próximo" do case.
   const ordem = useMemo(() => {
     const s = separarGaleria(itens)
-    return [...s.emEmpresas, ...s.proprios, ...s.outros]
+    return [...s.emEmpresas, ...s.clientes, ...s.proprios, ...s.outros]
   }, [itens])
   const slug = projetoDoHash(hash)
   const aberto = slug ? (itens.find((i) => i.slug === slug) ?? null) : null
