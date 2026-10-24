@@ -878,6 +878,21 @@
   .lojas-numeros { max-width: 62ch; font-size: 0.98rem; font-weight: 600; line-height: 1.4; font-variant-numeric: tabular-nums; }
   .lojas-origem { font-size: 0.72rem; line-height: 1.2; letter-spacing: 0.02em; color: var(--fundo-suave); }
 
+  /* No PC a faixa vira duas colunas: título, parágrafo, alto ticket e CTA à esquerda; o funil com os números e a
+     origem à direita, centrados na altura da coluna e separados pelo mesmo fio vertical da trajetória. No celular e
+     no tablet o bloco segue empilhado na ordem do texto. */
+  @media (min-width: 1024px) {
+    .home > #lojas { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); column-gap: 48px;
+      align-items: start; grid-template-areas: "titulo dados" "texto dados" "alto dados" "acao dados"; }
+    .lojas-titulo { grid-area: titulo; }
+    .lojas-texto { grid-area: texto; }
+    .lojas-alto { grid-area: alto; }
+    .lojas-acao { grid-area: acao; }
+    .lojas-dados { grid-area: dados; align-self: stretch; display: flex; flex-direction: column; justify-content: center;
+      min-width: 0; margin-left: -24px; padding-left: 48px; border-left: 1px solid var(--linha); }
+    .lojas-dados .lojas-funil { margin-top: 0; }
+  }
+
   /* Projetos (18/10/2026): a linha e os atalhos por tipo mantêm SaaS, sistemas e integrações à vista. */
   .trabalhos-lede { max-width: 62ch; margin-top: 10px; font-size: 1.0625rem; line-height: 1.5; color: var(--fundo-suave); }
   .trabalhos-categorias { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }

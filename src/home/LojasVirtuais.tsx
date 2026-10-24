@@ -11,20 +11,26 @@ const SLUG = 'loja-virtual'
 /**
  * Bloco "lojas virtuais" da home: o funil do catálogo em uma linha, os números em faixa com a origem ao lado e o
  * caminho para o case. A peça animada do diagnóstico continua inteira em `#/projetos/loja-virtual`.
+ *
+ * A composição é uma só: no celular tudo empilha na ordem do texto; a partir de 1024 px o título, o parágrafo, o
+ * alto ticket e o CTA ficam à esquerda, e o funil com os números e a origem, à direita, com o fio vertical que a
+ * trajetória já usa.
  */
 export function LojasVirtuais() {
   const { lojas } = conteudoHome()
   return (
     <section id="lojas" className="secao">
-      <h2 className="titulo-bloco alvo-secao"><span className="titulo-texto">{lojas.titulo}</span></h2>
-      <p className="mt-4 max-w-[62ch] leading-relaxed">{lojas.texto}</p>
-      <ol className="lojas-funil mt-5" aria-label={lojas.funilRotulo}>
-        {lojas.funil.map((elo) => <li key={elo}>{elo}</li>)}
-      </ol>
-      <p className="lojas-numeros mt-3">{lojas.numeros}</p>
-      <p className="lojas-origem mt-1">{lojas.origem}</p>
-      <p className="mt-4 max-w-[62ch] leading-relaxed">{lojas.altoTicket}</p>
-      <div className="mt-5 lg:mt-6">
+      <h2 className="titulo-bloco alvo-secao lojas-titulo"><span className="titulo-texto">{lojas.titulo}</span></h2>
+      <p className="mt-4 max-w-[62ch] leading-relaxed lojas-texto">{lojas.texto}</p>
+      <div className="lojas-dados">
+        <ol className="lojas-funil mt-5" aria-label={lojas.funilRotulo}>
+          {lojas.funil.map((elo) => <li key={elo}>{elo}</li>)}
+        </ol>
+        <p className="lojas-numeros mt-3">{lojas.numeros}</p>
+        <p className="lojas-origem mt-1">{lojas.origem}</p>
+      </div>
+      <p className="mt-4 max-w-[62ch] leading-relaxed lojas-alto">{lojas.altoTicket}</p>
+      <div className="mt-5 lg:mt-6 lojas-acao">
         <a href={hashDoProjeto(SLUG)} className="link-secundario toque">
           {lojas.cta}
           <span className="seta" aria-hidden="true">→</span>
