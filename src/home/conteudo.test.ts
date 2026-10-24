@@ -86,7 +86,10 @@ describe('conteúdo da home', () => {
       ...c.ia.frentes.flatMap((f) => [f.titulo, f.texto]), ...c.ia.provas.flatMap((p) => [p.nome, p.texto]),
       c.trabalhos.titulo, c.trabalhos.lede, ...c.trabalhos.categorias.map((x) => x.rotulo),
       // 23/10/2026 (correção 1, review): o bloco de lojas virtuais entra na regra de escrita como qualquer outro.
-      c.lojas.titulo, c.lojas.texto, c.lojas.servicos, c.lojas.cta, ...doAgente]
+      // 23/10/2026 (home "muito gigante"): a linha de serviços saiu com a mesa de diagnóstico; entram o funil, os
+      // números, a origem e o alto ticket.
+      c.lojas.titulo, c.lojas.texto, c.lojas.funilRotulo, ...c.lojas.funil, c.lojas.numeros, c.lojas.origem,
+      c.lojas.altoTicket, c.lojas.cta, ...doAgente]
     // O horário (02:14) é o único dois-pontos permitido: some antes da checagem.
     for (const t of visivel) expect(t.replace(/\b\d{2}:\d{2}\b/g, ''), t).not.toMatch(/[:—–]/)
   })

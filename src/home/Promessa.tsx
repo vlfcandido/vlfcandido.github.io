@@ -1,5 +1,5 @@
-// Bloco 1: a prova na frente. No celular, uma tela só com prova, promessa, WhatsApp e números; no PC, a
-// tela de um trabalho à direita, com o círculo de caneta em volta do detalhe (acaba a metade vazia).
+// Bloco 1: a prova na frente. No celular, uma tela só com prova, promessa, WhatsApp e números (a animação sai em
+// 23/10/2026, decisão do dono); no PC, a animação do trabalho à direita, com o círculo de caneta em volta do detalhe.
 import { useEffect, useRef, type RefObject } from 'react'
 import { caminhoPublico } from '../lib/assets'
 import { WHATSAPP } from '../lib/whatsapp'
@@ -101,18 +101,18 @@ export function Promessa() {
             promessa.titulo
           )}
         </h1>
-        <p className="mt-4 max-w-xl text-lg text-grafite sm:text-xl">{promessa.subtitulo}</p>
+        <p className="mt-3 max-w-xl text-lg text-grafite sm:text-xl">{promessa.subtitulo}</p>
         <FaixaMarcas />
-        {/* Celular: a animação entra entre as marcas e o botão; no PC ela fica na coluna da direita. */}
-        <AnimacaoTrabalho className="mt-6 lg:hidden" />
-        <a className="cta toque mt-8" href={WHATSAPP} target="_blank" rel="noopener">
+        {/* 23/10/2026 (decisão do dono, home "muito gigante"): a animação saiu do celular, onde sozinha ocupava 531 px
+            e empurrava a abertura para 1.056. Ela continua no PC, na coluna da direita. No celular ficam o título, a
+            faixa de marcas, o WhatsApp e os números de prova. */}
+        <a className="cta toque mt-5" href={WHATSAPP} target="_blank" rel="noopener">
           {promessa.cta}
           <span className="seta" aria-hidden="true">→</span>
         </a>
-        {/* 21/10/2026 (decisão dele): no celular os números saem (repetem o título e as logos) para a animação caber. */}
-        <div ref={numeros} className="mt-10 hidden max-w-xl grid-cols-3 gap-4 sm:grid sm:gap-8">
+        <div ref={numeros} className="mt-5 grid max-w-xl grid-cols-3 gap-4 sm:mt-8 sm:gap-8">
           {itens.map((i) => (
-            <div key={i.rotulo} className="flex flex-col gap-1 border-t border-linha pt-4">
+            <div key={i.rotulo} className="flex flex-col gap-1 border-t border-linha pt-3 sm:pt-4">
               <span data-valor={i.valor} className="font-[family-name:var(--fonte-titulo)] text-4xl leading-none tabular-nums sm:text-5xl">
                 {i.valor}
               </span>

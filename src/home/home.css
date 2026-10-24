@@ -290,11 +290,9 @@
     .agente-acao[data-equipe="true"] { flex-basis: 100%; }
     .agente-acao[data-equipe="true"] .agente-acao-detalhe { display: block; }
   }
-  /* Só o celular usa a lista compacta; PC e tablet ficam com a completa. */
-  .agente-lista-compacta { display: none; }
-
-  /* 19/10/2026 (brief do celular): o cartão inteiro cabe numa tela. Título e subtítulo curtos, abas numa linha
-     só, painel com progresso, passo atual e as três últimas ações, CTA na mesma tela. Alvos de toque em 44 px. */
+  /* 19/10/2026 (brief do celular): o cartão inteiro cabe numa tela. Título e subtítulo curtos e abas numa linha só.
+     23/10/2026 (decisão do dono, home "muito gigante"): no celular o painel fica numa linha de status (título e
+     contador). O progresso, a lista de passos e o pé continuam no PC e no tablet. */
   @media (max-width: 639px) {
     .agente { padding: 12px 12px 10px; }
     .agente-titulo { margin-top: 4px; font-size: 1.4rem; }
@@ -306,22 +304,10 @@
     .agente-cena { gap: 8px; margin-top: 8px; }
     /* 260 px: as três falas do pior ramo (Clínica e Serviços) cabem inteiras a 360, com folga no topo. */
     .agente-celular { height: 260px; }
-    .agente-painel { padding: 8px 9px; }
+    .agente-painel { padding: 7px 9px; }
     .agente-painel-topo { align-items: center; }
-    .agente-lista-ampla { display: none; }
-    .agente-lista-compacta { display: grid; gap: 2px; min-height: 96px; margin-top: 6px; align-content: start; }
-    .agente-acao { flex: none; padding: 3px 5px; border: 0; border-left: 2px solid transparent;
-      border-radius: 4px; opacity: 0.55; }
-    .agente-acao[data-visivel="true"] { border-left-color: color-mix(in srgb, var(--sol) 45%, transparent);
-      background: transparent; }
-    .agente-acao[data-atual="true"] { border-left-color: var(--sol); background: #1b1914; opacity: 1; }
-    /* O detalhe reserva a linha em todas as ações: a linha do passo atual não muda de altura ao acender. */
-    .agente-acao-detalhe { display: block; visibility: hidden; }
-    .agente-acao[data-atual="true"] .agente-acao-detalhe { visibility: visible; }
-    /* Passo ainda não aceso não mostra hora: o horário é do que já aconteceu. */
-    .agente-lista-compacta .agente-acao[data-visivel="false"] .agente-acao-hora { visibility: hidden; }
-    .agente-acao[data-equipe="true"] { border-left-style: dashed; }
-    .agente-painel-pe { display: none; }
+    /* Uma linha de status: o título do painel e o contador. O resto do painel é do PC. */
+    .agente-progresso, .agente-lista, .agente-painel-pe { display: none; }
   }
   .agente-painel-pe { margin-top: auto; padding-top: 7px; color: #8f887a; font-size: 0.58rem; line-height: 1.2;
     letter-spacing: 0.02em; }
@@ -859,11 +845,38 @@
   .ia-prova-nome { font-family: var(--fonte-titulo); font-size: 1.05rem; line-height: 1.2; font-weight: 600; color: var(--sol); }
   .ia-prova-texto { margin-top: 5px; font-size: 0.92rem; line-height: 1.45; color: #c8c1b3; }
 
+  /* 23/10/2026 (decisão do dono, home "muito gigante"): no celular a seção fica no título, no parágrafo, na captura
+     com o CTA e nas provas em uma linha. O rótulo, o texto do exemplo e as quatro frentes continuam no PC. */
+  @media (max-width: 639px) {
+    .ia-rotulo { display: none; }
+    .ia-topo { gap: 8px; }
+    .ia-exemplo { margin-top: 20px; gap: 16px; }
+    .ia-exemplo-rotulo, .ia-exemplo h3, .ia-exemplo-texto > p:not(.ia-exemplo-rotulo) { display: none; }
+    .ia-exemplo-cta { margin-top: 0; }
+    .ia-frentes { display: none; }
+    /* As provas viram uma linha: o rótulo e os nomes, sem os textos de apoio. */
+    .ia-provas { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: 24px; padding-top: 16px; }
+    .ia-provas ul { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin-top: 0; }
+    .ia-provas li { display: inline-flex; align-items: baseline; gap: 8px; }
+    .ia-provas li:not(:last-child)::after { content: "·"; color: #7d7568; }
+    .ia-prova-nome { font-size: 0.9rem; line-height: 1.3; }
+    .ia-prova-texto { display: none; }
+  }
+
   /* Foco do painel: o anel escuro global sumiria no fundo de tinta. */
   .ia :focus-visible { outline-color: var(--sol); box-shadow: 0 0 0 3px #17150f; }
   @media (prefers-reduced-motion: reduce) {
     .ia-exemplo-tela, .ia-exemplo-tela:hover { transform: none; transition: none; }
   }
+
+  /* Lojas virtuais (23/10/2026): a home enxuta mostra o funil do catálogo em uma linha, os números em faixa com a
+     origem ao lado e a linha do alto ticket. A mesa de diagnóstico inteira vive só no case. */
+  .lojas-funil { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; padding: 0; list-style: none;
+    font-size: 0.9rem; line-height: 1.3; color: var(--fundo-suave); }
+  .lojas-funil li { display: inline-flex; align-items: center; gap: 8px; }
+  .lojas-funil li:not(:last-child)::after { content: "→"; color: var(--sol); }
+  .lojas-numeros { max-width: 62ch; font-size: 0.98rem; font-weight: 600; line-height: 1.4; font-variant-numeric: tabular-nums; }
+  .lojas-origem { font-size: 0.72rem; line-height: 1.2; letter-spacing: 0.02em; color: var(--fundo-suave); }
 
   /* Projetos (18/10/2026): a linha e os atalhos por tipo mantêm SaaS, sistemas e integrações à vista. */
   .trabalhos-lede { max-width: 62ch; margin-top: 10px; font-size: 1.0625rem; line-height: 1.5; color: var(--fundo-suave); }

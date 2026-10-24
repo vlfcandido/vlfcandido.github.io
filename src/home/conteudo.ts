@@ -367,8 +367,14 @@ export function conteudoHome() {
       titulo: 'Lojas virtuais, o diagnóstico antes do orçamento',
       texto:
         'O catálogo inteiro no ERP e quase nada na vitrine. Antes de falar preço, medimos onde a mercadoria se perde, e o escopo saiu só do que apareceu.',
-      servicos:
-        'Integração de ERP e marketplace, automação de catálogo e estoque, animação de vitrine e medição limpa para o Google Ads.',
+      // 23/10/2026 (decisão do dono, home "muito gigante"): a home não renderiza mais a mesa de diagnóstico, e a
+      // linha de serviços saiu com ela. Ficam o funil em uma linha, os números em faixa com a origem ao lado
+      // (regra do dono) e a linha do alto ticket, sem valor em dinheiro.
+      funilRotulo: 'O caminho do produto, do fornecedor à vitrine',
+      funil: ['fornecedor', 'Olist DS Lite', 'Tiny', 'Tray'],
+      numeros: 'quase 17 mil no catálogo · pouco mais de 5 mil com estoque · cerca de 2 mil na vitrine',
+      origem: 'catálogo do ERP × vitrine, 20/10',
+      altoTicket: 'São produtos de alto ticket. Cada produto escondido é uma venda parada no depósito.',
       cta: 'Ver o caso completo',
     },
     // 15/10/2026: botão do WhatsApp no fim do bloco, com a mensagem do passo 1.

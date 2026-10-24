@@ -1,6 +1,8 @@
-// Guarda do bloco de lojas virtuais (23/10/2026): o texto sai do conteudoHome, a peça do case loja-virtual é
-// renderizada de verdade e o bloco entra na home entre os projetos e o como funciona. Renderização estática no
-// Node; nenhum efeito de navegador roda aqui.
+// Guarda do bloco de lojas virtuais (23/10/2026): o texto sai do conteudoHome, o funil e os números aparecem na
+// home e o bloco entra entre os projetos e o como funciona. Renderização estática no Node; nenhum efeito de
+// navegador roda aqui.
+// 23/10/2026 (decisão do dono, home "muito gigante"): a mesa de diagnóstico inteira saiu da home e ficou só no
+// case. O teste agora é que ela NÃO aparece aqui, e que o funil, os números e a linha do alto ticket aparecem.
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
@@ -19,23 +21,30 @@ describe('bloco de lojas virtuais', () => {
     expect(lojas.cta).toBe('Ver o caso completo')
   })
 
-  it('a linha de serviços é a decidida, sem nome de loja nem valor', () => {
-    expect(lojas.servicos).toBe(
-      'Integração de ERP e marketplace, automação de catálogo e estoque, animação de vitrine e medição limpa para o Google Ads.',
-    )
+  it('o funil, os números e o alto ticket são os decididos, sem nome de loja nem valor', () => {
+    expect(lojas.funil).toEqual(['fornecedor', 'Olist DS Lite', 'Tiny', 'Tray'])
+    expect(lojas.numeros).toBe('quase 17 mil no catálogo · pouco mais de 5 mil com estoque · cerca de 2 mil na vitrine')
+    expect(lojas.origem).toBe('catálogo do ERP × vitrine, 20/10')
+    expect(lojas.altoTicket).toMatch(/alto ticket/)
     // Nada de loja, dono, dinheiro ou IA: o bloco fala do serviço, não do cliente.
     expect(JSON.stringify(lojas)).not.toMatch(/R\$|\bIA\b|intelig[êe]ncia artificial/i)
   })
 
-  it('mostra título, texto, serviços e a mesa de diagnóstico', () => {
+  it('mostra título, texto, funil, números com origem e o alto ticket', () => {
     expect(html).toMatch(/<section id="lojas" class="[^"]*\bsecao\b/)
     expect(html).toContain(lojas.titulo)
     expect(html).toContain(lojas.texto)
-    expect(html).toContain(lojas.servicos)
-    // A peça revisada entra montada: os três passos do método e o laudo.
-    expect(html).toContain('Mesa de diagnóstico')
-    expect(html).toContain('Varredura')
-    expect(html).toContain('O que o laudo põe no escopo')
+    for (const elo of lojas.funil) expect(html).toContain(`>${elo}<`)
+    expect(html).toContain(lojas.numeros)
+    // O número não aparece sozinho: a origem vem junto, na mesma altura.
+    expect(html).toContain(lojas.origem)
+    expect(html).toContain(lojas.altoTicket)
+  })
+
+  it('a mesa de diagnóstico não é renderizada na home', () => {
+    expect(html).not.toContain('Mesa de diagnóstico')
+    expect(html).not.toContain('Varredura')
+    expect(html).not.toContain('O que o laudo põe no escopo')
   })
 
   it('leva ao case completo do projeto', () => {

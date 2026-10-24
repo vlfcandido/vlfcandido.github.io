@@ -1,7 +1,8 @@
 // Agente trabalhando sozinho (18/10/2026): a coluna direita do hero mostra o atendimento acontecendo, sem pedir
 // que o visitante responda por ele. Um toque escolhe o ramo; a cena roda sozinha, em loop calmo. Todo o roteiro
 // sai de lib/agente.ts. No celular (19/10/2026), o cartão inteiro cabe numa tela: a conversa mostra só as três
-// últimas falas, sem rolagem interna, e o painel vira progresso, passo atual e três linhas.
+// últimas falas, sem rolagem interna. 23/10/2026 (decisão do dono, home "muito gigante"): no celular o painel
+// vira uma linha de status (título e contador); o progresso, a lista de passos e o pé ficam no PC.
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { caminhoPublico } from '../lib/assets'
 import { medir } from '../lib/medir'
@@ -53,6 +54,7 @@ function acoesDe(ramo: Ramo): Acao[] {
  * O visitante escolhe o ramo no máximo uma vez; o resto acontece sozinho. A cena pausa fora da tela, recomeça
  * ao trocar de ramo e, com `prefers-reduced-motion`, mostra o quadro final. A conversa tem altura fixa e mostra
  * só as três últimas falas: as novas entram por baixo e as antigas saem pelo topo com fade, sem rolagem interna.
+ * No celular o painel ao lado fica reduzido a uma linha de status; a lista de passos continua no PC.
  */
 export function Agente() {
   const base = import.meta.env.BASE_URL
@@ -79,13 +81,6 @@ export function Agente() {
   const totalAcoes = acoes.length
   const feitas = quadro.acoes.length
   const progresso = totalAcoes > 0 ? (feitas / totalAcoes) * 100 : 0
-  /** Última ação já acesa: é o passo atual em destaque no painel compacto. */
-  const passoAtual = feitas > 0 ? quadro.acoes[feitas - 1].chave : null
-  /**
-   * No celular, três linhas sempre visíveis: com menos de três ações acesas, mostra as próximas apagadas, para
-   * o painel não abrir vazio; depois, as três últimas que acenderam.
-   */
-  const janelaAcoes = feitas >= 3 ? quadro.acoes.slice(-3) : acoes.slice(0, 3)
 
   // Visibilidade: fora da tela a cena pausa. A primeira metade vista é medida uma vez no Clarity.
   useEffect(() => {
@@ -167,14 +162,13 @@ export function Agente() {
     setRamoId(id)
   }
 
-  /** Uma linha do painel. `chave` é explícita: a lista compacta usa slots fixos para não deslocar linhas. */
-  const itemDeAcao = (a: Acao, chave: string) => (
+  /** Uma linha do painel do PC, com a ação que já acendeu e a que ainda vai acender. */
+  const itemDeAcao = (a: Acao) => (
     <li
-      key={chave}
+      key={a.chave}
       className="agente-acao"
       data-visivel={reduzido || a.em <= t}
       data-equipe={a.equipe}
-      data-atual={a.chave === passoAtual}
     >
       <span className="agente-acao-icone" aria-hidden="true">{a.equipe ? '→' : '✓'}</span>
       <span className="agente-acao-texto">
@@ -286,11 +280,8 @@ export function Agente() {
             <span style={{ width: `${progresso}%` }} />
           </div>
 
-          <ol className="agente-lista agente-lista-ampla">
-            {acoes.map((a) => itemDeAcao(a, a.chave))}
-          </ol>
-          <ol className="agente-lista agente-lista-compacta" aria-label="Últimos passos">
-            {janelaAcoes.map((a, i) => itemDeAcao(a, `slot-${i}`))}
+          <ol className="agente-lista">
+            {acoes.map((a) => itemDeAcao(a))}
           </ol>
           <p className="agente-painel-pe">Ninguém online. Ele seguiu o combinado.</p>
         </aside>
