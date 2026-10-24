@@ -358,9 +358,12 @@ export function conteudoHome() {
     // diagnóstico do case loja-virtual. Não substitui destaque nenhum. Sem nome de loja, de dono, sem valor em
     // dinheiro e sem citar IA: o bloco fala do serviço.
     lojas: {
-      titulo: 'Loja virtual: primeiro o diagnóstico, depois o orçamento',
+      // 23/10/2026 (correção 1, review): o título tinha dois-pontos e o texto um travessão, e isso fura a regra de
+      // escrita do conteudo.test.ts. Antes: 'Loja virtual: primeiro o diagnóstico, depois o orçamento' e
+      // '…medimos onde a mercadoria se perde — e o escopo saiu só do que apareceu.'
+      titulo: 'Primeiro o diagnóstico, depois o orçamento',
       texto:
-        'Duas lojas com o catálogo inteiro no ERP e quase nada na vitrine. Antes de falar preço, medimos onde a mercadoria se perde — e o escopo saiu só do que apareceu.',
+        'Duas lojas com o catálogo inteiro no ERP e quase nada na vitrine. Antes de falar preço, medimos onde a mercadoria se perde, e o escopo saiu só do que apareceu.',
       servicos:
         'Integração de ERP e marketplace, automação de catálogo e estoque, animação de vitrine e medição limpa para o Google Ads.',
       cta: 'Ver o caso completo',
