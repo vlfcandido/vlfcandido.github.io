@@ -363,9 +363,10 @@ export function conteudoHome() {
       // '…medimos onde a mercadoria se perde — e o escopo saiu só do que apareceu.'
       // Correção 2: sem o dois-pontos o título não dizia do que a seção trata; antes 'Primeiro o diagnóstico,
       // depois o orçamento'.
+      // Correção final 3 (regra do dono): o texto não conta quantas lojas o cliente tem.
       titulo: 'Lojas virtuais, o diagnóstico antes do orçamento',
       texto:
-        'Duas lojas com o catálogo inteiro no ERP e quase nada na vitrine. Antes de falar preço, medimos onde a mercadoria se perde, e o escopo saiu só do que apareceu.',
+        'O catálogo inteiro no ERP e quase nada na vitrine. Antes de falar preço, medimos onde a mercadoria se perde, e o escopo saiu só do que apareceu.',
       servicos:
         'Integração de ERP e marketplace, automação de catálogo e estoque, animação de vitrine e medição limpa para o Google Ads.',
       cta: 'Ver o caso completo',

@@ -84,10 +84,12 @@ export function listarCasos(): CaseDetalhe[] {
     {
       // 23/10/2026: trabalho para cliente, com a mesa de diagnóstico como peça. Sem valor e sem prazo no laudo:
       // preço de proposta de cliente não é conteúdo público.
+      // 23/10/2026 (correção final 3, regra do dono): nada aqui aponta para o cliente nem para o segmento dele.
+      // Saíram as menções à loja, ao tipo de loja e a quem responde por ela; fica o método, o que se mediu e o número.
       slug: 'loja-virtual',
       peca: 'mesa-diagnostico',
       tituloPeca: 'Como o diagnóstico virou orçamento',
-      legendaPeca: 'Cada bloco do escopo sai de um achado medido na loja.',
+      legendaPeca: 'Cada bloco do escopo sai de um achado medido.',
       status: { texto: 'Entregue · automação completa', tom: 'vivo' },
       regua: [
         {
@@ -99,28 +101,28 @@ export function listarCasos(): CaseDetalhe[] {
         {
           valor: '2',
           rotulo: 'sistemas de medição no mesmo site (GTM e GA4), com risco de contar duas vezes',
-          origem: 'leitura pública da loja de moda, 22/10/2026',
+          origem: 'leitura pública, 22/10/2026',
         },
       ],
       papel: {
         meu: 'Diagnóstico, escopo, orçamento e a automação entregue.',
-        resto: 'A loja é do cliente; o catálogo e o ERP são de fornecedores dele.',
+        resto: 'A operação, o catálogo e o ERP não são meus; aqui vai só o que o diagnóstico mediu.',
       },
       historia: [
         {
-          titulo: 'O anúncio',
+          titulo: 'O pedido',
           texto:
-            'O anúncio chegou por uma plataforma de freelas, com a loja descrita em uma linha. Antes de falar em valor, marquei a conversa que daria o diagnóstico.',
+            'O pedido chegou por uma plataforma de freelas, com o problema descrito em uma linha. Antes de falar em valor, marquei a conversa que daria o diagnóstico.',
         },
         {
           titulo: 'Acesso e varredura',
           texto:
-            'Com a autorização de quem responde pela loja, abri o painel e li o catálogo do ERP. Depois veio a varredura: produto a produto, o que está cadastrado, o que tem estoque e o que aparece na vitrine.',
+            'Com a autorização de quem responde pela operação, abri o painel e li o catálogo do ERP. Depois veio a varredura: produto a produto, o que está cadastrado, o que tem estoque e o que aparece na vitrine.',
         },
         {
           titulo: 'O laudo virou escopo',
           texto:
-            'O laudo mostrou a cadeia travada em dois elos e, na loja de moda, dois sistemas de medição no mesmo site. Cada achado virou um bloco de escopo, fechado por mensagem, e a entrega foi inteira pelo WhatsApp.',
+            'O laudo mostrou a cadeia travada em dois elos e dois sistemas de medição no mesmo site. Cada achado virou um bloco de escopo, fechado por mensagem, e a entrega foi inteira pelo WhatsApp.',
         },
       ],
     },

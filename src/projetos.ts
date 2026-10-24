@@ -319,11 +319,13 @@ export function listarProjetos(): ItemProjeto[] {
     },
     // previsao-tempo-chatbot e api-premios-filmes removidos em 08/10/2026 (M16): estudos pequenos.
     {
-      // 23/10/2026: trabalho para cliente, sem print e sem link de código (a loja é do cliente). A peça do case é
+      // 23/10/2026: trabalho para cliente, sem print e sem link de código (o ambiente é do cliente). A peça do case é
       // a mesa de diagnóstico: o que entrou no escopo saiu de achado medido, não de pacote pronto.
+      // 23/10/2026 (correção final 3, regra do dono): o nome não diz a vertical nem o segmento do cliente.
+      // Números, ferramentas e a cadeia ficam.
       slug: 'loja-virtual',
       origem: 'cliente',
-      nome: 'Lojas virtuais: diagnóstico e integração',
+      nome: 'Diagnóstico de catálogo e integração',
       resultado: 'Catálogo, ERP e vitrine falando a mesma língua.',
       tipos: ['integracoes', 'sistemas'],
       status: 'producao',

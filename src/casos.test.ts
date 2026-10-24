@@ -56,6 +56,12 @@ describe('página de case', () => {
     l.regua.forEach((n) => expect(n.origem.trim()).not.toBe(''))
   })
 
+  // 23/10/2026 (correção final 3, regra do dono): a cópia do case não detalha o cliente nem o segmento dele.
+  it('o case de loja virtual não aponta para o cliente', () => {
+    const l = JSON.stringify(caso('loja-virtual')).toLowerCase()
+    expect(l).not.toMatch(/loja de moda|duas lojas|a loja\b|o cliente|loja descrita/)
+  })
+
   it('projeto próprio que não está no ar diz o que falta', () =>
     itens
       .filter((i) => i.origem === 'proprio' && i.status !== 'producao' && i.slug !== 'nexus-quant')

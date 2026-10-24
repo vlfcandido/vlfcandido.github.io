@@ -84,6 +84,9 @@ describe('galeria de projetos', () => {
     // não pode incluir animação de vitrine, que não está no dossiê.
     expect(JSON.stringify(l).toLowerCase()).not.toMatch(/instrumento/)
     expect(l.feito).not.toMatch(/anima/i)
+    // 23/10/2026 (correção final 3, regra do dono): sem vertical nem contagem de lojas do cliente. Números,
+    // ferramentas e a cadeia ficam.
+    expect(JSON.stringify(l).toLowerCase()).not.toMatch(/loja de moda|duas lojas|vestuário|moda\b/)
   })
   it('a galeria tem a seção de clientes, separada dos próprios e das empresas', () => {
     const s = separarGaleria(itens)

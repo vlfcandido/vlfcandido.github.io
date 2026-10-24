@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { poucoMovimento } from '../../../lib/transicao'
 import type { PecaProps } from './tipos'
 
-/** Um passo do método, na ordem em que acontece na loja. */
+/** Um passo do método, na ordem em que acontece na operação. */
 interface Passo {
   titulo: string
   texto: string
@@ -12,12 +12,12 @@ interface Passo {
 const PASSOS: Passo[] = [
   {
     titulo: 'Acesso',
-    texto: 'Acesso ao painel da loja e ao catálogo do ERP, com a autorização de quem responde pela operação.',
+    texto: 'Acesso ao painel e ao catálogo do ERP, com a autorização de quem responde pela operação.',
   },
   {
     titulo: 'Varredura',
     texto:
-      'Leitura pública das duas lojas e conferência, produto a produto, do que está cadastrado, do que tem estoque e do que aparece na vitrine.',
+      'Leitura pública do site e conferência, produto a produto, do que está cadastrado, do que tem estoque e do que aparece na vitrine.',
   },
   {
     titulo: 'Laudo',
@@ -153,10 +153,9 @@ export function MesaDiagnostico(_props: PecaProps) {
           <li data-achado="medicao" className="mesa-achado">
             <p className="font-semibold">Duas medições no mesmo site</p>
             <p className="prosa mt-1.5 text-[1rem] leading-relaxed">
-              A loja de moda carrega dois sistemas de medição no mesmo site (GTM e GA4), com o risco de contar a mesma
-              compra duas vezes.
+              Dois sistemas de medição no mesmo site (GTM e GA4), com o risco de contar a mesma compra duas vezes.
             </p>
-            <span className="mesa-origem mt-3">leitura pública da loja de moda, 22/10</span>
+            <span className="mesa-origem mt-3">leitura pública, 22/10</span>
           </li>
         </ul>
       </div>

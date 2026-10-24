@@ -34,9 +34,10 @@ describe('peça mesa de diagnóstico', () => {
     expect(html).not.toContain('mesa-visivel')
   })
 
-  it('atribui a medição à loja de moda, não às duas lojas', () => {
-    expect(html).toContain('leitura pública da loja de moda')
-    expect(html.toLowerCase()).not.toContain('duas lojas carregam')
+  // 23/10/2026 (correção final 3, regra do dono): nada na peça aponta para a loja do cliente.
+  it('não aponta para a loja do cliente no achado de medição', () => {
+    expect(html).toContain('leitura pública, 22/10')
+    expect(html.toLowerCase()).not.toMatch(/loja de moda|duas lojas|a loja\b/)
   })
 
   it('não usa travessão no meio da frase', () => {
