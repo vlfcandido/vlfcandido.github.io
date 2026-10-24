@@ -27,6 +27,18 @@ describe('peça mesa de diagnóstico', () => {
     expect((html.match(/data-achado=/g) ?? []).length).toBeGreaterThanOrEqual(2)
   })
 
+  it('marca o elemento que o IntersectionObserver observa', () => {
+    // Ref solto não aparece no HTML: a marca prende o ref à própria <section>, e o teste quebra se ela sumir.
+    expect(html).toMatch(/<section[^>]*data-observado/)
+    // No servidor não há efeito: a classe da animação só entra no cliente, e o conteúdo já sai montado.
+    expect(html).not.toContain('mesa-visivel')
+  })
+
+  it('atribui a medição à loja de moda, não às duas lojas', () => {
+    expect(html).toContain('leitura pública da loja de moda')
+    expect(html.toLowerCase()).not.toContain('duas lojas carregam')
+  })
+
   it('não é clicável', () => {
     expect(html).not.toContain('<button')
     expect(html).not.toContain('<a ')

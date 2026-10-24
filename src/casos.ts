@@ -91,12 +91,16 @@ export function listarCasos(): CaseDetalhe[] {
       status: { texto: 'Entregue · automação completa', tom: 'vivo' },
       regua: [
         {
-          valor: '17 mil',
+          valor: 'quase 17 mil',
           rotulo: 'produtos no catálogo · cerca de 2 mil na vitrine',
           origem: 'catálogo do ERP × vitrine, 20/10/2026',
         },
         { valor: 'mais de 3 mil', rotulo: 'com estoque e sem poder vender', origem: 'catálogo do ERP × vitrine, 20/10/2026' },
-        { valor: '2', rotulo: 'lojas com GTM e GA4 na mesma visita', origem: 'leitura pública das duas lojas, 22/10/2026' },
+        {
+          valor: '2',
+          rotulo: 'sistemas de medição no mesmo site (GTM e GA4), com risco de contar duas vezes',
+          origem: 'leitura pública da loja de moda, 22/10/2026',
+        },
       ],
       papel: {
         meu: 'Diagnóstico, escopo, orçamento e a automação entregue.',
@@ -116,7 +120,7 @@ export function listarCasos(): CaseDetalhe[] {
         {
           titulo: 'O laudo virou escopo',
           texto:
-            'O laudo mostrou a cadeia travada em dois elos e a mesma compra contada duas vezes. Cada achado virou um bloco de escopo, fechado por mensagem, e a entrega foi inteira pelo WhatsApp.',
+            'O laudo mostrou a cadeia travada em dois elos e, na loja de moda, dois sistemas de medição no mesmo site. Cada achado virou um bloco de escopo, fechado por mensagem, e a entrega foi inteira pelo WhatsApp.',
         },
       ],
     },

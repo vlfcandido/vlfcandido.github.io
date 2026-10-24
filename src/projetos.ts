@@ -336,7 +336,7 @@ export function listarProjetos(): ItemProjeto[] {
       numeros: [
         'Quase 17 mil produtos no catálogo e cerca de 2 mil na vitrine',
         'Mais de 3 mil com estoque e sem poder vender',
-        'GTM e GA4 contando a mesma compra',
+        'GTM e GA4 no mesmo site, com risco de contar duas vezes',
       ],
     },
     {

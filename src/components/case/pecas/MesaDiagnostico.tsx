@@ -67,7 +67,7 @@ const LAUDO: BlocoLaudo[] = [
  */
 export function MesaDiagnostico(_props: PecaProps) {
   const [visivel, setVisivel] = useState(false)
-  const alvo = useRef<HTMLDivElement>(null)
+  const alvo = useRef<HTMLElement>(null)
 
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined' || poucoMovimento()) {
@@ -89,7 +89,14 @@ export function MesaDiagnostico(_props: PecaProps) {
   }, [])
 
   return (
-    <section aria-label="Mesa de diagnóstico" className={`mesa ${visivel ? 'mesa-visivel' : ''}`}>
+    <section
+      ref={alvo}
+      // Marca o elemento que o IntersectionObserver observa: sem o ref ligado, a animação nunca entra e o teste
+      // de servidor não pegaria um ref solto.
+      data-observado=""
+      aria-label="Mesa de diagnóstico"
+      className={`mesa ${visivel ? 'mesa-visivel' : ''}`}
+    >
       <ol className="mesa-passos" aria-label="Os três passos do diagnóstico">
         {PASSOS.map((p, i) => (
           <li key={p.titulo} className="mesa-passo">
@@ -144,12 +151,12 @@ export function MesaDiagnostico(_props: PecaProps) {
           </li>
 
           <li data-achado="medicao" className="mesa-achado">
-            <p className="font-semibold">A mesma compra contada duas vezes</p>
+            <p className="font-semibold">Duas medições no mesmo site</p>
             <p className="prosa mt-1.5 text-[1rem] leading-relaxed">
-              As duas lojas carregam GTM e GA4 na mesma visita. Os dois disparam no mesmo clique, e a compra entra
-              duas vezes no relatório.
+              A loja de moda carrega dois sistemas de medição no mesmo site (GTM e GA4), com o risco de contar a mesma
+              compra duas vezes.
             </p>
-            <span className="mesa-origem mt-3">leitura pública das duas lojas, 22/10</span>
+            <span className="mesa-origem mt-3">leitura pública da loja de moda, 22/10</span>
           </li>
         </ul>
       </div>
