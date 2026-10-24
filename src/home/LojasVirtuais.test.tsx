@@ -14,7 +14,7 @@ const home = renderToStaticMarkup(createElement(PaginaInicio))
 
 describe('bloco de lojas virtuais', () => {
   it('o texto do bloco sai do conteudoHome', () => {
-    expect(lojas.titulo).toBe('Primeiro o diagnóstico, depois o orçamento')
+    expect(lojas.titulo).toBe('Lojas virtuais, o diagnóstico antes do orçamento')
     expect(lojas.texto.length).toBeGreaterThan(40)
     expect(lojas.cta).toBe('Ver o caso completo')
   })

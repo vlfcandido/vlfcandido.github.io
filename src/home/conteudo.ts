@@ -361,7 +361,9 @@ export function conteudoHome() {
       // 23/10/2026 (correção 1, review): o título tinha dois-pontos e o texto um travessão, e isso fura a regra de
       // escrita do conteudo.test.ts. Antes: 'Loja virtual: primeiro o diagnóstico, depois o orçamento' e
       // '…medimos onde a mercadoria se perde — e o escopo saiu só do que apareceu.'
-      titulo: 'Primeiro o diagnóstico, depois o orçamento',
+      // Correção 2: sem o dois-pontos o título não dizia do que a seção trata; antes 'Primeiro o diagnóstico,
+      // depois o orçamento'.
+      titulo: 'Lojas virtuais, o diagnóstico antes do orçamento',
       texto:
         'Duas lojas com o catálogo inteiro no ERP e quase nada na vitrine. Antes de falar preço, medimos onde a mercadoria se perde, e o escopo saiu só do que apareceu.',
       servicos:
