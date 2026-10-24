@@ -86,14 +86,17 @@
     /* 18/10/2026: a seção de IA e agentes entra em faixa inteira logo depois da prova; a vitrine das nove peças vem
        em seguida, e as empresas viram a faixa de fecho entre os projetos e o "Como funciona". Antes: "prototipo
        prototipo empresas" e "como como quem". */
+    /* 23/10/2026: o bloco de lojas virtuais ganha faixa inteira entre os projetos e a trajetória. Sem área própria
+       ele cairia no fim da grade, fora da ordem de leitura do celular. */
     .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;
-      grid-template-areas: "inicio inicio inicio" "ia ia ia" "vitrine vitrine vitrine" "destaques destaques destaques" "empresas empresas empresas" "como como quem"; }
+      grid-template-areas: "inicio inicio inicio" "ia ia ia" "vitrine vitrine vitrine" "destaques destaques destaques" "lojas lojas lojas" "empresas empresas empresas" "como como quem"; }
     .home > .secao { padding-block: 56px; }
     .home > #inicio { grid-area: inicio; }
     .home > #ia { grid-area: ia; }
     .home > #experimente { grid-area: vitrine; }
     .home > #empresas { grid-area: empresas; }
     .home > #destaques { grid-area: destaques; }
+    .home > #lojas { grid-area: lojas; }
     .home > #como { grid-area: como; }
     .home > #quem { grid-area: quem; }
     /* O bloco ao lado do "Como funciona" ganha um fio vertical em vez de ficar solto. */

@@ -354,6 +354,17 @@ export function conteudoHome() {
       ] satisfies CategoriaTrabalho[],
       verTodos: 'Ver todos os projetos',
     },
+    // 23/10/2026 (frente lojas virtuais): seção nova entre os projetos e o "Como funciona", com a mesa de
+    // diagnóstico do case loja-virtual. Não substitui destaque nenhum. Sem nome de loja, de dono, sem valor em
+    // dinheiro e sem citar IA: o bloco fala do serviço.
+    lojas: {
+      titulo: 'Loja virtual: primeiro o diagnóstico, depois o orçamento',
+      texto:
+        'Duas lojas com o catálogo inteiro no ERP e quase nada na vitrine. Antes de falar preço, medimos onde a mercadoria se perde — e o escopo saiu só do que apareceu.',
+      servicos:
+        'Integração de ERP e marketplace, automação de catálogo e estoque, animação de vitrine e medição limpa para o Google Ads.',
+      cta: 'Ver o caso completo',
+    },
     // 15/10/2026: botão do WhatsApp no fim do bloco, com a mensagem do passo 1.
     como: { titulo: 'Como funciona', cta: 'Pedir o meu protótipo', mensagem: 'Oi, Vinicius! Vi seu site e queria pedir um protótipo do meu sistema.' },
     // Task 10 (humanizer): antes, passo 4 'Manual, documentação técnica e testes automatizados.' (tríade) e passo 5

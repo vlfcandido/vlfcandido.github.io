@@ -1,10 +1,13 @@
 // Home nova (14/10/2026), com orçamento de rolagem (spec §12): no celular, uma tela por papel (prova → IA e agentes →
-// vitrine → projetos → empresas → passos → quem sou); no PC, blocos lado a lado (o CSS de home.css arruma por área).
+// vitrine → projetos → lojas virtuais → empresas → passos → quem sou); no PC, blocos lado a lado (o CSS de
+// home.css arruma por área).
 // 18/10/2026: a seção de IA e agentes entrou logo depois da prova e a vitrine das nove peças tomou o lugar do bloco
 // de protótipo, que mostrava uma peça só; o argumento "veja antes de fechar" vive na abertura dela.
+// 23/10/2026: o bloco de lojas virtuais entra depois dos projetos, com a mesa de diagnóstico do case loja-virtual.
 import { ComoFunciona } from '../home/ComoFunciona'
 import { Empresas } from '../home/Empresas'
 import { Ia } from '../home/Ia'
+import { LojasVirtuais } from '../home/LojasVirtuais'
 import { Promessa } from '../home/Promessa'
 import { QuemSou } from '../home/QuemSou'
 import { Trabalhos } from '../home/Trabalhos'
@@ -20,6 +23,7 @@ export function PaginaInicio() {
       <Ia />
       <Vitrine />
       <Trabalhos />
+      <LojasVirtuais />
       <Empresas />
       <ComoFunciona />
       <QuemSou />
