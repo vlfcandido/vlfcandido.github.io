@@ -518,6 +518,67 @@
   letter-spacing: 0.02em;
   color: var(--grafite);
 }
+/* Ligação achado -> bloco do laudo (23/10/2026): é o argumento inteiro do case, cada bloco do escopo nasce de um
+   achado medido. O achado e o bloco que ele justifica carregam o mesmo marcador e a mesma cor, e o fio do laudo
+   desce do marcador até o bloco seguinte. A peça continua sem nenhum controle clicável. */
+.mesa-achado[data-achado] {
+  position: relative;
+  padding-left: 1.05rem;
+}
+.mesa-achado[data-achado="cadeia"] {
+  --cor-achado: var(--mar);
+}
+.mesa-achado[data-achado="medicao"] {
+  --cor-achado: var(--coral);
+}
+.mesa-achado[data-achado]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 2px;
+  background: var(--cor-achado);
+}
+.mesa-laudo-linha {
+  --cor-laudo: var(--linha);
+  position: relative;
+  padding-left: 1.4rem;
+}
+/* `:has` dá a cor do bloco pela origem que o `dt` declara; sem suporte, o fio fica na cor da linha. */
+.mesa-laudo-linha:has(dt[data-achado="cadeia"]) {
+  --cor-laudo: var(--mar);
+}
+.mesa-laudo-linha:has(dt[data-achado="medicao"]) {
+  --cor-laudo: var(--coral);
+}
+.mesa-laudo-linha::before {
+  content: "";
+  position: absolute;
+  left: 0.26rem;
+  top: 0.95em;
+  bottom: -0.5rem;
+  width: 2px;
+  background: var(--cor-laudo);
+  transform-origin: top;
+}
+.mesa-laudo-linha:last-child::before {
+  bottom: 0.55rem;
+}
+.mesa-laudo-linha dt[data-achado]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--cor-laudo);
+}
+.mesa-visivel .mesa-laudo-linha::before {
+  animation: mesa-ligacao-entra 0.5s ease-out both;
+}
 .mesa-visivel .mesa-trilho::before {
   animation: mesa-trilho-entra 0.7s ease-out both;
 }
@@ -550,6 +611,11 @@
     opacity: 0;
   }
 }
+@keyframes mesa-ligacao-entra {
+  from {
+    transform: scaleY(0);
+  }
+}
 
 @media (min-width: 640px) {
   .mesa-passos {
@@ -564,7 +630,8 @@
   .relogio-ponto,
   .mesa-visivel .mesa-trilho::before,
   .mesa-visivel .mesa-ponto,
-  .mesa-visivel .mesa-corte {
+  .mesa-visivel .mesa-corte,
+  .mesa-visivel .mesa-laudo-linha::before {
     animation: none;
   }
   .cota-agua,

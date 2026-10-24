@@ -80,6 +80,10 @@ describe('galeria de projetos', () => {
     expect(l.origem).toBe('cliente')
     expect(l.print).toBeUndefined()
     expect(l.repositorio).toBeUndefined()
+    // 23/10/2026 (correção final, review): a cópia não pode identificar o cliente pelo que ele vende, e a entrega
+    // não pode incluir animação de vitrine, que não está no dossiê.
+    expect(JSON.stringify(l).toLowerCase()).not.toMatch(/instrumento/)
+    expect(l.feito).not.toMatch(/anima/i)
   })
   it('a galeria tem a seção de clientes, separada dos próprios e das empresas', () => {
     const s = separarGaleria(itens)

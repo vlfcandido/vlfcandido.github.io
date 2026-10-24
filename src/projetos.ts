@@ -90,8 +90,7 @@ const prints = (slug: string) => printsDosCasos[slug] ?? []
 /**
  * Quantos projetos o print de "Este site" (public/prints/este-site.webp) mostra na prova da home. 18/10/2026: a peça
  * do atendimento com IA subiu a contagem de 25 para 26, e o print foi recapturado da home em 1440x900 (1600x1000).
- * 23/10/2026: a loja virtual entrou como trabalho para cliente (27). O print segue o de 18/10, sem recaptura: o
- * número que ele mostra é o da data em que foi tirado.
+ * 23/10/2026: a loja virtual entrou como trabalho para cliente (27) e o print foi recapturado, já mostrando 27.
  */
 export const PROJETOS_NO_PRINT_ESTE_SITE = 27
 
@@ -330,9 +329,11 @@ export function listarProjetos(): ItemProjeto[] {
       status: 'producao',
       etiquetas: ['Olist · Tiny', 'Tray · WooCommerce', 'GTM · GA4'],
       stack: ['Tray', 'WooCommerce', 'Olist DS Lite', 'Tiny', 'API REST do Woo (wc/v3)', 'GTM e GA4', 'Python'],
-      problema: 'Catálogo de instrumentos de alto valor: a maior parte tem estoque e está fora da vitrine.',
+      problema: 'Catálogo de produtos de alto valor: a maior parte tem estoque e está fora da vitrine.',
+      // 23/10/2026 (correção final, review): não há registro de entrega de animação em dossiê nenhum, e a decisão
+      // do dono foi 100% da automação. Antes: 'Integração, automação e animação de vitrine entregues por inteiro…'.
       feito:
-        'Leitura pública, acesso ao painel, achado confirmado, escopo e orçamento fechados por mensagem. Integração, automação e animação de vitrine entregues por inteiro, com a entrega pelo WhatsApp.',
+        'Leitura pública, acesso ao painel, achado confirmado, escopo e orçamento fechados por mensagem. Integração e automação entregues por inteiro, com a entrega pelo WhatsApp.',
       numeros: [
         'Quase 17 mil produtos no catálogo e cerca de 2 mil na vitrine',
         'Mais de 3 mil com estoque e sem poder vender',

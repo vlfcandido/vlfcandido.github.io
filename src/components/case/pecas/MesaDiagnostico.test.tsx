@@ -43,6 +43,11 @@ describe('peça mesa de diagnóstico', () => {
     expect(html).not.toMatch(/[—–]/)
   })
 
+  it('não diz o que a loja vende (a cópia não identifica o cliente)', () => {
+    expect(html.toLowerCase()).not.toContain('instrumento')
+    expect(html).toContain('produtos de alto ticket')
+  })
+
   it('não é clicável', () => {
     expect(html).not.toContain('<button')
     expect(html).not.toContain('<a ')
