@@ -87,8 +87,8 @@ describe('conteúdo publicado', () => {
       expect(o.depois.length).toBeGreaterThan(10)
     })
   })
-  it('seis ofertas, integração na frente e IA por último, e o seletor aponta a oferta certa de cada ramo', () => {
-    expect(conteudo.oferta.map((o) => o.id)).toEqual(['integracao', 'repetido', 'resgate', 'sob-medida', 'site', 'whatsapp'])
+  it('sete ofertas, integração na frente e IA por último, e o seletor aponta a oferta certa de cada ramo', () => {
+    expect(conteudo.oferta.map((o) => o.id)).toEqual(['integracao', 'repetido', 'resgate', 'sob-medida', 'site', 'criativo', 'whatsapp'])
     const de = (ramo: string) => conteudo.oferta.find((o) => o.ramos.includes(ramo))?.id
     expect([de('clinica'), de('loja'), de('escritorio'), de('industria')]).toEqual(['whatsapp', 'site', 'repetido', 'integracao'])
     conteudo.oferta.forEach((o) => expect(o.curto, o.id).toBeTruthy())

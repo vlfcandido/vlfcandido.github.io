@@ -18,7 +18,7 @@ export interface Numero {
 /** Linha da oferta: o que eu faço, em uma frase, com um exemplo ilustrativo de antes e depois. */
 export interface Oferta {
   /** Identificador estável, usado no ícone e no destaque por ramo. */
-  id: 'integracao' | 'repetido' | 'resgate' | 'sob-medida' | 'site' | 'whatsapp'
+  id: 'integracao' | 'repetido' | 'resgate' | 'sob-medida' | 'site' | 'criativo' | 'whatsapp'
   /** Nome curto da aba no celular (duas palavras no máximo); sem ele, a aba usa o título. */
   curto?: string
   titulo: string
@@ -136,6 +136,15 @@ export const oferta: Oferta[] = [
     antes: 'Pedido no caderno e o mês espalhado em três planilhas.',
     depois: 'Um painel mostra os pedidos de hoje, o atrasado e quanto entrou.',
     ramos: ['loja'],
+  },
+  {
+    id: 'criativo',
+    curto: 'Vídeo e arte',
+    titulo: 'Vídeo e arte prontos para publicar',
+    descricao: 'Edito o vídeo que já está gravado e monto a arte do produto no formato de cada rede, com legenda e trilha.',
+    antes: 'O vídeo está no celular há duas semanas e ninguém teve tempo de cortar.',
+    depois: 'Corte de 30 segundos, vertical, com legenda, pronto para publicar.',
+    ramos: [],
   },
   {
     id: 'whatsapp',
@@ -499,6 +508,8 @@ export const cenaDaOferta: Record<Oferta['id'], CenaDemo['id']> = {
   resgate: 'painel',
   'sob-medida': 'painel',
   site: 'painel',
+  // Vídeo e arte ainda não têm cena própria na demo: cai no painel, como site.
+  criativo: 'painel',
   whatsapp: 'atendimento',
 }
 
