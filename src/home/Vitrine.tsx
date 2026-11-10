@@ -90,6 +90,11 @@ export function Vitrine() {
             {experimente.verTodas}
             <span className="seta" aria-hidden="true">→</span>
           </a>
+          {/* 09/11/2026: o criativo saiu da vitrine de telas e ganhou página própria; este link liga as duas. */}
+          <a className="cta toque vitrine-cta" href={caminhoPublico(base, 'trabalhos/criativo/')}>
+            {experimente.verCriativo}
+            <span className="seta" aria-hidden="true">→</span>
+          </a>
           <p className="vitrine-dica so-toque">Arraste para o lado para ver as nove.</p>
         </div>
       </div>

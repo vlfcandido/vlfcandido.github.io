@@ -289,6 +289,8 @@ export function conteudoHome() {
       lede: 'Nove projetos de exemplo para abrir e mexer. Sites, sistemas, lojas e atendimento com IA, com dados inventados.',
       cta: 'Abrir e testar',
       verTodas: 'Abrir e testar as nove',
+      // 09/11/2026: as peças de criativo (vídeo e arte) moram em /trabalhos/criativo/ e entram por aqui.
+      verCriativo: 'Vídeo e arte',
     },
     prototipo: {
       titulo: 'Veja o seu sistema funcionando antes de fechar.',
