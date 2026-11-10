@@ -25,6 +25,7 @@ export type IdPeca =
   | 'relogio-lead'
   | 'barras-status'
   | 'mesa-diagnostico'
+  | 'diario-de-obra'
 
 /** Número da régua: sem origem não existe (a origem é obrigatória no tipo e conferida no teste). */
 export interface NumeroCase {
@@ -124,6 +125,63 @@ export function listarCasos(): CaseDetalhe[] {
           texto:
             'O laudo mostrou a cadeia travada em dois elos e dois sistemas de medição no mesmo site. Cada achado virou um bloco de escopo, fechado por mensagem, e a entrega foi inteira pelo WhatsApp.',
         },
+      ],
+    },
+    {
+      // 09/11/2026: segundo trabalho para cliente, com o diário de obra como peça. Os números saem do dossiê do
+      // projeto (escopo, estado e histórico): catálogo, compra de teste, medição da home e opções de frete.
+      // Sem valor de contrato, sem acesso, sem e-mail, sem telefone e sem nome de pessoa: o case fica no que
+      // o cliente já vê na loja e no que foi medido.
+      slug: 'limey-atacado',
+      peca: 'diario-de-obra',
+      tituloPeca: 'A reforma, camada por camada',
+      legendaPeca: 'Cada etapa tem o antes, o depois e a medida do dia em que fechou.',
+      status: { texto: 'No ar em manutenção durante a virada; 1ª etapa entregue.', tom: 'atencao' },
+      periodo: 'out/2026 a nov/2026',
+      regua: [
+        { valor: '1.033', rotulo: 'produtos à venda, contra 11 no começo', origem: 'catálogo do site, 29/10/2026' },
+        {
+          valor: '17 → 14',
+          rotulo: 'baixa de estoque nos dois sites na compra de teste',
+          origem: 'compra de teste de 3 pacotes, 29/10/2026',
+        },
+        {
+          valor: '7.972 / 7.968',
+          rotulo: 'altura da home no PC, medida contra o protótipo',
+          origem: 'medição da home, 09/11/2026',
+        },
+      ],
+      papel: {
+        meu: 'Projeto e execução: segurança, estoque, catálogo, tema próprio, vitrine, checkout e o protótipo que veio antes da loja.',
+        resto: 'O catálogo, o ERP, a operação e o outro site são do cliente. Aqui vão só as medidas do que foi feito.',
+      },
+      historia: [
+        {
+          titulo: 'O pedido',
+          texto:
+            'A loja de atacado estava no WooCommerce e não vinha vendendo. O escopo fechou em duas etapas: segurança, estoque e medição primeiro; a reformulação da loja depois. Funcionalidade nova só entra depois de orçada.',
+        },
+        {
+          titulo: 'A loja destravada',
+          texto:
+            'A integração do Woo apontava para a empresa antiga depois da troca de CNPJ, e o estoque morava na empresa nova. Refeita na empresa certa, sem tocar no outro site. Compra de teste de 3 pacotes: o site foi de 17 para 14, o outro site acompanhou em menos de um minuto, e o cancelamento devolveu os dois a 17. O catálogo saiu de 11 para 1.033 produtos, com foto, nome, categoria e preço de pacote puxados do outro site da loja; o Vestuar segue como a fonte da verdade do estoque. Setenta e sete categorias vazias foram apagadas, 72 pedidos em aberto de 2022 a janeiro de 2025 cancelados, e o nome antigo saiu do site e dos e-mails.',
+        },
+        {
+          titulo: 'O desenho virou tema',
+          texto:
+            'O cliente rejeitou a primeira versão por estimativa e mandou o desenho em PDF, com o HTML de origem e as fontes embutidas. O protótipo foi medido contra esse desenho bloco a bloco: a diferença média caiu de 47,9% para 31%, e as âncoras fecharam com poucos pixels. Sobre ele foi escrito o tema próprio, sem page builder, ativado na loja. A home do tema ficou a 4 px do protótipo no PC e a 19 px no celular.',
+        },
+        {
+          titulo: 'Da vitrine ao pedido',
+          texto:
+            'A vitrine recebeu filtros de Tamanho, Cor, Grupo e Mais filtros em gaveta, busca com texto próprio no celular e carregamento em levas de 16. No carrinho, o frete passou a ser cotado ali: Correios, Jadlog, Azul e JeT pelo Melhor Envio, mais a TDS pela tabela e a excursão, com a mais barata primeiro. O fechamento virou quatro passos, com endereço obrigatório e Pix ou cartão. Antes do tema, o protótipo navegável já estava publicado em Cloudflare Workers para abrir no celular.',
+        },
+      ],
+      falta: [
+        'A medição de Google e Meta está pronta no diagnóstico, mas parada: falta acesso às contas de GA4, GTM, Google Ads e Meta Business.',
+        'O backup automático também espera acesso ao painel da hospedagem; o plugin que existia quebrava com erro 500.',
+        'Parte do catálogo ainda está sem foto, peso ou medida, o que segura a curadoria da vitrine e a cotação real do frete.',
+        'A loja está no ar em manutenção para o público durante a virada; o outro site segue vendendo e não é tocado.',
       ],
     },
     {

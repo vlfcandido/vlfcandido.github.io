@@ -641,3 +641,73 @@
     transition: none;
   }
 }
+
+/* ---------- Limey: diário de obra ---------- */
+.obra-lista {
+  position: relative;
+  display: grid;
+  gap: 1.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* O fio da obra: uma linha só, do primeiro dia ao último. */
+.obra-lista::before {
+  content: '';
+  position: absolute;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  left: 0.44rem;
+  width: 2px;
+  background: var(--linha);
+}
+.obra-passo {
+  position: relative;
+  padding-left: 1.9rem;
+}
+/* O marco de cada camada, em cima do fio. */
+.obra-passo::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--cobalto);
+  border-radius: 999px;
+  background: var(--papel);
+}
+.obra-data {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.obra-data span {
+  display: inline-block;
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+  background: var(--papel);
+  padding: 0.08rem 0.55rem;
+  color: var(--cobalto);
+}
+.obra-cartao {
+  margin-top: 0.4rem;
+  border: 1px solid var(--linha);
+  border-radius: 0.75rem;
+  background: var(--folha);
+  padding: 1.1rem 1.2rem;
+}
+.obra-prova {
+  margin-top: 0.85rem;
+  border-top: 1px dashed var(--linha);
+  padding-top: 0.7rem;
+  color: var(--grafite);
+}
+@media (min-width: 640px) {
+  .obra-lista {
+    gap: 1.6rem;
+  }
+  .obra-cartao {
+    padding: 1.25rem 1.5rem;
+  }
+}

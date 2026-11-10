@@ -91,8 +91,10 @@ const prints = (slug: string) => printsDosCasos[slug] ?? []
  * Quantos projetos o print de "Este site" (public/prints/este-site.webp) mostra na prova da home. 18/10/2026: a peça
  * do atendimento com IA subiu a contagem de 25 para 26, e o print foi recapturado da home em 1440x900 (1600x1000).
  * 23/10/2026: a loja virtual entrou como trabalho para cliente (27) e o print foi recapturado, já mostrando 27.
+ * 09/11/2026: a Limey Atacado entrou como segundo trabalho para cliente (28) e o print foi recapturado em 1440x900,
+ * já mostrando 28.
  */
-export const PROJETOS_NO_PRINT_ESTE_SITE = 27
+export const PROJETOS_NO_PRINT_ESTE_SITE = 28
 
 /**
  * Monta a lista da galeria. É função (e não constante) para nada rodar quando o módulo é importado.
@@ -340,6 +342,38 @@ export function listarProjetos(): ItemProjeto[] {
         'Quase 17 mil produtos no catálogo e cerca de 2 mil na vitrine',
         'Mais de 3 mil com estoque e sem poder vender',
         'GTM e GA4 no mesmo site, com risco de contar duas vezes',
+      ],
+    },
+    {
+      // 09/11/2026: segundo trabalho para cliente, sem print e sem link de código (o ambiente é do cliente).
+      // O case é o diário de obra. Nada de valor de contrato, acesso ou nome de pessoa.
+      slug: 'limey-atacado',
+      origem: 'cliente',
+      nome: 'Limey Atacado',
+      resultado: 'Atacado de moda com catálogo de 11 a 1.033 peças e estoque ligado ao ERP.',
+      tipos: ['integracoes', 'sistemas'],
+      status: 'producao',
+      etiquetas: ['WooCommerce', 'tema próprio', 'Vestuar'],
+      stack: [
+        'WooCommerce',
+        'WordPress',
+        'PHP',
+        'tema próprio, sem page builder',
+        'Vestuar',
+        'Melhor Envio',
+        'Cloudflare Workers',
+        'JavaScript',
+      ],
+      problema: 'Loja de atacado em WooCommerce sem vender: catálogo de 11 produtos, estoque desconectado do ERP e medição contando duas vezes.',
+      feito:
+        'Segurança e herança limpas, estoque religado ao ERP com compra de teste, catálogo de 11 a 1.033 produtos, tema próprio medido contra o protótipo, vitrine com filtros e checkout com quatro transportadoras, TDS e excursão.',
+      numeros: [
+        'De 11 a 1.033 produtos à venda',
+        'Compra de teste: 17 → 14 nos dois sites, e volta a 17 ao cancelar',
+        'Home a 4 px do protótipo no PC e a 19 px no celular',
+        '5 plugins de risco e 2 clones piratas fora',
+        '72 pedidos antigos cancelados',
+        '6 opções de frete no primeiro teste do carrinho',
       ],
     },
     {

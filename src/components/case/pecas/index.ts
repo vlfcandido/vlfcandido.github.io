@@ -5,6 +5,7 @@ import { BalcaoExtrato } from './BalcaoExtrato'
 import { BarrasStatus } from './BarrasStatus'
 import { CadernoDecisoes } from './CadernoDecisoes'
 import { ConversaWhatsapp } from './ConversaWhatsapp'
+import { DiarioDeObra } from './DiarioDeObra'
 import { DiffComNota } from './DiffComNota'
 import { EnvelopeInjecao } from './EnvelopeInjecao'
 import { FichaLaboratorio } from './FichaLaboratorio'
@@ -43,4 +44,5 @@ export const PECAS: Record<IdPeca, ComponentType<PecaProps>> = {
   'relogio-lead': RelogioLead,
   'barras-status': BarrasStatus,
   'mesa-diagnostico': MesaDiagnostico,
+  'diario-de-obra': DiarioDeObra,
 }

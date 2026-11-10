@@ -62,6 +62,21 @@ describe('página de case', () => {
     expect(l).not.toMatch(/loja de moda|duas lojas|a loja\b|o cliente|loja descrita/)
   })
 
+  // 09/11/2026: segundo trabalho para cliente, com o diário de obra e três números medidos no dossiê.
+  it('o case da Limey usa o diário de obra e números com origem', () => {
+    const l = caso('limey-atacado')
+    expect(l.peca).toBe('diario-de-obra')
+    expect(l.regua.map((n) => n.valor)).toEqual(['1.033', '17 → 14', '7.972 / 7.968'])
+    l.regua.forEach((n) => expect(n.origem.trim()).not.toBe(''))
+    expect(l.periodo).toBe('out/2026 a nov/2026')
+  })
+
+  it('o case da Limey não traz contato, credencial nem valor de contrato', () => {
+    const l = JSON.stringify(caso('limey-atacado'))
+    expect(encontrarTermosProibidos(l)).toEqual([])
+    expect(l).not.toMatch(/@|R\$|alyson/i)
+  })
+
   it('projeto próprio que não está no ar diz o que falta', () =>
     itens
       .filter((i) => i.origem === 'proprio' && i.status !== 'producao' && i.slug !== 'nexus-quant')

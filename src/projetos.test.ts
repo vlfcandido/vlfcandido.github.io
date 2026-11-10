@@ -88,9 +88,19 @@ describe('galeria de projetos', () => {
     // ferramentas e a cadeia ficam.
     expect(JSON.stringify(l).toLowerCase()).not.toMatch(/loja de moda|duas lojas|vestuário|moda\b/)
   })
+  // 09/11/2026: segundo cliente, também sem print e sem link de código. O filtro de frontend continua só com os
+  // projetos próprios, então o tema da loja entra pelo lado de integrações e sistemas.
+  it('Limey Atacado entra como trabalho para cliente, sem print e sem link de código', () => {
+    const l = porSlug('limey-atacado')!
+    expect(l.origem).toBe('cliente')
+    expect(l.print).toBeUndefined()
+    expect(l.repositorio).toBeUndefined()
+    expect(l.tipos).not.toContain('frontend')
+    expect(l.resultado.length).toBeLessThanOrEqual(90)
+  })
   it('a galeria tem a seção de clientes, separada dos próprios e das empresas', () => {
     const s = separarGaleria(itens)
-    expect(s.clientes.map((i) => i.slug)).toContain('loja-virtual')
+    expect(s.clientes.map((i) => i.slug)).toEqual(['loja-virtual', 'limey-atacado'])
     expect(s.proprios.map((i) => i.slug)).not.toContain('loja-virtual')
   })
   it('app de score: prova de conceito, sem link de código e sem citar país do cliente', () => {
