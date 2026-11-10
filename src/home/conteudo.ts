@@ -398,6 +398,8 @@ export function conteudoHome() {
       { titulo: 'IA e WhatsApp', resultado: 'Atendimento que responde sozinho e passa para você o que precisa de gente.', exemplo: 'Chatbot de agendamento' },
       { titulo: 'Sistemas e painéis', resultado: 'O controle do seu negócio numa tela, sem planilha perdida.', exemplo: 'Painel de gestão' },
       { titulo: 'Integrações e APIs', resultado: 'Os sistemas que você já usa conversando entre si.', exemplo: 'CRM ligado ao financeiro' },
+      // 09/11/2026: a frente de criativo (vídeo e arte) entra na home; peças de vitrine ainda não existem.
+      { titulo: 'Vídeo e arte', resultado: 'O vídeo que já está gravado vira peça pronta para publicar, no formato de cada rede.', exemplo: 'Corte vertical com legenda' },
     ] satisfies Frente[],
     quemSou: {
       titulo: 'Quem vai fazer o seu sistema',
