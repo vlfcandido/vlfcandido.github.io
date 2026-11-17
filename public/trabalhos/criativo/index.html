@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Criativo · Vinicius Candido</title>
-<meta name="description" content="Peças de criativo para marcas inventadas: story de assinatura e reel de captação. Texto, direção de arte, animação e vídeo final, prontos para Instagram, TikTok e status.">
+<meta name="description" content="Peças de criativo e vídeo: story de assinatura, reel de captação, anúncios e documentário feitos com IA. Texto, direção de arte, animação e vídeo final, prontos para Instagram, TikTok e status.">
 <link rel="canonical" href="https://vlfcandido.github.io/trabalhos/criativo/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Criativo · Vinicius Candido">
@@ -29,11 +29,14 @@
   h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: lowercase; font-size: clamp(2.6rem, 7vw, 4.6rem);
     line-height: .92; margin-top: 12px; letter-spacing: -.01em; }
   .abre-texto { margin-top: 22px; max-width: 62ch; color: #c9ccd3; font-size: 1.02rem; }
-  .grade { margin-top: 52px; display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .grade { margin-top: 52px; display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); }
   .peca { display: grid; grid-template-columns: 148px 1fr; gap: 22px; text-decoration: none; padding: 20px;
     border: 2px solid var(--linha); border-radius: 22px; background: #191c22; transition: border-color .2s, transform .2s; }
   .peca:hover, .peca:focus-visible { border-color: var(--azul); transform: translateY(-2px); }
   .peca img { width: 100%; height: auto; border-radius: 12px; display: block; aspect-ratio: 9 / 16; object-fit: cover; }
+  .peca-larga { grid-column: 1 / -1; grid-template-columns: minmax(0, 420px) 1fr; }
+  .peca-larga img { aspect-ratio: 16 / 9; align-self: start; }
+  @media (max-width: 640px) { .peca-larga { grid-template-columns: 1fr; } .peca { grid-template-columns: 112px 1fr; gap: 16px; } .peca-larga { grid-template-columns: 1fr; } }
   .peca .marca { font-size: .78rem; letter-spacing: .02em; color: #a5a8b3; }
   .peca h2 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: lowercase; font-size: 1.6rem; line-height: 1.05; margin-top: 8px; }
   .peca p { margin-top: 10px; font-size: .92rem; color: #c9ccd3; }
@@ -45,12 +48,12 @@
 <body>
 <header class="topo">
   <a href="/trabalhos/">← Experimente ao vivo</a>
-  <span class="selo">criativo · marcas inventadas</span>
+  <span class="selo">criativo e vídeo</span>
 </header>
 <main>
   <p class="abre">anúncio, arte e vídeo</p>
   <h1>peça vertical<br>que vende uma coisa só</h1>
-  <p class="abre-texto">As duas peças abaixo foram feitas do zero para marcas que não existem: nome, oferta, texto, direção de arte, animação e o vídeo final. É o mesmo trabalho de um anúncio de cliente, sem depender de foto pronta, banco de imagem ou material antigo. Entregues em 1080 × 1920, prontas para Instagram, TikTok e status de WhatsApp.</p>
+  <p class="abre-texto">As peças abaixo foram feitas do zero: nome, oferta, texto, direção de arte, animação e o vídeo final. É o mesmo trabalho de um anúncio de cliente, sem depender de foto pronta, banco de imagem ou material antigo. As três últimas são vídeos feitos com IA, com narração, cenas e trilha geradas.</p>
   <section class="grade">
     <a class="peca" href="assinatura-padaria/">
       <img src="assinatura-padaria/poster.jpg" alt="Story da padaria Torra do Bairro com o selo de preço de R$ 39 por mês" width="540" height="960" loading="lazy">
@@ -70,8 +73,35 @@
         <ul><li>9:16</li><li>9 s</li><li>roteiro + edição</li></ul>
       </div>
     </a>
+    <a class="peca" href="anuncio-app-elemento/">
+      <img src="anuncio-app-elemento/poster.jpg" alt="Anúncio do aplicativo Elemento: a mãe que perdeu a reunião da escola olha o celular" width="720" height="1280" loading="lazy">
+      <div>
+        <p class="marca">aplicativo · anúncio · feito com IA</p>
+        <h2>Elemento</h2>
+        <p>Anúncio de app da agenda da casa: a reunião da escola que passou, o aviso na tela de bloqueio e a semana organizada.</p>
+        <ul><li>9:16</li><li>30 s</li><li>narração + atriz por IA</li></ul>
+      </div>
+    </a>
+    <a class="peca" href="anuncio-temagente/">
+      <img src="anuncio-temagente/poster.jpg" alt="Anúncio do Tem Agente: a conversa no WhatsApp respondida em 3 segundos" width="720" height="1280" loading="lazy">
+      <div>
+        <p class="marca">saas · anúncio em motion · feito com IA</p>
+        <h2>Tem Agente</h2>
+        <p>A mesma mensagem duas vezes: sem resposta e o cliente vai embora; com o agente de IA, resposta em 3 segundos e horário marcado.</p>
+        <ul><li>9:16</li><li>21 s</li><li>motion de interface</li></ul>
+      </div>
+    </a>
+    <a class="peca peca-larga" href="documentario-rio-saara/">
+      <img src="documentario-rio-saara/poster.jpg" alt="Homem caminha ao lado de tubos gigantes de concreto no deserto do Saara" width="1280" height="720" loading="lazy">
+      <div>
+        <p class="marca">documentário · espanhol · feito com IA</p>
+        <h2>O rio sob o Saara</h2>
+        <p>Mini documentário narrado em espanhol sobre o rio artificial da Líbia: da duna vazia à água chegando à cidade.</p>
+        <ul><li>16:9</li><li>26 s</li><li>narração + cenas por IA</li></ul>
+      </div>
+    </a>
   </section>
-  <p class="nota">Marcas, horários, preços e pessoas são inventados. Nada aqui é cliente, venda ou resultado real: são peças de exemplo para mostrar o trabalho.</p>
+  <p class="nota">Horários, preços e pessoas são de exemplo, e as pessoas dos vídeos feitos com IA foram geradas. Nada aqui é venda ou resultado real: são peças para mostrar o trabalho.</p>
 </main>
 </body>
 </html>
