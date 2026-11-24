@@ -52,12 +52,13 @@ describe('bloco de lojas virtuais', () => {
     expect(html).toContain(lojas.cta)
   })
 
-  it('entra na home entre os projetos e o como funciona', () => {
-    const projetos = home.indexOf('id="destaques"')
-    const bloco = home.indexOf('id="lojas"')
-    const como = home.indexOf('id="como"')
-    expect(projetos).toBeGreaterThan(-1)
-    expect(bloco).toBeGreaterThan(projetos)
-    expect(como).toBeGreaterThan(bloco)
+  // 23/11/2026 (dono): a home enxugou para cinco blocos e o de lojas virtuais saiu dela. O conteúdo e o componente
+  // continuam, prontos para voltar ou virar página; o que este teste guarda agora é a saída e a ordem nova.
+  it('saiu da home no corte de 23/11, e a home ficou com os cinco blocos', () => {
+    expect(home).not.toContain('id="lojas"')
+    const ordem = ['id="inicio"', 'id="criativos"', 'id="experimente"', 'id="empresas"', 'id="quem"']
+      .map((marca) => home.indexOf(marca))
+    expect(ordem.every((posicao) => posicao > -1)).toBe(true)
+    expect([...ordem].sort((a, b) => a - b)).toEqual(ordem)
   })
 })

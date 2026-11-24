@@ -18,8 +18,7 @@ import { IconeConversa } from './IconeConversa'
  * de trabalho; a seção passou a se chamar "Projetos", e o item "Projetos" leva à página completa.
  */
 const SECOES = [
-  { id: 'ia', rotulo: 'IA e agentes' },
-  { id: 'como', rotulo: 'Como funciona' },
+  { id: 'criativos', rotulo: 'Criativo' },
   { id: 'quem', rotulo: 'Quem sou' },
 ] as const
 
