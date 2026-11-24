@@ -88,10 +88,13 @@
        prototipo empresas" e "como como quem". */
     /* 23/10/2026: o bloco de lojas virtuais ganha faixa inteira entre os projetos e a trajetória. Sem área própria
        ele cairia no fim da grade, fora da ordem de leitura do celular. */
+    /* 23/11/2026: o bloco de criativo e vídeo entra em faixa inteira logo depois da prova, na ordem nova da home
+       (prova, criativo, vitrine, empresas, quem). Sem área própria ele caía numa coluna de 373 px. */
     .home { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px;
-      grid-template-areas: "inicio inicio inicio" "ia ia ia" "vitrine vitrine vitrine" "destaques destaques destaques" "lojas lojas lojas" "empresas empresas empresas" "como como quem"; }
+      grid-template-areas: "inicio inicio inicio" "criativos criativos criativos" "ia ia ia" "vitrine vitrine vitrine" "destaques destaques destaques" "lojas lojas lojas" "empresas empresas empresas" "como como quem"; }
     .home > .secao { padding-block: 56px; }
     .home > #inicio { grid-area: inicio; }
+    .home > #criativos { grid-area: criativos; }
     .home > #ia { grid-area: ia; }
     .home > #experimente { grid-area: vitrine; }
     .home > #empresas { grid-area: empresas; }
