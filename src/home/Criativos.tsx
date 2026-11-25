@@ -1,6 +1,8 @@
 // Bloco de criativo e vídeo na home (23/11/2026). A seção existia só como um link dentro da vitrine de telas, e o
 // dono pediu que ela aparecesse na home: hoje é preciso procurar para achar. Quatro peças na frente — cliente e marca
 // inventada misturados de propósito, porque o que vende é o vídeo — e a página completa em /trabalhos/criativo/.
+// 25/11/2026: o filme da Casa Norte entra na frente, e o reel da Sainte Chapelle sai da home (segue na página inteira):
+// o dono disse que temos trabalhos melhores para mostrar primeiro.
 import { caminhoPublico } from '../lib/assets'
 
 interface Peca {
@@ -12,6 +14,12 @@ interface Peca {
 
 const PECAS: Peca[] = [
   {
+    slug: 'casa-norte',
+    nome: 'Casa Norte',
+    linha: 'Filme de 40 s em que o sistema, o WhatsApp com IA e a loja vendem do mesmo estoque, numa marca inventada.',
+    formato: 'marca inventada · 16:9',
+  },
+  {
     slug: 'viveras-life',
     nome: 'Viveras Life',
     linha: 'Imóveis para estudantes na Itália: o apartamento em 3D, o simulador de preço e a reserva.',
@@ -22,12 +30,6 @@ const PECAS: Peca[] = [
     nome: 'Match5',
     linha: 'Plataforma de campeonato: app do atleta e do público, agenda de provas e painel de quem organiza.',
     formato: 'cliente · 16:9',
-  },
-  {
-    slug: 'reel-sainte-chapelle',
-    nome: 'Sainte Chapelle',
-    linha: 'Reel de viagem com narração em inglês, corte no ritmo da fala e legenda queimada.',
-    formato: 'cliente · 9:16',
   },
   {
     slug: 'ugc-lume-skin',

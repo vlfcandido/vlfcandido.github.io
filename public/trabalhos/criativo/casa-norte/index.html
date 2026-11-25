@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Casa Norte · filme de produto · Vinicius Candido</title>
+<meta name="description" content="Filme de 40 segundos para um atacado de material de construção inventado: painel do sistema, conversa no WhatsApp com IA e a loja vendendo o mesmo estoque. Site, sistema e IA na mesma peça. Peça de portfólio.">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/criativo/casa-norte/">
+<meta property="og:type" content="video.other">
+<meta property="og:title" content="Casa Norte · filme de produto">
+<meta property="og:description" content="Filme 16:9 de 40 segundos com site, sistema e IA no mesmo produto, para uma marca inventada.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/criativo/casa-norte/poster.jpg">
+<meta property="og:video" content="https://vlfcandido.github.io/trabalhos/criativo/casa-norte/video.mp4">
+<meta name="theme-color" content="#ece5d6">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;500;700&display=swap">
+<style>
+  :root { --areia: #ece5d6; --tinta: #14161a; --laranja: #e2571f; --papel: #ffffff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--areia); color: var(--tinta); font-family: "Inter Tight", system-ui, sans-serif; line-height: 1.55; }
+  a { color: inherit; }
+  .topo { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px clamp(20px, 5vw, 56px);
+    border-bottom: 2px solid rgba(20,22,26,.14); font-size: .92rem; }
+  .topo a { text-decoration: none; }
+  .topo .volta { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
+  .topo .selo { color: #6a6b6f; }
+  main { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 5vw, 72px);
+    align-items: start; padding: clamp(28px, 6vw, 80px) clamp(20px, 5vw, 56px) 64px; max-width: 1200px; margin: 0 auto; }
+  .tela { position: relative; border-radius: 22px; overflow: hidden; background: var(--tinta);
+    box-shadow: 0 2px 0 rgba(0,0,0,.06), 0 30px 60px -24px rgba(20,22,26,.5); aspect-ratio: 16 / 9; }
+  .tela video { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--tinta); }
+  .texto .sobre { font-family: "Anton", Impact, sans-serif; text-transform: lowercase; font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--laranja); letter-spacing: .01em; }
+  h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: lowercase; font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: .95; margin-top: 12px; letter-spacing: -.01em; }
+  h1 em { font-style: normal; color: var(--laranja); }
+  .legenda { margin-top: 12px; font-size: .82rem; letter-spacing: .04em; color: #6a6b6f; }
+  .pedido { margin-top: 26px; padding: 20px 24px; border-left: 8px solid var(--laranja); background: rgba(255,255,255,.55); font-size: .98rem; }
+  .pedido b, dl dt { display: block; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+  .pedido b { color: #6a6b6f; margin-bottom: 8px; letter-spacing: .12em; }
+  dl { margin-top: 30px; display: grid; gap: 22px; }
+  dl dt { color: var(--laranja); }
+  dd { margin-top: 4px; font-size: .98rem; color: #33363d; }
+  .roteiro { margin-top: 30px; border: 2px solid rgba(20,22,26,.16); border-radius: 18px; overflow: hidden; }
+  .roteiro div { display: grid; grid-template-columns: 92px 1fr; gap: 14px; padding: 14px 18px; font-size: .92rem; }
+  .roteiro div + div { border-top: 2px solid rgba(20,22,26,.1); }
+  .roteiro b { font-variant-numeric: tabular-nums; color: var(--laranja); }
+  .ficha { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .ficha span { border: 2px solid rgba(20,22,26,.2); border-radius: 999px; padding: 6px 14px; font-size: .8rem; font-weight: 600; }
+  .acoes { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; padding: 14px 22px;
+    border-radius: 999px; background: var(--laranja); color: #fff; font-size: .95rem; }
+  .btn.sec { background: transparent; color: var(--tinta); border: 2px solid rgba(20,22,26,.35); }
+  .rodape { border-top: 2px solid rgba(20,22,26,.14); padding: 24px clamp(20px, 5vw, 56px); font-size: .86rem; color: #6a6b6f; text-align: center; }
+  @media (max-width: 780px) {
+    main { grid-template-columns: 1fr; }
+    .tela { max-width: 100%; margin: 0 auto; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<header class="topo">
+  <a class="volta" href="/trabalhos/">← Experimente ao vivo</a>
+  <span class="selo">peça de vídeo · feita com IA</span>
+</header>
+<main>
+  <div class="midia">
+    <div class="tela">
+      <video src="video.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video>
+    </div>
+    <p class="legenda">filme 16:9 · 40 s · marca inventada · feito com IA · com som</p>
+  </div>
+  <div class="texto">
+    <p class="sobre">filme de produto · atacado de construção</p>
+    <h1>site, sistema e ia <em>num filme só</em></h1>
+    <div class="pedido">
+      <b>o desafio</b>
+      Mostrar, em 40 segundos e para um dono de negócio, o que a gente entrega junto: o painel do sistema, o atendimento no WhatsApp com IA e a loja vendendo do mesmo estoque.
+    </div>
+    <dl>
+      <div>
+        <dt>A ideia</dt>
+        <dd>Cada trecho se explica sozinho, porque o card do perfil toca de 4 a 6 segundos fora de ordem. O filme não vende o atacado: ele mostra o produto na tela e usa o atacado como cenário.</dd>
+      </div>
+      <div>
+        <dt>O que foi feito</dt>
+        <dd>Roteiro por segmento, telas do sistema gravadas, conversa no WhatsApp montada quadro a quadro, narração, trilha e cortes dissolvidos de 10 quadros. Entregue em 1920 × 1080, pronto para o card do perfil e para o site.</dd>
+      </div>
+    </dl>
+    <div class="roteiro">
+      <div><b>0–6 s</b><span>"14 anos de mercado": a cartela abre na Casa Norte Atacado, com o nome entrando por punch.</span></div>
+      <div><b>6–11 s</b><span>o painel do sistema aberto: pedidos do dia, estoque baixo e cobrança em aberto.</span></div>
+      <div><b>11–14 s</b><span>a linha do pedido 2148 vira "Faturado": o pedido que fecha às nove da manhã.</span></div>
+      <div><b>14–24 s</b><span>o celular com o WhatsApp: a IA responde com o estoque real e chama o vendedor quando o cliente fecha.</span></div>
+      <div><b>24–32 s</b><span>a loja no celular: carrinho, pedido pago e o mesmo estoque do sistema.</span></div>
+      <div><b>32–40 s</b><span>a cartela fecha em "Site · Sistema · IA · No ar", palavra por palavra.</span></div>
+    </div>
+    <div class="ficha"><span>Vídeo 16:9</span><span>40 segundos</span><span>1920 × 1080</span><span>narração + trilha</span><span>telas gravadas</span><span>feito com IA</span><span>mp4 H.264</span></div>
+    <div class="acoes">
+      <a class="btn" href="video.mp4" download>Baixar o vídeo</a>
+      <a class="btn sec" href="/trabalhos/criativo/">Ver as outras peças</a>
+    </div>
+  </div>
+</main>
+<footer class="rodape">A Casa Norte Atacado é uma marca inventada para portfólio: o produto, os pedidos, os preços e as pessoas na tela são de exemplo, e as cenas foram geradas com IA. Nada aqui é cliente, venda ou resultado real.</footer>
+</body>
+</html>
