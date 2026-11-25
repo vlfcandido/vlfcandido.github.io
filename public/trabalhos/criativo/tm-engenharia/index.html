@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TM Engenharia · reel de marca · Vinicius Candido</title>
+<meta name="description" content="Reel vertical de 30 segundos para uma empresa de terraplenagem, montado só com as fotos do canteiro: movimento de drone a partir de foto parada, legenda do guia da marca, narração e trilha.">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/criativo/tm-engenharia/">
+<meta property="og:type" content="video.other">
+<meta property="og:title" content="TM Engenharia · reel de marca">
+<meta property="og:description" content="Fotos do canteiro viram reel de 30 segundos, com movimento de drone, legenda da marca e narração.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/criativo/tm-engenharia/poster.jpg">
+<meta property="og:video" content="https://vlfcandido.github.io/trabalhos/criativo/tm-engenharia/video.mp4">
+<meta name="theme-color" content="#071E16">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;500;700&display=swap">
+<style>
+  :root { --areia: #ece5d6; --tinta: #14161a; --verde: #00843d; --papel: #ffffff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--areia); color: var(--tinta); font-family: "Inter Tight", system-ui, sans-serif; line-height: 1.55; }
+  a { color: inherit; }
+  .topo { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px clamp(20px, 5vw, 56px);
+    border-bottom: 2px solid rgba(20,22,26,.14); font-size: .92rem; }
+  .topo a { text-decoration: none; }
+  .topo .volta { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
+  .topo .selo { color: #6a6b6f; }
+  main { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 5vw, 72px);
+    align-items: start; padding: clamp(28px, 6vw, 80px) clamp(20px, 5vw, 56px) 64px; max-width: 1200px; margin: 0 auto; }
+  .tela { position: relative; border-radius: 22px; overflow: hidden; background: var(--tinta); max-width: 420px; margin: 0 auto;
+    box-shadow: 0 2px 0 rgba(0,0,0,.06), 0 30px 60px -24px rgba(20,22,26,.5); aspect-ratio: 9 / 16; }
+  .tela video { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--tinta); }
+  .texto .sobre { font-family: "Anton", Impact, sans-serif; text-transform: lowercase; font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--verde); letter-spacing: .01em; }
+  h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: lowercase; font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: .95; margin-top: 12px; letter-spacing: -.01em; }
+  h1 em { font-style: normal; color: var(--verde); }
+  .legenda { margin-top: 12px; font-size: .82rem; letter-spacing: .04em; color: #6a6b6f; text-align: center; }
+  .pedido { margin-top: 26px; padding: 20px 24px; border-left: 8px solid var(--verde); background: rgba(255,255,255,.55); font-size: .98rem; }
+  .pedido b, dl dt { display: block; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+  .pedido b { color: #6a6b6f; margin-bottom: 8px; letter-spacing: .12em; }
+  dl { margin-top: 30px; display: grid; gap: 22px; }
+  dl dt { color: var(--verde); }
+  dd { margin-top: 4px; font-size: .98rem; color: #33363d; }
+  .roteiro { margin-top: 30px; border: 2px solid rgba(20,22,26,.16); border-radius: 18px; overflow: hidden; }
+  .roteiro div { display: grid; grid-template-columns: 92px 1fr; gap: 14px; padding: 14px 18px; font-size: .92rem; }
+  .roteiro div + div { border-top: 2px solid rgba(20,22,26,.1); }
+  .roteiro b { font-variant-numeric: tabular-nums; color: var(--verde); }
+  .ficha { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .ficha span { border: 2px solid rgba(20,22,26,.2); border-radius: 999px; padding: 6px 14px; font-size: .8rem; font-weight: 600; }
+  .acoes { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; padding: 14px 22px;
+    border-radius: 999px; background: var(--verde); color: #fff; font-size: .95rem; }
+  .btn.sec { background: transparent; color: var(--tinta); border: 2px solid rgba(20,22,26,.35); }
+  .rodape { border-top: 2px solid rgba(20,22,26,.14); padding: 24px clamp(20px, 5vw, 56px); font-size: .86rem; color: #6a6b6f; text-align: center; }
+  @media (min-width: 900px) {
+    main { grid-template-columns: minmax(0, 420px) 1fr; }
+  }
+</style>
+</head>
+<body>
+<header class="topo">
+  <a class="volta" href="/trabalhos/">← Experimente ao vivo</a>
+  <span class="selo">peça de vídeo · trabalho de cliente</span>
+</header>
+<main>
+  <div class="midia">
+    <div class="tela">
+      <video src="video.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video>
+    </div>
+    <p class="legenda">vertical 9:16 · 30 s · fotos da empresa · com som</p>
+  </div>
+  <div class="texto">
+    <p class="sobre">engenharia e terraplenagem · reel de marca</p>
+    <h1>o canteiro <em>vira reel</em></h1>
+    <div class="pedido">
+      <b>o desafio</b>
+      Montar um reel de 30 segundos para apresentar a empresa e os laudos, só com as fotos do canteiro — não havia um segundo de vídeo na pasta — e com a tipografia do guia da marca.
+    </div>
+    <dl>
+      <div>
+        <dt>A ideia</dt>
+        <dd>Cada foto ganha deslocamento lateral com inclinação, imitando o giro de um drone, e cada corte cai na batida da trilha. A palavra-chave de cada frase vai no verde da marca, como o guia manda destacar.</dd>
+      </div>
+      <div>
+        <dt>O que foi feito</dt>
+        <dd>Seis tempos, seis fotos, legenda em Montserrat com tamanho calculado para não quebrar a frase no meio, narração em português e trilha licenciada, com a música abaixando sob a voz.</dd>
+      </div>
+    </dl>
+    <div class="roteiro">
+      <div><b>0–4 s</b><span>"Você tem ideia do trabalho necessário?": o sol nascendo com a escavadeira em silhueta.</span></div>
+      <div><b>4–10 s</b><span>a empresa se apresenta: desde 2010, planejando, executando e transformando infraestrutura.</span></div>
+      <div><b>10–13 s</b><span>engenharia, equipamentos e produtividade, com o caminhão levantando poeira.</span></div>
+      <div><b>13–19 s</b><span>laudos e relatórios de fundação: estacas, sondagens e controle técnico.</span></div>
+      <div><b>19–25 s</b><span>obras de grande porte com segurança, na silhueta do fim de tarde.</span></div>
+      <div><b>25–30 s</b><span>a placa do logo, "Engenharia para transformar" e os contatos.</span></div>
+    </div>
+    <div class="ficha"><span>Vídeo 9:16</span><span>30 segundos</span><span>1080 × 1920</span><span>fotos da empresa</span><span>narração + trilha</span><span>movimento de drone</span><span>mp4 H.264</span></div>
+    <div class="acoes">
+      <a class="btn" href="video.mp4" download>Baixar o vídeo</a>
+      <a class="btn sec" href="/trabalhos/criativo/">Ver as outras peças</a>
+    </div>
+  </div>
+</main>
+<footer class="rodape">Peça feita para a TM Engenharia, com as fotos da própria empresa e publicada com autorização. O movimento é aplicado sobre foto parada: não há vídeo gravado no material original.</footer>
+</body>
+</html>
