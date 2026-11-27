@@ -1,22 +1,24 @@
-// Ordem da vitrine da home (18/10/2026). A curadoria começa pela peça mais visual e termina na que já aparece no
-// topo da home (Liga Várzea), para a segunda dobra não repetir a mesma tela da primeira. A ordem de /trabalhos/ e
-// a de PECAS não mudam: o teste confere que a vitrine usa todas as peças, uma vez cada.
+// Ordem da vitrine da home (18/10/2026). Antes a curadoria começava pela peça mais visual e terminava na Liga
+// Várzea, que aparecia no topo da home.
+// 26/11/2026 (dono): a vitrine segue a ordem de PECAS, as mais bonitas na frente, igual a /trabalhos/ e a
+// #/projetos. O teste confere que as duas listas são a mesma, na mesma ordem.
 
 import { PECAS } from '../conteudo'
 
 /** Slugs na ordem em que entram na vitrine da home. */
 export const ORDEM_DA_VITRINE = [
   'pet-shop-whatsapp-ia-exemplo',
-  // 26/11/2026: o site institucional entra em segundo, ao lado do Pelo Solto, nas duas vagas grandes do PC.
-  'site-contabilidade-exemplo',
-  'catalogo-whatsapp-exemplo',
+  // 26/11/2026: o Céu Interior divide as duas vagas grandes do PC com o Pelo Solto. Antes era o site institucional
+  // (Doze Avos), que foi para o fim da lista.
   'plataforma-astrologia-exemplo',
-  'consignacao-veiculos-exemplo',
   'atletica-associados-exemplo',
-  'escritorio-arquitetura-exemplo',
-  'loja-woocommerce-exemplo',
   'consultorio-exemplo',
   'liga-varzea',
+  'consignacao-veiculos-exemplo',
+  'loja-woocommerce-exemplo',
+  'catalogo-whatsapp-exemplo',
+  'escritorio-arquitetura-exemplo',
+  'site-contabilidade-exemplo',
 ] as const
 
 /**

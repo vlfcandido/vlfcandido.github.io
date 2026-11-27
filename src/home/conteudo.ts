@@ -67,6 +67,10 @@ export const NOME_PECAS = 'Experimente ao vivo'
 // 'Loja e-commerce'. As duas peças sem capa no mural (Céu Interior e Pátio Aberto) seguem com a categoria delas.
 // Com as capas ilustradas (mesmo dia), o nome é o título da capa: 'IA no WhatsApp' (antes 'Atendimento com IA') e
 // 'Integração por API' (antes 'Integração').
+// 26/11/2026 (dono): as mais bonitas na frente. Ordem nova: Pelo Solto, Céu Interior, Maré Alta, Consultório,
+// Liga Várzea, Pátio Aberto, Trama, Novelo, Atelier Linha e Doze Avos. Antes: Pelo Solto, Doze Avos, Liga Várzea,
+// Consultório, Atelier Linha, Céu Interior, Novelo, Trama, Pátio Aberto e Maré Alta. Vale para /trabalhos/,
+// para a vitrine da home e para #/projetos; o teste trava as três.
 export const PECAS = [
   {
     slug: 'pet-shop-whatsapp-ia-exemplo', nome: 'Pelo Solto', href: 'trabalhos/pet-shop-whatsapp-ia-exemplo/',
@@ -75,12 +79,22 @@ export const PECAS = [
     resumo: 'Atendimento no WhatsApp que consulta a agenda e chama a equipe quando precisa.',
   },
   {
-    // 26/11/2026 (dono: "faltou um site institucional"): a décima peça, logo depois do Pelo Solto porque site é a
-    // segunda maior demanda do 99. Escritório de contabilidade inventado; é a prova da capa "Site institucional".
-    slug: 'site-contabilidade-exemplo', nome: 'Doze Avos Contabilidade', href: 'trabalhos/site-contabilidade-exemplo/',
-    imagem: 'trabalhos/img/site-contabilidade-exemplo.jpg', alt: 'Site da Doze Avos Contabilidade com os quatro assuntos mais pedidos na primeira tela',
-    categoria: 'Site institucional',
-    resumo: 'Site de escritório contábil em que o pedido de contato chega com o assunto e a origem.',
+    slug: 'plataforma-astrologia-exemplo', nome: 'Céu Interior', href: 'trabalhos/plataforma-astrologia-exemplo/',
+    imagem: 'trabalhos/img/plataforma-astrologia-exemplo.jpg', alt: 'Capa do parecer Céu Interior, com o mapa astral de exemplo e a nota da jornada',
+    categoria: 'Produto e UX',
+    resumo: 'Parecer de produto que mostra onde a venda de uma plataforma de astrologia trava.',
+  },
+  {
+    slug: 'atletica-associados-exemplo', nome: 'Atlética Maré Alta', href: 'trabalhos/atletica-associados-exemplo/',
+    imagem: 'trabalhos/img/atletica-associados-exemplo.jpg', alt: 'Carteirinha digital da Atlética Maré Alta com QR code e validade',
+    categoria: 'Carteirinha digital',
+    resumo: 'Carteirinha com QR que muda sozinho e Pix que renova a validade do associado.',
+  },
+  {
+    slug: 'consultorio-exemplo', nome: 'Consultório Exemplo', href: 'trabalhos/consultorio-exemplo/',
+    imagem: 'trabalhos/img/consultorio-exemplo.jpg', alt: 'Página inicial do Consultório Exemplo, com a busca de psicólogos',
+    categoria: 'Agendamento online',
+    resumo: 'Terapia online em que perfil com CRP irregular sai da busca.',
   },
   {
     // Fix final (14/10/2026): um nome só para cada peça, igual em /trabalhos/ e na faixa. Antes 'Liga Várzea FC (exemplo)'
@@ -93,28 +107,10 @@ export const PECAS = [
     resumo: 'Portal de futebol em que a correção feita à mão não some na atualização.',
   },
   {
-    slug: 'consultorio-exemplo', nome: 'Consultório Exemplo', href: 'trabalhos/consultorio-exemplo/',
-    imagem: 'trabalhos/img/consultorio-exemplo.jpg', alt: 'Página inicial do Consultório Exemplo, com a busca de psicólogos',
-    categoria: 'Agendamento online',
-    resumo: 'Terapia online em que perfil com CRP irregular sai da busca.',
-  },
-  {
-    slug: 'escritorio-arquitetura-exemplo', nome: 'Atelier Linha', href: 'trabalhos/escritorio-arquitetura-exemplo/',
-    imagem: 'trabalhos/img/escritorio-arquitetura-exemplo.jpg', alt: 'Painel do Atelier Linha com os projetos por etapa e a margem de cada um',
-    categoria: 'Sistema sob medida',
-    resumo: 'Revisão fora do contrato vira hora sem cobrança, e aqui ela fica registrada.',
-  },
-  {
-    slug: 'plataforma-astrologia-exemplo', nome: 'Céu Interior', href: 'trabalhos/plataforma-astrologia-exemplo/',
-    imagem: 'trabalhos/img/plataforma-astrologia-exemplo.jpg', alt: 'Capa do parecer Céu Interior, com o mapa astral de exemplo e a nota da jornada',
-    categoria: 'Produto e UX',
-    resumo: 'Parecer de produto que mostra onde a venda de uma plataforma de astrologia trava.',
-  },
-  {
-    slug: 'catalogo-whatsapp-exemplo', nome: 'Novelo', href: 'trabalhos/catalogo-whatsapp-exemplo/',
-    imagem: 'trabalhos/img/catalogo-whatsapp-exemplo.jpg', alt: 'Vitrine do Novelo com o carrinho e a prévia do pedido no WhatsApp',
-    categoria: 'Catálogo digital',
-    resumo: 'Catálogo em que o pedido chega montado no WhatsApp e o estoque baixa no Bling.',
+    slug: 'consignacao-veiculos-exemplo', nome: 'Pátio Aberto', href: 'trabalhos/consignacao-veiculos-exemplo/',
+    imagem: 'trabalhos/img/consignacao-veiculos-exemplo.jpg', alt: 'Pátio Aberto com a busca de carros e a ficha clara de um anúncio',
+    categoria: 'Site de veículos',
+    resumo: 'Consignação de carros em que cada anúncio separa conferido, declarado e atenção.',
   },
   {
     slug: 'loja-woocommerce-exemplo', nome: 'Trama Atacado', href: 'trabalhos/loja-woocommerce-exemplo/',
@@ -123,16 +119,25 @@ export const PECAS = [
     resumo: 'Loja de atacado com grade numa tela e cada pedido rastreado do Pix ao ERP.',
   },
   {
-    slug: 'consignacao-veiculos-exemplo', nome: 'Pátio Aberto', href: 'trabalhos/consignacao-veiculos-exemplo/',
-    imagem: 'trabalhos/img/consignacao-veiculos-exemplo.jpg', alt: 'Pátio Aberto com a busca de carros e a ficha clara de um anúncio',
-    categoria: 'Site de veículos',
-    resumo: 'Consignação de carros em que cada anúncio separa conferido, declarado e atenção.',
+    slug: 'catalogo-whatsapp-exemplo', nome: 'Novelo', href: 'trabalhos/catalogo-whatsapp-exemplo/',
+    imagem: 'trabalhos/img/catalogo-whatsapp-exemplo.jpg', alt: 'Vitrine do Novelo com o carrinho e a prévia do pedido no WhatsApp',
+    categoria: 'Catálogo digital',
+    resumo: 'Catálogo em que o pedido chega montado no WhatsApp e o estoque baixa no Bling.',
   },
   {
-    slug: 'atletica-associados-exemplo', nome: 'Atlética Maré Alta', href: 'trabalhos/atletica-associados-exemplo/',
-    imagem: 'trabalhos/img/atletica-associados-exemplo.jpg', alt: 'Carteirinha digital da Atlética Maré Alta com QR code e validade',
-    categoria: 'Carteirinha digital',
-    resumo: 'Carteirinha com QR que muda sozinho e Pix que renova a validade do associado.',
+    slug: 'escritorio-arquitetura-exemplo', nome: 'Atelier Linha', href: 'trabalhos/escritorio-arquitetura-exemplo/',
+    imagem: 'trabalhos/img/escritorio-arquitetura-exemplo.jpg', alt: 'Painel do Atelier Linha com os projetos por etapa e a margem de cada um',
+    categoria: 'Sistema sob medida',
+    resumo: 'Revisão fora do contrato vira hora sem cobrança, e aqui ela fica registrada.',
+  },
+  {
+    // 26/11/2026 (dono: "faltou um site institucional"): a décima peça. Entrou logo depois do Pelo Solto, porque
+    // site é a segunda maior demanda do 99, e no mesmo dia foi para o fim, na ordem das mais bonitas na frente.
+    // Escritório de contabilidade inventado; é a prova da capa "Site institucional".
+    slug: 'site-contabilidade-exemplo', nome: 'Doze Avos Contabilidade', href: 'trabalhos/site-contabilidade-exemplo/',
+    imagem: 'trabalhos/img/site-contabilidade-exemplo.jpg', alt: 'Site da Doze Avos Contabilidade com os quatro assuntos mais pedidos na primeira tela',
+    categoria: 'Site institucional',
+    resumo: 'Site de escritório contábil em que o pedido de contato chega com o assunto e a origem.',
   },
   // Para acrescentar uma peça: a entrada aqui e o cartão em public/trabalhos/index.html (o teste confere os dois lados).
 ] as const
