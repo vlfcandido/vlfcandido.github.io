@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Doze Avos Contabilidade · site institucional de escritório contábil (exemplo)</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://vlfcandido.github.io/trabalhos/site-contabilidade-exemplo/">
+<meta name="theme-color" content="#1B2059">
+<meta name="description" content="Exemplo de trabalho: site institucional de um escritório de contabilidade, rápido no celular, com o assunto em dois toques e o pedido de contato que chega com o assunto e a origem do visitante. Empresa, pessoas, endereço e números são fictícios.">
+<meta property="og:title" content="Doze Avos Contabilidade · site institucional de escritório contábil (exemplo)">
+<meta property="og:description" content="Exemplo de trabalho: site institucional de um escritório de contabilidade, rápido no celular, com o assunto em dois toques e o pedido de contato que chega com o assunto e a origem do visitante. Empresa, pessoas, endereço e números são fictícios.">
+<meta property="og:image" content="https://vlfcandido.github.io/trabalhos/site-contabilidade-exemplo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Site da Doze Avos Contabilidade com os quatro assuntos e o pedido de contato montado">
+<meta property="og:url" content="https://vlfcandido.github.io/trabalhos/site-contabilidade-exemplo/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Besley:wght@500..800&family=IBM+Plex+Sans:wght@400..600&display=swap" rel="stylesheet">
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yvd0mxjdrs");clarity("set","pagina","trabalho-site-contabilidade-exemplo");</script>
+<style>
+/* Doze Avos Contabilidade: site institucional de exemplo (26/11/2026).
+   A identidade vem do talão de notas e das guias: a 1ª via branca, a 2ª via rosa aparecendo por baixo, tinta de
+   carbono azul e um carimbo vermelho. Besley (a serifa quadrada dos livros-caixa) nos títulos e IBM Plex Sans no
+   texto. Uma página só, sem biblioteca: é isso que faz ela abrir rápido no celular. */
+:root{
+  --papel:#F2F3F8;--folha:#FFFFFF;--tinta:#1B2059;--tinta-2:#4B5085;--linha:#C5C9E2;
+  --rosa:#F7CBD3;--rosa-linha:#D98C9B;--carimbo:#BF2A1E;--foco:#BF2A1E;
+  --botao:#1B2059;--botao-tinta:#FFFFFF;--topo:#1B2059;
+  --f-t:'Besley',Georgia,'Times New Roman',serif;--f-c:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --raio:6px;--via:6px 6px 0 var(--rosa);
+  color-scheme:light;
+}
+@media(prefers-color-scheme:dark){:root{
+  --papel:#111433;--folha:#1A1E4B;--tinta:#ECEEFB;--tinta-2:#BBBFE0;--linha:#3B4189;
+  --foco:#F7CBD3;--botao:#F7CBD3;--botao-tinta:#1B2059;--topo:#0B0D26;
+  color-scheme:dark;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:60px}
+body{margin:0;background:var(--papel);color:var(--tinta);font:400 1.0625rem/1.55 var(--f-c);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-t);font-weight:700;line-height:1.1;letter-spacing:-.015em;margin:0;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+ul{margin:0;padding:0;list-style:none}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--foco);outline-offset:2px;border-radius:3px}
+.caixa{max-width:1120px;margin-inline:auto;padding-inline:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.pular{position:absolute;left:-999px;top:0;background:var(--folha);padding:12px 16px;z-index:90}
+.pular:focus{left:8px;top:8px}
+
+/* Faixa do portfólio (igual à das outras peças) e a linha que diz o que este exemplo prova. */
+.byline{background:var(--topo);color:#fff;font-size:13px;text-align:center;padding:6px 16px;line-height:1.3}
+.byline a{color:inherit;font-weight:700;text-underline-offset:3px;display:inline-block;padding:15px 4px;margin:-15px 0}
+.prova-ex{background:var(--rosa);color:#1B2059;font-size:13px;line-height:1.3;text-align:center;padding:6px 16px}
+.prova-ex a{font-weight:600;text-underline-offset:3px;display:inline-block;padding:14px 2px;margin:-14px 0}
+.prova-ex b{font-weight:600}
+.prova-ex .largo{display:none}
+
+/* Botão flutuante de quem fez o projeto (padrão das peças). */
+.dev{position:fixed;isolation:isolate;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:10px;text-decoration:none;background:#1B2059;color:#fff;border-radius:999px;padding:5px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45)}
+.dev .wa-c{width:40px;height:40px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;flex:none}
+.dev .wa-c svg{width:24px;height:24px}
+.dev>span:last-child{display:none;padding-right:14px}
+.dev b{display:block;font:600 15px/1.15 var(--f-c)}
+.dev small{display:block;font-size:11.5px;opacity:.75;line-height:1.2}
+
+/* Cabeçalho: a marca, as seções e o pedido de contato sempre à mão. No celular as seções rolam de lado. */
+/* No celular a linha da marca rola para fora e só a linha das seções fica presa no topo (top negativo). */
+.topo{background:var(--folha);border-bottom:1.5px solid var(--tinta);position:sticky;top:-57px;z-index:40}
+.topo .caixa{display:grid;grid-template-columns:1fr auto;grid-template-areas:"marca acao" "nav nav";align-items:center;column-gap:12px}
+.marca{grid-area:marca;display:inline-flex;align-items:center;gap:10px;min-height:56px;text-decoration:none;justify-self:start}
+.marca svg{width:34px;height:34px;flex:none}
+.marca b{display:block;font:700 1.15rem/1 var(--f-t);letter-spacing:-.01em}
+.marca small{display:block;font-size:.78rem;line-height:1.3;color:var(--tinta-2)}
+.topo nav{grid-area:nav;margin-inline:-16px;border-top:1px solid var(--linha)}
+.topo nav ul{display:flex;gap:2px;overflow-x:auto;padding-inline:8px;scrollbar-width:none}
+.topo nav ul::-webkit-scrollbar{display:none}
+.topo nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:.95rem;font-weight:500;text-decoration:none;white-space:nowrap}
+.topo .botao{grid-area:acao}
+.botao{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:1.5px solid var(--botao);border-radius:var(--raio);background:var(--botao);color:var(--botao-tinta);font-weight:600;text-decoration:none;cursor:pointer;text-align:center}
+.botao.pequeno{min-height:44px;padding:0 14px;font-size:.95rem}
+.botao.claro{background:var(--folha);color:var(--tinta);border-color:var(--tinta)}
+.botao:active{transform:translateY(1px)}
+@media(hover:hover){.botao:hover{filter:brightness(1.12)}.topo nav a:hover,.linha-servico button:hover{text-decoration:underline;text-underline-offset:4px}}
+
+/* Abertura: o título e, já na primeira tela, os quatro assuntos mais pedidos. */
+/* No celular a ordem é título, assuntos e só depois os fatos: a pergunta "o que você precisa" cabe na primeira tela. */
+.abertura{padding-block:24px 36px}
+.abertura .caixa{display:grid}
+.abertura .apoio{order:3;margin-top:20px}
+.abertura h1{font-size:clamp(2rem,6.4vw,3.2rem)}
+.abertura .lede{margin-top:12px;font-size:1.125rem;color:var(--tinta-2);max-width:46ch}
+.exemplo{display:inline-block;margin-top:14px;padding:5px 10px;border:1.5px dashed var(--carimbo);border-radius:var(--raio);font-size:.85rem;line-height:1.3;color:var(--carimbo)}
+@media(prefers-color-scheme:dark){.exemplo{border-color:var(--rosa);color:var(--rosa)}}
+.fatos{display:grid;gap:4px;font-size:.95rem;color:var(--tinta-2)}
+.achar{margin-top:20px}
+.achar h2{font-size:1.25rem}
+.guias{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.guia{display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:76px;padding:10px 12px;border:1.5px solid var(--tinta);border-radius:var(--raio);background:var(--folha);text-align:left;cursor:pointer}
+.guia b{font:700 1.05rem/1.15 var(--f-t)}
+.guia span{font-size:.82rem;line-height:1.25;color:var(--tinta-2)}
+.guia[aria-expanded="true"]{background:var(--botao);color:var(--botao-tinta)}
+.guia[aria-expanded="true"] span{color:inherit;opacity:.85}
+.painel{margin-top:12px;padding:16px;border:1.5px solid var(--tinta);border-radius:var(--raio);background:var(--folha);box-shadow:var(--via)}
+.painel h3{font-size:1.3rem}
+.painel-grade{display:grid;gap:14px;margin-top:12px}
+.campo{font-size:.8rem;font-weight:600;color:var(--tinta-2);line-height:1.3}
+.painel li{position:relative;padding-left:16px;font-size:.98rem;line-height:1.4;margin-top:4px}
+.painel li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--rosa-linha)}
+.painel .prazo{margin-top:4px;font-weight:600}
+.painel .botao{margin-top:16px;width:100%}
+
+/* O ano em doze avos: os doze meses e o que vence em cada um. */
+.ano{padding-block:20px;border-block:1.5px solid var(--tinta);background:var(--folha)}
+.ano h2{font-size:1.25rem}
+.meses{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:12px}
+.mes{min-height:44px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--papel);font-size:.9rem;font-weight:500;cursor:pointer;position:relative}
+.mes[data-marco]::after{content:"";position:absolute;right:5px;top:5px;width:7px;height:7px;border-radius:50%;background:var(--carimbo)}
+.mes[aria-pressed="true"]{background:var(--botao);color:var(--botao-tinta);border-color:var(--botao)}
+.mes[data-hoje]{border-color:var(--tinta);border-width:1.5px}
+.vence{margin-top:12px;font-size:1rem}
+.vence b{font-weight:600}
+.nota{margin-top:6px;font-size:.85rem;color:var(--tinta-2)}
+
+/* Seções do site. */
+.secao{padding-block:36px}
+.secao h2{font-size:clamp(1.6rem,4.6vw,2.1rem)}
+.secao .sub{margin-top:8px;color:var(--tinta-2);max-width:60ch}
+.livro{margin-top:16px;border-top:1.5px solid var(--tinta)}
+.linha-servico{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;padding-block:10px;border-bottom:1px solid var(--linha)}
+.linha-servico b{font:700 1.08rem/1.25 var(--f-t)}
+.linha-servico>span{grid-column:1;font-size:.95rem;line-height:1.4;color:var(--tinta-2)}
+.linha-servico button{grid-column:2;grid-row:1/span 2;min-height:44px;padding:0 4px;border:0;background:none;font-weight:600;font-size:.95rem;cursor:pointer;text-decoration:underline;text-decoration-color:var(--rosa-linha);text-decoration-thickness:2px;text-underline-offset:4px}
+.quem{display:grid;gap:12px;margin-top:16px}
+.quem li{padding:14px 16px;border:1.5px solid var(--tinta);border-radius:var(--raio);background:var(--folha)}
+.quem h3{font-size:1.12rem}
+.quem p{margin-top:6px;font-size:.98rem;color:var(--tinta-2)}
+.equipe{display:grid;gap:0;margin-top:16px;border-top:1.5px solid var(--tinta)}
+.equipe li{display:grid;grid-template-columns:48px 1fr;gap:2px 12px;align-items:center;padding-block:12px;border-bottom:1px solid var(--linha)}
+.equipe i{grid-row:1/span 2;width:48px;height:48px;border-radius:50%;background:var(--rosa);color:#1B2059;display:grid;place-items:center;font:700 1rem var(--f-t);font-style:normal}
+.equipe b{font:700 1.05rem/1.2 var(--f-t)}
+.equipe span{font-size:.95rem;line-height:1.35;color:var(--tinta-2)}
+.perguntas{margin-top:16px;border-top:1.5px solid var(--tinta)}
+.perguntas details{border-bottom:1px solid var(--linha)}
+.perguntas summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:52px;padding-block:10px;cursor:pointer;font:700 1.05rem/1.3 var(--f-t);list-style:none}
+.perguntas summary::-webkit-details-marker{display:none}
+.perguntas summary::after{content:"+";flex:none;font:500 1.4rem/1 var(--f-c)}
+.perguntas details[open] summary::after{content:"\2212"}
+.perguntas p{padding:0 0 14px;max-width:68ch;color:var(--tinta-2)}
+
+/* Contato: o formulário (1ª via) e o pedido como o escritório recebe (2ª via, rosa). */
+.contato-grade{display:grid;gap:28px;margin-top:20px}
+.form{padding:16px;border:1.5px solid var(--tinta);border-radius:var(--raio);background:var(--folha);box-shadow:var(--via)}
+.form fieldset{border:0;margin:0;padding:0;min-width:0}
+.form legend,.form label.campo{display:block;padding:0;margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips label{position:relative;display:inline-flex}
+.chips input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.chips span{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border:1.5px solid var(--linha);border-radius:var(--raio);background:var(--papel);font-size:.95rem;font-weight:500}
+.chips input:checked+span{background:var(--botao);color:var(--botao-tinta);border-color:var(--botao)}
+.chips input:focus-visible+span{outline:3px solid var(--foco);outline-offset:2px}
+.form .linha{margin-top:16px}
+.form input[type=text],.form input[type=tel]{display:block;width:100%;min-height:48px;padding:0 12px;border:1.5px solid var(--tinta);border-radius:var(--raio);background:var(--papel)}
+.form .erro{margin-top:6px;font-size:.9rem;font-weight:600;color:var(--carimbo)}
+@media(prefers-color-scheme:dark){.form .erro{color:var(--rosa)}}
+.form .botao{margin-top:18px;width:100%}
+.form .nota{margin-top:10px}
+.chegou{font-size:.95rem;color:var(--tinta-2);margin-top:8px}
+.via{position:relative;padding:22px 16px 18px;background:#F7CBD3;color:#1B2059;border-radius:0 0 var(--raio) var(--raio);font-size:.98rem}
+.via::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:radial-gradient(circle at 8px 0,var(--papel) 4.5px,transparent 5px) 0 0/16px 10px repeat-x}
+.via h3{font-size:1.15rem}
+.via .de{font-size:.82rem;margin-top:2px;opacity:.8}
+.via dl{display:grid;grid-template-columns:1fr 1fr;margin:14px 0 0;border:1.5px solid #1B2059}
+.via dl>div{padding:6px 8px 7px;border-bottom:1px solid #D98C9B;border-right:1px solid #D98C9B;min-width:0}
+.via dl>div.larga{grid-column:1/-1}
+.via dt{font-size:.72rem;font-weight:600;line-height:1.3;opacity:.75}
+.via dd{margin:1px 0 0;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.via .mensagem{margin-top:12px;padding:10px 12px;border:1.5px dashed #1B2059;border-radius:var(--raio);line-height:1.45}
+/* O carimbo entra depois do envio, no fluxo da via: não cobre campo nenhum. */
+.via .carimbo{width:max-content;margin:12px 4px 0 auto;padding:6px 10px 5px;border:3px solid #BF2A1E;border-radius:var(--raio);color:#BF2A1E;font:800 .9rem/1.1 var(--f-t);text-transform:uppercase;letter-spacing:.04em;text-align:center;transform:rotate(-5deg);animation:carimba .26s cubic-bezier(.2,1.4,.4,1)}
+@keyframes carimba{from{transform:rotate(-5deg) scale(1.7);opacity:0}}
+.simular{margin-top:14px;padding-top:12px;border-top:1px solid #D98C9B}
+.simular .campo{color:#1B2059;opacity:.8}
+.simular .chips{margin-top:6px}
+.simular .chips span{background:transparent;border-color:#1B2059;color:#1B2059;min-height:40px;font-size:.9rem}
+.simular .chips input:checked+span{background:#1B2059;color:#fff;border-color:#1B2059}
+.endereco{margin-top:28px;display:grid;gap:14px;padding-top:16px;border-top:1.5px solid var(--tinta)}
+.endereco p{font-size:.98rem}
+.endereco .campo{display:block}
+
+/* Por trás do site: o que este exemplo mostra para quem quer um site assim. Fala o projeto, não o escritório. */
+.bastidor{background:var(--topo);color:#fff;padding-block:32px 36px}
+.bastidor h2{font-size:1.5rem}
+.bastidor .sub{margin-top:6px;opacity:.8;max-width:60ch}
+.bastidor ol{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:0;border-top:1px solid rgba(255,255,255,.3)}
+.bastidor li{padding-block:14px;border-bottom:1px solid rgba(255,255,255,.3);max-width:70ch}
+.bastidor li b{font:700 1.15rem/1.25 var(--f-t);display:block}
+.bastidor li span{display:block;margin-top:4px;opacity:.85}
+.bastidor mark{background:var(--rosa);color:#1B2059;padding:0 5px;border-radius:3px;font-weight:600}
+.bastidor :focus-visible{outline-color:var(--rosa)}
+
+footer{padding-block:28px calc(88px + env(safe-area-inset-bottom));font-size:.95rem}
+footer .caixa{display:grid;gap:16px}
+footer .sig{display:inline-flex;align-items:center;gap:10px;text-decoration:none;justify-self:start;min-height:44px}
+footer .sig svg{width:30px;height:30px}
+footer .sig small{display:block;font-size:.75rem;color:var(--tinta-2)}
+footer .sig b{display:block;font:700 1rem/1.15 var(--f-t)}
+footer .sig em{display:block;font-style:normal;font-size:.8rem;color:var(--tinta-2)}
+footer p{color:var(--tinta-2);font-size:.88rem}
+
+@media(min-width:700px){
+  .prova-ex .largo{display:inline}
+  .prova-ex .curto{display:none}
+  .caixa{padding-inline:28px}
+  .topo nav{margin-inline:-28px}
+  .topo nav ul{padding-inline:20px}
+  .meses{grid-template-columns:repeat(12,1fr)}
+  .painel-grade{grid-template-columns:1.2fr 1fr}
+  .painel .botao{width:auto}
+  .quem{grid-template-columns:1fr 1fr}
+  .equipe{grid-template-columns:1fr 1fr;column-gap:32px}
+  .endereco{grid-template-columns:repeat(3,1fr)}
+  .form .botao{width:auto}
+  .dev{right:24px;bottom:24px;padding:7px 4px 7px 7px}
+  .dev>span:last-child{display:block}
+}
+@media(min-width:1000px){
+  html{scroll-padding-top:84px}
+  .topo{top:0}
+  .topo .caixa{grid-template-columns:auto 1fr auto;grid-template-areas:"marca nav acao";column-gap:24px}
+  .marca{min-height:68px}
+  .topo nav{margin:0;border:0}
+  .topo nav ul{justify-content:flex-end;padding:0;overflow:visible}
+  .topo nav a{padding:0 12px}
+  .abertura{padding-block:44px 48px}
+  .abertura .caixa{grid-template-columns:5fr 7fr;grid-template-areas:"titulo achar" "apoio achar";grid-template-rows:auto 1fr;column-gap:56px;align-items:start}
+  .abertura .titulo{grid-area:titulo}
+  .abertura .apoio{grid-area:apoio;order:0}
+  .achar{grid-area:achar;margin-top:0}
+  .guia{min-height:84px;padding:12px 16px}
+  .guia b{font-size:1.15rem}
+  .guia span{font-size:.88rem}
+  .painel{padding:20px 22px}
+  .secao{padding-block:52px}
+  .livro{display:grid;grid-template-columns:1fr 1fr;column-gap:48px}
+  .quem{grid-template-columns:repeat(4,1fr)}
+  .contato-grade{grid-template-columns:6fr 5fr;gap:48px;align-items:start}
+  .form{padding:22px 24px}
+  .via{transform:rotate(1.1deg);padding:26px 22px 22px}
+  .bastidor ol{grid-template-columns:repeat(3,1fr);column-gap:36px;border-top:0}
+  .bastidor li{border-top:1px solid rgba(255,255,255,.3);border-bottom:0}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .via .carimbo{animation:none}
+  .botao:active{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="byline">Exemplo de Vinicius Candido · <a href="/trabalhos/">mais trabalhos</a> · <a href="https://vlfcandido.github.io" target="_blank" rel="noopener">portfólio</a> · <a href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Doze%20Avos%20Contabilidade%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp</a></div>
+<div class="prova-ex"><span class="largo">Neste exemplo: página aberta</span><span class="curto">Abriu</span> em <b data-abriu>menos de 1 s</b>, assunto em dois toques<span class="largo"> e pedido com a origem</span>. <a href="#bastidor">Ver como</a></div>
+<a class="dev" href="https://wa.me/5545936180413?text=Oi%2C%20Vinicius!%20Vi%20o%20trabalho%20Doze%20Avos%20Contabilidade%20no%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" rel="noopener" aria-label="Falar com o Vinicius, desenvolvedor deste projeto, pelo WhatsApp"><span class="wa-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 5-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg></span><span><b>Falar com o Vinicius</b><small>quem fez este projeto</small></span></a>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topo">
+  <div class="caixa">
+    <a class="marca" href="#inicio" aria-label="Doze Avos Contabilidade, início">
+      <!-- O anel de doze partes: os doze meses do ano fiscal, com um avo marcado. -->
+      <svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-width="7" transform="rotate(-90 20 20)"><circle cx="20" cy="20" r="15.9155" stroke="currentColor" stroke-dasharray="6.33 2" pathLength="100"/><circle cx="20" cy="20" r="15.9155" stroke="#BF2A1E" stroke-dasharray="6.33 93.67" pathLength="100"/></g></svg>
+      <span><b>Doze Avos</b><small>Contabilidade</small></span>
+    </a>
+    <nav aria-label="Seções do site"><ul>
+      <li><a href="#servicos" data-toque>Serviços</a></li>
+      <li><a href="#para-quem" data-toque>Para quem</a></li>
+      <li><a href="#equipe" data-toque>Equipe</a></li>
+      <li><a href="#perguntas" data-toque>Perguntas</a></li>
+      <li><a href="#contato" data-toque>Contato</a></li>
+    </ul></nav>
+    <a class="botao pequeno" href="#contato" data-toque>Pedir contato</a>
+  </div>
+</header>
+
+<main id="conteudo">
+  <section class="abertura" id="inicio">
+    <div class="caixa">
+      <div class="titulo">
+        <h1>Contabilidade para pequenas empresas de Ribeirão Quieto.</h1>
+        <p class="lede">Escolha o assunto. Você vê o que a gente faz, o que precisa trazer e pede contato em dois toques.</p>
+      </div>
+      <div class="apoio">
+        <ul class="fatos">
+          <li>Resposta no mesmo dia útil</li>
+          <li>Segunda a sexta, das 8h às 18h</li>
+          <li>Atendimento no escritório, por WhatsApp ou por vídeo</li>
+        </ul>
+        <p class="exemplo">Escritório de exemplo. Cidade, pessoas, endereço e números são fictícios.</p>
+      </div>
+      <div class="achar">
+        <h2 id="achar-titulo">O que você precisa resolver?</h2>
+        <div class="guias" role="group" aria-labelledby="achar-titulo">
+          <button class="guia" type="button" id="g-abrir" data-guia="abrir" data-toque aria-expanded="true" aria-controls="p-abrir"><b>Abrir empresa</b><span>CNPJ, alvará e enquadramento</span></button>
+          <button class="guia" type="button" id="g-trocar" data-guia="trocar" data-toque aria-expanded="false" aria-controls="p-trocar"><b>Trocar de contador</b><span>A gente busca seus documentos</span></button>
+          <button class="guia" type="button" id="g-irpf" data-guia="irpf" data-toque aria-expanded="false" aria-controls="p-irpf"><b>Imposto de renda</b><span>Declaração de pessoa física</span></button>
+          <button class="guia" type="button" id="g-folha" data-guia="folha" data-toque aria-expanded="false" aria-controls="p-folha"><b>Folha de pagamento</b><span>Admissão, holerite e eSocial</span></button>
+        </div>
+
+        <div class="painel" id="p-abrir" role="region" aria-labelledby="g-abrir">
+          <h3>Abrir empresa</h3>
+          <div class="painel-grade">
+            <div><p class="campo">O que a gente faz</p><ul><li>Consulta de viabilidade na prefeitura</li><li>Contrato social e registro na Junta Comercial</li><li>CNPJ, inscrições e alvará</li><li>Enquadramento no Simples Nacional</li></ul></div>
+            <div><p class="campo">O que você traz</p><ul><li>RG e CPF dos sócios</li><li>Endereço e IPTU do imóvel</li><li>Atividades que a empresa vai exercer</li></ul>
+              <p class="campo" style="margin-top:12px">Prazo de referência</p><p class="prazo">7 a 15 dias úteis, conforme a prefeitura</p></div>
+          </div>
+          <a class="botao" href="#contato" data-pedir="abrir" data-toque>Pedir contato sobre abrir empresa</a>
+        </div>
+        <div class="painel" id="p-trocar" role="region" aria-labelledby="g-trocar" hidden>
+          <h3>Trocar de contador</h3>
+          <div class="painel-grade">
+            <div><p class="campo">O que a gente faz</p><ul><li>Pede os documentos ao contador atual</li><li>Confere o que está em atraso</li><li>Assume a partir do mês combinado</li><li>Você não precisa intermediar a conversa</li></ul></div>
+            <div><p class="campo">O que você traz</p><ul><li>CNPJ da empresa</li><li>Contato do contador atual</li><li>Certificado digital, se tiver</li></ul>
+              <p class="campo" style="margin-top:12px">Prazo de referência</p><p class="prazo">Até 30 dias, com a data da virada combinada</p></div>
+          </div>
+          <a class="botao" href="#contato" data-pedir="trocar" data-toque>Pedir contato sobre trocar de contador</a>
+        </div>
+        <div class="painel" id="p-irpf" role="region" aria-labelledby="g-irpf" hidden>
+          <h3>Imposto de renda</h3>
+          <div class="painel-grade">
+            <div><p class="campo">O que a gente faz</p><ul><li>Confere se você é obrigado a declarar</li><li>Compara a completa com a simplificada</li><li>Envia e acompanha a restituição</li><li>Corrige declaração de anos anteriores</li></ul></div>
+            <div><p class="campo">O que você traz</p><ul><li>Informes de rendimento</li><li>Recibos de saúde e de educação</li><li>Documentos de imóveis e veículos</li></ul>
+              <p class="campo" style="margin-top:12px">Prazo de referência</p><p class="prazo">Até 5 dias úteis com os documentos em mãos</p></div>
+          </div>
+          <a class="botao" href="#contato" data-pedir="irpf" data-toque>Pedir contato sobre imposto de renda</a>
+        </div>
+        <div class="painel" id="p-folha" role="region" aria-labelledby="g-folha" hidden>
+          <h3>Folha de pagamento</h3>
+          <div class="painel-grade">
+            <div><p class="campo">O que a gente faz</p><ul><li>Admissão e demissão</li><li>Holerite, férias e 13º</li><li>eSocial e guias do mês</li><li>Aviso do que vence, pelo WhatsApp</li></ul></div>
+            <div><p class="campo">O que você traz</p><ul><li>Dados dos funcionários</li><li>Jornada e salário combinados</li><li>Convenção coletiva, se houver</li></ul>
+              <p class="campo" style="margin-top:12px">Prazo de referência</p><p class="prazo">Folha fechada até o dia 5 de cada mês</p></div>
+          </div>
+          <a class="botao" href="#contato" data-pedir="folha" data-toque>Pedir contato sobre folha de pagamento</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ano" aria-labelledby="ano-titulo">
+    <div class="caixa">
+      <h2 id="ano-titulo">O ano em doze avos</h2>
+      <div class="meses" role="group" aria-label="Meses do ano">
+        <button class="mes" type="button" data-mes="1" data-marco aria-pressed="false">Jan</button>
+        <button class="mes" type="button" data-mes="2" aria-pressed="false">Fev</button>
+        <button class="mes" type="button" data-mes="3" data-marco aria-pressed="false">Mar</button>
+        <button class="mes" type="button" data-mes="4" aria-pressed="false">Abr</button>
+        <button class="mes" type="button" data-mes="5" data-marco aria-pressed="false">Mai</button>
+        <button class="mes" type="button" data-mes="6" aria-pressed="false">Jun</button>
+        <button class="mes" type="button" data-mes="7" aria-pressed="false">Jul</button>
+        <button class="mes" type="button" data-mes="8" aria-pressed="false">Ago</button>
+        <button class="mes" type="button" data-mes="9" aria-pressed="false">Set</button>
+        <button class="mes" type="button" data-mes="10" aria-pressed="false">Out</button>
+        <button class="mes" type="button" data-mes="11" data-marco aria-pressed="false">Nov</button>
+        <button class="mes" type="button" data-mes="12" data-marco aria-pressed="false">Dez</button>
+      </div>
+      <p class="vence" id="vence" aria-live="polite"><b>Todo mês:</b> a guia do Simples e a do MEI vencem no dia 20.</p>
+      <p class="nota">Datas de referência. Fim de semana e feriado mudam o dia. O ponto vermelho marca o mês com obrigação do ano.</p>
+    </div>
+  </section>
+
+  <section class="secao" id="servicos">
+    <div class="caixa">
+      <h2>Serviços</h2>
+      <p class="sub">Do primeiro CNPJ ao encerramento. Toque em pedir contato e o assunto já vai escolhido.</p>
+      <ul class="livro">
+        <li class="linha-servico"><b>Abertura de empresa</b><span>Viabilidade, contrato social, CNPJ e alvará.</span><button type="button" data-pedir="abrir" data-toque>Pedir contato<span class="sr"> sobre abertura de empresa</span></button></li>
+        <li class="linha-servico"><b>Troca de contador</b><span>A gente pede os documentos e assume no mês combinado.</span><button type="button" data-pedir="trocar" data-toque>Pedir contato<span class="sr"> sobre troca de contador</span></button></li>
+        <li class="linha-servico"><b>Contabilidade mensal</b><span>Simples Nacional e Lucro Presumido, com as guias no prazo.</span><button type="button" data-pedir="mensal" data-toque>Pedir contato<span class="sr"> sobre contabilidade mensal</span></button></li>
+        <li class="linha-servico"><b>Folha de pagamento</b><span>Admissão, holerite, férias, 13º e eSocial.</span><button type="button" data-pedir="folha" data-toque>Pedir contato<span class="sr"> sobre folha de pagamento</span></button></li>
+        <li class="linha-servico"><b>Imposto de renda</b><span>Declaração de pessoa física e acompanhamento da restituição.</span><button type="button" data-pedir="irpf" data-toque>Pedir contato<span class="sr"> sobre imposto de renda</span></button></li>
+        <li class="linha-servico"><b>MEI</b><span>Declaração anual, nota fiscal e a passagem para microempresa.</span><button type="button" data-pedir="mei" data-toque>Pedir contato<span class="sr"> sobre MEI</span></button></li>
+        <li class="linha-servico"><b>Certidões e regularização</b><span>Certidão negativa, parcelamento e pendências no CNPJ.</span><button type="button" data-pedir="certidoes" data-toque>Pedir contato<span class="sr"> sobre certidões e regularização</span></button></li>
+        <li class="linha-servico"><b>Encerramento de empresa</b><span>Baixa na Junta, na Receita e na prefeitura.</span><button type="button" data-pedir="encerrar" data-toque>Pedir contato<span class="sr"> sobre encerramento de empresa</span></button></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao" id="para-quem" style="padding-top:0">
+    <div class="caixa">
+      <h2>Para quem atendemos</h2>
+      <ul class="quem">
+        <li><h3>MEI e autônomo</h3><p>Declaração anual, nota fiscal e a hora certa de virar microempresa.</p></li>
+        <li><h3>Comércio e serviço no Simples</h3><p>A contabilidade do mês, as guias no prazo e a folha dos funcionários.</p></li>
+        <li><h3>Profissional liberal</h3><p>Carnê-leão, livro-caixa e a conta de quando compensa abrir empresa.</p></li>
+        <li><h3>Associação e condomínio</h3><p>Prestação de contas, folha do zelador e as obrigações do ano.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao" id="equipe" style="padding-top:0">
+    <div class="caixa">
+      <h2>Quem atende você</h2>
+      <p class="sub">Quatro pessoas, cada uma com o seu assunto. Você fala direto com quem resolve.</p>
+      <ul class="equipe">
+        <li><i aria-hidden="true">MQ</i><b>Marlene Quadros</b><span>Contadora responsável. Abertura de empresa e troca de contador.</span></li>
+        <li><i aria-hidden="true">IP</i><b>Idalino Prates</b><span>Fiscal. Simples Nacional, notas e certidões.</span></li>
+        <li><i aria-hidden="true">RB</i><b>Rosângela Biá</b><span>Departamento pessoal. Folha, férias e eSocial.</span></li>
+        <li><i aria-hidden="true">TV</i><b>Teodoro Vilanez</b><span>Pessoa física. Imposto de renda e MEI.</span></li>
+      </ul>
+      <p class="nota">Pessoas fictícias, criadas para este exemplo.</p>
+    </div>
+  </section>
+
+  <section class="secao" id="perguntas" style="padding-top:0">
+    <div class="caixa">
+      <h2>Perguntas frequentes</h2>
+      <div class="perguntas">
+        <details><summary>Quanto tempo leva para abrir uma empresa?</summary><p>De 7 a 15 dias úteis depois que os documentos chegam. O que mais muda o prazo é a consulta de viabilidade na prefeitura.</p></details>
+        <details><summary>Posso trocar de contador no meio do ano?</summary><p>Pode. A gente combina o mês da virada, pede os documentos ao contador atual e assume dali em diante.</p></details>
+        <details><summary>Vocês atendem MEI?</summary><p>Sim. Fazemos a declaração anual, orientamos a emissão de nota e avisamos quando o faturamento pede a mudança para microempresa.</p></details>
+        <details><summary>Preciso ir até o escritório?</summary><p>Não precisa. O atendimento pode ser por WhatsApp ou por vídeo, e os documentos chegam por foto ou PDF.</p></details>
+        <details><summary>Como recebo as guias para pagar?</summary><p>Pelo WhatsApp, com o valor e o vencimento, alguns dias antes da data.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" id="contato" style="padding-top:0">
+    <div class="caixa">
+      <h2>Peça contato</h2>
+      <p class="sub">Escolha o assunto e deixe um WhatsApp. Ao lado, o pedido do jeito que o escritório recebe.</p>
+      <p class="chegou" id="chegou" role="status"></p>
+      <div class="contato-grade">
+        <form class="form" id="form" novalidate>
+          <fieldset>
+            <legend class="campo">Assunto</legend>
+            <div class="chips" id="assuntos">
+              <label><input type="radio" name="assunto" value="abrir" data-toque><span>Abrir empresa</span></label>
+              <label><input type="radio" name="assunto" value="trocar" data-toque><span>Trocar de contador</span></label>
+              <label><input type="radio" name="assunto" value="irpf" data-toque><span>Imposto de renda</span></label>
+              <label><input type="radio" name="assunto" value="folha" data-toque><span>Folha de pagamento</span></label>
+              <label><input type="radio" name="assunto" value="mensal" data-toque><span>Contabilidade mensal</span></label>
+              <label><input type="radio" name="assunto" value="mei" data-toque><span>MEI</span></label>
+              <label><input type="radio" name="assunto" value="certidoes" data-toque><span>Certidões</span></label>
+              <label><input type="radio" name="assunto" value="encerrar" data-toque><span>Encerrar empresa</span></label>
+              <label><input type="radio" name="assunto" value="outro" data-toque><span>Outro assunto</span></label>
+            </div>
+          </fieldset>
+          <div class="linha">
+            <label class="campo" for="nome">Seu nome</label>
+            <input type="text" id="nome" name="nome" autocomplete="given-name" aria-describedby="erro">
+          </div>
+          <div class="linha">
+            <label class="campo" for="fone">WhatsApp com DDD</label>
+            <input type="tel" id="fone" name="fone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000">
+          </div>
+          <fieldset class="linha">
+            <legend class="campo">Melhor horário para falar</legend>
+            <div class="chips">
+              <label><input type="radio" name="horario" value="manha"><span>Manhã</span></label>
+              <label><input type="radio" name="horario" value="tarde"><span>Tarde</span></label>
+              <label><input type="radio" name="horario" value="tanto" checked><span>Tanto faz</span></label>
+            </div>
+          </fieldset>
+          <p class="erro" id="erro" role="alert" hidden></p>
+          <button class="botao" type="submit">Enviar pedido de contato</button>
+          <p class="nota">Exemplo: o que você digita não sai deste navegador e nada é enviado.</p>
+        </form>
+
+        <div class="via" aria-live="polite">
+          <h3>Pedido de contato</h3>
+          <p class="de">Via do escritório. É isto que chega para a equipe.</p>
+          <dl>
+            <div class="larga"><dt>Assunto</dt><dd id="v-assunto">Ainda não escolhido</dd></div>
+            <div class="larga"><dt>De onde a pessoa veio</dt><dd id="v-origem">Digitou o endereço do site</dd></div>
+            <div><dt>Toques até o assunto</dt><dd id="v-toques">0</dd></div>
+            <div><dt>Melhor horário</dt><dd id="v-horario">Tanto faz</dd></div>
+            <div><dt>Nome</dt><dd id="v-nome">A preencher</dd></div>
+            <div><dt>WhatsApp</dt><dd id="v-fone">A preencher</dd></div>
+          </dl>
+          <p class="mensagem" id="v-mensagem">Olá! Quero falar com o escritório.</p>
+          <p class="carimbo" id="carimbo" hidden>Exemplo<br>nada foi enviado</p>
+          <div class="simular" role="group" aria-labelledby="simular-rotulo">
+            <p class="campo" id="simular-rotulo">Exemplo: simule de onde o visitante veio</p>
+            <div class="chips">
+              <label><input type="radio" name="origem" value="direto" checked><span>Direto</span></label>
+              <label><input type="radio" name="origem" value="google"><span>Google</span></label>
+              <label><input type="radio" name="origem" value="instagram"><span>Instagram</span></label>
+              <label><input type="radio" name="origem" value="indicacao"><span>Indicação</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="endereco">
+        <p><span class="campo">Endereço</span>Rua de Exemplo, 120, Centro<br>Ribeirão Quieto, cidade fictícia</p>
+        <p><span class="campo">Horário</span>Segunda a sexta, das 8h às 18h</p>
+        <p><span class="campo">Telefone e WhatsApp</span>Este exemplo não tem número. No site de verdade, o toque aqui abre a conversa.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bastidor" id="bastidor" aria-labelledby="bastidor-titulo">
+    <div class="caixa">
+      <h2 id="bastidor-titulo">O que este exemplo mostra</h2>
+      <p class="sub">Daqui para baixo fala o projeto, não o escritório. São as três coisas que fazem um site institucional trazer cliente.</p>
+      <ol>
+        <li><b>Abre rápido no celular</b><span>Esta página ficou pronta em <mark data-abriu>menos de 1 s</mark> neste aparelho. É um arquivo só<span data-peso style="display:inline;margin:0;opacity:1"></span>, sem biblioteca e sem imagem pesada.</span></li>
+        <li><b>O assunto em dois toques</b><span>Um toque escolhe o assunto, outro pede o contato. Você deu <mark id="b-toques">0 toques</mark> até aqui.</span></li>
+        <li><b>O pedido chega pronto</b><span>Com o assunto escolhido e a origem do visitante medida. O escritório sabe o que a pessoa quer e de onde ela veio antes de responder.</span></li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="caixa">
+    <a class="sig" href="https://vlfcandido.github.io" target="_blank" rel="noopener" aria-label="Feito por Vinicius Candido, vlfcandido.github.io">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-width="7" transform="rotate(-90 20 20)"><circle cx="20" cy="20" r="15.9155" stroke="currentColor" stroke-dasharray="6.33 2" pathLength="100"/><circle cx="20" cy="20" r="15.9155" stroke="#BF2A1E" stroke-dasharray="6.33 93.67" pathLength="100"/></g></svg>
+      <span><small>Feito por</small><b>Vinicius Candido</b><em>vlfcandido.github.io</em></span>
+    </a>
+    <p>Doze Avos Contabilidade é uma marca fictícia. Dados de exemplo.</p>
+    <p class="aviso-med">Visitas medidas de forma anônima, sem gravar o que é digitado.</p>
+  </div>
+</footer>
+
+<script>
+/* Doze Avos Contabilidade (exemplo). Sem biblioteca e sem envio: tudo acontece neste navegador. */
+(function(){
+  'use strict';
+  var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+  /* Assuntos do pedido: o nome que aparece na via e a frase que entra na mensagem. */
+  var ASSUNTOS={
+    abrir:['Abrir empresa','abrir uma empresa'],
+    trocar:['Trocar de contador','trocar de contador'],
+    irpf:['Imposto de renda','fazer o imposto de renda'],
+    folha:['Folha de pagamento','ajuda com a folha de pagamento'],
+    mensal:['Contabilidade mensal','a contabilidade mensal da minha empresa'],
+    mei:['MEI','ajuda com o MEI'],
+    certidoes:['Certidões e regularização','ajuda com certidões e regularização'],
+    encerrar:['Encerrar empresa','encerrar uma empresa'],
+    outro:['Outro assunto','falar sobre outro assunto']
+  };
+  /* De onde o visitante veio. No site de verdade isso sai do endereço (utm_source) e do site anterior. */
+  var ORIGENS={
+    direto:'Digitou o endereço do site',
+    google:'Google, busca por contador em Ribeirão Quieto',
+    instagram:'Instagram, anúncio do imposto de renda',
+    indicacao:'Indicação, link enviado por um cliente'
+  };
+  var HORARIOS={manha:['Manhã','de manhã'],tarde:['Tarde','à tarde'],tanto:['Tanto faz','']};
+
+  var toques=0,toquesAteAssunto=0;
+  var form=$('#form');
+
+  /** Conta os toques em tudo que leva o visitante adiante (assunto, pedido, menu). */
+  document.addEventListener('click',function(e){
+    if(e.target.closest('[data-toque]')){toques++;pintarToques();}
+  },true);
+  function plural(n){return n+(n===1?' toque':' toques');}
+  function pintarToques(){$('#b-toques').textContent=plural(toques);}
+
+  /* Os quatro assuntos da abertura: um aberto por vez. */
+  $$('[data-guia]').forEach(function(b){
+    b.addEventListener('click',function(){
+      $$('[data-guia]').forEach(function(o){
+        var aberto=o===b;
+        o.setAttribute('aria-expanded',aberto?'true':'false');
+        $('#p-'+o.dataset.guia).hidden=!aberto;
+      });
+    });
+  });
+
+  /** Escolhe o assunto do pedido e leva o visitante ao formulário. */
+  function pedir(assunto){
+    var r=$('input[name="assunto"][value="'+assunto+'"]');
+    if(r){r.checked=true;}
+    toquesAteAssunto=toques;
+    $('#chegou').textContent='Assunto escolhido: '+ASSUNTOS[assunto][0]+'. Você chegou aqui em '+plural(toques)+'.';
+    pintarVia();
+  }
+  $$('[data-pedir]').forEach(function(el){
+    el.addEventListener('click',function(){
+      pedir(el.dataset.pedir);
+      if(el.tagName==='BUTTON'){location.hash='#contato';}
+      var nome=$('#nome');
+      setTimeout(function(){nome.focus({preventScroll:true});},0);
+    });
+  });
+  $$('input[name="assunto"]').forEach(function(r){
+    r.addEventListener('change',function(){toquesAteAssunto=toques;$('#chegou').textContent='';pintarVia();});
+  });
+
+  function valor(nome){var m=$('input[name="'+nome+'"]:checked');return m?m.value:'';}
+
+  /** Monta a via do escritório e a mensagem com o que já foi escolhido e digitado. */
+  function pintarVia(){
+    var a=valor('assunto'),h=valor('horario')||'tanto',nome=$('#nome').value.trim(),fone=$('#fone').value.trim();
+    $('#v-assunto').textContent=a?ASSUNTOS[a][0]:'Ainda não escolhido';
+    $('#v-origem').textContent=ORIGENS[valor('origem')]||ORIGENS.direto;
+    $('#v-toques').textContent=a?String(toquesAteAssunto):'0';
+    $('#v-horario').textContent=HORARIOS[h][0];
+    $('#v-nome').textContent=nome||'A preencher';
+    $('#v-fone').textContent=fone||'A preencher';
+    var msg='Olá! '+(nome?'Sou '+nome+'. ':'')+'Quero '+(a?ASSUNTOS[a][1]:'falar com o escritório')+'.';
+    if(HORARIOS[h][1]){msg+=' Prefiro contato '+HORARIOS[h][1]+'.';}
+    $('#v-mensagem').textContent=msg;
+    $('#carimbo').hidden=true;
+  }
+  form.addEventListener('input',pintarVia);
+  $$('input[name="origem"]').forEach(function(r){r.addEventListener('change',pintarVia);});
+
+  /* A origem de verdade, quando o endereço traz utm_source (ex.: ?utm_source=google). */
+  try{
+    var utm=(new URLSearchParams(location.search).get('utm_source')||'').toLowerCase();
+    if(ORIGENS[utm]){$('input[name="origem"][value="'+utm+'"]').checked=true;}
+  }catch(e){}
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var erro=$('#erro'),falta='';
+    if(!valor('assunto')){falta='Escolha o assunto para o escritório saber quem deve responder.';}
+    else if(!$('#nome').value.trim()){falta='Escreva seu nome para a equipe saber com quem falar.';}
+    else if($('#fone').value.replace(/\D/g,'').length<10){falta='Informe o WhatsApp com DDD para a equipe retornar.';}
+    erro.hidden=!falta;erro.textContent=falta;
+    if(falta){return;}
+    pintarVia();
+    $('#carimbo').hidden=false;
+    $('#chegou').textContent='Pedido montado. Neste exemplo, nada foi enviado.';
+    var via=$('.via'),caixa=via.getBoundingClientRect();
+    if(caixa.top<0||caixa.bottom>window.innerHeight){via.scrollIntoView({block:'center'});}
+  });
+
+  /* O ano em doze avos: o que vence em cada mês. */
+  var NOMES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  var MARCOS={1:'Opção pelo Simples Nacional até o último dia útil.',3:'Declaração anual do Simples (DEFIS) até o dia 31.',5:'Imposto de renda e declaração anual do MEI até o dia 31.',11:'1ª parcela do 13º até o dia 30.',12:'2ª parcela do 13º até o dia 20.'};
+  function abrirMes(m,hoje){
+    $$('.mes').forEach(function(b){b.setAttribute('aria-pressed',Number(b.dataset.mes)===m?'true':'false');});
+    var txt=(hoje?'Neste mês, ':'Em ')+NOMES[m-1]+':';
+    var v=$('#vence');v.textContent='';
+    var b=document.createElement('b');b.textContent=txt;v.appendChild(b);
+    v.appendChild(document.createTextNode(' a guia do Simples e a do MEI vencem no dia 20.'+(MARCOS[m]?' '+MARCOS[m]:'')));
+  }
+  var mesAtual=new Date().getMonth()+1;
+  $$('.mes').forEach(function(b){
+    if(Number(b.dataset.mes)===mesAtual){b.setAttribute('data-hoje','');}
+    b.addEventListener('click',function(){abrirMes(Number(b.dataset.mes),Number(b.dataset.mes)===mesAtual);});
+  });
+  abrirMes(mesAtual,true);
+
+  /* Quanto esta página levou para ficar pronta neste aparelho, medido pelo próprio navegador. */
+  function medir(){
+    try{
+      var n=performance.getEntriesByType('navigation')[0];
+      if(!n||!n.domContentLoadedEventEnd){return;}
+      var s=n.domContentLoadedEventEnd/1000;
+      var t=s<0.1?'menos de 0,1 s':s.toFixed(1).replace('.',',')+' s';
+      $$('[data-abriu]').forEach(function(el){el.textContent=t;});
+      var kb=Math.round((n.decodedBodySize||0)/1024);
+      if(kb>0){$('[data-peso]').textContent=' de '+kb+' KB';}
+    }catch(e){}
+  }
+  if(document.readyState==='complete'){setTimeout(medir,0);}else{window.addEventListener('load',function(){setTimeout(medir,0);});}
+
+  pintarVia();pintarToques();
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5cf570991ace4598819c22a1718848e0"}'></script>
+</body>
+</html>

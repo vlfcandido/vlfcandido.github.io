@@ -4,7 +4,7 @@
 
 import { ONDE_TRABALHEI } from '../clientes'
 import { listarProjetos } from '../projetos'
-import { empregos } from '../trajetoria'
+import { ANOS_DE_SOFTWARE, empregos } from '../trajetoria'
 
 /** Um trabalho em destaque, com a dor do cliente e o detalhe marcado à mão. */
 export interface Destaque { slug: string; nome: string; dor: string; detalhe: string; href: string; imagem: string; alt: string }
@@ -23,6 +23,33 @@ export interface ExemploIa {
 }
 /** Um atalho de categoria da vitrine de projetos, com o filtro da galeria. */
 export interface CategoriaTrabalho { rotulo: string; filtro: string }
+/** Fundo de uma capa do mural: tinta, papel ou sol, os três tons da paleta do site. */
+export type FundoCapa = 'tinta' | 'papel' | 'sol'
+/** Uma demanda do mural "O que você precisa": a capa ilustrada e a prova que ela abre. */
+export interface Demanda {
+  /** Também é o nome do desenho em `lib/desenhos.ts`. */
+  id: 'ia' | 'integracao' | 'agendamento' | 'catalogo' | 'sistema' | 'loja' | 'carteirinha' | 'site'
+  /** As duas linhas do título, como na capa do 99. A segunda leva o grifo de marca-texto. */
+  titulo: readonly [string, string]
+  /** A frase da capa: a promessa da demanda. */
+  frase: string
+  fundo: FundoCapa
+  /** Slug da peça de `PECAS` que prova a demanda. Sem peça, vale `href`. */
+  peca?: string
+  /** Destino quando a demanda ainda não tem peça (relativo à base do site ou hash da galeria). */
+  href?: string
+  /** O que o link faz, para leitor de tela (ex.: "Abrir o exemplo Pelo Solto"). */
+  destino: string
+}
+/** Um depoimento público do 99Freelas, sem nome de pessoa nem de empresa. */
+export interface Depoimento {
+  /** Trecho copiado do perfil público, como o cliente escreveu (erro de digitação fica). */
+  frase: string
+  /** Tipo do projeto avaliado. */
+  projeto: string
+  /** Mês e ano da avaliação (ex.: "nov/2026"). */
+  quando: string
+}
 
 /**
  * Nome único das peças navegáveis, igual no menu, na home, em /trabalhos/ e nos cartões (18/10/2026).
@@ -35,19 +62,32 @@ export const NOME_PECAS = 'Experimente ao vivo'
 // 18/10/2026: o Pelo Solto abre a vitrine (decisão do dono: é o exemplo principal de IA e agentes). A ordem de
 // /trabalhos/ espelha esta; o teste confere os dois lados. Cada peça ganhou `categoria`, o rótulo curto que
 // separa site, sistema, loja e atendimento com IA sem apagar nenhuma peça.
+// 26/11/2026: a categoria passa a ser a demanda, com o nome que o cliente procura e o mesmo rótulo do mural
+// (`DEMANDAS`). Antes: 'Portal de dados', 'Plataforma de saúde', 'Sistema de gestão', 'Catálogo no WhatsApp' e
+// 'Loja e-commerce'. As duas peças sem capa no mural (Céu Interior e Pátio Aberto) seguem com a categoria delas.
+// Com as capas ilustradas (mesmo dia), o nome é o título da capa: 'IA no WhatsApp' (antes 'Atendimento com IA') e
+// 'Integração por API' (antes 'Integração').
 export const PECAS = [
   {
     slug: 'pet-shop-whatsapp-ia-exemplo', nome: 'Pelo Solto', href: 'trabalhos/pet-shop-whatsapp-ia-exemplo/',
     imagem: 'trabalhos/img/pet-shop-whatsapp-ia-exemplo.jpg', alt: 'Pelo Solto com a conversa no WhatsApp e o agendamento do Tofu confirmado',
-    categoria: 'Atendimento com IA',
+    categoria: 'IA no WhatsApp',
     resumo: 'Atendimento no WhatsApp que consulta a agenda e chama a equipe quando precisa.',
+  },
+  {
+    // 26/11/2026 (dono: "faltou um site institucional"): a décima peça, logo depois do Pelo Solto porque site é a
+    // segunda maior demanda do 99. Escritório de contabilidade inventado; é a prova da capa "Site institucional".
+    slug: 'site-contabilidade-exemplo', nome: 'Doze Avos Contabilidade', href: 'trabalhos/site-contabilidade-exemplo/',
+    imagem: 'trabalhos/img/site-contabilidade-exemplo.jpg', alt: 'Site da Doze Avos Contabilidade com os quatro assuntos mais pedidos na primeira tela',
+    categoria: 'Site institucional',
+    resumo: 'Site de escritório contábil em que o pedido de contato chega com o assunto e a origem.',
   },
   {
     // Fix final (14/10/2026): um nome só para cada peça, igual em /trabalhos/ e na faixa. Antes 'Liga Várzea FC (exemplo)'
     // aqui e 'Portal de dados de futebol' em /trabalhos/; o "exemplo" vai no selo de dados fictícios do cartão.
     slug: 'liga-varzea', nome: 'Liga Várzea FC', href: 'trabalhos/liga-varzea/',
     imagem: 'trabalhos/img/liga-varzea.jpg', alt: 'Tela inicial da Liga Várzea FC, com o painel de dados',
-    categoria: 'Portal de dados',
+    categoria: 'Integração por API',
     // 14/10/2026 (Task 10): linha própria no cartão de #/projetos. Antes as duas peças diziam
     // 'Exemplo navegável: dá para clicar e testar.', a mesma frase lado a lado.
     resumo: 'Portal de futebol em que a correção feita à mão não some na atualização.',
@@ -55,13 +95,13 @@ export const PECAS = [
   {
     slug: 'consultorio-exemplo', nome: 'Consultório Exemplo', href: 'trabalhos/consultorio-exemplo/',
     imagem: 'trabalhos/img/consultorio-exemplo.jpg', alt: 'Página inicial do Consultório Exemplo, com a busca de psicólogos',
-    categoria: 'Plataforma de saúde',
+    categoria: 'Agendamento online',
     resumo: 'Terapia online em que perfil com CRP irregular sai da busca.',
   },
   {
     slug: 'escritorio-arquitetura-exemplo', nome: 'Atelier Linha', href: 'trabalhos/escritorio-arquitetura-exemplo/',
     imagem: 'trabalhos/img/escritorio-arquitetura-exemplo.jpg', alt: 'Painel do Atelier Linha com os projetos por etapa e a margem de cada um',
-    categoria: 'Sistema de gestão',
+    categoria: 'Sistema sob medida',
     resumo: 'Revisão fora do contrato vira hora sem cobrança, e aqui ela fica registrada.',
   },
   {
@@ -73,13 +113,13 @@ export const PECAS = [
   {
     slug: 'catalogo-whatsapp-exemplo', nome: 'Novelo', href: 'trabalhos/catalogo-whatsapp-exemplo/',
     imagem: 'trabalhos/img/catalogo-whatsapp-exemplo.jpg', alt: 'Vitrine do Novelo com o carrinho e a prévia do pedido no WhatsApp',
-    categoria: 'Catálogo no WhatsApp',
+    categoria: 'Catálogo digital',
     resumo: 'Catálogo em que o pedido chega montado no WhatsApp e o estoque baixa no Bling.',
   },
   {
     slug: 'loja-woocommerce-exemplo', nome: 'Trama Atacado', href: 'trabalhos/loja-woocommerce-exemplo/',
     imagem: 'trabalhos/img/loja-woocommerce-exemplo.jpg', alt: 'Loja Trama Atacado com a grade de tamanhos no celular e o checkout de uma página',
-    categoria: 'Loja e-commerce',
+    categoria: 'Loja virtual',
     resumo: 'Loja de atacado com grade numa tela e cada pedido rastreado do Pix ao ERP.',
   },
   {
@@ -97,6 +137,91 @@ export const PECAS = [
   // Para acrescentar uma peça: a entrada aqui e o cartão em public/trabalhos/index.html (o teste confere os dois lados).
 ] as const
 
+/** Perfil público no 99Freelas, o mesmo link do rodapé (`links` em conteudo.ts; o teste confere). */
+export const PERFIL_99 = 'https://www.99freelas.com.br/user/vinicius-candido-ia'
+
+/**
+ * Prova no 99Freelas, lida do perfil público em 26/11/2026: nota, avaliações, projetos concluídos e selo.
+ * Mudou no perfil, muda aqui; o hero e o bloco de depoimentos leem deste lugar só.
+ */
+export const PROVA_99 = { nota: '5,0', avaliacoes: 11, concluidos: 12, selo: 'Talent', perfil: PERFIL_99 } as const
+
+/**
+ * Mural "O que você precisa" (26/11/2026): as oito demandas das capas do perfil no 99Freelas, na mesma ordem, com o
+ * mesmo título e a mesma frase de cada capa. A ordem veio do ranking de pedidos do 99. Cada capa abre a peça que
+ * prova a demanda.
+ * Histórico do mesmo dia: a primeira versão era em cartaz de rua (cor chapada azul, tomate e verde, Archivo
+ * condensada em caixa alta e um objeto em CSS), que o dono reprovou: "queria vários desenhinhos ilustrados svg de
+ * exemplos de sites... queria uma paleta só entre nosso site e esses negócios". Agora são as capas ilustradas, na
+ * paleta e nas fontes do site, com os fundos alternando tinta, papel e sol na ordem das capas. Antes cada entrada
+ * tinha `manchete`, `apoio`, `cor`, `objeto` e `tamanho`; a de integração dizia '1.164 partidas, 128 correções
+ * guardadas' e a oitava era 'Site que vende', sem peça.
+ */
+export const DEMANDAS = [
+  { id: 'ia', titulo: ['IA no', 'WhatsApp'], frase: 'responde em segundos, 24 horas', fundo: 'tinta',
+    peca: 'pet-shop-whatsapp-ia-exemplo', destino: 'Abrir o exemplo Pelo Solto' },
+  { id: 'integracao', titulo: ['Integração', 'por API'], frase: 'a API erra, a correção fica', fundo: 'papel',
+    peca: 'liga-varzea', destino: 'Abrir o exemplo Liga Várzea FC' },
+  { id: 'agendamento', titulo: ['Agendamento', 'online'], frase: 'com pagamento na hora de marcar', fundo: 'sol',
+    peca: 'consultorio-exemplo', destino: 'Abrir o exemplo Consultório Exemplo' },
+  { id: 'catalogo', titulo: ['Catálogo', 'digital'], frase: 'pedido pronto no WhatsApp', fundo: 'papel',
+    peca: 'catalogo-whatsapp-exemplo', destino: 'Abrir o exemplo Novelo' },
+  { id: 'sistema', titulo: ['Sistema', 'sob medida'], frase: 'adeus, planilha', fundo: 'sol',
+    peca: 'escritorio-arquitetura-exemplo', destino: 'Abrir o exemplo Atelier Linha' },
+  { id: 'loja', titulo: ['Loja', 'virtual'], frase: 'que mede cada venda', fundo: 'papel',
+    peca: 'loja-woocommerce-exemplo', destino: 'Abrir o exemplo Trama Atacado' },
+  { id: 'carteirinha', titulo: ['Carteirinha', 'digital'], frase: 'vencida não passa na porta', fundo: 'tinta',
+    peca: 'atletica-associados-exemplo', destino: 'Abrir o exemplo Atlética Maré Alta' },
+  // 26/11/2026 (dono: "faltou um site institucional"): a oitava capa ganhou peça, a Doze Avos Contabilidade.
+  { id: 'site', titulo: ['Site', 'institucional'], frase: 'rápido no celular, do zero ou no que você já tem', fundo: 'sol',
+    peca: 'site-contabilidade-exemplo', destino: 'Abrir o exemplo Doze Avos Contabilidade' },
+] as const satisfies readonly Demanda[]
+
+/**
+ * Nome de uma demanda em uma linha, o título da capa. É a categoria da peça na vitrine e a etiqueta em /trabalhos/.
+ *
+ * @param demanda uma entrada de `DEMANDAS`.
+ * @returns as duas linhas do título juntas (ex.: "Integração por API").
+ */
+export function rotuloDaDemanda(demanda: Demanda): string {
+  return demanda.titulo.join(' ')
+}
+
+/**
+ * Endereço que a capa de uma demanda abre: a peça de `PECAS` ou, sem peça, o `href` da própria demanda.
+ *
+ * @param demanda uma entrada de `DEMANDAS`.
+ * @returns caminho relativo à base do site (peça em /trabalhos/) ou hash da galeria (começa com `#`).
+ */
+export function destinoDaDemanda(demanda: Demanda): string {
+  const peca = PECAS.find((p) => p.slug === demanda.peca)
+  return peca?.href ?? demanda.href ?? ''
+}
+
+/**
+ * Depoimentos do 99Freelas na home (26/11/2026). Só trecho que está no perfil público, copiado como o cliente
+ * escreveu, sem corrigir ("pudessemos", "agil" e "tecnico" ficam). Sem nome de pessoa nem de empresa: a frase, o
+ * tipo do projeto e o mês. Um por tipo de trabalho, para conversar com o mural.
+ */
+export const DEPOIMENTOS: readonly Depoimento[] = [
+  {
+    frase: 'Vinicius foi mais do que incrível! Entendeu exatamente a proposta e me surpreendeu com um piloto que fez com que pudessemos testar a versão em 24h.',
+    projeto: 'Web app para eventos', quando: 'out/2026',
+  },
+  {
+    frase: 'O Vinicius realizou uma auditoria completa na loja, corrigiu problemas importantes no checkout, pagamentos, frete, estoque e envio de e-mails, além de testar todo o fluxo de compra no computador e no celular.',
+    projeto: 'Correção de loja WooCommerce', quando: 'nov/2026',
+  },
+  {
+    frase: 'Disposto, agil, proativo, e excepcional profissional tecnico, entregou o que eu precisava e um pouco mais, RECOMENDO!!',
+    projeto: 'Agentes de IA em Python', quando: 'out/2026',
+  },
+  {
+    frase: 'O que eu tinha em mente era apenas um rascunho que, em suas mãos, se transformou em um projeto de excelência.',
+    projeto: 'Planilha online com acesso restrito', quando: 'nov/2026',
+  },
+]
+
 /**
  * Trechos que levam a marcação à mão, um por bloco. O componente parte o texto neles; o teste garante que
  * cada trecho existe no texto (senão a marcação some sem aviso).
@@ -104,6 +229,7 @@ export const PECAS = [
 export const FRASES_MARCADAS = {
   // Fix final (14/10/2026): duas marcas, uma por empresa. Antes 'Sicoob e Serasa Experian', um trecho só.
   // 21/10/2026 (pedido dele): a Contabilizei entra como terceira marca. Antes: ['Sicoob', 'Serasa Experian'].
+  // 26/11/2026: as três marcas saíram do título e são marcadas na linha de credencial, logo abaixo dele.
   promessa: ['Sicoob', 'Serasa Experian', 'Contabilizei'],
   prototipo: 'antes de fechar',
   garantia: '30 dias de correção',
@@ -161,13 +287,11 @@ export const FOTO_LARGURAS = [105, 210] as const
 /** Caminho da foto sem largura nem extensão (relativo a public/). */
 export const FOTO_BASE = 'img/foto'
 
-/** Anos de software, de config/privado/carreira/respostas-padrao.md ("Software total = 13"). */
-const ANOS_DE_SOFTWARE = 13
-
 /**
  * Números da prova, contados na fonte e nunca arredondados para cima.
  *
- * @returns anos de software, empresas do bloco de logos e projetos (galeria + peças).
+ * @returns anos de software (fonte única em trajetoria.ts; 14 desde 26/11/2026, antes 13 escrito aqui), empresas do
+ *   bloco de logos e projetos (galeria + peças).
  */
 export function numerosDeProva(): { anos: number; empresas: number; projetos: number } {
   return { anos: ANOS_DE_SOFTWARE, empresas: SLUGS_EMPRESAS.length, projetos: listarProjetos().length + PECAS.length }
@@ -183,17 +307,42 @@ export function conteudoHome() {
   return {
     promessa: {
       // Fix final (14/10/2026, revisor de detalhes): o título dizia `${n.anos} anos construindo sistemas para Sicoob e
-      // Serasa Experian.`, e enganava. Os 13 anos são de carreira, o Sicoob é o emprego atual e a Serasa veio em 2025.
-      // Fonte: config/privado/carreira/respostas-padrao.md (software total 13, empresa atual Sicoob, Serasa Experian).
+      // Serasa Experian.`, e enganava. Os anos são de carreira, o Sicoob é o emprego atual e a Serasa veio em 2025.
       // 21/10/2026 (pedido dele): a Contabilizei entra no título. Antes: `${n.anos} anos de software. Hoje no Sicoob,
       // antes na Serasa Experian.`
-      titulo: `${n.anos} anos de software. Hoje no Sicoob, antes na Serasa Experian e na Contabilizei.`,
-      // 14/10/2026 (Task 10, humanizer): antes 'Agora para o seu negócio, cuidando até do detalhe que ninguém viu.'
-      // (frase sem verbo e gerúndio pendurado). Fix final: 'Agora faço…' sugeria que ele saiu do Sicoob.
-      subtitulo: 'Também faço o sistema do seu negócio e cuido até do detalhe que ninguém viu.',
+      // 26/11/2026 (home por demanda): o título abre pelo que o cliente procura e a carreira desce para a linha de
+      // credencial, logo abaixo, ainda na primeira tela. Antes: titulo `${n.anos} anos de software. Hoje no Sicoob,
+      // antes na Serasa Experian e na Contabilizei.` e subtitulo 'Também faço o sistema do seu negócio e cuido até
+      // do detalhe que ninguém viu.'
+      titulo: 'Site, loja, sistema, CRM e IA para o seu negócio.',
+      credencial:
+        'Sou engenheiro de IA sênior no Sicoob, onde lidero o time de IA e investimentos. Antes, trabalhei na Serasa Experian e na Contabilizei.',
       cta: 'Conversar no WhatsApp',
-      // Rótulos dos números ('empresas de grande porte' virou 'empresas onde trabalhei' em 14/10/2026).
-      rotulos: { anos: 'anos de software', empresas: 'empresas onde trabalhei', projetos: 'projetos e sites no portfólio' },
+      // 26/11/2026: a faixa de três números vira prova que vende. Antes: anos de software, 'empresas onde trabalhei'
+      // e 'projetos e sites no portfólio' (13, 5 e 28), que não diziam nada a quem contrata. Os dois primeiros itens
+      // levam ao perfil público, onde dá para conferir.
+      prova: [
+        { valor: PROVA_99.nota, rotulo: `em ${PROVA_99.avaliacoes} avaliações no 99Freelas`, href: PROVA_99.perfil },
+        { valor: PROVA_99.selo, rotulo: `selo do 99Freelas, com ${PROVA_99.concluidos} projetos concluídos`, href: PROVA_99.perfil },
+        { valor: String(n.anos), rotulo: 'anos de software' },
+      ] as { valor: string; rotulo: string; href?: string }[],
+    },
+    // 26/11/2026: mural das oito demandas, logo abaixo da abertura (as capas moram em `DEMANDAS`).
+    mural: {
+      titulo: 'O que você precisa',
+      lede: {
+        // Antes: 'Toque no cartaz…' e 'Clique no cartaz…' (o mural era de cartazes).
+        toque: 'Toque no que você procura e abra um exemplo funcionando, com dados inventados.',
+        clique: 'Clique no que você procura e abra um exemplo funcionando, com dados inventados.',
+      },
+    },
+    // 26/11/2026: depoimentos do 99Freelas ao lado do "Quem vai fazer o seu sistema" (as frases moram em
+    // `DEPOIMENTOS`). No PC o bloco ocupa as duas colunas que ficavam vazias à esquerda.
+    depoimentos: {
+      titulo: 'O que os clientes dizem no 99Freelas',
+      nota: `${PROVA_99.nota} em ${PROVA_99.avaliacoes} avaliações`,
+      link: 'Ver todas no perfil do 99Freelas',
+      origem: 'Trechos do perfil público, copiados como cada cliente escreveu.',
     },
     // 21/10/2026 (pedido dele: "desperdício de espaço"): a vitrine (print grande da Liga Várzea, só no PC) virou uma
     // animação em 3 cenas, no PC e no celular. Antes: vitrine { slug 'liga-varzea', imagem
@@ -276,19 +425,21 @@ export function conteudoHome() {
       provas: [
         { nome: 'Sicoob', texto: 'Responsável pelo setor de IA do Sicoob e pela frente do assistente de investimentos usado pelas equipes das cooperativas.' },
         { nome: 'Contabilizei', texto: 'Um orquestrador e 8 agentes de vendas no WhatsApp, com passagem automática para o time humano.' },
-        { nome: '80+ chatbots', texto: 'Entregues como líder técnico, entre eles o da Saúde de Franca, com 5 mil atendimentos por mês.' },
+        { nome: '80+ chatbots', texto: 'Entregues como líder técnico, entre eles o da Saúde de Franca.' },
         { nome: 'Meus projetos', texto: 'AprovaOS, em desenvolvimento, com agente de IA e mais de 1.600 testes, e um revisor de código com RAG, em estudo.' },
       ] satisfies ProvaIa[],
     },
-    // Vitrine das nove peças (18/10/2026): ocupa o lugar do antigo bloco de protótipo, que mostrava uma peça só.
+    // Vitrine das peças (18/10/2026, nove; dez desde 26/11/2026, com o site institucional): ocupa o lugar do antigo
+    // bloco de protótipo, que mostrava uma peça só.
     // O argumento "veja antes de fechar" continua na primeira frase, agora sustentado pelas nove telas de exemplo.
     experimente: {
       titulo: NOME_PECAS,
       // 18/10/2026: a linha diz o que há na vitrine (site, sistema, loja e IA), não só "sites". A ordem começa no
       // Pelo Solto, o exemplo principal.
-      lede: 'Nove projetos de exemplo para abrir e mexer. Sites, sistemas, lojas e atendimento com IA, com dados inventados.',
+      // 26/11/2026: dez, com o site institucional. Antes: 'Nove projetos de exemplo…' e 'Abrir e testar as nove'.
+      lede: 'Dez projetos de exemplo para abrir e mexer. Sites, sistemas, lojas e atendimento com IA, com dados inventados.',
       cta: 'Abrir e testar',
-      verTodas: 'Abrir e testar as nove',
+      verTodas: 'Abrir e testar as dez',
       // 09/11/2026: as peças de criativo (vídeo e arte) moram em /trabalhos/criativo/ e entram por aqui.
       verCriativo: 'Vídeo e arte',
     },

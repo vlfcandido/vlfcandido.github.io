@@ -18,7 +18,9 @@ export type TipoProjeto = 'chatbot' | 'agentes' | 'sistemas' | 'frontend' | 'int
 export const tiposProjeto: Record<TipoProjeto, string> = {
   integracoes: 'Integrações e automação',
   sistemas: 'Sistemas e SaaS',
-  frontend: 'Frontend e dashboards',
+  // 26/11/2026: nome de quem compra, o mesmo dos atalhos da home. O cartaz "Site que vende" do mural abre a galeria
+  // neste filtro. Antes: 'Frontend e dashboards'.
+  frontend: 'Sites e painéis',
   chatbot: 'Chatbot e atendimento',
   agentes: 'Agentes de IA',
   dados: 'Dados e tempo real',
@@ -87,14 +89,9 @@ const empresa = (slug: string): EmpresaDireta => {
 
 const prints = (slug: string) => printsDosCasos[slug] ?? []
 
-/**
- * Quantos projetos o print de "Este site" (public/prints/este-site.webp) mostra na prova da home. 18/10/2026: a peça
- * do atendimento com IA subiu a contagem de 25 para 26, e o print foi recapturado da home em 1440x900 (1600x1000).
- * 23/10/2026: a loja virtual entrou como trabalho para cliente (27) e o print foi recapturado, já mostrando 27.
- * 09/11/2026: a Limey Atacado entrou como segundo trabalho para cliente (28) e o print foi recapturado em 1440x900,
- * já mostrando 28.
- */
-export const PROJETOS_NO_PRINT_ESTE_SITE = 28
+// 26/11/2026: saiu `PROJETOS_NO_PRINT_ESTE_SITE` (28), que guardava a contagem de projetos mostrada no print de
+// "Este site" (public/prints/este-site.webp). A abertura da home não mostra mais essa contagem: a faixa de números
+// virou a prova do 99Freelas, e o print foi recapturado da home nova em 1440x900 (1600x1000).
 
 /**
  * Monta a lista da galeria. É função (e não constante) para nada rodar quando o módulo é importado.
@@ -280,7 +277,7 @@ export function listarProjetos(): ItemProjeto[] {
       feito:
         'Feito do zero, sem tema pronto. A página inicial abre com a prova, com anos, empresas e projetos contados na fonte, e leva a um protótipo navegável para clicar antes de fechar. O detalhe de cada trabalho ganha uma marcação de caneta que se desenha na tela. Celular e PC têm versões próprias, cada uma com o seu limite de rolagem. Antes de publicar, um robô abre o site no navegador em três larguras e nos dois temas e mede rolagem lateral, alvos de toque e salto de layout.',
       numeros: ['Testes automáticos travam o conteúdo publicado', 'Medido no navegador em 390, 1280 e 1440 px'],
-      print: { arquivo: 'prints/este-site.webp', alt: 'Página inicial deste site no PC, com a prova à esquerda e a tela de um trabalho com o detalhe circulado à direita' },
+      print: { arquivo: 'prints/este-site.webp', alt: 'Página inicial deste site no PC, com o que o cliente procura e a prova do 99Freelas à esquerda e um site sendo montado à direita' },
       repositorio: 'https://github.com/vlfcandido/vlfcandido.github.io',
     },
     {
@@ -417,7 +414,7 @@ export function listarProjetos(): ItemProjeto[] {
       slug: 'prefeitura-franca',
       origem: 'empresa',
       nome: 'Prefeitura de Franca',
-      resultado: '5 mil atendimentos da Saúde por mês sem ninguém digitar.',
+      resultado: 'As dúvidas repetidas da Saúde respondidas no WhatsApp, sem ninguém digitar.',
       tipos: ['chatbot'],
       status: 'producao',
       etiquetas: ['Blip', 'WhatsApp'],

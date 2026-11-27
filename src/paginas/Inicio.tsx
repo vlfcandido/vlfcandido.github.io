@@ -6,8 +6,12 @@
 // 23/10/2026: o bloco de lojas virtuais entra depois dos projetos, com a mesa de diagnóstico do case loja-virtual.
 // 23/11/2026 (dono): home enxuta em cinco blocos — prova, criativos, vitrine, empresas e quem sou. IA e agentes,
 // lojas virtuais, como funciona e a lista de projetos saem da home; as páginas delas continuam nas rotas próprias.
+// 26/11/2026 (home por demanda): o mural "O que você precisa" entra logo abaixo da abertura e os depoimentos do
+// 99Freelas ocupam, no PC, as duas colunas que ficavam vazias ao lado do "Quem vai fazer o seu sistema".
 import { Criativos } from '../home/Criativos'
+import { Depoimentos } from '../home/Depoimentos'
 import { Empresas } from '../home/Empresas'
+import { Mural } from '../home/Mural'
 import { Promessa } from '../home/Promessa'
 import { QuemSou } from '../home/QuemSou'
 import { Vitrine } from '../home/Vitrine'
@@ -19,9 +23,11 @@ export function PaginaInicio() {
   return (
     <div className="home">
       <Promessa />
+      <Mural />
       <Criativos />
       <Vitrine />
       <Empresas />
+      <Depoimentos />
       <QuemSou />
     </div>
   )

@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Experimente ao vivo · Vinicius Candido</title>
-<meta name="description" content="Experimente ao vivo nove sites feitos por Vinicius Candido: portal de dados de futebol, plataforma de terapia online, gestão para escritório de arquitetura, parecer de produto, catálogo com pedido no WhatsApp, loja de atacado, consignação de veículos, carteirinha de atlética e atendimento com IA no WhatsApp. Dados fictícios, para você abrir e mexer.">
+<meta name="description" content="Experimente ao vivo dez sites feitos por Vinicius Candido: site institucional de contabilidade, portal de dados de futebol, plataforma de terapia online, gestão para escritório de arquitetura, parecer de produto, catálogo com pedido no WhatsApp, loja de atacado, consignação de veículos, carteirinha de atlética e atendimento com IA no WhatsApp. Dados fictícios, para você abrir e mexer.">
 <link rel="canonical" href="https://vlfcandido.github.io/trabalhos/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Vinicius Candido">
 <meta property="og:url" content="https://vlfcandido.github.io/trabalhos/">
 <meta property="og:title" content="Experimente ao vivo · Vinicius Candido">
-<meta property="og:description" content="Nove sites de exemplo para abrir e testar: futebol, terapia online, arquitetura, astrologia, catálogo no WhatsApp, loja de atacado, veículos, atlética e atendimento com IA. Dados fictícios.">
+<meta property="og:description" content="Dez sites de exemplo para abrir e testar: site institucional, futebol, terapia online, arquitetura, astrologia, catálogo no WhatsApp, loja de atacado, veículos, atlética e atendimento com IA. Dados fictícios.">
 <meta property="og:image" content="https://vlfcandido.github.io/trabalhos/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Experimente ao vivo os nove sites de exemplo de Vinicius Candido, com dados fictícios">
+<meta property="og:image:alt" content="Experimente ao vivo os dez sites de exemplo de Vinicius Candido, com dados fictícios">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#161512" media="(prefers-color-scheme: dark)">
@@ -62,6 +62,22 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
 .btn:hover{background:var(--sol-forte)}
 .btn.sec{background:transparent;color:var(--tinta);border:1px solid var(--linha)}
 .btn.sec:hover{background:var(--raso)}
+/* Demanda na frente (26/11/2026): a etiqueta é o que o cliente procura, com o mesmo nome das capas do mural da
+   home. Tinta sobre papel, na letra do site. Antes, no mesmo dia: Archivo condensada em azul, tomate e verde. */
+.demanda{align-self:flex-start;display:inline-flex;align-items:center;min-height:28px;padding:0 12px;border-radius:999px;background:var(--tinta);color:var(--papel);font:600 .86rem/1.2 Inter,system-ui,sans-serif;letter-spacing:.01em}
+.atalhos{padding-block:4px 0}
+.atalhos ul{list-style:none;display:flex;gap:8px;margin:0 -16px;padding:4px 16px;overflow-x:auto;scrollbar-width:none}
+.atalhos ul::-webkit-scrollbar{display:none}
+.atalhos a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--linha);border-radius:999px;background:var(--alto);font:600 .92rem Inter,system-ui,sans-serif;text-decoration:none;white-space:nowrap}
+@media(hover:hover){.atalhos a:hover{border-color:var(--tinta);background:var(--raso)}}
+@media(min-width:640px){.atalhos ul{flex-wrap:wrap;overflow:visible;margin:0;padding:4px 0}}
+/* O cartão a que o atalho leva para abaixo do cabeçalho fixo e ganha o contorno de marca-texto. */
+html{scroll-behavior:smooth}
+.cartao,#clientes-video{scroll-margin-top:24px}
+@media(min-width:768px){.cartao,#clientes-video{scroll-margin-top:128px}}
+@media(min-width:1024px){.cartao,#clientes-video{scroll-margin-top:88px}}
+.cartao:target{outline:3px solid var(--sol);outline-offset:4px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .nota{padding-block:0 56px;color:var(--suave);font-size:.95rem}
 .nota::before{content:"";display:block;border-top:1px solid var(--linha);margin-bottom:28px} /* fio na largura do conteúdo, não da faixa com o recuo */
 .nota p{max-width:70ch;margin:0 0 8px}
@@ -141,8 +157,7 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <nav id="cab-nav" class="cab-nav" aria-label="Seções" data-aberto="false"><ul>
       <li><a href="./" aria-current="page">Experimente ao vivo</a></li>
       <li><a href="../#/projetos">Projetos</a></li>
-      <li><a href="../#ia">IA e agentes</a></li>
-      <li><a href="../#como">Como funciona</a></li>
+      <li><a href="../#criativos">Criativo</a></li>
       <li><a href="../#quem">Quem sou</a></li>
     </ul></nav>
     <button type="button" class="cab-tema" aria-label="Usar tema escuro" title="Usar tema escuro"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="currentColor"/></svg></button>
@@ -155,22 +170,39 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <h1>Experimente ao vivo</h1>
     <p>Cada um é um site funcionando no navegador, com pessoas, clubes e números inventados. Não são casos de cliente. São peças de exemplo, para você abrir, clicar e testar sem instalar nada. Mostram como eu penso a tela, o fluxo e os detalhes pequenos que costumam ficar de fora.</p>
   </section>
+  <!-- 26/11/2026: atalhos por demanda, com o mesmo nome das capas do mural da home. Cada um leva ao cartão. -->
+  <nav class="wrap atalhos" aria-label="Ir direto ao que você procura">
+    <ul><li><a href="#pet-shop-whatsapp-ia-exemplo">IA no WhatsApp</a></li><li><a href="#site-contabilidade-exemplo">Site institucional</a></li><li><a href="#liga-varzea">Integração por API</a></li><li><a href="#consultorio-exemplo">Agendamento online</a></li><li><a href="#escritorio-arquitetura-exemplo">Sistema sob medida</a></li><li><a href="#plataforma-astrologia-exemplo">Produto e UX</a></li><li><a href="#catalogo-whatsapp-exemplo">Catálogo digital</a></li><li><a href="#loja-woocommerce-exemplo">Loja virtual</a></li><li><a href="#consignacao-veiculos-exemplo">Site de veículos</a></li><li><a href="#atletica-associados-exemplo">Carteirinha digital</a></li><li><a href="#clientes-video">Vídeo e arte</a></li></ul>
+  </nav>
   <section class="wrap grade" aria-label="Experimente ao vivo">
     <article class="cartao rv" id="pet-shop-whatsapp-ia-exemplo">
       <a class="img" href="/trabalhos/pet-shop-whatsapp-ia-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/pet-shop-whatsapp-ia-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Pelo Solto com a conversa no WhatsApp e o agendamento do banho e tosa do Tofu"></a>
       <div class="corpo">
-        <span class="exemplo">Atendimento com IA no WhatsApp · exemplo, dados fictícios</span>
+        <span class="demanda">IA no WhatsApp</span>
         <h2>Pelo Solto</h2>
+        <span class="exemplo">Atendimento com IA no WhatsApp · exemplo, dados fictícios</span>
         <p>A mensagem chega na hora do secador e ninguém pode responder. Aqui a IA entende o pedido, consulta a agenda do banho e tosa, marca o horário, manda lembrete e chama a equipe quando o caso precisa de gente.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Atendimento com IA</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/pet-shop-whatsapp-ia-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/pet-shop-whatsapp-ia-exemplo/#painel">Ver o painel</a></div>
       </div>
     </article>
+    <article class="cartao rv" id="site-contabilidade-exemplo">
+      <a class="img" href="/trabalhos/site-contabilidade-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/site-contabilidade-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Página inicial da Doze Avos Contabilidade, com os quatro assuntos mais pedidos"></a>
+      <div class="corpo">
+        <span class="demanda">Site institucional</span>
+        <h2>Doze Avos Contabilidade</h2>
+        <span class="exemplo">Site de escritório de contabilidade · exemplo, dados fictícios</span>
+        <p>Quem procura contador quer resolver uma coisa e desiste quando o site demora ou esconde o contato. Aqui o assunto está na primeira tela, o pedido sai em dois toques e chega ao escritório com o assunto e a origem do visitante.</p>
+        <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Site institucional</span></div>
+        <div class="acoes"><a class="btn" href="/trabalhos/site-contabilidade-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/site-contabilidade-exemplo/#contato">Ver o pedido de contato</a></div>
+      </div>
+    </article>
     <article class="cartao rv" id="liga-varzea">
       <a class="img" href="/trabalhos/liga-varzea/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/liga-varzea.jpg" width="1000" height="625" loading="lazy" alt="Tela inicial do portal de dados Liga Várzea FC, com título, fonte de dados e painel de sincronização"></a>
       <div class="corpo">
-        <span class="exemplo">Portal de dados de futebol · exemplo, dados fictícios</span>
+        <span class="demanda">Integração por API</span>
         <h2>Liga Várzea FC</h2>
+        <span class="exemplo">Portal de dados de futebol · exemplo, dados fictícios</span>
         <p>Quem mantém um site de futebol perde tempo corrigindo número que a API entrega errado e vendo a correção sumir na próxima atualização. Este portal lê de uma base própria, mostra de onde veio cada número e guarda o que a equipe corrigiu à mão.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Painel administrativo</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/liga-varzea/">Abrir e testar</a><a class="btn sec" href="/trabalhos/liga-varzea/#/admin">Ver o painel</a></div>
@@ -179,8 +211,9 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <article class="cartao rv" id="consultorio-exemplo">
       <a class="img" href="/trabalhos/consultorio-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/consultorio-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Tela inicial da plataforma de psicologia online Consultório Exemplo, com busca por tema e horário"></a>
       <div class="corpo">
-        <span class="exemplo">Plataforma de terapia online · exemplo, dados fictícios</span>
+        <span class="demanda">Agendamento online</span>
         <h2>Consultório Exemplo</h2>
+        <span class="exemplo">Plataforma de terapia online · exemplo, dados fictícios</span>
         <p>Todo mês o sistema reconfere o CRP de cada psicólogo. Perfil com registro irregular sai da busca, a agenda é pausada e os pacientes marcados são avisados. É esse detalhe que dá confiança a quem escolhe um terapeuta. Em volta dele está o caminho inteiro, com busca, agenda, pagamento e as áreas do paciente, do psicólogo e da administração.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Quatro áreas de acesso</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/consultorio-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/consultorio-exemplo/#admin/crp">Ver o painel</a></div>
@@ -189,8 +222,9 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <article class="cartao rv" id="escritorio-arquitetura-exemplo">
       <a class="img" href="/trabalhos/escritorio-arquitetura-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/escritorio-arquitetura-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Tela do sistema de gestão Atelier Linha, com o painel de projetos do escritório"></a>
       <div class="corpo">
-        <span class="exemplo">Sistema de gestão para escritório de arquitetura · exemplo, dados fictícios</span>
+        <span class="demanda">Sistema sob medida</span>
         <h2>Atelier Linha</h2>
+        <span class="exemplo">Sistema de gestão para escritório de arquitetura · exemplo, dados fictícios</span>
         <p>Revisão pedida além do contrato vira hora trabalhada que ninguém cobra. Aqui cada etapa mostra o que foi vendido, o que foi usado e o que o cliente aprovou, com a margem do projeto à vista.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Sistema de gestão</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/escritorio-arquitetura-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/escritorio-arquitetura-exemplo/#projeto">Ver o projeto</a></div>
@@ -199,8 +233,9 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <article class="cartao rv" id="plataforma-astrologia-exemplo">
       <a class="img" href="/trabalhos/plataforma-astrologia-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/plataforma-astrologia-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Capa do parecer Céu Interior, com o mapa astral de exemplo e o resumo do parecer"></a>
       <div class="corpo">
-        <span class="exemplo">Parecer de produto e UX para plataforma de astrologia · exemplo, dados fictícios</span>
+        <span class="demanda">Produto e UX</span>
         <h2>Céu Interior</h2>
+        <span class="exemplo">Parecer de produto e UX para plataforma de astrologia · exemplo, dados fictícios</span>
         <p>A vontade de pagar chega no chat, mas a compra acontece numa página de preços longe dali. O parecer mostra onde a venda trava, com antes e depois de cada tela e uma lista priorizada.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Análise de UX</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/plataforma-astrologia-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/plataforma-astrologia-exemplo/#chat">Ver a venda no chat</a></div>
@@ -209,8 +244,9 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <article class="cartao rv" id="catalogo-whatsapp-exemplo">
       <a class="img" href="/trabalhos/catalogo-whatsapp-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/catalogo-whatsapp-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Vitrine do catálogo Novelo, com o carrinho e a prévia da mensagem no WhatsApp"></a>
       <div class="corpo">
-        <span class="exemplo">Catálogo com pedido pronto no WhatsApp · exemplo, dados fictícios</span>
+        <span class="demanda">Catálogo digital</span>
         <h2>Novelo</h2>
+        <span class="exemplo">Catálogo com pedido pronto no WhatsApp · exemplo, dados fictícios</span>
         <p>Fechar um pedido no WhatsApp custa seis perguntas e o cliente some no meio. Aqui o carrinho vira uma mensagem completa, o estoque sai do Bling e a peça fica reservada por 30 minutos.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Painel da loja</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/catalogo-whatsapp-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/catalogo-whatsapp-exemplo/#painel">Ver o painel</a></div>
@@ -219,8 +255,9 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <article class="cartao rv" id="loja-woocommerce-exemplo">
       <a class="img" href="/trabalhos/loja-woocommerce-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/loja-woocommerce-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Página inicial da loja Trama Atacado, com a grade de tamanhos no celular"></a>
       <div class="corpo">
-        <span class="exemplo">Loja WooCommerce para atacado de moda · exemplo, dados fictícios</span>
+        <span class="demanda">Loja virtual</span>
         <h2>Trama Atacado</h2>
+        <span class="exemplo">Loja WooCommerce para atacado de moda · exemplo, dados fictícios</span>
         <p>No atacado, a grade de tamanhos vira seis toques e o pedido mínimo só aparece no fim. Aqui a grade inteira cabe numa tela e cada pedido leva a mesma chave do pagamento ao ERP e ao WhatsApp.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">WooCommerce</span><span class="tag">Rastreamento</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/loja-woocommerce-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/loja-woocommerce-exemplo/#fio">Ver o fio do pedido</a></div>
@@ -229,8 +266,9 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <article class="cartao rv" id="consignacao-veiculos-exemplo">
       <a class="img" href="/trabalhos/consignacao-veiculos-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/consignacao-veiculos-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Página inicial do Pátio Aberto, com busca de carros e a ficha clara de um anúncio"></a>
       <div class="corpo">
-        <span class="exemplo">Site de consignação de veículos · exemplo, dados fictícios</span>
+        <span class="demanda">Site de veículos</span>
         <h2>Pátio Aberto</h2>
+        <span class="exemplo">Site de consignação de veículos · exemplo, dados fictícios</span>
         <p>Anúncio de carro usado mistura o que a loja conferiu com o que o dono declarou, e o comprador não sabe o que é garantia. Aqui cada ficha separa as três informações antes da visita.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Painel da loja</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/consignacao-veiculos-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/consignacao-veiculos-exemplo/#estoque">Ver o estoque</a></div>
@@ -239,8 +277,9 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     <article class="cartao rv" id="atletica-associados-exemplo">
       <a class="img" href="/trabalhos/atletica-associados-exemplo/" tabindex="-1" aria-hidden="true"><img src="/trabalhos/img/atletica-associados-exemplo.jpg" width="1000" height="625" loading="lazy" alt="Página inicial da Atlética Maré Alta, com a carteirinha digital e o QR code"></a>
       <div class="corpo">
-        <span class="exemplo">Carteirinha digital e gestão de associados · exemplo, dados fictícios</span>
+        <span class="demanda">Carteirinha digital</span>
         <h2>Atlética Maré Alta</h2>
+        <span class="exemplo">Carteirinha digital e gestão de associados · exemplo, dados fictícios</span>
         <p>Carteirinha vencida passava na porta, e o print de um sócio em dia também. Aqui o QR muda a cada 30 segundos, o Pix renova a validade sozinho e a diretoria vê quem está atrasado.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SVG</span><span class="tag">Carteirinha digital</span></div>
         <div class="acoes"><a class="btn" href="/trabalhos/atletica-associados-exemplo/">Abrir e testar</a><a class="btn sec" href="/trabalhos/atletica-associados-exemplo/#carteirinha">Ver a carteirinha</a></div>
@@ -382,7 +421,7 @@ a{color:var(--tinta);text-decoration-color:var(--sol);text-decoration-thickness:
     </article>
   </section>
   <section class="nota wrap">
-    <p>Os nove projetos são exemplos navegáveis, feitos para mostrar o trabalho. Nenhum representa um negócio real e todos os nomes, marcas, registros e números são inventados.</p>
+    <p>Os dez projetos são exemplos navegáveis, feitos para mostrar o trabalho. Nenhum representa um negócio real e todos os nomes, marcas, registros e números são inventados.</p>
   </section>
 </main>
 <footer class="rod">

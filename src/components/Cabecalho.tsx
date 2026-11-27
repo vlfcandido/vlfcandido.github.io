@@ -16,8 +16,9 @@ import { IconeConversa } from './IconeConversa'
  * Âncoras da home, na ordem de leitura. 18/10/2026: "IA e agentes" entrou logo depois de Projetos, porque é a
  * especialidade que a home passou a abrir. "Destaques" saiu em 18/10, porque era um terceiro nome para os casos
  * de trabalho; a seção passou a se chamar "Projetos", e o item "Projetos" leva à página completa.
+ * 26/11/2026: exportada, para o teste conferir que o menu de /trabalhos/ (HTML estático) tem os mesmos itens.
  */
-const SECOES = [
+export const SECOES = [
   { id: 'criativos', rotulo: 'Criativo' },
   { id: 'quem', rotulo: 'Quem sou' },
 ] as const
@@ -41,7 +42,8 @@ function useSecaoAVista(ativo: boolean): string | null {
       { rootMargin: '-45% 0px -50% 0px' },
     )
     // As seções fora do menu entram na conta só para apagar o traço quando a pessoa sobe de volta.
-    for (const id of ['inicio', 'experimente', 'destaques', 'empresas', ...SECOES.map((s) => s.id)]) {
+    // 26/11/2026: o mural e os depoimentos entram na conta, senão "Criativo" e "Quem sou" ficavam acesos sobre eles.
+    for (const id of ['inicio', 'demandas', 'experimente', 'destaques', 'empresas', 'depoimentos', ...SECOES.map((s) => s.id)]) {
       const el = document.getElementById(id)
       if (el) obs.observe(el)
     }

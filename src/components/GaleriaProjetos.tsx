@@ -190,6 +190,7 @@ export function GaleriaProjetos({
   const lista = filtrarProjetos(todos, filtro)
   const { emEmpresas, clientes, proprios, outros } = separarGaleria(lista)
   const pecasVisiveis = filtro === 'todos' ? pecas : []
+  const doisNaFrente = pecasVisiveis.length >= 6 && (pecasVisiveis.length - 2) % 4 === 0
   const chips: { valor: Filtro; rotulo: string; total: number }[] = [
     // 18/10/2026 (revisor, rodada 1): o chip conta só os casos; as peças têm a seção própria e não entram no filtro
     // de tipo. Antes "Todos 25" somava 17 casos + 8 peças, o que fazia as peças parecerem projetos de cliente.
@@ -244,9 +245,11 @@ export function GaleriaProjetos({
             <p className="prosa max-w-[46ch] text-[1.08rem] text-grafite">Sites de exemplo, com dados inventados. Abra e mexa. Não são casos de cliente.</p>
           </div>
           {/* 15/10/2026 (revisor, rodada 2): com 2 peças, 2 colunas (antes sempre 3, e a 3ª ficava vazia). */}
-          <ul className={`mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 ${pecasVisiveis.length >= 3 ? 'lg:grid-cols-3' : ''}`}>
-            {pecasVisiveis.map((p) => (
-              <li key={p.slug}>
+          {/* 26/11/2026: com dez peças, três colunas deixavam uma sozinha na última fileira. Quando a conta fecha
+              (duas na frente e fileiras de quatro), as duas primeiras ocupam meia largura e o resto um quarto. */}
+          <ul className={`mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 ${doisNaFrente ? 'lg:grid-cols-12' : pecasVisiveis.length >= 3 ? 'lg:grid-cols-3' : ''}`}>
+            {pecasVisiveis.map((p, i) => (
+              <li key={p.slug} className={doisNaFrente ? (i < 2 ? 'lg:col-span-6' : 'lg:col-span-3') : undefined}>
                 <CartaoPeca peca={p} />
               </li>
             ))}

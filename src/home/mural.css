@@ -1,0 +1,78 @@
+/* Mural "O que você precisa" (26/11/2026): as capas ilustradas do perfil no 99Freelas
+   (freelas-99/docs/entregaveis/perfil-99/ilustradas/ilustradas.html), na paleta e nas fontes do site. Lá a capa mede
+   1500 × 1000 px; aqui toda medida vira múltiplo de --u (a largura da capa dividida por 1500, em cqw), então o mesmo
+   desenho serve do PC ao tablet sem imagem. No celular a capa muda de arranjo (ver o fim do arquivo).
+   Fora de camada, como o bloco de criativo: são classes novas e o `h3` global não pode vencer.
+   Antes, no mesmo dia: cartazes de rua em azul, tomate e verde, com Archivo condensada. O dono reprovou. */
+.mural-topo { display: grid; gap: 4px; }
+.mural-grade { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 640px) { .mural-grade { gap: 16px; } }
+@media (min-width: 1024px) {
+  .mural-topo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; column-gap: 48px; }
+  .mural-grade { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; }
+}
+
+.capa { position: relative; display: block; aspect-ratio: 3 / 2; container-type: inline-size;
+  border-radius: var(--raio-m); overflow: hidden; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.capa-folha { --u: calc(100cqw / 1500); position: absolute; inset: 0; display: block; overflow: hidden;
+  border-radius: inherit; background: var(--c-fundo); color: var(--c-texto); }
+
+/* Os três fundos, com os tokens do site. --d-contorno e --d-sombra são do desenho: o contorno do que encosta no
+   fundo (tinta em fundo claro, papel em fundo escuro) e a sombra dura, sempre escura. No tema escuro os tokens
+   trocam de valor e as capas acompanham: a de papel fica escura e a de tinta fica clara. */
+.capa-papel { --c-fundo: var(--papel); --c-texto: var(--fundo); --c-grifo: var(--sol); --d-contorno: var(--fundo); --d-sombra: #17150f; }
+.capa-sol   { --c-fundo: var(--sol);   --c-texto: var(--on-sol); --c-grifo: #fffdf9; --d-contorno: var(--on-sol); --d-sombra: #17150f; }
+.capa-tinta { --c-fundo: var(--fundo); --c-texto: var(--papel); --c-grifo: var(--sol); --d-contorno: var(--papel); --d-sombra: #000; }
+/* A capa de papel tem a cor da página: um fio da cor da linha segura a borda. */
+.capa-papel .capa-folha { box-shadow: inset 0 0 0 1px var(--linha); }
+
+.capa-titulo { position: absolute; left: calc(84 * var(--u)); top: calc(70 * var(--u)); margin: 0;
+  font-family: var(--fonte-titulo); font-weight: 600; font-size: calc(158 * var(--u)); line-height: .98; letter-spacing: -.012em; }
+.capa-titulo > span { display: block; }
+/* O grifo de marca-texto do site, na segunda linha do título. */
+.capa-grifo { color: inherit; padding: 0 .06em; margin: 0 -.06em;
+  background: linear-gradient(transparent 58%, var(--c-grifo) 58%, var(--c-grifo) 92%, transparent 92%); }
+/* Na capa de tinta o grifo cobre a palavra inteira, e a letra fica na cor de quem escreve sobre o amarelo. */
+.capa-tinta .capa-grifo { color: var(--on-sol);
+  background: linear-gradient(transparent 14%, var(--sol) 14%, var(--sol) 92%, transparent 92%); }
+/* Tema escuro, capa de papel: letra clara sobre amarelo cheio não se lê. Vale o grifo escuro do site
+   (marcacao.css): um véu leve no corpo da letra e o sublinhado grosso em amarelo. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .capa-papel .capa-grifo { background: linear-gradient(transparent 50%, color-mix(in srgb, var(--sol) 16%, transparent) 50%, color-mix(in srgb, var(--sol) 16%, transparent) 80%, var(--sol) 80%, var(--sol) 93%, transparent 93%); }
+}
+:root[data-tema="escuro"] .capa-papel .capa-grifo { background: linear-gradient(transparent 50%, color-mix(in srgb, var(--sol) 16%, transparent) 50%, color-mix(in srgb, var(--sol) 16%, transparent) 80%, var(--sol) 80%, var(--sol) 93%, transparent 93%); }
+
+/* A frase: na capa do 99 tem 52 de 1500; aqui sobe e nunca passa de 12 px para baixo, para dar para ler. */
+.capa-frase { position: absolute; left: calc(90 * var(--u)); bottom: calc(84 * var(--u)); width: calc(470 * var(--u));
+  font-family: var(--fonte-texto); font-weight: 500; font-size: max(calc(64 * var(--u)), 12px); line-height: 1.16; letter-spacing: -.012em; }
+
+/* O desenho sangra pela direita e por baixo, como na capa. */
+.capa-desenho { position: absolute; right: calc(-50 * var(--u)); bottom: calc(-110 * var(--u));
+  width: calc(960 * var(--u)); height: calc(660 * var(--u)); overflow: visible; }
+.capa-desenho .t { stroke: #17150f; stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
+.capa-desenho .f { stroke: #17150f; stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+.capa-desenho .n { fill: none; }
+/* Traço solto sobre o fundo da capa (a seta do catálogo): segue o contorno do tema. */
+.capa-desenho .c { stroke: var(--d-contorno); }
+
+/* Capa que responde: levanta com o mouse, afunda no toque. Só transform. */
+@media (hover: hover) {
+  .capa { transition: transform var(--mov-padrao) var(--mola), box-shadow var(--mov-padrao) var(--mola); }
+  .capa:hover { transform: translateY(-4px); box-shadow: var(--sombra-2); }
+}
+.capa:active { transform: scale(.98); }
+.home .capa:focus-visible { border-radius: var(--raio-m); }
+@media (prefers-reduced-motion: reduce) {
+  .capa, .capa:hover, .capa:active { transform: none; transition: none; }
+}
+
+/* Celular, 2 colunas (capa de uns 170 px): na proporção do 99 a frase ficaria com 7 px. A capa cresce para 4:5, o
+   título e a frase ficam em cima, em tamanho de leitura, e o desenho ocupa a largura inteira embaixo. */
+@media (max-width: 639px) {
+  .capa { aspect-ratio: 4 / 5; }
+  .capa-folha { padding: 12px 12px 0; }
+  .capa-titulo { position: static; font-size: clamp(1.1rem, 11.6cqw, 1.6rem); line-height: 1; }
+  .capa-frase { position: static; display: block; width: auto; margin-top: 7px; font-size: .78rem; line-height: 1.25; letter-spacing: 0; }
+  .capa-desenho { right: -8cqw; bottom: -13cqw; width: 100cqw; height: 68.75cqw; }
+}

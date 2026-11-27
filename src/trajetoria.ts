@@ -3,6 +3,13 @@
 // O vínculo formal do emprego atual não é citado; o site fala de Sicoob, onde o trabalho acontece.
 // Os projetos freelance (os da Wiv) ficam separados, em `freelance`, porque não são emprego.
 
+/**
+ * Anos de software, a fonte única do site (home, página de projetos e currículo).
+ * 26/11/2026: são 14 (dono, 26/10/2026: "o tempo de tecnologia é 14 anos; nunca 13"). Antes o número vivia escrito
+ * em quatro lugares (home/conteudo.ts, conteudo.ts e duas vezes em curriculo.ts), todos com 13.
+ */
+export const ANOS_DE_SOFTWARE = 14
+
 /** Um emprego na linha do tempo. */
 export interface Emprego {
   /** Identificador em kebab-case. */

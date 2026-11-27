@@ -100,7 +100,8 @@ describe('conteúdo publicado', () => {
   })
   it('um "o que você recebe" para cada passo', () => expect(conteudo.recebe).toHaveLength(conteudo.passos.length))
   it('rótulo do topo cabe em uma linha e não esconde a senioridade (M7)', () => {
-    expect(conteudo.perfil.titulo).toBe('Engenheiro de software sênior · 13 anos')
+    // 26/11/2026: são 14 anos (fonte única em trajetoria.ts). Antes o teste pedia '… · 13 anos'.
+    expect(conteudo.perfil.titulo).toBe('Engenheiro de software sênior · 14 anos')
     expect(conteudo.perfil.titulo.length).toBeLessThanOrEqual(40)
   })
   it('a página abre em Clínica, na cena "Venda no CRM", com a oferta de integração (M5)', () => {

@@ -147,7 +147,7 @@ export const empresasDiretas: EmpresaDireta[] = [
     segmento: 'publico',
     logo: 'logos/prefeitura-franca.png',
     papel: 'Case Vertigo',
-    feito: 'Chatbot da Saúde que automatiza 5 mil atendimentos por mês.',
+    feito: 'Chatbot da Saúde que responde as dúvidas repetidas da população.',
     historia: {
       texto: 'case publicado pela Vertigo',
       url: 'https://materiais.vertigo.com.br/case-chatbot-prefeitura-de-franca-estado-de-sao-paulo',

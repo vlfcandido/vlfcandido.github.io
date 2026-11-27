@@ -72,7 +72,6 @@ export interface CaseDetalhe {
 }
 
 const VERTIGO_BLIP = 'https://www.blip.ai/partners/en/experts/vertigo-tecnologia/'
-const CASE_FRANCA = 'https://materiais.vertigo.com.br/case-chatbot-prefeitura-de-franca-estado-de-sao-paulo'
 const MATERIA_WIV = 'https://www.mobiletime.com.br/noticias/12/06/2026/wiv-5-milhoes/'
 
 /**
@@ -243,7 +242,6 @@ export function listarCasos(): CaseDetalhe[] {
       ficticio: 'Conversa ilustrativa: o fluxo é do tipo publicado no case, o texto é exemplo.',
       status: { texto: 'Case publicado pela Vertigo.', tom: 'vivo' },
       regua: [
-        { valor: '5 mil', rotulo: 'atendimentos por mês automatizados', origem: 'case publicado pela Vertigo', url: CASE_FRANCA },
         { valor: '4,6 / 5', rotulo: 'nota da Vertigo no diretório oficial de parceiros Blip', origem: 'blip.ai', url: VERTIGO_BLIP },
       ],
       papel: {

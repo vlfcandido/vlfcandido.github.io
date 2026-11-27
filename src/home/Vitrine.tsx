@@ -1,6 +1,6 @@
-// Vitrine das nove peças navegáveis (18/10/2026). Ocupa o lugar do antigo bloco de protótipo, que mostrava uma peça
+// Vitrine das peças navegáveis (18/10/2026, nove; dez desde 26/11/2026). Ocupa o lugar do antigo bloco de protótipo, que mostrava uma peça
 // só: o argumento "veja antes de fechar" agora vem sustentado por nove telas de verdade. No celular é um trilho com
-// encaixe e o próximo cartão aparecendo pela metade; no PC, três colunas em três fileiras. O marca-texto risca a dor
+// encaixe e o próximo cartão aparecendo pela metade; no PC, duas peças grandes na frente e duas fileiras de quatro. O marca-texto risca a dor
 // do cartão em que a pessoa para (celular) ou aponta (mouse e teclado), que é a assinatura do site.
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { SeloFicticio } from '../components/Print'
@@ -95,7 +95,7 @@ export function Vitrine() {
             {experimente.verCriativo}
             <span className="seta" aria-hidden="true">→</span>
           </a>
-          <p className="vitrine-dica so-toque">Arraste para o lado para ver as nove.</p>
+          <p className="vitrine-dica so-toque">Arraste para o lado para ver as dez.</p>
         </div>
       </div>
       <ul ref={trilho} className="vitrine-trilho" aria-label={experimente.titulo}>

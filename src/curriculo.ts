@@ -3,7 +3,7 @@
 // public/curriculo/ e imprime o PDF com o Chrome. Sem telefone e sem e-mail escritos: o contato é o WhatsApp do site.
 import { SITE } from './lib/site'
 import { linkWhatsapp } from './lib/whatsapp'
-import { empregos, freelance, type Emprego } from './trajetoria'
+import { ANOS_DE_SOFTWARE, empregos, freelance, type Emprego } from './trajetoria'
 
 /** Marcas que levam o marca-texto no resumo, na ordem em que aparecem. */
 const MARCAS = ['Sicoob', 'Serasa Experian', 'Contabilizei'] as const
@@ -59,7 +59,7 @@ function blocoEmprego(e: Emprego): string {
  */
 export function montarCurriculoHtml(): string {
   const resumo = esc(
-    'Sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA de investimentos. Antes, fui arquiteto sênior de IA na Contabilizei e líder técnico de um squad na Serasa Experian, pela NTT DATA. São 13 anos de software, de ERP de varejo em Java a sistemas com agentes de IA em produção.',
+    `Sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA de investimentos. Antes, fui arquiteto sênior de IA na Contabilizei e líder técnico de um squad na Serasa Experian, pela NTT DATA. São ${ANOS_DE_SOFTWARE} anos de software, de ERP de varejo em Java a sistemas com agentes de IA em produção.`,
   )
   return `<!doctype html>
 <html lang="pt-BR">
@@ -111,7 +111,7 @@ export function montarCurriculoHtml(): string {
 <body>
 <main>
   <h1>Vinicius Candido</h1>
-  <p class="cargo-topo">Engenheiro de IA sênior, 13 anos de software</p>
+  <p class="cargo-topo">Engenheiro de IA sênior, ${ANOS_DE_SOFTWARE} anos de software</p>
   <p class="contato"><a href="https://${SITE}/">${SITE}</a><a href="${esc(linkWhatsapp())}">Conversar no WhatsApp</a></p>
   <p class="resumo">${marcar(resumo)}</p>
   <h2>Experiência</h2>

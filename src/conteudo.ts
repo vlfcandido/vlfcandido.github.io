@@ -1,6 +1,7 @@
 // Todo o texto do site mora aqui. Componentes só exibem; nada de lógica neste arquivo.
 // Regras: só número com fonte pública ou do próprio código; empregador atual só com a matéria pública (Sicoob),
 // nunca o formal; nada de e-mail ou telefone (o teste em conteudo.test.ts barra o build se algo escapar).
+import { ANOS_DE_SOFTWARE } from './trajetoria'
 
 /** Origem de um número ou case; com `url` vira link para a fonte pública. */
 export interface Fonte {
@@ -74,14 +75,15 @@ export interface LinkExterno {
 export const perfil = {
   nome: 'Vinicius Candido',
   // Trocado em 08/10/2026 (M7). Antes: 'Engenheiro de software há 13 anos'.
-  titulo: 'Engenheiro de software sênior · 13 anos',
+  // 26/11/2026: o número vem de ANOS_DE_SOFTWARE (trajetoria.ts). Antes: 'Engenheiro de software sênior · 13 anos'.
+  titulo: `Engenheiro de software sênior · ${ANOS_DE_SOFTWARE} anos`,
   // Trocadas em 08/10/2026 (posicionamento amplo). Antes: chamada "Seu projeto feito por quem constrói IA
   // no Sicoob e já construiu na Contabilizei." e linha "Atendimento no WhatsApp, automações, sites e
   // sistemas para o seu negócio. Preço fechado antes de começar e entrega testada."
   chamada: 'O problema de software do seu negócio nas mãos de quem constrói IA no Sicoob.',
   linha: 'Integro sistemas e CRM, crio APIs, automatizo o trabalho repetido e conserto o que travou. Preço fechado antes de começar.',
   resumo:
-    'Chatbots de WhatsApp, automações, sites, sistemas e integrações para o seu negócio, com preço fechado na primeira conversa e entrega testada. Hoje sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA de investimentos. Construo software há 13 anos: back-end em Java, Node.js e Python, front quando o projeto pede e IA aplicada em produção desde 2021. Liderei os projetos de chatbot Blip da Vertigo, parceira certificada da Blip, e trabalhei no Waizer, a plataforma de análise de conversas da Wiv.',
+    `Chatbots de WhatsApp, automações, sites, sistemas e integrações para o seu negócio, com preço fechado na primeira conversa e entrega testada. Hoje sou engenheiro de IA sênior no Sicoob, onde lidero tecnicamente a frente de IA de investimentos. Construo software há ${ANOS_DE_SOFTWARE} anos: back-end em Java, Node.js e Python, front quando o projeto pede e IA aplicada em produção desde 2021. Liderei os projetos de chatbot Blip da Vertigo, parceira certificada da Blip, e trabalhei no Waizer, a plataforma de análise de conversas da Wiv.`,
   notaTrabalho: 'Do seu lado, só preciso do acesso ao que já existe e de alguém para tirar dúvidas.',
   // Antes de 09/10/2026: 'Me chame no LinkedIn ou no 99Freelas e conte o que você precisa. ...'
   convite: 'Me chame no WhatsApp e conte o que você precisa. Respondo com o preço fechado e o prazo.',
@@ -175,7 +177,7 @@ export const destaques: Destaque[] = [
     empresa: 'prefeitura-franca',
     titulo: 'Prefeitura de Franca (SP)',
     texto: 'Chatbot da Secretaria de Saúde para as dúvidas repetidas da população. Feito no time de projetos Blip que eu liderava na Vertigo.',
-    resultado: '5 mil atendimentos por mês sem ninguém digitar.',
+    resultado: 'As dúvidas repetidas respondidas no WhatsApp, sem ninguém digitar.',
     fonte: {
       texto: 'Ler o case',
       url: 'https://materiais.vertigo.com.br/case-chatbot-prefeitura-de-franca-estado-de-sao-paulo',
@@ -206,7 +208,7 @@ export const destaques: Destaque[] = [
 
 export const numeros: Numero[] = [
   {
-    valor: '13 anos',
+    valor: `${ANOS_DE_SOFTWARE} anos`,
     rotulo: 'de engenharia de software, 5 deles com IA em produção',
     fonte: { texto: 'LinkedIn', url: 'https://www.linkedin.com/in/viniciusf-candido' },
   },
@@ -214,14 +216,6 @@ export const numeros: Numero[] = [
     valor: '4,6 / 5',
     rotulo: 'nota da Vertigo no diretório oficial de parceiros Blip',
     fonte: { texto: 'blip.ai', url: 'https://www.blip.ai/partners/en/experts/vertigo-tecnologia/' },
-  },
-  {
-    valor: '5 mil / mês',
-    rotulo: 'atendimentos automatizados no chatbot da Prefeitura de Franca',
-    fonte: {
-      texto: 'case Vertigo',
-      url: 'https://materiais.vertigo.com.br/case-chatbot-prefeitura-de-franca-estado-de-sao-paulo',
-    },
   },
   {
     valor: '1.060',
@@ -267,7 +261,7 @@ export const cases: Case[] = [
     titulo: 'Chatbot da Saúde da Prefeitura de Franca (SP)',
     contexto: 'A Secretaria de Saúde respondia à mão um volume alto de dúvidas repetidas da população.',
     feito: 'Chatbot na plataforma Blip, entregue pela Vertigo no time de projetos Blip que eu liderava.',
-    metrica: '5 mil atendimentos por mês automatizados.',
+    metrica: 'Dúvidas repetidas da população respondidas sem atendente.',
     fonte: {
       texto: 'case publicado pela Vertigo',
       url: 'https://materiais.vertigo.com.br/case-chatbot-prefeitura-de-franca-estado-de-sao-paulo',
